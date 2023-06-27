@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 /*
  * This file runs in a Node context (it's NOT transpiled by Babel), so use only
  * the ES6 features that are supported by your Node version. https://node.green/
@@ -11,7 +9,6 @@
 const {
   default: transformerDirectives,
 } = require("@unocss/transformer-directives")
-const { OnuResolver, presetOnu } = require("onu-ui")
 const { extend } = require("quasar")
 const { configure } = require("quasar/wrappers")
 const { presetAttributify, presetUno } = require("unocss")
@@ -126,7 +123,6 @@ module.exports = configure(function (/* ctx */) {
                 prefixedOnly: true, // <--
               }),
               presetUno(),
-              presetOnu(),
             ],
             rules: [
               [
@@ -140,7 +136,7 @@ module.exports = configure(function (/* ctx */) {
         [
           "unplugin-auto-import/vite",
           {
-            resolvers: [OnuResolver()],
+            resolvers: [],
             // targets to transform
             include: [/\.tsx?$/, /\.vue$/, /\.vue\?vue/],
 
@@ -157,7 +153,7 @@ module.exports = configure(function (/* ctx */) {
                   "Directory",
                   "Encoding",
                 ],
-                "quasar": ["useQuasar"],
+                quasar: ["useQuasar"],
                 "vue-auth3": ["useAuth", "useUser"],
                 "vue-request": ["useRequest"],
               },
@@ -180,7 +176,7 @@ module.exports = configure(function (/* ctx */) {
         [
           "unplugin-vue-components/vite",
           {
-            resolvers: [OnuResolver()],
+            resolvers: [],
           },
         ],
       ],
