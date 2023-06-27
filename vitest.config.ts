@@ -28,10 +28,9 @@ export default defineConfig({
         {
           "@iconify/vue": ["Icon"],
           "@vueuse/core": ["computedAsync"],
-          "@tachibana-shin/capacitor-filesystem": ["Filesystem", "Directory", "Encoding"],
         },
       ],
-      dirs: ["src/logic/*.ts", "src/composables/*.ts", "src/constants/*.ts"],
+      dirs: ["src/logic/*.ts"],
       eslintrc: {
         enabled: true, // Default `false`
         filepath: "./.eslintrc-auto-import.json", // Default `./.eslintrc-auto-import.json`

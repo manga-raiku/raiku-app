@@ -83,11 +83,6 @@ module.exports = configure(function (/* ctx */) {
 
       extendViteConf(viteConf) {
         extend(true, viteConf, {
-          resolve: {
-            alias: {
-              path: "path-cross/posix",
-            },
-          },
           server: {
             // configure vite for HMR with Gitpod
             hmr: process.env.GITPOD_WORKSPACE_URL
@@ -301,7 +296,7 @@ module.exports = configure(function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: "fcanvas-playground",
+        appId: "manga-raiku",
       },
     },
 
