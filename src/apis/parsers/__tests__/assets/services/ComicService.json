@@ -1,0 +1,111 @@
+[
+  {
+    "path": "/truyen-tranh/shuumatsu-no-valkyrie-207270",
+    "image": "//st.ntcdntempv3.com/data/comics/247/shuumatsu-no-valkyrie.jpg",
+    "name": "Shuumatsu no Valkyrie",
+    "chapter": [
+      {
+        "path": "/truyen-tranh/shuumatsu-no-valkyrie/chap-79/1017729",
+        "name": "Chapter 79",
+        "update": 1687916913306
+      },
+      {
+        "path": "/truyen-tranh/shuumatsu-no-valkyrie/chap-62/848014",
+        "name": "Đọc tiếp Chapter 62",
+        "update": null
+      }
+    ],
+    "lastUpdate": 1687916913306,
+    "views": null,
+    "comments": null,
+    "likes": null,
+    "readContinue": {
+      "path": "/truyen-tranh/shuumatsu-no-valkyrie/chap-62/848014",
+      "name": "Đọc tiếp Chapter 62"
+    }
+  },
+  {
+    "path": "/truyen-tranh/kanojo-mo-kanojo-280220",
+    "image": "//st.ntcdntempv3.com/data/comics/118/kanojo-mo-kanojo-6298.jpg",
+    "name": "Kanojo mo Kanojo",
+    "chapter": [
+      {
+        "path": "/truyen-tranh/kanojo-mo-kanojo/chap-130/1017670",
+        "name": "Chapter 130",
+        "update": 1687891713308
+      },
+      {
+        "path": "/truyen-tranh/kanojo-mo-kanojo/chap-130/1017670",
+        "name": "Đọc tiếp Chapter 130",
+        "update": null
+      }
+    ],
+    "lastUpdate": 1687891713308,
+    "views": null,
+    "comments": null,
+    "likes": null,
+    "readContinue": {
+      "path": "/truyen-tranh/kanojo-mo-kanojo/chap-130/1017670",
+      "name": "Đọc tiếp Chapter 130"
+    }
+  },
+  {
+    "path": "/truyen-tranh/arte-296750",
+    "image": "//st.ntcdntempv3.com/data/comics/235/arte.jpg",
+    "name": "Arte",
+    "chapter": [
+      {
+        "path": "/truyen-tranh/arte/chap-46/1017476",
+        "name": "Chapter 46",
+        "update": 1687859313308
+      }
+    ],
+    "lastUpdate": 1687859313309,
+    "views": null,
+    "comments": null,
+    "likes": null,
+    "readContinue": null
+  },
+  {
+    "path": "/truyen-tranh/chang-re-manh-nhat-lich-su-72026",
+    "image": "//st.ntcdntempv3.com/data/comics/90/chang-re-manh-nhat-lich-su.jpg",
+    "name": "Chàng Rể Mạnh Nhất Lịch Sử",
+    "chapter": [
+      {
+        "path": "/truyen-tranh/chang-re-manh-nhat-lich-su/chap-96/1016203",
+        "name": "Chapter 96",
+        "update": 1687762113309
+      },
+      {
+        "path": "/truyen-tranh/chang-re-manh-nhat-lich-su/chap-71/976197",
+        "name": "Đọc tiếp Chapter 71",
+        "update": null
+      }
+    ],
+    "lastUpdate": 1687762113309,
+    "views": null,
+    "comments": null,
+    "likes": null,
+    "readContinue": {
+      "path": "/truyen-tranh/chang-re-manh-nhat-lich-su/chap-71/976197",
+      "name": "Đọc tiếp Chapter 71"
+    }
+  },
+  {
+    "path": "/truyen-tranh/gaikotsu-kishi-sama-tadaima-isekai-e-o-dekake-ch-161440",
+    "image": "//st.ntcdntempv3.com/data/comics/16/gaikotsu-kishi-sama-tadaima-isekai-e-o-d-6831.jpg",
+    "name": "Gaikotsu kishi-sama, tadaima isekai e o dekake-chū",
+    "chapter": [
+      {
+        "path": "/truyen-tranh/gaikotsu-kishi-sama-tadaima-isekai-e-o-dekake-ch/chap-54.5/1015586",
+        "name": "Chapter 54.5",
+        "update": 1687589313310
+      }
+    ],
+    "lastUpdate": 1687589313310,
+    "views": null,
+    "comments": null,
+    "likes": null,
+    "readContinue": null
+  }
+]

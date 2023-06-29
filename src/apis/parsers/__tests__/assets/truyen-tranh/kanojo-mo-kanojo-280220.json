@@ -1,0 +1,1062 @@
+{
+  "name": "Kanojo mo Kanojo",
+  "othername": "Bắt cá hai tay!; Girlfriend, Girlfriend",
+  "lastUpdate": 1687912920000,
+  "image": "//st.nettruyenmax.com/data/comics/118/kanojo-mo-kanojo-6298.jpg",
+  "author": {
+    "name": "Hiroyuki",
+    "path": "/tim-truyen"
+  },
+  "status": "Đang tiến hành",
+  "genres": [
+    { "path": "/tim-truyen/comedy-99", "name": "Comedy" },
+    { "path": "/tim-truyen/manga-112", "name": "Manga" },
+    { "path": "/tim-truyen/romance-121", "name": "Romance" },
+    { "path": "/tim-truyen/school-life", "name": "School Life" },
+    { "path": "/tim-truyen/shounen-127", "name": "Shounen" },
+    { "path": "/tim-truyen/slice-of-life", "name": "Slice of Life" }
+  ],
+  "views": 1307,
+  "rate": 0.76,
+  "count_rate": 1724,
+  "count_follow": 15873,
+  "description": "Một thanh niên vừa mới có bạn gái, thì bỗng dưng lòi đâu ra một bé nữa cũng đến tỏ tình và như bao aura main nam khác, thì thanh niên làm gì thì các bác cũng đoán ra được rồi đấy",
+  "chapters": [
+    {
+      "id": 1017670,
+      "name": "Chapter 130",
+      "update": 1687892899658,
+      "views": 2462
+    },
+    {
+      "id": 1017669,
+      "name": "Chapter 129",
+      "update": 1687892899658,
+      "views": 681
+    },
+    {
+      "id": 1017668,
+      "name": "Chapter 128",
+      "update": 1687892899659,
+      "views": 539
+    },
+    {
+      "id": 1017667,
+      "name": "Chapter 127",
+      "update": 1687892899659,
+      "views": 442
+    },
+    {
+      "id": 1017666,
+      "name": "Chapter 126",
+      "update": 1687892899660,
+      "views": 432
+    },
+    {
+      "id": 1017665,
+      "name": "Chapter 125",
+      "update": 1687892899660,
+      "views": 440
+    },
+    {
+      "id": 1017664,
+      "name": "Chapter 124",
+      "update": 1687892899660,
+      "views": 412
+    },
+    {
+      "id": 1017663,
+      "name": "Chapter 123",
+      "update": 1687892899660,
+      "views": 453
+    },
+    {
+      "id": 1017672,
+      "name": "Chapter 122",
+      "update": 1687892899660,
+      "views": 476
+    },
+    {
+      "id": 1017671,
+      "name": "Chapter 121",
+      "update": 1687892899660,
+      "views": 470
+    },
+    {
+      "id": 1017652,
+      "name": "Chapter 120",
+      "update": 1687885699661,
+      "views": 1191
+    },
+    {
+      "id": 1017651,
+      "name": "Chapter 119",
+      "update": 1687885699661,
+      "views": 668
+    },
+    {
+      "id": 1017650,
+      "name": "Chapter 118",
+      "update": 1687885699661,
+      "views": 533
+    },
+    {
+      "id": 1017649,
+      "name": "Chapter 117",
+      "update": 1687885699661,
+      "views": 485
+    },
+    {
+      "id": 1017648,
+      "name": "Chapter 116",
+      "update": 1687885699661,
+      "views": 497
+    },
+    {
+      "id": 1017647,
+      "name": "Chapter 115",
+      "update": 1687885699661,
+      "views": 444
+    },
+    {
+      "id": 1017646,
+      "name": "Chapter 114",
+      "update": 1687885699661,
+      "views": 530
+    },
+    {
+      "id": 1017645,
+      "name": "Chapter 113",
+      "update": 1687885699661,
+      "views": 493
+    },
+    {
+      "id": 1017644,
+      "name": "Chapter 112",
+      "update": 1687885699661,
+      "views": 496
+    },
+    {
+      "id": 1017643,
+      "name": "Chapter 111",
+      "update": 1687885699662,
+      "views": 497
+    },
+    {
+      "id": 1017632,
+      "name": "Chapter 110",
+      "update": 1687885699662,
+      "views": 988
+    },
+    {
+      "id": 1017631,
+      "name": "Chapter 109",
+      "update": 1687885699662,
+      "views": 630
+    },
+    {
+      "id": 1017630,
+      "name": "Chapter 108",
+      "update": 1687885699662,
+      "views": 619
+    },
+    {
+      "id": 1017629,
+      "name": "Chapter 107",
+      "update": 1687885699662,
+      "views": 545
+    },
+    {
+      "id": 1017628,
+      "name": "Chapter 106",
+      "update": 1687885699662,
+      "views": 534
+    },
+    {
+      "id": 1017627,
+      "name": "Chapter 105",
+      "update": 1687885699662,
+      "views": 581
+    },
+    {
+      "id": 1017626,
+      "name": "Chapter 104",
+      "update": 1687885699662,
+      "views": 606
+    },
+    {
+      "id": 1017625,
+      "name": "Chapter 103",
+      "update": 1687885699662,
+      "views": 623
+    },
+    {
+      "id": 1017624,
+      "name": "Chapter 102",
+      "update": 1687885699662,
+      "views": 605
+    },
+    {
+      "id": 1017623,
+      "name": "Chapter 101",
+      "update": 1687885699662,
+      "views": 618
+    },
+    {
+      "id": 1017633,
+      "name": "Chapter 100.5",
+      "update": 1687885699662,
+      "views": 506
+    },
+    {
+      "id": 1017622,
+      "name": "Chapter 100",
+      "update": 1687885699663,
+      "views": 646
+    },
+    {
+      "id": 1017621,
+      "name": "Chapter 99",
+      "update": 1687885699666,
+      "views": 702
+    },
+    {
+      "id": 1017620,
+      "name": "Chapter 98",
+      "update": 1687885699666,
+      "views": 694
+    },
+    {
+      "id": 1017619,
+      "name": "Chapter 97",
+      "update": 1687885699666,
+      "views": 769
+    },
+    {
+      "id": 1017618,
+      "name": "Chapter 96",
+      "update": 1687885699666,
+      "views": 867
+    },
+    {
+      "id": 1017617,
+      "name": "Chapter 95",
+      "update": 1687885699666,
+      "views": 906
+    },
+    {
+      "id": 1017616,
+      "name": "Chapter 94",
+      "update": 1687885699666,
+      "views": 1122
+    },
+    {
+      "id": 1017615,
+      "name": "Chapter 93",
+      "update": 1687885699666,
+      "views": 1069
+    },
+    {
+      "id": 1017614,
+      "name": "Chapter 92",
+      "update": 1687885699666,
+      "views": 1116
+    },
+    {
+      "id": 1017613,
+      "name": "Chapter 91",
+      "update": 1687885699666,
+      "views": 127
+    },
+    {
+      "id": 1009414,
+      "name": "Chapter 90",
+      "update": 1686463699666,
+      "views": 5137
+    },
+    {
+      "id": 1009413,
+      "name": "Chapter 89",
+      "update": 1686463699666,
+      "views": 323
+    },
+    {
+      "id": 1009412,
+      "name": "Chapter 88",
+      "update": 1686463699666,
+      "views": 2942
+    },
+    {
+      "id": 1009411,
+      "name": "Chapter 87",
+      "update": 1686463699666,
+      "views": 2657
+    },
+    {
+      "id": 1009410,
+      "name": "Chapter 86",
+      "update": 1686463699667,
+      "views": 2635
+    },
+    {
+      "id": 1009409,
+      "name": "Chapter 85",
+      "update": 1686463699667,
+      "views": 2667
+    },
+    {
+      "id": 1009405,
+      "name": "Chapter 84",
+      "update": 1686463699667,
+      "views": 2715
+    },
+    {
+      "id": 1009404,
+      "name": "Chapter 83",
+      "update": 1686463699667,
+      "views": 2764
+    },
+    {
+      "id": 1009403,
+      "name": "Chapter 82",
+      "update": 1686463699667,
+      "views": 2792
+    },
+    {
+      "id": 1009402,
+      "name": "Chapter 81",
+      "update": 1686463699667,
+      "views": 2758
+    },
+    {
+      "id": 1009401,
+      "name": "Chapter 80",
+      "update": 1686463699667,
+      "views": 2777
+    },
+    {
+      "id": 1009388,
+      "name": "Chapter 79",
+      "update": 1686463699667,
+      "views": 3097
+    },
+    {
+      "id": 1008390,
+      "name": "Chapter 78",
+      "update": 1686377299667,
+      "views": 4931
+    },
+    {
+      "id": 1008389,
+      "name": "Chapter 77",
+      "update": 1686377299667,
+      "views": 3664
+    },
+    {
+      "id": 1008370,
+      "name": "Chapter 76",
+      "update": 1686377299667,
+      "views": 3518
+    },
+    {
+      "id": 1007978,
+      "name": "Chapter 75",
+      "update": 1686290899667,
+      "views": 528
+    },
+    {
+      "id": 1007974,
+      "name": "Chapter 74",
+      "update": 1686290899667,
+      "views": 4256
+    },
+    {
+      "id": 1007694,
+      "name": "Chapter 73",
+      "update": 1686204499667,
+      "views": 6285
+    },
+    {
+      "id": 1007669,
+      "name": "Chapter 72",
+      "update": 1686204499667,
+      "views": 4516
+    },
+    {
+      "id": 1007665,
+      "name": "Chapter 71",
+      "update": 1686204499668,
+      "views": 441
+    },
+    {
+      "id": 1007616,
+      "name": "Chapter 70",
+      "update": 1686204499668,
+      "views": 5709
+    },
+    {
+      "id": 970300,
+      "name": "Chapter 69",
+      "update": 1687932499656,
+      "views": 14325
+    },
+    {
+      "id": 966918,
+      "name": "Chapter 68",
+      "update": 1687932499648,
+      "views": 9505
+    },
+    {
+      "id": 964188,
+      "name": "Chapter 67",
+      "update": 1687932499651,
+      "views": 9079
+    },
+    {
+      "id": 958750,
+      "name": "Chapter 66",
+      "update": 1687932499661,
+      "views": 9298
+    },
+    {
+      "id": 954210,
+      "name": "Chapter 65",
+      "update": 1687932499653,
+      "views": 11091
+    },
+    {
+      "id": 922494,
+      "name": "Chapter 64",
+      "update": 1687932499638,
+      "views": 13313
+    },
+    {
+      "id": 920527,
+      "name": "Chapter 63",
+      "update": 1687932499643,
+      "views": 10286
+    },
+    {
+      "id": 905732,
+      "name": "Chapter 62",
+      "update": 1687932499651,
+      "views": 10851
+    },
+    {
+      "id": 903911,
+      "name": "Chapter 61",
+      "update": 1687932499657,
+      "views": 10131
+    },
+    {
+      "id": 900230,
+      "name": "Chapter 60",
+      "update": 1687932499665,
+      "views": 11136
+    },
+    {
+      "id": 892741,
+      "name": "Chapter 59",
+      "update": 1687932499648,
+      "views": 11243
+    },
+    {
+      "id": 878218,
+      "name": "Chapter 58",
+      "update": 1687932499650,
+      "views": 12286
+    },
+    {
+      "id": 878217,
+      "name": "Chapter 57",
+      "update": 1687932499651,
+      "views": 10437
+    },
+    {
+      "id": 861715,
+      "name": "Chapter 56",
+      "update": 1687932499639,
+      "views": 1444
+    },
+    {
+      "id": 846462,
+      "name": "Chapter 55",
+      "update": 1687932499645,
+      "views": 15218
+    },
+    {
+      "id": 840689,
+      "name": "Chapter 54",
+      "update": 1687932499665,
+      "views": 13111
+    },
+    {
+      "id": 833818,
+      "name": "Chapter 53",
+      "update": 1687932499653,
+      "views": 13439
+    },
+    {
+      "id": 830698,
+      "name": "Chapter 52",
+      "update": 1687932499661,
+      "views": 12532
+    },
+    {
+      "id": 828079,
+      "name": "Chapter 51",
+      "update": 1687932499641,
+      "views": 12907
+    },
+    {
+      "id": 825826,
+      "name": "Chapter 50",
+      "update": 1687932499648,
+      "views": 13077
+    },
+    {
+      "id": 824544,
+      "name": "Chapter 49",
+      "update": 1687932499652,
+      "views": 12658
+    },
+    {
+      "id": 816805,
+      "name": "Chapter 48",
+      "update": 1687932499649,
+      "views": 14425
+    },
+    {
+      "id": 814583,
+      "name": "Chapter 47",
+      "update": 1687932499655,
+      "views": 14144
+    },
+    {
+      "id": 810996,
+      "name": "Chapter 46",
+      "update": 1687932499664,
+      "views": 16908
+    },
+    {
+      "id": 810995,
+      "name": "Chapter 45",
+      "update": 1687932499664,
+      "views": 16799
+    },
+    {
+      "id": 808396,
+      "name": "Chapter 44",
+      "update": 1687932499639,
+      "views": 14465
+    },
+    {
+      "id": 795634,
+      "name": "Chapter 43",
+      "update": 1687932499641,
+      "views": 15856
+    },
+    {
+      "id": 794806,
+      "name": "Chapter 42",
+      "update": 1687932499644,
+      "views": 17459
+    },
+    {
+      "id": 791580,
+      "name": "Chapter 41",
+      "update": 1687932499652,
+      "views": 18217
+    },
+    {
+      "id": 784907,
+      "name": "Chapter 40",
+      "update": 1687932499662,
+      "views": 1919
+    },
+    {
+      "id": 770179,
+      "name": "Chapter 39",
+      "update": 1687932499643,
+      "views": 2409
+    },
+    {
+      "id": 782221,
+      "name": "Chapter 38",
+      "update": 1687932499669,
+      "views": 14242
+    },
+    {
+      "id": 779874,
+      "name": "Chapter 37",
+      "update": 1687932499647,
+      "views": 15209
+    },
+    {
+      "id": 777092,
+      "name": "Chapter 36",
+      "update": 1687932499654,
+      "views": 16498
+    },
+    {
+      "id": 777091,
+      "name": "Chapter 35",
+      "update": 1687932499654,
+      "views": 13669
+    },
+    {
+      "id": 774555,
+      "name": "Chapter 34",
+      "update": 1687932499661,
+      "views": 12489
+    },
+    {
+      "id": 774554,
+      "name": "Chapter 33",
+      "update": 1687932499661,
+      "views": 11886
+    },
+    {
+      "id": 771444,
+      "name": "Chapter 32",
+      "update": 1687932499640,
+      "views": 14171
+    },
+    {
+      "id": 770753,
+      "name": "Chapter 31",
+      "update": 1687932499641,
+      "views": 15447
+    },
+    {
+      "id": 762792,
+      "name": "Chapter 30",
+      "update": 1687932499662,
+      "views": 20014
+    },
+    {
+      "id": 751522,
+      "name": "Chapter 29",
+      "update": 1687932499654,
+      "views": 1743
+    },
+    {
+      "id": 750994,
+      "name": "Chapter 28",
+      "update": 1687932499655,
+      "views": 14809
+    },
+    {
+      "id": 749616,
+      "name": "Chapter 27",
+      "update": 1687932499657,
+      "views": 13138
+    },
+    {
+      "id": 745173,
+      "name": "Chapter 26",
+      "update": 1687932499665,
+      "views": 17298
+    },
+    {
+      "id": 743237,
+      "name": "Chapter 25",
+      "update": 1687932499670,
+      "views": 15447
+    },
+    {
+      "id": 738129,
+      "name": "Chapter 24",
+      "update": 1687932499651,
+      "views": 18297
+    },
+    {
+      "id": 737061,
+      "name": "Chapter 23",
+      "update": 1687932499654,
+      "views": 17947
+    },
+    {
+      "id": 735206,
+      "name": "Chapter 22",
+      "update": 1687932499656,
+      "views": 16677
+    },
+    {
+      "id": 726408,
+      "name": "Chapter 21",
+      "update": 1687932499652,
+      "views": 21263
+    },
+    {
+      "id": 720913,
+      "name": "Chapter 20: yêu thật rồi",
+      "update": 1687932499670,
+      "views": 20038
+    },
+    {
+      "id": 718192,
+      "name": "Chapter 19",
+      "update": 1687932499647,
+      "views": 16844
+    },
+    {
+      "id": 715814,
+      "name": "Chapter 18: mãi mới đi nhây thực sự :v",
+      "update": 1687932499655,
+      "views": 1686
+    },
+    {
+      "id": 712927,
+      "name": "Chapter 17",
+      "update": 1687932499664,
+      "views": 16074
+    },
+    {
+      "id": 709784,
+      "name": "Chapter 16",
+      "update": 1687932499646,
+      "views": 16205
+    },
+    {
+      "id": 708144,
+      "name": "Chapter 15",
+      "update": 1687932499652,
+      "views": 18746
+    },
+    {
+      "id": 661127,
+      "name": "Chapter 14: Ba tay!?",
+      "update": 1687932499650,
+      "views": 20448
+    },
+    {
+      "id": 659636,
+      "name": "Chapter 13: Mirika tái xuất",
+      "update": 1687932499655,
+      "views": 19774
+    },
+    {
+      "id": 659448,
+      "name": "Chapter 12: Bạn gái và bạn gái",
+      "update": 1687932499656,
+      "views": 19004
+    },
+    {
+      "id": 647135,
+      "name": "Chapter 11",
+      "update": 1687932499654,
+      "views": 19092
+    },
+    {
+      "id": 590040,
+      "name": "Chapter 10: Trở về đi mà!",
+      "update": 1687932499654,
+      "views": 21098
+    },
+    {
+      "id": 577883,
+      "name": "Chapter 9: Mình không muốn bị bỏ mặc",
+      "update": 1687932499671,
+      "views": 19977
+    },
+    {
+      "id": 570888,
+      "name": "Chapter 8: Một nơi dành cho ba người họ",
+      "update": 1687932499653,
+      "views": 22611
+    },
+    {
+      "id": 564215,
+      "name": "Chapter 7: Mình không muốn người khác phát hiện",
+      "update": 1687932499668,
+      "views": 24686
+    },
+    {
+      "id": 559276,
+      "name": "Chapter 6: Mình không muốn làm cậu ấy phải thất vọng",
+      "update": 1687932499654,
+      "views": 28785
+    },
+    {
+      "id": 555973,
+      "name": "Chapter 5: Cảm xúc của Nagisa",
+      "update": 1687932499665,
+      "views": 27035
+    },
+    {
+      "id": 553050,
+      "name": "Chapter 4: Đêm hoài nghi",
+      "update": 1687932499644,
+      "views": 28866
+    },
+    {
+      "id": 548887,
+      "name": "Chapter 3",
+      "update": 1687932499659,
+      "views": 31102
+    },
+    {
+      "id": 548886,
+      "name": "Chapter 2: Đàm phán về việc bắt cá hai tay!",
+      "update": 1687932499659,
+      "views": 39607
+    },
+    {
+      "id": 548885,
+      "name": "Chapter 1: Dù cho đó không phải là một hướng đi đúng đắn!",
+      "update": 1687932499659,
+      "views": 63196
+    }
+  ],
+  "comments": [
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/data/sites/1/useravatars/537134.jpg?v=7789",
+        "name": "Dạo Chơi",
+        "level": 4
+      },
+      "created": 1687954644000,
+      "chapter": "98",
+      "content": "Vãi cả \" đồng bằng này có nông dân canh tác rồi\"",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/data/sites/1/useravatars/1360362.jpg?v=9887",
+        "name": "UwU",
+        "level": 4
+      },
+      "created": 1687953806000,
+      "chapter": "67",
+      "content": "<img class=\"lazy\" src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-original=\"//p.ntcdntempv26.com/content/image.jpg?url=http://4.bp.blogspot.com/_1Jw2fzSntT0/TZDLBB9cMqI/AAAAAAAABPo/aEOUmUAfhNY/w1600/001.gif\" alt=\"emo\"></img>",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/data/sites/1/useravatars/1382459.jpg?v=6106",
+        "name": "Dâm Tà",
+        "level": 2
+      },
+      "created": 1687953367000,
+      "chapter": "130",
+      "content": "Link siêu nuột cho ae chỉ mội mã<br></br>blitly.io/Oa0JuBf<br></br>𝐦neylink.com/sdXOe<img class=\"lazy\" src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-original=\"//p.ntcdntempv26.com/content/image.jpg?url=http://4.bp.blogspot.com/_1Jw2fzSntT0/TZDP5AajWkI/AAAAAAAABWs/A_cw_EaFzcE/w1600/01\" alt=\"emo\"></img>",
+      "voteUp": 1,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/Data/SiteImages/anonymous.png",
+        "name": "Nguyễn Bá Thái Hải",
+        "level": 5
+      },
+      "created": 1687953363000,
+      "chapter": "93",
+      "content": "tý thài phai sâm :))<img class=\"lazy\" src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-original=\"//p.ntcdntempv26.com/content/image.jpg?url=https://1.bp.blogspot.com/-DFdQ1q2SaUs/WtuC0Utob9I/AAAAAAABiEc/rRQ9PtVAFVwNPT5zcebGqOzsr_jXV8hwACKgBGAs/h120/14-yaoming.gif\" alt=\"emo\"></img>",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/data/sites/1/useravatars/332104.jpg?v=1035",
+        "name": "Cô Bé Loli FBI Ngầm",
+        "level": 5
+      },
+      "created": 1687952670000,
+      "chapter": "129",
+      "content": "Dạt dào cảm xúc<br></br><img class=\"lazy\" src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-original=\"//p.ntcdntempv26.com/content/image.jpg?url=https://4.bp.blogspot.com/-752G5kjLptg/WtuC0TY6UII/AAAAAAABiEc/RGMRo6Mzy6cQ84OGOZbMN2nGOiUNiRiPACKgBGAs/h120/21-TheSaddest.gif\" alt=\"emo\"></img>",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/Data/SiteImages/anonymous.png",
+        "name": "Nguyễn Bá Thái Hải",
+        "level": 5
+      },
+      "created": 1687952378000,
+      "chapter": "92",
+      "content": "đệch mịa quá đỗi vô sỉ r<img class=\"lazy\" src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-original=\"//p.ntcdntempv26.com/content/image.jpg?url=https://1.bp.blogspot.com/-DFdQ1q2SaUs/WtuC0Utob9I/AAAAAAABiEc/rRQ9PtVAFVwNPT5zcebGqOzsr_jXV8hwACKgBGAs/h120/14-yaoming.gif\" alt=\"emo\"></img>",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/Data/SiteImages/anonymous.png",
+        "name": "Nguyễn Bá Thái Hải",
+        "level": 5
+      },
+      "created": 1687952088000,
+      "chapter": "91",
+      "content": "bão<img class=\"lazy\" src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-original=\"//p.ntcdntempv26.com/content/image.jpg?url=https://1.bp.blogspot.com/-DFdQ1q2SaUs/WtuC0Utob9I/AAAAAAABiEc/rRQ9PtVAFVwNPT5zcebGqOzsr_jXV8hwACKgBGAs/h120/14-yaoming.gif\" alt=\"emo\"></img>",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/Data/SiteImages/anonymous.png",
+        "name": "Hắc Ảnh",
+        "level": 5
+      },
+      "created": 1687951540000,
+      "chapter": "113",
+      "content": "Loser 200 chap. nổi tiếng theo 1 cách tai tiếng :))))",
+      "voteUp": 1,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/data/sites/1/useravatars/138291.jpg?v=9974",
+        "name": "Nguy Hiểm",
+        "level": 5
+      },
+      "created": 1687950190000,
+      "chapter": "109",
+      "content": "Oh shiet <img class=\"lazy\" src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-original=\"//p.ntcdntempv26.com/content/image.jpg?url=https://1.bp.blogspot.com/-DFdQ1q2SaUs/WtuC0Utob9I/AAAAAAABiEc/rRQ9PtVAFVwNPT5zcebGqOzsr_jXV8hwACKgBGAs/h120/14-yaoming.gif\" alt=\"emo\"></img>",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/data/sites/1/useravatars/138291.jpg?v=9974",
+        "name": "Nguy Hiểm",
+        "level": 5
+      },
+      "created": 1687949643000,
+      "chapter": "102",
+      "content": "Vãi bép <img class=\"lazy\" src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-original=\"//p.ntcdntempv26.com/content/image.jpg?url=https://3.bp.blogspot.com/-uTp2kw7VMfM/WtuC0ccNKwI/AAAAAAABiEc/6cCUK3cCpEsF-1hMh-fdr1gzLJ0HaOuxgCKgBGAs/h120/02-ahihi.gif\" alt=\"emo\"></img>",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/Data/SiteImages/anonymous.png",
+        "name": "ca",
+        "level": 2
+      },
+      "created": 1687948667000,
+      "chapter": "130",
+      "content": "Siêu phẩm loli và video hót cho ae<br></br>link chỉ một mã ❤️<br></br>https://1Link.VIP/Nmgjyi0X7K<br></br>https://1Link.VIP/GMQ6dwh<br></br>https://1Link.VIP/r7SMIxH3Cfl",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/Data/SiteImages/anonymous.png",
+        "name": "ca",
+        "level": 2
+      },
+      "created": 1687948641000,
+      "chapter": "130",
+      "content": "Siêu phẩm loli và video hót cho ae<br></br>link chỉ một mã ❤️<br></br>https://1Link.VIP/Nmgjyi0X7K<br></br>https://1Link.VIP/GMQ6dwh<br></br>https://1Link.VIP/r7SMIxH3Cfl",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/data/sites/1/useravatars/970771.jpg?v=3033",
+        "name": "dmm",
+        "level": 4
+      },
+      "created": 1687948186000,
+      "chapter": "93",
+      "content": "sắp đc 5 some rồi hic<img class=\"lazy\" src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-original=\"//p.ntcdntempv26.com/content/image.jpg?url=https://2.bp.blogspot.com/-19eZG3Qy3Tg/WtuC0f3cz2I/AAAAAAABiEc/PkmQyakcvRsrWYfndHp-ANAa_954TTliACKgBGAs/h120/18-hichic.gif\" alt=\"emo\"></img>",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/data/sites/1/useravatars/831262.jpg?v=4728",
+        "name": "Minh HiềnĐào Duy AnhUwU",
+        "level": 5
+      },
+      "created": 1687947152000,
+      "chapter": "113",
+      "content": "Loser 200 chap nói phát biết thằng nào luôn <img class=\"lazy\" src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-original=\"//p.ntcdntempv26.com/content/image.jpg?url=https://1.bp.blogspot.com/-DFdQ1q2SaUs/WtuC0Utob9I/AAAAAAABiEc/rRQ9PtVAFVwNPT5zcebGqOzsr_jXV8hwACKgBGAs/h120/14-yaoming.gif\" alt=\"emo\"></img>",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": [
+        {
+          "author": {
+            "avatar": "//st.nettruyenmax.com/Data/SiteImages/anonymous.png",
+            "name": "Đào Duy Anh",
+            "level": 4
+          },
+          "created": 1687948157000,
+          "chapter": "",
+          "content": "\n<span class=\"mention-user\">\n<i class=\"fa fa-mail-forward\">\n</i>Minh Hiền</span>300 r ba oi",
+          "voteUp": 0,
+          "voteDown": 0,
+          "replies": []
+        },
+        {
+          "author": {
+            "avatar": "//st.nettruyenmax.com/data/sites/1/useravatars/1360362.jpg?v=9887",
+            "name": "UwU",
+            "level": 4
+          },
+          "created": 1687954611000,
+          "chapter": "",
+          "content": "\n<span class=\"mention-user\">\n<i class=\"fa fa-mail-forward\">\n</i>Đào Duy Anh</span>gần thoi mak",
+          "voteUp": 0,
+          "voteDown": 0,
+          "replies": []
+        }
+      ]
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/Data/SiteImages/anonymous.png",
+        "name": "Đào Duy Anh",
+        "level": 4
+      },
+      "created": 1687948157000,
+      "chapter": "",
+      "content": "\n<span class=\"mention-user\">\n<i class=\"fa fa-mail-forward\">\n</i>Minh Hiền</span>300 r ba oi",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/data/sites/1/useravatars/1360362.jpg?v=9887",
+        "name": "UwU",
+        "level": 4
+      },
+      "created": 1687954611000,
+      "chapter": "",
+      "content": "\n<span class=\"mention-user\">\n<i class=\"fa fa-mail-forward\">\n</i>Đào Duy Anh</span>gần thoi mak",
+      "voteUp": 0,
+      "voteDown": 0,
+      "replies": []
+    },
+    {
+      "author": {
+        "avatar": "//st.nettruyenmax.com/data/sites/1/useravatars/638364.jpg?v=7921",
+        "name": "Giga Chad",
+        "level": 5
+      },
+      "created": 1687946664000,
+      "chapter": "130",
+      "content": "Nghe bộ quốc phòng, bộ giao thông, bộ xây dựng oai đấy nhưng có bằng bộ quản lí tài chính gia đình ko!?",
+      "voteUp": 1,
+      "voteDown": 0,
+      "replies": []
+    }
+  ]
+}

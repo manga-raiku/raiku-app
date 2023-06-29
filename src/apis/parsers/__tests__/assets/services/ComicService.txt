@@ -1,0 +1,73 @@
+<div class="box darkBox">
+  <h2>Truyện đang theo dõi<a class="view-all" href="/theo-doi">Xem tất cả</a></h2>
+  <ul class="list-unstyled">
+    <li>
+      <a class="thumb" title="Truyện tranh Shuumatsu no Valkyrie" href="/truyen-tranh/shuumatsu-no-valkyrie-207270">
+        <img class="lazy center" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-original="//st.ntcdntempv3.com/data/comics/247/shuumatsu-no-valkyrie.jpg" alt="Shuumatsu no Valkyrie">
+      </a>
+      <h3 class="title">
+        <a href="/truyen-tranh/shuumatsu-no-valkyrie-207270">Shuumatsu no Valkyrie</a>
+      </h3>
+      <p class="chapter">
+        <a href="/truyen-tranh/shuumatsu-no-valkyrie/chap-79/1017729" title="Chapter 79">Chapter 79</a>
+        <i class="time">5 giờ trước</i>
+        <span class="view viewed">
+          <a href="/truyen-tranh/shuumatsu-no-valkyrie/chap-62/848014" title="Chapter 62">Đọc tiếp Chapter 62</a> </span>
+      </p>
+    </li>
+    <li>
+      <a class="thumb" title="Truyện tranh Kanojo mo Kanojo" href="/truyen-tranh/kanojo-mo-kanojo-280220">
+        <img class="lazy center" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-original="//st.ntcdntempv3.com/data/comics/118/kanojo-mo-kanojo-6298.jpg" alt="Kanojo mo Kanojo">
+      </a>
+      <h3 class="title">
+        <a href="/truyen-tranh/kanojo-mo-kanojo-280220">Kanojo mo Kanojo</a>
+      </h3>
+      <p class="chapter">
+        <a class="visited" href="/truyen-tranh/kanojo-mo-kanojo/chap-130/1017670" title="Chapter 130">Chapter 130</a>
+        <i class="time">12 giờ trước</i>
+        <span class="view viewed">
+          <a href="/truyen-tranh/kanojo-mo-kanojo/chap-130/1017670" title="Chapter 130">Đọc tiếp Chapter 130</a> </span>
+      </p>
+    </li>
+    <li>
+      <a class="thumb" title="Truyện tranh Arte" href="/truyen-tranh/arte-296750">
+        <img class="lazy center" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-original="//st.ntcdntempv3.com/data/comics/235/arte.jpg" alt="Arte">
+      </a>
+      <h3 class="title">
+        <a href="/truyen-tranh/arte-296750">Arte</a>
+      </h3>
+      <p class="chapter">
+        <a href="/truyen-tranh/arte/chap-46/1017476" title="Chapter 46">Chapter 46</a>
+        <i class="time">21 giờ trước</i>
+        <span class="view viewed"> </span>
+      </p>
+    </li>
+    <li>
+      <a class="thumb" title="Truyện tranh Chàng Rể Mạnh Nhất Lịch Sử" href="/truyen-tranh/chang-re-manh-nhat-lich-su-72026">
+        <img class="lazy center" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-original="//st.ntcdntempv3.com/data/comics/90/chang-re-manh-nhat-lich-su.jpg" alt="Chàng Rể Mạnh Nhất Lịch Sử">
+      </a>
+      <h3 class="title">
+        <a href="/truyen-tranh/chang-re-manh-nhat-lich-su-72026">Chàng Rể Mạnh Nhất Lịch Sử</a>
+      </h3>
+      <p class="chapter">
+        <a href="/truyen-tranh/chang-re-manh-nhat-lich-su/chap-96/1016203" title="Chapter 96">Chapter 96</a>
+        <i class="time">2 ngày trước</i>
+        <span class="view viewed">
+          <a href="/truyen-tranh/chang-re-manh-nhat-lich-su/chap-71/976197" title="Chapter 71">Đọc tiếp Chapter 71</a> </span>
+      </p>
+    </li>
+    <li>
+      <a class="thumb" title="Truyện tranh Gaikotsu kishi-sama, tadaima isekai e o dekake-chū" href="/truyen-tranh/gaikotsu-kishi-sama-tadaima-isekai-e-o-dekake-ch-161440">
+        <img class="lazy center" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-original="//st.ntcdntempv3.com/data/comics/16/gaikotsu-kishi-sama-tadaima-isekai-e-o-d-6831.jpg" alt="Gaikotsu kishi-sama, tadaima isekai e o dekake-chū">
+      </a>
+      <h3 class="title">
+        <a href="/truyen-tranh/gaikotsu-kishi-sama-tadaima-isekai-e-o-dekake-ch-161440">Gaikotsu kishi-sama, tadaima isekai e o dekake-chū</a>
+      </h3>
+      <p class="chapter">
+        <a href="/truyen-tranh/gaikotsu-kishi-sama-tadaima-isekai-e-o-dekake-ch/chap-54.5/1015586" title="Chapter 54.5">Chapter 54.5</a>
+        <i class="time">4 ngày trước</i>
+        <span class="view viewed"> </span>
+      </p>
+    </li>
+  </ul>
+</div>
