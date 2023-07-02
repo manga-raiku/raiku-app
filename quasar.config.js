@@ -105,7 +105,7 @@ module.exports = configure(function (/* ctx */) {
       // viteVuePluginOptions: {},
 
       vitePlugins: [
-        ["vite-plugin-pages"],
+        ["vite-plugin-pages", {}],
         [
           "vite-plugin-vue-layouts",
           {
@@ -148,11 +148,6 @@ module.exports = configure(function (/* ctx */) {
               {
                 "@iconify/vue": ["Icon"],
                 "@vueuse/core": ["computedAsync"],
-                "@tachibana-shin/capacitor-filesystem": [
-                  "Filesystem",
-                  "Directory",
-                  "Encoding",
-                ],
                 quasar: ["useQuasar"],
                 "vue-auth3": ["useAuth", "useUser"],
                 "vue-request": ["useRequest"],

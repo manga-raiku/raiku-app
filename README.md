@@ -1,5 +1,7 @@
 # Manga Raiku (git.shin.mangaraiku)
 
+「無邪気な笑顔の下の、日付は遥かなメモリー」
+
 A Manga Raiku Application
 
 ## Install the dependencies

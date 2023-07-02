@@ -18,6 +18,7 @@ import {
  */
 
 const routes = setupLayouts(generatedRoutes)
+console.log(routes)
 
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
