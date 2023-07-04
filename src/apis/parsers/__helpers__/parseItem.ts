@@ -10,10 +10,16 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const image = $li.find("img").attr("src")!
   const name = $li.find(".book_name").text().trim()
+  if (import.meta.env.DEV && !name) {
+    console.log($li)
+
+    // eslint-disable-next-line functional/no-throw-statement
+    throw new Error("the name invalid")
+  }
   // eslint-disable-next-line camelcase
   const last_chapter = parseAnchor($li.find(".last_chapter > a"))
   const updated = parseTimeAgo($li.find(".time-ago").text().trim(), now)
-  const label = $li.find(".type-label").text().trim() // "Hot" // "Label"
+  const label = $li.find(".type-label").text().trim() || null // "Hot" // "Label"
 
   const $info = $li.find(".more-info .info")
   const status =

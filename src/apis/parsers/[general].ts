@@ -56,7 +56,7 @@ export default function general(html: string, now: number) {
       return { type, select }
     })
 
-  const items = $("#main_homepage li")
+  const items = $("#main_homepage .list_grid li")
     .toArray()
     .map((item) => parseItem($, $(item), now))
 
