@@ -1,4 +1,5 @@
 {
+
   "name": "Truyện Fantasy",
   "description": "Thể loại xuất phát từ trí tưởng tượng phong phú, từ pháp thuật đến thế giới trong mơ thậm chí là những câu chuyện thần tiên",
   "filter": [
@@ -73,19 +74,14 @@
     },
     {
       "type": "Sắp xếp",
-      "select": [
-        { "path": "/the-loai/fantasy-30.html", "name": "Ngày đăng giảm dần" },
-        { "path": "/the-loai/fantasy-30.html", "name": "Ngày đăng tăng dần" },
-        {
-          "path": "/the-loai/fantasy-30.html",
-          "name": "Ngày cập nhật giảm dần"
-        },
-        {
-          "path": "/the-loai/fantasy-30.html",
-          "name": "Ngày cập nhật tăng dần"
-        },
-        { "path": "/the-loai/fantasy-30.html", "name": "Lượt xem giảm dần" },
-        { "path": "/the-loai/fantasy-30.html", "name": "Lượt xem tăng dần" }
+      "key": "sort",
+      "items": [
+        { "value": "0", "name": "Ngày đăng giảm dần" },
+        { "value": "1", "name": "Ngày đăng tăng dần" },
+        { "value": "2", "name": "Ngày cập nhật giảm dần" },
+        { "value": "3", "name": "Ngày cập nhật tăng dần" },
+        { "value": "4", "name": "Lượt xem giảm dần" },
+        { "value": "5", "name": "Lượt xem tăng dần" }
       ]
     }
   ],

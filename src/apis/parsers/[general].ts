@@ -26,6 +26,24 @@ export default function general(html: string, now: number) {
           return { path, name }
         })
 
+      if (type === "Sắp xếp") {
+        // eslint-disable-next-line functional/no-let
+        let key = ""
+        const items = select.map((item) => {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const [key$1, value] = [
+            ...new URL(item.path, "http://localhost").searchParams.entries(),
+          ].at(-1)!
+
+          key = key$1
+          const name = item.name
+
+          return { value, name }
+        })
+
+        return { type, key, items }
+      }
+
       if (select.length === 0) {
         // eslint-disable-next-line functional/no-let
         let key = ""
@@ -39,7 +57,7 @@ export default function general(html: string, now: number) {
             const [key$1, value] = [
               ...new URL(
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ($item.attr("href")!),
+                $item.attr("href")!,
                 "http://localhost"
               ).searchParams.entries(),
             ].at(-1)!
