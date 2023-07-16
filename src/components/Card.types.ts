@@ -7,9 +7,9 @@ export interface CardProps {
       path: string
       name: string
     }
-    updated: number
+    updated: number | null
     hot?: string
-    status?: string
+    status?: string | null
     views: number | null
     label?: string | null
     follows: number | null

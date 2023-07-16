@@ -82,13 +82,12 @@ meta:
 
 <script lang="ts" setup>
 import data from "src/apis/parsers/__test__/assets/top-ngay.json"
-import dayjs from "src/logic/dayjs"
 import { pathEqual } from "src/logic/path-equal"
 
 const route = useRoute()
 const router = useRouter()
 
-const props = defineProps<{
+defineProps<{
   type: string
 }>()
 

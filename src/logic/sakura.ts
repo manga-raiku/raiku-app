@@ -1,8 +1,9 @@
+/* eslint-disable camelcase */
 function random(n: number): number {
   return Math.floor(Math.random() * n) + 1
 }
 
-interface Lozenro {
+interface Lorenzo {
   x: number
   y: number
   z: number
@@ -11,6 +12,7 @@ class Sakura {
   private gr = 5
   private phase = 0
 
+  // eslint-disable-next-line no-useless-constructor
   constructor(
     private x_pos: number,
     private y_pos: number,
@@ -20,7 +22,7 @@ class Sakura {
     private wind: number
   ) {}
 
-  draw(ctx: CanvasRenderContext2D, maxWidth: number, maxHeight: number) {
+  draw(ctx: CanvasRenderingContext2D, maxWidth: number, maxHeight: number) {
     ctx.save()
     ctx.beginPath()
     ctx.translate(this.x_pos, this.y_pos)
@@ -102,7 +104,7 @@ class Sakura {
   }
 }
 
-function createSakura(x1: number, y1: number, x2: number, y2: number): void {
+function createSakura(x1: number, y1: number, x2: number, y2: number): Sakura {
   const x_pos = Math.floor(Math.random() * (x2 - x1)) + x1 // map
   const y_pos = Math.floor(Math.random() * (y2 - y1)) + y1 // map
   // Note that the Sakura class is not defined in the provided code
@@ -123,7 +125,8 @@ function createSakura(x1: number, y1: number, x2: number, y2: number): void {
 export function useSakura(element: HTMLCanvasElement) {
   const sakura = new Set<Sakura>()
 
-  const ctx = element.getContext("2d")
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const ctx = element.getContext("2d")!
 
   let stoped = false
   const draw = () => {

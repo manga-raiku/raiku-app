@@ -1,7 +1,7 @@
-import dayjs from "src/logic/dayjs"
 import { boot } from "quasar/wrappers"
 import { loadLocalize } from "src/i18n"
 import enUS from "src/i18n/messages/en-US.json"
+import dayjs from "src/logic/dayjs"
 import { useSettingsStore } from "stores/settings"
 import type { Ref } from "vue"
 import { watch } from "vue"

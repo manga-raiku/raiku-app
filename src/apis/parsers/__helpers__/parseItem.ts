@@ -12,12 +12,15 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
   const name = $li.find(".book_name").text().trim()
   // eslint-disable-next-line camelcase
   const last_chapter = parseAnchor($li.find(".last_chapter > a"))
-  const updated = parseTimeAgo($li.find(".time-ago").text().trim(), now)
+  const $updated = $li.find(".time-ago").text().trim()
+  const updated = $updated ? parseTimeAgo($updated, now) : null
   const label = $li.find(".type-label").text().trim() // "Hot" // "Label"
 
   const $info = $li.find(".more-info .info")
   const status =
-    $info.length === 0 ? null : $info.eq(0).text().replace("Tình trạng: ", "")
+    $info.length === 0
+      ? undefined
+      : $info.eq(0).text().replace("Tình trạng: ", "")
   const views =
     $info.length === 0
       ? null

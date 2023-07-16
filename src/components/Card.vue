@@ -73,8 +73,10 @@
             width="1.3rem"
             height="1.3rem"
           />
-          {{ formatView(data.follows) }} theo dõi
-          <span class="hr-vertical" />
+          <template v-if="data.follows">
+            {{ formatView(data.follows) }} theo dõi
+            <span class="hr-vertical" />
+          </template>
           {{ data.last_chapter.name }}
         </div>
         <!-- <div class="text-gray-400 mt-2">{{ t("cap-nhat-toi-tap-_duration", [data.process]) }}</div> -->
@@ -83,7 +85,11 @@
         <p class="text-gray-400">{{ data.description ?? "Không có mô tả" }}</p>
 
         <div class="tags mt-2">
-          <span v-for="item in data.tags" :key="data" class="text-gray-300">
+          <span
+            v-for="item in data.tags"
+            :key="data.path"
+            class="text-gray-300"
+          >
             #{{ item }}
           </span>
         </div>
@@ -93,12 +99,14 @@
 </template>
 
 <script lang="ts" setup>
-import dayjs from "src/logic/dayjs"
-import type { CardProps } from "./Card.types"
-import { useElementHover, MaybeComputedRef, EventTarget } from "@vueuse/core"
-import { debounce } from "quasar"
-import { formatView } from "src/logic/formatView"
 import { Icon } from "@iconify/vue"
+import type { MaybeComputedRef } from "@vueuse/core"
+import { useElementHover } from "@vueuse/core"
+import { debounce, QCard, QImg, QMenu } from "quasar"
+import dayjs from "src/logic/dayjs"
+import { formatView } from "src/logic/formatView"
+
+import type { CardProps } from "./Card.types"
 
 import "@fontsource/poppins"
 

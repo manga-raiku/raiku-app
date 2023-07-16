@@ -27,7 +27,6 @@ export default function general(html: string, now: number) {
         })
 
       if (type === "Sắp xếp") {
-        // eslint-disable-next-line functional/no-let
         let key = ""
         const items = select.map((item) => {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -45,7 +44,6 @@ export default function general(html: string, now: number) {
       }
 
       if (select.length === 0) {
-        // eslint-disable-next-line functional/no-let
         let key = ""
         const items = $item
           .find(".choose a")

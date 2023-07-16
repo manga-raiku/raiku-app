@@ -1,3 +1,5 @@
+import { expect } from "vitest"
+
 import json from "./__test__/assets/index.json"
 import html from "./__test__/assets/index.txt?raw"
 

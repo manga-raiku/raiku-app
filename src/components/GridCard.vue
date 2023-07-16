@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CardProps } from "./Card.types"
+import type { CardProps } from "./Card.types"
 
 defineProps<{
   items: CardProps["data"][]

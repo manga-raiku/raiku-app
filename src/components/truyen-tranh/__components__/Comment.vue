@@ -84,7 +84,7 @@
           :comments="replies"
           :book-id="bookId"
           :team-id="teamId"
-          @deleted="replies.splice(index, 1)"
+          @deleted="replies.splice($event, 1)"
         />
       </template>
     </div>
@@ -92,13 +92,14 @@
 </template>
 
 <script lang="ts" setup>
-import dayjs from "src/logic/dayjs"
 import { Icon } from "@iconify/vue"
-import CommentList from "src/apis/runs/frontend/comment/list"
 import CommentLike from "src/apis/runs/frontend/comment/like"
+import CommentList from "src/apis/runs/frontend/comment/list"
 import CommentRmov from "src/apis/runs/frontend/comment/remove"
+import dayjs from "src/logic/dayjs"
 
 export interface Comment {
+  id: number
   author: {
     avatar: string
     name: string
@@ -112,7 +113,7 @@ export interface Comment {
   likes: number
   time: number
   replies: number
-  canDelete: false
+  canDelete: boolean
 }
 
 const props = defineProps<{

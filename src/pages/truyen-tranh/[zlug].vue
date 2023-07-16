@@ -125,7 +125,7 @@ meta:
 
     <section v-if="!$q.screen.xs" class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4">
       <q-btn
-        :to="data.chapters.at(-1).path"
+        :to="data.chapters.at(-1)!.path"
         rounded
         no-caps
         class="mr-3 btn-action text-weight-normal h-50px text-15px"
@@ -137,7 +137,7 @@ meta:
           class="mr-2"
         />
 
-        Bắt đầu xem {{ data.chapters.at(-1).name }}</q-btn
+        Bắt đầu xem {{ data.chapters.at(-1)!.name }}</q-btn
       >
 
       <q-btn
@@ -205,8 +205,9 @@ meta:
         />
         Đọc tiếp
         {{
-          data.chapters.find((item) => pathEqual(item.path, data.readContinue))
-            ?.name
+          data.chapters.find((item) =>
+            pathEqual(item.path!, data!.readContinue!)
+          )?.name
         }}
       </q-btn>
     </section>
@@ -299,8 +300,8 @@ meta:
           <q-skeleton type="circle" size="1.2em" class="mr-1" />
 
           <q-skeleton
-            v-for="item in 5"
-            :key="5"
+            v-for="_ in 5"
+            :key="_"
             type="QBtn"
             class="min-h-0 px-2 mx-2 my-1 h-20px <sm:bg-light-100 <sm:bg-opacity-10 <sm:text-13px <sm:my-1 <sm:mx-1 rounded-[30px]"
           />
@@ -362,7 +363,7 @@ meta:
   <p class="whitespace-pre-wrap">{{ data }}</p>
 
   <q-footer
-    v-if="$q.screen.xs"
+    v-if="$q.screen.xs && data"
     class="bg-dark-page"
     style="box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1)"
   >
@@ -396,7 +397,7 @@ meta:
       </q-btn>
 
       <q-btn
-        :to="data.chapters.at(-1).path"
+        :to="data.chapters.at(-1)!.path"
         rounded
         no-caps
         class="btn-action text-weight-normal min-h-0 h-35px font-normal max-w-60% w-full"
@@ -408,7 +409,7 @@ meta:
           class="mr-2"
         />
 
-        Xem {{ data.chapters.at(-1).name }}</q-btn
+        Xem {{ data.chapters.at(-1)!.name }}</q-btn
       >
     </q-toolbar>
   </q-footer>
@@ -417,21 +418,20 @@ meta:
 <script lang="ts" setup>
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164.json"
 import { Icon } from "@iconify/vue"
+import { useShare } from "@vueuse/core"
+import Like from "src/apis/runs/frontend/regiter-like"
+import Subscribe from "src/apis/runs/frontend/subscribe"
+import Manga from "src/apis/runs/truyen-tranh/[slug]"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
 import { pathEqual } from "src/logic/path-equal"
-import { useShare } from "@vueuse/core"
-
-import Subscribe from "src/apis/runs/frontend/subscribe"
-import Like from "src/apis/runs/frontend/regiter-like"
-import Manga from "src/apis/runs/truyen-tranh/[slug]"
 
 const props = defineProps<{
   zlug: string
 }>()
 
 const $q = useQuasar()
-const { share, isSupported } = useShare()
+const { share } = useShare()
 const { data, loading, error, run } = useRequest(() => Manga(props.zlug), {
   refreshDeps: [() => props.zlug],
   refreshDepsAction() {
@@ -441,17 +441,22 @@ const { data, loading, error, run } = useRequest(() => Manga(props.zlug), {
 })
 
 function onClickShare() {
+  if (!data.value) return
   share({
-    title: `Đọc ${data.name} ${data.othername ? `(${data.othername})` : ""}`,
-    text: `Đọc ${data.name} ${data.othername ? `(${data.othername})` : ""}`,
+    title: `Đọc ${data.value.name} ${
+      data.value.othername ? `(${data.value.othername})` : ""
+    }`,
+    text: `Đọc ${data.value.name} ${
+      data.value.othername ? `(${data.value.othername})` : ""
+    }`,
     url: location.href,
   })
 }
 
 const $followed = ref(false)
 watch(
-  () => data.followed,
-  (followed) => ($followed.value = followed),
+  () => data.value?.followed,
+  (followed = false) => ($followed.value = followed),
   { immediate: true }
 )
 
@@ -459,18 +464,22 @@ const followed = computed<boolean>({
   get: () => $followed.value,
   async set(value) {
     $followed.value = value
+    if (!data.value) return
 
-    const id = getIdZlug(props.zlug)
+    const id = data.value.id
     const subed = await Subscribe(id)
     if (value !== subed) await Subscribe(id)
   },
 })
 
 async function onClickLike() {
+  if (!data.value) return
+
   try {
-    if (!(await Like(id))) throw new Error("liked")
+    // eslint-disable-next-line functional/no-throw-statement
+    if (!(await Like(data.value.id))) throw new Error("liked")
   } catch (err) {
-    if (err?.message === "liked") {
+    if ((err as Error | undefined)?.message === "liked") {
       $q.notify({
         message: "Bạn đã thích manga này rồi",
       })

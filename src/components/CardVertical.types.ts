@@ -1,5 +1,16 @@
-import { CardProps } from "./Card.types"
+import type { CardProps } from "./Card.types"
 
-export interface CardVertialProps {
-  data: CardProps["data"]
+export interface CardVerticalProps {
+  data: Pick<
+    CardProps["data"],
+    | "path"
+    | "image"
+    | "last_chapter"
+    | "label"
+    | "name"
+    | "updated"
+    | "views"
+    | "follows"
+    | "description"
+  >
 }

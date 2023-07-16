@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import ListChapters from "./ListChapters.vue"
 
 const chapters_long = [

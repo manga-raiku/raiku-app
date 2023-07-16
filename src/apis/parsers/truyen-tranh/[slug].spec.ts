@@ -1,3 +1,5 @@
+import { expect } from "vitest"
+
 import json2 from "../__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164.json"
 import html2 from "../__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164.txt?raw"
 import json from "../__test__/assets/truyen-tranh/vo-cua-toi-la-quy-vuong-9947.json"
@@ -13,7 +15,8 @@ describe("/truyen-tranh/[slug]", () => {
       item.update = json.chapters[i].update
     })
     result.comments.forEach((item, i) => {
-      item.time = json.comments[i].time
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      item.time = json.comments[i].time!
     })
 
     expect(result).toEqual(json)

@@ -1,3 +1,5 @@
+import { expect } from "vitest"
+
 import general from "./[general]"
 import json2 from "./__test__/assets/the-loai/fantacy-30.json"
 import html2 from "./__test__/assets/the-loai/fantacy-30.txt?raw"

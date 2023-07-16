@@ -26,11 +26,10 @@ meta:
 
 <script lang="ts" setup>
 import data from "src/apis/parsers/__test__/assets/the-loai/fantacy-30.json"
-import { Icon } from "@iconify/vue"
 
 import "@fontsource/poppins"
 
-const props = defineProps<{
+defineProps<{
   slug: string
 }>()
 

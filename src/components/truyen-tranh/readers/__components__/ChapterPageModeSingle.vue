@@ -60,7 +60,6 @@ const moving = ref(false)
 const oWidthH = computed(() => oWidth.value / 2)
 const oHeightH = computed(() => oHeight.value / 2)
 
-
 const zoom = ref(100.0)
 
 const minDiffX = computed(() => (pWidth.value - oWidth.value) / 2)
@@ -75,7 +74,7 @@ let lastStartTouch: Touch | null = null
 // eslint-disable-next-line no-use-before-define
 let canGo: typeof canSwipe.value = null
 const lastMouseDiff: { x: number; y: number } = { x: 0, y: 0 }
-function onTouchStart(event: TouchEvent|MouseEvent) {
+function onTouchStart(event: TouchEvent | MouseEvent) {
   if (lastStartTouch) return
 
   lastStartTouch = (event as TouchEvent).touches?.[0] ?? event
@@ -91,18 +90,19 @@ function onTouchStart(event: TouchEvent|MouseEvent) {
 function onTouchMove(event: TouchEvent) {
   if (!lastStartTouch) return
 
-  const touch = event.touches ? findTouch((event as TouchEvent).touches, lastStartTouch) : event
+  const touch = findTouch(event.touches, lastStartTouch)
   if (!touch) return
 
   if (event.touches?.length > 2) {
-
     return
   }
 
   if (
     !canGo ||
-    !((canGo === "L" && touch.clientX < lastStartTouch.clientX) ||
-      (canGo === "R" && touch.clientX > lastStartTouch.clientX))
+    !(
+      (canGo === "L" && touch.clientX < lastStartTouch.clientX) ||
+      (canGo === "R" && touch.clientX > lastStartTouch.clientX)
+    )
   ) {
     const [diffX, diffY] = [
       touch.clientX - lastStartTouch.clientX,

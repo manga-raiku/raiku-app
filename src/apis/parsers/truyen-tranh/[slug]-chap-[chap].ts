@@ -16,7 +16,8 @@ export default function chap(html: string, now: number) {
       const $item = $(item)
       return {
         name: $item.text(),
-        path: parsePath($item.attr("value")!),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        path: parsePath($item.attr("value")!)!,
       }
     })
   const pages = $(".page-chapter img")
@@ -76,14 +77,12 @@ export const SERVERS: {
   {
     name: "Server 4",
     has: (item) => {
-      // eslint-disable-next-line functional/no-loop-statements
       for (const host in replaceHosts) {
         if (item.cdn.includes(host)) return true
       }
       return false
     },
     get: (item) => {
-      // eslint-disable-next-line functional/no-loop-statements
       for (const host in replaceHosts) {
         if (item.original.includes(host))
           return item.original.replace(

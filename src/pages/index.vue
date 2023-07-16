@@ -6,8 +6,8 @@ meta:
 
 <template>
   <swiper
-    :spaceBetween="10"
-    :centeredSlides="true"
+    :space-between="10"
+    :centered-slides="true"
     :modules="[Autoplay, Carousel]"
     loop
     :autoplay="{
@@ -149,12 +149,11 @@ meta:
 </template>
 
 <script setup lang="ts">
+import { Icon } from "@iconify/vue"
 import data from "src/apis/parsers/__test__/assets/index.json"
-
 import { Autoplay, Navigation } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 
-import { Icon } from "@iconify/vue"
 import "@fontsource/poppins"
 
 // Import Swiper styles
@@ -165,7 +164,10 @@ import "swiper/css/autoplay"
 import "swiper/css/grid"
 // Import Swiper Vue.js components
 
-function Carousel({ swiper, on }) {
+const router = useRouter()
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function Carousel({ swiper, on }: any) {
   on("beforeInit", () => {
     if (swiper.params.effect !== "carousel") return
     swiper.classNames.push(`${swiper.params.containerModifierClass}carousel`)
@@ -195,12 +197,12 @@ function Carousel({ swiper, on }) {
       slide.style.transform = `translateX(${translateX}) scale(${scaleVal})`
       slide.style.zIndex = zIndex
       slide.style.opacity = absProgress > 3 ? 0 : 1
-      opacityEls.forEach((el) => {
-        el.style.opacity = 1 - absProgress / 3
+      opacityEls.forEach((el: HTMLDivElement) => {
+        el.style.opacity = 1 - absProgress / 3 + ""
       })
     }
   })
-  on("setTransition", (duration, speed) => {
+  on("setTransition", (duration: number, speed: number) => {
     if (swiper.params.effect === "carousel") {
       for (let i = 0; i < swiper.slides.length; i++) {
         const slide = swiper.slides[i]
@@ -208,7 +210,7 @@ function Carousel({ swiper, on }) {
           ".swiper-carousel-animate-opacity"
         )
         slide.style.transitionDuration = `${speed}ms`
-        opacityEls.forEach((el) => {
+        opacityEls.forEach((el: HTMLDivElement) => {
           el.style.transitionDuration = `${speed}ms`
         })
       }
@@ -285,7 +287,7 @@ const genres = [
     height: auto;
 
     .poster {
-      height: max(calc(100vw / v-bind("aspectRatio")), 40vh, 56vw);
+      height: max(/*calc(100vw / v-bind("aspectRatio")),*/ 40vh, 56vw);
     }
   }
 

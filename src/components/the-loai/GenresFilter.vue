@@ -5,23 +5,23 @@
         item.type
       }}</label>
 
-      <div v-if="item.select" class="display-table-cell">
+      <div v-if="isSelectMode(item)" class="display-table-cell">
         <q-btn
-          v-for="item in item.select"
-          :key="item.path"
+          v-for="{ path, name } in item.select"
+          :key="path"
           no-caps
           rounded
           unelevated
           outline
-          :to="item.path"
+          :to="path"
           class="text-[rgba(255,255,255,0.86)] before:display-none text-weight-normal my-1 !py-1 !px-3 min-h-0"
           :class="{
             '!text-main-3 before:!display-block': pathEqual(
-              router.resolve(item.path).path,
+              router.resolve(path).path,
               route.path
             ),
           }"
-          >{{ item.name }}</q-btn
+          >{{ name }}</q-btn
         >
       </div>
       <div v-else class="display-table-cell">
@@ -40,7 +40,6 @@
             },
           }"
           class="text-[rgba(255,255,255,0.86)] before:display-none text-weight-normal my-1 !py-1 !px-3 min-h-0"
-          to="/the-loai/isekai-85"
           :class="{
             '!text-main-3 before:!display-block':
               route.query[item.key] === value,
@@ -61,7 +60,6 @@ defineProps<{
   filter: (
     | {
         type: string
-        key: string
         select: {
           path: string
           name: string
@@ -69,6 +67,7 @@ defineProps<{
       }
     | {
         type: string
+        key: string
         items: {
           value: string
           name: string
@@ -79,4 +78,15 @@ defineProps<{
 
 const route = useRoute()
 const router = useRouter()
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function isSelectMode(val: any): val is {
+  type: string
+  select: {
+    path: string
+    name: string
+  }[]
+} {
+  return val.select !== undefined
+}
 </script>

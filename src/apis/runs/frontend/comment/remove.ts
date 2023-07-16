@@ -1,8 +1,8 @@
-import { PostWorker } from "../../../wrap-worker"
-
-export default async function like(id: string, book_id: string) {
-  const { data } = await post(`/frontend/comment/remove`, {
+// eslint-disable-next-line camelcase
+export default async function like(id: number, book_id: number) {
+  const { data } = await post("/frontend/comment/remove", {
     id,
+    // eslint-disable-next-line camelcase
     book_id,
   })
 

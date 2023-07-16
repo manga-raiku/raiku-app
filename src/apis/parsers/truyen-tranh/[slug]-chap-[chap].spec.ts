@@ -1,3 +1,5 @@
+import { expect } from "vitest"
+
 import json from "../__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import html from "../__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.txt?raw"
 

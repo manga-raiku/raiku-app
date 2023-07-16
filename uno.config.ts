@@ -1,9 +1,9 @@
 import transformerDirectives from "@unocss/transformer-directives"
 import {
-  presetAttributify,
-  presetUno,
   defineConfig,
+  presetAttributify,
   presetTypography,
+  presetUno,
   presetWind,
 } from "unocss"
 

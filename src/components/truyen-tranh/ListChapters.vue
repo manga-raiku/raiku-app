@@ -4,7 +4,7 @@
     class="mx--2 overflow-auto scrollbar-custom whitespace-nowrap"
   >
     <q-btn
-      v-for="({ from, to, items }, index) in segments"
+      v-for="({ from, to }, index) in segments"
       :key="`${from}-${to}`"
       :label="`Ch.${from} - ${to}`"
       no-caps
@@ -70,14 +70,15 @@
 
 <script lang="ts" setup>
 import "@fontsource/poppins"
-import dayjs from "src/logic/dayjs"
 import { Icon } from "@iconify/vue"
+import dayjs from "src/logic/dayjs"
 
 const props = defineProps<{
   chapters: {
     path: string
     name: string
     update: number
+    readed: boolean
   }[]
 }>()
 
@@ -87,14 +88,15 @@ const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
     const [from, to] = [
       normalizeChName(items[0].name),
-      normalizeChName(items.at(-1).name),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      normalizeChName(items.at(-1)!.name),
     ]
 
     return { from, to, items }
   })
 })
 
-let tmp: ReturnType<typeof dayjs> | null = null
+let tmp: dayjs.Dayjs
 </script>
 
 <style lang="scss" scoped>

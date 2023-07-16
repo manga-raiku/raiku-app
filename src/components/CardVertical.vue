@@ -41,9 +41,13 @@
       </div>
 
       <div v-if="data.views || data.follows" class="flex my-2">
-        {{ formatView(data.views) }} lượt xem
-        <q-separator vertical class="mx-2" />
-        {{ formatView(data.follows) }} theo dõi
+        <template v-if="data.views">
+          {{ formatView(data.views) }} lượt xem
+          <q-separator v-if="data.follows" vertical class="mx-2" />
+        </template>
+        <template v-if="data.follows">
+          {{ formatView(data.follows) }} theo dõi
+        </template>
       </div>
 
       <p v-if="data.description" class="text-grey mt-3 line-clamp-2">
@@ -64,16 +68,15 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue"
-
-import { CardVertialProps } from "./CardVertical.types"
-import { formatView } from "src/logic/formatView"
 import dayjs from "src/logic/dayjs"
+import { formatView } from "src/logic/formatView"
+
+import type { CardVerticalProps } from "./CardVertical.types"
 
 import "@fontsource/poppins"
 
 defineProps<{
-  data: CardVertialProps["data"]
+  data: CardVerticalProps["data"]
   threeLine?: boolean
 }>()
 </script>

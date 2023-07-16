@@ -1,5 +1,5 @@
 // 35 phút trước
-export function parseTimeAgo(ago: string, now: number): number | null {
+export function parseTimeAgo(ago: string, now: number): number {
   ago = ago.toLowerCase()
 
   if (ago.endsWith("giây trước")) return now - parseInt(ago) * 1_000
@@ -9,6 +9,9 @@ export function parseTimeAgo(ago: string, now: number): number | null {
     return now - parseInt(ago) * 1_000 * 60 * 60 * 24
   if (ago.endsWith("tháng trước"))
     return now - parseInt(ago) * 1_000 * 60 * 60 * 24 * 30
+  if (ago.endsWith("năm trước"))
+    return now - parseInt(ago) * 1_000 * 60 * 60 * 24 * 365
 
-  return null
+  // eslint-disable-next-line functional/no-throw-statement
+  throw new Error("invalid date")
 }

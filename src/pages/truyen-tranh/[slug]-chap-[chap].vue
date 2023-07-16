@@ -61,7 +61,7 @@ meta:
         <q-slider
           class="my-auto"
           :model-value="rightToLeft ? -currentPage : currentPage"
-          @update:model-value="currentPage = rightToLeft ? -$event : $event"
+          @update:model-value="currentPage = rightToLeft ? -$event! : $event!"
           markers
           dense
           :reverse="rightToLeft"
@@ -214,11 +214,10 @@ meta:
 </template>
 
 <script lang="ts" setup>
+import { Icon } from "@iconify/vue"
+import { useClamp } from "@vueuse/math"
 import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/parsers/truyen-tranh/[slug]-chap-[chap]"
-import { useClamp } from "@vueuse/math"
-
-import { Icon } from "@iconify/vue"
 
 defineProps<{
   slug: string
@@ -231,7 +230,7 @@ const readerRef = ref()
 const zoom = useClamp(100, 50, 200)
 const server = ref("Server 1")
 const pageGetter = computed(
-  () => SERVERS.find((item) => item.name === server.value).get
+  () => SERVERS.find((item) => item.name === server.value)?.get
 )
 const pages = computed(() =>
   data.pages.map((item) => pageGetter.value?.(item) ?? item.src)

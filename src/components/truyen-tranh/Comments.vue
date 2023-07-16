@@ -16,7 +16,7 @@
 import type { Comment as CommentType } from "./__components__/Comment.vue"
 import Comment from "./__components__/Comment.vue"
 
-const props = defineProps<{
+defineProps<{
   comments: CommentType[]
   bookId: number
   teamId: number

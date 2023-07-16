@@ -1,3 +1,4 @@
 export function findTouch(touches: TouchList, touch: Touch) {
-  for (const t of touches) if (t.identifier === touch.identifier) return t
+  for (let i = 0; i < touches.length; i++)
+    if (touches[i].identifier === touch.identifier) return touches[i]
 }

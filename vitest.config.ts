@@ -1,8 +1,9 @@
-import { defineConfig } from "vitest/config"
-import vue from "@vitejs/plugin-vue"
+/* eslint-disable n/no-extraneous-import */
 import { quasar, transformAssetUrls } from "@quasar/vite-plugin"
-import tsconfigPaths from "vite-tsconfig-paths"
+import vue from "@vitejs/plugin-vue"
 import AutoImport from "unplugin-auto-import/vite"
+import tsconfigPaths from "vite-tsconfig-paths"
+import { defineConfig } from "vitest/config"
 
 // https://vitejs.dev/config/
 export default defineConfig({

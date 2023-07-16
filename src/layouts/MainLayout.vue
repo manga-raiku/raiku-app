@@ -336,19 +336,18 @@ import "@fontsource/caveat"
 import "@fontsource/poppins"
 // =========== suth
 
+import { Icon } from "@iconify/vue"
 import { useEventListener } from "@vueuse/core"
 import { Http } from "client-ext-animevsub-helper"
 import { debounce, QInput } from "quasar"
-import LichSu from "src/apis/runs/lich-su"
 import PreSearch from "src/apis/runs/frontend/pre-search"
+import LichSu from "src/apis/runs/lich-su"
 import TruyenDangTheoDoi from "src/apis/runs/truyen-dang-theo-doi"
 import { installedSW, updatingCache } from "src/logic/state-sw"
 import { computed, ref, watch } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRequest } from "vue-request"
 import { useRoute, useRouter } from "vue-router"
-
-import { Icon } from "@iconify/vue"
 
 import NotExistsExtension from "./NotExistsExtension.vue"
 
@@ -364,7 +363,7 @@ const $q = useQuasar()
 const canvasRef = ref<HTMLCanvasElement>()
 const instance = getCurrentInstance()
 watch(canvasRef, (ref) => {
-  if (!ref || true) return
+  if (!ref) return
 
   const { draw, stop } = useSakura(ref)
 

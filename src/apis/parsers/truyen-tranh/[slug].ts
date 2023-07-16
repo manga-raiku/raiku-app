@@ -7,7 +7,9 @@ import { parsePath } from "../__helpers__/parsePath"
 export default function manga(html: string, now: number) {
   const $ = parseDom(html)
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const id = parseInt($("#book_id").attr("value")!)
+  // eslint-disable-next-line camelcase, @typescript-eslint/no-non-null-assertion
   const team_id = parseInt($("#team_id").attr("value")!)
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const image = $(".book_avatar img").attr("src")!
@@ -35,7 +37,8 @@ export default function manga(html: string, now: number) {
   )
   const genres = $(".list01 a")
     .toArray()
-    .map((item) => parseAnchor($(item)))
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    .map((item) => parseAnchor($(item))!)
   const $readContinue = $(".story-detail-menu > .li04 a").attr("href")
   const readContinue = $readContinue ? parsePath($readContinue) : null
   const description = $(".detail-content").text().trim()
@@ -45,9 +48,10 @@ export default function manga(html: string, now: number) {
       const $item = $(item)
       const $time = $item.find(".time-chap")
       return {
-        ...parseAnchor($item.find("a")),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        ...parseAnchor($item.find("a"))!,
         update: parseDate($time.text()),
-        active: $item.find(".active").length > 0,
+        readed: $item.find(".active").length > 0,
       }
     })
   const comments = $(".info-comment")
@@ -56,6 +60,7 @@ export default function manga(html: string, now: number) {
 
   return {
     id,
+    // eslint-disable-next-line camelcase
     team_id,
     image,
     name,

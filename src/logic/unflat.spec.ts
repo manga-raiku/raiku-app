@@ -1,3 +1,5 @@
+import { expect } from "vitest"
+
 import { unflat } from "./unflat"
 
 describe("unflat", () => {
