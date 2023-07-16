@@ -118,7 +118,10 @@ jobs:
           run_install: false
 
       - name: Install depends
-        run: npm i
+        run: |
+          npm i
+          sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb -y
+          npx cypress install
 
       - name: Test
         run: pnpm test
@@ -155,10 +158,15 @@ jobs:
         with:
           version: 7
           run_install: false
-      - name: Test
+
+      - name: Install depends
         run: |
-          pnpm i
-          pnpm test
+          npm i
+          sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb -y
+          npx cypress install
+
+      - name: Test
+        run: pnpm test
 
   build:
     name: Try build
