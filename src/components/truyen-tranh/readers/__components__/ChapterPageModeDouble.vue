@@ -5,22 +5,19 @@
       'w-full': singlePage,
     }"
   >
-      <img
-        class="object-scale-down h-full"
-        :class="{
-          'ml-auto': prime,
-        }"
-        :src="src"
-        @load="emit('load', $event)"
-      />
+    <img
+      class="object-scale-down h-full"
+      :class="{
+        'ml-auto': prime,
+      }"
+      :src="src"
+      @load="emit('load', $event)"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useElementSize, useEventListener } from "@vueuse/core"
-import { useClamp } from "@vueuse/math"
-
-const props = defineProps<{
+defineProps<{
   prime: boolean
   src: string
   singlePage: boolean

@@ -304,8 +304,11 @@
           route.meta?.offset
             ? (offset, height) => ({
                 height: height + 'px',
-                marginTop: (route.meta.existsFooter ? (-offset / 2) : -offset)+ 'px',
-                marginBottom: (route.meta.existsFooter ? (-offset / 2 + 'px') : undefined),
+                marginTop:
+                  (route.meta.existsFooter ? -offset / 2 : -offset) + 'px',
+                marginBottom: route.meta.existsFooter
+                  ? -offset / 2 + 'px'
+                  : undefined,
               })
             : undefined
         "

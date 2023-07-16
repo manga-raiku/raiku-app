@@ -3,8 +3,6 @@
     class="h-full overflow-hidden relative"
     ref="parentRef"
     @mousedown.prevent="onMouseDown"
-    @mousemove="onMouseMoveCheckClick"
-    @mouseup="onMouseUpCheckClick"
     @wheel="onWheel"
     @touchstart.passive="onTouchStart"
     @touchmove.passive="onTouchMove"
@@ -14,8 +12,8 @@
       class="transition-width,height,transform relative top-1/2 left-1/2"
       :style="{
         width: `${zoom}%`,
-        transform: `translate(${ -oWidthH + diffXZoom}px, ${
-           -oHeightH +  diffYZoom
+        transform: `translate(${-oWidthH + diffXZoom}px, ${
+          -oHeightH + diffYZoom
         }px)`,
         'transition-property': mouseZooming
           ? 'width,height'
@@ -26,21 +24,21 @@
       }"
       ref="overflowRef"
     >
-        <img
-          v-for="(item, index) in pages"
-          :key="item"
-          class="object-cover display-block mx-auto"
-          :src="item"
-          @load="
-            sizes[index] = [
-              $event.target.naturalWidth,
-              $event.target.naturalHeight,
-            ]
-          "
-          :style="{
-            width: `${(sizes[index]?.[0] * zoom) / 100}px`,
-          }"
-        />
+      <img
+        v-for="(item, index) in pages"
+        :key="item"
+        class="object-cover display-block mx-auto"
+        :src="item"
+        @load="
+          sizes[index] = [
+            ($event.target as HTMLImageElement)!.naturalWidth,
+            ($event.target as HTMLImageElement)!.naturalHeight,
+          ]
+        "
+        :style="{
+          width: `${(sizes[index]?.[0] * zoom) / 100}px`,
+        }"
+      />
     </section>
   </section>
 </template>
@@ -73,8 +71,6 @@ const { width: oWidth, height: oHeight } = useElementSize(overflowRef)
 const oWidthH = computed(() => oWidth.value / 2)
 const oHeightH = computed(() => oHeight.value / 2)
 
-const pWidthH = computed(() => ~~pWidth.value / 2)
-
 function prev() {
   console.log("prev")
   // emit("prev")
@@ -87,54 +83,37 @@ function next() {
 }
 
 let lastStartTouch: Touch | null = null
-let lastMoveTouch: Touch | null = null
-let lastMoveTime: number | null = null
 function onTouchStart(event: TouchEvent) {
-  onMouseDownCheckClick(event)
   if (lastStartTouch) return
 
   lastStartTouch = event.touches[0]
 
-  // if (canSwipe.value) {
-  moving.value = true
-  // } else {
   lastMouseOff = { x: lastStartTouch.clientX, y: lastStartTouch.clientY }
   ;[lastMouseDiff.x, lastMouseDiff.y] = [diffXZoom.value, diffYZoom.value]
   console.log("log")
-  // }
 }
-let currentTouch: Touch | null = null
-let currentTime: number | null = null
 function onTouchMove(event: TouchEvent) {
-  onMouseMoveCheckClick(event)
   if (!lastStartTouch) return
 
   const touch = findTouch(event.touches, lastStartTouch)
   if (!touch) return
 
-    const [diffX, diffY] = [
-      touch.clientX - lastStartTouch.clientX,
-      touch.clientY - lastStartTouch.clientY,
-    ]
-    console.log(diffX, diffY)
-    mouseZooming.value = true
-    diffXZoom.value = lastMouseDiff.x + diffX
-    diffYZoom.value = lastMouseDiff.y + diffY
+  const [diffX, diffY] = [
+    touch.clientX - lastStartTouch.clientX,
+    touch.clientY - lastStartTouch.clientY,
+  ]
+  console.log(diffX, diffY)
+  mouseZooming.value = true
+  diffXZoom.value = lastMouseDiff.x + diffX
+  diffYZoom.value = lastMouseDiff.y + diffY
 }
 function onTouchEnd(event: TouchEvent) {
-  onMouseUpCheckClick(event)
   if (!lastStartTouch) return
 
   const touch = findTouch(event.changedTouches, lastStartTouch)
   if (!touch) return
 
-  moving.value = false
-  diffX.value = 0
   lastStartTouch = null
-  lastMoveTouch = null
-  lastMoveTime = null
-  currentTouch = null
-  currentTime = null
   mouseZooming.value = false
   lastStartTouch = null
 }
@@ -151,7 +130,6 @@ let mouseDowned = false
 let lastMouseOff: { x: number; y: number } | null = null
 const lastMouseDiff: { x: number; y: number } = { x: 0, y: 0 }
 function onMouseDown(event: MouseEvent) {
-  onMouseDownCheckClick(event)
   mouseDowned = true
 
   lastMouseOff = { x: event.clientX, y: event.clientY }
@@ -171,7 +149,7 @@ function onMouseMove(event: MouseEvent) {
 
   console.log("log ", lastMouseDiff, diffX, diffY)
 }
-function onMouseUp(event: MouseEvent) {
+function onMouseUp() {
   mouseDowned = true
   mouseZooming.value = false
   lastMouseOff = null
@@ -196,7 +174,7 @@ function onWheel(event: WheelEvent) {
       return
       // prev
     }
-    diffYZoom.value += -event.deltaY 
+    diffYZoom.value += -event.deltaY
   }
 }
 

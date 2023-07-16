@@ -41,7 +41,7 @@
 import { useElementSize, useEventListener } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 
-const props = defineProps<{
+defineProps<{
   src: string
 }>()
 const emit = defineEmits<{
@@ -60,7 +60,6 @@ const moving = ref(false)
 const oWidthH = computed(() => oWidth.value / 2)
 const oHeightH = computed(() => oHeight.value / 2)
 
-const pWidthH = computed(() => ~~pWidth.value / 2)
 
 const zoom = ref(100.0)
 
@@ -73,46 +72,38 @@ const diffXZoom = useClamp(0, minDiffX, maxDiffX)
 const diffYZoom = useClamp(0, minDiffY, maxDiffY)
 
 let lastStartTouch: Touch | null = null
-let lastMoveTouch: Touch | null = null
-let lastMoveTime: number | null = null
+// eslint-disable-next-line no-use-before-define
 let canGo: typeof canSwipe.value = null
-let mouseDowned = false
-let lastMouseOff: { x: number; y: number } | null = null
 const lastMouseDiff: { x: number; y: number } = { x: 0, y: 0 }
-function onTouchStart(event: TouchEvent) {
+function onTouchStart(event: TouchEvent|MouseEvent) {
   if (lastStartTouch) return
 
-  lastStartTouch = event.touches?.[0] ?? event
+  lastStartTouch = (event as TouchEvent).touches?.[0] ?? event
 
-  canGo = canSwipe.value //canSwipe.value
+  canGo = canSwipe.value // canSwipe.value
   // if (canSwipe.value) {
   moving.value = true
   // } else {
-  lastMouseOff = { x: lastStartTouch.clientX, y: lastStartTouch.clientY }
   ;[lastMouseDiff.x, lastMouseDiff.y] = [diffXZoom.value, diffYZoom.value]
   console.log("log")
   // }
 }
-let currentTouch: Touch | null = null
-let currentTime: number | null = null
 function onTouchMove(event: TouchEvent) {
   if (!lastStartTouch) return
 
-  const touch = event.touches ? findTouch(event.touches, lastStartTouch) : event
+  const touch = event.touches ? findTouch((event as TouchEvent).touches, lastStartTouch) : event
   if (!touch) return
 
   if (event.touches?.length > 2) {
-    const nextTouch = event.touches[Array.prototype.indexOf.call(event.touches, touch) + 1]
 
     return
   }
 
   if (
-    canGo &&
-    ((canGo === "L" && touch.clientX < lastStartTouch.clientX) ||
+    !canGo ||
+    !((canGo === "L" && touch.clientX < lastStartTouch.clientX) ||
       (canGo === "R" && touch.clientX > lastStartTouch.clientX))
   ) {
-  } else {
     const [diffX, diffY] = [
       touch.clientX - lastStartTouch.clientX,
       touch.clientY - lastStartTouch.clientY,
@@ -127,15 +118,13 @@ function onTouchMove(event: TouchEvent) {
 function onTouchEnd(event: TouchEvent) {
   if (!lastStartTouch) return
 
-  const touch = event.changedTouches ? findTouch(event.changedTouches, lastStartTouch) : event
+  const touch = event.changedTouches
+    ? findTouch(event.changedTouches, lastStartTouch)
+    : event
   if (!touch) return
 
   moving.value = false
   lastStartTouch = null
-  lastMoveTouch = null
-  lastMoveTime = null
-  currentTouch = null
-  currentTime = null
   mouseZooming.value = false
   lastStartTouch = null
 
@@ -161,5 +150,4 @@ function onWheel(event: WheelEvent) {
 
 useEventListener(window, "mousemove", onTouchMove)
 useEventListener(window, "mouseup", onTouchEnd)
-
 </script>

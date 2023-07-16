@@ -30,46 +30,49 @@
       <div
         class="h-full transition-transform"
         :style="{
-          transform: `translateX(${
-            `calc(${(minPage - currentPage) * 100}% + ${diffX}px)`
-          })`,
+          transform: `translateX(${`calc(${
+            (minPage - currentPage) * 100
+          }% + ${diffX}px)`})`,
           'transition-duration': `${moving ? 0 : 200}ms`,
         }"
       >
-      <template v-if="singlePage">
-
-      <ChapterPageModeSingle
-
-        v-for="(src, index) in (rightToLeft ? pages.slice(0).reverse() : pages)"
-        :key="index"
-          :src="src"
-          @load="
-            ($event) => {
-              sizes[index] = [
-                $event.target.naturalWidth,
-                $event.target.naturalHeight,
-              ]
-            }
-          "
-          @update:can-swipe="canSwipes[index] = $event"/>
-      </template>
-      <template v-else>
-        <ChapterPageModeDouble
-          v-for="(src, index) in (rightToLeft ? pages.slice(0).reverse() : pages)"
-          :key="index"
-          :single-page="sizes[index]?.[0] > 1200"
-          :prime="index % 2 === 0"
-          :src="src"
-          @load=" ($event) => {
-              sizes[index] = [
-                $event.target.naturalWidth,
-                $event.target.naturalHeight,
-              ]
-            }
-          "
-        />
-
-      </template>
+        <template v-if="singlePage">
+          <ChapterPageModeSingle
+            v-for="(src, index) in rightToLeft
+              ? pages.slice(0).reverse()
+              : pages"
+            :key="index"
+            :src="src"
+            @load="
+              ($event) => {
+                sizes[index] = [
+                  ($event.target as HTMLImageElement)!.naturalWidth,
+                  ($event.target as HTMLImageElement)!.naturalHeight,
+                ]
+              }
+            "
+            @update:can-swipe="canSwipes[index] = $event"
+          />
+        </template>
+        <template v-else>
+          <ChapterPageModeDouble
+            v-for="(src, index) in rightToLeft
+              ? pages.slice(0).reverse()
+              : pages"
+            :key="index"
+            :single-page="sizes[index]?.[0] > 1200"
+            :prime="index % 2 === 0"
+            :src="src"
+            @load="
+              ($event) => {
+                sizes[index] = [
+                  ($event.target as HTMLImageElement)!.naturalWidth,
+                  ($event.target as HTMLImageElement)!.naturalHeight,
+                ]
+              }
+            "
+          />
+        </template>
       </div>
     </section>
     <!--
@@ -82,6 +85,7 @@
 <script lang="ts" setup>
 import { useElementSize, useEventListener } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
+import { isTouchEvent } from "src/logic/is-touch-event"
 
 const props = defineProps<{
   pages: string[]
@@ -97,9 +101,10 @@ const emit = defineEmits<{
   // (name: "prev"): void
   // (name: "next"): void
 }>()
-const $q = useQuasar()
 
-const sizes = shallowReactive<Record<string, [number, number]>>(Object.create(null))
+const sizes = shallowReactive<Record<string, [number, number]>>(
+  Object.create(null)
+)
 const sizePage = computed(() => {
   if (props.singlePage) {
     // only 1
@@ -128,17 +133,17 @@ const oWidthH = computed(() => oWidth.value / 2)
 const oHeightH = computed(() => oHeight.value / 2)
 
 const pWidthH = computed(() => ~~pWidth.value / 2)
-const canSwipes = shallowReactive( Object.create(null))
+const canSwipes = shallowReactive(Object.create(null))
 
 function prev() {
-    console.log("prev")
-    // emit("prev")
-    emit("update:current-page", props.currentPage-1)
+  console.log("prev")
+  // emit("prev")
+  emit("update:current-page", props.currentPage - 1)
 }
 function next() {
-    console.log("next")
-    // emit("next")
-    emit("update:current-page", props.currentPage+1)
+  console.log("next")
+  // emit("next")
+  emit("update:current-page", props.currentPage + 1)
 }
 
 const diffX = ref(0)
@@ -205,15 +210,21 @@ function onTouchEnd(event: TouchEvent) {
   if (!touch) return
 
   // if (canSwipe.value) {
-  if (canGo && lastMoveTouch) {
+  if (canGo && lastMoveTouch && lastMoveTime !== null) {
     const speedSwipeX =
       (touch.clientX - lastMoveTouch.clientX) / (Date.now() - lastMoveTime)
     const cDiffX = touch.clientX - lastStartTouch.clientX
 
-    if (speedSwipeX > 0.3 || cDiffX > event.target.offsetWidth * 0.3) {
+    if (
+      speedSwipeX > 0.3 ||
+      cDiffX > (event.target as HTMLDivElement).offsetWidth * 0.3
+    ) {
       prev()
     }
-    if (speedSwipeX < -0.3 || cDiffX < event.target.offsetWidth * -0.3) {
+    if (
+      speedSwipeX < -0.3 ||
+      cDiffX < (event.target as HTMLDivElement).offsetWidth * -0.3
+    ) {
       next()
     }
 
@@ -264,7 +275,7 @@ function onMouseMove(event: MouseEvent) {
 
   console.log("log ", lastMouseDiff, diffX, diffY)
 }
-function onMouseUp(event: MouseEvent) {
+function onMouseUp() {
   mouseDowned = true
   mouseZooming.value = false
   lastMouseOff = null
@@ -289,7 +300,7 @@ function onWheel(event: WheelEvent) {
       return
       // prev
     }
-    diffYZoom.value  += -event.deltaY / 2
+    diffYZoom.value += -event.deltaY / 2
   }
 }
 
@@ -299,24 +310,39 @@ useEventListener(window, "mouseup", onMouseUp)
 let mousezooming = false
 let mouseDownClientX = 0
 let mouseDownClientY = 0
-function onMouseDownCheckClick(event: MouseEvent) {
+function onMouseDownCheckClick(event: MouseEvent | TouchEvent) {
   mousezooming = false
-  mouseDownClientX = event.touches?.[0].clientX ?? event.clientX
-  mouseDownClientY = event.touches?.[0].clientX ?? event.clientY
+  mouseDownClientX = isTouchEvent(event)
+    ? event.touches[0].clientX
+    : event.clientX
+  mouseDownClientY = isTouchEvent(event)
+    ? event.touches[0].clientX
+    : event.clientY
 }
-function onMouseMoveCheckClick(event: MouseEvent) {
+function onMouseMoveCheckClick(event: MouseEvent | TouchEvent) {
   if (
-    Math.abs((event.touches?.[0].clientX ?? event.clientX) - mouseDownClientX) >
-      7 ||
-    Math.abs((event.touches?.[0].clientY ?? event.clientY) - mouseDownClientY)
+    Math.abs(
+      (isTouchEvent(event) ? event.touches[0].clientX : event.clientX) -
+        mouseDownClientX
+    ) > 7 ||
+    Math.abs(
+      (isTouchEvent(event) ? event.touches[0].clientY : event.clientY) -
+        mouseDownClientY
+    )
   )
     mousezooming = true
 }
-function onMouseUpCheckClick(event: MouseEvent) {
+function onMouseUpCheckClick(event: MouseEvent | TouchEvent) {
   if (mousezooming) return
 
   const directionLeft = mouseDownClientX < pWidthH.value
-  if (!(directionLeft ^ (event.clientX < pWidthH.value))) {
+  if (
+    !xor(
+      directionLeft,
+      (isTouchEvent(event) ? event.touches[0].clientX : event.clientX) <
+        pWidthH.value
+    )
+  ) {
     console.log("click %s", directionLeft ? "L" : "R")
 
     if (directionLeft) prev()
@@ -324,24 +350,22 @@ function onMouseUpCheckClick(event: MouseEvent) {
   }
 }
 
-useEventListener(window, "keydown", event => {
+useEventListener(window, "keydown", (event) => {
   switch (event.key) {
     case "ArrowLeft":
-    if (diffXZoom.value === minDiffX.value) prev()
-    else
-      diffXZoom.value-=15
+      if (diffXZoom.value === minDiffX.value) prev()
+      else diffXZoom.value -= 15
       break
     case "ArrowRight":
-    if (diffXZoom.value === maxDiffX.value) next()
-    else
-      diffXZoom.value+=15
-
+      if (diffXZoom.value === maxDiffX.value) next()
+      else diffXZoom.value += 15
+      break
     case "ArrowTop":
-    diffYZoom.value -=15
-
+      diffYZoom.value -= 15
+      break
     case "ArrowBottom":
-    diffYZoom.value += 15
-
+      diffYZoom.value += 15
+      break
   }
 })
 </script>

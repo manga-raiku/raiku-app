@@ -93,5 +93,6 @@ module.exports = {
     "functional/prefer-immutable-types": "off",
     "@typescript-eslint/space-before-blocks": "off",
     "no-undef": "off",
+    "functional/no-let": "off"
   },
 }
