@@ -9,7 +9,7 @@
     "lint": "eslint --ext .js,.ts,.vue ./",
     "pretit": "prettier \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "test": "echo \"See package.json => scripts for available tests.\" && exit 0",
+    "test": "pnpm test:unit:ci && pnpm test:e2e:ci && pnpm test:component:ci",
     "test:watch": "pnpm test:unit",
     "dev": "quasar dev",
     "typing": "vue-tsc --noEmit",
