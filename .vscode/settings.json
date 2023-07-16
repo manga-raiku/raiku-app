@@ -53,5 +53,6 @@
     "Urban VPN"
   ],
   "editor.tabCompletion": "on",
-  "diffEditor.codeLens": true
+  "diffEditor.codeLens": true,
+  "typescript.preferences.autoImportFileExcludePatterns": ["vue-router"]
 }

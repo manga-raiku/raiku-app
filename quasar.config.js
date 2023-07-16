@@ -6,14 +6,10 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
-const {
-  default: transformerDirectives,
-} = require("@unocss/transformer-directives")
 const { extend } = require("quasar")
 const { configure } = require("quasar/wrappers")
-const { presetAttributify, presetUno } = require("unocss")
 
-module.exports = configure(function (/* ctx */) {
+module.exports = configure((/* ctx */) => {
   return {
     eslint: {
       // fix: true,
@@ -30,7 +26,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ["i18n", "unocss"],
+    boot: ["i18n", "head", "unocss"],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ["app.scss"],
@@ -105,34 +101,20 @@ module.exports = configure(function (/* ctx */) {
       // viteVuePluginOptions: {},
 
       vitePlugins: [
-        ["vite-plugin-pages", {}],
+        [
+          "@tachibana-shin/vite-plugin-pages",
+          { routeStyle: "nuxt3", importMode: () => "async" },
+        ],
+        // ['unplugin-vue-router/vite', {}],
+        ["vite-plugin-rewrite-all", {}],
+        ["vite-plugin-remove-console", {}],
         [
           "vite-plugin-vue-layouts",
           {
             defaultLayout: "MainLayout",
-            importMode: () => "async",
-            routeStyle: "nuxt",
           },
         ],
-        [
-          "unocss/vite",
-          {
-            presets: [
-              presetAttributify({
-                prefix: "un-",
-                prefixedOnly: true, // <--
-              }),
-              presetUno(),
-            ],
-            rules: [
-              [
-                /^size-\[([^[\]]+)\]/,
-                ([, value]) => ({ width: value, height: value }),
-              ],
-            ],
-            transformers: [transformerDirectives()],
-          },
-        ],
+        ["unocss/vite", { configFile: "./uno.config.ts" }],
         [
           "unplugin-auto-import/vite",
           {
@@ -149,7 +131,6 @@ module.exports = configure(function (/* ctx */) {
                 "@iconify/vue": ["Icon"],
                 "@vueuse/core": ["computedAsync"],
                 quasar: ["useQuasar"],
-                "vue-auth3": ["useAuth", "useUser"],
                 "vue-request": ["useRequest"],
               },
             ],
@@ -157,9 +138,6 @@ module.exports = configure(function (/* ctx */) {
               "src/logic/**/*.ts",
               "src/logic/**/*.tsx",
               "src/stores/**/*.ts",
-              "src/composables/*.ts",
-              "src/constants/*.ts",
-              "src/validators/*.ts",
             ],
             eslintrc: {
               enabled: true, // Default `false`
@@ -187,6 +165,9 @@ module.exports = configure(function (/* ctx */) {
     framework: {
       config: {
         dark: true,
+        loadingBar: {
+          color: "main",
+        },
       },
 
       // iconSet: 'material-icons', // Quasar icon set

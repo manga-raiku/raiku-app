@@ -1,13 +1,24 @@
 import { parseComment } from "../__helpers__/parseComment"
 import { parseDom } from "../__helpers__/parseDom"
+import { parsePath } from "../__helpers__/parsePath"
 
 export default function chap(html: string, now: number) {
   const $ = parseDom(html)
   // ====================
+  const name = $("h1 > a").text()
   const updated = new Date(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     $(".detail-title").next("time").attr("datetime")!
   ).getTime()
+  const chapters = $(".chapter_list option")
+    .toArray()
+    .map((item) => {
+      const $item = $(item)
+      return {
+        name: $item.text(),
+        path: parsePath($item.attr("value")!),
+      }
+    })
   const pages = $(".page-chapter img")
     .toArray()
     .map((page) => {
@@ -23,7 +34,7 @@ export default function chap(html: string, now: number) {
     .toArray()
     .map((item) => parseComment($(item), now))
 
-  return { updated, pages, comments }
+  return { name, updated, chapters, pages, comments }
 }
 
 const replaceHosts = {
@@ -55,7 +66,7 @@ export const SERVERS: {
     get: (item) => item.original,
   },
   {
-    name: "Server 2",
+    name: "Server 3",
     has: () => true,
     get: (item) =>
       `https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&resize_h=0&rewriteMime=image%2F*&url=${encodeURIComponent(
@@ -63,7 +74,7 @@ export const SERVERS: {
       )}`,
   },
   {
-    name: "Server 3",
+    name: "Server 4",
     has: (item) => {
       // eslint-disable-next-line functional/no-loop-statements
       for (const host in replaceHosts) {
@@ -75,13 +86,16 @@ export const SERVERS: {
       // eslint-disable-next-line functional/no-loop-statements
       for (const host in replaceHosts) {
         if (item.original.includes(host))
-          return item.original.replace(host, replaceHosts[host as keyof typeof replaceHosts])
+          return item.original.replace(
+            host,
+            replaceHosts[host as keyof typeof replaceHosts]
+          )
       }
       return item.original
     },
   },
   {
-    name: "Server 4",
+    name: "Server 5",
     has: (item) => item.cdn !== null,
     get: (item) => item.cdn,
   },

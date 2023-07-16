@@ -6,19 +6,40 @@
       "type": "Tình trạng",
       "key": "status",
       "items": [
-        { "value": "0", "name": "Đang tiến hành" },
-        { "value": "2", "name": "Hoàn thành" }
+        {
+          "value": "0",
+          "name": "Đang tiến hành"
+        },
+        {
+          "value": "2",
+          "name": "Hoàn thành"
+        }
       ]
     },
     {
       "type": "Quốc gia",
       "key": "country",
       "items": [
-        { "value": "1", "name": "Trung Quốc" },
-        { "value": "2", "name": "Việt Nam" },
-        { "value": "3", "name": "Hàn Quốc" },
-        { "value": "4", "name": "Nhật Bản" },
-        { "value": "5", "name": "Mỹ" }
+        {
+          "value": "1",
+          "name": "Trung Quốc"
+        },
+        {
+          "value": "2",
+          "name": "Việt Nam"
+        },
+        {
+          "value": "3",
+          "name": "Hàn Quốc"
+        },
+        {
+          "value": "4",
+          "name": "Nhật Bản"
+        },
+        {
+          "value": "5",
+          "name": "Mỹ"
+        }
       ]
     }
   ],
@@ -93,7 +114,7 @@
       "views": 91446007,
       "follows": 42844,
       "tags": ["Action", "Fantasy", "Shounen", "Supernatural", "Manhua"],
-      "description": "Võ đạo đỉnh phong, là cô độc, là tịch mịch, là dài đằng đẵng cầu tác, là cao xử bất thắng hàn\n\nPhát triển trong nghịch cảnh, cầu sinh nơi tuyệt địa, bất khuất không buông tha, mới có thể có thể phá võ chi cực đạo.\n\nLăng Tiêu các thí luyện đệ tử kiêm quét rác gã sai vặt Dương Khai ngẫu lấy được một..."
+      "description": "Võ đạo đỉnh phong, là cô độc, là tịch mịch, là dài đằng đẵng cầu tác, là cao xử bất thắng hàn\r\n\r\nPhát triển trong nghịch cảnh, cầu sinh nơi tuyệt địa, bất khuất không buông tha, mới có thể có thể phá võ chi cực đạo.\r\n\r\nLăng Tiêu các thí luyện đệ tử kiêm quét rác gã sai vặt Dương Khai ngẫu lấy được một..."
     },
     {
       "path": "/truyen-tranh/do-de-cua-ta-deu-la-dai-phan-phai-13414",
@@ -132,7 +153,7 @@
       "views": 52216543,
       "follows": 44777,
       "tags": ["Action", "Fantasy", "Shounen", "Supernatural", "Demons"],
-      "description": "Yuuji Itadori là một thiên tài có tốc độ và sức mạnh, nhưng cậu ấy muốn dành thời gian của mình trong Câu lạc bộ Tâm Linh. Một ngày sau cái chết của ông mình, anh gặp Megumi Fushiguro, người đang tìm kiếm vật thể bị nguyền rủa mà các thành viên CLB đã tìm thấy.\n\n\n\nĐối mặt với những con quái vật ..."
+      "description": "Yuuji Itadori là một thiên tài có tốc độ và sức mạnh, nhưng cậu ấy muốn dành thời gian của mình trong Câu lạc bộ Tâm Linh. Một ngày sau cái chết của ông mình, anh gặp Megumi Fushiguro, người đang tìm kiếm vật thể bị nguyền rủa mà các thành viên CLB đã tìm thấy.\r\n\r\n\r\n\r\nĐối mặt với những con quái vật ..."
     },
     {
       "path": "/truyen-tranh/mashle-magic-and-muscles-8913",
@@ -463,7 +484,7 @@
       "views": 4741846,
       "follows": 17382,
       "tags": ["Action", "Fantasy", "Manhwa", "Webtoon", "Truyện Màu"],
-      "description": "Chỉ mình tôi mới biết được kết cục của thế giới này.\nVào một ngày nọ, nhân vật chính của chúng ta bị kẹt trong thế giới của bộ tiểu thuyết mà anh ấy yêu thích. Anh ấy sẽ làm gì để sống sót? Khi mà thế giới đó là nơi ngập tràn tai ương và hiểm nguy.\nNăng lực của anh ấy? Anh ấy biết mọi tình tiết của ..."
+      "description": "Chỉ mình tôi mới biết được kết cục của thế giới này.\r\nVào một ngày nọ, nhân vật chính của chúng ta bị kẹt trong thế giới của bộ tiểu thuyết mà anh ấy yêu thích. Anh ấy sẽ làm gì để sống sót? Khi mà thế giới đó là nơi ngập tràn tai ương và hiểm nguy.\r\nNăng lực của anh ấy? Anh ấy biết mọi tình tiết của ..."
     },
     {
       "path": "/truyen-tranh/dua-con-cua-than-tuong-9482",
@@ -782,7 +803,7 @@
       "views": 1670751,
       "follows": 6145,
       "tags": ["Action", "Manhua", "Truyện Màu"],
-      "description": "Trên mảnh đất chết này, văn minh nhân loại chỉ có thể kéo dài hơi tàn.\nTừng tòa nhà được gọi là hàng rào dần mọc lên, luật pháp và trật tự sụp đổ.\nCó người nói, khi thảm họa phủ xuống trái đất, ý chí của con người là vũ khí đệ nhất để vượt qua nguy hiểm.\nCó người nói, đừng để bi ai của thời đại trở ..."
+      "description": "Trên mảnh đất chết này, văn minh nhân loại chỉ có thể kéo dài hơi tàn.\r\nTừng tòa nhà được gọi là hàng rào dần mọc lên, luật pháp và trật tự sụp đổ.\r\nCó người nói, khi thảm họa phủ xuống trái đất, ý chí của con người là vũ khí đệ nhất để vượt qua nguy hiểm.\r\nCó người nói, đừng để bi ai của thời đại trở ..."
     }
   ],
   "curPage": 1,

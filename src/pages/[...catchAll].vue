@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center"
+    class="w-full h-full bg-blue text-white text-center q-pa-md flex flex-center"
   >
     <div>
       <div style="font-size: 30vh">404</div>

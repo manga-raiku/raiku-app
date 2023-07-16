@@ -7,6 +7,7 @@ import {
   createWebHashHistory,
   createWebHistory,
 } from "vue-router"
+// import { routes as autoRoutes } from 'vue-router/auto/routes'
 
 /*
  * If not building with SSR mode, you can
@@ -16,10 +17,23 @@ import {
  * async/await or return a Promise which resolves
  * with the Router instance.
  */
-
 const routes = setupLayouts(generatedRoutes)
+routes.unshift({
+  path: "/:mainPath(.*)*/trang-:page(\\d+)",
+  redirect(to) {
+    return `/${(to.params.mainPath as string[]).join("/")}?page=${
+      to.params.page
+    }`
+  },
+})
+routes.push({
+  path: "/:catchAll(.*)*.html",
+  redirect(to) {
+    console.log(to)
+    return `/${(to.params.catchAll as string[]).join("/")}`
+  },
+})
 console.log(routes)
-
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory

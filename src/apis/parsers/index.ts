@@ -59,7 +59,6 @@ export default function index(html: string, now: number) {
         const release = $li.find(".hot").length > 0
         $li.find("strong").remove()
         const name = $li.text().trim()
-        
 
         return { path, time, release, name }
       }),

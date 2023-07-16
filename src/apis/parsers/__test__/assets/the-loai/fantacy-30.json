@@ -1,87 +1,260 @@
 {
-
   "name": "Truyện Fantasy",
   "description": "Thể loại xuất phát từ trí tưởng tượng phong phú, từ pháp thuật đến thế giới trong mơ thậm chí là những câu chuyện thần tiên",
   "filter": [
     {
       "type": "Thể loại truyện",
       "select": [
-        { "path": "/the-loai/action-26.html", "name": "Action" },
-        { "path": "/the-loai/adventure-27.html", "name": "Adventure" },
-        { "path": "/the-loai/anime-62.html", "name": "Anime" },
-        { "path": "/the-loai/chuyen-sinh-91.html", "name": "Chuyển Sinh" },
-        { "path": "/the-loai/co-dai-90.html", "name": "Cổ Đại" },
-        { "path": "/the-loai/comedy-28.html", "name": "Comedy" },
-        { "path": "/the-loai/comic-60.html", "name": "Comic" },
-        { "path": "/the-loai/demons-99.html", "name": "Demons" },
-        { "path": "/the-loai/detective-100.html", "name": "Detective" },
-        { "path": "/the-loai/doujinshi-96.html", "name": "Doujinshi" },
-        { "path": "/the-loai/drama-29.html", "name": "Drama" },
-        { "path": "/the-loai/fantasy-30.html", "name": "Fantasy" },
-        { "path": "/the-loai/gender-bender-45.html", "name": "Gender Bender" },
-        { "path": "/the-loai/harem-47.html", "name": "Harem" },
-        { "path": "/the-loai/historical-51.html", "name": "Historical" },
-        { "path": "/the-loai/horror-44.html", "name": "Horror" },
-        { "path": "/the-loai/huyen-huyen-468.html", "name": "Huyền Huyễn" },
-        { "path": "/the-loai/isekai-85.html", "name": "Isekai" },
-        { "path": "/the-loai/josei-54.html", "name": "Josei" },
-        { "path": "/the-loai/mafia-69.html", "name": "Mafia" },
-        { "path": "/the-loai/magic-58.html", "name": "Magic" },
-        { "path": "/the-loai/manhua-35.html", "name": "Manhua" },
-        { "path": "/the-loai/manhwa-49.html", "name": "Manhwa" },
-        { "path": "/the-loai/martial-arts-41.html", "name": "Martial Arts" },
-        { "path": "/the-loai/military-101.html", "name": "Military" },
-        { "path": "/the-loai/mystery-39.html", "name": "Mystery" },
-        { "path": "/the-loai/ngon-tinh-87.html", "name": "Ngôn Tình" },
-        { "path": "/the-loai/one-shot-95.html", "name": "One shot" },
-        { "path": "/the-loai/psychological-40.html", "name": "Psychological" },
-        { "path": "/the-loai/romance-36.html", "name": "Romance" },
-        { "path": "/the-loai/school-life-37.html", "name": "School Life" },
-        { "path": "/the-loai/sci-fi-43.html", "name": "Sci-fi" },
-        { "path": "/the-loai/seinen-42.html", "name": "Seinen" },
-        { "path": "/the-loai/shoujo-38.html", "name": "Shoujo" },
-        { "path": "/the-loai/shoujo-ai-98.html", "name": "Shoujo Ai" },
-        { "path": "/the-loai/shounen-31.html", "name": "Shounen" },
-        { "path": "/the-loai/shounen-ai-86.html", "name": "Shounen Ai" },
-        { "path": "/the-loai/slice-of-life-46.html", "name": "Slice of life" },
-        { "path": "/the-loai/sports-57.html", "name": "Sports" },
-        { "path": "/the-loai/supernatural-32.html", "name": "Supernatural" },
-        { "path": "/the-loai/tragedy-52.html", "name": "Tragedy" },
-        { "path": "/the-loai/trong-sinh-82.html", "name": "Trọng Sinh" },
-        { "path": "/the-loai/truyen-mau-92.html", "name": "Truyện Màu" },
-        { "path": "/the-loai/webtoon-55.html", "name": "Webtoon" },
-        { "path": "/the-loai/xuyen-khong-88.html", "name": "Xuyên Không" }
+        {
+          "path": "/the-loai/action-26.html",
+          "name": "Action"
+        },
+        {
+          "path": "/the-loai/adventure-27.html",
+          "name": "Adventure"
+        },
+        {
+          "path": "/the-loai/anime-62.html",
+          "name": "Anime"
+        },
+        {
+          "path": "/the-loai/chuyen-sinh-91.html",
+          "name": "Chuyển Sinh"
+        },
+        {
+          "path": "/the-loai/co-dai-90.html",
+          "name": "Cổ Đại"
+        },
+        {
+          "path": "/the-loai/comedy-28.html",
+          "name": "Comedy"
+        },
+        {
+          "path": "/the-loai/comic-60.html",
+          "name": "Comic"
+        },
+        {
+          "path": "/the-loai/demons-99.html",
+          "name": "Demons"
+        },
+        {
+          "path": "/the-loai/detective-100.html",
+          "name": "Detective"
+        },
+        {
+          "path": "/the-loai/doujinshi-96.html",
+          "name": "Doujinshi"
+        },
+        {
+          "path": "/the-loai/drama-29.html",
+          "name": "Drama"
+        },
+        {
+          "path": "/the-loai/fantasy-30.html",
+          "name": "Fantasy"
+        },
+        {
+          "path": "/the-loai/gender-bender-45.html",
+          "name": "Gender Bender"
+        },
+        {
+          "path": "/the-loai/harem-47.html",
+          "name": "Harem"
+        },
+        {
+          "path": "/the-loai/historical-51.html",
+          "name": "Historical"
+        },
+        {
+          "path": "/the-loai/horror-44.html",
+          "name": "Horror"
+        },
+        {
+          "path": "/the-loai/huyen-huyen-468.html",
+          "name": "Huyền Huyễn"
+        },
+        {
+          "path": "/the-loai/isekai-85.html",
+          "name": "Isekai"
+        },
+        {
+          "path": "/the-loai/josei-54.html",
+          "name": "Josei"
+        },
+        {
+          "path": "/the-loai/mafia-69.html",
+          "name": "Mafia"
+        },
+        {
+          "path": "/the-loai/magic-58.html",
+          "name": "Magic"
+        },
+        {
+          "path": "/the-loai/manhua-35.html",
+          "name": "Manhua"
+        },
+        {
+          "path": "/the-loai/manhwa-49.html",
+          "name": "Manhwa"
+        },
+        {
+          "path": "/the-loai/martial-arts-41.html",
+          "name": "Martial Arts"
+        },
+        {
+          "path": "/the-loai/military-101.html",
+          "name": "Military"
+        },
+        {
+          "path": "/the-loai/mystery-39.html",
+          "name": "Mystery"
+        },
+        {
+          "path": "/the-loai/ngon-tinh-87.html",
+          "name": "Ngôn Tình"
+        },
+        {
+          "path": "/the-loai/one-shot-95.html",
+          "name": "One shot"
+        },
+        {
+          "path": "/the-loai/psychological-40.html",
+          "name": "Psychological"
+        },
+        {
+          "path": "/the-loai/romance-36.html",
+          "name": "Romance"
+        },
+        {
+          "path": "/the-loai/school-life-37.html",
+          "name": "School Life"
+        },
+        {
+          "path": "/the-loai/sci-fi-43.html",
+          "name": "Sci-fi"
+        },
+        {
+          "path": "/the-loai/seinen-42.html",
+          "name": "Seinen"
+        },
+        {
+          "path": "/the-loai/shoujo-38.html",
+          "name": "Shoujo"
+        },
+        {
+          "path": "/the-loai/shoujo-ai-98.html",
+          "name": "Shoujo Ai"
+        },
+        {
+          "path": "/the-loai/shounen-31.html",
+          "name": "Shounen"
+        },
+        {
+          "path": "/the-loai/shounen-ai-86.html",
+          "name": "Shounen Ai"
+        },
+        {
+          "path": "/the-loai/slice-of-life-46.html",
+          "name": "Slice of life"
+        },
+        {
+          "path": "/the-loai/sports-57.html",
+          "name": "Sports"
+        },
+        {
+          "path": "/the-loai/supernatural-32.html",
+          "name": "Supernatural"
+        },
+        {
+          "path": "/the-loai/tragedy-52.html",
+          "name": "Tragedy"
+        },
+        {
+          "path": "/the-loai/trong-sinh-82.html",
+          "name": "Trọng Sinh"
+        },
+        {
+          "path": "/the-loai/truyen-mau-92.html",
+          "name": "Truyện Màu"
+        },
+        {
+          "path": "/the-loai/webtoon-55.html",
+          "name": "Webtoon"
+        },
+        {
+          "path": "/the-loai/xuyen-khong-88.html",
+          "name": "Xuyên Không"
+        }
       ]
     },
     {
       "type": "Tình trạng",
       "key": "status",
       "items": [
-        { "value": "0", "name": "Đang tiến hành" },
-        { "value": "2", "name": "Hoàn thành" }
+        {
+          "value": "0",
+          "name": "Đang tiến hành"
+        },
+        {
+          "value": "2",
+          "name": "Hoàn thành"
+        }
       ]
     },
     {
       "type": "Quốc gia",
       "key": "country",
       "items": [
-        { "value": "1", "name": "Trung Quốc" },
-        { "value": "2", "name": "Việt Nam" },
-        { "value": "3", "name": "Hàn Quốc" },
-        { "value": "4", "name": "Nhật Bản" },
-        { "value": "5", "name": "Mỹ" }
+        {
+          "value": "1",
+          "name": "Trung Quốc"
+        },
+        {
+          "value": "2",
+          "name": "Việt Nam"
+        },
+        {
+          "value": "3",
+          "name": "Hàn Quốc"
+        },
+        {
+          "value": "4",
+          "name": "Nhật Bản"
+        },
+        {
+          "value": "5",
+          "name": "Mỹ"
+        }
       ]
     },
     {
       "type": "Sắp xếp",
       "key": "sort",
       "items": [
-        { "value": "0", "name": "Ngày đăng giảm dần" },
-        { "value": "1", "name": "Ngày đăng tăng dần" },
-        { "value": "2", "name": "Ngày cập nhật giảm dần" },
-        { "value": "3", "name": "Ngày cập nhật tăng dần" },
-        { "value": "4", "name": "Lượt xem giảm dần" },
-        { "value": "5", "name": "Lượt xem tăng dần" }
+        {
+          "value": "0",
+          "name": "Ngày đăng giảm dần"
+        },
+        {
+          "value": "1",
+          "name": "Ngày đăng tăng dần"
+        },
+        {
+          "value": "2",
+          "name": "Ngày cập nhật giảm dần"
+        },
+        {
+          "value": "3",
+          "name": "Ngày cập nhật tăng dần"
+        },
+        {
+          "value": "4",
+          "name": "Lượt xem giảm dần"
+        },
+        {
+          "value": "5",
+          "name": "Lượt xem tăng dần"
+        }
       ]
     }
   ],
@@ -95,7 +268,7 @@
         "name": "Chapter 7"
       },
       "updated": 1687962321636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 11801,
       "follows": 347,
@@ -107,7 +280,7 @@
         "Manhwa",
         "Truyện Màu"
       ],
-      "description": "Lucifer, một thiên thần thích chiến đấu và ghét thua cuộc, dành cả ngày để chiến đấu. Trong trận chiến với Satan, anh bất ngờ bị phản bội, và anh rơi vào thời đại hiện tại nơi quỷ và người cùng tồn tại hàng trăm năm sau.\nLucifer, người đã mất tất cả mọi thứ kể cả sức mạnh của mình, đã tiến hóa và có..."
+      "description": "Lucifer, một thiên thần thích chiến đấu và ghét thua cuộc, dành cả ngày để chiến đấu. Trong trận chiến với Satan, anh bất ngờ bị phản bội, và anh rơi vào thời đại hiện tại nơi quỷ và người cùng tồn tại hàng trăm năm sau.\r\nLucifer, người đã mất tất cả mọi thứ kể cả sức mạnh của mình, đã tiến hóa và có..."
     },
     {
       "path": "/truyen-tranh/chau-trai-cua-nam-chinh-rat-thich-toi-14316",
@@ -118,7 +291,7 @@
         "name": "Chapter 23"
       },
       "updated": 1688221521636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 33347,
       "follows": 427,
@@ -134,7 +307,7 @@
         "name": "Chapter 21"
       },
       "updated": 1687962321636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 61181,
       "follows": 770,
@@ -150,7 +323,7 @@
         "name": "Chapter 58.2"
       },
       "updated": 1687703121636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 26967,
       "follows": 198,
@@ -173,12 +346,12 @@
         "name": "Chapter 7"
       },
       "updated": 1688459121636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 9727,
       "follows": 162,
       "tags": ["Action", "Comedy", "Fantasy", "Supernatural", "Shoujo"],
-      "description": "\"Làm ơn, giúp tôi chết đi!\"\nChán sống, Mimi đã nhiều lần cố gắng tự kết liễu đời mình. Cô ấy rất thất vọng, bằng cách nào đó, cuối cùng cô ấy luôn sống sót. Nhưng sau đó, cô tình cờ thấy một trang web có tên \"Ngọn nến chết chóc\" và kết thúc việc ký hợp đồng với một con quỷ chết chóc: nếu Mimi giúp a..."
+      "description": "\"Làm ơn, giúp tôi chết đi!\"\r\nChán sống, Mimi đã nhiều lần cố gắng tự kết liễu đời mình. Cô ấy rất thất vọng, bằng cách nào đó, cuối cùng cô ấy luôn sống sót. Nhưng sau đó, cô tình cờ thấy một trang web có tên \"Ngọn nến chết chóc\" và kết thúc việc ký hợp đồng với một con quỷ chết chóc: nếu Mimi giúp a..."
     },
     {
       "path": "/truyen-tranh/bac-thay-kiem-su-cap-9-nguoi-bao-ve-kiem-14202",
@@ -189,7 +362,7 @@
         "name": "Chapter 16"
       },
       "updated": 1685888721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 27833,
       "follows": 430,
@@ -205,7 +378,7 @@
         "name": "Chapter 34"
       },
       "updated": 1685888721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 13257,
       "follows": 130,
@@ -221,7 +394,7 @@
         "name": "Chapter 23"
       },
       "updated": 1687962321636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 39211,
       "follows": 493,
@@ -237,7 +410,7 @@
         "name": "Chapter 11"
       },
       "updated": 1685888721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 11568,
       "follows": 188,
@@ -253,7 +426,7 @@
         "name": "Chapter 23"
       },
       "updated": 1687962321636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 20301,
       "follows": 308,
@@ -265,7 +438,7 @@
         "Manhwa",
         "Truyện Màu"
       ],
-      "description": "\"Nhớ lấy\", \"Một, hai, ba, bốn, năm, sáu, bảy \"\n\"Tao...tao phải...nhớ đến cùng...\"\nNgày mà người vợ mà tôi yêu quý bị giết bởi những tên khốn đó, tâm trí tôi toàn là cảnh báo thù. Đúng vậy, tao phải giết lũ khốn nạn đó. \"Ngày mà tôi chết sau khi báo thù cho vợ tôi, hãy chôn tôi bên cạnh cô ấy\". Giờ đ..."
+      "description": "\"Nhớ lấy\", \"Một, hai, ba, bốn, năm, sáu, bảy \"\r\n\"Tao...tao phải...nhớ đến cùng...\"\r\nNgày mà người vợ mà tôi yêu quý bị giết bởi những tên khốn đó, tâm trí tôi toàn là cảnh báo thù. Đúng vậy, tao phải giết lũ khốn nạn đó. \"Ngày mà tôi chết sau khi báo thù cho vợ tôi, hãy chôn tôi bên cạnh cô ấy\". Giờ đ..."
     },
     {
       "path": "/truyen-tranh/toi-thang-cap-tot-dinh-vi-la-1-kol-14161",
@@ -292,7 +465,7 @@
         "name": "Chapter 16"
       },
       "updated": 1687098321636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 52763,
       "follows": 725,
@@ -308,7 +481,7 @@
         "name": "Chapter 23.2"
       },
       "updated": 1688307921636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 21590,
       "follows": 224,
@@ -324,7 +497,7 @@
         "name": "Chapter 25.2"
       },
       "updated": 1688048721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 31436,
       "follows": 249,
@@ -340,7 +513,7 @@
         "name": "Chapter 10"
       },
       "updated": 1685888721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 21119,
       "follows": 344,
@@ -363,12 +536,12 @@
         "name": "Chapter 5"
       },
       "updated": 1685888721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 4610,
       "follows": 14,
       "tags": ["Comedy", "Drama", "Fantasy", "Manhwa", "Webtoon"],
-      "description": "Truyện: Thay đổi tôi phần 4.\nNội dung: Chị vợ bị chồng lừa dối và giết hại. Đổi mặt quay lại để trả thù."
+      "description": "Truyện: Thay đổi tôi phần 4.\r\nNội dung: Chị vợ bị chồng lừa dối và giết hại. Đổi mặt quay lại để trả thù."
     },
     {
       "path": "/truyen-tranh/su-tro-lai-ma-duoc-su-cap-fff-14031",
@@ -407,7 +580,7 @@
         "Cổ Đại",
         "Truyện Màu"
       ],
-      "description": "Hee Ran, cháu gái của Mazon, đã sống một cuộc sống xa xỉ và hưởng lạc. Nhưng vào ngày nọ, cô đã bị mẹ kế sát hại một cách thê thảm.\n“May thay, tôi được quay trở về quá khứ”\nCô quyết tâm sẽ trả thù mẹ kế, sẽ khiến bà ta trả giá bằng mạng sống của chính mình.\n“Thật hạnh phúc!”\nCô đã từ bỏ việc trả thù..."
+      "description": "Hee Ran, cháu gái của Mazon, đã sống một cuộc sống xa xỉ và hưởng lạc. Nhưng vào ngày nọ, cô đã bị mẹ kế sát hại một cách thê thảm.\r\n“May thay, tôi được quay trở về quá khứ”\r\nCô quyết tâm sẽ trả thù mẹ kế, sẽ khiến bà ta trả giá bằng mạng sống của chính mình.\r\n“Thật hạnh phúc!”\r\nCô đã từ bỏ việc trả thù..."
     },
     {
       "path": "/truyen-tranh/ngay-ca-khi-la-ac-nu-toi-van-se-tro-thanh-nu-chinh-14018",
@@ -418,7 +591,7 @@
         "name": "Chapter 108"
       },
       "updated": 1687011921636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 87902,
       "follows": 645,
@@ -434,7 +607,7 @@
         "name": "Chapter 3"
       },
       "updated": 1680704721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 7508,
       "follows": 210,
@@ -447,7 +620,7 @@
         "Ngôn Tình",
         "Truyện Màu"
       ],
-      "description": "Tôi đã sở hữu cơ thể của một nhân vật trong trò chơi. Tôi đã cống hiến hết sức mình cho nhân vật chính nhưng…tôi lại bị vứt đi như một đôi giày cũ.\nMột người bất ngờ xuất hiện trước mặt tôi ngay lúc tôi đang run lên vì cảm giác bị phản bội. Meyer Knox, hiệp sĩ đen và cũng là trùm cuối của trò chơi n..."
+      "description": "Tôi đã sở hữu cơ thể của một nhân vật trong trò chơi. Tôi đã cống hiến hết sức mình cho nhân vật chính nhưng…tôi lại bị vứt đi như một đôi giày cũ.\r\nMột người bất ngờ xuất hiện trước mặt tôi ngay lúc tôi đang run lên vì cảm giác bị phản bội. Meyer Knox, hiệp sĩ đen và cũng là trùm cuối của trò chơi n..."
     },
     {
       "path": "/truyen-tranh/binh-vuong-chuyen-sinh-13991",
@@ -482,7 +655,7 @@
         "name": "Chapter 16"
       },
       "updated": 1686579921636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 49328,
       "follows": 761,
@@ -505,7 +678,7 @@
         "name": "Chapter 9"
       },
       "updated": 1686407121636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 22068,
       "follows": 378,
@@ -528,7 +701,7 @@
         "name": "Chapter 69"
       },
       "updated": 1688221521636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 79804,
       "follows": 612,
@@ -551,7 +724,7 @@
         "name": "Chapter 5"
       },
       "updated": 1680704721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 4676,
       "follows": 54,
@@ -591,7 +764,7 @@
         "name": "Chapter 38"
       },
       "updated": 1688048721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 81531,
       "follows": 781,
@@ -607,7 +780,7 @@
         "name": "Chapter 33"
       },
       "updated": 1688135121636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 75378,
       "follows": 795,
@@ -630,7 +803,7 @@
         "name": "Chapter 5"
       },
       "updated": 1678112721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 13470,
       "follows": 162,
@@ -654,7 +827,7 @@
         "name": "Chapter 33"
       },
       "updated": 1687875921636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 78810,
       "follows": 903,
@@ -678,7 +851,7 @@
         "name": "Chapter 24.1"
       },
       "updated": 1683296721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 54045,
       "follows": 571,
@@ -701,7 +874,7 @@
         "name": "Chapter 21"
       },
       "updated": 1685888721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 25576,
       "follows": 335,
@@ -724,12 +897,12 @@
         "name": "Chapter 25"
       },
       "updated": 1686579921636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 56099,
       "follows": 760,
       "tags": ["Drama", "Fantasy", "Manhwa", "Ngôn Tình", "Truyện Màu"],
-      "description": "Tôi đã sở hữu cơ thể của một nhân vật trong cuốn tiểu thuyết. Trong cuốn tiểu thuyết đó, tôi là fan cứng của OTP ‘nữ chính × hoàng đế’\nCái ngày mà giọt nước mắt của tôi rơi xuống vì hai nhân vật yêu thích của mình không đến được với nhau, tôi đã được chuyển đến đây để trải nghiệm qua câu chuyện này...."
+      "description": "Tôi đã sở hữu cơ thể của một nhân vật trong cuốn tiểu thuyết. Trong cuốn tiểu thuyết đó, tôi là fan cứng của OTP ‘nữ chính × hoàng đế’\r\nCái ngày mà giọt nước mắt của tôi rơi xuống vì hai nhân vật yêu thích của mình không đến được với nhau, tôi đã được chuyển đến đây để trải nghiệm qua câu chuyện này...."
     },
     {
       "path": "/truyen-tranh/quy-co-ngan-hang-13828",
@@ -740,7 +913,7 @@
         "name": "Chapter 3"
       },
       "updated": 1678112721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 7481,
       "follows": 178,
@@ -761,7 +934,7 @@
       "views": 109680,
       "follows": 1143,
       "tags": ["Drama", "Fantasy", "Manhwa", "Cổ Đại", "Truyện Màu"],
-      "description": "Rõ ràng đó là trò đùa của Chúa.\n“Bạn đời của điện hạ là tiểu thư hầu tước Rurtella”\nNgay khi sinh ra, tôi đã được chọn làm thái tử phi và sống theo cách đó. Nhưng mọi thứ đã thay đổi trong một buổi sáng. Quyền lực, địa vị, thái độ của mọi người.\nTôi đã nghĩ rằng tình yêu của anh ta sẽ không thay đổi..."
+      "description": "Rõ ràng đó là trò đùa của Chúa.\r\n“Bạn đời của điện hạ là tiểu thư hầu tước Rurtella”\r\nNgay khi sinh ra, tôi đã được chọn làm thái tử phi và sống theo cách đó. Nhưng mọi thứ đã thay đổi trong một buổi sáng. Quyền lực, địa vị, thái độ của mọi người.\r\nTôi đã nghĩ rằng tình yêu của anh ta sẽ không thay đổi..."
     },
     {
       "path": "/truyen-tranh/tro-thanh-co-chau-gai-bi-khinh-miet-cua-gia-toc-vo-lam-13758",
@@ -772,7 +945,7 @@
         "name": "Chapter 42"
       },
       "updated": 1687962321636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 153208,
       "follows": 1545,
@@ -784,7 +957,7 @@
         "Ngôn Tình",
         "Truyện Màu"
       ],
-      "description": "Cô xuyên không trở thành một nhân vật chính trong thế giới võ lâm. Cô trở thành BaekRi Yeon, đứa con gái ngốc nghếch và quậy phá của BaekRi Eui Kang, một người thầy chân chính và là người đã dẫn dắt nhân vật nam chính trở thành một anh hùng.\nSau khi bất ngờ bị giết, cô mở mắt ra và trở thành một đứa..."
+      "description": "Cô xuyên không trở thành một nhân vật chính trong thế giới võ lâm. Cô trở thành BaekRi Yeon, đứa con gái ngốc nghếch và quậy phá của BaekRi Eui Kang, một người thầy chân chính và là người đã dẫn dắt nhân vật nam chính trở thành một anh hùng.\r\nSau khi bất ngờ bị giết, cô mở mắt ra và trở thành một đứa..."
     },
     {
       "path": "/truyen-tranh/khong-co-noi-nao-danh-cho-cong-chua-gia-mao-13755",
@@ -808,7 +981,7 @@
         "Ngôn Tình",
         "Truyện Màu"
       ],
-      "description": "Philomel – công chúa giả mạo – âm mưu cùng mẹ đóng giả thân phận công chúa và là người đã gây ra cuộc chiến giữa Tháp Pháp sư và Đế quốc.\nKhi tội ác của cô bị vạch trần, cô đã bị kết án tử hình.\nCái chết này thật sự phù hợp với một kẻ ác-\n“Kể cả khi Philomel đã làm những điều sai trái, thì vẫn không..."
+      "description": "Philomel – công chúa giả mạo – âm mưu cùng mẹ đóng giả thân phận công chúa và là người đã gây ra cuộc chiến giữa Tháp Pháp sư và Đế quốc.\r\nKhi tội ác của cô bị vạch trần, cô đã bị kết án tử hình.\r\nCái chết này thật sự phù hợp với một kẻ ác-\r\n“Kể cả khi Philomel đã làm những điều sai trái, thì vẫn không..."
     },
     {
       "path": "/truyen-tranh/vi-khach-dac-biet-cua-toi-13754",
@@ -819,7 +992,7 @@
         "name": "Chapter 9"
       },
       "updated": 1680704721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 13922,
       "follows": 162,
@@ -843,7 +1016,7 @@
         "name": "Chapter 23"
       },
       "updated": 1685888721636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 47032,
       "follows": 737,
@@ -883,7 +1056,7 @@
         "name": "Chapter 13"
       },
       "updated": 1687357521636,
-      "label": null,
+      "label": "",
       "status": "Đang Cập Nhật",
       "views": 25077,
       "follows": 392,
@@ -913,7 +1086,7 @@
       "views": 134097,
       "follows": 1132,
       "tags": ["Fantasy", "Manhwa", "Ngôn Tình", "Cổ Đại", "Truyện Màu"],
-      "description": "Cháu trai của người buôn đồ cổ và công chúa ăn xin kết hôn với nhau.\nThời hạn hiệu lực là hai năm, và đó là một hợp đồng để thúc đẩy lợi ích hai bên.\nMột sĩ quan hải quân đầy triển vọng và một người đàn ông siêu giàu có, cháu trai của một người buôn bán đồ cổ, người bị coi thường vì dòng máu tầm thư..."
+      "description": "Cháu trai của người buôn đồ cổ và công chúa ăn xin kết hôn với nhau.\r\nThời hạn hiệu lực là hai năm, và đó là một hợp đồng để thúc đẩy lợi ích hai bên.\r\nMột sĩ quan hải quân đầy triển vọng và một người đàn ông siêu giàu có, cháu trai của một người buôn bán đồ cổ, người bị coi thường vì dòng máu tầm thư..."
     }
   ],
   "curPage": 1,

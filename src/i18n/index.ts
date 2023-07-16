@@ -1,40 +1,6 @@
 import ISO6391 from "iso-639-1"
 
-export function loadLocalize(
-  locale: Readonly<
-    Readonly<
-      Readonly<
-        Readonly<
-          Readonly<
-            Readonly<
-              Readonly<
-                Readonly<
-                  Readonly<
-                    Readonly<
-                      Readonly<
-                        Readonly<
-                          Readonly<
-                            Readonly<
-                              Readonly<
-                                Readonly<
-                                  Readonly<Readonly<Readonly<Readonly<string>>>>
-                                >
-                              >
-                            >
-                          >
-                        >
-                      >
-                    >
-                  >
-                >
-              >
-            >
-          >
-        >
-      >
-    >
-  >
-) {
+export function loadLocalize(locale: string) {
   return import(`./messages/${locale}.json`).then((res) => res.default)
 }
 

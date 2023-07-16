@@ -1,4 +1,4 @@
-import dayjs from "dayjs"
+import dayjs from "src/logic/dayjs"
 import { boot } from "quasar/wrappers"
 import { loadLocalize } from "src/i18n"
 import enUS from "src/i18n/messages/en-US.json"
@@ -30,12 +30,12 @@ export default boot(({ app }) => {
   watch(
     () => settingsStore.locale,
     async (locale) => {
-      const messages = await loadLocalize(locale)
-
-      i18n.global.setLocaleMessage(locale, messages)
-      ;(i18n.global.locale as Ref<string>).value = locale
       document.querySelector("html")?.setAttribute("lang", locale)
       dayjs.locale(locale)
+
+      const messages = await loadLocalize(locale)
+      i18n.global.setLocaleMessage(locale, messages)
+      ;(i18n.global.locale as Ref<string>).value = locale
     },
     { immediate: true }
   )

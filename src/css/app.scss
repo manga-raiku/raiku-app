@@ -1,16 +1,49 @@
 // app global css in SCSS form
 
 body {
+  // #0d070a
   --q-dark-page: rgb(17, 19, 25);
+  --sakura: #f27fb5;
 }
 
 .c--main,
 .text-main {
-  color: rgb(0, 194, 52);
+  color: #f27fb5;
+}
+.text-main-2 {
+  color: #f3d3e2;
+}
+.text-main-3 {
+  color: #f8c1d5;
+}
+.text-main-4 {
+  color: #fbe0ef;
+}
+.\!text-main-2 {
+  color: #f3d3e2 !important;
+}
+.\!text-main-3 {
+  color: #f8c1d5 !important;
+}
+.\!text-main-4 {
+  color: #fbe0ef !important;
+}
+.hover\:\!text-main-3:hover {
+  color: #f8c1d5 !important;
+}
+.text-yellow {
+  color: #fdd835;
+}
+.text-secondary {
+  color: #dcdce6;
 }
 
 .\!text-main {
-  color: rgb(0, 194, 52) !important;
+  color: #f27fb5 !important;
+}
+
+.text-blue-x {
+  color: #32aaff;
 }
 
 .bg-dark-page {
@@ -22,7 +55,17 @@ body {
 }
 
 .bg-main {
-  background-color: rgb(0, 194, 52) !important;
+  background-color: #f27fb5 !important;
+}
+
+.bg-main-2 {
+  background-color: #f3d3e2 !important;
+}
+.bg-main-3 {
+  background-color: #f8c1d5 !important;
+}
+.bg-main-4 {
+  background-color: #fbe0ef !important;
 }
 
 .children\:before\:block > *:before {
@@ -100,4 +143,12 @@ body {
   & * {
     visibility: visible !important;
   }
+}
+
+.text-weight-normal {
+  font-weight: 400;
+}
+
+.w-full {
+  width: 100% !important;
 }

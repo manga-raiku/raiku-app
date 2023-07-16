@@ -11,7 +11,8 @@
     "types": [
       "vitest/globals",
       "vite-plugin-pages/client",
-      "vite-plugin-vue-layouts/client"
+      "vite-plugin-vue-layouts/client",
+      "unplugin-vue-macros/macros-global" 
     ],
     "esModuleInterop": true,
     "lib": ["esnext", "DOM"]

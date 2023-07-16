@@ -1,42 +1,521 @@
+<route lang="yaml">
+meta:
+  transparentHeader: true
+  offset: true
+</route>
+
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
-  </q-page>
+  <swiper
+    :spaceBetween="10"
+    :centeredSlides="true"
+    :modules="[Autoplay, Carousel]"
+    loop
+    :autoplay="{
+      delay: 5000,
+      disableOnInteraction: false,
+    }"
+    class="swiper-hot z--1"
+  >
+    <swiper-slide
+      v-for="(item, index) in data.sliders"
+      :key="index"
+      v-ripple
+      class="flex items-center"
+      @click="router.push(item.path)"
+    >
+      <div
+        class="flex items-center justify-center w-full h-full backdrop-bg"
+        :style="{
+          '--data-src': `url(${item.image})`,
+        }"
+      >
+        <img
+          no-spinner
+          :src="item.image"
+          :ratio="583 / 306"
+          referrerpolicy="no-referrer"
+          class="poster z-1 h-full block"
+        />
+      </div>
+    </swiper-slide>
+    <div class="drop-left z-2"></div>
+    <div class="drop-center z-2"></div>
+    <div class="drop-right z-2"></div>
+    <!--
+          <div class="swiper-mark-left" />
+          <div class="swiper-mark-right" /> -->
+
+    <div class="drop-left"></div>
+    <div class="drop-center"></div>
+    <div class="drop-right"></div>
+    <div class="info">
+      <div class="flex line-clamp-2 items-center">
+        <div class="text-weight-medium">{{ " item.name " }}</div>
+      </div>
+      <div class="focus-item-info">
+        <span class="focus-item-update">
+          {{ "item.chapter " }}
+        </span>
+      </div>
+      <div class="focus-item-desc">
+        {{ "item.description " }}
+      </div>
+
+      <!-- action -->
+
+      <q-btn rounded class="bg-main mt-4" no-caps>
+        <Icon
+          icon="fluent:play-24-filled"
+          width="1.3em"
+          height="1.3em"
+          class="mr-2"
+        />
+        Đọc ngay
+      </q-btn>
+    </div>
+    <div
+      class="mark-b w-full h-[30%] z-101 absolute bottom-0 pointer-events-none z-200"
+      :style="{
+        'background-image': `linear-gradient(
+                rgba(17, 19, 25, 0) 2%,
+                rgb(17, 19, 25) 94%
+              )`,
+      }"
+    />
+  </swiper>
+
+  <div class="px-4 md:px-13 relative">
+    <swiper
+      :slides-per-view="6"
+      :navigation="{
+        nextEl: '.swiper-button-next-1',
+        prevEl: '.swiper-button-prev-1',
+      }"
+      :modules="[Navigation]"
+      :breakpoints="{
+        [$q.screen.sizes.sm]: {
+          slidesPerView: 4,
+        },
+        [$q.screen.sizes.md]: {
+          slidesPerView: 6,
+        },
+      }"
+    >
+      <swiper-slide v-for="item in data.hot" :key="item.name" class="card-wrap">
+        <Card :data="item" />
+      </swiper-slide>
+    </swiper>
+
+    <div class="nav-btn swiper-button-prev swiper-button-prev-1" />
+    <div class="nav-btn swiper-button-next swiper-button-next-1" />
+  </div>
+
+  <!-- show genres -->
+  <section
+    class="mx-10 mb-5 mt-7 flex flex-nowrap items-center justify-between"
+  >
+    <div>
+      <q-btn
+        v-for="item in genres"
+        :key="item.name"
+        :to="item.path"
+        no-caps
+        rounded
+        unelevated
+        class="text-15px font-family-poppins hover:!text-main-3 transition-color duration-200"
+        >{{ item.name }}</q-btn
+      >
+    </div>
+    <q-btn
+      no-caps
+      rounded
+      unelevated
+      class="text-15px font-family-poppins text-main-4"
+    >
+      Tất cả thể loại
+      <Icon
+        icon="fluent:chevron-right-24-regular"
+        width="1.3rem"
+        height="1.3rem"
+      />
+    </q-btn>
+  </section>
+  <!-- /show genres -->
+
+  <section class="mx-10">
+    <BannerTitle>Mới cập nhật</BannerTitle>
+    <GridCard :items="data.update" />
+  </section>
 </template>
 
 <script setup lang="ts">
-import ExampleComponent from "components/ExampleComponent.vue"
-import type { Meta, Todo } from "components/models"
-import { ref } from "vue"
+import data from "src/apis/parsers/__test__/assets/index.json"
 
-const todos = ref<Todo[]>([
+import { Autoplay, Navigation } from "swiper"
+import { Swiper, SwiperSlide } from "swiper/vue"
+
+import { Icon } from "@iconify/vue"
+import "@fontsource/poppins"
+
+// Import Swiper styles
+import "swiper/css"
+import "swiper/css/pagination"
+import "swiper/css/navigation"
+import "swiper/css/autoplay"
+import "swiper/css/grid"
+// Import Swiper Vue.js components
+
+function Carousel({ swiper, on }) {
+  on("beforeInit", () => {
+    if (swiper.params.effect !== "carousel") return
+    swiper.classNames.push(`${swiper.params.containerModifierClass}carousel`)
+    const newParams = {
+      watchSlidesProgress: true,
+      centeredSlides: true,
+    }
+    Object.assign(swiper.params, newParams)
+    Object.assign(swiper.originalParams, newParams)
+  })
+  on("progress", () => {
+    if (swiper.params.effect !== "carousel") return
+    const numSlides = swiper.slides.length
+    for (let i = 0; i < numSlides; i++) {
+      const slide = swiper.slides[i]
+      const progress = slide.progress
+      const absProgress = Math.abs(progress)
+      let scale = 1
+      if (absProgress > 1) scale = 0.3 * (absProgress - 1) + 1
+      const opacityEls = slide.querySelectorAll(
+        ".swiper-carousel-animate-opacity"
+      )
+      const translateX =
+        progress * scale * 50 * (swiper.rtlTranslate ? -1 : 1) + "%"
+      const scaleVal = 1 - 0.2 * absProgress
+      const zIndex = numSlides - Math.abs(Math.round(progress))
+      slide.style.transform = `translateX(${translateX}) scale(${scaleVal})`
+      slide.style.zIndex = zIndex
+      slide.style.opacity = absProgress > 3 ? 0 : 1
+      opacityEls.forEach((el) => {
+        el.style.opacity = 1 - absProgress / 3
+      })
+    }
+  })
+  on("setTransition", (duration, speed) => {
+    if (swiper.params.effect === "carousel") {
+      for (let i = 0; i < swiper.slides.length; i++) {
+        const slide = swiper.slides[i]
+        const opacityEls = slide.querySelectorAll(
+          ".swiper-carousel-animate-opacity"
+        )
+        slide.style.transitionDuration = `${speed}ms`
+        opacityEls.forEach((el) => {
+          el.style.transitionDuration = `${speed}ms`
+        })
+      }
+    }
+  })
+}
+const genres = [
   {
-    id: 1,
-    content: "ct1",
+    name: "Con gái",
+    path: "/truyen-con-gai",
   },
   {
-    id: 2,
-    content: "ct2",
+    name: "Con trai",
+    path: "/truyen-con-trai",
   },
   {
-    id: 3,
-    content: "ct3",
+    name: "Action",
+    path: "/the-loai/action-26",
   },
   {
-    id: 4,
-    content: "ct4",
+    name: "Isekai",
+    path: "/the-loai/isekai-85",
   },
   {
-    id: 5,
-    content: "ct5",
+    name: "Con gái",
+    path: "/truyen-con-gai",
   },
-])
-const meta = ref<Meta>({
-  totalCount: 1200,
-})
+  {
+    name: "Con trai",
+    path: "/truyen-con-trai",
+  },
+  {
+    name: "Action",
+    path: "/the-loai/action-26",
+  },
+  {
+    name: "Isekai",
+    path: "/the-loai/isekai-85",
+  },
+]
 </script>
+
+<style lang="scss" scoped>
+.nav-btn {
+  width: 2em;
+  height: 2em;
+  --swiper-navigation-size: 25px;
+  font-weight: bold;
+  color: white;
+
+  &.swiper-button {
+    &-next {
+      right: 30px;
+    }
+
+    &-prev {
+      left: 30px;
+    }
+  }
+}
+
+.swiper-hot {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: -15.5%;
+  cursor: pointer;
+  z-index: 0;
+  width: 100%;
+  height: 48vw; //56vw;
+  max-height: 1012px;
+
+  @media screen and (max-width: 767px) {
+    margin-bottom: 16px;
+    height: auto;
+
+    .poster {
+      height: max(calc(100vw / v-bind("aspectRatio")), 40vh, 56vw);
+    }
+  }
+
+  @media (min-width: $breakpoint-sm-min) {
+    margin-bottom: -10%;
+  }
+
+  @media (min-width: $breakpoint-md-min) {
+    margin-bottom: -16%;
+  }
+
+  .drop {
+    &-left {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 30%;
+      height: 100%;
+      background: linear-gradient(
+        269deg,
+        rgba(20, 30, 51, 0) 1%,
+        rgba(20, 30, 51, 0.02) 10%,
+        rgba(20, 30, 51, 0.05) 18%,
+        rgba(20, 30, 51, 0.12) 25%,
+        rgba(20, 30, 51, 0.2) 32%,
+        rgba(20, 30, 51, 0.29) 38%,
+        rgba(20, 30, 51, 0.39) 44%,
+        rgba(20, 30, 51, 0.5) 50%,
+        rgba(20, 30, 51, 0.61) 57%,
+        rgba(20, 30, 51, 0.71) 63%,
+        rgba(20, 30, 51, 0.8) 69%,
+        rgba(20, 30, 51, 0.88) 76%,
+        rgba(20, 30, 51, 0.95) 83%,
+        rgba(20, 30, 51, 0.98) 91%,
+        rgb(20, 30, 51) 100%
+      );
+      z-index: 101;
+
+      @media screen and (max-width: 767px) {
+        display: none;
+      }
+    }
+
+    &-center {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 120px;
+      opacity: 0.7;
+      background-image: linear-gradient(
+        179.5deg,
+        rgba(17, 19, 25, 0.88) 0%,
+        rgba(17, 19, 25, 0.89) 9%,
+        rgba(17, 19, 25, 0.85) 17%,
+        rgba(17, 19, 25, 0.79) 24%,
+        rgba(17, 19, 25, 0.72) 31%,
+        rgba(17, 19, 25, 0.64) 37%,
+        rgba(17, 19, 25, 0.55) 44%,
+        rgba(17, 19, 25, 0.45) 50%,
+        rgba(17, 19, 25, 0.35) 56%,
+        rgba(17, 19, 25, 0.26) 63%,
+        rgba(17, 19, 25, 0.18) 69%,
+        rgba(17, 19, 25, 0.11) 76%,
+        rgba(17, 19, 25, 0.05) 83%,
+        rgba(17, 19, 25, 0.01) 91%,
+        rgba(17, 19, 25, 0) 100%
+      );
+    }
+
+    &-right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 15%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        rgba(20, 30, 51, 0) 1%,
+        rgba(20, 30, 51, 0.02) 10%,
+        rgba(20, 30, 51, 0.05) 18%,
+        rgba(20, 30, 51, 0.12) 25%,
+        rgba(20, 30, 51, 0.2) 32%,
+        rgba(20, 30, 51, 0.29) 38%,
+        rgba(20, 30, 51, 0.39) 44%,
+        rgba(20, 30, 51, 0.5) 50%,
+        rgba(20, 30, 51, 0.61) 57%,
+        rgba(20, 30, 51, 0.71) 63%,
+        rgba(20, 30, 51, 0.8) 69%,
+        rgba(20, 30, 51, 0.88) 76%,
+        rgba(20, 30, 51, 0.95) 83%,
+        rgba(20, 30, 51, 0.98) 91%,
+        rgb(20, 30, 51) 100%
+      );
+      z-index: 101;
+
+      @media screen and (max-width: 1808px) {
+        display: none;
+      }
+    }
+  }
+
+  .info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 123;
+    color: rgb(255, 255, 255);
+    width: 100%;
+    padding: 60px 30px calc(15% + 24px + 3.5vw) (30px + 64);
+    // padding-top: 0;
+    background-image: linear-gradient(
+      -180deg,
+      rgba(0, 0, 0, 0) 0,
+      #000000 100%
+    );
+
+    @media (min-width: $breakpoint-sm-min) {
+      font-size: 1.3rem;
+    }
+
+    @media screen and (max-width: 1023px) and (min-width: 768px) {
+      padding: {
+        left: 56px;
+        bottom: calc(15% + 16px + 36px);
+      }
+    }
+
+    @media screen and (max-width: 767px) {
+      padding: {
+        bottom: 20px;
+        left: 15px;
+      }
+    }
+
+    .focus-item-info {
+      max-width: 80%;
+      font-weight: 500;
+      margin-top: 12px;
+      display: flex;
+      font-size: 12px;
+      align-items: center;
+    }
+
+    .focus-item-desc {
+      width: 31.25vw;
+      min-width: 320px;
+      overflow: hidden;
+      height: 32px;
+      line-height: 16px;
+      margin-top: 12px;
+      font-size: 14px;
+      display: -webkit-box;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      text-shadow: rgb(0 0 0 / 50%) 0px 1px 2px;
+      font-weight: 400; //500;
+
+      @media screen and (max-width: 1023px) and (min-width: 768px) {
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.swiper-mark-left,
+.swiper-mark-right {
+  background-image: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.8),
+    rgba(43, 43, 43, 0)
+  );
+  @apply absolute top-0 left-0 h-full;
+  width: 20%;
+  z-index: 10;
+}
+
+.swiper-mark-right {
+  @apply left-auto right-0;
+  transform: scaleX(-1);
+}
+
+.backdrop-bg {
+  @apply relative;
+}
+
+.backdrop-bg:before {
+  content: "";
+  @apply absolute w-full h-full top-0 left-0;
+  background-image: var(--data-src);
+
+  background: {
+    repeat: no-repeat;
+    size: cover;
+    position: center;
+  }
+
+  filter: blur(60px);
+}
+
+.card-wrap {
+  $offset: 0; //0.1;
+  display: inline-block;
+  white-space: initial;
+
+  width: 280px;
+  // class="col-4 col-lg-3 col-xl-2 px-[5px] py-2"
+  // max-width: calc((100% - 16px) / #{3 + $offset});
+  // padding-right: 8px;
+
+  // @media (min-width: $breakpoint-sm-min) {
+  //   max-width: calc((100% - 48px) / #{4 + $offset});
+  //   padding-right: 24px;
+  // }
+  // @media (min-width: $breakpoint-md-min) {
+  //   max-width: calc((100%-48px) / #{6 + $offset});
+  //   padding-right: 24px;
+  // }
+  max-width: (100% / 3);
+  padding: 0 4px;
+
+  @media (min-width: $breakpoint-sm-min) {
+    max-width: (100% / 4);
+    padding: 0 14px;
+  }
+
+  @media (min-width: $breakpoint-md-min) {
+    max-width: (100% / 6);
+  }
+}
+</style>

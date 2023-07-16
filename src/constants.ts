@@ -1,1 +1,1 @@
-export const C_URL = 'https://truyenqqq.vn'
+export const C_URL = "https://truyenqqq.vn"

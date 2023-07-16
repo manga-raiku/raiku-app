@@ -7,6 +7,8 @@ import { parsePath } from "../__helpers__/parsePath"
 export default function manga(html: string, now: number) {
   const $ = parseDom(html)
 
+  const id = parseInt($("#book_id").attr("value")!)
+  const team_id = parseInt($("#team_id").attr("value")!)
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const image = $(".book_avatar img").attr("src")!
   const name = $(".book_other h1").text().trim()
@@ -21,6 +23,7 @@ export default function manga(html: string, now: number) {
   const follows = parseInt(
     $(".status").next().next().find("p:not(.name)").text().replace(/,/g, "")
   )
+  const followed = $(".btn-subscribe .fa-heart").length === 0
   const views = parseInt(
     $(".status")
       .next()
@@ -44,6 +47,7 @@ export default function manga(html: string, now: number) {
       return {
         ...parseAnchor($item.find("a")),
         update: parseDate($time.text()),
+        active: $item.find(".active").length > 0,
       }
     })
   const comments = $(".info-comment")
@@ -51,6 +55,8 @@ export default function manga(html: string, now: number) {
     .map((item) => parseComment($(item), now))
 
   return {
+    id,
+    team_id,
     image,
     name,
     othername,
@@ -58,6 +64,7 @@ export default function manga(html: string, now: number) {
     status,
     likes,
     follows,
+    followed,
     views,
     genres,
     readContinue,

@@ -1,24 +1,44 @@
 <template>
   <q-layout view="hHh Lpr lFf">
     <q-header
+      v-if="route.meta?.hiddenHeader !== true"
       class="bg-dark-page py-1 px-2"
       :class="{
         '!bg-transparent': route.meta?.transparentHeader,
       }"
     >
       <q-toolbar>
-        <router-link to="/" class="flex flex-nowrap items-end">
+        <router-link to="/" class="flex flex-nowrap items-end mr-8">
           <img src="~assets/app_icon.svg" width="35" height="35" />
-          <span style="font-family: Caveat" class="text-[25px]"
+          <span style="font-family: Caveat" class="text-[25px] text-main"
             >Manga Raiku</span
           >
         </router-link>
+
+        <router-link
+          to="/"
+          class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
+          exact-active-class="!text-main-3 text-weight-medium"
+          >Trang chủ</router-link
+        >
+        <router-link
+          to="/genres"
+          class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
+          exact-active-class="!text-main-3 text-weight-medium"
+          >Thể loại</router-link
+        >
+        <router-link
+          to="/bang-xep-hang/ngay"
+          class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
+          exact-active-class="!text-main-3 text-weight-medium"
+          >Bảng xếp hạng</router-link
+        >
 
         <q-space />
 
         <form
           @submit.prevent="router.push(`/tim-kiem/${query}`)"
-          class="relative md:min-w-[164px] md:w-full max-w-[598px]"
+          class="relative md:min-w-[164px] md:w-full max-w-370px"
         >
           <q-input
             v-model="query"
@@ -95,12 +115,10 @@
                 class="relative"
                 v-ripple
               >
-                <router-link
-                  :to="item.path"
-                  class="flex flex-nowrap mt-5 mx-4"
-                >
+                <router-link :to="item.path" class="flex flex-nowrap mt-5 mx-4">
                   <div>
-                    <q-img-custom
+                    <q-img
+                      no-spinner
                       :ratio="267 / 400"
                       :src="item.image"
                       referrerpolicy="no-referrer"
@@ -126,8 +144,6 @@
             </ul>
           </transition>
         </form>
-
-        <q-space />
 
         <q-btn round unelevated class="mr-2">
           <q-circular-progress
@@ -283,7 +299,18 @@
     </q-header>
 
     <q-page-container>
-      <q-page :style-fn="route.meta?.styleFn">
+      <q-page
+        :style-fn="
+          route.meta?.offset
+            ? (offset, height) => ({
+                height: height + 'px',
+                marginTop: (route.meta.existsFooter ? (-offset / 2) : -offset)+ 'px',
+                marginBottom: (route.meta.existsFooter ? (-offset / 2 + 'px') : undefined),
+              })
+            : undefined
+        "
+        :padding="route.meta?.padding"
+      >
         <router-view v-if="Http.version" v-slot="{ Component }">
           <component :is="Component" />
         </router-view>
@@ -291,24 +318,34 @@
       </q-page>
     </q-page-container>
   </q-layout>
+
+  <canvas
+    class="hidden fixed z-0 top-0 left-0"
+    ref="canvasRef"
+    :width="$q.screen.width"
+    :height="$q.screen.height"
+  />
 </template>
 
 <script lang="ts" setup>
 import "@fontsource/caveat"
 
+import "@fontsource/poppins"
 // =========== suth
 
 import { useEventListener } from "@vueuse/core"
 import { Http } from "client-ext-animevsub-helper"
 import { debounce, QInput } from "quasar"
 import LichSu from "src/apis/runs/lich-su"
-import PreSearch from "src/apis/runs/pre-search"
+import PreSearch from "src/apis/runs/frontend/pre-search"
 import TruyenDangTheoDoi from "src/apis/runs/truyen-dang-theo-doi"
 import { installedSW, updatingCache } from "src/logic/state-sw"
 import { computed, ref, watch } from "vue"
 import { useI18n } from "vue-i18n"
 import { useRequest } from "vue-request"
 import { useRoute, useRouter } from "vue-router"
+
+import { Icon } from "@iconify/vue"
 
 import NotExistsExtension from "./NotExistsExtension.vue"
 
@@ -319,6 +356,18 @@ const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const authStore = { isLogged: false }
+const $q = useQuasar()
+
+const canvasRef = ref<HTMLCanvasElement>()
+const instance = getCurrentInstance()
+watch(canvasRef, (ref) => {
+  if (!ref || true) return
+
+  const { draw, stop } = useSakura(ref)
+
+  draw()
+  onBeforeUnmount(stop, instance)
+})
 
 const query = ref("")
 const {

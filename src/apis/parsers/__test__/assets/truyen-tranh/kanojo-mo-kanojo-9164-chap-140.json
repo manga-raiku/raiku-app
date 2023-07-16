@@ -1,5 +1,564 @@
 {
+  "name": "Kanojo Mo Kanojo",
   "updated": 1687910817000,
+  "chapters": [
+    {
+      "name": "Chương 141",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-141.html"
+    },
+    {
+      "name": "Chương 140",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.html"
+    },
+    {
+      "name": "Chương 139",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-139.html"
+    },
+    {
+      "name": "Chương 138",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-138.html"
+    },
+    {
+      "name": "Chương 137",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-137.html"
+    },
+    {
+      "name": "Chương 136",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-136.html"
+    },
+    {
+      "name": "Chương 135",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-135.html"
+    },
+    {
+      "name": "Chương 134",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-134.html"
+    },
+    {
+      "name": "Chương 133",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-133.html"
+    },
+    {
+      "name": "Chương 132",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-132.html"
+    },
+    {
+      "name": "Chương 131",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-131.html"
+    },
+    {
+      "name": "Chương 130",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-130.html"
+    },
+    {
+      "name": "Chương 129",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-129.html"
+    },
+    {
+      "name": "Chương 128",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-128.html"
+    },
+    {
+      "name": "Chương 127",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-127.html"
+    },
+    {
+      "name": "Chương 126",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-126.html"
+    },
+    {
+      "name": "Chương 125",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-125.html"
+    },
+    {
+      "name": "Chương 124",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-124.html"
+    },
+    {
+      "name": "Chương 123",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-123.html"
+    },
+    {
+      "name": "Chương 122",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-122.html"
+    },
+    {
+      "name": "Chương 121",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-121.html"
+    },
+    {
+      "name": "Chương 120",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-120.html"
+    },
+    {
+      "name": "Chương 119",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-119.html"
+    },
+    {
+      "name": "Chương 118",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-118.html"
+    },
+    {
+      "name": "Chương 117",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-117.html"
+    },
+    {
+      "name": "Chương 116",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-116.html"
+    },
+    {
+      "name": "Chương 115",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-115.html"
+    },
+    {
+      "name": "Chương 114",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-114.html"
+    },
+    {
+      "name": "Chương 113",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-113.html"
+    },
+    {
+      "name": "Chương 112",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-112.html"
+    },
+    {
+      "name": "Chương 111",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-111.html"
+    },
+    {
+      "name": "Chương 110",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-110.html"
+    },
+    {
+      "name": "Chương 109",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-109.html"
+    },
+    {
+      "name": "Chương 108",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-108.html"
+    },
+    {
+      "name": "Chương 107",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-107.html"
+    },
+    {
+      "name": "Chương 106",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-106.html"
+    },
+    {
+      "name": "Chương 105",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-105.html"
+    },
+    {
+      "name": "Chương 104",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-104.html"
+    },
+    {
+      "name": "Chương 103",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-103.html"
+    },
+    {
+      "name": "Chương 102",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-102.html"
+    },
+    {
+      "name": "Chương 101",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-101.html"
+    },
+    {
+      "name": "Chương 100.5",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-100-5.html"
+    },
+    {
+      "name": "Chương 100",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-100.html"
+    },
+    {
+      "name": "Chương 99",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-99.html"
+    },
+    {
+      "name": "Chương 98",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-98.html"
+    },
+    {
+      "name": "Chương 97",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-97.html"
+    },
+    {
+      "name": "Chương 96",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-96.html"
+    },
+    {
+      "name": "Chương 95",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-95.html"
+    },
+    {
+      "name": "Chương 94",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-94.html"
+    },
+    {
+      "name": "Chương 93",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-93.html"
+    },
+    {
+      "name": "Chương 92",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-92.html"
+    },
+    {
+      "name": "Chương 91",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-91.html"
+    },
+    {
+      "name": "Chương 90",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-90.html"
+    },
+    {
+      "name": "Chương 89",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-89.html"
+    },
+    {
+      "name": "Chương 88",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-88.html"
+    },
+    {
+      "name": "Chương 87",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-87.html"
+    },
+    {
+      "name": "Chương 86",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-86.html"
+    },
+    {
+      "name": "Chương 85",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-85.html"
+    },
+    {
+      "name": "Chương 84",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-84.html"
+    },
+    {
+      "name": "Chương 83",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-83.html"
+    },
+    {
+      "name": "Chương 82",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-82.html"
+    },
+    {
+      "name": "Chương 81",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-81.html"
+    },
+    {
+      "name": "Chương 80",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-80.html"
+    },
+    {
+      "name": "Chương 79",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-79.html"
+    },
+    {
+      "name": "Chương 78",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-78.html"
+    },
+    {
+      "name": "Chương 78",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-78.html"
+    },
+    {
+      "name": "Chương 77",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-77.html"
+    },
+    {
+      "name": "Chương 76",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-76.html"
+    },
+    {
+      "name": "Chương 75",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-75.html"
+    },
+    {
+      "name": "Chương 74",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-74.html"
+    },
+    {
+      "name": "Chương 73",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-73.html"
+    },
+    {
+      "name": "Chương 72",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-72.html"
+    },
+    {
+      "name": "Chương 71",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-71.html"
+    },
+    {
+      "name": "Chương 70",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-70.html"
+    },
+    {
+      "name": "Chương 69",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-69.html"
+    },
+    {
+      "name": "Chương 68",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-68.html"
+    },
+    {
+      "name": "Chương 67",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-67.html"
+    },
+    {
+      "name": "Chương 66",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-66.html"
+    },
+    {
+      "name": "Chương 65",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-65.html"
+    },
+    {
+      "name": "Chương 64",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-64.html"
+    },
+    {
+      "name": "Chương 63",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-63.html"
+    },
+    {
+      "name": "Chương 62",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-62.html"
+    },
+    {
+      "name": "Chương 61",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-61.html"
+    },
+    {
+      "name": "Chương 60",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-60.html"
+    },
+    {
+      "name": "Chương 59",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-59.html"
+    },
+    {
+      "name": "Chương 58",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-58.html"
+    },
+    {
+      "name": "Chương 57",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-57.html"
+    },
+    {
+      "name": "Chương 56",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-56.html"
+    },
+    {
+      "name": "Chương 55",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-55.html"
+    },
+    {
+      "name": "Chương 54",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-54.html"
+    },
+    {
+      "name": "Chương 53",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-53.html"
+    },
+    {
+      "name": "Chương 52",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-52.html"
+    },
+    {
+      "name": "Chương 51",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-51.html"
+    },
+    {
+      "name": "Chương 50",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-50.html"
+    },
+    {
+      "name": "Chương 49",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-49.html"
+    },
+    {
+      "name": "Chương 48",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-48.html"
+    },
+    {
+      "name": "Chương 47",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-47.html"
+    },
+    {
+      "name": "Chương 46",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-46.html"
+    },
+    {
+      "name": "Chương 45",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-45.html"
+    },
+    {
+      "name": "Chương 44",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-44.html"
+    },
+    {
+      "name": "Chương 43",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-43.html"
+    },
+    {
+      "name": "Chương 42",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-42.html"
+    },
+    {
+      "name": "Chương 41",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-41.html"
+    },
+    {
+      "name": "Chương 40",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-40.html"
+    },
+    {
+      "name": "Chương 39",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-39.html"
+    },
+    {
+      "name": "Chương 34",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-34.html"
+    },
+    {
+      "name": "Chương 33",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-33.html"
+    },
+    {
+      "name": "Chương 32",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-32.html"
+    },
+    {
+      "name": "Chương 31",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-31.html"
+    },
+    {
+      "name": "Chương 30",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-30.html"
+    },
+    {
+      "name": "Chương 29",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-29.html"
+    },
+    {
+      "name": "Chương 28",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-28.html"
+    },
+    {
+      "name": "Chương 27",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-27.html"
+    },
+    {
+      "name": "Chương 26",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-26.html"
+    },
+    {
+      "name": "Chương 25",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-25.html"
+    },
+    {
+      "name": "Chương 24",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-24.html"
+    },
+    {
+      "name": "Chương 23",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-23.html"
+    },
+    {
+      "name": "Chương 22",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-22.html"
+    },
+    {
+      "name": "Chương 21",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-21.html"
+    },
+    {
+      "name": "Chương 20",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-20.html"
+    },
+    {
+      "name": "Chương 19",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-19.html"
+    },
+    {
+      "name": "Chương 18",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-18.html"
+    },
+    {
+      "name": "Chương 17",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-17.html"
+    },
+    {
+      "name": "Chương 16",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-16.html"
+    },
+    {
+      "name": "Chương 15",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-15.html"
+    },
+    {
+      "name": "Chương 14",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-14.html"
+    },
+    {
+      "name": "Chương 13",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-13.html"
+    },
+    {
+      "name": "Chương 12",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-12.html"
+    },
+    {
+      "name": "Chương 11",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-11.html"
+    },
+    {
+      "name": "Chương 10",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-10.html"
+    },
+    {
+      "name": "Chương 9",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-9.html"
+    },
+    {
+      "name": "Chương 8",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-8.html"
+    },
+    {
+      "name": "Chương 7",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-7.html"
+    },
+    {
+      "name": "Chương 6",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-6.html"
+    },
+    {
+      "name": "Chương 5",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-5.html"
+    },
+    {
+      "name": "Chương 4",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-4.html"
+    },
+    {
+      "name": "Chương 3",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-3.html"
+    },
+    {
+      "name": "Chương 2",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-2.html"
+    },
+    {
+      "name": "Chương 1",
+      "path": "/truyen-tranh/kanojo-mo-kanojo-9164-chap-1.html"
+    }
+  ],
   "pages": [
     {
       "src": "https://truyenvua.com/9164/fix-140/0.jpg?gt=hdfgdfg&mobile=2",
@@ -74,28 +633,36 @@
   ],
   "comments": [
     {
+      "id": 3085628,
       "author": {
-        "avatar": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+        "avatar": "https://avatar.truyenvua.com/160x160/avatar_1686648148.jpg?gt=hdfgdfg&mobile=2",
         "name": "Q Q",
-        "level": { "type": "5", "name": "Cấp 5" }
+        "level": {
+          "type": "5",
+          "name": "Cấp 5"
+        }
       },
-      "content": "<strong></strong> Bộ này cách xây tình tiết tình cảm về sau nó thực tế vl ấy dù ban đầu hơi cringe.<br></br>Vd như chap vừa r hẹn hò tụi nó đi làm những thứ nó thích , muốn để tạo kỉ niệm mới dù k thành nhưng vẫn có thể nhớ về.Cùng đọc manga , cắm trại , du lịch bụi, vượt khó...<br></br>Mấy bộ kia xem phim , thủy cung , đi ăn r về nó rập khuôn vl.",
+      "content": "<strong></strong> B&#x1ed9; n&#xe0;y c&#xe1;ch x&#xe2;y t&#xec;nh ti&#x1ebf;t t&#xec;nh c&#x1ea3;m v&#x1ec1; sau n&#xf3; th&#x1ef1;c t&#x1ebf; vl &#x1ea5;y d&#xf9; ban &#x111;&#x1ea7;u h&#x1a1;i cringe.<br>Vd nh&#x1b0; chap v&#x1eeb;a r h&#x1eb9;n h&#xf2; t&#x1ee5;i n&#xf3; &#x111;i l&#xe0;m nh&#x1eef;ng th&#x1ee9; n&#xf3; th&#xed;ch , mu&#x1ed1;n &#x111;&#x1ec3; t&#x1ea1;o k&#x1ec9; ni&#x1ec7;m m&#x1edb;i d&#xf9; k th&#xe0;nh nh&#x1b0;ng v&#x1eab;n c&#xf3; th&#x1ec3; nh&#x1edb; v&#x1ec1;.C&#xf9;ng &#x111;&#x1ecd;c manga , c&#x1eaf;m tr&#x1ea1;i , du l&#x1ecb;ch b&#x1ee5;i, v&#x1b0;&#x1ee3;t kh&#xf3;...<br>M&#x1ea5;y b&#x1ed9; kia xem phim , th&#x1ee7;y cung , &#x111;i &#x103;n r v&#x1ec1; n&#xf3; r&#x1ead;p khu&#xf4;n vl.",
       "likes": 0,
       "time": 1688028090762,
       "replies": 0,
-      "canDeleted": false
+      "canDelete": false
     },
     {
+      "id": 3085232,
       "author": {
-        "avatar": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+        "avatar": "https://avatar.truyenvua.com/160x160/avatar_1625527616.jpg?gt=hdfgdfg&mobile=2",
         "name": "Ok Ok",
-        "level": { "type": "6", "name": "Nguyên Soái" }
+        "level": {
+          "type": "6",
+          "name": "Nguyên Soái"
+        }
       },
-      "content": "<strong></strong> cắt mẹ cu đi là xong",
+      "content": "<strong></strong> c&#x1eaf;t m&#x1eb9; cu &#x111;i l&#xe0; xong",
       "likes": 0,
       "time": 1688028090762,
       "replies": 1,
-      "canDeleted": false
+      "canDelete": false
     }
   ]
 }

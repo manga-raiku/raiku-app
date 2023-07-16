@@ -92,6 +92,6 @@ module.exports = {
     "vue/no-use-v-if-with-v-for": "off",
     "functional/prefer-immutable-types": "off",
     "@typescript-eslint/space-before-blocks": "off",
-    "no-undef": "off"
+    "no-undef": "off",
   },
 }

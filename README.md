@@ -4,6 +4,13 @@
 
 A Manga Raiku Application
 
+## Tube on
+
+[ ] add comment
+[ ] page & player read
+[ ] player mobile
+[ ] player desktop
+
 ## Install the dependencies
 
 ```bash
