@@ -29,12 +29,14 @@ export function useScrollInertia(
       if (isScrollXDown ? speedX > 0 : speedX < 0) speedX = 0
       else {
         diffXZoom.value += speedX
-        speedX += spreadXDetail
+        if (Math.abs(speedX) < Math.abs(spreadXDetail)) speedX = 0
+        else speedX += spreadXDetail
       }
 
       if (isScrollYDown ? speedY > 0 : speedY < 0) speedY = 0
       else {
         diffYZoom.value += speedY
+        if (Math.abs(speedY) < Math.abs(spreadXDetail)) speedY = 0
         speedY += spreadYDetail
       }
 

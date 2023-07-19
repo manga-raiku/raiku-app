@@ -44,14 +44,14 @@ meta:
     :sizes="readerHorizontalRef?.sizes"
     :current-page="currentPage"
     :size-page="sizePage"
-    :meta-ep="metaEp"
+    :meta-ep="currentEpisode?.value"
   />
   <!-- /float absolute button -->
   <FloatingStatusMobile
     v-else
     :current-page="currentPage"
     :size-page="sizePage"
-    :meta-ep="metaEp"
+    :meta-ep="currentEpisode?.value"
   />
 
   <FabShowToolbar v-if="$q.screen.gt.xs" @click="showToolbar = true" />
@@ -106,7 +106,9 @@ meta:
         no-caps
         :rounded="!$q.screen.lt.md"
         :round="$q.screen.lt.md"
+        :disable="!previousEpisode"
         class="<md:order-1"
+        :to="previousEpisode?.value.path"
       >
         <Icon
           v-if="$q.screen.lt.md && scrollingMode"
@@ -114,12 +116,23 @@ meta:
           class="size-1.8em"
         />
         <template v-else>Previous</template>
+
+        <q-tooltip
+          anchor="bottom middle"
+          self="top middle"
+          class="bg-dark text-14px text-weight-medium"
+          transition-show="jump-up"
+          transition-hide="jump-down"
+          >Chương trước: {{ previousEpisode?.value.name }}</q-tooltip
+        >
       </q-btn>
       <q-btn
         no-caps
         :rounded="!$q.screen.lt.md"
         :round="$q.screen.lt.md"
+        :disable="!nextEpisode"
         class="<md:order-3"
+        :to="nextEpisode?.value.path"
       >
         <Icon
           v-if="$q.screen.lt.md && scrollingMode"
@@ -127,6 +140,15 @@ meta:
           class="size-1.8em"
         />
         <template v-else>Next</template>
+
+        <q-tooltip
+          anchor="bottom middle"
+          self="top middle"
+          class="bg-dark text-14px text-weight-medium"
+          transition-show="jump-up"
+          transition-hide="jump-down"
+          >Chương sau: {{ nextEpisode?.value.name }}</q-tooltip
+        >
       </q-btn>
 
       <div class="md:display-none w-full order-4" />
@@ -363,10 +385,6 @@ const currentPage = useClamp(0, minPage, maxPage)
 
 const showToolbar = ref(true)
 
-const metaEp = computed(() =>
-  data.chapters.find((item) => pathEqual(item.path, route.path))
-)
-
 const showTutorialHorizontal = ref(false)
 watch(scrollingMode, (scrollingMode) => {
   showTutorialHorizontal.value = !scrollingMode
@@ -379,6 +397,45 @@ function onClickReader() {
     showToolbar.value = !showToolbar.value
   }
 }
+
+// TODO: calculate previous episode and next episode
+const currentEpisode = computed(() => {
+  let index = -1
+  const value = data.chapters.find((item, i) => {
+    if (pathEqual(item.path, route.path)) {
+      index = i
+      return true
+    }
+
+    return false
+  })
+
+  if (!value) return
+
+  return { index, value } as const
+})
+const previousEpisode = computed(() => {
+  const current = currentEpisode.value
+  if (!current) return
+
+  const index = current.index - 1
+  const value = data.chapters[index]
+
+  if (!value) return
+
+  return { index, value } as const
+})
+const nextEpisode = computed(() => {
+  const current = currentEpisode.value
+  if (!current) return
+
+  const index = current.index + 1
+  const value = data.chapters[index]
+
+  if (!value) return
+
+  return { index, value } as const
+})
 </script>
 
 <!-- <swiper
