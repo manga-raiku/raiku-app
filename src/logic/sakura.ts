@@ -128,7 +128,7 @@ export function useSakura(element: HTMLCanvasElement) {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const ctx = element.getContext("2d")!
 
-  let stoped = false
+  let stopped = false
   const draw = () => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
@@ -142,11 +142,11 @@ export function useSakura(element: HTMLCanvasElement) {
         sakura.delete(item)
     })
 
-    if (!stoped) requestAnimationFrame(draw)
+    if (!stopped) requestAnimationFrame(draw)
   }
 
   const stop = () => {
-    stoped = true
+    stopped = true
   }
 
   return { draw, stop }
