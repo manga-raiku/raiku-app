@@ -244,7 +244,7 @@ devDependencies:
     specifier: ^5.2.0
     version: 5.2.0
   cypress:
-    specifier: ^12.2.0
+    specifier: ^12.17.0
     version: 12.17.0
   dotenv:
     specifier: ^16.3.1

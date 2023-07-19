@@ -3,7 +3,9 @@
     class="fixed right-0 bottom-0 py-3px px-4 leading-normal bg-#100 bg-opacity-60 text-#fff text-12px font-family-poppins"
   >
     {{ currentPage + 1 }}/{{ sizePage
-    }}<span class="ml-2">Ep. {{ normalizeChName(metaEp.name) }}</span>
+    }}<span class="ml-2"
+      >Ep. {{ metaEp ? normalizeChName(metaEp.name) : "_" }}</span
+    >
   </div>
 </template>
 
@@ -14,7 +16,7 @@ defineProps<{
   currentPage: number
   sizePage: number
 
-  metaEp: {
+  metaEp?: {
     name: string
   }
 }>()

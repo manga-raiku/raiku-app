@@ -58,7 +58,7 @@
               ? pages.slice(0).reverse()
               : pages"
             :key="index"
-            :single-page="sizes.get(index)?.[0] > 1200"
+            :single-page="sizes.get(index)?.[0]! > 1200"
             :prime="index % 2 === 0"
             :src="src"
             @load="
@@ -98,7 +98,7 @@ const emit = defineEmits<{
   // (name: "next"): void
 }>()
 
-const sizes = shallowReactive<Map<string, [number, number]>>(new Map())
+const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(
   () => props.pages,
   () => sizes.clear()
@@ -112,7 +112,8 @@ const sizePage = computed(() => {
 
   return Math.ceil(
     props.pages.reduce((prev, item, index) => {
-      if (sizes.get(index)?.[0] > 1_200) prev += 2
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
+      if (sizes.get(index)?.[0]! > 1_200) prev += 2
       else prev += 0.5
 
       return prev
@@ -295,7 +296,7 @@ function onMouseMove(event: MouseEvent) {
 
   console.log("log ", lastMouseDiff, diffX, diffY)
 }
-function onMouseUp(event) {
+function onMouseUp(event: MouseEvent) {
   mouseDowned = true
   // mouseZooming.value = false
   lastMouseOff = null
@@ -313,7 +314,7 @@ function onWheel(event: WheelEvent) {
 
   if (event.altKey) diffXZoom.value += -event.deltaY / 2
   else {
-    if (diffYZoom.value === maxDiffY.value && event.deltaY < -0) {
+    if (diffYZoom.value === maxDiffY.value && event.deltaY < 0) {
       prev()
       diffYZoom.value = minDiffY.value
       return

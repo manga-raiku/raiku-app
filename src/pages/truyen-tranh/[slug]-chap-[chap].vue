@@ -328,11 +328,9 @@ meta:
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue"
 import { useClamp } from "@vueuse/math"
+import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/parsers/truyen-tranh/[slug]-chap-[chap]"
-import img_single from "src/assets/img_single.png?url"
-import img_double from "src/assets/img_double.png?url"
-import { normalizeChName } from "src/logic/normalize-ch-name"
 
 defineProps<{
   slug: string

@@ -22,10 +22,10 @@
       </template>
       <template v-else>
         <span class="absolute top-1/2 left-1/4 translate--1/2">
-          {{ indexed?.[absCurrentPage]?.[rightToLeft ? 1 : 0]  }}
+          {{ indexed?.[absCurrentPage]?.[rightToLeft ? 1 : 0] }}
         </span>
         <span class="absolute top-1/2 left-3/4 translate--1/2">
-          {{ indexed?.[absCurrentPage]?.[rightToLeft ? 0 : 1]  }}
+          {{ indexed?.[absCurrentPage]?.[rightToLeft ? 0 : 1] }}
         </span>
       </template>
     </div>
@@ -36,14 +36,16 @@
           Math.round(((absCurrentPage + 1) / sizePage) * 100)
         }}%)
       </div>
-      <div>Ep. {{ normalizeChName(metaEp.name) }}</div>
+      <div>Ep. {{ metaEp ? normalizeChName(metaEp?.name) : "_" }}</div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import img_single from "src/assets/img_single.png?url"
+// eslint-disable-next-line camelcase
 import img_double from "src/assets/img_double.png?url"
+// eslint-disable-next-line camelcase
+import img_single from "src/assets/img_single.png?url"
 import { normalizeChName } from "src/logic/normalize-ch-name"
 
 const props = defineProps<{
@@ -52,11 +54,11 @@ const props = defineProps<{
   rightToLeft: boolean
   pagesLength: number
 
-  sizes?: Map<string, [number, number]>
+  sizes?: Map<number, readonly [number, number]>
   currentPage: number
   sizePage: number
 
-  metaEp: {
+  metaEp?: {
     name: string
   }
 }>()
@@ -67,11 +69,11 @@ const indexed = computed(() => {
   if (!props.sizes) return
   const indexed: [number, number?][] = []
 
-const iMax= props.sizes.size-1
+  const iMax = props.sizes.size - 1
   for (let i = 0; i < props.sizes.size; i++) {
     const val = props.sizes.get(i)
 
-    if (val?.[0] > 1_200 || i ===iMax) {
+    if ((val && val?.[0] > 1_200) || i === iMax) {
       // single page
       indexed.push([i + 1])
       continue

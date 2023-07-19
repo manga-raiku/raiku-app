@@ -105,9 +105,9 @@ function onTouchMove(event: TouchEvent | MouseEvent) {
   const touch = currIsTouch ? findTouch(event.touches, lastStartTouch) : event
   if (!touch) return
 
-  if (event.touches?.length > 2) {
-    return
-  }
+  // if (event.touches?.length > 2) {
+  //   return
+  // }
 
   if (
     !canGo ||

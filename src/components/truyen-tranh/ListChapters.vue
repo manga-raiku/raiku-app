@@ -32,7 +32,10 @@
       class="px-0"
       :class="classPanel"
     >
-      <ul class="row mx--2" :ref="($el) => (ulPanelRef = $el)">
+      <ul
+        class="row mx--2"
+        :ref="($el) => (ulPanelRef = ($el as HTMLUListElement))"
+      >
         <li
           v-for="item in items"
           :key="item.path"
@@ -121,7 +124,7 @@ watch(ulPanelRef, (ulPanelRef) => {
   setTimeout(() => {
     // ulPanelRef.querySelector(".reading")?.scrollIntoView({ behavior: 'smooth' })
 
-    const reading = ulPanelRef.querySelector(".reading")
+    const reading = ulPanelRef.querySelector(".reading") as HTMLElement | null
     if (reading) scrollYIntoView(reading)
   }, 70)
 })

@@ -33,7 +33,7 @@
         "
         :style="{
           width: sizes.has(index)
-            ? `${(sizes.get(index)?.[0] * zoom) / 100}px`
+            ? `${(sizes.get(index)?.[0]! * zoom) / 100}px`
             : widthImageDefault,
           height: sizes.has(index) ? undefined : heightImageDefault,
         }"
@@ -59,7 +59,7 @@ const emit = defineEmits<{
   // (name: "next"): void
 }>()
 
-const sizes = shallowReactive<Map<string, [number, number]>>(new Map())
+const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(
   () => props.pages,
   () => sizes.clear()
@@ -71,7 +71,6 @@ const { width: pWidth, height: pHeight } = useElementSize(parentRef)
 const { width: oWidth, height: oHeight } = useElementSize(overflowRef)
 
 const oWidthH = computed(() => oWidth.value / 2)
-const oHeightH = computed(() => oHeight.value / 2)
 
 const widthImageDefault = computed(
   () => sizes.get(0)?.[0] ?? pWidth.value * 0.8
@@ -82,35 +81,24 @@ const heightImageDefault = computed(
 
 const minDiffX = computed(() => -Math.abs(pWidth.value - oWidth.value) / 2)
 const minDiffY = computed(
-  () => -Math.abs(pHeight.value - oHeight.value) /* / 2*/
+  () => -Math.abs(pHeight.value - oHeight.value) /* / 2 */
 )
 const maxDiffX = computed(() => -minDiffX.value)
-const maxDiffY = computed(() => 0 /*-minDiffY.value*/)
+const maxDiffY = computed(() => 0 /* -minDiffY.value */)
 
 const diffXZoom = useClamp(0, minDiffX, maxDiffX)
 const diffYZoom = useClamp(0, minDiffY, maxDiffY)
 const mouseZooming = ref(false)
 const scrollInertia = useScrollInertia(diffXZoom, diffYZoom, mouseZooming)
 
-function prev() {
-  console.log("prev")
-  // emit("prev")
-  emit("update:current-page", props.currentPage - 1)
-}
-function next() {
-  console.log("next")
-  // emit("next")
-  emit("update:current-page", props.currentPage + 1)
-}
 
-let lastStartTouch: Touch | null = null
-function onTouchStart(event: TouchEvent) {
+let lastStartTouch: Touch | MouseEvent | null = null
+function onTouchStart(event: TouchEvent | MouseEvent) {
   if (mouseDowned) return
   mouseDowned = true
 
-  lastStartTouch = event.touches?.[0] ?? event
+  lastStartTouch = isTouchEvent(event) ? event.touches?.[0] : event
 
-  lastMouseOff = { x: lastStartTouch.clientX, y: lastStartTouch.clientY }
   ;[lastMouseDiff.x, lastMouseDiff.y] = [diffXZoom.value, diffYZoom.value]
   console.log("log")
 }
@@ -121,7 +109,7 @@ function onTouchMove(event: TouchEvent) {
 
   if (lastIsTouch !== currIsTouch) return
 
-  const touch = currIsTouch ? findTouch(event.touches, lastStartTouch) : event
+  const touch = currIsTouch ? findTouch(event.touches, lastStartTouch as Touch) : event
   if (!touch) return
 
   const [diffX, diffY] = [
@@ -147,7 +135,7 @@ function onTouchEnd(event: TouchEvent) {
   if (lastIsTouch !== currIsTouch) return
 
   const touch = currIsTouch
-    ? findTouch(event.changedTouches, lastStartTouch)
+    ? findTouch(event.changedTouches, lastStartTouch as Touch)
     : event
   if (!touch) return
 
@@ -158,7 +146,6 @@ function onTouchEnd(event: TouchEvent) {
 }
 
 let mouseDowned = false
-let lastMouseOff: Readonly<{ x: number; y: number }> | null = null
 const lastMouseDiff: { x: number; y: number } = { x: 0, y: 0 }
 
 let last2Mouse: Readonly<{ x: number; y: number }> | null = null
@@ -185,7 +172,7 @@ useEventListener(window, "mouseup", onTouchEnd)
 // create sort map offset?
 const mapOffset = computed(() => {
   const mov: number[] = new Array(props.pages.length)
-  let currentY: number = 0
+  let currentY = 0
 
   const zoom = props.zoom / 100
   for (let i = 0; i < props.pages.length; i++) {
@@ -204,8 +191,8 @@ watch(
   diffYZoom,
   debounce(async (diffYZoom: number) => {
     const arr = mapOffset.value
-    let left = 0,
-      right = arr.length - 1
+    let left = 0;
+      let right = arr.length - 1
     const positiveDiffYZoom = -diffYZoom + pHeight.value
 
     while (left !== right) {
@@ -228,7 +215,7 @@ watch(
 
 watch(
   () => props.currentPage,
-  (currentPage) => {
+  () => {
     if (disableReactiveCurrentPage) return
 
     // diffYZoom.value = -(mapOffset.value[(currentPage)] )
