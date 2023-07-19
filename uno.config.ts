@@ -31,7 +31,7 @@ export default defineConfig({
     },
   },
   safelist: [
-    ...'overflow-y-scroll flex-shrink-1 mt-2'.split(' '),
+    ..."overflow-y-scroll flex-shrink-1 mt-2".split(" "),
     "text-weight-medium",
-  ]
+  ],
 })

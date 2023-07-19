@@ -91,14 +91,12 @@ const diffYZoom = useClamp(0, minDiffY, maxDiffY)
 const mouseZooming = ref(false)
 const scrollInertia = useScrollInertia(diffXZoom, diffYZoom, mouseZooming)
 
-
 let lastStartTouch: Touch | MouseEvent | null = null
 function onTouchStart(event: TouchEvent | MouseEvent) {
   if (mouseDowned) return
   mouseDowned = true
 
   lastStartTouch = isTouchEvent(event) ? event.touches?.[0] : event
-
   ;[lastMouseDiff.x, lastMouseDiff.y] = [diffXZoom.value, diffYZoom.value]
   console.log("log")
 }
@@ -109,7 +107,9 @@ function onTouchMove(event: TouchEvent) {
 
   if (lastIsTouch !== currIsTouch) return
 
-  const touch = currIsTouch ? findTouch(event.touches, lastStartTouch as Touch) : event
+  const touch = currIsTouch
+    ? findTouch(event.touches, lastStartTouch as Touch)
+    : event
   if (!touch) return
 
   const [diffX, diffY] = [
@@ -191,8 +191,8 @@ watch(
   diffYZoom,
   debounce(async (diffYZoom: number) => {
     const arr = mapOffset.value
-    let left = 0;
-      let right = arr.length - 1
+    let left = 0
+    let right = arr.length - 1
     const positiveDiffYZoom = -diffYZoom + pHeight.value
 
     while (left !== right) {

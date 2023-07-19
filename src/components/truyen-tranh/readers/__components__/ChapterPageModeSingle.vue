@@ -140,7 +140,9 @@ function onTouchEnd(event: TouchEvent | MouseEvent) {
 
   if (lastIsTouch !== currIsTouch) return
 
-  const touch = currIsTouch ? findTouch(event.changedTouches, lastStartTouch) : event
+  const touch = currIsTouch
+    ? findTouch(event.changedTouches, lastStartTouch)
+    : event
   if (!touch) return
 
   moving.value = false

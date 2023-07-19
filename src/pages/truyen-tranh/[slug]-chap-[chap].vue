@@ -161,6 +161,7 @@ meta:
 
               <ListChapters
                 :chapters="data.chapters"
+                focus-tab-active
                 class-item="col-6 col-sm-4 col-md-4"
                 class-panels="flex-shrink-1 mt-2 flex column children:min-h-0 children:h-100% children:flex children:flex-col"
                 class-panel="h-full overflow-x-hidden overflow-y-scroll scrollbar-custom"

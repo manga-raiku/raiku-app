@@ -303,8 +303,14 @@
         :style-fn="
           route.meta?.offset
             ? (offset, height) => ({
-                height:  route.meta?.offset && route.meta.existsFooter ? '100%' : (height + 'px'),
-                width: route.meta?.offset && route.meta.existsFooter ? '100%' : undefined,
+                height:
+                  route.meta?.offset && route.meta.existsFooter
+                    ? '100%'
+                    : height + 'px',
+                width:
+                  route.meta?.offset && route.meta.existsFooter
+                    ? '100%'
+                    : undefined,
                 marginTop:
                   offset === 0
                     ? undefined
@@ -313,7 +319,7 @@
             : undefined
         "
         :class="{
-          absolute: route.meta?.absolute
+          absolute: route.meta?.absolute,
         }"
         :padding="route.meta?.padding"
       >

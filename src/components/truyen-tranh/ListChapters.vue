@@ -6,7 +6,7 @@
     <q-btn
       v-for="({ from, to }, index) in segments"
       :key="`${from}-${to}`"
-      :label="`Ch.${from} - ${to}`"
+      :label="`Ch. ${from} - ${to}`"
       no-caps
       rounded
       unelevated
@@ -86,6 +86,9 @@ const props = defineProps<{
   classItem?: string
   classPanels?: string
   classPanel?: string
+
+  focusTabActive?: boolean
+
   chapters: {
     path: string
     name: string
@@ -109,12 +112,14 @@ const segments = computed(() => {
 })
 
 const tabActive = ref(
-  Math.max(
-    segments.value.findIndex(({ items }) => {
-      return items.some((item) => pathEqual(item.path, route.path))
-    }),
-    0
-  )
+  props.focusTabActive
+    ? Math.max(
+        segments.value.findIndex(({ items }) => {
+          return items.some((item) => pathEqual(item.path, route.path))
+        }),
+        0
+      )
+    : 0
 )
 
 const ulPanelRef = ref<HTMLUListElement>()
