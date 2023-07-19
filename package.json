@@ -6,6 +6,7 @@
   "author": "Tachibana Shin <45375496+tachibana-shin@users.noreply.github.com>",
   "private": true,
   "scripts": {
+    "install": "sh install.sh",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "pretit": "prettier \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
