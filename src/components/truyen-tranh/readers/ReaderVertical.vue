@@ -2,25 +2,21 @@
   <section
     class="h-full overflow-hidden relative"
     ref="parentRef"
-    @mousedown.prevent="onMouseDown"
+    @mousedown.prevent="onTouchStart"
     @wheel="onWheel"
     @touchstart.passive="onTouchStart"
     @touchmove.passive="onTouchMove"
     @touchend.passive="onTouchEnd"
   >
     <section
-      class="transition-width,height,transform relative top-1/2 left-1/2"
+      class="transition-width,transform relative top-0 left-1/2"
       :style="{
         width: `${zoom}%`,
         transform: `translate(${-oWidthH + diffXZoom}px, ${
-          -oHeightH + diffYZoom
+          /*-oHeightH +*/ diffYZoom
         }px)`,
-        'transition-property': mouseZooming
-          ? 'width,height'
-          : 'width,height,transform',
-        'transition-duration': mouseZooming
-          ? '444ms,444ms,0ms'
-          : '444ms,444ms,170ms',
+        'transition-property': mouseZooming ? 'width' : 'width,transform',
+        'transition-duration': mouseZooming ? '444ms,0ms' : '444ms,170ms',
       }"
       ref="overflowRef"
     >
@@ -30,13 +26,16 @@
         class="object-cover display-block mx-auto"
         :src="item"
         @load="
-          sizes[index] = [
+          sizes.set(index, [
             ($event.target as HTMLImageElement)!.naturalWidth,
             ($event.target as HTMLImageElement)!.naturalHeight,
-          ]
+          ])
         "
         :style="{
-          width: `${(sizes[index]?.[0] * zoom) / 100}px`,
+          width: sizes.has(index)
+            ? `${(sizes.get(index)?.[0] * zoom) / 100}px`
+            : widthImageDefault,
+          height: sizes.has(index) ? undefined : heightImageDefault,
         }"
       />
     </section>
@@ -46,6 +45,7 @@
 <script lang="ts" setup>
 import { useElementSize, useEventListener } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
+import { debounce } from "quasar"
 
 const props = defineProps<{
   pages: string[]
@@ -59,8 +59,10 @@ const emit = defineEmits<{
   // (name: "next"): void
 }>()
 
-const sizes = shallowReactive<Record<string, [number, number]>>(
-  Object.create(null)
+const sizes = shallowReactive<Map<string, [number, number]>>(new Map())
+watch(
+  () => props.pages,
+  () => sizes.clear()
 )
 
 const parentRef = ref<HTMLDivElement>()
@@ -70,6 +72,25 @@ const { width: oWidth, height: oHeight } = useElementSize(overflowRef)
 
 const oWidthH = computed(() => oWidth.value / 2)
 const oHeightH = computed(() => oHeight.value / 2)
+
+const widthImageDefault = computed(
+  () => sizes.get(0)?.[0] ?? pWidth.value * 0.8
+)
+const heightImageDefault = computed(
+  () => sizes.get(0)?.[1] ?? pHeight.value * 0.8
+)
+
+const minDiffX = computed(() => -Math.abs(pWidth.value - oWidth.value) / 2)
+const minDiffY = computed(
+  () => -Math.abs(pHeight.value - oHeight.value) /* / 2*/
+)
+const maxDiffX = computed(() => -minDiffX.value)
+const maxDiffY = computed(() => 0 /*-minDiffY.value*/)
+
+const diffXZoom = useClamp(0, minDiffX, maxDiffX)
+const diffYZoom = useClamp(0, minDiffY, maxDiffY)
+const mouseZooming = ref(false)
+const scrollInertia = useScrollInertia(diffXZoom, diffYZoom, mouseZooming)
 
 function prev() {
   console.log("prev")
@@ -84,76 +105,66 @@ function next() {
 
 let lastStartTouch: Touch | null = null
 function onTouchStart(event: TouchEvent) {
-  if (lastStartTouch) return
+  if (mouseDowned) return
+  mouseDowned = true
 
-  lastStartTouch = event.touches[0]
+  lastStartTouch = event.touches?.[0] ?? event
 
   lastMouseOff = { x: lastStartTouch.clientX, y: lastStartTouch.clientY }
   ;[lastMouseDiff.x, lastMouseDiff.y] = [diffXZoom.value, diffYZoom.value]
   console.log("log")
 }
 function onTouchMove(event: TouchEvent) {
-  if (!lastStartTouch) return
+  if (!mouseDowned || !lastStartTouch) return
+  const lastIsTouch = isTouch(lastStartTouch)
+  const currIsTouch = isTouchEvent(event)
 
-  const touch = findTouch(event.touches, lastStartTouch)
+  if (lastIsTouch !== currIsTouch) return
+
+  const touch = currIsTouch ? findTouch(event.touches, lastStartTouch) : event
   if (!touch) return
 
   const [diffX, diffY] = [
     touch.clientX - lastStartTouch.clientX,
     touch.clientY - lastStartTouch.clientY,
   ]
-  console.log(diffX, diffY)
+
   mouseZooming.value = true
   diffXZoom.value = lastMouseDiff.x + diffX
   diffYZoom.value = lastMouseDiff.y + diffY
+
+  last2Mouse = lastMouse
+  lastMouse = { x: touch.clientX, y: touch.clientY }
+  last2Time = lastTime
+  lastTime = Date.now()
 }
 function onTouchEnd(event: TouchEvent) {
-  if (!lastStartTouch) return
+  if (!mouseDowned || !lastStartTouch) return
+  mouseDowned = false
 
-  const touch = findTouch(event.changedTouches, lastStartTouch)
+  const lastIsTouch = isTouch(lastStartTouch)
+  const currIsTouch = isTouchEvent(event)
+  if (lastIsTouch !== currIsTouch) return
+
+  const touch = currIsTouch
+    ? findTouch(event.changedTouches, lastStartTouch)
+    : event
   if (!touch) return
 
-  lastStartTouch = null
-  mouseZooming.value = false
+  if (last2Mouse && last2Time) scrollInertia(touch, last2Mouse, last2Time)
+
+  // mouseZooming.value = false
   lastStartTouch = null
 }
 
-const minDiffX = computed(() => (pWidth.value - oWidth.value) / 2)
-const minDiffY = computed(() => (pHeight.value - oHeight.value) / 2)
-const maxDiffX = computed(() => -minDiffX.value)
-const maxDiffY = computed(() => -minDiffY.value)
-
-const diffXZoom = useClamp(0, minDiffX, maxDiffX)
-const diffYZoom = useClamp(0, minDiffY, maxDiffY)
-const mouseZooming = ref(false)
 let mouseDowned = false
-let lastMouseOff: { x: number; y: number } | null = null
+let lastMouseOff: Readonly<{ x: number; y: number }> | null = null
 const lastMouseDiff: { x: number; y: number } = { x: 0, y: 0 }
-function onMouseDown(event: MouseEvent) {
-  mouseDowned = true
 
-  lastMouseOff = { x: event.clientX, y: event.clientY }
-  ;[lastMouseDiff.x, lastMouseDiff.y] = [diffXZoom.value, diffYZoom.value]
-  console.log("log")
-}
-function onMouseMove(event: MouseEvent) {
-  if (!mouseDowned || !lastMouseOff) return
-  const [diffX, diffY] = [
-    event.clientX - lastMouseOff.x,
-    event.clientY - lastMouseOff.y,
-  ]
-
-  mouseZooming.value = true
-  diffXZoom.value = lastMouseDiff.x + diffX
-  diffYZoom.value = lastMouseDiff.y + diffY
-
-  console.log("log ", lastMouseDiff, diffX, diffY)
-}
-function onMouseUp() {
-  mouseDowned = true
-  mouseZooming.value = false
-  lastMouseOff = null
-}
+let last2Mouse: Readonly<{ x: number; y: number }> | null = null
+let lastMouse: Readonly<{ x: number; y: number }> | null = null
+let last2Time: number | null = null
+let lastTime: number | null = null
 
 function onWheel(event: WheelEvent) {
   if (event.altKey || event.ctrlKey) event.preventDefault()
@@ -164,20 +175,63 @@ function onWheel(event: WheelEvent) {
 
   if (event.altKey) diffXZoom.value += -event.deltaY / 2
   else {
-    if (diffYZoom.value === maxDiffY.value && event.deltaY > 0) {
-      next()
-      return
-      // next
-    }
-    if (diffYZoom.value === minDiffY.value && event.deltaY < 0) {
-      prev()
-      return
-      // prev
-    }
     diffYZoom.value += -event.deltaY
   }
 }
 
-useEventListener(window, "mousemove", onMouseMove)
-useEventListener(window, "mouseup", onMouseUp)
+useEventListener(window, "mousemove", onTouchMove)
+useEventListener(window, "mouseup", onTouchEnd)
+
+// create sort map offset?
+const mapOffset = computed(() => {
+  const mov: number[] = new Array(props.pages.length)
+  let currentY: number = 0
+
+  const zoom = props.zoom / 100
+  for (let i = 0; i < props.pages.length; i++) {
+    const d = sizes.get(i)
+
+    mov[i] = currentY
+    currentY += d
+      ? (d[1] / d[0]) * (Math.min(d[0], oWidth.value) * zoom)
+      : heightImageDefault.value
+  }
+
+  return mov
+})
+let disableReactiveCurrentPage = false
+watch(
+  diffYZoom,
+  debounce(async (diffYZoom: number) => {
+    const arr = mapOffset.value
+    let left = 0,
+      right = arr.length - 1
+    const positiveDiffYZoom = -diffYZoom + pHeight.value
+
+    while (left !== right) {
+      const center = left + ~~(right - left) / 2
+      const val = arr[center]
+
+      if (val <= positiveDiffYZoom) {
+        left = center + 1
+        continue
+      }
+      right = center
+    }
+
+    disableReactiveCurrentPage = true
+    emit("update:current-page", left < 1 ? 0 : left - 1)
+    await nextTick()
+    disableReactiveCurrentPage = false
+  }, 200)
+)
+
+watch(
+  () => props.currentPage,
+  (currentPage) => {
+    if (disableReactiveCurrentPage) return
+
+    // diffYZoom.value = -(mapOffset.value[(currentPage)] )
+  }
+)
 </script>

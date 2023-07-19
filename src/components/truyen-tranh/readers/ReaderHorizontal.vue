@@ -13,8 +13,8 @@
     <section
       class="h-full whitespace-nowrap overflow-hidden transition-width,height,transform relative top-1/2 left-1/2"
       :style="{
-        width: `${zoom}%`,
-        height: `${zoom}%`,
+        width: `${singlePage ? 100 : zoom}%`,
+        height: `${singlePage ? 100 : zoom}%`,
         transform: `translate(${-oWidthH + diffXZoom}px, ${
           -oHeightH + diffYZoom
         }px)`,
@@ -44,12 +44,10 @@
             :key="index"
             :src="src"
             @load="
-              ($event) => {
-                sizes[index] = [
-                  ($event.target as HTMLImageElement)!.naturalWidth,
-                  ($event.target as HTMLImageElement)!.naturalHeight,
-                ]
-              }
+              sizes.set(index, [
+                ($event.target as HTMLImageElement)!.naturalWidth,
+                ($event.target as HTMLImageElement)!.naturalHeight,
+              ])
             "
             @update:can-swipe="canSwipes[index] = $event"
           />
@@ -60,16 +58,14 @@
               ? pages.slice(0).reverse()
               : pages"
             :key="index"
-            :single-page="sizes[index]?.[0] > 1200"
+            :single-page="sizes.get(index)?.[0] > 1200"
             :prime="index % 2 === 0"
             :src="src"
             @load="
-              ($event) => {
-                sizes[index] = [
-                  ($event.target as HTMLImageElement)!.naturalWidth,
-                  ($event.target as HTMLImageElement)!.naturalHeight,
-                ]
-              }
+              sizes.set(index, [
+                ($event.target as HTMLImageElement)!.naturalWidth,
+                ($event.target as HTMLImageElement)!.naturalHeight,
+              ])
             "
           />
         </template>
@@ -102,27 +98,28 @@ const emit = defineEmits<{
   // (name: "next"): void
 }>()
 
-const sizes = shallowReactive<Record<string, [number, number]>>(
-  Object.create(null)
+const sizes = shallowReactive<Map<string, [number, number]>>(new Map())
+watch(
+  () => props.pages,
+  () => sizes.clear()
 )
+
 const sizePage = computed(() => {
   if (props.singlePage) {
     // only 1
-    return props.pages.length - 1
+    return props.pages.length
   }
 
-  return (
-    Math.ceil(
-      props.pages.reduce((prev, item, index) => {
-        if (sizes[index]?.[0] > 1_200) prev += 2
-        else prev += 0.5
+  return Math.ceil(
+    props.pages.reduce((prev, item, index) => {
+      if (sizes.get(index)?.[0] > 1_200) prev += 2
+      else prev += 0.5
 
-        return prev
-      }, 0)
-    ) - 1
+      return prev
+    }, 0)
   )
 })
-defineExpose({ sizePage })
+defineExpose({ sizes, sizePage })
 
 const parentRef = ref<HTMLDivElement>()
 const overflowRef = ref<HTMLDivElement>()
@@ -172,6 +169,12 @@ function onTouchStart(event: TouchEvent) {
 }
 let currentTouch: Touch | null = null
 let currentTime: number | null = null
+
+let last2Mouse: Readonly<{ x: number; y: number }> | null = null
+let lastMouse: Readonly<{ x: number; y: number }> | null = null
+let last2Time: number | null = null
+let lastTime: number | null = null
+
 function onTouchMove(event: TouchEvent) {
   onMouseMoveCheckClick(event)
   if (!lastStartTouch) return
@@ -200,6 +203,11 @@ function onTouchMove(event: TouchEvent) {
     mouseZooming.value = true
     diffXZoom.value = lastMouseDiff.x + diffX
     diffYZoom.value = lastMouseDiff.y + diffY
+
+    last2Mouse = lastMouse
+    lastMouse = { x: touch.clientX, y: touch.clientY }
+    last2Time = lastTime
+    lastTime = Date.now()
   }
 }
 function onTouchEnd(event: TouchEvent) {
@@ -229,7 +237,12 @@ function onTouchEnd(event: TouchEvent) {
     }
 
     console.log(speedSwipeX)
-  } // } else {
+    mouseZooming.value = false
+  } else {
+    if (last2Mouse && last2Time) scrollInertia(touch, last2Mouse, last2Time)
+  }
+
+  // } else {
   moving.value = false
   diffX.value = 0
   lastStartTouch = null
@@ -237,20 +250,22 @@ function onTouchEnd(event: TouchEvent) {
   lastMoveTime = null
   currentTouch = null
   currentTime = null
-  mouseZooming.value = false
   lastStartTouch = null
 
+  last2Mouse = null
+  last2Time = null
   // }
 }
 
-const minDiffX = computed(() => (pWidth.value - oWidth.value) / 2)
-const minDiffY = computed(() => (pHeight.value - oHeight.value) / 2)
+const minDiffX = computed(() => -Math.abs(pWidth.value - oWidth.value) / 2)
+const minDiffY = computed(() => -Math.abs(pHeight.value - oHeight.value) / 2)
 const maxDiffX = computed(() => -minDiffX.value)
 const maxDiffY = computed(() => -minDiffY.value)
 
 const diffXZoom = useClamp(0, minDiffX, maxDiffX)
 const diffYZoom = useClamp(0, minDiffY, maxDiffY)
 const mouseZooming = ref(false)
+const scrollInertia = useScrollInertia(diffXZoom, diffYZoom, mouseZooming)
 let mouseDowned = false
 let lastMouseOff: { x: number; y: number } | null = null
 const lastMouseDiff: { x: number; y: number } = { x: 0, y: 0 }
@@ -273,30 +288,40 @@ function onMouseMove(event: MouseEvent) {
   diffXZoom.value = lastMouseDiff.x + diffX
   diffYZoom.value = lastMouseDiff.y + diffY
 
+  last2Mouse = lastMouse
+  lastMouse = { x: event.clientX, y: event.clientY }
+  last2Time = lastTime
+  lastTime = Date.now()
+
   console.log("log ", lastMouseDiff, diffX, diffY)
 }
-function onMouseUp() {
+function onMouseUp(event) {
   mouseDowned = true
-  mouseZooming.value = false
+  // mouseZooming.value = false
   lastMouseOff = null
+  if (last2Mouse && last2Time) scrollInertia(event, last2Mouse, last2Time)
+  last2Mouse = null
+  last2Time = null
 }
 
 function onWheel(event: WheelEvent) {
   if (event.altKey || event.ctrlKey) event.preventDefault()
-  if (event.ctrlKey) {
+  if (event.ctrlKey && !props.singlePage) {
     emit("update:zoom", props.zoom + (event.deltaY > 0 ? -5 : 5))
     return
   }
 
   if (event.altKey) diffXZoom.value += -event.deltaY / 2
   else {
-    if (diffYZoom.value === maxDiffY.value && event.deltaY > 0) {
-      next()
+    if (diffYZoom.value === maxDiffY.value && event.deltaY < -0) {
+      prev()
+      diffYZoom.value = minDiffY.value
       return
       // next
     }
-    if (diffYZoom.value === minDiffY.value && event.deltaY < 0) {
-      prev()
+    if (diffYZoom.value === minDiffY.value && event.deltaY > 0) {
+      next()
+      diffYZoom.value = maxDiffY.value
       return
       // prev
     }
@@ -312,23 +337,18 @@ let mouseDownClientX = 0
 let mouseDownClientY = 0
 function onMouseDownCheckClick(event: MouseEvent | TouchEvent) {
   mousezooming = false
-  mouseDownClientX = isTouchEvent(event)
-    ? event.touches[0].clientX
-    : event.clientX
-  mouseDownClientY = isTouchEvent(event)
-    ? event.touches[0].clientX
-    : event.clientY
+
+  const touch = isTouchEvent(event) ? event.touches[0] : event
+
+  mouseDownClientX = touch.clientX
+  mouseDownClientY = touch.clientY
 }
 function onMouseMoveCheckClick(event: MouseEvent | TouchEvent) {
+  const touch = isTouchEvent(event) ? event.touches[0] : event
+
   if (
-    Math.abs(
-      (isTouchEvent(event) ? event.touches[0].clientX : event.clientX) -
-        mouseDownClientX
-    ) > 7 ||
-    Math.abs(
-      (isTouchEvent(event) ? event.touches[0].clientY : event.clientY) -
-        mouseDownClientY
-    )
+    Math.abs(touch.clientX - mouseDownClientX) > 7 ||
+    Math.abs(touch.clientY - mouseDownClientY) > 7
   )
     mousezooming = true
 }
@@ -339,7 +359,7 @@ function onMouseUpCheckClick(event: MouseEvent | TouchEvent) {
   if (
     !xor(
       directionLeft,
-      (isTouchEvent(event) ? event.touches[0].clientX : event.clientX) <
+      (isTouchEvent(event) ? event.changedTouches[0].clientX : event.clientX) <
         pWidthH.value
     )
   ) {

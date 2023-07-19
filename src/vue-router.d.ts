@@ -10,5 +10,6 @@ declare module "vue-router" {
     hiddenHeader?: boolean
     offset?: boolean
     existsFooter?: boolean
+    absolute?: boolean
   }
 }

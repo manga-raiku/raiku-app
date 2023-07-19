@@ -5,7 +5,7 @@
       'w-full': true,
     }"
     ref="parentRef"
-    @mousedown="onTouchStart"
+    @mousedown.prevent="onTouchStart"
     @touchstart.passive="onTouchStart"
     @touchmove.passive="onTouchMove"
     @touchend.passive="onTouchEnd"
@@ -60,15 +60,22 @@ const moving = ref(false)
 const oWidthH = computed(() => oWidth.value / 2)
 const oHeightH = computed(() => oHeight.value / 2)
 
-const zoom = ref(100.0)
+const zoom = ref(120.0)
 
-const minDiffX = computed(() => (pWidth.value - oWidth.value) / 2)
-const minDiffY = computed(() => (pHeight.value - oHeight.value) / 2)
+const minDiffX = computed(() => -Math.abs(pWidth.value - oWidth.value) / 2)
+const minDiffY = computed(() => -Math.abs(pHeight.value - oHeight.value) / 2)
 const maxDiffX = computed(() => -minDiffX.value)
 const maxDiffY = computed(() => -minDiffY.value)
 
 const diffXZoom = useClamp(0, minDiffX, maxDiffX)
 const diffYZoom = useClamp(0, minDiffY, maxDiffY)
+
+const scrollInertia = useScrollInertia(diffXZoom, diffYZoom, mouseZooming)
+
+let last2Mouse: Readonly<{ x: number; y: number }> | null = null
+let lastMouse: Readonly<{ x: number; y: number }> | null = null
+let last2Time: number | null = null
+let lastTime: number | null = null
 
 let lastStartTouch: Touch | null = null
 // eslint-disable-next-line no-use-before-define
@@ -87,10 +94,15 @@ function onTouchStart(event: TouchEvent | MouseEvent) {
   console.log("log")
   // }
 }
-function onTouchMove(event: TouchEvent) {
+function onTouchMove(event: TouchEvent | MouseEvent) {
   if (!lastStartTouch) return
 
-  const touch = findTouch(event.touches, lastStartTouch)
+  const lastIsTouch = isTouch(lastStartTouch)
+  const currIsTouch = isTouchEvent(event)
+
+  if (lastIsTouch !== currIsTouch) return
+
+  const touch = currIsTouch ? findTouch(event.touches, lastStartTouch) : event
   if (!touch) return
 
   if (event.touches?.length > 2) {
@@ -113,21 +125,32 @@ function onTouchMove(event: TouchEvent) {
     console.log("suff ", lastMouseDiff.x + diffX, diffX)
     diffXZoom.value = lastMouseDiff.x + diffX
     diffYZoom.value = lastMouseDiff.y + diffY
+
+    last2Mouse = lastMouse
+    lastMouse = { x: touch.clientX, y: touch.clientY }
+    last2Time = lastTime
+    lastTime = Date.now()
   }
 }
-function onTouchEnd(event: TouchEvent) {
+function onTouchEnd(event: TouchEvent | MouseEvent) {
   if (!lastStartTouch) return
 
-  const touch = event.changedTouches
-    ? findTouch(event.changedTouches, lastStartTouch)
-    : event
+  const lastIsTouch = isTouch(lastStartTouch)
+  const currIsTouch = isTouchEvent(event)
+
+  if (lastIsTouch !== currIsTouch) return
+
+  const touch = currIsTouch ? findTouch(event.changedTouches, lastStartTouch) : event
   if (!touch) return
 
   moving.value = false
   lastStartTouch = null
-  mouseZooming.value = false
+  // mouseZooming.value = false
   lastStartTouch = null
 
+  if (last2Mouse && last2Time) scrollInertia(touch, last2Mouse, last2Time)
+  last2Mouse = null
+  last2Time = null
   // }
 }
 const canSwipe = computed<"R" | "L" | "A" | null>(() => {

@@ -3,6 +3,7 @@ meta:
   hiddenHeader: true
   offset: true
   existsFooter: true
+  absolute: true
 </route>
 
 <template>
@@ -16,30 +17,60 @@ meta:
 
   <ReaderHorizontal
     v-if="!scrollingMode"
-    ref="readerRef"
+    ref="readerHorizontalRef"
     :pages="pages"
     :single-page="singlePage || $q.screen.width <= 517"
     :right-to-left="rightToLeft"
     :min-page="minPage"
     v-model:current-page="currentPage"
     v-model:zoom="zoom"
+    @click="onClickReader"
   />
   <ReaderVertical
     v-else
     :pages="pages"
     v-model:current-page="currentPage"
     v-model:zoom="zoom"
+    @click="onClickReader"
   />
 
-  <!-- <div class="fixed top-0 left-0 w-full h-full bg-[#000] bg-opacity-10" /> -->
+  <!-- float absolute button -->
+  <FloatingStatus
+    v-if="$q.screen.gt.xs"
+    :scrolling-mode="scrollingMode"
+    :single-page="singlePage || $q.screen.width <= 517"
+    :right-to-left="rightToLeft"
+    :pages-length="data.pages.length"
+    :sizes="readerHorizontalRef?.sizes"
+    :current-page="currentPage"
+    :size-page="sizePage"
+    :meta-ep="metaEp"
+  />
+  <!-- /float absolute button -->
+  <FloatingStatusMobile
+    v-else
+    :current-page="currentPage"
+    :size-page="sizePage"
+    :meta-ep="metaEp"
+  />
+
+  <FabShowToolbar v-if="$q.screen.gt.xs" @click="showToolbar = true" />
+
+  <!-- tutorial reader -->
+  <TutorialModeHorizontal
+    v-model="showTutorialHorizontal"
+    :right-to-left="rightToLeft"
+  />
+  <!-- /tutorial reader -->
 
   <q-footer
     class="bg-[rgba(0,0,0,0.9)] font-family-poppins"
     :model-value="showToolbar"
   >
-    <q-toolbar class="sm:px-10 md:px-16">
+    <q-toolbar class="sm:px-10 md:px-16 <md:flex-wrap">
       <div
-        class="w-120px h-36px rounded-18px border border-[hsla(0,0%,100%,.4)] ml-10px mr-30px flex items-center flex-nowrap justify-between overflow-hidden"
+        v-if="$q.screen.gt.sm || scrollingMode"
+        class="w-120px h-36px rounded-18px border border-[hsla(0,0%,100%,.4)] ml-10px mr-30px flex items-center flex-nowrap justify-between overflow-hidden <md:display-none"
       >
         <button class="size-36px relative" v-ripple @click="zoom -= 5">
           <Icon icon="fluent:subtract-24-filled" class="size-1.3em mx-auto" />
@@ -53,11 +84,11 @@ meta:
         </button>
       </div>
 
-      <span class="display-block text-#777 whitespace-nowrap"
+      <span class="display-block text-#777 whitespace-nowrap <md:display-none"
         >{{ (rightToLeft ? -currentPage : currentPage) + 1 }} /
-        {{ sizePage + 1 }}</span
+        {{ sizePage }}</span
       >
-      <div class="flex-1 mx-4 flex">
+      <div class="flex-1 mx-4 flex <md:order-2">
         <q-slider
           class="my-auto"
           :model-value="rightToLeft ? -currentPage : currentPage"
@@ -71,14 +102,83 @@ meta:
         />
       </div>
 
-      <q-btn no-caps rounded label="Previous" />
-      <q-btn no-caps rounded label="Next" />
+      <q-btn
+        no-caps
+        :rounded="!$q.screen.lt.md"
+        :round="$q.screen.lt.md"
+        class="<md:order-1"
+      >
+        <Icon
+          v-if="$q.screen.lt.md && scrollingMode"
+          icon="ep:arrow-left-bold"
+          class="size-1.8em"
+        />
+        <template v-else>Previous</template>
+      </q-btn>
+      <q-btn
+        no-caps
+        :rounded="!$q.screen.lt.md"
+        :round="$q.screen.lt.md"
+        class="<md:order-3"
+      >
+        <Icon
+          v-if="$q.screen.lt.md && scrollingMode"
+          icon="ep:arrow-right-bold"
+          class="size-1.8em"
+        />
+        <template v-else>Next</template>
+      </q-btn>
 
-      <q-btn no-caps rounded label="Episodes" class="mx-5" />
+      <div class="md:display-none w-full order-4" />
 
-      <q-separator />
+      <q-btn
+        no-caps
+        rounded
+        no-wrap
+        class="<md:order-8 <md:w-25% md:mx-5"
+        :stack="$q.screen.lt.md"
+      >
+        <Icon
+          v-if="$q.screen.lt.md"
+          icon="system-uicons:document-list"
+          class="size-1.8em mr-1"
+        />
+        Episodes
 
-      <q-btn no-caps rounded no-wrap>
+        <q-menu
+          anchor="top middle"
+          self="bottom middle"
+          class="rounded-xl overflow-visible flex column flex-nowrap"
+          :offset="[0, 10]"
+          max-width="560px"
+          max-height="80%"
+        >
+          <q-card class="h-full min-w-310px flex column min-h-0">
+            <q-card-section
+              class="h-full flex column flex-nowrap min-h-0 children:flex-shrink-0"
+            >
+              <div class="text-subtitle1 mb-1">Episodes</div>
+
+              <ListChapters
+                :chapters="data.chapters"
+                class-item="col-6 col-sm-4 col-md-4"
+                class-panels="flex-shrink-1 mt-2 flex column children:min-h-0 children:h-100% children:flex children:flex-col"
+                class-panel="h-full overflow-x-hidden overflow-y-scroll scrollbar-custom"
+              />
+            </q-card-section>
+          </q-card>
+        </q-menu>
+      </q-btn>
+
+      <q-separator class="<md:display-none" />
+
+      <q-btn
+        no-caps
+        rounded
+        no-wrap
+        class="<md:order-6 <md:w-25%"
+        :stack="$q.screen.lt.md"
+      >
         <Icon icon="ri:settings-line" class="size-1.8em mr-1" /> Settings
 
         <q-menu
@@ -198,12 +298,24 @@ meta:
         </q-menu>
       </q-btn>
 
-      <q-btn no-caps rounded no-wrap>
-        <Icon icon="majesticons:comment-2-text-line" class="size-1.8em mr-1" />
+      <q-btn
+        no-caps
+        rounded
+        no-wrap
+        class="<md:order-7 <md:w-25%"
+        :stack="$q.screen.lt.md"
+      >
+        <Icon icon="system-uicons:message" class="size-1.8em mr-1" />
         Comments
       </q-btn>
 
-      <q-btn no-caps rounded no-wrap>
+      <q-btn
+        no-caps
+        rounded
+        no-wrap
+        class="<md:order-5 <md:w-25%"
+        :stack="$q.screen.lt.md"
+      >
         <Icon icon="fluent:star-add-24-regular" class="size-1.8em mr-1" />
         Favorite
         <!-- fluent:star-checkmark-24-filled -->
@@ -218,6 +330,9 @@ import { Icon } from "@iconify/vue"
 import { useClamp } from "@vueuse/math"
 import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/parsers/truyen-tranh/[slug]-chap-[chap]"
+import img_single from "src/assets/img_single.png?url"
+import img_double from "src/assets/img_double.png?url"
+import { normalizeChName } from "src/logic/normalize-ch-name"
 
 defineProps<{
   slug: string
@@ -225,7 +340,8 @@ defineProps<{
 }>()
 
 const $q = useQuasar()
-const readerRef = ref()
+const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
+const route = useRoute()
 
 const zoom = useClamp(100, 50, 200)
 const server = ref("Server 1")
@@ -239,12 +355,31 @@ const singlePage = ref(false)
 const rightToLeft = ref(false)
 const scrollingMode = ref(true)
 
-const sizePage = computed(() => readerRef.value?.sizePage ?? pages.value.length)
-const minPage = computed(() => (rightToLeft.value ? -sizePage.value : 0))
-const maxPage = computed(() => (rightToLeft.value ? 0 : sizePage.value))
+const sizePage = computed(
+  () => readerHorizontalRef.value?.sizePage ?? pages.value.length
+)
+const minPage = computed(() => (rightToLeft.value ? -(sizePage.value - 1) : 0))
+const maxPage = computed(() => (rightToLeft.value ? 0 : sizePage.value - 1))
 const currentPage = useClamp(0, minPage, maxPage)
 
 const showToolbar = ref(true)
+
+const metaEp = computed(() =>
+  data.chapters.find((item) => pathEqual(item.path, route.path))
+)
+
+const showTutorialHorizontal = ref(false)
+watch(scrollingMode, (scrollingMode) => {
+  showTutorialHorizontal.value = !scrollingMode
+})
+
+function onClickReader() {
+  if ($q.screen.gt.xs) {
+    showToolbar.value = false
+  } else {
+    showToolbar.value = !showToolbar.value
+  }
+}
 </script>
 
 <!-- <swiper

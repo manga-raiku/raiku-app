@@ -6,10 +6,24 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
-const { extend } = require("quasar")
-const { configure } = require("quasar/wrappers")
+const {
+  extend
+} = require("quasar")
+const {
+  configure
+} = require("quasar/wrappers")
 
-module.exports = configure((/* ctx */) => {
+function removeDataTestAttrs(node) {
+  if (node.type === 1 /* NodeTypes.ELEMENT */ ) {
+    node.props = node.props.filter(prop =>
+      prop.type === 6 /* NodeTypes.ATTRIBUTE */ ?
+      prop.name !== 'data-test' :
+      true
+    )
+  }
+}
+
+module.exports = configure(( /* ctx */ ) => {
   return {
     eslint: {
       // fix: true,
@@ -64,8 +78,7 @@ module.exports = configure((/* ctx */) => {
       env: {
         GITPOD_WORKSPACE_URL: process.env.GITPOD_WORKSPACE_URL,
         CODESPACE_NAME: process.env.CODESPACE_NAME,
-        GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:
-          process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN,
+        GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN: process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN,
         ...require("dotenv").config().parsed,
       },
       // rawDefine: {},
@@ -78,32 +91,37 @@ module.exports = configure((/* ctx */) => {
         extend(true, viteConf, {
           server: {
             // configure vite for HMR with Gitpod
-            hmr: process.env.GITPOD_WORKSPACE_URL
-              ? {
-                  // removes the protocol and replaces it with the port we're connecting to
-                  host: process.env.GITPOD_WORKSPACE_URL.replace(
-                    "https://",
-                    "9000-"
-                  ),
-                  protocol: "wss",
-                  clientPort: 443,
-                }
-              : process.env.CODESPACE_NAME
-              ? {
-                  host: `${process.env.CODESPACE_NAME}-9000.${process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}`,
-                  protocol: "wss",
-                  clientPort: 443,
-                }
-              : true,
+            hmr: process.env.GITPOD_WORKSPACE_URL ? {
+              // removes the protocol and replaces it with the port we're connecting to
+              host: process.env.GITPOD_WORKSPACE_URL.replace(
+                "https://",
+                "9000-"
+              ),
+              protocol: "wss",
+              clientPort: 443,
+            } : process.env.CODESPACE_NAME ? {
+              host: `${process.env.CODESPACE_NAME}-9000.${process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}`,
+              protocol: "wss",
+              clientPort: 443,
+            } : true,
           },
         })
       },
-      // viteVuePluginOptions: {},
+      viteVuePluginOptions: {
+        template: {
+          compilerOptions: {
+            nodeTransforms: !process.env.DEV ? [removeDataTestAttrs] : [],
+          },
+        },
+      },
 
       vitePlugins: [
         [
           "@tachibana-shin/vite-plugin-pages",
-          { routeStyle: "nuxt3", importMode: () => "async" },
+          {
+            routeStyle: "nuxt3",
+            importMode: () => "async"
+          },
         ],
         // ['unplugin-vue-router/vite', {}],
         ["vite-plugin-rewrite-all", {}],
@@ -114,7 +132,9 @@ module.exports = configure((/* ctx */) => {
             defaultLayout: "MainLayout",
           },
         ],
-        ["unocss/vite", { configFile: "./uno.config.ts" }],
+        ["unocss/vite", {
+          configFile: "./uno.config.ts"
+        }],
         [
           "unplugin-auto-import/vite",
           {
@@ -138,6 +158,7 @@ module.exports = configure((/* ctx */) => {
               "src/logic/**/*.ts",
               "src/logic/**/*.tsx",
               "src/stores/**/*.ts",
+              "src/composables/*.ts",
             ],
             eslintrc: {
               enabled: true, // Default `false`

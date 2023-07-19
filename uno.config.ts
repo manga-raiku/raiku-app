@@ -30,4 +30,8 @@ export default defineConfig({
       xl: "1920px",
     },
   },
+  safelist: [
+    ...'overflow-y-scroll flex-shrink-1 mt-2'.split(' '),
+    "text-weight-medium",
+  ]
 })

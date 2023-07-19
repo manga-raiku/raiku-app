@@ -303,15 +303,18 @@
         :style-fn="
           route.meta?.offset
             ? (offset, height) => ({
-                height: height + 'px',
+                height:  route.meta?.offset && route.meta.existsFooter ? '100%' : (height + 'px'),
+                width: route.meta?.offset && route.meta.existsFooter ? '100%' : undefined,
                 marginTop:
-                  (route.meta.existsFooter ? -offset / 2 : -offset) + 'px',
-                marginBottom: route.meta.existsFooter
-                  ? -offset / 2 + 'px'
-                  : undefined,
+                  offset === 0
+                    ? undefined
+                    : (route.meta.existsFooter ? -50 : -offset) + 'px',
               })
             : undefined
         "
+        :class="{
+          absolute: route.meta?.absolute
+        }"
         :padding="route.meta?.padding"
       >
         <router-view v-if="Http.version" v-slot="{ Component }">
