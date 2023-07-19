@@ -22,29 +22,35 @@
     v-model="tabActive"
     animated
     swipeable
-    class="transparent children:overflow-visible"
+    class="transparent children:overflow-visible flex-0"
+    :class="classPanels"
   >
     <q-tab-panel
       v-for="({ items }, index) in segments"
       :key="index"
       :name="index"
       class="px-0"
+      :class="classPanel"
     >
-      <ul class="row mx--2">
+      <ul class="row mx--2" :ref="($el) => (ulPanelRef = $el)">
         <li
           v-for="item in items"
           :key="item.path"
-          class="col-6 col-sm-4 col-md-3 px-2 py-2"
-          :class="{
-            'text-main': item.readed,
-          }"
+          class="px-2 py-2"
+          :class="[
+            classItem ?? 'col-6 col-sm-4 col-md-3',
+            {
+              'text-main': item.readed,
+            },
+          ]"
         >
           <router-link
             :to="item.path"
             class="block bg-#f8f8f8 bg-opacity-7.5 hover:bg-opacity-12 transition-background-color duration-200 rounded-md py-7px px-4 relative cursor-pointer"
+            exact-active-class="!text-main reading text-weight-medium"
           >
             <h5 class="text-16px">{{ item.name }}</h5>
-            <span class="text-gray-300"
+            <span v-if="item.update" class="text-gray-300"
               >{{ (tmp = dayjs(item.update)).fromNow() }} ({{
                 tmp.format("dd DD/MM/YYYY")
               }})</span
@@ -74,15 +80,18 @@ import { Icon } from "@iconify/vue"
 import dayjs from "src/logic/dayjs"
 
 const props = defineProps<{
+  classItem?: string
+  classPanels?: string
+  classPanel?: string
   chapters: {
     path: string
     name: string
-    update: number
-    readed: boolean
+    update?: number
+    readed?: boolean
   }[]
 }>()
 
-const tabActive = ref(0)
+const route = useRoute()
 
 const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
@@ -94,6 +103,27 @@ const segments = computed(() => {
 
     return { from, to, items }
   })
+})
+
+const tabActive = ref(
+  Math.max(
+    segments.value.findIndex(({ items }) => {
+      return items.some((item) => pathEqual(item.path, route.path))
+    }),
+    0
+  )
+)
+
+const ulPanelRef = ref<HTMLUListElement>()
+watch(ulPanelRef, (ulPanelRef) => {
+  if (!ulPanelRef) return
+
+  setTimeout(() => {
+    // ulPanelRef.querySelector(".reading")?.scrollIntoView({ behavior: 'smooth' })
+
+    const reading = ulPanelRef.querySelector(".reading")
+    if (reading) scrollYIntoView(reading)
+  }, 70)
 })
 
 let tmp: dayjs.Dayjs
