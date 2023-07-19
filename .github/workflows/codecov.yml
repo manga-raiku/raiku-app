@@ -42,15 +42,12 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 7
+          version: 8.3.1
           run_install: false
 
-      - name: Install depends
-        run: npm i
+      - name: Install depends & Run test
+        run: pnpm setup && pnpm test:unit:ci
 
-      - name: Typing
-        run: pnpm typing
-        
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
