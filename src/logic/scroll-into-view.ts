@@ -1,9 +1,8 @@
 export function scrollXIntoView(el: HTMLElement) {
   // let parent = el.parentNode.parentNode
 
-   
   let i = 0
-   
+
   let parent: HTMLElement | null = el
   // eslint-disable-next-line no-unmodified-loop-condition
   while ((parent = parent.parentNode as HTMLElement) && i++ < 3) {
@@ -22,9 +21,8 @@ export function scrollXIntoView(el: HTMLElement) {
 export function scrollYIntoView(el: HTMLElement, deep = 3) {
   // let parent = el.parentNode.parentNode
 
-   
   let i = 0
-   
+
   let parent: HTMLElement | null = el
   // eslint-disable-next-line no-unmodified-loop-condition
   while ((parent = parent.parentNode as HTMLElement) && i++ < deep) {

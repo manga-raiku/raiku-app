@@ -156,6 +156,11 @@ module.exports = configure((/* ctx */) => {
                 "@vueuse/core": ["computedAsync"],
                 quasar: ["useQuasar"],
                 "vue-request": ["useRequest"],
+                "@tachibana-shin/capacitor-filesystem": [
+                  "Filesystem",
+                  "Directory",
+                  "Encoding",
+                ],
               },
             ],
             dirs: [
