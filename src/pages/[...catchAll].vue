@@ -1,3 +1,7 @@
+<route lang="yaml">
+name: not_found
+</route>
+
 <template>
   <div
     class="w-full h-full bg-blue text-white text-center q-pa-md flex flex-center"

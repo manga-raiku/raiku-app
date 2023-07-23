@@ -5,152 +5,235 @@ meta:
 </route>
 
 <template>
-  <swiper
-    :space-between="10"
-    :centered-slides="true"
-    :modules="[Autoplay, Carousel]"
-    loop
-    :autoplay="{
-      delay: 5000,
-      disableOnInteraction: false,
-    }"
-    class="swiper-hot z--1"
-  >
-    <swiper-slide
-      v-for="(item, index) in data.sliders"
-      :key="index"
-      v-ripple
-      class="flex items-center"
-      @click="router.push(item.path)"
-    >
+  <div v-if="!data" class="absolute w-full h-full overflow-hidden loader">
+    <div class="swiper-hot mt-[-60px]">
+      <q-responsive :ratio="583 / 306" class="poster">
+        <q-skeleton type="rect" width="100%" height="100%" />
+      </q-responsive>
       <div
-        class="flex items-center justify-center w-full h-full backdrop-bg"
+        class="mark-b w-full h-[30%] z-101 absolute bottom-0 pointer-events-none"
         :style="{
-          '--data-src': `url(${item.image})`,
+          'background-image': `linear-gradient(
+            rgba(17, 19, 25, 0) 2%,
+            rgb(17, 19, 25) 94%
+          )`,
         }"
-      >
-        <img
-          no-spinner
-          :src="item.image"
-          :ratio="583 / 306"
-          referrerpolicy="no-referrer"
-          class="poster z-1 h-full block"
-        />
+      />
+    </div>
+
+    <div class="px-4 md:px-13 relative">
+      <div class="wpa-grid">
+        <div class="ctnr">
+          <SkeletonCard
+            v-for="item in 12"
+            :key="item"
+            class="card-wrap inline-block"
+          />
+        </div>
       </div>
-    </swiper-slide>
-    <div class="drop-left z-2"></div>
-    <div class="drop-center z-2"></div>
-    <div class="drop-right z-2"></div>
-    <!--
+    </div>
+
+    <div class="px-4 md:px-13 relative">
+      <q-skeleton type="text" width="7rem" class="text-h6" />
+
+      <SkeletonGridCard :count="6" />
+    </div>
+
+    <div class="px-4 md:px-13 relative">
+      <q-skeleton type="text" width="7rem" class="text-h6" />
+
+      <div class="wpa-grid">
+        <div class="ctnr">
+          <SkeletonCard
+            v-for="item in 12"
+            :key="item"
+            class="card-wrap inline-block"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 md:px-13 relative">
+      <q-skeleton type="text" width="7rem" class="text-h6" />
+
+      <div class="wpa-grid">
+        <q-skeleton type="text" width="100%" />
+        <div class="ctnr">
+          <SkeletonCard
+            v-for="item in 12"
+            :key="item"
+            class="card-wrap inline-block"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 md:px-13 relative">
+      <q-skeleton type="text" width="7rem" class="text-h6" />
+
+      <SkeletonGridCard :count="6" />
+    </div>
+  </div>
+
+  <template v-else>
+    <swiper
+      :space-between="10"
+      :centered-slides="true"
+      :modules="[Autoplay, Carousel]"
+      loop
+      :autoplay="{
+        delay: 5000,
+        disableOnInteraction: false,
+      }"
+      @real-index-change="sliderIndex = $event.realIndex"
+      class="swiper-hot z--1"
+    >
+      <swiper-slide
+        v-for="(item, index) in data.sliders"
+        :key="index"
+        v-ripple
+        class="flex items-center"
+        @click="router.push(item.path)"
+      >
+        <div
+          class="flex items-center justify-center w-full h-full backdrop-bg"
+          :style="{
+            '--data-src': `url(${item.image})`,
+          }"
+        >
+          <img
+            no-spinner
+            :src="item.image"
+            :ratio="583 / 306"
+            referrerpolicy="no-referrer"
+            class="poster z-1 h-full block"
+          />
+        </div>
+      </swiper-slide>
+      <div class="drop-left z-2"></div>
+      <div class="drop-center z-2"></div>
+      <div class="drop-right z-2"></div>
+      <!--
           <div class="swiper-mark-left" />
           <div class="swiper-mark-right" /> -->
 
-    <div class="drop-left"></div>
-    <div class="drop-center"></div>
-    <div class="drop-right"></div>
-    <div class="info">
-      <div class="flex line-clamp-2 items-center">
-        <div class="text-weight-medium">{{ " item.name " }}</div>
-      </div>
-      <div class="focus-item-info">
-        <span class="focus-item-update">
-          {{ "item.chapter " }}
-        </span>
-      </div>
-      <div class="focus-item-desc">
-        {{ "item.description " }}
-      </div>
+      <div class="drop-left"></div>
+      <div class="drop-center"></div>
+      <div class="drop-right"></div>
+      <transition  name="q-transition--fade">
+        <div :key="sliderIndex" class="info pointer-events-none">
+          <div class="flex line-clamp-2 items-center">
+            <div class="text-weight-medium">
+              {{ data.sliders[sliderIndex].name }}
+            </div>
+          </div>
+          <div class="focus-item-info">
+            <span class="focus-item-update">
+              {{ data.sliders[sliderIndex].chapter }}
+            </span>
+          </div>
+          <div class="focus-item-desc">
+            {{ data.sliders[sliderIndex].description }}
+          </div>
 
-      <!-- action -->
+          <!-- action -->
 
-      <q-btn rounded class="bg-main mt-4" no-caps>
-        <Icon
-          icon="fluent:play-24-filled"
-          width="1.3em"
-          height="1.3em"
-          class="mr-2"
-        />
-        Đọc ngay
-      </q-btn>
-    </div>
-    <div
-      class="mark-b w-full h-[30%] z-101 absolute bottom-0 pointer-events-none z-200"
-      :style="{
-        'background-image': `linear-gradient(
+          <q-btn rounded class="bg-main mt-4" no-caps>
+            <Icon
+              icon="fluent:play-24-filled"
+              width="1.3em"
+              height="1.3em"
+              class="mr-2"
+              :to="data.sliders[sliderIndex].path"
+            />
+            Đọc ngay
+          </q-btn>
+        </div>
+      </transition>
+      <div
+        class="mark-b w-full h-[30%] z-101 absolute bottom-0 pointer-events-none z-200"
+        :style="{
+          'background-image': `linear-gradient(
                 rgba(17, 19, 25, 0) 2%,
                 rgb(17, 19, 25) 94%
               )`,
-      }"
-    />
-  </swiper>
-
-  <div class="px-4 md:px-13 relative">
-    <swiper
-      :slides-per-view="6"
-      :navigation="{
-        nextEl: '.swiper-button-next-1',
-        prevEl: '.swiper-button-prev-1',
-      }"
-      :modules="[Navigation]"
-      :breakpoints="{
-        [$q.screen.sizes.sm]: {
-          slidesPerView: 4,
-        },
-        [$q.screen.sizes.md]: {
-          slidesPerView: 6,
-        },
-      }"
-    >
-      <swiper-slide v-for="item in data.hot" :key="item.name" class="card-wrap">
-        <Card :data="item" />
-      </swiper-slide>
+        }"
+      />
     </swiper>
 
-    <div class="nav-btn swiper-button-prev swiper-button-prev-1" />
-    <div class="nav-btn swiper-button-next swiper-button-next-1" />
-  </div>
+    <div class="px-4 md:px-13 relative">
+      <swiper
+        :slides-per-view="6"
+        :navigation="{
+          nextEl: '.swiper-button-next-1',
+          prevEl: '.swiper-button-prev-1',
+        }"
+        :modules="[Navigation]"
+        :breakpoints="{
+          [$q.screen.sizes.sm]: {
+            slidesPerView: 4,
+          },
+          [$q.screen.sizes.md]: {
+            slidesPerView: 6,
+          },
+        }"
+      >
+        <swiper-slide
+          v-for="item in data.hot"
+          :key="item.name"
+          class="card-wrap"
+        >
+          <Card :data="item" />
+        </swiper-slide>
+      </swiper>
 
-  <!-- show genres -->
-  <section
-    class="mx-10 mb-5 mt-7 flex flex-nowrap items-center justify-between"
-  >
-    <div>
+      <div class="nav-btn swiper-button-prev swiper-button-prev-1" />
+      <div class="nav-btn swiper-button-next swiper-button-next-1" />
+    </div>
+
+    <!-- show genres -->
+    <section
+      class="mx-10 mb-5 mt-7 flex flex-nowrap items-center justify-between"
+    >
+      <div>
+        <q-btn
+          v-for="item in genres"
+          :key="item.name"
+          :to="item.path"
+          no-caps
+          rounded
+          unelevated
+          class="text-15px font-family-poppins hover:!text-main-3 transition-color duration-200"
+          >{{ item.name }}</q-btn
+        >
+      </div>
       <q-btn
-        v-for="item in genres"
-        :key="item.name"
-        :to="item.path"
         no-caps
         rounded
         unelevated
-        class="text-15px font-family-poppins hover:!text-main-3 transition-color duration-200"
-        >{{ item.name }}</q-btn
+        class="text-15px font-family-poppins text-main-4"
       >
-    </div>
-    <q-btn
-      no-caps
-      rounded
-      unelevated
-      class="text-15px font-family-poppins text-main-4"
-    >
-      Tất cả thể loại
-      <Icon
-        icon="fluent:chevron-right-24-regular"
-        width="1.3rem"
-        height="1.3rem"
-      />
-    </q-btn>
-  </section>
-  <!-- /show genres -->
+        Tất cả thể loại
+        <Icon
+          icon="fluent:chevron-right-24-regular"
+          width="1.3rem"
+          height="1.3rem"
+        />
+      </q-btn>
+    </section>
+    <!-- /show genres -->
 
-  <section class="mx-10">
-    <BannerTitle>Mới cập nhật</BannerTitle>
-    <GridCard :items="data.update" />
-  </section>
+    <section class="mx-10">
+      <BannerTitle>Mới cập nhật</BannerTitle>
+      <GridCard :items="data.update" />
+    </section>
+  </template>
 </template>
 
 <script setup lang="ts">
 import { Icon } from "@iconify/vue"
-import data from "src/apis/parsers/__test__/assets/index.json"
+// import data from "src/apis/parsers/__test__/assets/index.json"
+import Index from "src/apis/runs/index"
 import { Autoplay, Navigation } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 
@@ -251,6 +334,10 @@ const genres = [
     path: "/the-loai/isekai-85",
   },
 ]
+
+const { data } = useRequest(() => Index())
+
+const sliderIndex = ref(0)
 </script>
 
 <style lang="scss" scoped>

@@ -17,7 +17,7 @@ meta:
       </router-link>
       <q-space />
 
-      <div class="ellipsis">{{ data.name }}</div>
+      <div class="ellipsis">{{ data?.name }}</div>
       <Icon icon="fluent:chevron-right-24-regular" class="mx-1" />
       {{ currentEpisode?.value.name }}
 
@@ -34,24 +34,33 @@ meta:
     </q-toolbar>
   </q-header>
 
-  <ReaderHorizontal
-    v-if="!scrollingMode"
-    ref="readerHorizontalRef"
-    :pages="pages"
-    :single-page="singlePage || $q.screen.width <= 517"
-    :right-to-left="rightToLeft"
-    :min-page="minPage"
-    v-model:current-page="currentPage"
-    v-model:zoom="zoom"
-    @click="onClickReader"
-  />
-  <ReaderVertical
-    v-else
-    :pages="pages"
-    v-model:current-page="currentPage"
-    v-model:zoom="zoom"
-    @click="onClickReader"
-  />
+  <!-- reader -->
+  <template v-if="pages && !loading">
+    <ReaderHorizontal
+      v-if="!scrollingMode"
+      ref="readerHorizontalRef"
+      :pages="pages"
+      :single-page="singlePage || $q.screen.width <= 517"
+      :right-to-left="rightToLeft"
+      :min-page="minPage"
+      v-model:current-page="currentPage"
+      v-model:zoom="zoom"
+      @click="onClickReader"
+    />
+    <ReaderVertical
+      v-else
+      :pages="pages"
+      v-model:current-page="currentPage"
+      v-model:zoom="zoom"
+      @click="onClickReader"
+    />
+  </template>
+  <div v-else class="w-full h-full flex items-center justify-center">
+    <div>
+      <SpinnerSakura />
+      <p class="mt-1 text-gray-3 text-12px font-family-poppins">Loading...</p>
+    </div>
+  </div>
 
   <!-- float absolute button -->
   <FloatingStatus
@@ -59,7 +68,7 @@ meta:
     :scrolling-mode="scrollingMode"
     :single-page="singlePage || $q.screen.width <= 517"
     :right-to-left="rightToLeft"
-    :pages-length="data.pages.length"
+    :pages-length="data?.pages.length"
     :sizes="readerHorizontalRef?.sizes"
     :current-page="currentPage"
     :size-page="sizePage"
@@ -200,7 +209,11 @@ meta:
             >
               <div class="text-subtitle1 mb-1">Episodes</div>
 
+              <div v-if="!data" class="py-4 text-center">
+                <q-spinner color="main-3" />
+              </div>
               <ListChapters
+                v-else
                 :chapters="data.chapters"
                 focus-tab-active
                 class-item="col-6 col-sm-4 col-md-4"
@@ -320,19 +333,17 @@ meta:
               <div class="text-subtitle1 mt-4 mb-1">Server</div>
               <div>
                 <q-btn
-                  v-for="{ name } in SERVERS.filter((item) =>
-                    item.has(data.pages[0])
-                  )"
+                  v-for="({ name }, index) in serversReady"
                   :key="name"
                   :label="name"
                   unelevated
                   rounded
                   class="mx-2"
                   no-caps
-                  v-memo="[server === name]"
-                  :outline="server === name"
-                  :color="server === name ? 'main-3' : undefined"
-                  @click="server = name"
+                  v-memo="[server === index]"
+                  :outline="server === index"
+                  :color="server === index ? 'main-3' : undefined"
+                  @click="server = index"
                 />
               </div>
             </q-card-section>
@@ -393,10 +404,11 @@ import { Icon } from "@iconify/vue"
 import { useFullscreen } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
-import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
+// import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/parsers/truyen-tranh/[slug]-chap-[chap]"
+import SlugChapChap from "src/apis/runs/truyen-tranh/[slug]-chap-[chap]"
 
-defineProps<{
+const props = defineProps<{
   slug: string
   chap: string
 }>()
@@ -404,22 +416,54 @@ defineProps<{
 const $q = useQuasar()
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const route = useRoute()
+const router = useRouter()
 const { isFullscreen, toggle } = useFullscreen()
-
-const zoom = useClamp(100, 50, 200)
-const server = ref("Server 1")
-const pageGetter = computed(
-  () => SERVERS.find((item) => item.name === server.value)?.get
+const { data, loading, runAsync, error } = useRequest(
+  () => SlugChapChap(props.slug + "-chap-" + props.chap),
+  {
+    refreshDeps: [() => props.slug, () => props.chap],
+    refreshDepsAction() {
+      runAsync()
+    },
+  }
 )
-const pages = computed(() =>
-  data.pages.map((item) => pageGetter.value?.(item) ?? item.src)
+watch(error, (error) => {
+  if (error?.message === "not_found")
+    router.replace({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      name: "not_found" as any,
+      params: {
+        catchAll: route.path.split("/").slice(1),
+      },
+      query: route.query,
+      hash: route.hash,
+    })
+})
+const zoom = useClamp(100, 50, 200)
+const server = ref(0)
+const serversReady = computed(() =>
+  SERVERS.filter((item) => !data.value || item.has(data.value.pages[0]))
+)
+// eslint-disable-next-line no-void
+watch(serversReady, () => void (server.value = 0))
+const pageGetter = computed(
+  () =>
+    serversReady.value.find(
+      (item) => item.name === serversReady.value[server.value].name
+    )?.get
+)
+const pages = computed(
+  () =>
+    data.value?.pages.map((item) => pageGetter.value?.(item) ?? item.src) as
+      | string[]
+      | undefined
 )
 const singlePage = ref(false)
 const rightToLeft = ref(false)
 const scrollingMode = ref(true)
 
 const sizePage = computed(
-  () => readerHorizontalRef.value?.sizePage ?? pages.value.length
+  () => readerHorizontalRef.value?.sizePage ?? pages.value?.length ?? 0
 )
 const minPage = computed(() => (rightToLeft.value ? -(sizePage.value - 1) : 0))
 const maxPage = computed(() => (rightToLeft.value ? 0 : sizePage.value - 1))
@@ -443,7 +487,7 @@ function onClickReader() {
 // TODO: calculate previous episode and next episode
 const currentEpisode = computed(() => {
   let index = -1
-  const value = data.chapters.find((item, i) => {
+  const value = data.value?.chapters.find((item, i) => {
     if (pathEqual(item.path, route.path)) {
       index = i
       return true
@@ -461,7 +505,7 @@ const previousEpisode = computed(() => {
   if (!current) return
 
   const index = current.index - 1
-  const value = data.chapters[index]
+  const value = data.value?.chapters[index]
 
   if (!value) return
 
@@ -472,7 +516,7 @@ const nextEpisode = computed(() => {
   if (!current) return
 
   const index = current.index + 1
-  const value = data.chapters[index]
+  const value = data.value?.chapters[index]
 
   if (!value) return
 

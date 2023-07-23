@@ -4,12 +4,14 @@
       :model-value="modelValue"
       @update:model-value="emit('update:model-value', $event)"
       :max="max"
+      :max-pages="6"
+      boundary-numbers
       direction-links
       color="main-3"
       active-design="unelevated"
       active-color="pink-5"
       active-text-color="main-4"
-      boundary-numbers
+      ellipses
       :max-page="6"
       unelevated
       flat

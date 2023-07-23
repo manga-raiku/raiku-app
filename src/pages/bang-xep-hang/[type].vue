@@ -47,27 +47,55 @@ meta:
           <TrendingCardIconLeft class="text-main-4" />
           <!-- #8c6b1c #548c76 -->
           <span class="text-main-2 text-16px mx-2 text-weight-medium"
-            >Bảng Ngày</span
+            >Bảng
+            {{
+              typesRank.find((item) => pathEqual(item.path, route.path))?.name
+            }}</span
           >
           <TrendingCardIconRight class="rotate-180deg text-main-4" />
         </div>
 
-        <GenresFilter :filter="data.filter" class="my-3" />
+          <GenresFilter v-if="data" :filter="data.filter" class="my-3" />
+        <template v-if="data && !loading">
 
-        <section class="row mx--2 font-family-poppins">
           <div
-            v-for="(item, index) in data.items"
-            :key="item.path"
-            class="my-4 col-12 col-md-6 px-2"
+            v-if="data.maxPage > 1"
+            class="flex items-center justify-center q-pa-md"
           >
-            <CardVertical :data="item">
-              <template #inside-image>
-                <Rank :index="index" />
-              </template>
-            </CardVertical>
+            <Pagination :max="data.maxPage" v-model="page" />
           </div>
-          <p class="whitespace-pre-wrap col-12">{{ data }}</p>
-        </section>
+          <section class="row mx--2 font-family-poppins">
+            <div
+              v-for="(item, index) in data.items"
+              :key="item.path"
+              class="my-4 col-12 col-md-6 px-2"
+            >
+              <CardVertical :data="item">
+                <template #inside-image>
+                  <Rank :index="index + 42 * (page - 1)" />
+                </template>
+              </CardVertical>
+            </div>
+          </section>
+
+          <div
+            v-if="data.maxPage > 1"
+            class="flex items-center justify-center q-pa-md"
+          >
+            <Pagination :max="data.maxPage" v-model="page" />
+          </div>
+        </template>
+        <template v-else>
+          <section class="row mx--2 font-family-poppins">
+            <div
+              v-for="item in 12"
+              :key="item"
+              class="my-4 col-12 col-md-6 px-2"
+            >
+              <CardVerticalSKT />
+            </div>
+          </section>
+        </template>
       </div>
     </section>
   </section>
@@ -81,13 +109,14 @@ meta:
 </template>
 
 <script lang="ts" setup>
-import data from "src/apis/parsers/__test__/assets/top-ngay.json"
+// import data from "src/apis/parsers/__test__/assets/top-ngay.json"
+import BangXepHangType from "src/apis/runs/bang-xep-hang/[type]"
 import { pathEqual } from "src/logic/path-equal"
 
 const route = useRoute()
 const router = useRouter()
 
-defineProps<{
+const props = defineProps<{
   type: string
 }>()
 
@@ -105,6 +134,34 @@ const typesRank = [
     path: "/bang-xep-hang/thang",
   },
 ]
+
+const page = computed<number>({
+  get: () => parseInt(route.query.page?.toString() ?? "1") || 1,
+  set: (page) =>
+    router.push({
+      ...route,
+      query: {
+        ...route.query,
+        page,
+      },
+    }),
+})
+
+const { data , loading, error } = useRequest(() => BangXepHangType(props.type, page.value, route.query), {
+  refreshDeps: [() => props.type, page, () => route.query],
+})
+watch(error, (error) => {
+  if (error?.message === "not_found")
+    router.replace({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      name: "not_found" as any,
+      params: {
+        catchAll: route.path.split("/").slice(1),
+      },
+      query: route.query,
+      hash: route.hash,
+    })
+})
 </script>
 
 <style lang="scss" scoped>

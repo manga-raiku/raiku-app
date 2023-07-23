@@ -22,7 +22,7 @@
           >Trang chủ</router-link
         >
         <router-link
-          to="/genres"
+          to="/the-loai/school-life-37.html?country=4"
           class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
           exact-active-class="!text-main-3 text-weight-medium"
           >Thể loại</router-link
@@ -61,14 +61,14 @@
                     ? '100%'
                     : undefined,
                 marginTop:
-                  offset === 0
+                  offset === 0 ||  route.meta?.absolute
                     ? undefined
                     : (route.meta.existsFooter ? -50 : -offset) + 'px',
               })
             : undefined
         "
         :class="{
-          absolute: route.meta?.absolute,
+          'fixed top-0': route.meta?.absolute,
         }"
         :padding="route.meta?.padding"
       >

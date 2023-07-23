@@ -13,7 +13,15 @@
           rounded
           unelevated
           outline
-          :to="path"
+          :to="{
+            ...route,
+            query: {
+              ...route.query,
+              page: undefined,
+            },
+            name: undefined,
+            path,
+          }"
           class="text-[rgba(255,255,255,0.86)] before:display-none text-weight-normal my-1 !py-1 !px-3 min-h-0"
           :class="{
             '!text-main-3 before:!display-block': pathEqual(

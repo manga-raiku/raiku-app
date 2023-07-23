@@ -432,12 +432,26 @@ const props = defineProps<{
 
 const $q = useQuasar()
 const { share } = useShare()
+const router = useRouter()
+const route = useRoute()
 const { data, loading, error, run } = useRequest(() => Manga(props.zlug), {
   refreshDeps: [() => props.zlug],
   refreshDepsAction() {
     // data.value = undefined
     run()
   },
+})
+watch(error, (error) => {
+  if (error?.message === "not_found")
+    router.replace({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      name: "not_found" as any,
+      params: {
+        catchAll: route.path.split("/").slice(1),
+      },
+      query: route.query,
+      hash: route.hash,
+    })
 })
 
 function onClickShare() {

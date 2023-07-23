@@ -32,7 +32,7 @@
 
     <div class="ml-2" data-cy="text">
       <div>
-        {{ pagesLength }}P ({{
+        {{ pagesLength ?? "_" }}P ({{
           Math.round(((absCurrentPage + 1) / sizePage) * 100)
         }}%)
       </div>
@@ -52,7 +52,7 @@ const props = defineProps<{
   scrollingMode: boolean
   singlePage: boolean
   rightToLeft: boolean
-  pagesLength: number
+  pagesLength?: number
 
   sizes?: Map<number, readonly [number, number]>
   currentPage: number
