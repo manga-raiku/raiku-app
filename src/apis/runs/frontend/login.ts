@@ -1,5 +1,5 @@
 export default async function login(email: string, password: string) {
-  const { data } = await post("/frontend/public/login", {
+  const { data, headers } = await post("/frontend/public/login", {
     email,
     password,
     expire: "1",
@@ -7,9 +7,11 @@ export default async function login(email: string, password: string) {
 
   const json = JSON.parse(data)
 
-  if (json.status === 0) throw new Error(json.error)
-  
+  // eslint-disable-next-line functional/no-throw-statement
+  if (json.status === 0) throw (json.error)
+
   return {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     cookie: new Headers(headers).get("set-cookie")!,
   }
 }

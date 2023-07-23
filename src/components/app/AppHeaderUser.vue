@@ -1,10 +1,9 @@
 <template>
-
   <q-btn flat round unelevated>
     <q-avatar v-if="authStore.isLogged" size="35px">
       <q-img
         v-if="authStore.user_data?.avatar"
-        :src="forceHttp2(authStore.user_data.avatar)"
+        :src="authStore.user_data.avatar"
         no-spinner
         referrerpolicy="no-referrer"
       />
@@ -26,7 +25,7 @@
                 <q-avatar size="45px">
                   <img
                     v-if="authStore.user_data?.avatar"
-                    :src="forceHttp2(authStore.user_data.avatar)"
+                    :src="authStore.user_data.avatar"
                     referrerpolicy="no-referrer"
                   />
                   <Icon
@@ -38,9 +37,10 @@
                 </q-avatar>
               </q-item-section>
               <q-item-section>
-                <q-item-label class="font-weight-medium text-subtitle1">{{
-                  authStore.user_data!.name
-                }}</q-item-label>
+                <q-item-label class="font-weight-medium text-subtitle1"
+                  >{{ authStore.user_data?.first_name }}
+                  {{ authStore.user_data?.last_name }}</q-item-label
+                >
               </q-item-section>
             </q-item>
 
@@ -57,15 +57,13 @@
                 <Icon icon="fluent:info-24-regular" width="20" height="20" />
               </q-item-section>
               <q-item-section>
-                <q-item-label>{{ t("trung-tam-ca-nhan") }}</q-item-label>
+                <q-item-label>Trung tâm cá nhân</q-item-label>
               </q-item-section>
             </q-item>
           </template>
           <template v-else>
             <q-item class="rounded-xl">
-              <q-item-section>
-                {{ t("cai-dat") }}
-              </q-item-section>
+              <q-item-section>Cài đặt</q-item-section>
             </q-item>
 
             <q-separator class="bg-[rgba(255,255,255,0.1)]" />
@@ -81,7 +79,7 @@
               <Icon icon="carbon:translate" width="20" height="20" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ t("ngon-ngu") }}</q-item-label>
+              <q-item-label>Ngôn ngữ</q-item-label>
             </q-item-section>
             <q-item-section side>
               <Icon icon="fluent:chevron-right-24-regular" />
@@ -98,74 +96,10 @@
               <Icon icon="fluent:settings-24-regular" width="20" height="20" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ t("cai-dat-chung") }}</q-item-label>
+              <q-item-label>Cài đặt chung</q-item-label>
             </q-item-section>
             <q-item-section side>
               <Icon icon="fluent:chevron-right-24-regular" />
-            </q-item-section>
-          </q-item>
-
-          <q-item clickable v-ripple class="rounded-xl">
-            <q-item-section avatar class="min-w-0">
-              <Icon
-                icon="fluent:phone-vertical-scroll-24-regular"
-                width="20"
-                height="20"
-              />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ t("cuon-vo-han") }}</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle
-                v-model="settingsStore.infinityScroll"
-                dense
-                color="main"
-              />
-            </q-item-section>
-          </q-item>
-
-          <q-item clickable v-ripple class="rounded-xl">
-            <q-item-section avatar class="min-w-0">
-              <Icon
-                icon="fluent:phone-vertical-scroll-24-regular"
-                width="20"
-                height="20"
-              />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{
-                t("khoi-phuc-tap-cuoi-cung-bo-anime")
-              }}</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle
-                v-model="settingsStore.restoreLastEp"
-                dense
-                color="main"
-              />
-            </q-item-section>
-          </q-item>
-
-          <q-item clickable v-ripple class="rounded-xl">
-            <q-item-section avatar class="min-w-0">
-              <Icon
-                icon="fluent:phone-vertical-scroll-24-regular"
-                width="20"
-                height="20"
-              />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{
-                t("luu-tien-trinh-xem-khi-offline")
-              }}</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle
-                v-model="settingsStore.enablePersistent"
-                dense
-                color="main"
-              />
             </q-item-section>
           </q-item>
 
@@ -174,13 +108,13 @@
             clickable
             v-ripple
             class="rounded-xl"
-            @click="logout"
+            @click="authStore.logout"
           >
             <q-item-section avatar class="min-w-0">
               <Icon icon="fa:sign-out" width="20" height="20" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ t("thoat") }}</q-item-label>
+              <q-item-label>Thoát</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -201,9 +135,7 @@
                 />
               </q-btn>
             </q-item-section>
-            <q-item-section>
-              {{ t("chon-ngon-ngu-cua-ban") }}
-            </q-item-section>
+            <q-item-section>Chọn ngôn ngữ của bạn</q-item-section>
           </q-item>
 
           <!-- <q-separator class="bg-[rgba(255,255,255,0.1)]" /> -->
@@ -245,35 +177,10 @@
                 />
               </q-btn>
             </q-item-section>
-            <q-item-section> {{ t("cai-dat-chung") }} </q-item-section>
+            <q-item-section>Cài đặt chung</q-item-section>
           </q-item>
 
           <!-- <q-separator class="bg-[rgba(255,255,255,0.1)]" /> -->
-
-          <q-item clickable v-ripple class="rounded-xl">
-            <q-item-section>
-              <q-item-label>{{ t("tu-dong-phat") }}</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle
-                v-model="settingsStore.player.autoNext"
-                size="sm"
-                color="green"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item clickable v-ripple class="rounded-xl">
-            <q-item-section>
-              <q-item-label>{{ t("nhac-toi-tam-dung-xem") }}</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle
-                v-model="settingsStore.player.enableRemindStop"
-                size="sm"
-                color="green"
-              />
-            </q-item-section>
-          </q-item>
         </q-list>
       </q-card>
     </q-menu>
@@ -290,9 +197,8 @@
     @click="showDialogLogin = true"
   >
     <Icon icon="fluent:person-24-regular" width="20" height="20" />
-    {{ t("dang-nhap") }}
+    Đăng nhập
   </q-btn>
-
 
   <q-dialog v-model="showDialogLogin">
     <q-card class="h-[60vh] bg-dark-500 min-w-[300px] rounded-xl">
@@ -301,7 +207,7 @@
           <q-btn dense round flat unelevated />
 
           <div class="flex-1 text-center text-subtitle1">
-            {{ t("dang-nhap-de-dong-bo-du-lieu") }}
+            Đăng nhập để đồng bộ dữ liệu
           </div>
 
           <q-btn dense round unelevated icon="close" v-close-popup />
@@ -330,10 +236,10 @@
               :type="showPassword ? 'text' : 'password'"
               name="password"
               class="login-input w-full"
-              :placeholder="t('mat-khau')"
+              placeholder="Mật khẩu"
               @keydown.stop
             >
-              <template v-slot:append>
+              <template #append>
                 <q-btn
                   round
                   unelevated
@@ -353,14 +259,12 @@
           </div>
 
           <div class="text-center text-gray-300 my-3">
-            {{ t("dang-nhap-bang-tai-khoan-cua-ban-tren") }}
-            <a href="https://animevietsub.cc" target="_blank">AnimeVietsub</a>.
-            {{ t("du-lieu-cua-ban-se-duoc-dong-bo-ca-o-do-va-day") }}
+            Đăng nhập bằng tài khoản của bạn trên
+            <a href="https://truyenqqq.vn" target="_blank">TruyenQQ</a>. Dữ liệu
+            của bạn sẽ được đồng bộ cả ở đó và ở đây
           </div>
 
-          <div class="text-grey text-center mt-5 mb-4">
-            {{ t("tim-lai-mat-khau") }}
-          </div>
+          <div class="text-grey text-center mt-5 mb-4">Tìm lại mật khẩu</div>
 
           <q-btn
             type="submit"
@@ -369,7 +273,7 @@
             unelevated
             class="bg-main w-full"
             :disable="!email || !password"
-            >{{ t("dang-nhap") }}</q-btn
+            >Đăng nhập</q-btn
           >
         </form>
       </q-card-section>
@@ -378,6 +282,11 @@
 </template>
 
 <script lang="ts" setup>
+import { languages } from "src/i18n"
+
+const $q = useQuasar()
+const authStore = useAuthStore()
+const settingsStore = useSettingsStore()
 
 const showMenuAccount = ref(false)
 // account
@@ -387,44 +296,66 @@ watch(showMenuAccount, (val) => {
   if (val) tabMenuAccountActive.value = "normal"
 })
 
-  const showDialogLogin = ref(false)
+const showDialogLogin = ref(false)
 
-  const showPassword = ref(false)
+const showPassword = ref(false)
 
-  const email = ref("")
-  const password = ref("")
+const email = ref("")
+const password = ref("")
 
-  const $q = useQuasar()
+async function login() {
+  const loader = $q.loading.show({
+    message: "Đang xác thực vui lòng đợi",
+    boxClass: "bg-dark text-light-9",
+    spinnerColor: "main",
+    delay: Infinity,
+  })
 
-  async function login() {
-    const loader = $q.loading.show({
-      message: t("dang-xac-thuc-vui-long-doi"),
-      boxClass: "bg-dark text-light-9",
-      spinnerColor: "main",
-      delay: Infinity,
+  try {
+    const data = await authStore.login(email.value, password.value)
+
+    showDialogLogin.value = false
+    email.value = ""
+    password.value = ""
+    $q.notify({
+      position: "bottom-right",
+      message: `Đã đăng nhập với tư cách ${data.first_name} ${data.last_name}`,
     })
-
-    try {
-      const data = await authStore.login(email.value, password.value)
-
-      showDialogLogin.value = false
-      email.value = ""
-      password.value = ""
-      $q.notify({
-        position: "bottom-right",
-        message: t("da-dang-nhap-voi-tu-cach-_user", [data.name]),
-      })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      console.error(err)
-      $q.notify({
-        position: "bottom-right",
-        message: t("dang-nhap-that-bai"),
-        caption: err.message,
-      })
-    } finally {
-      loader()
-    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    console.error(err)
+    $q.notify({
+      position: "bottom-right",
+      message: "Đăng nhập thất bại",
+      caption:
+        toType(err) === "Error" ? err.message : Object.values(err).join(", "),
+    })
+  } finally {
+    loader()
   }
-
+}
 </script>
+
+<style lang="scss" scoped>
+.login-input :deep(.q-field__native) {
+  background-color: transparent !important;
+
+  &,
+  &:focus,
+  &:focus-visible {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+.login-input :deep(.q-field__control),
+.login-input :deep(.q-field__append) {
+  height: 45px !important;
+}
+</style>
+<!--
+<style lang="scss" scoped>
+.hidden-focus-helper :deep(.q-focus-helper) {
+  display: none !important;
+}
+</style> -->

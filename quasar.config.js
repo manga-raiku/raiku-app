@@ -180,7 +180,13 @@ module.exports = configure((/* ctx */) => {
         [
           "unplugin-vue-components/vite",
           {
-            resolvers: [],
+            resolvers: [
+              (componentName) => {
+                // where `componentName` is always CapitalCase
+                if (componentName.toLowerCase() === "icon")
+                  return { name: componentName, from: "@iconify/vue" }
+              },
+            ],
           },
         ],
       ],
@@ -212,7 +218,7 @@ module.exports = configure((/* ctx */) => {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Notify", "Dialog"],
+      plugins: ["Notify", "Dialog", "Loading"],
     },
 
     // animations: 'all', // --- includes all animations

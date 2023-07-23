@@ -25,10 +25,12 @@ meta:
 
       <AppHeaderSearch />
 
-      <AppHeaderRightPart />
-      
-        <AppHeaderUser />
+      <AppHeaderGithub />
+      <AppHeaderFollows />
+      <AppHeaderHistory />
+      <AppHeaderNotify />
 
+      <AppHeaderUser />
     </q-toolbar>
   </q-header>
 
@@ -388,8 +390,8 @@ meta:
 
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue"
-import { useClamp } from "@vueuse/math"
 import { useFullscreen } from "@vueuse/core"
+import { useClamp } from "@vueuse/math"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/parsers/truyen-tranh/[slug]-chap-[chap]"

@@ -50,6 +50,8 @@
         </template>
       </div>
 
+      <div v-if="readContinue">{{data.last_chapter.name}}</div>
+
       <p v-if="data.description" class="text-grey mt-3 line-clamp-2">
         {{ data.description }}
       </p>
@@ -78,5 +80,6 @@ import "@fontsource/poppins"
 defineProps<{
   data: CardVerticalProps["data"]
   threeLine?: boolean
+  readContinue?: boolean
 }>()
 </script>

@@ -74,7 +74,18 @@ export default function general(html: string, now: number) {
 
   const items = $("#main_homepage .list_grid li")
     .toArray()
-    .map((item) => parseItem($, $(item), now))
+    .map(
+      (item) =>
+        parseItem($, $(item), now) as Omit<
+          ReturnType<typeof parseItem>,
+          "last_chapter"
+        > & {
+          last_chapter: Exclude<
+            ReturnType<typeof parseItem>["last_chapter"],
+            null
+          >
+        }
+    )
 
   const curPage = parseInt($(".page_redirect .active").text())
   const maxPage = parseInt(

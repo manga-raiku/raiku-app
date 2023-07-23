@@ -35,13 +35,15 @@
         >
 
         <q-space />
-        
-        <AppHeaderSearch />
-        
-        <AppHeaderRightPart />
-        
-        <AppHeaderUser />
 
+        <AppHeaderSearch />
+
+        <AppHeaderGithub />
+        <AppHeaderFollows />
+        <AppHeaderHistory />
+        <AppHeaderNotify />
+
+        <AppHeaderUser />
       </q-toolbar>
     </q-header>
 
@@ -92,24 +94,13 @@ import "@fontsource/caveat"
 import "@fontsource/poppins"
 // =========== suth
 
-import { Icon } from "@iconify/vue"
-import { useEventListener } from "@vueuse/core"
 import { Http } from "client-ext-animevsub-helper"
-import { debounce, QInput } from "quasar"
-import PreSearch from "src/apis/runs/frontend/pre-search"
-import { useI18n } from "vue-i18n"
-import { useRequest } from "vue-request"
-import { useRoute, useRouter } from "vue-router"
 
 import NotExistsExtension from "./NotExistsExtension.vue"
 
 // key bind
 
-const { t } = useI18n()
-
 const route = useRoute()
-const router = useRouter()
-const authStore = { isLogged: false }
 const $q = useQuasar()
 
 const canvasRef = ref<HTMLCanvasElement>()
@@ -121,42 +112,5 @@ watch(canvasRef, (ref) => {
 
   draw()
   onBeforeUnmount(stop, instance)
-})
-
-const query = ref("")
-const {
-  data: searchResult,
-  loading: searchLoading,
-  run,
-} = useRequest(() => PreSearch(query.value), {
-  manual: true,
-})
-watch(query, debounce(run, 300))
-
-const focusing = ref(false)
-
-const showDrawer = ref(false)
-
-watch(
-  (() => route.meta?.hideDrawer === true),
-  (hideDrawer) => {
-    if (hideDrawer) showDrawer.value = false
-    else showDrawer.value = true
-  },
-  { immediate: true }
-)
-// import QrScanner from "qr-scanner"
-
-const showDialogLogin = ref(false)
-
-// key bind /
-const inputSearchRef = ref<QInput>()
-useEventListener(window, "keypress", (event) => {
-  if (checkContentEditable(document.activeElement)) return
-
-  if (event.code === "Slash") {
-    event.preventDefault()
-    inputSearchRef.value?.focus()
-  }
 })
 </script>

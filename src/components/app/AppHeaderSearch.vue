@@ -1,5 +1,5 @@
 <template>
-  
+
   <form
     @submit.prevent="router.push(`/tim-kiem/${query}`)"
     class="relative md:min-w-[164px] md:w-full max-w-370px"
@@ -30,7 +30,7 @@
         </button>
       </template>
     </q-input>
-  
+
     <transition name="q-transition--fade">
       <ul
         class="absolute w-full bg-dark-page left-0 max-h-[80vh] overflow-y-auto scrollbar-custom pb-4 top-[calc(100%+8px)] !shadow-8"
@@ -52,7 +52,7 @@
             </span>
             <span class="font-bold truncate">{{ query }}</span>
           </div>
-  
+
           <button class="key-enter" type="submit">
             <span>{{ t("enter") }}</span>
           </button>
@@ -66,7 +66,7 @@
           <q-responsive :ratio="267 / 400" class="w-[90px] rounded">
             <q-skeleton type="rect" class="absolute w-full h-full" />
           </q-responsive>
-  
+
           <div class="ml-2 flex-1">
             <q-skeleton type="text" width="60%" />
             <q-skeleton type="text" width="100px" height="15px" />
@@ -90,7 +90,7 @@
                 class="rounded"
               />
             </div>
-  
+
             <div class="ml-2">
               <div class="text-subtitle1 text-weight-medium">
                 {{ item.name }}
@@ -108,13 +108,11 @@
       </ul>
     </transition>
   </form>
-  
+
 </template>
 
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue"
 import { useEventListener } from "@vueuse/core"
-import { Http } from "client-ext-animevsub-helper"
 import { debounce, QInput } from "quasar"
 import PreSearch from "src/apis/runs/frontend/pre-search"
 
@@ -122,10 +120,7 @@ import PreSearch from "src/apis/runs/frontend/pre-search"
 
 const { t } = useI18n()
 
-const route = useRoute()
 const router = useRouter()
-const authStore = { isLogged: false }
-const $q = useQuasar()
 
 const query = ref("")
 const {
@@ -164,7 +159,7 @@ useEventListener(window, "keypress", (event) => {
   &:before {
     border-color: rgba(153, 153, 153, 0.3) !important;
   }
-  
+
   &:after {
     border-width: 1px !important;
   }

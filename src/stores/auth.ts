@@ -3,10 +3,8 @@
 import cookie from "js-cookie"
 import { defineStore } from "pinia"
 import { parse } from "set-cookie-parser"
-import { computed, nextTick, ref, toRaw, watch } from "vue"
-import cookie from 'js-cookie'
-import GetUser from "src/apis/runs/user"
 import Login from "src/apis/runs/frontend/login"
+import GetUser from "src/apis/runs/user"
 
 interface User {
   avatar?: string
@@ -24,7 +22,7 @@ export const useAuthStore = defineStore("auth", () => {
     return !!token.value && !!user_data.value
   })
 
-  if (token_name.value && token_value.value)
+  if (token.value)
     // eslint-disable-next-line promise/catch-or-return, promise/always-return
     GetUser(token.value).then((data) => {
       setUser({
@@ -58,7 +56,7 @@ export const useAuthStore = defineStore("auth", () => {
     cookie.set("user_data", "", { expires: -1 })
   }
   function deleteToken() {
-    token.value =
+    token.value = null
     cookie.set("token", "", { expires: -1 })
   }
   function setTokenByCookie(cookie: string) {
@@ -75,24 +73,27 @@ export const useAuthStore = defineStore("auth", () => {
   // ** actions **
   async function login(email: string, password: string) {
     const data = await Login(email, password)
-
-    setUser({
-      avatar: data.avatar,
-      email: data.email,
-      last_name: data.last_name,
-      first_name: data.first_name,
-      sex: data.sex,
-    })
     setTokenByCookie(data.cookie)
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const user = await GetUser(token.value!);
 
-    return data
+    setUser({
+      avatar: user.avatar,
+      email: user.email,
+      last_name: user.last_name,
+      first_name: user.first_name,
+      sex: user.sex,
+    })
+
+
+    return user
   }
   async function logout() {
     deleteToken()
     deleteUser()
   }
-  
+
   return {
     user_data,
     token,
