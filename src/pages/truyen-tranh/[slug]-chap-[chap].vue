@@ -9,9 +9,26 @@ meta:
 <template>
   <q-header class="bg-[rgba(0,0,0,.9)]" :model-value="showToolbar">
     <q-toolbar>
+      <router-link to="/" class="flex flex-nowrap items-end mr-8">
+        <img src="~assets/app_icon.svg" width="35" height="35" />
+        <span style="font-family: Caveat" class="text-[25px] text-main"
+          >Manga Raiku</span
+        >
+      </router-link>
       <q-space />
-      {{ data.name }}
+
+      <div class="ellipsis">{{ data.name }}</div>
+      <Icon icon="fluent:chevron-right-24-regular" class="mx-1" />
+      {{ currentEpisode?.value.name }}
+
       <q-space />
+
+      <AppHeaderSearch />
+
+      <AppHeaderRightPart />
+      
+        <AppHeaderUser />
+
     </q-toolbar>
   </q-header>
 
@@ -157,7 +174,7 @@ meta:
         no-caps
         rounded
         no-wrap
-        class="<md:order-8 <md:w-25% md:mx-5"
+        class="<md:order-8 <md:w-1/5 md:mx-5"
         :stack="$q.screen.lt.md"
       >
         <Icon
@@ -199,7 +216,7 @@ meta:
         no-caps
         rounded
         no-wrap
-        class="<md:order-6 <md:w-25%"
+        class="<md:order-6 <md:w-1/5"
         :stack="$q.screen.lt.md"
       >
         <Icon icon="ri:settings-line" class="size-1.8em mr-1" /> Settings
@@ -325,7 +342,7 @@ meta:
         no-caps
         rounded
         no-wrap
-        class="<md:order-7 <md:w-25%"
+        class="<md:order-7 <md:w-1/5"
         :stack="$q.screen.lt.md"
       >
         <Icon icon="system-uicons:message" class="size-1.8em mr-1" />
@@ -336,12 +353,33 @@ meta:
         no-caps
         rounded
         no-wrap
-        class="<md:order-5 <md:w-25%"
+        class="<md:order-5 <md:w-1/5"
         :stack="$q.screen.lt.md"
       >
         <Icon icon="fluent:star-add-24-regular" class="size-1.8em mr-1" />
         Favorite
         <!-- fluent:star-checkmark-24-filled -->
+      </q-btn>
+
+      <q-btn
+        no-caps
+        rounded
+        no-wrap
+        class="<md:order-8 <md:w-1/5"
+        :stack="$q.screen.lt.md"
+        @click="toggle"
+      >
+        <Icon
+          :icon="
+            isFullscreen
+              ? 'fluent:full-screen-minimize-24-regular'
+              : 'fluent:full-screen-maximize-24-regular'
+          "
+          class="size-1.8em mr-1"
+        />
+        Fullscreen
+        <!-- ふふ -->
+        <!-- fluent:full-screen-minimize-24-regular -->
       </q-btn>
     </q-toolbar>
   </q-footer>
@@ -351,6 +389,7 @@ meta:
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue"
 import { useClamp } from "@vueuse/math"
+import { useFullscreen } from "@vueuse/core"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/parsers/truyen-tranh/[slug]-chap-[chap]"
@@ -363,6 +402,7 @@ defineProps<{
 const $q = useQuasar()
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const route = useRoute()
+const { isFullscreen, toggle } = useFullscreen()
 
 const zoom = useClamp(100, 50, 200)
 const server = ref("Server 1")

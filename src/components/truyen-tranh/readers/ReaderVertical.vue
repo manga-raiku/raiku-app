@@ -215,10 +215,10 @@ watch(
 
 watch(
   () => props.currentPage,
-  () => {
+  (currentPage) => {
     if (disableReactiveCurrentPage) return
 
-    // diffYZoom.value = -(mapOffset.value[(currentPage)] )
+    diffYZoom.value = -(mapOffset.value[(currentPage)] )
   }
 )
 </script>

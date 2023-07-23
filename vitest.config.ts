@@ -42,6 +42,7 @@ export default defineConfig({
           "@vueuse/core": ["computedAsync"],
           quasar: ["useQuasar"],
           "vue-request": ["useRequest"],
+                "vue-i18n": ["useI18n"],
           "@tachibana-shin/capacitor-filesystem": [
             "Filesystem",
             "Directory",

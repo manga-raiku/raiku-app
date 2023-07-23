@@ -111,9 +111,11 @@ function onTouchMove(event: TouchEvent | MouseEvent) {
 
   if (
     !canGo ||
+    canGo !== "A" &&
     !(
-      (canGo === "L" && touch.clientX < lastStartTouch.clientX) ||
-      (canGo === "R" && touch.clientX > lastStartTouch.clientX)
+      (canGo === "R" && touch.clientX < lastStartTouch.clientX) ||
+      (canGo === "L" && touch.clientX > lastStartTouch.clientX)
+
     )
   ) {
     const [diffX, diffY] = [
@@ -153,11 +155,12 @@ function onTouchEnd(event: TouchEvent | MouseEvent) {
   if (last2Mouse && last2Time) scrollInertia(touch, last2Mouse, last2Time)
   last2Mouse = null
   last2Time = null
+  canGo = null
   // }
 }
 const canSwipe = computed<"R" | "L" | "A" | null>(() => {
-  const R = diffXZoom.value === maxDiffX.value
-  const L = diffXZoom.value === minDiffX.value
+  const L = diffXZoom.value === maxDiffX.value
+  const R = diffXZoom.value === minDiffX.value
 
   if (R && L) return "A"
   if (R) return "R"

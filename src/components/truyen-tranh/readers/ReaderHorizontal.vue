@@ -6,7 +6,7 @@
     @mousemove="onMouseMoveCheckClick"
     @mouseup="onMouseUpCheckClick"
     @wheel="onWheel"
-    @touchstart.passive="onTouchStart"
+    @touchstart="onTouchStart"
     @touchmove.passive="onTouchMove"
     @touchend.passive="onTouchEnd"
   >
@@ -159,7 +159,9 @@ function onTouchStart(event: TouchEvent) {
 
   lastStartTouch = event.touches[0]
 
-  canGo = canSwipes[props.currentPage] // canSwipe.value
+  const index = props.rightToLeft &&  props.singlePage ? sizePage.value - 1 +  props.currentPage : (props.currentPage)
+  canGo = canSwipes[ index ]
+
   // if (canSwipe.value) {
   moving.value = true
   // } else {
@@ -182,12 +184,12 @@ function onTouchMove(event: TouchEvent) {
 
   const touch = findTouch(event.touches, lastStartTouch)
   if (!touch) return
-
+  
   if (
     canGo &&
     (canGo === "A" ||
-      (canGo === "L" && touch.clientX < lastStartTouch.clientX) ||
-      (canGo === "R" && touch.clientX > lastStartTouch.clientX))
+      (canGo === "R" && touch.clientX < lastStartTouch.clientX) ||
+      (canGo === "L" && touch.clientX > lastStartTouch.clientX))
   ) {
     diffX.value = touch.clientX - lastStartTouch.clientX
 
