@@ -138,7 +138,7 @@ meta:
 
           <!-- action -->
 
-          <q-btn rounded class="bg-main mt-4" no-caps>
+          <q-btn rounded class="bg-main mt-4 pointer-events-all" no-caps>
             <Icon
               icon="fluent:play-24-filled"
               width="1.3em"
@@ -481,7 +481,7 @@ const sliderIndex = ref(0)
     position: absolute;
     bottom: 0;
     left: 0;
-    z-index: 123;
+    z-index: 300;
     color: rgb(255, 255, 255);
     width: 100%;
     padding: 60px 30px calc(15% + 24px + 3.5vw) (30px + 64);
