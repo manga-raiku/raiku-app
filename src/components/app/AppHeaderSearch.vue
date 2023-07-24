@@ -1,5 +1,4 @@
 <template>
-
   <form
     @submit.prevent="router.push(`/tim-kiem/${query}`)"
     class="relative md:min-w-[164px] md:w-full max-w-370px"
@@ -108,7 +107,6 @@
       </ul>
     </transition>
   </form>
-
 </template>
 
 <script lang="ts" setup>
@@ -156,15 +154,14 @@ useEventListener(window, "keypress", (event) => {
       outline: none;
       box-shadow: none;
     }
-  &:before {
-    border-color: rgba(153, 153, 153, 0.3) !important;
-  }
+    &:before {
+      border-color: rgba(153, 153, 153, 0.3) !important;
+    }
 
-  &:after {
-    border-width: 1px !important;
+    &:after {
+      border-width: 1px !important;
+    }
   }
-  }
-
 }
 </style>
 

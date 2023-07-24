@@ -21,7 +21,28 @@ meta:
       />
     </div>
 
-    <div class="px-4 md:px-13 relative">
+    <div class="row text-grey text-[14px] mx-4 text-center mb-4">
+      <div class="col-6 relative py-2">
+        <q-skeleton type="circle" size="40px" class="mx-auto mb-2" />
+        <q-skeleton
+          type="text"
+          width="3.5rem"
+          height="1rem"
+          class="mt-2 mx-auto"
+        />
+      </div>
+      <div class="col-6 relative py-2">
+        <q-skeleton type="circle" size="40px" class="mx-auto mb-2" />
+        <q-skeleton
+          type="text"
+          width="3.5rem"
+          height="1rem"
+          class="mt-2 mx-auto"
+        />
+      </div>
+    </div>
+
+    <div class="mx-2 sm:mx-6 >sm:mx-13 relative">
       <div class="wpa-grid">
         <div class="ctnr">
           <SkeletonCard
@@ -33,13 +54,13 @@ meta:
       </div>
     </div>
 
-    <div class="px-4 md:px-13 relative">
+    <div class="mx-2 sm:mx-6 >sm:mx-10 relative">
       <q-skeleton type="text" width="7rem" class="text-h6" />
 
       <SkeletonGridCard :count="6" />
     </div>
 
-    <div class="px-4 md:px-13 relative">
+    <div class="mx-2 sm:mx-6 >sm:mx-10 relative">
       <q-skeleton type="text" width="7rem" class="text-h6" />
 
       <div class="wpa-grid">
@@ -53,7 +74,7 @@ meta:
       </div>
     </div>
 
-    <div class="px-4 md:px-13 relative">
+    <div class="mx-2 sm:mx-6 >sm:mx-10 relative">
       <q-skeleton type="text" width="7rem" class="text-h6" />
 
       <div class="wpa-grid">
@@ -68,7 +89,7 @@ meta:
       </div>
     </div>
 
-    <div class="px-4 md:px-13 relative">
+    <div class="mx-2 sm:mx-6 >sm:mx-10 relative">
       <q-skeleton type="text" width="7rem" class="text-h6" />
 
       <SkeletonGridCard :count="6" />
@@ -161,9 +182,21 @@ meta:
       />
     </swiper>
 
-    <div class="px-4 md:px-13 relative">
+    <div class="row text-grey text-[12px] mx-4 text-center mb-4">
+      <router-link 
+            to="/the-loai/school-life-37.html?country=4" class="col-6 relative py-2" v-ripple>
+        <img src="src/assets/icon_tool_alp.png" width="30" class="mx-auto mb-2" />
+        <span class="mt-2">Muc luc</span>
+      </router-link>
+      <router-link to="/bang-xep-hang/ngay" class="col-6 relative py-2" v-ripple>
+        <img src="src/assets/icon_tool_rank.png" width="30" class="mx-auto mb-2" />
+        <span>Bang xep hang</span>
+      </router-link>
+    </div>
+
+    <div class="mx-2 sm:mx-6 >sm:mx-13 relative">
       <swiper
-        :slides-per-view="6"
+        :slides-per-view="3"
         :navigation="{
           nextEl: '.swiper-button-next-1',
           prevEl: '.swiper-button-prev-1',
@@ -193,7 +226,7 @@ meta:
 
     <!-- show genres -->
     <section
-      class="mx-10 mb-5 mt-7 flex flex-nowrap items-center justify-between"
+      class="mx-2 sm:mx-6 >sm:mx-10 mb-5 mt-7 flex flex-nowrap items-center justify-between"
     >
       <div>
         <q-btn
@@ -223,7 +256,7 @@ meta:
     </section>
     <!-- /show genres -->
 
-    <section class="mx-10">
+    <section class="mx-2 sm:mx-6 >sm:mx-10">
       <BannerTitle>Mới cập nhật</BannerTitle>
       <GridCard :items="data.update" />
     </section>

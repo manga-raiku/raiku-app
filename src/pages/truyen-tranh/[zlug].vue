@@ -7,7 +7,7 @@ meta:
 <template>
   <template v-if="data && !loading">
     <section
-      class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 flex flex-nowrap <sm:block"
+      class="mx-10 pt-24px md:mx-7 sm:mx-5 <sm:mx-4 my-4 flex flex-nowrap <sm:block"
     >
       <div>
         <div
