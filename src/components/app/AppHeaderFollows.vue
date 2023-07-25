@@ -12,10 +12,18 @@
 
     <q-menu
       v-model="showMenuFollow"
-      class="flex flex-nowrap column bg-dark-page shadow-xl"
+      class="flex flex-nowrap column bg-dark-page shadow-xl <sm:w-full <sm:!left-0 <sm:!top-0 <sm:!max-w-full <sm:!max-h-full"
     >
+      <q-toolbar>
+        <q-btn v-if="$q.screen.lt.sm" round v-close-popup>
+          <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
+        </q-btn>
+
+        <q-toolbar-title>Truyện đang theo dõi</q-toolbar-title>
+      </q-toolbar>
       <q-card
-        class="transparent shadow-none w-[415px] scrollbar-custom overflow-y-auto"
+        class="transparent shadow-none w-[415px] <sm:w-full <sm:h-full scrollbar-custom overflow-y-auto"
+        ref="qCardRef"
       >
         <q-card-section>
           <CardVerticalSKT
@@ -24,13 +32,25 @@
             :key="i"
             class="mb-4"
           />
-          <CardVertical
+          <q-infinite-scroll
             v-else-if="data"
-            v-for="item in data?.items"
-            :key="item.path"
-            :data="item"
-            class="mb-4"
-          />
+            @load="onLoad"
+            :offset="250"
+            :scroll-target="qCardRef as unknown as Element"
+          >
+            <CardVertical
+              v-for="item in data?.items"
+              :key="item.path"
+              :data="item"
+              read-continue
+              class="mb-4"
+            />
+            <template #loading>
+              <div class="row justify-center q-my-md">
+                <q-spinner-dots color="main-3" size="40px" />
+              </div>
+            </template>
+          </q-infinite-scroll>
           <div v-else class="text-center">
             <div class="text-subtitle1 font-weight-medium">
               Lỗi không xác định
@@ -50,9 +70,11 @@
 </template>
 
 <script lang="ts" setup>
+import { QCard } from "quasar"
 import TruyenDangTheoDoi from "src/apis/runs/truyen-dang-theo-doi"
 
 const authStore = useAuthStore()
+const $q = useQuasar()
 
 const showMenuFollow = ref(false)
 
@@ -64,4 +86,20 @@ const { loading, data, refreshAsync } = useRequest(() => TruyenDangTheoDoi(1), {
 watch(showMenuFollow, (show) => {
   if (show) refreshAsync()
 })
+const qCardRef = ref<QCard>()
+let page = 1
+async function onLoad(index: number, done: (end?: boolean) => void) {
+  const { items } = await TruyenDangTheoDoi(++page)
+
+  if (items.length === 0) return done(true)
+  data.value?.items.push(...items)
+  done()
+}
+
+if ($q.screen.lt.sm) {
+  const bodyOverflow = useBodyOverflow()
+  watch(showMenuFollow, (show) => {
+    bodyOverflow.value = show ? "hidden" : ""
+  })
+}
 </script>

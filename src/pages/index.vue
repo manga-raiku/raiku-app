@@ -21,7 +21,10 @@ meta:
       />
     </div>
 
-    <div class="row text-grey text-[14px] mx-4 text-center mb-4">
+    <div
+      v-if="$q.screen.lt.sm"
+      class="row text-grey text-[14px] mx-4 text-center mb-4"
+    >
       <div class="col-6 relative py-2">
         <q-skeleton type="circle" size="40px" class="mx-auto mb-2" />
         <q-skeleton
@@ -127,24 +130,18 @@ meta:
             :src="item.image"
             :ratio="583 / 306"
             referrerpolicy="no-referrer"
-            class="poster z-1 h-full block"
+            class="poster z-1 h-full block object-fit-cover"
           />
         </div>
       </swiper-slide>
       <div class="drop-left z-2"></div>
       <div class="drop-center z-2"></div>
       <div class="drop-right z-2"></div>
-      <!--
-          <div class="swiper-mark-left" />
-          <div class="swiper-mark-right" /> -->
 
-      <div class="drop-left"></div>
-      <div class="drop-center"></div>
-      <div class="drop-right"></div>
-      <transition  name="q-transition--fade">
+      <transition name="q-transition--fade">
         <div :key="sliderIndex" class="info pointer-events-none">
           <div class="flex line-clamp-2 items-center">
-            <div class="text-weight-medium">
+            <div class="text-18px text-weight-medium">
               {{ data.sliders[sliderIndex].name }}
             </div>
           </div>
@@ -159,7 +156,11 @@ meta:
 
           <!-- action -->
 
-          <q-btn rounded class="bg-main mt-4 pointer-events-all" no-caps>
+          <q-btn
+            rounded
+            class="bg-main mt-2 >sm:mt-4 pointer-events-all"
+            no-caps
+          >
             <Icon
               icon="fluent:play-24-filled"
               width="1.3em"
@@ -172,7 +173,7 @@ meta:
         </div>
       </transition>
       <div
-        class="mark-b w-full h-[30%] z-101 absolute bottom-0 pointer-events-none z-200"
+        class="mark-b w-full h-[30%] z-200 sm:z-300 absolute bottom-0 pointer-events-none z-200"
         :style="{
           'background-image': `linear-gradient(
                 rgba(17, 19, 25, 0) 2%,
@@ -182,15 +183,33 @@ meta:
       />
     </swiper>
 
-    <div class="row text-grey text-[12px] mx-4 text-center mb-4">
-      <router-link 
-            to="/the-loai/school-life-37.html?country=4" class="col-6 relative py-2" v-ripple>
-        <img src="src/assets/icon_tool_alp.png" width="30" class="mx-auto mb-2" />
-        <span class="mt-2">Muc luc</span>
+    <div
+      v-if="$q.screen.lt.sm"
+      class="row text-grey text-[12px] mx-4 text-center mb-4"
+    >
+      <router-link
+        to="/the-loai/school-life-37.html?country=4"
+        class="col-6 relative py-2"
+        v-ripple
+      >
+        <img
+          src="src/assets/icon_tool_alp.png"
+          width="30"
+          class="mx-auto mb-2"
+        />
+        <span class="mt-2">Thể loại</span>
       </router-link>
-      <router-link to="/bang-xep-hang/ngay" class="col-6 relative py-2" v-ripple>
-        <img src="src/assets/icon_tool_rank.png" width="30" class="mx-auto mb-2" />
-        <span>Bang xep hang</span>
+      <router-link
+        to="/bang-xep-hang/ngay"
+        class="col-6 relative py-2"
+        v-ripple
+      >
+        <img
+          src="src/assets/icon_tool_rank.png"
+          width="30"
+          class="mx-auto mb-2"
+        />
+        <span>Bảng xếp hạng</span>
       </router-link>
     </div>
 
@@ -225,7 +244,7 @@ meta:
     </div>
 
     <!-- show genres -->
-    <section
+    <!-- <section v-if="!$q.screen.lt.md"
       class="mx-2 sm:mx-6 >sm:mx-10 mb-5 mt-7 flex flex-nowrap items-center justify-between"
     >
       <div>
@@ -253,10 +272,10 @@ meta:
           height="1.3rem"
         />
       </q-btn>
-    </section>
+    </section> -->
     <!-- /show genres -->
 
-    <section class="mx-2 sm:mx-6 >sm:mx-10">
+    <section class="mx-2 sm:mx-6 >sm:mx-10 mt-7">
       <BannerTitle>Mới cập nhật</BannerTitle>
       <GridCard :items="data.update" />
     </section>
@@ -529,17 +548,24 @@ const sliderIndex = ref(0)
       font-size: 1.3rem;
     }
 
+    @media screen and (max-width: 1024px) {
+      padding: {
+        bottom: 20px;
+        left: 34px; //15px
+      }
+    }
+
+    @media screen and (max-width: 768px) and (min-width: 599px) {
+      padding: {
+        bottom: 15%;
+        // left: 150px; whitespace -> right
+      }
+    }
+
     @media screen and (max-width: 1023px) and (min-width: 768px) {
       padding: {
         left: 56px;
         bottom: calc(15% + 16px + 36px);
-      }
-    }
-
-    @media screen and (max-width: 767px) {
-      padding: {
-        bottom: 20px;
-        left: 15px;
       }
     }
 

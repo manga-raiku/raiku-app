@@ -78,13 +78,13 @@ export const SERVERS: {
     name: "Server 4",
     has: (item) => {
       for (const host in replaceHosts) {
-        if (item.cdn.includes(host)) return true
+        if (item.cdn?.includes(host)) return true
       }
       return false
     },
     get: (item) => {
       for (const host in replaceHosts) {
-        if (item.original.includes(host))
+        if (item.original?.includes(host))
           return item.original.replace(
             host,
             replaceHosts[host as keyof typeof replaceHosts]

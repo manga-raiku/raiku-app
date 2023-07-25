@@ -9,25 +9,44 @@ meta:
 <template>
   <q-header class="bg-[rgba(0,0,0,.9)]" :model-value="showToolbar">
     <q-toolbar>
-      <router-link to="/" class="flex flex-nowrap items-end mr-8">
-        <img src="~assets/app_icon.svg" width="35" height="35" />
-        <span style="font-family: Caveat" class="text-[25px] text-main"
-          >Manga Raiku</span
-        >
-      </router-link>
+      <AppHeaderIconApp
+        v-if="$q.screen.sm || $q.screen.gt.sm"
+        :no-name="$q.screen.lt.md"
+      />
+      <q-btn v-else round unelevated class="mr-1" @click="router.back()">
+        <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
+      </q-btn>
+
+      <q-space class="<md:display-none" />
+
+      <div class="sm:flex items-center min-w-0">
+        <div class="ellipsis text-15px">{{ data?.name }}</div>
+
+        <Icon
+          icon="fluent:chevron-right-24-regular"
+          class="mx-1 <md:display-none"
+        />
+
+        <small class="text-gray-300 text-12px whitespace-nowrap">{{
+          currentEpisode?.value.name
+        }}</small>
+      </div>
+
       <q-space />
 
-      <div class="ellipsis">{{ data?.name }}</div>
-      <Icon icon="fluent:chevron-right-24-regular" class="mx-1" />
-      {{ currentEpisode?.value.name }}
+      <template v-if="$q.screen.md || $q.screen.gt.md">
+        <AppHeaderSearch />
+        <AppHeaderGithub />
+      </template>
+      <template v-else>
+        <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
+          <q-icon name="search" />
+        </q-btn>
+        <AppHeaderSearchMB v-model:searching="showSearchMB" />
+      </template>
 
-      <q-space />
-
-      <AppHeaderSearch />
-
-      <AppHeaderGithub />
-      <AppHeaderFollows />
-      <AppHeaderHistory />
+      <AppHeaderFollows v-if="$q.screen.sm || $q.screen.gt.sm" />
+      <AppHeaderHistory v-if="$q.screen.sm || $q.screen.gt.sm" />
       <AppHeaderNotify />
 
       <AppHeaderUser />
@@ -187,6 +206,7 @@ meta:
         no-wrap
         class="<md:order-8 <md:w-1/5 md:mx-5"
         :stack="$q.screen.lt.md"
+        @click="showMenuEpisodes = !showMenuEpisodes"
       >
         <Icon
           v-if="$q.screen.lt.md"
@@ -195,34 +215,46 @@ meta:
         />
         Episodes
 
-        <q-menu
-          anchor="top middle"
-          self="bottom middle"
-          class="rounded-xl overflow-visible flex column flex-nowrap"
-          :offset="[0, 10]"
-          max-width="560px"
-          max-height="80%"
+        <q-dialog-menu
+          v-model="showMenuEpisodes"
+          :use-menu="$q.screen.gt.sm"
+          :menu-props="{
+            anchor: 'top middle',
+            self: 'bottom middle',
+            offset: [0, 10],
+            maxWidth: '560px',
+            maxHeight: '80%',
+          }"
+          :dialog-props="{
+            position: 'bottom',
+            fullWidth: true,
+          }"
+          class="rounded-xl overflow-visible flex column flex-nowrap <md:children:!px-0"
+          ref="menuEpisodesRef"
         >
-          <q-card class="h-full min-w-310px flex column min-h-0">
+          <q-card
+            class="h-full <md:!max-h-70vh min-w-310px flex column min-h-0 rounded-xl"
+          >
             <q-card-section
-              class="h-full flex column flex-nowrap min-h-0 children:flex-shrink-0"
+              class="h-full flex column flex-nowrap min-h-0 children:flex-shrink-0 max-w-full"
             >
               <div class="text-subtitle1 mb-1">Episodes</div>
 
               <div v-if="!data" class="py-4 text-center">
-                <q-spinner color="main-3" />
+                <q-spinner color="main-3" size=40px class="mx-auto" />
               </div>
               <ListChapters
                 v-else
                 :chapters="data.chapters"
                 focus-tab-active
+                @change-tab="onChangeTabEpisodes"
                 class-item="col-6 col-sm-4 col-md-4"
                 class-panels="flex-shrink-1 mt-2 flex column children:min-h-0 children:h-100% children:flex children:flex-col"
                 class-panel="h-full overflow-x-hidden overflow-y-scroll scrollbar-custom"
               />
             </q-card-section>
           </q-card>
-        </q-menu>
+        </q-dialog-menu>
       </q-btn>
 
       <q-separator class="<md:display-none" />
@@ -404,9 +436,11 @@ import { Icon } from "@iconify/vue"
 import { useFullscreen } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
+import { QMenu } from "quasar"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/parsers/truyen-tranh/[slug]-chap-[chap]"
 import SlugChapChap from "src/apis/runs/truyen-tranh/[slug]-chap-[chap]"
+import { nextTick } from "vue"
 
 const props = defineProps<{
   slug: string
@@ -414,6 +448,7 @@ const props = defineProps<{
 }>()
 
 const $q = useQuasar()
+const showSearchMB = ref(false)
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const route = useRoute()
 const router = useRouter()
@@ -504,7 +539,7 @@ const previousEpisode = computed(() => {
   const current = currentEpisode.value
   if (!current) return
 
-  const index = current.index - 1
+  const index = current.index + 1
   const value = data.value?.chapters[index]
 
   if (!value) return
@@ -515,13 +550,20 @@ const nextEpisode = computed(() => {
   const current = currentEpisode.value
   if (!current) return
 
-  const index = current.index + 1
+  const index = current.index - 1
   const value = data.value?.chapters[index]
 
   if (!value) return
 
   return { index, value } as const
 })
+
+const showMenuEpisodes = ref(false)
+
+const menuEpisodesRef = ref<QMenu>()
+function onChangeTabEpisodes() {
+  setTimeout(() => menuEpisodesRef.value?.updatePosition(), 70)
+}
 </script>
 
 <!-- <swiper

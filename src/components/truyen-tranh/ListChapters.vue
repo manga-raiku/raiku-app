@@ -12,7 +12,10 @@
       unelevated
       class="text-[rgba(255,255,255,0.86)] bg-[#fbe0ef] bg-opacity-8 text-weight-light font-family-poppins !min-h-32px mx-2"
       :class="{
-        '!text-main-3': tabActive === index,
+        '!text-main-3 segment': tabActive === index,
+      }"
+      :ref="($el: QBtn) => {
+        if (tabActive === index) btnActiveRef = $el
       }"
       @click="tabActive = index"
     />
@@ -80,6 +83,7 @@
 <script lang="ts" setup>
 import "@fontsource/poppins"
 import { Icon } from "@iconify/vue"
+import { QBtn } from "quasar"
 import dayjs from "src/logic/dayjs"
 
 const props = defineProps<{
@@ -95,6 +99,9 @@ const props = defineProps<{
     update?: number
     readed?: boolean
   }[]
+}>()
+const emit = defineEmits<{
+  (name: "change-tab"): void
 }>()
 
 const route = useRoute()
@@ -120,6 +127,19 @@ const tabActive = ref(
         0
       )
     : 0
+)
+watch(tabActive, () => emit("change-tab"))
+
+const btnActiveRef = ref<QBtn>()
+watch(
+  () => btnActiveRef.value?.$el,
+  (segment) => {
+    if (!segment) return
+
+    setTimeout(() => {
+      if (segment) scrollXIntoView(segment)
+    }, 70)
+  }
 )
 
 const ulPanelRef = ref<HTMLUListElement>()

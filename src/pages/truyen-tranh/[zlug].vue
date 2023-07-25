@@ -6,9 +6,7 @@ meta:
 
 <template>
   <template v-if="data && !loading">
-    <section
-      class="mx-10 pt-24px md:mx-7 sm:mx-5 <sm:mx-4 my-4 flex flex-nowrap <sm:block"
-    >
+    <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 flex">
       <div>
         <div
           class="bg-image-blur"
@@ -24,14 +22,14 @@ meta:
           />
         </div>
       </div>
-      <div class="ml-7 <sm:ml-0">
+      <div class="pl-7 flex-1 <sm:pl-3 py-1rem">
         <h1
-          class="text-28px <sm:text-22px text-[#fff] text-opacity-95 text-weight-regular leading-normal font-family-poppins"
+          class="text-28px <sm:text-22px text-[#fff] text-opacity-95 text-weight-regular leading-normal font-family-poppins ellipsis-3-lines"
         >
           {{ data.name }}
         </h1>
         <h2
-          class="text-18px <sm:text-14px text-[#fff] text-opacity-87 text-weight-regular leading-normal font-family-poppins mt-3"
+          class="text-18px <sm:text-14px text-[#fff] text-opacity-87 text-weight-regular leading-normal font-family-poppins mt-3 ellipsis-2-lines"
         >
           {{ data.othername }}
         </h2>
@@ -39,7 +37,7 @@ meta:
         <div
           class="mt-3 flex children:my-1 text-gray-300 text-15px font-family-poppins"
         >
-          <div class="flex items-center">
+          <div class="flex <md:w-full items-center">
             <Icon
               icon="fluent:dual-screen-status-bar-24-regular"
               class="text-pink w-1.2em h-1.2em mr-1"
@@ -48,9 +46,9 @@ meta:
             {{ data.status }}
           </div>
 
-          <q-separator vertical class="mx-3 h-12px my-auto" />
+          <q-separator vertical class="mx-3 h-12px my-auto <md:display-none" />
 
-          <div class="flex items-center">
+          <div class="flex <md:w-full items-center">
             <Icon
               icon="fluent:flash-24-filled"
               class="text-blue w-1.2em h-1.2em mr-1"
@@ -58,9 +56,9 @@ meta:
             {{ dayjs(data.chapters[0].update).fromNow() }}
           </div>
 
-          <q-separator vertical class="mx-3 h-12px my-auto" />
+          <q-separator vertical class="mx-3 h-12px my-auto <md:display-none" />
 
-          <div class="flex items-center">
+          <div class="flex <md:w-full items-center">
             <Icon
               icon="fluent:eye-24-filled"
               class="text-orange w-1.2em h-1.2em mr-1"
@@ -68,9 +66,9 @@ meta:
             {{ formatView(data.views) }} lượt xem
           </div>
 
-          <q-separator vertical class="mx-3 h-12px my-auto" />
+          <q-separator vertical class="mx-3 h-12px my-auto <md:display-none" />
 
-          <div class="flex items-center">
+          <div class="flex <md:w-full items-center">
             <Icon
               icon="material-symbols:thumb-up-rounded"
               class="text-yellow w-1.2em h-1.2em mr-1"
@@ -78,9 +76,9 @@ meta:
             {{ formatView(data.likes) }} thích
           </div>
 
-          <q-separator vertical class="mx-3 h-12px my-auto" />
+          <q-separator vertical class="mx-3 h-12px my-auto <md:display-none" />
 
-          <div class="flex items-center">
+          <div class="flex <md:w-full items-center">
             <Icon
               icon="fluent:heart-24-filled"
               class="text-[#F5574B] w-1.2em h-1.2em mr-1"
@@ -95,26 +93,14 @@ meta:
           </div>
         </div>
 
-        <div class="flex items-center mt-3 font-family-poppins">
-          <Icon
-            icon="fluent:tag-24-regular"
-            :rotate="3"
-            width="20"
-            height="20"
-            class="mr-1"
-          />
-
-          <q-btn
-            v-for="item in data.genres"
-            :key="item.path"
-            no-caps
-            rounded
-            unelevated
-            class="text-main-2 text-opacity-50 min-h-0 px-2 <sm:bg-light-100 <sm:bg-opacity-10 <sm:text-13px <sm:my-1 <sm:mx-1"
-            >#{{ item.name.replace(/ /g, "_") }}</q-btn
-          >
-        </div>
-
+        <Tags
+          class="mt-3"
+          v-if="$q.screen.md || $q.screen.gt.md"
+          :items="data.genres"
+        />
+      </div>
+      <div class="w-full">
+        <Tags class="mt-3" v-if="$q.screen.lt.md" :items="data.genres" />
         <p
           class="mt-4 whitespace-pre-wrap text-16px text-[#fff] text-opacity-80"
         >
@@ -123,7 +109,7 @@ meta:
       </div>
     </section>
 
-    <section v-if="!$q.screen.xs" class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4">
+    <section v-if="!$q.screen.xs" class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 children:my-2">
       <q-btn
         :to="data.chapters.at(-1)!.path"
         rounded
@@ -231,10 +217,8 @@ meta:
       />
     </section>
   </template>
-  <template v-else-if="loading">
-    <section
-      class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 flex flex-nowrap <sm:block"
-    >
+  <template v-else-if="true">
+    <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 flex">
       <div>
         <div
           class="bg-image-blur"
@@ -247,66 +231,31 @@ meta:
           </q-responsive>
         </div>
       </div>
-      <div class="ml-7 <sm:ml-0">
+      <div class="pl-7 flex-1 <sm:pl-3 py-1rem min-w-0">
         <q-skeleton
           type="text"
-          class="text-28px <sm:text-22px leading-normal"
+          class="text-28px <sm:text-22px leading-normal max-w-100%"
           width="340px"
         />
         <q-skeleton
           type="text"
-          class="text-18px <sm:text-14px leading-normal"
+          class="text-18px <sm:text-14px leading-normal max-w-100%"
           width="170px"
         />
 
         <div
           class="mt-3 flex children:my-1 text-gray-300 text-15px font-family-poppins"
         >
-          <div class="flex items-center">
-            <q-skeleton type="circle" size="1.2em" class="mr-1" />
-            <q-skeleton type="text" width="45px" />
-          </div>
-
-          <q-separator vertical class="mx-3 h-12px my-auto" />
-
-          <div class="flex items-center">
-            <q-skeleton type="circle" size="1.2em" class="mr-1" />
-            <q-skeleton type="text" width="45px" />
-          </div>
-
-          <q-separator vertical class="mx-3 h-12px my-auto" />
-
-          <div class="flex items-center">
-            <q-skeleton type="circle" size="1.2em" class="mr-1" />
-            <q-skeleton type="text" width="45px" />
-          </div>
-
-          <q-separator vertical class="mx-3 h-12px my-auto" />
-
-          <div class="flex items-center">
-            <q-skeleton type="circle" size="1.2em" class="mr-1" />
-            <q-skeleton type="text" width="45px" />
-          </div>
-
-          <q-separator vertical class="mx-3 h-12px my-auto" />
-
-          <div class="flex items-center">
+          <div v-for="i in 5" :key="i" class="flex <md:w-full items-center">
             <q-skeleton type="circle" size="1.2em" class="mr-1" />
             <q-skeleton type="text" width="45px" />
           </div>
         </div>
 
-        <div class="flex items-center mt-3 font-family-poppins">
-          <q-skeleton type="circle" size="1.2em" class="mr-1" />
-
-          <q-skeleton
-            v-for="_ in 5"
-            :key="_"
-            type="QBtn"
-            class="min-h-0 px-2 mx-2 my-1 h-20px <sm:bg-light-100 <sm:bg-opacity-10 <sm:text-13px <sm:my-1 <sm:mx-1 rounded-[30px]"
-          />
-        </div>
-
+        <TagsSKT class="mt-3" v-if="$q.screen.md || $q.screen.gt.md" />
+      </div>
+      <div class="w-full">
+        <TagsSKT class="mt-3" v-if="$q.screen.lt.md" />
         <p
           class="mt-4 whitespace-pre-wrap text-16px text-[#fff] text-opacity-80"
         >
@@ -316,7 +265,7 @@ meta:
       </div>
     </section>
 
-    <section v-if="!$q.screen.xs" class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4">
+    <section v-if="!$q.screen.xs" class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 children:my-2">
       <q-skeleton
         type="QBtn"
         rounded
@@ -360,8 +309,6 @@ meta:
     </section>
   </template>
 
-  <p class="whitespace-pre-wrap">{{ data }}</p>
-
   <q-footer
     v-if="$q.screen.xs && data"
     class="bg-dark-page"
@@ -373,7 +320,7 @@ meta:
         outline
         no-caps
         class="text-#f15a79 min-h-0 h-35px w-15%"
-        @click="followed = !followed"
+        @click="onClickShare"
       >
         <Icon
           icon="fluent:share-android-24-regular"
@@ -481,8 +428,21 @@ const followed = computed<boolean>({
     if (!data.value) return
 
     const id = data.value.id
-    const subed = await Subscribe(id)
-    if (value !== subed) await Subscribe(id)
+
+    try {
+      const subed = await Subscribe(id)
+      if (value !== subed) await Subscribe(id)
+
+      $q.notify({
+        message: "Đã theo dõi",
+        position: "bottom-right",
+      })
+    } catch {
+      $q.notify({
+        message: "Đã bỏ theo dõi",
+        position: "bottom-right",
+      })
+    }
   },
 })
 

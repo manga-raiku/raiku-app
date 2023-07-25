@@ -8,12 +8,7 @@
       }"
     >
       <q-toolbar>
-        <router-link to="/" class="flex flex-nowrap items-end mr-8">
-          <img src="~assets/app_icon.svg" width="35" height="35" />
-          <span style="font-family: Caveat" class="text-[25px] text-main"
-            >Manga Raiku</span
-          >
-        </router-link>
+        <AppHeaderIconApp :no-name="$q.screen.lt.sm"/>
 
         <template v-if="$q.screen.md || $q.screen.gt.md">
           <router-link
@@ -43,7 +38,7 @@
           <AppHeaderGithub />
         </template>
         <template v-else>
-          <q-btn round class="mr-2" @click="showSearchMB = false">
+          <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
             <q-icon name="search" />
           </q-btn>
           <AppHeaderSearchMB v-model:searching="showSearchMB" />
@@ -78,7 +73,7 @@
               }
             return {
               height: height + 'px',
-              marginTop: -50 + 'px',
+              marginTop: 50 + 'px',
             }
           }
         "
@@ -104,8 +99,6 @@
 </template>
 
 <script lang="ts" setup>
-import "@fontsource/caveat"
-
 import "@fontsource/poppins"
 // =========== suth
 

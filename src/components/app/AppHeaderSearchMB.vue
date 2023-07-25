@@ -1,5 +1,9 @@
 <template>
-  <q-header :model-value="searching" @update:model-value="emit('update:searching', $event)" class="bg-dark-page">
+  <q-header
+    :model-value="searching"
+    @update:model-value="emit('update:searching', $event)"
+    class="bg-dark-page"
+  >
     <q-toolbar class="relative">
       <q-btn
         flat
@@ -16,8 +20,8 @@
           class="w-full bg-[#2a2a2a] placeholder-[#818181] h-[39px] rounded-[30px] focus-visible:outline-none pl-6"
           placeholder="Tìm kiếm"
           v-model="query"
+          autofocus
           @keyup="query = ($event.target as HTMLInputElement).value"
-          @focus="searching = true"
           @keypress.enter="onEnter"
         />
         <button
@@ -73,8 +77,8 @@
 </template>
 
 <script lang="ts" setup>
+import { debounce } from "quasar"
 import PreSearch from "src/apis/runs/frontend/pre-search"
-import { debounce, QInput } from "quasar"
 
 const props = defineProps<{
   searching: boolean
@@ -98,11 +102,12 @@ function onBack() {
   else router.back()
 }
 function onEnter() {
-  router.push("/tim-kiem", {
-    query: { query },
-  })
+  router.push({ path: "/tim-kiem", query: { query: query.value } })
 }
-function onClickItemPreLoad(item: (typeof data)[0], load: boolean) {
+function onClickItemPreLoad(
+  item: Exclude<typeof data.value, undefined>[0],
+  load?: boolean
+) {
   if (load) {
     query.value = item.name
   } else {

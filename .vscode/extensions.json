@@ -6,7 +6,8 @@
     "vue.volar",
     "wayou.vscode-todo-highlight",
     "lokalise.i18n-ally",
-    "codeium.codeium"
+    "codeium.codeium",
+    "antfu.iconify"
   ],
   "unwantedRecommendations": [
     "octref.vetur",
