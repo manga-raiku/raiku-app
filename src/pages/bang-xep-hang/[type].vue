@@ -4,8 +4,8 @@ meta:
 </route>
 
 <template>
-  <section class="main dark px-4">
-    <header class="main__header">
+  <section class="main dark px-4 sm:px-6 md:px-8">
+    <header>
       <div
         class="text-32px h-72px flex items-center text-italic text-weight-medium"
       >
@@ -55,9 +55,8 @@ meta:
           <TrendingCardIconRight class="rotate-180deg text-main-4" />
         </div>
 
-          <GenresFilter v-if="data" :filter="data.filter" class="my-3" />
+        <GenresFilter v-if="data" :filter="data.filter" class="my-3" />
         <template v-if="data && !loading">
-
           <div
             v-if="data.maxPage > 1"
             class="flex items-center justify-center q-pa-md"
@@ -147,9 +146,12 @@ const page = computed<number>({
     }),
 })
 
-const { data , loading, error } = useRequest(() => BangXepHangType(props.type, page.value, route.query), {
-  refreshDeps: [() => props.type, page, () => route.query],
-})
+const { data, loading, error } = useRequest(
+  () => BangXepHangType(props.type, page.value, route.query),
+  {
+    refreshDeps: [() => props.type, page, () => route.query],
+  }
+)
 watch(error, (error) => {
   if (error?.message === "not_found")
     router.replace({

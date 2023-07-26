@@ -4,7 +4,7 @@ meta:
 </route>
 
 <template>
-  <section class="mx-6">
+  <section class="mx-4 sm:mx-6 md:mx-8 ">
     <BannerTitle>Đang theo dõi</BannerTitle>
 
     <div

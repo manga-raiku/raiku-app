@@ -45,7 +45,7 @@ meta:
       </div>
     </div>
 
-    <div class="mx-2 sm:mx-6 >sm:mx-13 relative">
+    <div class="mx-4 sm:mx-6 md:mx-13 relative">
       <div class="wpa-grid">
         <div class="ctnr">
           <SkeletonCard
@@ -57,13 +57,13 @@ meta:
       </div>
     </div>
 
-    <div class="mx-2 sm:mx-6 >sm:mx-10 relative">
+    <div class="mx-4 sm:mx-6 md:mx-8 relative">
       <q-skeleton type="text" width="7rem" class="text-h6" />
 
       <SkeletonGridCard :count="6" />
     </div>
 
-    <div class="mx-2 sm:mx-6 >sm:mx-10 relative">
+    <div class="mx-4 sm:mx-6 md:mx-8 relative">
       <q-skeleton type="text" width="7rem" class="text-h6" />
 
       <div class="wpa-grid">
@@ -77,7 +77,7 @@ meta:
       </div>
     </div>
 
-    <div class="mx-2 sm:mx-6 >sm:mx-10 relative">
+    <div class="mx-4 sm:mx-6 md:mx-8 relative">
       <q-skeleton type="text" width="7rem" class="text-h6" />
 
       <div class="wpa-grid">
@@ -92,7 +92,7 @@ meta:
       </div>
     </div>
 
-    <div class="mx-2 sm:mx-6 >sm:mx-10 relative">
+    <div class="mx-4 sm:mx-6 md:mx-8 relative">
       <q-skeleton type="text" width="7rem" class="text-h6" />
 
       <SkeletonGridCard :count="6" />
@@ -158,7 +158,7 @@ meta:
 
           <q-btn
             rounded
-            class="bg-main mt-2 >sm:mt-4 pointer-events-all"
+            class="bg-main mt-2 sm:mt-4 pointer-events-all"
             no-caps
           >
             <Icon
@@ -213,7 +213,7 @@ meta:
       </router-link>
     </div>
 
-    <div class="mx-2 sm:mx-6 >sm:mx-13 relative">
+    <div class="mx-4 sm:mx-6 md:mx-11 relative">
       <swiper
         :slides-per-view="3"
         :navigation="{
@@ -245,7 +245,7 @@ meta:
 
     <!-- show genres -->
     <!-- <section v-if="!$q.screen.lt.md"
-      class="mx-2 sm:mx-6 >sm:mx-10 mb-5 mt-7 flex flex-nowrap items-center justify-between"
+      class="mx-4 sm:mx-6 md:mx-8 mb-5 mt-7 flex flex-nowrap items-center justify-between"
     >
       <div>
         <q-btn
@@ -275,7 +275,7 @@ meta:
     </section> -->
     <!-- /show genres -->
 
-    <section class="mx-2 sm:mx-6 >sm:mx-10 mt-7">
+    <section class="mx-4 sm:mx-6 md:mx-8 mt-7">
       <BannerTitle>Mới cập nhật</BannerTitle>
       <GridCard :items="data.update" />
     </section>
