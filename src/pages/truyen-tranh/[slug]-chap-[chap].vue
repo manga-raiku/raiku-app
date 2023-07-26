@@ -13,8 +13,12 @@ meta:
         v-if="$q.screen.sm || $q.screen.gt.sm"
         :no-name="$q.screen.lt.md"
       />
-      <q-btn v-else round unelevated class="mr-1" @click="router.back()">
+      <!-- <q-btn v-else round unelevated class="mr-1" @click="router.back()">
         <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
+      </q-btn> -->
+
+      <q-btn v-else round unelevated :to="data?.manga" class="mr-1">
+        <Icon icon="fluent:text-bullet-list-ltr-24-regular" class="size-1.5em" />
       </q-btn>
 
       <q-space class="<md:display-none" />
@@ -204,14 +208,14 @@ meta:
         no-caps
         rounded
         no-wrap
-        class="<md:order-8 <md:w-1/5 md:mx-5"
+        class="<md:order-8 <md:w-1/5 md:mx-5 <sm:text-12px"
         :stack="$q.screen.lt.md"
         @click="showMenuEpisodes = !showMenuEpisodes"
       >
         <Icon
           v-if="$q.screen.lt.md"
           icon="system-uicons:document-list"
-          class="size-1.8em mr-1"
+          class="size-1.8rem mr-1"
         />
         Episodes
 
@@ -263,10 +267,10 @@ meta:
         no-caps
         rounded
         no-wrap
-        class="<md:order-6 <md:w-1/5"
+        class="<md:order-6 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
       >
-        <Icon icon="ri:settings-line" class="size-1.8em mr-1" /> Settings
+        <Icon icon="ri:settings-line" class="size-1.8rem mr-1" /> Settings
 
         <q-menu
           anchor="top middle"
@@ -387,10 +391,10 @@ meta:
         no-caps
         rounded
         no-wrap
-        class="<md:order-7 <md:w-1/5"
+        class="<md:order-7 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
       >
-        <Icon icon="system-uicons:message" class="size-1.8em mr-1" />
+        <Icon icon="system-uicons:message" class="size-1.8rem mr-1" />
         Comments
       </q-btn>
 
@@ -398,10 +402,10 @@ meta:
         no-caps
         rounded
         no-wrap
-        class="<md:order-5 <md:w-1/5"
+        class="<md:order-5 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
       >
-        <Icon icon="fluent:star-add-24-regular" class="size-1.8em mr-1" />
+        <Icon icon="fluent:star-add-24-regular" class="size-1.8rem mr-1" />
         Favorite
         <!-- fluent:star-checkmark-24-filled -->
       </q-btn>
@@ -410,7 +414,7 @@ meta:
         no-caps
         rounded
         no-wrap
-        class="<md:order-8 <md:w-1/5"
+        class="<md:order-8 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
         @click="toggle"
       >
@@ -420,7 +424,7 @@ meta:
               ? 'fluent:full-screen-minimize-24-regular'
               : 'fluent:full-screen-maximize-24-regular'
           "
-          class="size-1.8em mr-1"
+          class="size-1.8rem mr-1"
         />
         Fullscreen
         <!-- ふふ -->

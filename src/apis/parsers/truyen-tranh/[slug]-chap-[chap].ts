@@ -1,3 +1,4 @@
+import { parseAnchor } from "../__helpers__/parseAnchor"
 import { parseComment } from "../__helpers__/parseComment"
 import { parseDom } from "../__helpers__/parseDom"
 import { parsePath } from "../__helpers__/parsePath"
@@ -35,7 +36,10 @@ export default function chap(html: string, now: number) {
     .toArray()
     .map((item) => parseComment($(item), now))
 
-  return { name, updated, chapters, pages, comments }
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const manga = parseAnchor($("#path > ol > li:nth-child(2) > a"))!.path
+
+  return { name, manga, updated, chapters, pages, comments }
 }
 
 const replaceHosts = {
