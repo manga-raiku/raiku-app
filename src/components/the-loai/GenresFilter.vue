@@ -1,7 +1,7 @@
 <template>
   <section class="display-table font-family-poppins">
     <div v-for="(item, index) in filter" :key="index" class="display-table-row">
-      <label class="display-table-cell whitespace-nowrap mt-2 text-gray-400">{{
+      <label class="display-table-cell whitespace-nowrap mt-2 text-gray-400 pr-2">{{
         item.type
       }}</label>
 
@@ -24,7 +24,7 @@
           }"
           class="text-[rgba(255,255,255,0.86)] before:display-none text-weight-normal my-1 !py-1 !px-3 min-h-0"
           :class="{
-            '!text-main-3 before:!display-block': pathEqual(
+            '!text-main-3': pathEqual(
               router.resolve(path).path,
               route.path
             ),
@@ -49,7 +49,7 @@
           }"
           class="text-[rgba(255,255,255,0.86)] before:display-none text-weight-normal my-1 !py-1 !px-3 min-h-0"
           :class="{
-            '!text-main-3 before:!display-block':
+            '!text-main-3':
               route.query[item.key] === value,
           }"
           >{{ name }}</q-btn

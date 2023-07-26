@@ -1,6 +1,8 @@
 <template>
   <div class="banner-title pl-3 text-28px <sm:text-23px">
-    <h3 class=""><slot /></h3>
+    <h3 class="flex items-center justify-between">
+      <slot />
+    </h3>
   </div>
 </template>
 

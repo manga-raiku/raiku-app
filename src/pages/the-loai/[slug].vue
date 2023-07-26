@@ -4,7 +4,7 @@ meta:
 </route>
 
 <template>
-  <section class="mx-6">
+  <section class="mx-4 sm:mx-6 md:mx-8">
     <template v-if="!data">
       <BannerTitleSKT />
       <q-skeleton type="text" width="220px" class="mt-3" />
@@ -12,11 +12,26 @@ meta:
       <SkeletonGridCard :count="40" />
     </template>
     <template v-else>
-      <BannerTitle>{{ data.name }}</BannerTitle>
+      <BannerTitle>
+        {{ data.name }}
+
+        <q-btn round class="text-white">
+          <Icon
+            icon="fluent:filter-24-regular"
+            class="size-2em"
+            @click="showFilterFull = true"
+          />
+        </q-btn>
+      </BannerTitle>
       <p class="mt-3 font-family-poppins">{{ data.description }}</p>
 
       <!-- filter -->
-      <GenresFilter :filter="data.filter" class="my-3" />
+      <GenresFilterMB
+        v-model:show-full="showFilterFull"
+        :show-toolbar="isCapacitor"
+        :filter="data.filter"
+        class="my-3"
+      />
       <!-- /filter -->
 
       <div
@@ -43,6 +58,7 @@ meta:
 // import data from "src/apis/parsers/__test__/assets/the-loai/fantacy-30.json"
 import TheLoaiType from "src/apis/runs/the-loai/[type]"
 import "@fontsource/poppins"
+import { isCapacitor } from "src/constants"
 
 const props = defineProps<{
   slug: string
@@ -85,4 +101,6 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
+
+const showFilterFull = ref(false)
 </script>
