@@ -1,6 +1,6 @@
 <template>
-  <div class="banner-title pl-3">
-    <h3 class="text-32px"><slot /></h3>
+  <div class="banner-title pl-3 text-28px <sm:text-23px">
+    <h3 class=""><slot /></h3>
   </div>
 </template>
 
@@ -14,14 +14,16 @@
   -webkit-text-stroke-width: 1.2px;
   color: var(--sakura);
   font-weight: 700;
+  margin-top: (10em / 32);;
 
   &:before {
     position: absolute;
     content: "";
-    width: 55px;
-    height: 55px;
+    width: (55em / 32);
+    height: (55em / 32);
     background-image: url(/src/assets/sakura.png);
-    top: -10px;
+    background-size: cover;
+    top: (-10em / 32);
     left: 0px;
     background-repeat: no-repeat;
     animation: rotate 6s linear infinite;
@@ -39,13 +41,13 @@
   &:after {
     position: absolute;
     content: "";
-    left: 56px;
+    left: (56em / 32);
     bottom: 0px;
     background-color: var(--sakura);
-    width: 45px;
-    height: 4px;
+    width: (45em / 32);
+    height: (4em / 32);
     z-index: -1;
-    box-shadow: 28px 5px 0px 0px var(--sakura);
+    box-shadow: (28em / 32) (5em / 32) 0px 0px var(--sakura);
   }
 }
 </style>
