@@ -2,7 +2,7 @@
   <q-layout view="hHh Lpr lFf">
     <q-header
       v-if="route.meta?.hiddenHeader !== true"
-      class="bg-dark-page py-1 px-2"
+      class="bg-dark-page py-1 px-2 header-blur"
       :class="{
         '!bg-transparent': route.meta?.transparentHeader,
       }"

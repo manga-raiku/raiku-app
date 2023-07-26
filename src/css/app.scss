@@ -120,7 +120,6 @@ body {
   }
 }
 
-
 .text-shadow-menu {
   text-shadow: 0 0 2px rgb(0 0 0 / 50%);
 }
@@ -154,4 +153,12 @@ body {
 
 .w-full {
   width: 100% !important;
+}
+
+.header-blur:not(.\!bg-transparent) {
+  background-color: rgba(
+    $color: var(--q-dark-page, #121212),
+    $alpha: 0.85
+  ) !important;
+  backdrop-filter: blur(12px);
 }
