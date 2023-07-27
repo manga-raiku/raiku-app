@@ -4,6 +4,6 @@
 
 
 - [x] filter for genres
-- [ ] component show can scroll
+- [x] component show can scroll
 - [x] responsive button info in /truyen-tranh/[slug]-chap-[chap]
 - [ ] infinity scroll for mobile

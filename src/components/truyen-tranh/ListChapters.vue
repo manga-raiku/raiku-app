@@ -1,30 +1,52 @@
 <template>
-  <section
-    v-if="segments.length > 1"
-    class="mx--2 overflow-auto scrollbar-custom whitespace-nowrap"
-  >
-    <q-btn
-      v-for="({ from, to }, index) in segments"
-      :key="`${from}-${to}`"
-      :label="`Ch. ${from} - ${to}`"
+  <section v-if="segments.length > 1">
+    <q-tabs
+      v-model="tabActive"
+      narrow-indicator
       no-caps
-      rounded
-      unelevated
-      class="text-[rgba(255,255,255,0.86)] bg-[#fbe0ef] bg-opacity-8 text-weight-light font-family-poppins !min-h-32px mx-2"
-      :class="{
-        '!text-main-3 segment': tabActive === index,
-      }"
-      :ref="($el: QBtn) => {
+      @wheel.prevent="onWheelTabs"
+      ref="qTabsRef"
+    >
+      <q-tab
+        v-for="({ from, to }, index) in segments"
+        :key="`${from}-${to}`"
+        :name="index"
+        :label="`Ch. ${from} - ${to}`"
+        class="rounded-30px text-[rgba(255,255,255,0.86)] bg-[#fbe0ef] bg-opacity-8 text-weight-light font-family-poppins !min-h-32px mx-2"
+        :class="{
+          '!text-main-3 segment': tabActive === index,
+        }"
+        :ref="($el: QTab) => {
         if (tabActive === index) btnActiveRef = $el
       }"
-      @click="tabActive = index"
-    />
+      />
+    </q-tabs>
+    <!-- <ScrollDimPart class="overflow-auto whitespace-nowrap">
+      <q-btn
+        v-for="({ from, to }, index) in segments"
+        :key="`${from}-${to}`"
+        :label="`Ch. ${from} - ${to}`"
+        no-caps
+        rounded
+        unelevated
+        class="text-[rgba(255,255,255,0.86)] bg-[#fbe0ef] bg-opacity-8 text-weight-light font-family-poppins !min-h-32px mx-2"
+        :class="{
+          '!text-main-3 segment': tabActive === index,
+        }"
+        :ref="($el: QBtn) => {
+        if (tabActive === index) btnActiveRef = $el
+      }"
+        @click="tabActive = index"
+      />
+    </ScrollDimPart> -->
   </section>
 
   <q-tab-panels
     v-model="tabActive"
     animated
     swipeable
+    infinite
+    keep-alive
     class="transparent children:overflow-visible flex-0"
     :class="classPanels"
   >
@@ -83,7 +105,8 @@
 <script lang="ts" setup>
 import "@fontsource/poppins"
 import { Icon } from "@iconify/vue"
-import { QBtn } from "quasar"
+import type { QBtn } from "quasar"
+import { QTab, QTabs } from "quasar"
 import dayjs from "src/logic/dayjs"
 
 const props = defineProps<{
@@ -130,7 +153,7 @@ const tabActive = ref(
 )
 watch(tabActive, () => emit("change-tab"))
 
-const btnActiveRef = ref<QBtn>()
+const btnActiveRef = ref<QBtn | QTab>()
 watch(
   () => btnActiveRef.value?.$el,
   (segment) => {
@@ -155,6 +178,14 @@ watch(ulPanelRef, (ulPanelRef) => {
 })
 
 let tmp: dayjs.Dayjs
+
+const qTabsRef = ref<QTabs>()
+
+function onWheelTabs(event: WheelEvent) {
+  qTabsRef.value?.$el
+    ?.querySelector(".q-tabs__content")
+    ?.scrollBy({ left: event.deltaY * 2, behavior: "smooth" })
+}
 </script>
 
 <style lang="scss" scoped>
