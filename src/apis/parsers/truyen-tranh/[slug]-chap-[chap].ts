@@ -6,6 +6,9 @@ import { parsePath } from "../__helpers__/parsePath"
 export default function chap(html: string, now: number) {
   const $ = parseDom(html)
   // ====================
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const id = parseInt($("#book_id").attr("value")!)
+  const slug = $("#slug").text()
   const name = $("h1 > a").text()
   const updated = new Date(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -39,7 +42,7 @@ export default function chap(html: string, now: number) {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const manga = parseAnchor($("#path > ol > li:nth-child(2) > a"))!.path
 
-  return { name, manga, updated, chapters, pages, comments }
+  return { id, slug, name, manga, updated, chapters, pages, comments }
 }
 
 const replaceHosts = {

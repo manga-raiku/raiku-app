@@ -444,11 +444,11 @@ import { Icon } from "@iconify/vue"
 import { useFullscreen } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
-import { QMenu } from "quasar"
+import type { QDialog} from "quasar";
+import { QMenu} from "quasar"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/parsers/truyen-tranh/[slug]-chap-[chap]"
 import SlugChapChap from "src/apis/runs/truyen-tranh/[slug]-chap-[chap]"
-import { nextTick } from "vue"
 
 const props = defineProps<{
   slug: string
@@ -568,9 +568,9 @@ const nextEpisode = computed(() => {
 
 const showMenuEpisodes = ref(false)
 
-const menuEpisodesRef = ref<QMenu>()
+const menuEpisodesRef = ref<QMenu |QDialog>()
 function onChangeTabEpisodes() {
-  setTimeout(() => menuEpisodesRef.value?.updatePosition(), 70)
+  setTimeout(() =>( menuEpisodesRef.value as QMenu)?.updatePosition?.(), 70)
 }
 </script>
 
