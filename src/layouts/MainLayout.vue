@@ -1,14 +1,14 @@
 <template>
   <q-layout view="hHh Lpr lFf">
     <q-header
-      v-if="route.meta?.hiddenHeader !== true"
+      v-if="!isCapacitor && route.meta?.hiddenHeader !== true"
       class="bg-dark-page py-1 px-2 header-blur"
       :class="{
         '!bg-transparent': route.meta?.transparentHeader,
       }"
     >
       <q-toolbar>
-        <AppHeaderIconApp :no-name="$q.screen.lt.sm"/>
+        <AppHeaderIconApp :no-name="$q.screen.lt.sm" class="mr-8" />
 
         <template v-if="$q.screen.md || $q.screen.gt.md">
           <router-link
@@ -88,6 +88,36 @@
         <NotExistsExtension v-else />
       </q-page>
     </q-page-container>
+
+    <q-footer v-if="isCapacitor" class="bg-dark-page">
+      <q-tabs
+        indicator-color="transparent"
+        exact-active-color="white"
+        class="bg-transparent text-grey-5 !shadow-2 text-[12px] tabs-main"
+        no-caps
+      >
+        <q-route-tab
+          replace
+          exact-active-class="tab-active"
+          class="pt-1"
+          to="/"
+        >
+          <Icon
+            icon="fluent:home-24-regular"
+            width="24"
+            height="24"
+            class="mb-1 regular"
+          />
+          <Icon
+            icon="fluent:home-24-filled"
+            width="24"
+            height="24"
+            class="mb-1 filled"
+          />
+          Trang chủ
+        </q-route-tab>
+      </q-tabs>
+    </q-footer>
   </q-layout>
 
   <canvas
@@ -103,9 +133,9 @@ import "@fontsource/poppins"
 // =========== suth
 
 import { Http } from "client-ext-animevsub-helper"
+import { isCapacitor } from "src/constants"
 
 import NotExistsExtension from "./NotExistsExtension.vue"
-
 // key bind
 
 const route = useRoute()
@@ -124,3 +154,21 @@ watch(canvasRef, (ref) => {
 
 const showSearchMB = ref(false)
 </script>
+
+<style lang="scss">
+.filled {
+  display: none;
+}
+
+.tab-active {
+  color: #fff;
+
+  .regular {
+    display: none;
+  }
+
+  .filled {
+    display: inline-block;
+  }
+}
+</style>

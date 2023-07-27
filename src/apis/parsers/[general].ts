@@ -87,13 +87,15 @@ export default function general(html: string, now: number) {
         }
     )
 
-  const curPage = parseInt($(".page_redirect .active").text())
-  const maxPage = parseInt(
+  const $curPage = parseInt($(".page_redirect .active").text())
+  const curPage = Number.isNaN($curPage) ? 1 : $curPage
+  const $maxPage = parseInt(
     $(".page_redirect > *")
       .last()
       .attr("href")
       ?.match(/\/trang-(\d+)/)?.[1] ?? curPage + ""
   )
+  const maxPage = Number.isNaN($maxPage) ? 1 : $maxPage
 
   return { name, description, filter, items, curPage, maxPage }
 }

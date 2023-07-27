@@ -1,7 +1,10 @@
 <template>
-  <router-link to="/" class="flex flex-nowrap items-end mr-8">
-    <img src="~assets/app_icon.svg" width="35" height="35" />
-    <span v-if="!noName"  class="text-[25px] text-main font-family-caveat"
+  <router-link
+    to="/"
+    class="flex flex-nowrap items-end max-w-100%"
+  >
+    <img src="~assets/app_icon.svg" class="display-block size-35px" />
+    <span v-if="!noName" class="text-[25px] text-main font-family-caveat"
       >Manga Raiku</span
     >
   </router-link>

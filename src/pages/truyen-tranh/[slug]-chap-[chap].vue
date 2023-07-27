@@ -12,13 +12,17 @@ meta:
       <AppHeaderIconApp
         v-if="$q.screen.sm || $q.screen.gt.sm"
         :no-name="$q.screen.lt.md"
+        class="mr-8"
       />
       <!-- <q-btn v-else round unelevated class="mr-1" @click="router.back()">
         <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
       </q-btn> -->
 
       <q-btn v-else round unelevated :to="data?.manga" class="mr-1">
-        <Icon icon="fluent:text-bullet-list-ltr-24-regular" class="size-1.5em" />
+        <Icon
+          icon="fluent:text-bullet-list-ltr-24-regular"
+          class="size-1.5em"
+        />
       </q-btn>
 
       <q-space class="<md:display-none" />
@@ -245,7 +249,7 @@ meta:
               <div class="text-subtitle1 mb-1">Episodes</div>
 
               <div v-if="!data" class="py-4 text-center">
-                <q-spinner color="main-3" size=40px class="mx-auto" />
+                <q-spinner color="main-3" size="40px" class="mx-auto" />
               </div>
               <ListChapters
                 v-else
