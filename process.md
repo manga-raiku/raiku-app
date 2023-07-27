@@ -1,4 +1,4 @@
-- [ ] response for browser mobile
+- [x] response for browser mobile
 - [ ] response for native app
 - [ ] download manager
 
