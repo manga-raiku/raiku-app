@@ -217,7 +217,7 @@ meta:
       />
     </section>
   </template>
-  <template v-else-if="true">
+  <template v-else-if="loading">
     <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 flex">
       <div>
         <div
