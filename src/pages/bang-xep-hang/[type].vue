@@ -57,32 +57,34 @@ meta:
 
         <GenresFilter v-if="data" :filter="data.filter" class="my-3" />
         <template v-if="data && !loading">
-          <div
+          <!-- <div
             v-if="data.maxPage > 1"
             class="flex items-center justify-center q-pa-md"
           >
             <Pagination :max="data.maxPage" v-model="page" />
-          </div>
+          </div> -->
           <section class="row mx--2 font-family-poppins">
-            <div
-              v-for="(item, index) in data.items"
-              :key="item.path"
-              class="my-4 col-12 col-md-6 px-2"
-            >
-              <CardVertical :data="item">
-                <template #inside-image>
-                  <Rank :index="index + 42 * (page - 1)" />
-                </template>
-              </CardVertical>
-            </div>
+            <InfiniteScroll @load="onLoad">
+              <div
+                v-for="(item, index) in data.items"
+                :key="item.path"
+                class="my-4 col-12 col-md-6 px-2"
+              >
+                <CardVertical :data="item">
+                  <template #inside-image>
+                    <Rank :index="index + 42 * (page - 1)" />
+                  </template>
+                </CardVertical>
+              </div>
+            </InfiniteScroll>
           </section>
 
-          <div
+          <!-- <div
             v-if="data.maxPage > 1"
             class="flex items-center justify-center q-pa-md"
           >
             <Pagination :max="data.maxPage" v-model="page" />
-          </div>
+          </div> -->
         </template>
         <template v-else>
           <section class="row mx--2 font-family-poppins">
@@ -147,10 +149,19 @@ const page = computed<number>({
 })
 
 const { data, loading, error } = useRequest(
-  () => BangXepHangType(props.type, page.value, route.query),
+  async () => {
+    const data = await BangXepHangType(props.type, page.value, route.query)
+    data.items = shallowReactive(data.items)
+    return data
+  },
   {
     refreshDeps: [() => props.type, page, () => route.query],
   }
+)
+const onLoad = useLoadMorePage(
+  (page) => BangXepHangType(props.type, page, route.query),
+  data,
+  page.value
 )
 watch(error, (error) => {
   if (error?.message === "not_found")

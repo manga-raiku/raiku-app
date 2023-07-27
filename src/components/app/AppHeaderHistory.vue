@@ -76,23 +76,23 @@ const $q = useQuasar()
 
 const showMenuHistory = ref(false)
 
-const { loading, data, refreshAsync } = useRequest(() => LichSu(1), {
-  manual: true,
-  cacheKey: "history",
-  cacheTime: 5 * 60 * 1000, //
-})
+const { loading, data, refreshAsync } = useRequest(
+  async () => {
+    const data = await LichSu(1)
+    data.items = shallowReactive(data.items)
+    return data
+  },
+  {
+    manual: true,
+    cacheKey: "history",
+    cacheTime: 5 * 60 * 1000, //
+  }
+)
+const onLoad = useLoadMorePage(LichSu, data)
 watch(showMenuHistory, (show) => {
   if (show) refreshAsync()
 })
 const qCardRef = ref<QCard>()
-let page = 1
-async function onLoad(index: number, done: (end?: boolean) => void) {
-  const { items } = await LichSu(++page)
-
-  if (items.length === 0) return done(true)
-  data.value?.items.push(...items)
-  done()
-}
 
 if ($q.screen.lt.sm) {
   const bodyOverflow = useBodyOverflow()

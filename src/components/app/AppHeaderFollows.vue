@@ -78,23 +78,23 @@ const $q = useQuasar()
 
 const showMenuFollow = ref(false)
 
-const { loading, data, refreshAsync } = useRequest(() => TruyenDangTheoDoi(1), {
-  manual: true,
-  cacheKey: "follows",
-  cacheTime: 5 * 60 * 1000, //
-})
+const { loading, data, refreshAsync } = useRequest(
+  async () => {
+    const data = await TruyenDangTheoDoi(1)
+    data.items = shallowReactive(data.items)
+    return data
+  },
+  {
+    manual: true,
+    cacheKey: "follows",
+    cacheTime: 5 * 60 * 1000, //
+  }
+)
+const onLoad = useLoadMorePage(TruyenDangTheoDoi, data)
 watch(showMenuFollow, (show) => {
   if (show) refreshAsync()
 })
 const qCardRef = ref<QCard>()
-let page = 1
-async function onLoad(index: number, done: (end?: boolean) => void) {
-  const { items } = await TruyenDangTheoDoi(++page)
-
-  if (items.length === 0) return done(true)
-  data.value?.items.push(...items)
-  done()
-}
 
 if ($q.screen.lt.sm) {
   const bodyOverflow = useBodyOverflow()

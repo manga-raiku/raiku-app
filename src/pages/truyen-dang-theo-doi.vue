@@ -4,15 +4,15 @@ meta:
 </route>
 
 <template>
-  <section class="mx-4 sm:mx-6 md:mx-8 ">
+  <section class="mx-4 sm:mx-6 md:mx-8">
     <BannerTitle>Đang theo dõi</BannerTitle>
-
+    <!--
     <div
       v-if="data && data.maxPage > 1"
       class="flex items-center justify-center q-pa-md"
     >
       <Pagination :max="data.maxPage" v-model="page" />
-    </div>
+    </div> -->
 
     <section class="row mx--2 font-family-poppins">
       <div
@@ -23,22 +23,23 @@ meta:
       >
         <CardVerticalSKT class="mb-4" />
       </div>
-      <div
-        v-else
-        v-for="item in data?.items"
-        :key="item.path"
-        class="my-4 col-12 col-md-4 col-sm-6 px-2"
-      >
-        <CardVertical :data="item" read-continue class="mb-4" />
-      </div>
+      <InfiniteScroll v-else @load="onLoad">
+        <div
+          v-for="item in data?.items"
+          :key="item.path"
+          class="my-4 col-12 col-md-4 col-sm-6 px-2"
+        >
+          <CardVertical :data="item" read-continue class="mb-4" />
+        </div>
+      </InfiniteScroll>
     </section>
-
+    <!--
     <div
       v-if="data && data.maxPage > 1"
       class="flex items-center justify-center q-pa-md"
     >
       <Pagination :max="data.maxPage" v-model="page" />
-    </div>
+    </div> -->
   </section>
 </template>
 
@@ -62,10 +63,15 @@ const page = computed<number>({
     }),
 })
 
-const { data, loading, error } = useRequest(
-  () => TruyenDangTheoDoi(page.value),
+const { data, loading } = useRequest(
+  async () => {
+    const data = await TruyenDangTheoDoi(page.value)
+    data.items = shallowReactive(data.items)
+    return data
+  },
   {
-    refreshDeps: [page],
+    // refreshDeps: [page],
   }
 )
+const onLoad = useLoadMorePage(TruyenDangTheoDoi, data, page.value)
 </script>

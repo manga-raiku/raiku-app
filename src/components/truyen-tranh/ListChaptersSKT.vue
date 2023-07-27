@@ -1,5 +1,5 @@
 <template>
-  <section class="mx--2 overflow-auto scrollbar-custom whitespace-nowrap">
+  <section class="mx--2 overflow-hidden whitespace-nowrap">
     <q-skeleton
       v-for="index in 5"
       :key="index"

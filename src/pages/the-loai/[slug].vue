@@ -30,26 +30,27 @@ meta:
         v-model:show-full="showFilterFull"
         :show-toolbar="isCapacitor"
         :filter="data.filter"
-        class="my-3"
       />
       <!-- /filter -->
-
+<!--
       <div
-        v-if="data.maxPage > 1"
+        v-if="data.maxPage > 1 && $q.screen.gt.sm"
         class="flex items-center justify-center q-pa-md"
       >
         <Pagination :max="data.maxPage" v-model="page" />
-      </div>
+      </div> -->
 
       <SkeletonGridCard v-if="loading" :count="40" />
-      <GridCard v-else :items="data.items" />
+      <InfiniteScroll v-else @load="onLoad">
+        <GridCard :items="data.items" />
+      </InfiniteScroll>
 
-      <div
-        v-if="data.maxPage > 1"
+      <!-- <div
+        v-if="data.maxPage > 1 && $q.screen.gt.sm"
         class="flex items-center justify-center q-pa-md"
       >
         <Pagination :max="data.maxPage" v-model="page" />
-      </div>
+      </div> -->
     </template>
   </section>
 </template>
@@ -66,6 +67,7 @@ const props = defineProps<{
 
 const route = useRoute()
 const router = useRouter()
+const $q = useQuasar()
 
 const page = computed<number>({
   get: () => parseInt(route.query.page?.toString() ?? "1") || 1,
@@ -79,15 +81,24 @@ const page = computed<number>({
     }),
 })
 
-const { data, loading, runAsync, error } = useRequest(() =>
-  TheLoaiType(props.slug, page.value, route.query)
+const { data, loading, runAsync, error } = useRequest(async () => {
+  const data = await TheLoaiType(props.slug, page.value, route.query)
+  data.items = shallowReactive(data.items)
+  return data
+})
+const onLoad = useLoadMorePage(
+  (page) => TheLoaiType(props.slug, page, route.query),
+  data,
+  page.value
 )
 watch(
   [
     () => props.slug,
     () => new URLSearchParams(route.query as Record<string, string>).toString(),
   ],
-  () => runAsync()
+  () => {
+    if ($q.screen.gt.sm) runAsync()
+  }
 )
 watch(error, (error) => {
   if (error?.message === "not_found")
