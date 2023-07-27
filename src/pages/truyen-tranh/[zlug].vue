@@ -1,6 +1,5 @@
 <route lang="yaml">
 meta:
-  transparentHeader: true
   padding: true
 </route>
 
