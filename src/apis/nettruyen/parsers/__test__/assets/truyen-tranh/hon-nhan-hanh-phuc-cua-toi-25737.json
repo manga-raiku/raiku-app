@@ -1,0 +1,144 @@
+{
+  "uid": 25737,
+  "name": "Hôn Nhân Hạnh Phúc Của Tôi",
+  "updated_at": 1682580180000,
+  "image": "//st.nettruyenio.com/data/logos/logo-nettruyen.png",
+  "author": {
+    "path": "/tim-truyen?tac-gia=Agoki+Akumi",
+    "name": "Agoki Akumi"
+  },
+  "status": "Đang tiến hành",
+  "genres": [
+    { "path": "/tim-truyen/drama-103", "name": "Drama" },
+    { "path": "/tim-truyen/historical", "name": "Historical" },
+    { "path": "/tim-truyen/romance-121", "name": "Romance" },
+    { "path": "/tim-truyen/shoujo", "name": "Shoujo" }
+  ],
+  "views": 1626,
+  "rate": 0.8800000000000001,
+  "count_rate": 2032,
+  "follows": 14821,
+  "description": "Tôi chỉ muốn một chút hạnh phúc ...\nMiyo Saimori, một cô con gái sinh ra trong một gia đình giàu có nhưng cô thật chất bị đối sư rất tệ bạc. Cô được chị gái cùng cha khác mẹ đối xử như một người hầu.\nMột đứa con gái không được cha mẹ yêu thương và không cần đến ai. Người bạn thời thơ ấu là đồng minh duy nhất cũng kết hôn với em gái cùng cha khác mẹ của mình. Cô bắt buộc kết hôn với gia đình Kudo - người nổi danh là tàn nhẫn. Và bây giờ cuộc tình của hai người bị chói buộc bởi cuộc hôn nhân sẽ như thế nào",
+  "chapters": [
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-20-2/776047",
+      "name": "Chapter 20",
+      "updated_at": 1634169600000,
+      "views": 62085
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-19-1/760196",
+      "name": "Chapter 19",
+      "updated_at": 1612828800000,
+      "views": 38194
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-18/733907",
+      "name": "Chapter 18",
+      "updated_at": 1626134400000,
+      "views": 52586
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-17-1/719973",
+      "name": "Chapter 17",
+      "updated_at": 1622246400000,
+      "views": 47899
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-16/700912",
+      "name": "Chapter 16",
+      "updated_at": 1612396800000,
+      "views": 62151
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-15/677750",
+      "name": "Chapter 15",
+      "updated_at": 1610841600000,
+      "views": 75982
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-14/670978",
+      "name": "Chapter 14",
+      "updated_at": 1608854400000,
+      "views": 74461
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-13/635942",
+      "name": "Chapter 13",
+      "updated_at": 1602201600000,
+      "views": 82182
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-12/571179",
+      "name": "Chapter 12",
+      "updated_at": 1590364800000,
+      "views": 94587
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-11/555887",
+      "name": "Chapter 11",
+      "updated_at": 1593820800000,
+      "views": 95986
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-10/553409",
+      "name": "Chapter 10",
+      "updated_at": 1585440000000,
+      "views": 93875
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-9/542553",
+      "name": "Chapter 9",
+      "updated_at": 1582243200000,
+      "views": 96884
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-8/540952",
+      "name": "Chapter 8",
+      "updated_at": 1581638400000,
+      "views": 91534
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-7/540383",
+      "name": "Chapter 7",
+      "updated_at": 1606867200000,
+      "views": 92578
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-6/538865",
+      "name": "Chapter 6",
+      "updated_at": 1591056000000,
+      "views": 89368
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-5/538685",
+      "name": "Chapter 5",
+      "updated_at": 1588377600000,
+      "views": 91884
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-4-1/536212",
+      "name": "Chapter 4",
+      "updated_at": 1579737600000,
+      "views": 93216
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-3/526039",
+      "name": "Chapter 3",
+      "updated_at": 1565568000000,
+      "views": 92347
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-2/520817",
+      "name": "Chapter 2",
+      "updated_at": 1573862400000,
+      "views": 89007
+    },
+    {
+      "path": "/truyen-tranh/hon-nhan-hanh-phuc-cua-toi/chap-1/513257",
+      "name": "Chapter 1",
+      "updated_at": 1571011200000,
+      "views": 106969
+    }
+  ]
+}
