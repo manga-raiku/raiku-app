@@ -1,8 +1,8 @@
-import { parseAnchor } from "../__helpers__/parseAnchor"
-import { parseComment } from "../__helpers__/parseComment"
-import { parseDate } from "../__helpers__/parseDate"
-import { parseDom } from "../__helpers__/parseDom"
-import { parsePath } from "../__helpers__/parsePath"
+import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
+import { parseComment } from "src/apis/__helpers__/parseComment"
+import { parseDate } from "src/apis/__helpers__/parseDate"
+import { parseDom } from "src/apis/__helpers__/parseDom"
+import { parsePath } from "src/apis/__helpers__/parsePath"
 
 export default function manga(html: string, now: number) {
   const $ = parseDom(html)

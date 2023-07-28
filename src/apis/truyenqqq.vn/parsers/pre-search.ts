@@ -1,5 +1,5 @@
-import { parseDom } from "./__helpers__/parseDom"
-import { parsePath } from "./__helpers__/parsePath"
+import { parseDom } from "src/apis/__helpers__/parseDom"
+import { parsePath } from "src/apis/__helpers__/parsePath"
 
 export default function presearch(html: string) {
   const $ = parseDom(html)
