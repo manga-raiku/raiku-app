@@ -68,7 +68,7 @@
           :class="[
             classItem ?? 'col-6 col-sm-4 col-md-3',
             {
-              'text-main': item.readed,
+              'text-main': readsChapter?.has(item.id),
             },
           ]"
         >
@@ -77,14 +77,14 @@
             class="block bg-#f8f8f8 bg-opacity-7.5 hover:bg-opacity-12 transition-background-color duration-200 rounded-md py-7px px-4 relative cursor-pointer"
             exact-active-class="!text-main reading text-weight-medium"
           >
-            <h5 class="text-16px">{{ item.name }}</h5>
-            <span v-if="item.update" class="text-gray-300"
-              >{{ (tmp = dayjs(item.update)).fromNow() }} ({{
+            <h5 class="text-16px">Chương {{ item.name }}</h5>
+            <span v-if="item.updated_at" class="text-gray-300"
+              >{{ (tmp = dayjs(item.updated_at)).fromNow() }} ({{
                 tmp.format("dd DD/MM/YYYY")
               }})</span
             >
             <span
-              v-if="item.readed"
+              v-if="readsChapter?.has(item.id)"
               class="absolute top-2 right-2 flex items-center"
             >
               <Icon
@@ -116,11 +116,13 @@ const props = defineProps<{
 
   focusTabActive?: boolean
 
+  readsChapter?: Set<number>
+
   chapters: {
+    id: number
     path: string
     name: string
-    update?: number
-    readed?: boolean
+    updated_at: number | null
   }[]
 }>()
 const emit = defineEmits<{

@@ -11,6 +11,7 @@
     <q-btn
       v-for="item in items"
       :key="item.path"
+      :to="item.path"
       no-caps
       rounded
       unelevated

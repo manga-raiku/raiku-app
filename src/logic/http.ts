@@ -44,7 +44,7 @@ async function httpGet(
 
 async function httpPost(
   url: string,
-  data: Record<string, number | string | boolean>,
+  data: string | Record<string, number | string | boolean>,
   headers?: Record<string, string>
 ) {
   console.log("post: ", {

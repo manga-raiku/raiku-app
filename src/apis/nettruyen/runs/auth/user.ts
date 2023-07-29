@@ -17,6 +17,6 @@ export default async function (token: string) {
     token:$data.token as string,
     name: $data.fullName as string,
     email: $data.email as string | null,
-    readToken: $data.readToken as string
+    readToken: $data.readToken as string,
   }
 }

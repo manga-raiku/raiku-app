@@ -13,13 +13,16 @@ export default function slug(html: string, now: number) {
 
   const name = $detail.find("h1").text().trim()
   const uid = parseInt(html.match(/gOpts\.comicId=(\d+)/)?.[1] ?? "")
+  const key = html.match(/gOpts\.key='([^"]+)'/)?.[1]
   // eslint-disable-next-line camelcase
   const updated_at = parseTimeAgo(
     $detail.find("time").text().trim().slice(16, -1),
     now
   )
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const image = getImage($("img"))!
+  const image = getImage(
+    $("#item-detail > div.detail-info > div > div.col-xs-4.col-image > img")
+  )!
 
   const othername = $detail.find(".othername p:not(.name)").text().trim()
   const author = $detail
@@ -50,18 +53,21 @@ export default function slug(html: string, now: number) {
     .map((item) => {
       const $item = $(item)
       const { path, name } = parseAnchor($item.find("a"))
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const id = parseInt($item.find("a").attr("data-id")!)
       // eslint-disable-next-line camelcase
       const updated_at = parseTimeAgo($item.next().text().trim(), now) || null
       const views = parseNumber($item.next().next().text().trim())
 
       // eslint-disable-next-line camelcase
-      return { path, name, updated_at, views }
+      return { id, path, name: name.replace("Chapter ", ""), updated_at, views }
     })
 
   return {
     name,
     othername,
     uid,
+    key,
     // eslint-disable-next-line camelcase
     updated_at,
     image,

@@ -128,29 +128,17 @@ meta:
         no-caps
         outline
         class="mr-3 text-weight-normal h-50px text-15px text-#f15a79"
+        @click=onClickFollow
       >
         <Icon
-          :icon="true ? 'ri:heart-fill' : 'ri:heart-add-line'"
+          :icon="
+            infoUserInManga?.isFollowed ? 'ri:heart-fill' : 'ri:heart-add-line'
+          "
           width="1.3em"
           height="1.3em"
           class="mr-2"
         />
-        {{ true ? "Bỏ theo dõi" : "Theo dõi" }}
-      </q-btn>
-
-      <q-btn
-        rounded
-        no-caps
-        outline
-        class="mr-3 text-weight-normal h-50px text-15px text-#f15a79"
-      >
-        <Icon
-          icon="fluent:thumb-like-24-regular"
-          width="1.3em"
-          height="1.3em"
-          class="mr-2"
-        />
-        Thích
+        {{ infoUserInManga?.isFollowed ? "Bỏ theo dõi" : "Theo dõi" }}
       </q-btn>
 
       <q-btn
@@ -174,7 +162,10 @@ meta:
       <header class="text-28px font-weight-regular">
         Chapter List of {{ data.name }}
       </header>
-      <ListChapters :chapters="data.chapters" />
+      <ListChapters
+        :chapters="data.chapters"
+        :reads-chapter="infoUserInManga?.readsChapter"
+      />
     </section>
 
     <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 mt-8">
@@ -337,10 +328,11 @@ import { Icon } from "@iconify/vue"
 import { useShare } from "@vueuse/core"
 // import Like from "src/apis/runs/frontend/regiter-like"
 // import Subscribe from "src/apis/runs/frontend/subscribe"
+import InfoUserInManga from "src/apis/nettruyen/runs/truyen-tranh/[auth]"
 import Manga from "src/apis/nettruyen/runs/truyen-tranh/[slug]"
+import Follow from "src/apis/nettruyen/runs/truyen-tranh/follow"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
-import { pathEqual } from "src/logic/path-equal"
 
 const props = defineProps<{
   zlug: string
@@ -350,6 +342,7 @@ const $q = useQuasar()
 const { share } = useShare()
 const router = useRouter()
 const route = useRoute()
+const authStore = useAuthStore()
 const { data, loading, error, run } = useRequest(() => Manga(props.zlug), {
   refreshDeps: [() => props.zlug],
   refreshDepsAction() {
@@ -369,7 +362,32 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
+const infoUserInManga =
+  ref<Awaited<ReturnType<typeof InfoUserInManga>>>()
+watch(
+  [
+    () => data.value?.uid,
+    () => authStore.user_data?.uid,
+    () => authStore.user_data?.token,
+  ],
+  // eslint-disable-next-line camelcase
+  async ([uid, user_uid, token]) => {
+    infoUserInManga.value = undefined
 
+    // eslint-disable-next-line camelcase
+    if (!uid || !user_uid || !token) return
+    infoUserInManga.value = await InfoUserInManga(uid, user_uid, token)
+    // https://f.nettruyenmax.com/Comic/Services/ComicService.asmx/GetFollowedButtonComic?comicId=20727&userGuid=c96ea70b-be0c-445b-967d-20a6a73dfb3f&token=AkbYuyg%2BVSQIS19FZqybiNH2x%2BjWGdztxZtYWKqSCNdiYQqH3%2FjHrpyaOzChKISX8V6pAmykk3KdCy2%2BCB79na%2B9sgHLoKN1nn%2BRHhEddAk%3D
+  }
+)
+
+async function onClickFollow() {
+  if(!data.value?.uid || !authStore.user_data?.token || !infoUserInManga.value) return
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const data2 = await Follow(data.value.uid, data.value.key!)
+  infoUserInManga.value.isFollowed = data2.isFollowed
+}
 function onClickShare() {
   if (!data.value) return
   share({
