@@ -15,8 +15,8 @@ meta:
         class="mr-8"
       />
       <!-- <q-btn v-else round unelevated class="mr-1" @click="router.back()">
-        <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
-      </q-btn> -->
+          <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
+        </q-btn> -->
 
       <q-btn v-else round unelevated :to="data?.manga" class="mr-1">
         <Icon
@@ -444,15 +444,16 @@ import { Icon } from "@iconify/vue"
 import { useFullscreen } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
-import type { QDialog} from "quasar";
-import { QMenu} from "quasar"
+import type { QDialog } from "quasar"
+import { QMenu } from "quasar"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
 import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
 
 const props = defineProps<{
-  slug: string
-  chap: string
+  zlug: string
+  epName: string
+  epId: string
 }>()
 
 const $q = useQuasar()
@@ -462,9 +463,9 @@ const route = useRoute()
 const router = useRouter()
 const { isFullscreen, toggle } = useFullscreen()
 const { data, loading, runAsync, error } = useRequest(
-  () => SlugChapChap(props.slug + "-chap-" + props.chap),
+  () => SlugChapChap(props.zlug + "/" + props.epName + "/" + props.epId, false),
   {
-    refreshDeps: [() => props.slug, () => props.chap],
+    refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
     refreshDepsAction() {
       runAsync()
     },
@@ -497,7 +498,8 @@ const pageGetter = computed(
 )
 const pages = computed(
   () =>
-    data.value?.pages.map((item) => pageGetter.value?.(item) ?? item.src) as
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    data.value?.pages.map((item) => pageGetter.value?.(item, data.value!) ?? item.src) as
       | string[]
       | undefined
 )
@@ -568,41 +570,41 @@ const nextEpisode = computed(() => {
 
 const showMenuEpisodes = ref(false)
 
-const menuEpisodesRef = ref<QMenu |QDialog>()
+const menuEpisodesRef = ref<QMenu | QDialog>()
 function onChangeTabEpisodes() {
-  setTimeout(() =>( menuEpisodesRef.value as QMenu)?.updatePosition?.(), 70)
+  setTimeout(() => (menuEpisodesRef.value as QMenu)?.updatePosition?.(), 70)
 }
 </script>
 
 <!-- <swiper
-    :spaceBetween="0"
-      :slides-per-view="1"
-    class="h-full"
-  >
-    <swiper-slide
-      v-for="(_, index) in Math.ceil((data.pages.length ) / 2)"
-      :key="index"
+      :spaceBetween="0"
+        :slides-per-view="1"
+      class="h-full"
     >
-    <div class="w-full h-full flex items-center justify-center">
+      <swiper-slide
+        v-for="(_, index) in Math.ceil((data.pages.length ) / 2)"
+        :key="index"
+      >
+      <div class="w-full h-full flex items-center justify-center">
 
-    <div class="w-1/2 h-full">
-      {{sizes}} 1200
-      <img class="object-scale-down h-full" :class="{
-        'ml-auto': true
-      }" :src="data.pages[index*2]?.src"
-      @load="$event => {
-        sizes[ index * 2 ] = [$event.target.naturalWidth, $event.target.naturalHeight]
-      }"
-      />
-    </div>
-    <div class="w-1/2 h-full">
+      <div class="w-1/2 h-full">
+        {{sizes}} 1200
+        <img class="object-scale-down h-full" :class="{
+          'ml-auto': true
+        }" :src="data.pages[index*2]?.src"
+        @load="$event => {
+          sizes[ index * 2 ] = [$event.target.naturalWidth, $event.target.naturalHeight]
+        }"
+        />
+      </div>
+      <div class="w-1/2 h-full">
 
-      <img class="object-scale-down h-full" :src="data.pages[index*2 + 1]?.src"
-      @load="$event => {
-        sizes[ index * 2 + 1 ] = [$event.target.naturalWidth, $event.target.naturalHeight]
-      }"
-      />
-    </div>
-    </div>
-    </swiper-slide>
-</swiper> -->
+        <img class="object-scale-down h-full" :src="data.pages[index*2 + 1]?.src"
+        @load="$event => {
+          sizes[ index * 2 + 1 ] = [$event.target.naturalWidth, $event.target.naturalHeight]
+        }"
+        />
+      </div>
+      </div>
+      </swiper-slide>
+  </swiper> -->

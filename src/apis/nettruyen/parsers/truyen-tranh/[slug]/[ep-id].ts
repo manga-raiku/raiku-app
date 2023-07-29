@@ -35,18 +35,18 @@ type Page = ReturnType<typeof epId>["pages"][0]
 
 export const SERVERS: {
   name: string
-  ready: (page: Page) => boolean
+  has: (page: Page) => boolean
   get: (page: Page, conf: ReturnType<typeof epId>) => string
 }[] = [
   {
     name: "Server 1",
-    ready: () => true,
+    has: () => true,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     get: (item: Page) => item.src!,
   },
   {
     name: "Server 2",
-    ready: (item: Page) => item.original !== null,
+    has: (item: Page) => item.original !== null,
     get(item) {
       if (item.original?.indexOf("focus-opensocial.googleusercontent") !== -1) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -60,14 +60,14 @@ export const SERVERS: {
   },
   {
     name: "Server 3",
-    ready: (item: ReturnType<typeof epId>["pages"][0]) => item.cdn !== null,
+    has: (item: ReturnType<typeof epId>["pages"][0]) => item.cdn !== null,
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     get: (item) => item.cdn!,
   },
   {
     name: "Server 4",
-    ready: (item) =>
+    has: (item) =>
       item.cdn !== null &&
       item.original?.indexOf("focus-opensocial.googleusercontent") !== -1,
     get: (item, { cdn, cdn2 }) => {

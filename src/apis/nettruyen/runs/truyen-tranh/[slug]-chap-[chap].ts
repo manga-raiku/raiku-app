@@ -5,7 +5,21 @@ import { CURL } from "../../const"
 import type Parse from "../../parsers/truyen-tranh/[slug]/[ep-id]"
 import Worker from "../../workers/truyen-tranh/[slug]/[ep-id]?worker"
 
-export default async function (slug: string, fast = false) {
+export default async function <Fast extends boolean>(
+  slug: string,
+  fast: Fast
+): Promise<
+  Fast extends true
+    ? Awaited<ReturnType<typeof Parse>>
+    : Awaited<ReturnType<typeof Parse>> & {
+        chapters: {
+          id: number
+          name: string
+          path: string
+          updated_at: null
+        }[]
+      }
+> {
   const { data, url } = await get(`${CURL}/truyen-tranh/${slug}`)
 
   // eslint-disable-next-line functional/no-throw-statement
@@ -24,11 +38,14 @@ export default async function (slug: string, fast = false) {
             id: item.chapterId,
             name: item.name.replace("Chapter ", ""),
             path: parsePath(item.url),
+            updated_at: null,
           }
         }
       ),
-    }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any
   }
 
-  return result
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return result as any
 }
