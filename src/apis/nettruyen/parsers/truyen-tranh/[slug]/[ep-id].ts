@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
 import { parseDom } from "src/apis/__helpers__/parseDom"
 import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
 
@@ -6,6 +7,9 @@ export default function epId(html: string, now: number) {
   const $ = parseDom(html)
 
   const name = $("h1").text().split("-").slice(0, -1).join("-").trim()
+  const { path: manga } = parseAnchor(
+    $("#ctl00_divCenter > div > div:nth-child(1) > div.top > h1 > a")
+  )
   const uid = parseInt(html.match(/gOpts\.comicId=(\d+)/)?.[1] ?? "")
   const ep_id = parseInt(html.match(/gOpts\.chapterId=(\d+)/)?.[1] ?? "")
   const cdn = html.match(/gOpts\.cdn="([^"]+)"/)?.[1]
@@ -28,7 +32,7 @@ export default function epId(html: string, now: number) {
       return { src, original, cdn }
     })
 
-  return { name, uid, ep_id, updated_at, pages, cdn, cdn2 }
+  return { name, uid, manga, ep_id, updated_at, pages, cdn, cdn2 }
 }
 
 type Page = ReturnType<typeof epId>["pages"][0]
@@ -36,18 +40,18 @@ type Page = ReturnType<typeof epId>["pages"][0]
 export const SERVERS: {
   name: string
   has: (page: Page) => boolean
-  get: (page: Page, conf: ReturnType<typeof epId>) => string
+  parse: (page: Page, conf: ReturnType<typeof epId>) => string
 }[] = [
   {
     name: "Server 1",
     has: () => true,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    get: (item: Page) => item.src!,
+    parse: (item: Page) => item.src!,
   },
   {
     name: "Server 2",
     has: (item: Page) => item.original !== null,
-    get(item) {
+    parse(item) {
       if (item.original?.indexOf("focus-opensocial.googleusercontent") !== -1) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return decodeURIComponent(item.original!.split("&url", 2)[1])
@@ -63,14 +67,14 @@ export const SERVERS: {
     has: (item: ReturnType<typeof epId>["pages"][0]) => item.cdn !== null,
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    get: (item) => item.cdn!,
+    parse: (item) => item.cdn!,
   },
   {
     name: "Server 4",
     has: (item) =>
       item.cdn !== null &&
       item.original?.indexOf("focus-opensocial.googleusercontent") !== -1,
-    get: (item, { cdn, cdn2 }) => {
+    parse: (item, { cdn, cdn2 }) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return item.cdn!.replace(cdn!, cdn2!)
     },

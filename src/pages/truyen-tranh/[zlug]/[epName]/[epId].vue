@@ -27,7 +27,7 @@ meta:
 
       <q-space class="<md:display-none" />
 
-      <div class="sm:flex items-center min-w-0">
+      <div class="flex <md:display-block items-center min-w-0">
         <div class="ellipsis text-15px">{{ data?.name }}</div>
 
         <Icon
@@ -35,9 +35,9 @@ meta:
           class="mx-1 <md:display-none"
         />
 
-        <small class="text-gray-300 text-12px whitespace-nowrap">{{
-          currentEpisode?.value.name
-        }}</small>
+        <small class="text-gray-300 md:text-14px md:text-white text-12px whitespace-nowrap"
+          >Chương {{ currentEpisode?.value.name }}</small
+        >
       </div>
 
       <q-space />
@@ -178,7 +178,7 @@ meta:
           class="bg-dark text-14px text-weight-medium"
           transition-show="jump-up"
           transition-hide="jump-down"
-          >Chương trước: {{ previousEpisode?.value.name }}</q-tooltip
+          >Chương trước: Chương {{ previousEpisode?.value.name }}</q-tooltip
         >
       </q-btn>
       <q-btn
@@ -202,7 +202,7 @@ meta:
           class="bg-dark text-14px text-weight-medium"
           transition-show="jump-up"
           transition-hide="jump-down"
-          >Chương sau: {{ nextEpisode?.value.name }}</q-tooltip
+          >Chương sau: Chương {{ nextEpisode?.value.name }}</q-tooltip
         >
       </q-btn>
 
@@ -494,14 +494,14 @@ const pageGetter = computed(
   () =>
     serversReady.value.find(
       (item) => item.name === serversReady.value[server.value].name
-    )?.get
+    )?.parse
 )
 const pages = computed(
   () =>
+    data.value?.pages.map(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    data.value?.pages.map((item) => pageGetter.value?.(item, data.value!) ?? item.src) as
-      | string[]
-      | undefined
+      (item) => pageGetter.value?.(item, data.value!) ?? item.src
+    ) as string[] | undefined
 )
 const singlePage = ref(false)
 const rightToLeft = ref(false)

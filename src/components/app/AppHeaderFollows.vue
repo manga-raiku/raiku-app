@@ -118,15 +118,13 @@ const datas = shallowReactive<Map<string, DataSuccess | DataError>>(new Map())
 const isSuccess = (val: any): val is DataSuccess => {
   return "data" in val
 }
-watch(
-  loadType,
-  async (type) => {
-    if (datas.has(type)) return
+watch(loadType, async (type) => {
+  if (!showMenuFollow.value) return
 
-    await refresh(type)
-  },
-  { immediate: true }
-)
+  if (datas.has(type)) return
+
+  await refresh(type)
+})
 async function refresh(type: string) {
   datas.delete(type)
   try {

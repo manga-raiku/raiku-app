@@ -1,11 +1,12 @@
 <route lang="yaml">
 meta:
   padding: true
+  noMarginTop: true
 </route>
 
 <template>
   <template v-if="data && !loading">
-    <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 flex">
+    <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 mb-4 flex">
       <div>
         <div
           class="bg-image-blur"

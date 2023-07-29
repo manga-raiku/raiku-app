@@ -11,5 +11,6 @@ declare module "vue-router" {
     offset?: boolean
     existsFooter?: boolean
     absolute?: boolean
+    noMarginTop?: boolean
   }
 }

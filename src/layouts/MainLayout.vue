@@ -73,10 +73,11 @@
               }
             return {
               height: height + 'px',
-              marginTop: 50 + 'px',
+              marginTop: route.meta?.noMarginTop ? undefined : 50 + 'px',
             }
           }
         "
+        class="!py-0"
         :class="{
           'fixed top-0': route.meta?.absolute,
         }"

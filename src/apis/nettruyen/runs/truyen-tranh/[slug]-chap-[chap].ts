@@ -3,7 +3,7 @@ import { PostWorker } from "src/apis/wrap-worker"
 
 import { CURL } from "../../const"
 import type Parse from "../../parsers/truyen-tranh/[slug]/[ep-id]"
-import Worker from "../../workers/truyen-tranh/[slug]/[ep-id]?worker"
+import Worker from "../../workers/truyen-tranh/[slug]-chap-[chap]?worker"
 
 export default async function <Fast extends boolean>(
   slug: string,
