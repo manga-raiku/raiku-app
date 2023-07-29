@@ -11,4 +11,3 @@ describe("pre-search", () => {
     expect(result).toEqual(json)
   })
 })
-

@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex flex-nowrap">
-    <q-responsive  :ratio="190 / 247" class="rounded-lg w-[110px]">
+    <q-responsive :ratio="190 / 247" class="rounded-lg w-[110px]">
       <q-skeleton type="rect" class="absolute w-full h-full" />
     </q-responsive>
 

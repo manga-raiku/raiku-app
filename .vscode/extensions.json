@@ -7,7 +7,10 @@
     "wayou.vscode-todo-highlight",
     "lokalise.i18n-ally",
     "codeium.codeium",
-    "antfu.iconify"
+    "antfu.iconify",
+    "unthrottled.doki-theme",
+    "codium.codium",
+    "equinusocio.vsc-material-theme-icons"
   ],
   "unwantedRecommendations": [
     "octref.vetur",

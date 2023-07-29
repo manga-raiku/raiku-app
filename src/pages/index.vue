@@ -149,9 +149,9 @@ meta:
             }}</small>
           </div>
           <div class="focus-item-info">
-          <Quality v-if="data.sliders[sliderIndex].hot">Hot</Quality>
+            <Quality v-if="data.sliders[sliderIndex].hot">Hot</Quality>
 
-          <q-separator vertical class="mx-2" />
+            <q-separator vertical class="mx-2" />
 
             <span class="focus-item-update">
               Chương {{ data.sliders[sliderIndex].last_chapters[0].name }}

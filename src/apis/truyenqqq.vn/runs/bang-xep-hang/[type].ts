@@ -10,10 +10,7 @@ export default async function (
   query: LocationQuery
 ) {
   const { data, url } = await get(
-    `/top-${slug.replace(
-      ".html",
-      ""
-    )}/trang-${page}.html?${new URLSearchParams(
+    `/top-${slug.replace(".html", "")}/trang-${page}.html?${new URLSearchParams(
       query as Record<string, string>
     )}`
   )

@@ -18,7 +18,7 @@ export default function manga(html: string, now: number) {
   const author = $(".author a")
     .toArray()
     .map((item) => parseAnchor($(item)))
-  const status = $(".status p:not(.name)").text()
+  const status = $(".status p:not(.name)").text().trim()
   const likes = parseInt(
     $(".status").next().find("p:not(.name)").text().replace(/,/g, "")
   )

@@ -129,7 +129,7 @@ meta:
         no-caps
         outline
         class="mr-3 text-weight-normal h-50px text-15px text-#f15a79"
-        @click=onClickFollow
+        @click="onClickFollow"
       >
         <Icon
           :icon="
@@ -363,8 +363,7 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
-const infoUserInManga =
-  ref<Awaited<ReturnType<typeof InfoUserInManga>>>()
+const infoUserInManga = ref<Awaited<ReturnType<typeof InfoUserInManga>>>()
 watch(
   [
     () => data.value?.uid,
@@ -383,7 +382,8 @@ watch(
 )
 
 async function onClickFollow() {
-  if(!data.value?.uid || !authStore.user_data?.token || !infoUserInManga.value) return
+  if (!data.value?.uid || !authStore.user_data?.token || !infoUserInManga.value)
+    return
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const data2 = await Follow(data.value.uid, data.value.key!)

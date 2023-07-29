@@ -111,12 +111,11 @@ function onTouchMove(event: TouchEvent | MouseEvent) {
 
   if (
     !canGo ||
-    canGo !== "A" &&
-    !(
-      (canGo === "R" && touch.clientX < lastStartTouch.clientX) ||
-      (canGo === "L" && touch.clientX > lastStartTouch.clientX)
-
-    )
+    (canGo !== "A" &&
+      !(
+        (canGo === "R" && touch.clientX < lastStartTouch.clientX) ||
+        (canGo === "L" && touch.clientX > lastStartTouch.clientX)
+      ))
   ) {
     const [diffX, diffY] = [
       touch.clientX - lastStartTouch.clientX,

@@ -159,8 +159,11 @@ function onTouchStart(event: TouchEvent) {
 
   lastStartTouch = event.touches[0]
 
-  const index = props.rightToLeft &&  props.singlePage ? sizePage.value - 1 +  props.currentPage : (props.currentPage)
-  canGo = canSwipes[ index ]
+  const index =
+    props.rightToLeft && props.singlePage
+      ? sizePage.value - 1 + props.currentPage
+      : props.currentPage
+  canGo = canSwipes[index]
 
   // if (canSwipe.value) {
   moving.value = true
@@ -184,7 +187,7 @@ function onTouchMove(event: TouchEvent) {
 
   const touch = findTouch(event.touches, lastStartTouch)
   if (!touch) return
-  
+
   if (
     canGo &&
     (canGo === "A" ||

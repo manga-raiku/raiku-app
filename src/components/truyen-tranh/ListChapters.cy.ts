@@ -320,7 +320,13 @@ const chapters_long = [
     update: 1584144000000,
     readed: false,
   },
-]
+].map((item) => {
+  return {
+    ...item,
+    updated_at: item.update,
+    id: 0,
+  }
+})
 
 describe("ListChapters", () => {
   it("renders chapters", () => {
@@ -487,11 +493,12 @@ describe("ListChapters", () => {
         update: 1584144000000,
         readed: false,
       },
-    ]
-    cy.mount(ListChapters, {
-      props: {
-        chapters,
-      },
+    ].map((item) => {
+      return {
+        ...item,
+        updated_at: item.update,
+        id: 0,
+      }
     })
 
     cy.get("ul.row").find("li").should("have.length", chapters.length)

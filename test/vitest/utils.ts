@@ -1,4 +1,4 @@
-import { Encoding } from "@tachibana-shin/capacitor-filesystem"
+import type { Encoding } from "@tachibana-shin/capacitor-filesystem"
 
 export async function cleanup() {
   return Promise.all(

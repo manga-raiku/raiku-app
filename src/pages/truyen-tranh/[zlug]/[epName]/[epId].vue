@@ -35,7 +35,8 @@ meta:
           class="mx-1 <md:display-none"
         />
 
-        <small class="text-gray-300 md:text-14px md:text-white text-12px whitespace-nowrap"
+        <small
+          class="text-gray-300 md:text-14px md:text-white text-12px whitespace-nowrap"
           >Chương {{ currentEpisode?.value.name }}</small
         >
       </div>
@@ -499,7 +500,7 @@ const pageGetter = computed(
 const pages = computed(
   () =>
     data.value?.pages.map(
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       (item) => pageGetter.value?.(item, data.value!) ?? item.src
     ) as string[] | undefined
 )

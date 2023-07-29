@@ -22,12 +22,18 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
   const status =
     $info.length === 0
       ? undefined
-      : $info.eq(0).text().replace("Tình trạng:", "")
+      : $info.eq(0).text().replace("Tình trạng:", "").trim()
   const views =
     $info.length === 0
       ? null
       : parseInt(
-          $info.eq(1).text().trim().replace("Lượt xem:", "").replace(/,/g, "")
+          $info
+            .eq(1)
+            .text()
+            .trim()
+            .replace("Lượt xem:", "")
+            .trim()
+            .replace(/,/g, "")
         )
   const follows =
     $info.length === 0

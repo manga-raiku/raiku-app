@@ -12,4 +12,3 @@
     App
   </q-btn>
 </template>
-

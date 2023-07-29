@@ -96,7 +96,7 @@
           </template>
         </div>
 
-        <div v-if="data.author" class="">Tác giả {{data.author}}</div>
+        <div v-if="data.author" class="">Tác giả {{ data.author }}</div>
 
         <!-- <div class="text-gray-400 mt-2">{{ t("cap-nhat-toi-tap-_duration", [data.process]) }}</div> -->
 

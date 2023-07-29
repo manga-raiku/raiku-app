@@ -12,13 +12,16 @@ export default async function (slug: string) {
   if (pathIsHome(url)) throw new Error("not_found")
 
   const result = await PostWorker<typeof Parse>(Worker, data, Date.now())
-  if(result.chapters.length ===0) {
+  if (result.chapters.length === 0) {
     const { data } = await post("/frontend/manga/list", {
       id: result.id,
-      order: 1
+      order: 1,
     })
 
-    result.chapters = await PostWorker<typeof ParseMangaList>(WorkerMangaList, data)
+    result.chapters = await PostWorker<typeof ParseMangaList>(
+      WorkerMangaList,
+      data
+    )
   }
 
   return result

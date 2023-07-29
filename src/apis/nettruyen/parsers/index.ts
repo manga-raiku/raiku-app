@@ -34,7 +34,7 @@ export default function index(html: string, now: number) {
         // eslint-disable-next-line camelcase
         ...$last_chapter,
         // eslint-disable-next-line camelcase
-        name: $last_chapter.name.replace("Chapter ", ''),
+        name: $last_chapter.name.replace("Chapter ", ""),
         updated_at: parseNumber($item.find(".chapter .view").text().trim()),
       }
 

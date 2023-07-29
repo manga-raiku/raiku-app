@@ -15,7 +15,9 @@ export default async function (
 
   return {
     isFollowed: isFollowed as boolean,
-  readsChapter: new Set(readChapters?.map((item: string) => parseInt(item)) as number[]),
+    readsChapter: new Set(
+      readChapters?.map((item: string) => parseInt(item)) as number[]
+    ),
     readContinueId: readHtml?.match(/(\d+)">Đ/)[1] as string | undefined,
   }
 }

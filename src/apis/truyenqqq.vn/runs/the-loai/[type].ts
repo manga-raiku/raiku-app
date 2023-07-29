@@ -25,7 +25,6 @@ export default async function (
     )}/trang-${page}.html?${new URLSearchParams(
       query as Record<string, string>
     )}`
-
   )
   // eslint-disable-next-line functional/no-throw-statement
   if (pathIsHome(url)) throw new Error("not_found")

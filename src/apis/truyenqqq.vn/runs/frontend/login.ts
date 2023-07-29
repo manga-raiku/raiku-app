@@ -8,7 +8,7 @@ export default async function login(email: string, password: string) {
   const json = JSON.parse(data)
 
   // eslint-disable-next-line functional/no-throw-statement
-  if (json.status === 0) throw (json.error)
+  if (json.status === 0) throw json.error
 
   return {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

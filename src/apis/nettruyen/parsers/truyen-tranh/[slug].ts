@@ -1,7 +1,6 @@
 import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
 import { parseDom } from "src/apis/__helpers__/parseDom"
 import { parseNumber } from "src/apis/__helpers__/parseNumber"
-import { parsePath } from "src/apis/__helpers__/parsePath"
 import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
 
 import { getImage } from "../__helpers__/getImage"
@@ -30,7 +29,7 @@ export default function slug(html: string, now: number) {
     .find("a")
     .toArray()
     .map((item) => parseAnchor($(item)))
-  const status = $detail.find(".status p:not(.name)").text()
+  const status = $detail.find(".status p:not(.name)").text().trim()
   const genres = $detail
     .find(".kind p:not(.name)")
     .find("a")

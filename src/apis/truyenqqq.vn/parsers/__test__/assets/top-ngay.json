@@ -6,40 +6,19 @@
       "type": "Tình trạng",
       "key": "status",
       "items": [
-        {
-          "value": "0",
-          "name": "Đang tiến hành"
-        },
-        {
-          "value": "2",
-          "name": "Hoàn thành"
-        }
+        { "value": "0", "name": "Đang tiến hành" },
+        { "value": "2", "name": "Hoàn thành" }
       ]
     },
     {
       "type": "Quốc gia",
       "key": "country",
       "items": [
-        {
-          "value": "1",
-          "name": "Trung Quốc"
-        },
-        {
-          "value": "2",
-          "name": "Việt Nam"
-        },
-        {
-          "value": "3",
-          "name": "Hàn Quốc"
-        },
-        {
-          "value": "4",
-          "name": "Nhật Bản"
-        },
-        {
-          "value": "5",
-          "name": "Mỹ"
-        }
+        { "value": "1", "name": "Trung Quốc" },
+        { "value": "2", "name": "Việt Nam" },
+        { "value": "3", "name": "Hàn Quốc" },
+        { "value": "4", "name": "Nhật Bản" },
+        { "value": "5", "name": "Mỹ" }
       ]
     }
   ],
@@ -66,7 +45,8 @@
         "Shounen",
         "Supernatural"
       ],
-      "description": "One Piece là câu truyện kể về Luffy và các thuyền viên của mình. Khi còn nhỏ, Luffy ước mơ trở thành Vua Hải Tặc. Cuộc sống của cậu bé thay đổi khi cậu vô tình có được sức mạnh có thể co dãn như cao su, nhưng đổi lại, cậu không bao giờ có thể bơi được nữa. Giờ đây, Luffy cùng những người bạn hải tặc..."
+      "description": "One Piece là câu truyện kể về Luffy và các thuyền viên của mình. Khi còn nhỏ, Luffy ước mơ trở thành Vua Hải Tặc. Cuộc sống của cậu bé thay đổi khi cậu vô tình có được sức mạnh có thể co dãn như cao su, nhưng đổi lại, cậu không bao giờ có thể bơi được nữa. Giờ đây, Luffy cùng những người bạn hải tặc...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/tien-dao-so-1-7120",
@@ -82,7 +62,8 @@
       "views": 43922665,
       "follows": 33051,
       "tags": ["Action", "Drama", "Shounen"],
-      "description": "Yoichi Isagi đã bỏ lỡ cơ hội tham dự giải Cao Trung toàn quốc do đã chuyền cho đồng đội thay vì tự thân mình dứt điểm. Cậu là một trong 300 chân sút U-18 được tuyển chọn bởi Jinpachi Ego, người đàn ông được Hiệp Hội Bóng Đá Nhật Bản thuê sau hồi FIFA World Cup năm 2018, nhằm dẫn dắt Nhật Bản vô địch..."
+      "description": "Yoichi Isagi đã bỏ lỡ cơ hội tham dự giải Cao Trung toàn quốc do đã chuyền cho đồng đội thay vì tự thân mình dứt điểm. Cậu là một trong 300 chân sút U-18 được tuyển chọn bởi Jinpachi Ego, người đàn ông được Hiệp Hội Bóng Đá Nhật Bản thuê sau hồi FIFA World Cup năm 2018, nhằm dẫn dắt Nhật Bản vô địch...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/ma-thu-sieu-than-13035",
@@ -98,7 +79,8 @@
       "views": 2671088,
       "follows": 11275,
       "tags": ["Fantasy", "Manhua", "Truyện Màu"],
-      "description": null
+      "description": null,
+      "visited": null
     },
     {
       "path": "/truyen-tranh/vo-luyen-dinh-phong-3926",
@@ -114,7 +96,8 @@
       "views": 91446007,
       "follows": 42844,
       "tags": ["Action", "Fantasy", "Shounen", "Supernatural", "Manhua"],
-      "description": "Võ đạo đỉnh phong, là cô độc, là tịch mịch, là dài đằng đẵng cầu tác, là cao xử bất thắng hàn\n\nPhát triển trong nghịch cảnh, cầu sinh nơi tuyệt địa, bất khuất không buông tha, mới có thể có thể phá võ chi cực đạo.\n\nLăng Tiêu các thí luyện đệ tử kiêm quét rác gã sai vặt Dương Khai ngẫu lấy được một..."
+      "description": "Võ đạo đỉnh phong, là cô độc, là tịch mịch, là dài đằng đẵng cầu tác, là cao xử bất thắng hàn\n\nPhát triển trong nghịch cảnh, cầu sinh nơi tuyệt địa, bất khuất không buông tha, mới có thể có thể phá võ chi cực đạo.\n\nLăng Tiêu các thí luyện đệ tử kiêm quét rác gã sai vặt Dương Khai ngẫu lấy được một...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/do-de-cua-ta-deu-la-dai-phan-phai-13414",
@@ -137,7 +120,8 @@
         "Chuyển Sinh",
         "Truyện Màu"
       ],
-      "description": "Lục Châu tỉnh lại sau giấc ngủ, bỗng trở thành tổ sư gia ma đầu cường đại nhất, già nhất, thế gian; còn có chín tên đồ đệ với tội ác chồng chất, uy chấn thiên hạ . Đại đồ đệ là giáo chủ của U Minh giáo, có thủ hạ là ngàn vạn ma chúng, nhị đồ đệ Kiếm Ma một lời không hợp liền khai sát giới...... Khôn..."
+      "description": "Lục Châu tỉnh lại sau giấc ngủ, bỗng trở thành tổ sư gia ma đầu cường đại nhất, già nhất, thế gian; còn có chín tên đồ đệ với tội ác chồng chất, uy chấn thiên hạ . Đại đồ đệ là giáo chủ của U Minh giáo, có thủ hạ là ngàn vạn ma chúng, nhị đồ đệ Kiếm Ma một lời không hợp liền khai sát giới...... Khôn...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/jujutsu-kaisen-chu-thuat-hoi-chien-5058",
@@ -153,7 +137,8 @@
       "views": 52216543,
       "follows": 44777,
       "tags": ["Action", "Fantasy", "Shounen", "Supernatural", "Demons"],
-      "description": "Yuuji Itadori là một thiên tài có tốc độ và sức mạnh, nhưng cậu ấy muốn dành thời gian của mình trong Câu lạc bộ Tâm Linh. Một ngày sau cái chết của ông mình, anh gặp Megumi Fushiguro, người đang tìm kiếm vật thể bị nguyền rủa mà các thành viên CLB đã tìm thấy.\n\n\n\nĐối mặt với những con quái vật ..."
+      "description": "Yuuji Itadori là một thiên tài có tốc độ và sức mạnh, nhưng cậu ấy muốn dành thời gian của mình trong Câu lạc bộ Tâm Linh. Một ngày sau cái chết của ông mình, anh gặp Megumi Fushiguro, người đang tìm kiếm vật thể bị nguyền rủa mà các thành viên CLB đã tìm thấy.\n\n\n\nĐối mặt với những con quái vật ...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/mashle-magic-and-muscles-8913",
@@ -169,7 +154,8 @@
       "views": 10963244,
       "follows": 26226,
       "tags": ["Action", "Comedy", "Shounen"],
-      "description": "Ngày xửa ngày xưa, có một thế giới nơi phép thuật có thể chi phối mọi thứ. Nhưng sâu trong rừng có một thanh niên dành thời gian để luyện tập cơ bắp. Mặc dù không thể sử dụng phép thuật, nhưng cậu ta có một cuộc sống yên bình với cha mình. Rồi một ngày, cuộc sống của cậu gặp nguy hiểm! Cơ thể của Sa..."
+      "description": "Ngày xửa ngày xưa, có một thế giới nơi phép thuật có thể chi phối mọi thứ. Nhưng sâu trong rừng có một thanh niên dành thời gian để luyện tập cơ bắp. Mặc dù không thể sử dụng phép thuật, nhưng cậu ta có một cuộc sống yên bình với cha mình. Rồi một ngày, cuộc sống của cậu gặp nguy hiểm! Cơ thể của Sa...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/tinh-yeu-thuan-khiet-cua-tuoi-tre-4091",
@@ -185,7 +171,8 @@
       "views": 549160,
       "follows": 738,
       "tags": ["Drama", "Shounen", "Romance", "School Life", "Slice Of Life"],
-      "description": "Câu chuyện tình yêu \"thuần khiết của tuổi trẻ\" bắt đầu khi ba học sinh trong năm thứ ba và năm cuối cùng của họ gặp nhau trong một thời gian khi họ đang lo lắng về con đường tương lai của mình. Chờ đợi họ là những ngày ngọt ngào, đau đớn và đau lòng."
+      "description": "Câu chuyện tình yêu \"thuần khiết của tuổi trẻ\" bắt đầu khi ba học sinh trong năm thứ ba và năm cuối cùng của họ gặp nhau trong một thời gian khi họ đang lo lắng về con đường tương lai của mình. Chờ đợi họ là những ngày ngọt ngào, đau đớn và đau lòng.",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/onepunch-man-244",
@@ -201,7 +188,8 @@
       "views": 84954511,
       "follows": 92832,
       "tags": ["Action", "Adventure", "Comedy", "Shounen", "Supernatural"],
-      "description": "Onepunch-Man là một Manga thể loại siêu anh hùng với đặc trưng phồng tôm đấm phát chết luôn… Lol!!! Nhân vật chính trong Onepunch-man là Saitama, một con người mà nhìn đâu cũng thấy “tầm thường”, từ khuôn mặt vô hồn, cái đầu trọc lóc, cho tới thể hình long tong. Tuy nhiên, con người nhìn thì tầm thư..."
+      "description": "Onepunch-Man là một Manga thể loại siêu anh hùng với đặc trưng phồng tôm đấm phát chết luôn… Lol!!! Nhân vật chính trong Onepunch-man là Saitama, một con người mà nhìn đâu cũng thấy “tầm thường”, từ khuôn mặt vô hồn, cái đầu trọc lóc, cho tới thể hình long tong. Tuy nhiên, con người nhìn thì tầm thư...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/cao-vo-ha-canh-den-mot-van-nam-sau-13646",
@@ -217,7 +205,8 @@
       "views": 796618,
       "follows": 6957,
       "tags": ["Action", "Fantasy", "Manhua", "Truyện Màu"],
-      "description": "Khi võ thuật lần đầu tiên phát triển mạnh mẽ, những con thú ngoài hành tinh đáng sợ đã xâm chiếm và các chiến binh loài người dần dần rút lui. Lu Sheng xuyên qua và bước vào thế giới 10.000 năm sau trong giấc mơ của anh ấy — kỹ thuật luyện thân cơ bản 10.000 năm sau đã được sửa đổi, và hiệu quả mạnh..."
+      "description": "Khi võ thuật lần đầu tiên phát triển mạnh mẽ, những con thú ngoài hành tinh đáng sợ đã xâm chiếm và các chiến binh loài người dần dần rút lui. Lu Sheng xuyên qua và bước vào thế giới 10.000 năm sau trong giấc mơ của anh ấy — kỹ thuật luyện thân cơ bản 10.000 năm sau đã được sửa đổi, và hiệu quả mạnh...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/thanh-guom-diet-quy-2624",
@@ -233,7 +222,8 @@
       "views": 160511276,
       "follows": 105297,
       "tags": ["Drama", "Fantasy", "Shounen", "Romance", "Historical"],
-      "description": "Kimetsu no Yaiba – Tanjirou là con cả của gia đình vừa mất cha. Một ngày nọ, Tanjirou đến thăm thị trấn khác để bán than, khi đêm về cậu ở nghỉ tại nhà người khác thay vì về nhà vì lời đồn thổi về ác quỷ luôn rình mò gần núi vào buổi tối. Khi cậu về nhà vào ngày hôm sau, bị kịch đang đợi chờ cậu…"
+      "description": "Kimetsu no Yaiba – Tanjirou là con cả của gia đình vừa mất cha. Một ngày nọ, Tanjirou đến thăm thị trấn khác để bán than, khi đêm về cậu ở nghỉ tại nhà người khác thay vì về nhà vì lời đồn thổi về ác quỷ luôn rình mò gần núi vào buổi tối. Khi cậu về nhà vào ngày hôm sau, bị kịch đang đợi chờ cậu…",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/nga-lao-ma-than-10514",
@@ -255,7 +245,8 @@
         "Manhwa",
         "Truyện Màu"
       ],
-      "description": "Một trong những Ma thần mạnh nhất lịch sử võ lâm xuất hiện, là kỳ tài võ học kinh người, nhưng khởi nguồn lại là do ... thằng chút chít cách đó cả ngàn năm bay về can thiệp, câu chuyện hư cmn cấu này rồi sẽ đi đâu về đâu"
+      "description": "Một trong những Ma thần mạnh nhất lịch sử võ lâm xuất hiện, là kỳ tài võ học kinh người, nhưng khởi nguồn lại là do ... thằng chút chít cách đó cả ngàn năm bay về can thiệp, câu chuyện hư cmn cấu này rồi sẽ đi đâu về đâu",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/jigokuraku-4165",
@@ -271,7 +262,8 @@
       "views": 8579121,
       "follows": 10780,
       "tags": ["Action", "Adventure", "Drama", "Shounen", "Historical"],
-      "description": null
+      "description": null,
+      "visited": null
     },
     {
       "path": "/truyen-tranh/ta-o-nha-100-nam-khi-ra-ngoai-da-vo-dich-13108",
@@ -287,7 +279,8 @@
       "views": 2436183,
       "follows": 8452,
       "tags": ["Manhua", "Xuyên Không", "Cổ Đại", "Truyện Màu"],
-      "description": "ta rõ ràng đã biến thành thiếu gia của một gia đình quyền lực trong thế giới giả tưởng, nhưng bị đuổi khỏi nhà tổ tiên và sống trong một sân vườn hẻo lánh! ? Chu Xuân không quan tâm chút nào, nhưng ta hệ thống càng ngày càng mạnh! Chỉ cần tôi ở nhà là đủ! Tôi có thể đủ mạnh mẽ! Đinh ~ ở nhà  một ngà..."
+      "description": "ta rõ ràng đã biến thành thiếu gia của một gia đình quyền lực trong thế giới giả tưởng, nhưng bị đuổi khỏi nhà tổ tiên và sống trong một sân vườn hẻo lánh! ? Chu Xuân không quan tâm chút nào, nhưng ta hệ thống càng ngày càng mạnh! Chỉ cần tôi ở nhà là đủ! Tôi có thể đủ mạnh mẽ! Đinh ~ ở nhà  một ngà...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/worlds-end-harem-2209",
@@ -303,7 +296,8 @@
       "views": 7534391,
       "follows": 7668,
       "tags": ["Sci-Fi", "Ecchi"],
-      "description": "Loài người đứng trên bờ vực tuyệt vong khi một loại virus bí ẩn mang tên \"MK - Male Killer\" giết 99.99% đàn ông trên thế giới. Main của chúng ta là 1 trong 5 người nhiễm một căn bệnh hiểm nghèo ngờ đâu đó căn bệnh đó lại giúp main đề kháng viruts đó. Giờ 5 người đàn ông với trọng trách chịch cả thế ..."
+      "description": "Loài người đứng trên bờ vực tuyệt vong khi một loại virus bí ẩn mang tên \"MK - Male Killer\" giết 99.99% đàn ông trên thế giới. Main của chúng ta là 1 trong 5 người nhiễm một căn bệnh hiểm nghèo ngờ đâu đó căn bệnh đó lại giúp main đề kháng viruts đó. Giờ 5 người đàn ông với trọng trách chịch cả thế ...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/toan-chuc-phap-su-4140",
@@ -326,7 +320,8 @@
         "Manhua",
         "Mystery"
       ],
-      "description": "Tỉnh lại sau giấc ngủ, thế giới đại biến. Quen thuộc cao trung truyền thụ chính là phép thuật, nói cho mọi người muốn trở thành một tên xuất sắc Ma Pháp Sư. Ở lại đô thị ở ngoài du đãng tập kích nhân loại ma vật yêu thú, mắt nhìn chằm chằm. Tôn trọng khoa học thế giới đã biến thành tôn trọng phép th..."
+      "description": "Tỉnh lại sau giấc ngủ, thế giới đại biến. Quen thuộc cao trung truyền thụ chính là phép thuật, nói cho mọi người muốn trở thành một tên xuất sắc Ma Pháp Sư. Ở lại đô thị ở ngoài du đãng tập kích nhân loại ma vật yêu thú, mắt nhìn chằm chằm. Tôn trọng khoa học thế giới đã biến thành tôn trọng phép th...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/7-vien-ngoc-rong-194",
@@ -349,7 +344,8 @@
         "Shounen",
         "Supernatural"
       ],
-      "description": "Câu truyện kể về một cậu bé tên Songoku cùng nhóm bạn của mình tham gia những chuyến phiêu lưu tìm ngọc rồng, chống lại cái ác bảo vệ trái đất. Nhân vật Songoku được mọi người ưa thích bởi tính thánh thiện và ngây ngô của mình. Câu truyện lôi cuốn người qua những tình huống phiêu lưu kì thú, những p..."
+      "description": "Câu truyện kể về một cậu bé tên Songoku cùng nhóm bạn của mình tham gia những chuyến phiêu lưu tìm ngọc rồng, chống lại cái ác bảo vệ trái đất. Nhân vật Songoku được mọi người ưa thích bởi tính thánh thiện và ngây ngô của mình. Câu truyện lôi cuốn người qua những tình huống phiêu lưu kì thú, những p...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/nguyen-ton-3755",
@@ -365,7 +361,8 @@
       "views": 24181771,
       "follows": 32604,
       "tags": ["Action", "Adventure", "Fantasy", "Manhua"],
-      "description": null
+      "description": null,
+      "visited": null
     },
     {
       "path": "/truyen-tranh/vu-em-ho-hoa-9987",
@@ -381,7 +378,8 @@
       "views": 387002,
       "follows": 2242,
       "tags": ["Action", "Comedy", "Manhua", "Truyện Màu"],
-      "description": null
+      "description": null,
+      "visited": null
     },
     {
       "path": "/truyen-tranh/toan-dan-chuyen-chuc-duy-ta-vo-chuc-tan-nhan-13890",
@@ -404,7 +402,8 @@
         "Chuyển Sinh",
         "Huyền Huyễn"
       ],
-      "description": "Một năm kia, toàn cầu dị biến, trò chơi hàng lâm hiện thực, ma tai bắt đầu tàn sát bừa bãi.Vì chống lại đây hết thảy, mỗi một cái người đều muốn quy hoạch chức nghiệp tuyển hạng, điên cuồng thăng cấp, tranh thủ mạnh mẽ.Có người lựa chọn cao quý pháp gia, Nhị chuyển quyết định nguyên tố pháp sư.Có ng..."
+      "description": "Một năm kia, toàn cầu dị biến, trò chơi hàng lâm hiện thực, ma tai bắt đầu tàn sát bừa bãi.Vì chống lại đây hết thảy, mỗi một cái người đều muốn quy hoạch chức nghiệp tuyển hạng, điên cuồng thăng cấp, tranh thủ mạnh mẽ.Có người lựa chọn cao quý pháp gia, Nhị chuyển quyết định nguyên tố pháp sư.Có ng...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/than-chet-ichigo-141",
@@ -428,7 +427,8 @@
         "Shounen",
         "Supernatural"
       ],
-      "description": "Nhân vật chính của Bleach là Ichigo Kurosaki có khả năng nhìn thấy những hồn ma. Cuộc sống của cậu thay đổi khi cậu gặp Rukia Kuchiki, một Thần Chết và là thành viên của Âm Giới. Khi chiến đấu với một yêu quái chuyên đi săn những người có năng lực tâm linh, Rukia đã cho Ichigo mượn sức mạnh của mình..."
+      "description": "Nhân vật chính của Bleach là Ichigo Kurosaki có khả năng nhìn thấy những hồn ma. Cuộc sống của cậu thay đổi khi cậu gặp Rukia Kuchiki, một Thần Chết và là thành viên của Âm Giới. Khi chiến đấu với một yêu quái chuyên đi săn những người có năng lực tâm linh, Rukia đã cho Ichigo mượn sức mạnh của mình...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/trung-sinh-thanh-godzilla-13164",
@@ -444,7 +444,8 @@
       "views": 460192,
       "follows": 2489,
       "tags": ["Manhua", "Harem", "Chuyển Sinh", "Truyện Màu"],
-      "description": null
+      "description": null,
+      "visited": null
     },
     {
       "path": "/truyen-tranh/black-clover-the-gioi-phep-thuat-499",
@@ -468,7 +469,8 @@
         "Supernatural",
         "Mystery"
       ],
-      "description": "Aster và Yuno là hai đứa trẻ bị bỏ rơi ở nhà thờ và cùng nhau lớn lên tại đó. Khi còn nhỏ, chúng đã hứa với nhau xem ai sẽ trở thành Ma pháp vương tiếp theo. Thế nhưng, khi cả hai lớn lên, mọi sô chuyện đã thay đổi. Yuno là thiên tài ma pháp với sức mạnh tuyệt đỉnh trong khi Aster lại không thể sử d..."
+      "description": "Aster và Yuno là hai đứa trẻ bị bỏ rơi ở nhà thờ và cùng nhau lớn lên tại đó. Khi còn nhỏ, chúng đã hứa với nhau xem ai sẽ trở thành Ma pháp vương tiếp theo. Thế nhưng, khi cả hai lớn lên, mọi sô chuyện đã thay đổi. Yuno là thiên tài ma pháp với sức mạnh tuyệt đỉnh trong khi Aster lại không thể sử d...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/toan-tri-doc-gia-9702",
@@ -484,7 +486,8 @@
       "views": 4741846,
       "follows": 17382,
       "tags": ["Action", "Fantasy", "Manhwa", "Webtoon", "Truyện Màu"],
-      "description": "Chỉ mình tôi mới biết được kết cục của thế giới này.\nVào một ngày nọ, nhân vật chính của chúng ta bị kẹt trong thế giới của bộ tiểu thuyết mà anh ấy yêu thích. Anh ấy sẽ làm gì để sống sót? Khi mà thế giới đó là nơi ngập tràn tai ương và hiểm nguy.\nNăng lực của anh ấy? Anh ấy biết mọi tình tiết của ..."
+      "description": "Chỉ mình tôi mới biết được kết cục của thế giới này.\nVào một ngày nọ, nhân vật chính của chúng ta bị kẹt trong thế giới của bộ tiểu thuyết mà anh ấy yêu thích. Anh ấy sẽ làm gì để sống sót? Khi mà thế giới đó là nơi ngập tràn tai ương và hiểm nguy.\nNăng lực của anh ấy? Anh ấy biết mọi tình tiết của ...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/dua-con-cua-than-tuong-9482",
@@ -500,7 +503,8 @@
       "views": 3908002,
       "follows": 9755,
       "tags": ["Drama", "Romance", "Psychological", "Seinen", "Slice Of Life"],
-      "description": "Câu chuyện xoay quanh một cô gái vô cùng tuyệt vời và một cái nhìn hoàn toàn mới về ngành giải trí đầy phức tạp"
+      "description": "Câu chuyện xoay quanh một cô gái vô cùng tuyệt vời và một cái nhìn hoàn toàn mới về ngành giải trí đầy phức tạp",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/nguoi-tren-van-nguoi-11182",
@@ -523,7 +527,8 @@
         "Chuyển Sinh",
         "Truyện Màu"
       ],
-      "description": null
+      "description": null,
+      "visited": null
     },
     {
       "path": "/truyen-tranh/chuyen-sinh-thanh-lieu-dot-bien-12979",
@@ -546,7 +551,8 @@
         "Anime",
         "Truyện Màu"
       ],
-      "description": "Ngu Tử Du bị chết sặc rồi chuyển sinh thành một cây liễu đột biến và bắt đầu hành trình phiêu lưu của mình."
+      "description": "Ngu Tử Du bị chết sặc rồi chuyển sinh thành một cây liễu đột biến và bắt đầu hành trình phiêu lưu của mình.",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/ta-bi-nhot-tai-cung-mot-ngay-muoi-van-nam-10868",
@@ -562,7 +568,8 @@
       "views": 6908100,
       "follows": 15128,
       "tags": ["Action", "Adventure", "Manhua", "Chuyển Sinh", "Truyện Màu"],
-      "description": null
+      "description": null,
+      "visited": null
     },
     {
       "path": "/truyen-tranh/bach-luyen-thanh-than-1099",
@@ -578,7 +585,8 @@
       "views": 39152237,
       "follows": 36838,
       "tags": ["Action", "Drama", "Fantasy"],
-      "description": "Cảnh giới: Luyện nhục cảnh, Luyện cốt cảnh, Luyện tạng cảnh.... La Chính vì gái mà bị đày làm nô bộc. La Bái Nhiên tham vọng đầy mình La Chính lại vì gái mà đâm đầu tu luyện La Gia trong phủ nước sôi lửa bỏng, tranh giành kịch liệt..."
+      "description": "Cảnh giới: Luyện nhục cảnh, Luyện cốt cảnh, Luyện tạng cảnh.... La Chính vì gái mà bị đày làm nô bộc. La Bái Nhiên tham vọng đầy mình La Chính lại vì gái mà đâm đầu tu luyện La Gia trong phủ nước sôi lửa bỏng, tranh giành kịch liệt...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/chang-re-manh-nhat-lich-su-13103",
@@ -602,7 +610,8 @@
         "Xuyên Không",
         "Truyện Màu"
       ],
-      "description": null
+      "description": null,
+      "visited": null
     },
     {
       "path": "/truyen-tranh/dau-la-dai-luc-2-558",
@@ -618,7 +627,8 @@
       "views": 9040224,
       "follows": 14270,
       "tags": ["Action", "Adventure", "Fantasy", "Manhua"],
-      "description": "Bộ truyện tranh Đấu La Đại Lục 2 là phần 2 của Đấu La Đại Lục. Câu chuyện trong phần này kể rằng: Vạn năm bao la mờ mịt, vạn vật thay đổi. Truyền thuyết nói rằng bản tính thiên bẩm và diện mạo song toàn là công bằng…"
+      "description": "Bộ truyện tranh Đấu La Đại Lục 2 là phần 2 của Đấu La Đại Lục. Câu chuyện trong phần này kể rằng: Vạn năm bao la mờ mịt, vạn vật thay đổi. Truyền thuyết nói rằng bản tính thiên bẩm và diện mạo song toàn là công bằng…",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/komi-khong-the-giao-tiep-2961",
@@ -634,7 +644,8 @@
       "views": 12077131,
       "follows": 13384,
       "tags": ["Comedy", "Shounen", "Romance", "School Life"],
-      "description": "Chàng trai mong muốn cuộc sống giản dị và cô gái mắc chứng sợ giao tiếp với ngước khác, chuyện gì sẽ xảy ra tiếp theo"
+      "description": "Chàng trai mong muốn cuộc sống giản dị và cô gái mắc chứng sợ giao tiếp với ngước khác, chuyện gì sẽ xảy ra tiếp theo",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/trong-sinh-dia-cau-tien-ton-10551",
@@ -650,7 +661,8 @@
       "views": 3400325,
       "follows": 10301,
       "tags": ["Action", "Adventure", "Manhua", "Truyện Màu"],
-      "description": null
+      "description": null,
+      "visited": null
     },
     {
       "path": "/truyen-tranh/hoan-doi-dieu-ky-1241",
@@ -666,7 +678,8 @@
       "views": 12948439,
       "follows": 12455,
       "tags": ["Comedy", "Drama", "School Life", "Psychological", "Seinen"],
-      "description": "Park Hyung Suk, béo và xấu xí, luôn bị lôi ra làm trò cười và bắt nạt ở trường.Nhưng có một phép màu đã xảy ra....."
+      "description": "Park Hyung Suk, béo và xấu xí, luôn bị lôi ra làm trò cười và bắt nạt ở trường.Nhưng có một phép màu đã xảy ra.....",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/sakamoto-days-10560",
@@ -682,7 +695,8 @@
       "views": 5263862,
       "follows": 13692,
       "tags": ["Action", "Comedy", "Shounen", "Supernatural", "Slice Of Life"],
-      "description": "Taro Sakamoto là sát thủ huyền thoại , được các nhân vật phản diện khiếp sợ và các sát thủ ngưỡng mộ. Nhưng một ngày ... anh đã yêu! Giải nghệ, kết hôn, làm cha và sau đó ... Sakamoto đã trở thành con lợn sề ! Anh chàng mũm mĩm điều hành cửa hàng hàng xóm thực sự là một cựu sát thủ huyền thoại giấu ..."
+      "description": "Taro Sakamoto là sát thủ huyền thoại , được các nhân vật phản diện khiếp sợ và các sát thủ ngưỡng mộ. Nhưng một ngày ... anh đã yêu! Giải nghệ, kết hôn, làm cha và sau đó ... Sakamoto đã trở thành con lợn sề ! Anh chàng mũm mĩm điều hành cửa hàng hàng xóm thực sự là một cựu sát thủ huyền thoại giấu ...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/vo-dang-ky-hiep-10673",
@@ -698,7 +712,8 @@
       "views": 1797271,
       "follows": 8115,
       "tags": ["Action", "Fantasy", "Manhwa", "Truyện Màu"],
-      "description": null
+      "description": null,
+      "visited": null
     },
     {
       "path": "/truyen-tranh/hoi-phap-su-nhiem-vu-tram-nam-5212",
@@ -714,7 +729,8 @@
       "views": 20215037,
       "follows": 30651,
       "tags": ["Action", "Adventure", "Comedy", "Fantasy"],
-      "description": "Tuyện tiếp nối chap 545 của Fairy Tail, khi nhóm Natsu đi làm nhiệm vụ trăm năm."
+      "description": "Tuyện tiếp nối chap 545 của Fairy Tail, khi nhóm Natsu đi làm nhiệm vụ trăm năm.",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/the-thao-cuc-han-2641",
@@ -730,7 +746,8 @@
       "views": 12497516,
       "follows": 12242,
       "tags": ["Comedy", "Drama", "Manhwa", "Webtoon", "Sports"],
-      "description": null
+      "description": null,
+      "visited": null
     },
     {
       "path": "/truyen-tranh/dai-hien-nhan-tro-ve-nha-sau-19-nam-luu-lac-di-gioi-12171",
@@ -746,7 +763,8 @@
       "views": 358278,
       "follows": 3035,
       "tags": ["Comedy", "Fantasy", "Shounen", "Chuyển Sinh"],
-      "description": "Saito, một kẻ chuyển sinh đến thế giới khác, đã trở thành một đại hiền nhân và cùng đồng đội đánh tan xác Quỷ Vương. Sau khi phải gặm nhấm nỗi đau, chứng kiến màn cẩu lương của đồng đội, không chịu nổi thân phận làm cột đèn, anh đã quyết định trở về đất nước Nhật bản dấu yêu, nhưng câu chuyện vẫn ch..."
+      "description": "Saito, một kẻ chuyển sinh đến thế giới khác, đã trở thành một đại hiền nhân và cùng đồng đội đánh tan xác Quỷ Vương. Sau khi phải gặm nhấm nỗi đau, chứng kiến màn cẩu lương của đồng đội, không chịu nổi thân phận làm cột đèn, anh đã quyết định trở về đất nước Nhật bản dấu yêu, nhưng câu chuyện vẫn ch...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/vuong-gia-thien-ha-245",
@@ -762,7 +780,8 @@
       "views": 45131931,
       "follows": 20394,
       "tags": ["Action", "Drama", "Martial Arts"],
-      "description": "Trải qua hàng triệu năm kể từ thời đại của các vị thần. Đây là thời mà khát vọng của một người có thể xoay chuyển cả thế giới. Thời đại của hơn 500 năm binh biến: thời Chiến Quốc. Kingdom – Vương Giả Thiên Hạ là câu chuyển kể về một thiếu niên tên Tín cùng những thử thách cam go, những trận chiến đẫ..."
+      "description": "Trải qua hàng triệu năm kể từ thời đại của các vị thần. Đây là thời mà khát vọng của một người có thể xoay chuyển cả thế giới. Thời đại của hơn 500 năm binh biến: thời Chiến Quốc. Kingdom – Vương Giả Thiên Hạ là câu chuyển kể về một thiếu niên tên Tín cùng những thử thách cam go, những trận chiến đẫ...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/toa-thap-bi-an-5962",
@@ -787,7 +806,8 @@
         "Romance",
         "Manhwa"
       ],
-      "description": "Tower of God kể về cuộc đấu tranh để leo lên đỉnh tòa tháp của nhiều con người với các mục đích khác nhau, nơi mà mọi mong muốn của bạn: tiền, quyền lực, sức mạnh, hay bất cứ một điều gì khác đều có thể được đáp ứng. Tại đây, mỗi người đều phải trổ hết tài năng của mình để leo lên từng tầng, mà mỗi ..."
+      "description": "Tower of God kể về cuộc đấu tranh để leo lên đỉnh tòa tháp của nhiều con người với các mục đích khác nhau, nơi mà mọi mong muốn của bạn: tiền, quyền lực, sức mạnh, hay bất cứ một điều gì khác đều có thể được đáp ứng. Tại đây, mỗi người đều phải trổ hết tài năng của mình để leo lên từng tầng, mà mỗi ...",
+      "visited": null
     },
     {
       "path": "/truyen-tranh/de-nhat-danh-sach-11773",
@@ -803,7 +823,8 @@
       "views": 1670751,
       "follows": 6145,
       "tags": ["Action", "Manhua", "Truyện Màu"],
-      "description": "Trên mảnh đất chết này, văn minh nhân loại chỉ có thể kéo dài hơi tàn.\nTừng tòa nhà được gọi là hàng rào dần mọc lên, luật pháp và trật tự sụp đổ.\nCó người nói, khi thảm họa phủ xuống trái đất, ý chí của con người là vũ khí đệ nhất để vượt qua nguy hiểm.\nCó người nói, đừng để bi ai của thời đại trở ..."
+      "description": "Trên mảnh đất chết này, văn minh nhân loại chỉ có thể kéo dài hơi tàn.\nTừng tòa nhà được gọi là hàng rào dần mọc lên, luật pháp và trật tự sụp đổ.\nCó người nói, khi thảm họa phủ xuống trái đất, ý chí của con người là vũ khí đệ nhất để vượt qua nguy hiểm.\nCó người nói, đừng để bi ai của thời đại trở ...",
+      "visited": null
     }
   ],
   "curPage": 1,

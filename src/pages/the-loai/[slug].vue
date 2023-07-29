@@ -32,7 +32,7 @@ meta:
         :filter="data.filter"
       />
       <!-- /filter -->
-<!--
+      <!--
       <div
         v-if="data.maxPage > 1 && $q.screen.gt.sm"
         class="flex items-center justify-center q-pa-md"

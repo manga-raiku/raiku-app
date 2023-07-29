@@ -1,9 +1,6 @@
-import { defineStore } from "pinia";
+import { defineStore } from "pinia"
 
 export const useIDMStore = defineStore("IDM", () => {
-  const queue = []
-
-  function download(meta: MetaEpisode) {
-
-  }
+  // const queue = []
+  // function download(meta: MetaEpisode) {}
 })

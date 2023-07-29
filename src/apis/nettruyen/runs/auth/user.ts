@@ -1,4 +1,4 @@
-import { API_CURL } from "../../const";
+import { API_CURL } from "../../const"
 
 export default async function (token: string) {
   const { data } = await post(
@@ -14,7 +14,7 @@ export default async function (token: string) {
   return {
     uid: $data.userGuid as string,
     avatar: $data.avatar as string,
-    token:$data.token as string,
+    token: $data.token as string,
     name: $data.fullName as string,
     email: $data.email as string | null,
     readToken: $data.readToken as string,

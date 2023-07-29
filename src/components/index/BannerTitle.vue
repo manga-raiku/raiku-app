@@ -16,7 +16,7 @@
   -webkit-text-stroke-width: 1.2px;
   color: var(--sakura);
   font-weight: 700;
-  margin-top: (10em / 32);;
+  margin-top: (10em / 32);
 
   &:before {
     position: absolute;
