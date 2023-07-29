@@ -37,10 +37,9 @@
                 </q-avatar>
               </q-item-section>
               <q-item-section>
-                <q-item-label class="font-weight-medium text-subtitle1"
-                  >{{ authStore.user_data?.first_name }}
-                  {{ authStore.user_data?.last_name }}</q-item-label
-                >
+                <q-item-label class="font-weight-medium text-subtitle1">{{
+                  authStore.user_data?.name
+                }}</q-item-label>
               </q-item-section>
             </q-item>
 
@@ -319,7 +318,7 @@ async function login() {
     password.value = ""
     $q.notify({
       position: "bottom-right",
-      message: `Đã đăng nhập với tư cách ${data.first_name} ${data.last_name}`,
+      message: `Đã đăng nhập với tư cách ${data.name}`,
     })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {

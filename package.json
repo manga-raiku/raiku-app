@@ -55,6 +55,7 @@
     "swiper": "^8.4.7",
     "ua-parser-js": "^1.0.33",
     "unplugin-vue-router": "^0.6.4",
+    "uuid": "^9.0.0",
     "vue": "^3.2.45",
     "vue-i18n": "^9.2.2",
     "vue-request": "2.0.3",

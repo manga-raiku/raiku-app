@@ -52,7 +52,7 @@ meta:
               icon="fluent:flash-24-filled"
               class="text-blue w-1.2em h-1.2em mr-1"
             />
-            {{ dayjs(data.chapters[0].update).fromNow() }}
+            {{ dayjs(data.updated_at).fromNow() }}
           </div>
 
           <q-separator vertical class="mx-3 h-12px my-auto <md:display-none" />
@@ -72,22 +72,17 @@ meta:
               icon="material-symbols:thumb-up-rounded"
               class="text-yellow w-1.2em h-1.2em mr-1"
             />
-            {{ formatView(data.likes) }} thích
+            {{ data.rate }} sao / {{ data.count_rate }}
           </div>
 
           <q-separator vertical class="mx-3 h-12px my-auto <md:display-none" />
 
-          <div class="flex <md:w-full items-center">
+          <div v-if="data.follows" class="flex <md:w-full items-center">
             <Icon
               icon="fluent:heart-24-filled"
               class="text-[#F5574B] w-1.2em h-1.2em mr-1"
             />
-            {{
-              formatView(
-                data.follows +
-                  (data.followed === followed ? 0 : data.followed ? -1 : 1)
-              )
-            }}
+            {{ formatView(data.follows) }}
             theo dõi
           </div>
         </div>
@@ -108,7 +103,10 @@ meta:
       </div>
     </section>
 
-    <section v-if="!$q.screen.xs" class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 children:my-2">
+    <section
+      v-if="!$q.screen.xs"
+      class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 children:my-2"
+    >
       <q-btn
         :to="data.chapters.at(-1)!.path"
         rounded
@@ -130,15 +128,14 @@ meta:
         no-caps
         outline
         class="mr-3 text-weight-normal h-50px text-15px text-#f15a79"
-        @click="followed = !followed"
       >
         <Icon
-          :icon="followed ? 'ri:heart-fill' : 'ri:heart-add-line'"
+          :icon="true ? 'ri:heart-fill' : 'ri:heart-add-line'"
           width="1.3em"
           height="1.3em"
           class="mr-2"
         />
-        {{ followed ? "Bỏ theo dõi" : "Theo dõi" }}
+        {{ true ? "Bỏ theo dõi" : "Theo dõi" }}
       </q-btn>
 
       <q-btn
@@ -146,7 +143,6 @@ meta:
         no-caps
         outline
         class="mr-3 text-weight-normal h-50px text-15px text-#f15a79"
-        @click="onClickLike"
       >
         <Icon
           icon="fluent:thumb-like-24-regular"
@@ -172,29 +168,6 @@ meta:
         />
         Chia sẻ
       </q-btn>
-
-      <q-btn
-        v-if="data.readContinue"
-        :to="data.readContinue"
-        rounded
-        no-caps
-        outline
-        class="mr-3 text-weight-normal h-50px text-15px text-#f15a79"
-        stack
-      >
-        <Icon
-          icon="simple-icons:startrek"
-          width="1.3em"
-          height="1.3em"
-          class="mr-2"
-        />
-        Đọc tiếp
-        {{
-          data.chapters.find((item) =>
-            pathEqual(item.path!, data!.readContinue!)
-          )?.name
-        }}
-      </q-btn>
     </section>
 
     <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 mt-8">
@@ -208,12 +181,12 @@ meta:
       <header class="text-28px font-weight-regular">
         Comments of {{ data.name }}
       </header>
-      <Comments
+      <!-- <Comments
         :comments="data.comments"
         :book-id="data.id"
         :team-id="data.team_id"
         @deleted="data.comments.splice($event, 1)"
-      />
+      /> -->
     </section>
   </template>
   <template v-else-if="loading">
@@ -264,7 +237,10 @@ meta:
       </div>
     </section>
 
-    <section v-if="!$q.screen.xs" class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 children:my-2">
+    <section
+      v-if="!$q.screen.xs"
+      class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 children:my-2"
+    >
       <q-skeleton
         type="QBtn"
         rounded
@@ -328,15 +304,9 @@ meta:
         />
       </q-btn>
 
-      <q-btn
-        rounded
-        outline
-        no-caps
-        class="text-#f15a79 min-h-0 h-35px w-15%"
-        @click="followed = !followed"
-      >
+      <q-btn rounded outline no-caps class="text-#f15a79 min-h-0 h-35px w-15%">
         <Icon
-          :icon="followed ? 'ri:heart-fill' : 'ri:heart-add-line'"
+          :icon="true ? 'ri:heart-fill' : 'ri:heart-add-line'"
           width="1.3em"
           height="1.3em"
         />
@@ -365,9 +335,9 @@ meta:
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164.json"
 import { Icon } from "@iconify/vue"
 import { useShare } from "@vueuse/core"
-import Like from "src/apis/runs/frontend/regiter-like"
-import Subscribe from "src/apis/runs/frontend/subscribe"
-import Manga from "src/apis/runs/truyen-tranh/[slug]"
+// import Like from "src/apis/runs/frontend/regiter-like"
+// import Subscribe from "src/apis/runs/frontend/subscribe"
+import Manga from "src/apis/nettruyen/runs/truyen-tranh/[slug]"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
 import { pathEqual } from "src/logic/path-equal"
@@ -411,56 +381,6 @@ function onClickShare() {
     }`,
     url: location.href,
   })
-}
-
-const $followed = ref(false)
-watch(
-  () => data.value?.followed,
-  (followed = false) => ($followed.value = followed),
-  { immediate: true }
-)
-
-const followed = computed<boolean>({
-  get: () => $followed.value,
-  async set(value) {
-    $followed.value = value
-    if (!data.value) return
-
-    const id = data.value.id
-
-    try {
-      const subed = await Subscribe(id)
-      if (value !== subed) await Subscribe(id)
-
-      $q.notify({
-        message: "Đã theo dõi",
-        position: "bottom-right",
-      })
-    } catch {
-      $q.notify({
-        message: "Đã bỏ theo dõi",
-        position: "bottom-right",
-      })
-    }
-  },
-})
-
-async function onClickLike() {
-  if (!data.value) return
-
-  try {
-    // eslint-disable-next-line functional/no-throw-statement
-    if (!(await Like(data.value.id))) throw new Error("liked")
-  } catch (err) {
-    if ((err as Error | undefined)?.message === "liked") {
-      $q.notify({
-        message: "Bạn đã thích manga này rồi",
-      })
-      return
-    }
-
-    console.error(err)
-  }
 }
 </script>
 

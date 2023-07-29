@@ -57,7 +57,7 @@ meta:
 
 <script lang="ts" setup>
 // import data from "src/apis/parsers/__test__/assets/the-loai/fantacy-30.json"
-import TheLoaiType from "src/apis/runs/the-loai/[type]"
+import TheLoaiType from "src/apis/nettruyen/runs/[general]"
 import "@fontsource/poppins"
 import { isCapacitor } from "src/constants"
 

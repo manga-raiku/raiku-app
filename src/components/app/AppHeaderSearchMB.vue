@@ -89,7 +89,7 @@
                 {{ typeof item === "object" ? item.name : item }}
               </div>
               <div v-if="typeof item === 'object'" class="text-grey pl-2">
-                - {{ item.chapter }}
+                - {{ item.last_chapter }}
               </div>
             </q-item-label>
           </q-item-section>
@@ -107,9 +107,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useFocus } from "@vueuse/core"
 import { debounce } from "quasar"
-import PreSearch from "src/apis/runs/frontend/pre-search"
+import PreSearch from "src/apis/nettruyen/runs/pre-search"
 
 const props = defineProps<{
   searching: boolean
@@ -124,7 +123,7 @@ const route = useRoute()
 const keyword = ref("")
 
 const query = ref((route.query.query ?? "") + "")
-const { data, loading, run } = useRequest(() => PreSearch(query.value), {
+const { data, loading, run } = useRequest(() => PreSearch(query.value,1), {
   manual: true,
 })
 watch(query, debounce(run, 300))

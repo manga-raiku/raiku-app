@@ -71,7 +71,9 @@ export default function general(html: string, now: number) {
   }
 
   const filters = [genres, status, sort]
-  const items = $("#ctl00_divCenter > div.Module.Module-170 .item")
+  const items = $(
+    "#ctl00_divCenter > div.Module.Module-170 .item, .items .item"
+  )
     .toArray()
     .map((item) => parseItem($, $(item), now))
 

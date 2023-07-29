@@ -22,12 +22,12 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
   const status =
     $info.length === 0
       ? undefined
-      : $info.eq(0).text().replace("Tình trạng: ", "")
+      : $info.eq(0).text().replace("Tình trạng:", "")
   const views =
     $info.length === 0
       ? null
       : parseInt(
-          $info.eq(1).text().trim().replace("Lượt xem: ", "").replace(/,/g, "")
+          $info.eq(1).text().trim().replace("Lượt xem:", "").replace(/,/g, "")
         )
   const follows =
     $info.length === 0
@@ -37,7 +37,7 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
             .eq(2)
             .text()
             .trim()
-            .replace("Lượt theo dõi: ", "")
+            .replace("Lượt theo dõi:", "")
             .replace(/,/g, "")
         )
   const tags = $li
@@ -48,6 +48,10 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
       return $(tag).text()
     })
   const description = $li.find(".excerpt").text().trim() || null
+
+  const visited =
+    $li.find(".visited").length > 0 ? parseAnchor($li.find(".visited")) : null
+  if (visited) visited.name = visited.name.replace("Đọc tiếp Chapter ", "")
 
   return {
     path,
@@ -62,5 +66,6 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
     follows,
     tags,
     description,
+    visited,
   }
 }

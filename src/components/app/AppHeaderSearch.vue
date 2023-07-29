@@ -97,7 +97,7 @@
               <div v-if="item.othername" class="text-12px">
                 {{ item.othername }}
               </div>
-              <div class="text-gray-500">{{ item.chapter }}</div>
+              <div class="text-gray-500">{{ item.last_chapter }}</div>
             </div>
           </router-link>
         </li>
@@ -112,7 +112,7 @@
 <script lang="ts" setup>
 import { useEventListener } from "@vueuse/core"
 import { debounce, QInput } from "quasar"
-import PreSearch from "src/apis/runs/frontend/pre-search"
+import PreSearch from "src/apis/nettruyen/runs/pre-search"
 
 // key bind
 
@@ -125,7 +125,7 @@ const {
   data: searchResult,
   loading: searchLoading,
   run,
-} = useRequest(() => PreSearch(query.value), {
+} = useRequest(() => PreSearch(query.value, 1), {
   manual: true,
 })
 watch(query, debounce(run, 300))

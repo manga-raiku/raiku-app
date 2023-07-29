@@ -1,19 +1,25 @@
 export interface CardProps {
   data: {
-    path: string
     image: string
+    path: string
     name: string
-    last_chapter: {
-      path: string
+    othername: string
+    tags: string[]
+    status: string
+    description: string
+    last_chapters: {
       name: string
-    }
-    updated: number | null
-    hot?: string
-    status?: string | null
+      updated_at: number | null
+      path: string
+    }[]
     views: number | null
-    label?: string | null
-    follows: number | null
-    tags?: string[]
-    description: string | null
+    comments: number | null
+    likes: number | null
+    hot: boolean
+    visited: {
+      name: string
+      path: string
+    } | null
+    author: string | null
   }
 }

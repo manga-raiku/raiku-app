@@ -11,15 +11,16 @@
       >
         <BottomBlur>
           <!-- <div class="text-[30px]">#{{ trending }}</div> -->
-          <div class="card-title line-clamp-2 font-family-poppins">
-            {{ data.last_chapter.name }}
-          </div>
+          <router-link
+            :to="data.last_chapters[0].path"
+            class="card-title line-clamp-2 font-family-poppins"
+          >
+            Chương {{ data.last_chapters[0].name }}
+            <small class="display-block text-12px">
+              {{ dayjs(data.last_chapters[0].updated_at).fromNow() }}
+            </small>
+          </router-link>
         </BottomBlur>
-
-        <Quality v-if="data.label" class="absolute top-2 right-0">{{
-          data.label
-        }}</Quality>
-        <!-- <Quality v-if="data.updated" class="absolute top-2 left-0">{{  dayjs(data.updated).fromNow() }}</Quality> -->
       </q-img>
       <slot name="inside-image" />
     </div>
@@ -35,22 +36,29 @@
         {{ data.name }}
       </div>
 
-      <div v-if="data.updated" class="my-1">
-        Cập nhật
-        {{ dayjs(data.updated).fromNow() }}
-      </div>
+      <small class="text-14px text-gray-300 line-clamp-2 mt-1 leading-snug">{{
+        data.othername
+      }}</small>
 
-      <div v-if="data.views || data.follows" class="flex my-2">
+      <div class="flex my-2">
         <template v-if="data.views">
           {{ formatView(data.views) }} lượt xem
-          <q-separator v-if="data.follows" vertical class="mx-2" />
+          <q-separator v-if="data.comments" vertical class="mx-2" />
         </template>
-        <template v-if="data.follows">
-          {{ formatView(data.follows) }} theo dõi
+        <template v-if="data.comments">
+          {{ formatView(data.comments) }} bình luận
+          <q-separator v-if="data.likes" vertical class="mx-2" />
+        </template>
+        <template v-if="data.likes">
+          {{ formatView(data.likes) }} theo dõi
         </template>
       </div>
 
-      <div v-if="readContinue">{{data.last_chapter.name}}</div>
+      <div v-if="data.visited" class="my-2">
+        <router-link :to="data.visited.path">
+          Đọc tiếp chương {{ data.visited.name }}
+        </router-link>
+      </div>
 
       <p v-if="data.description" class="text-grey mt-3 line-clamp-2">
         {{ data.description }}

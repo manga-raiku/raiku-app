@@ -1,6 +1,7 @@
+import { PostWorker } from "src/apis/wrap-worker"
+
 import type Parse from "../parsers/[general]"
 import Worker from "../workers/[general]?worker"
-import { PostWorker } from "../wrap-worker"
 
 export default async function (page: number) {
   const { data } = await get(`/lich-su/trang-${page}.html`)

@@ -140,15 +140,34 @@ meta:
 
       <transition name="q-transition--fade">
         <div :key="sliderIndex" class="info pointer-events-none">
-          <div class="flex line-clamp-2 items-center">
-            <div class="text-18px text-weight-medium">
+          <div class=" ">
+            <div class="text-18px text-weight-medium line-clamp-2">
               {{ data.sliders[sliderIndex].name }}
             </div>
+            <small class="display-block ellipsis text-12px text-gray-200">{{
+              data.sliders[sliderIndex].othername
+            }}</small>
           </div>
           <div class="focus-item-info">
+          <Quality v-if="data.sliders[sliderIndex].hot">Hot</Quality>
+
+          <q-separator vertical class="mx-2" />
+
             <span class="focus-item-update">
-              {{ data.sliders[sliderIndex].chapter }}
+              Chương {{ data.sliders[sliderIndex].last_chapters[0].name }}
             </span>
+
+            <q-separator vertical class="mx-2" />
+
+            {{ data.sliders[sliderIndex].status }}
+
+            <q-separator vertical class="mx-2" />
+
+            <!-- <Icon icon="fluent:eye-24-filled" class="size-1.5em" /> -->
+            {{ formatView(data.sliders[sliderIndex].views!) }}
+          </div>
+          <div class="mt-1 text-12px ellipsis">
+            {{ data.sliders[sliderIndex].tags.join(", ") }}
           </div>
           <div class="focus-item-desc">
             {{ data.sliders[sliderIndex].description }}
@@ -166,7 +185,7 @@ meta:
               width="1.3em"
               height="1.3em"
               class="mr-2"
-              :to="data.sliders[sliderIndex].path"
+              :to="data.sliders[sliderIndex].last_chapters[0].path"
             />
             Đọc ngay
           </q-btn>
@@ -277,7 +296,7 @@ meta:
 
     <section class="mx-4 sm:mx-6 md:mx-8 mt-7">
       <BannerTitle>Mới cập nhật</BannerTitle>
-      <GridCard :items="data.update" />
+      <GridCard :items="data.last_update" />
     </section>
   </template>
 </template>
@@ -285,7 +304,8 @@ meta:
 <script setup lang="ts">
 import { Icon } from "@iconify/vue"
 // import data from "src/apis/parsers/__test__/assets/index.json"
-import Index from "src/apis/runs/index"
+import Index from "src/apis/nettruyen/runs/index"
+import { formatView } from "src/logic/formatView"
 import { Autoplay, Navigation } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 
@@ -557,7 +577,7 @@ const sliderIndex = ref(0)
 
     @media screen and (max-width: 768px) and (min-width: 599px) {
       padding: {
-        bottom: 15%;
+        bottom: 19%;
         // left: 150px; whitespace -> right
       }
     }
@@ -574,7 +594,7 @@ const sliderIndex = ref(0)
       font-weight: 500;
       margin-top: 12px;
       display: flex;
-      font-size: 12px;
+      font-size: 13px; //12px
       align-items: center;
     }
 

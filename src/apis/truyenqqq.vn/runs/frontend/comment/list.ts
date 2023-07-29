@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
+import { PostWorker } from "src/apis/wrap-worker"
+
 import type Parse from "../../../parsers/comment/list"
 import Worker from "../../../workers/comment/list?worker"
-import { PostWorker } from "../../../wrap-worker"
 
 export default async function commentList(
   book_id: number,

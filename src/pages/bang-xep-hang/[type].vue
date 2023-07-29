@@ -111,7 +111,7 @@ meta:
 
 <script lang="ts" setup>
 // import data from "src/apis/parsers/__test__/assets/top-ngay.json"
-import BangXepHangType from "src/apis/runs/bang-xep-hang/[type]"
+import BangXepHangType from "src/apis/nettruyen/runs/[general]"
 import { pathEqual } from "src/logic/path-equal"
 
 const route = useRoute()

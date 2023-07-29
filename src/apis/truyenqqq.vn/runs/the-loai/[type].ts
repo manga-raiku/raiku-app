@@ -1,8 +1,8 @@
+import { PostWorker } from "src/apis/wrap-worker"
 import type { LocationQuery } from "vue-router"
 
 import type Parse from "../../parsers/[general]"
 import Worker from "../../workers/[general]?worker"
-import { PostWorker } from "../../wrap-worker"
 
 export default async function (
   slug: string,
@@ -25,7 +25,7 @@ export default async function (
     )}/trang-${page}.html?${new URLSearchParams(
       query as Record<string, string>
     )}`
-    
+
   )
   // eslint-disable-next-line functional/no-throw-statement
   if (pathIsHome(url)) throw new Error("not_found")

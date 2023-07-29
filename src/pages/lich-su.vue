@@ -45,7 +45,7 @@ meta:
 
 <script lang="ts" setup>
 // import data from "src/apis/parsers/__test__/assets/the-loai/fantacy-30.json"
-import LichSu from "src/apis/runs/lich-su"
+import LichSu from "src/apis/nettruyen/runs/lich-su"
 import "@fontsource/poppins"
 
 const route = useRoute()

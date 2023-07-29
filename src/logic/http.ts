@@ -2,8 +2,6 @@ import type { GetOption } from "client-ext-animevsub-helper"
 import { Http } from "client-ext-animevsub-helper"
 import { i18n } from "src/boot/i18n"
 
-import { C_URL } from "../constants"
-
 const noExt = () =>
   Promise.reject(
     Object.assign(
@@ -26,7 +24,7 @@ async function httpGet(
     typeof url === "object"
       ? url
       : {
-          url: url.includes("://") ? url : C_URL + url + "#nettruyen",
+          url: url + "#nettruyen",
           headers,
         }
   ).then((response) => {
@@ -50,13 +48,13 @@ async function httpPost(
   headers?: Record<string, string>
 ) {
   console.log("post: ", {
-    url: C_URL + url,
+    url,
     data,
     headers,
   })
 
   const response = await Http.post({
-    url: C_URL + url + "#nettruyen",
+    url: url + "#nettruyen",
     headers,
     data,
   })

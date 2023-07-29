@@ -9,10 +9,6 @@
 </template>
 
 <script lang="ts" setup>
-defineOptions({
-  inheritAttrs: false,
-})
-
 const attrs = useAttrs()
 </script>
 

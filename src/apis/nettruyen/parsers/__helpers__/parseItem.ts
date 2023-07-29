@@ -22,7 +22,8 @@ function findWithFirstText(
     })
   )
     .text()
-    .slice(text.length + 1)
+    .trim()
+    .slice(text.length)
     .trim()
 }
 
@@ -39,6 +40,7 @@ export function parseItem($: CheerioAPI, $item: Cheerio<Element>, now: number) {
     .map((item) => item.trim())
     .filter(Boolean)
   const status = findWithFirstText($, $ps, "Tình trạng:")
+  const author = findWithFirstText($, $ps, "Tác giả:")
   const description = $item.find(".box_text").text()
   // eslint-disable-next-line camelcase
   const last_chapters = $item
@@ -60,12 +62,19 @@ export function parseItem($: CheerioAPI, $item: Cheerio<Element>, now: number) {
     })
 
   const [views, comments, likes] = $item
-    .find(".view")
+    .find(".pull-left")
     .text()
     .trim()
     .split(" ")
     .filter(Boolean)
     .map((item) => parseNumber(item))
+  const hot = $(".icon.icon-hot").length > 0
+
+  const visited =
+    $item.find("div > div.view.viewed > a").length > 0
+      ? parseAnchor($item.find("div > div.view.viewed > a"))
+      : null
+  if (visited) visited.name = visited.name.replace("Đọc tiếp Chapter ", "")
 
   return {
     image,
@@ -74,11 +83,14 @@ export function parseItem($: CheerioAPI, $item: Cheerio<Element>, now: number) {
     othername,
     tags,
     status,
+    author,
     description,
     // eslint-disable-next-line camelcase
     last_chapters,
     views,
     comments,
     likes,
+    hot,
+    visited,
   }
 }

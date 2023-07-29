@@ -1,8 +1,9 @@
+import { PostWorker } from "src/apis/wrap-worker"
+
 import type ParseMangaList from "../../parsers/frontend/manga-list"
 import type Parse from "../../parsers/truyen-tranh/[slug]-chap-[chap]"
 import WorkerMangaList from "../../workers/frontend/manga-list?worker"
 import Worker from "../../workers/truyen-tranh/[slug]-chap-[chap]?worker"
-import { PostWorker } from "../../wrap-worker"
 
 export default async function (slug: string) {
   const { data, url } = await get(`/truyen-tranh/${slug}`)
@@ -14,7 +15,6 @@ export default async function (slug: string) {
   if(result.chapters.length ===0) {
     const { data } = await post("/frontend/manga/list", {
       id: result.id,
-      slug: result.slug,
       order: 1
     })
 

@@ -21,7 +21,12 @@ export default function slug(html: string, now: number) {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const image = getImage($("img"))!
 
-  const author = parseAnchor($detail.find(".author p:not(.name)").find("a"))
+  const othername = $detail.find(".othername p:not(.name)").text().trim()
+  const author = $detail
+    .find(".author p:not(.name)")
+    .find("a")
+    .toArray()
+    .map((item) => parseAnchor($(item)))
   const status = $detail.find(".status p:not(.name)").text()
   const genres = $detail
     .find(".kind p:not(.name)")
@@ -46,7 +51,7 @@ export default function slug(html: string, now: number) {
       const $item = $(item)
       const { path, name } = parseAnchor($item.find("a"))
       // eslint-disable-next-line camelcase
-      const updated_at = parseTimeAgo($item.next().text().trim(), now)
+      const updated_at = parseTimeAgo($item.next().text().trim(), now) || null
       const views = parseNumber($item.next().next().text().trim())
 
       // eslint-disable-next-line camelcase
@@ -55,6 +60,7 @@ export default function slug(html: string, now: number) {
 
   return {
     name,
+    othername,
     uid,
     // eslint-disable-next-line camelcase
     updated_at,

@@ -3,19 +3,20 @@
 import cookie from "js-cookie"
 import { defineStore } from "pinia"
 import { parse } from "set-cookie-parser"
-import Login from "src/apis/runs/frontend/login"
-import GetUser from "src/apis/runs/user"
+import Login from "src/apis/nettruyen/runs/auth/login"
+import GetUser from "src/apis/nettruyen/runs/auth/user"
 
 interface User {
-  avatar?: string
-  email: string // const
-  last_name: string
-  first_name:string
-  sex: string | null
+  uid: string
+  avatar: string
+  token: string
+  name: string
+  email: string | null
+  readToken: string
 }
 
 export const useAuthStore = defineStore("auth", () => {
-  const token = ref(cookie.get("token") ?? null as null | string)
+  const token = ref(cookie.get("token") ?? (null as null | string))
   const user_data = ref(parseJSON(cookie.get("user_data")) as null | User)
 
   const isLogged = computed(() => {
@@ -25,14 +26,7 @@ export const useAuthStore = defineStore("auth", () => {
   if (token.value)
     // eslint-disable-next-line promise/catch-or-return, promise/always-return
     GetUser(token.value).then((data) => {
-      setUser({
-        avatar: data.avatar,
-        email: data.email,
-        last_name: data.last_name,
-        first_name: data.first_name,
-        sex: data.sex,
-      })
-      setTokenByCookie(data.cookie)
+      setUser(data)
     })
 
   function setUser(value: User) {
@@ -61,13 +55,9 @@ export const useAuthStore = defineStore("auth", () => {
   }
   function setTokenByCookie(cookie: string) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const token = cookie
-      .split(",")
-      .map((item) => parse(item))
-      .flat(1)
-      .find((item) => item.name === "_qlg")!
+    const token = cookie.match(/\.ASPXAUTH=([^";]+)/)![1]
     // set token
-    setToken(token.value)
+    setToken(token)
     return token
   }
   // ** actions **
@@ -76,16 +66,9 @@ export const useAuthStore = defineStore("auth", () => {
     setTokenByCookie(data.cookie)
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const user = await GetUser(token.value!);
+    const user = await GetUser(token.value!)
 
-    setUser({
-      avatar: user.avatar,
-      email: user.email,
-      last_name: user.last_name,
-      first_name: user.first_name,
-      sex: user.sex,
-    })
-
+    setUser(user)
 
     return user
   }

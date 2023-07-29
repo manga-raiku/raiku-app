@@ -18,16 +18,18 @@
         <BottomBlur>
           <!-- <div class="text-[30px]">#{{ trending }}</div> -->
           <div class="card-title line-clamp-2 font-family-poppins">
-            {{ data.last_chapter.name }}
+            Chương {{ data.last_chapters[0].name }}
+            <small class="display-block">
+              {{ dayjs(data.last_chapters[0].updated_at).fromNow() }}
+            </small>
           </div>
         </BottomBlur>
 
-        <Quality v-if="data.label" class="absolute top-2 right-0">{{
-          data.label
-        }}</Quality>
-        <Quality v-if="data.updated" class="absolute top-2 left-0">{{
-          dayjs(data.updated).fromNow()
-        }}</Quality>
+        <Quality
+          v-if="data.hot"
+          class="absolute top-2 right-0 backdrop-blur-13px !bg-rgba(0,0,0,0.85) !bg-none"
+          >Hot</Quality
+        >
 
         <slot name="inside-image" />
       </q-img>
@@ -52,33 +54,50 @@
         >
           {{ data.name }}
         </h3>
+        <h4 class="text-subtitle2 line-clamp-3 leading-norma">
+          {{ data.othername }}
+        </h4>
         <h4 class="text-grey-5 text-[13px] leading-normal">
           <template v-if="data.views"
             >Lượt xem {{ formatView(data.views) }}</template
           >
-          <template v-if="data.updated">
+          <template v-if="data.last_chapters[0].updated_at">
             &bull; Cập nhật
-            {{ dayjs(data.updated).fromNow() }}
+            {{ dayjs(data.last_chapters[0].updated_at).fromNow() }}
           </template>
         </h4>
 
         <div class="flex items-center mt-3">
-          <Quality v-if="data.label" class="!mr-0">{{ data.label }}</Quality>
-          <span v-if="data.label" class="hr-vertical" />
           {{ data.status }}
           <span class="hr-vertical" />
-          <Icon
-            icon="fluent:heart-24-filled"
-            class="text-[#F5574B] mr-1"
-            width="1.3rem"
-            height="1.3rem"
-          />
-          <template v-if="data.follows">
-            {{ formatView(data.follows) }} theo dõi
+          Chương {{ data.last_chapters[0].name }}
+        </div>
+
+        <div class="flex items-center mt-2">
+          <template v-if="data.comments">
+            <Icon
+              icon="fluent:comment-multiple-24-regular"
+              class="text-[#F5574B] mr-1"
+              width="1.3rem"
+              height="1.3rem"
+            />
+            {{ formatView(data.comments) }}
             <span class="hr-vertical" />
           </template>
-          {{ data.last_chapter.name }}
+
+          <template v-if="data.likes">
+            <Icon
+              icon="fluent:heart-24-filled"
+              class="text-[#F5574B] mr-1"
+              width="1.3rem"
+              height="1.3rem"
+            />
+            {{ formatView(data.likes) }}
+          </template>
         </div>
+
+        <div v-if="data.author" class="">Tác giả {{data.author}}</div>
+
         <!-- <div class="text-gray-400 mt-2">{{ t("cap-nhat-toi-tap-_duration", [data.process]) }}</div> -->
 
         <div class="mt-2 text-[#eee] font-weight-medium">Giới thiệu</div>

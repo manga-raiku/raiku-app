@@ -45,7 +45,7 @@ meta:
 
 <script lang="ts" setup>
 // import data from "src/apis/parsers/__test__/assets/the-loai/fantacy-30.json"
-import TruyenDangTheoDoi from "src/apis/runs/truyen-dang-theo-doi"
+import TruyenDangTheoDoi from "src/apis/nettruyen/runs/theo-doi"
 import "@fontsource/poppins"
 
 const route = useRoute()

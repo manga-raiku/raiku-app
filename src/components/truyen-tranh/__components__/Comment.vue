@@ -93,9 +93,9 @@
 
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue"
-import CommentLike from "src/apis/runs/frontend/comment/like"
-import CommentList from "src/apis/runs/frontend/comment/list"
-import CommentRmov from "src/apis/runs/frontend/comment/remove"
+import CommentLike from "src/apis/truyenqq/runs/frontend/comment/like"
+import CommentList from "src/apis/truyenqq/runs/frontend/comment/list"
+import CommentRmov from "src/apis/truyenqq/runs/frontend/comment/remove"
 import dayjs from "src/logic/dayjs"
 
 export interface Comment {

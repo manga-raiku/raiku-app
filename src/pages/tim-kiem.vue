@@ -87,7 +87,7 @@ meta:
 
 <script lang="ts" setup>
 import { debounce } from "quasar"
-import TimKiem from "src/apis/runs/tim-kiem"
+import TimKiem from "src/apis/nettruyen/runs/tim-kiem"
 
 const route = useRoute()
 const router = useRouter()

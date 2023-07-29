@@ -10,7 +10,7 @@
 
     <q-menu
       v-model="showMenuHistory"
-      class="flex flex-nowrap column bg-dark-page shadow-xl <sm:w-full <sm:!left-0 <sm:!top-0 <sm:!max-w-full <sm:!max-h-full"
+      class="flex flex-nowrap column bg-dark-page shadow-xl sm:rounded-xl <sm:w-full <sm:!left-0 <sm:!top-0 <sm:!max-w-full <sm:!max-h-full"
     >
       <q-toolbar>
         <q-btn v-if="$q.screen.lt.sm" round v-close-popup>
@@ -69,7 +69,7 @@
 
 <script lang="ts" setup>
 import { QCard } from "quasar"
-import LichSu from "src/apis/runs/lich-su"
+import LichSu from "src/apis/nettruyen/runs/lich-su"
 
 const authStore = useAuthStore()
 const $q = useQuasar()
@@ -78,7 +78,10 @@ const showMenuHistory = ref(false)
 
 const { loading, data, refreshAsync } = useRequest(
   async () => {
-    const data = await LichSu(1)
+    // eslint-disable-next-line functional/no-throw-statement
+    if (!authStore.user_data) throw new Error("need_login")
+
+    const data = await LichSu(1, authStore.user_data.token)
     data.items = shallowReactive(data.items)
     return data
   },
@@ -88,7 +91,12 @@ const { loading, data, refreshAsync } = useRequest(
     cacheTime: 5 * 60 * 1000, //
   }
 )
-const onLoad = useLoadMorePage(LichSu, data)
+const onLoad = useLoadMorePage((page) => {
+  // eslint-disable-next-line functional/no-throw-statement
+  if (!authStore.user_data) throw new Error("need_login")
+
+  return LichSu(page, authStore.user_data.token)
+}, data)
 watch(showMenuHistory, (show) => {
   if (show) refreshAsync()
 })
