@@ -61,24 +61,24 @@ import { pathEqual } from "src/logic/path-equal"
 
 import "@fontsource/poppins"
 
+interface FilterURI {
+  type: string
+  select: {
+    path: string
+    name: string
+  }[]
+}
+interface FilterQuery {
+  type: string
+  key: string
+  items: {
+    value: string
+    name: string
+  }[]
+}
+
 defineProps<{
-  filter: (
-    | {
-        type: string
-        select: {
-          path: string
-          name: string
-        }[]
-      }
-    | {
-        type: string
-        key: string
-        items: {
-          value: string
-          name: string
-        }[]
-      }
-  )[]
+  filter: (FilterQuery | FilterURI)[]
 }>()
 
 const route = useRoute()

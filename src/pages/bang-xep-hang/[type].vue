@@ -55,7 +55,7 @@ meta:
           <TrendingCardIconRight class="rotate-180deg text-main-4" />
         </div>
 
-        <GenresFilter v-if="data" :filter="data.filter" class="my-3" />
+        <GenresFilter v-if="data?.filters" :filter="data.filters" class="my-3" />
         <template v-if="data && !loading">
           <!-- <div
             v-if="data.maxPage > 1"
