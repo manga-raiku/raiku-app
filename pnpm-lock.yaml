@@ -33,8 +33,8 @@ dependencies:
     specifier: ^10.2.1
     version: 10.2.1(vue@3.2.45)
   '@vueuse/shared':
-    specifier: ^9.12.0
-    version: 9.12.0(vue@3.2.45)
+    specifier: ^10.2.1
+    version: 10.2.1(vue@3.2.45)
   cheerio:
     specifier: 1.0.0-rc.12
     version: 1.0.0-rc.12
@@ -44,6 +44,9 @@ dependencies:
   dayjs:
     specifier: ^1.11.7
     version: 1.11.7
+  fetch-retry:
+    specifier: ^5.0.6
+    version: 5.0.6
   hash-sum:
     specifier: ^2.0.0
     version: 2.0.0
@@ -7378,6 +7381,10 @@ packages:
     dependencies:
       pend: 1.2.0
     dev: true
+
+  /fetch-retry@5.0.6:
+    resolution: {integrity: sha512-3yurQZ2hD9VISAhJJP9bpYFNQrHHBXE2JxxjY5aLEcDi46RmAzJE2OC9FAde0yis5ElW0jTTzs0zfg/Cca4XqQ==}
+    dev: false
 
   /fflate@0.7.4:
     resolution: {integrity: sha512-5u2V/CDW15QM1XbbgS+0DfPxVB+jUKhWEKuuFuHncbk3tEEqzmoXL+2KyOFuKGqOnmdIy0/davWF1CkuwtibCw==}

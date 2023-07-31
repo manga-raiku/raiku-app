@@ -37,29 +37,39 @@ export default function epId(html: string, now: number) {
 
 type Page = ReturnType<typeof epId>["pages"][0]
 
+const headersNettruyen = {
+  referer: "https://www.nettruyenmax.com",
+}
+
 export const SERVERS: {
   name: string
-  has: (page: Page) => boolean
+  has: (page: Page, conf: ReturnType<typeof epId>) => boolean
   parse: (page: Page, conf: ReturnType<typeof epId>) => string
 }[] = [
   {
     name: "Server 1",
     has: () => true,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    parse: (item: Page) => item.src!,
+    parse: (item: Page) => withProxyDeno(item.src!, headersNettruyen),
   },
   {
     name: "Server 2",
-    has: (item: Page) => item.original !== null,
+    has: (item: Page) => item.original !== null && item.original !== item.src,
     parse(item) {
       if (item.original?.indexOf("focus-opensocial.googleusercontent") !== -1) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return decodeURIComponent(item.original!.split("&url", 2)[1])
+        return withProxyDeno(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          decodeURIComponent(item.original!.split("&url", 2)[1]),
+          headersNettruyen
+        )
       }
 
-      return `https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&resize_h=0&rewriteMime=image%2F*&url=${encodeURIComponent(
-        item.original
-      )}`
+      return withProxyDeno(
+        `https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&resize_h=0&rewriteMime=image%2F*&url=${encodeURIComponent(
+          item.original
+        )}`,
+        headersNettruyen
+      )
     },
   },
   {
@@ -67,16 +77,14 @@ export const SERVERS: {
     has: (item: ReturnType<typeof epId>["pages"][0]) => item.cdn !== null,
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    parse: (item) => item.cdn!,
+    parse: (item) => withProxyDeno(item.cdn!, headersNettruyen),
   },
   {
     name: "Server 4",
-    has: (item) =>
-      item.cdn !== null &&
-      item.original?.indexOf("focus-opensocial.googleusercontent") !== -1,
+    has: (item, { cdn, cdn2 }) => item.cdn !== null && !!cdn && !!cdn2,
     parse: (item, { cdn, cdn2 }) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return item.cdn!.replace(cdn!, cdn2!)
+      return withProxyDeno(item.cdn!.replace(cdn!, cdn2!), headersNettruyen)
     },
   },
 ]

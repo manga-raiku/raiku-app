@@ -5,7 +5,7 @@
       'w-full': singlePage,
     }"
   >
-    <img
+    <PageView
       class="object-scale-down h-full"
       :class="{
         'ml-auto': prime,

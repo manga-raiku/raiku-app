@@ -27,7 +27,7 @@ meta:
 
       <q-space class="<md:display-none" />
 
-      <div class="flex <md:display-block items-center min-w-0">
+      <div class="flex <md:!display-block items-center min-w-0">
         <div class="ellipsis text-15px">{{ data?.name }}</div>
 
         <Icon
@@ -487,7 +487,7 @@ watch(error, (error) => {
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)
 const serversReady = computed(() =>
-  SERVERS.filter((item) => !data.value || item.has(data.value.pages[0]))
+  SERVERS.filter((item) => !data.value || item.has(data.value.pages[0], data.value))
 )
 // eslint-disable-next-line no-void
 watch(serversReady, () => void (server.value = 0))

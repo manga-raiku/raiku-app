@@ -28,7 +28,7 @@
           : '444ms,444ms,170ms',
       }"
     >
-      <img
+      <PageView
         class="object-scale-down h-full mx-auto"
         :src="src"
         @load="emit('load', $event)"

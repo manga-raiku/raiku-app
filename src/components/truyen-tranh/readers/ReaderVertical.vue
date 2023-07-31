@@ -20,10 +20,10 @@
       }"
       ref="overflowRef"
     >
-      <img
+      <PageView
         v-for="(item, index) in pages"
         :key="item"
-        class="object-cover display-block mx-auto"
+        class="object-cover display-block mx-auto my-3"
         :src="item"
         @load="
           sizes.set(index, [
