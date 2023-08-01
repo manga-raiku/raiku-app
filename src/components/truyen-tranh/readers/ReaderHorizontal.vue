@@ -263,8 +263,10 @@ function onTouchEnd(event: TouchEvent) {
   // }
 }
 
-const minDiffX = computed(() => -Math.abs(pWidth.value - oWidth.value) / 2)
-const minDiffY = computed(() => -Math.abs(pHeight.value - oHeight.value) / 2)
+const minDiffX = computed(() => Math.min(0, (pWidth.value - oWidth.value) / 2))
+const minDiffY = computed(() =>
+  Math.min(0, (pHeight.value - oHeight.value) / 2)
+)
 const maxDiffX = computed(() => -minDiffX.value)
 const maxDiffY = computed(() => -minDiffY.value)
 

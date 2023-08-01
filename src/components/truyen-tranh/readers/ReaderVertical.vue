@@ -23,7 +23,7 @@
       <PageView
         v-for="(item, index) in pages"
         :key="item"
-        class="object-cover display-block mx-auto my-3"
+        class="object-cover display-block mx-auto"
         :src="item"
         @load="
           sizes.set(index, [
@@ -79,9 +79,9 @@ const heightImageDefault = computed(
   () => sizes.get(0)?.[1] ?? pHeight.value * 0.8
 )
 
-const minDiffX = computed(() => -Math.abs(pWidth.value - oWidth.value) / 2)
+const minDiffX = computed(() => Math.min(0, (pWidth.value - oWidth.value) / 2))
 const minDiffY = computed(
-  () => -Math.abs(pHeight.value - oHeight.value) /* / 2 */
+  () => Math.min(0, pHeight.value - oHeight.value) /* / 2 */
 )
 const maxDiffX = computed(() => -minDiffX.value)
 const maxDiffY = computed(() => 0 /* -minDiffY.value */)
@@ -193,7 +193,7 @@ watch(
     const arr = mapOffset.value
     let left = 0
     let right = arr.length - 1
-    const positiveDiffYZoom = -diffYZoom + pHeight.value
+    const positiveDiffYZoom = -diffYZoom * props.zoom/100 + pHeight.value
 
     while (left !== right) {
       const center = left + ~~(right - left) / 2

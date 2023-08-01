@@ -126,7 +126,7 @@ meta:
     <q-toolbar class="sm:px-10 md:px-16 <md:flex-wrap">
       <div
         v-if="$q.screen.gt.sm || scrollingMode"
-        class="w-120px h-36px rounded-18px border border-[hsla(0,0%,100%,.4)] ml-10px mr-30px flex items-center flex-nowrap justify-between overflow-hidden <md:display-none"
+        class="w-120px h-36px rounded-18px border border-[hsla(0,0%,100%,.4)] ml-10px mr-30px flex items-center flex-nowrap justify-between overflow-hidden"
       >
         <button class="size-36px relative" v-ripple @click="zoom -= 5">
           <Icon icon="fluent:subtract-24-filled" class="size-1.3em mx-auto" />
