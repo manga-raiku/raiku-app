@@ -37,8 +37,29 @@ export default function epId(html: string, now: number) {
   const comments = $("#nt_comments .comment-list .item")
     .toArray()
     .map((item) => parseComment($(item), now))
+  const comments_count = parseInt($(".comment-count").text())
+  const comments_page_number =
+    parseInt(
+      $("#ctl00_mainContent_divPager > ul > li:nth-child(14) > a")
+        .last()
+        .attr("href")
+        ?.slice(1) ?? "1"
+    ) || 1
 
-  return { name, uid, manga, ep_id, updated_at, pages, cdn, cdn2, comments }
+  return {
+    name,
+    uid,
+    manga,
+    ep_id,
+    updated_at,
+    pages,
+    cdn,
+    cdn2,
+
+    comments,
+    comments_count,
+    comments_page_number,
+  }
 }
 
 type Page = ReturnType<typeof epId>["pages"][0]

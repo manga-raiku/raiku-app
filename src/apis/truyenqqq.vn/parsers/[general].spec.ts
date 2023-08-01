@@ -26,9 +26,9 @@ describe("[general]", () => {
       item.updated = json2.items[i].updated
     })
 
-    // for (const i in result.items) {
-    //   expect(result.items[i]).toEqual(json2.items[i])
-    // }
+    for (const i in result.items) {
+      expect(result.items[i]).toEqual(json2.items[i])
+    }
     expect(result).toEqual(json2)
   })
 

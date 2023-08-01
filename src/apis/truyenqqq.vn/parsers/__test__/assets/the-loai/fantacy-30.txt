@@ -1094,7 +1094,7 @@ Một người bất ngờ xuất hiện trước mặt tôi ngay lúc tôi đan
                     <p class="info">Lượt theo dõi: 2,063</p>
                     <div class="list-tags">
                         <p class="blue">Action</p><p class="blue">Adventure</p><p class="blue">Fantasy</p><p class="blue">Shounen</p><p class="blue">Manhwa</p><p class="blue">Chuyển Sinh</p><p class="blue">Truyện Màu</p>                    </div>
-                    <div class="excerpt">Hasumi Ryuuji, người được mệnh danh là binh cương thời đại hiện đại, một người có thể tạo ra nhiều chiến lược gần như bất khả thi. Trong một lần làm nhiệm vụ, anh đã bị dịch chuyển tới sâu thẳm của một hàm ngục ở thế giới khác. Một giọng nói vang vọng trong não của anh ấy đã hướng dẫn anh ấy. “Chào ...</div>
+                    <div class="excerpt">Hasumi Ryuuji, người được mệnh danh là binh cương thời đại hiện đại, một người có thể tạo ra nhiều chin lược gần như bất khả thi. Trong một lần làm nhiệm vụ, anh đã bị dịch chuyển tới sâu thẳm của một hàm ngục ở thế giới khác. Một giọng nói vang vọng trong não của anh ấy đã hướng dẫn anh ấy. “Chào ...</div>
                 </div>
             </div>
 
@@ -1755,7 +1755,7 @@ Cái chết này thật sự phù hợp với một kẻ ác-
                     <p class="info">Lượt theo dõi: 1,351</p>
                     <div class="list-tags">
                         <p class="blue">Drama</p><p class="blue">Fantasy</p><p class="blue">Romance</p><p class="blue">Shoujo</p><p class="blue">Manhwa</p><p class="blue">Webtoon</p><p class="blue">Truyện Màu</p>                    </div>
-                    <div class="excerpt">Tôi đang ở trong thế giới của một cuốn tiểu thuyết R19 dựa trên cô bé quàng khăn đỏ ăn thịt những con sói. Vấn đề chính là em trai tôi lại là một con sói. Tôi cùng em trai sống ẩn ở sâu trong rừng, nơi mà cô bé quàng khăn đỏ không thể tìm thấy được chúng tôi, và chúng tôi có thể trốn thoát đến thế g...</div>
+                    <div class="excerpt">Tôi đang ở trong thế giới của một cuốn tiểu thuyết R19 dựa trên cô bé quàng khăn đỏ ăn thịt những con sói. Vấn đề chính là em trai tôi lại là một con sói. Tôi cùng em trai sống ẩn ở sâu trong rừng, nơi mà cô bé quàng khăn đỏ không th tìm thấy được chúng tôi, và chúng tôi có thể trốn thoát đến thế g...</div>
                 </div>
             </div>
 

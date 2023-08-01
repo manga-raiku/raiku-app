@@ -444,7 +444,7 @@ Lý Thiên mệnh nằm mơ cũng không thể ngờ đá...</div>
                     <p class="info">Lượt theo dõi: 5,185</p>
                     <div class="list-tags">
                         <p class="blue">Action</p><p class="blue">Comedy</p><p class="blue">Manhua</p><p class="blue">Truyện Màu</p><p class="blue">Truyện Màu</p>                    </div>
-                    <div class="excerpt">Tái sinh vào thời cổ đại, để tồn tại Lý Trường Thọ phải tu luyện thành tiên nhân. Con đường tu luyện đầy gian nan vì vậy hắn rất cẩn thận và phòng xa. Một ngày nọ sư phụ dẫn một tiểu sư muội đến nhờ hắn chỉ dạy tu luyện...
+                    <div class="excerpt">Tái sinh vào thời cổ đại, để tồn tại Lý Trường Th phải tu luyện thành tiên nhân. Con đường tu luyện đầy gian nan vì vậy hắn rất cẩn thận và phòng xa. Một ngày nọ sư phụ dẫn một tiểu sư muội đến nhờ hắn chỉ dạy tu luyện...
 </div>
                 </div>
             </div>

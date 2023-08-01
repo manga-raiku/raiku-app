@@ -3,7 +3,7 @@ import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
 
 import { getImage } from "./getImage"
 
-interface RComment {
+export interface RComment {
   id: number
   author: {
     avatar: string

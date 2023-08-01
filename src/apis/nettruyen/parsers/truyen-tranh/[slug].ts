@@ -66,6 +66,16 @@ export default function slug(html: string, now: number) {
   const comments = $("#nt_comments .comment-list .item")
     .toArray()
     .map((item) => parseComment($(item), now))
+  // eslint-disable-next-line camelcase
+  const comments_count = parseInt($(".comment-count").text())
+  // eslint-disable-next-line camelcase
+  const comments_page_number =
+    parseInt(
+      $("#ctl00_mainContent_divPager > ul > li:nth-child(14) > a")
+        .last()
+        .attr("href")
+        ?.slice(1) ?? "1"
+    ) || 1
 
   return {
     name,
@@ -85,6 +95,11 @@ export default function slug(html: string, now: number) {
     follows,
     description,
     chapters,
+
     comments,
+    // eslint-disable-next-line camelcase
+    comments_count,
+    // eslint-disable-next-line camelcase
+    comments_page_number,
   }
 }
