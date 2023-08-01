@@ -586,7 +586,7 @@ Mời bạn thảo luận, vui lòng không spam, share link kiếm tiền, thi�
 </i>
 <div class="info">
 <div class="comment-header">
-<span class="authorname name-4">vinh ho&#195;&#160;ng</span>
+<span class="authorname name-4">vinh ho</span>
 <span class="member level-4">
 <span data-level="4">Cấp 4</span>
 <span class="progress-bar" style="width:18%">

@@ -20,7 +20,7 @@ export function parseComment($comment: Cheerio<Element>, now: number) {
   const content = $comment.find(".content-comment").html()!.trim()
   const likes = parseInt($comment.find(".total-like-comment").text())
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const time = parseTimeAgo($comment.find(".time").text().trim(), now)!
+  const time = parseTimeAgo($comment.find(".time").text(), now)!
   const replies =
     $comment.find(".text-list-reply").length === 0
       ? 0

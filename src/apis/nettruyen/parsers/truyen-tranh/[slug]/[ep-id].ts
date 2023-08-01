@@ -3,6 +3,8 @@ import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
 import { parseDom } from "src/apis/__helpers__/parseDom"
 import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
 
+import { parseComment } from "../../__helpers__/parseComment"
+
 export default function epId(html: string, now: number) {
   const $ = parseDom(html)
 
@@ -32,7 +34,11 @@ export default function epId(html: string, now: number) {
       return { src, original, cdn }
     })
 
-  return { name, uid, manga, ep_id, updated_at, pages, cdn, cdn2 }
+  const comments = $("#nt_comments .comment-list .item")
+    .toArray()
+    .map((item) => parseComment($(item), now))
+
+  return { name, uid, manga, ep_id, updated_at, pages, cdn, cdn2, comments }
 }
 
 type Page = ReturnType<typeof epId>["pages"][0]

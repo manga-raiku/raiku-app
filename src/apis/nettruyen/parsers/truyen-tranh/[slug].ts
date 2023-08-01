@@ -4,6 +4,7 @@ import { parseNumber } from "src/apis/__helpers__/parseNumber"
 import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
 
 import { getImage } from "../__helpers__/getImage"
+import { parseComment } from "../__helpers__/parseComment"
 
 export default function slug(html: string, now: number) {
   const $ = parseDom(html)
@@ -55,12 +56,16 @@ export default function slug(html: string, now: number) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const id = parseInt($item.find("a").attr("data-id")!)
       // eslint-disable-next-line camelcase
-      const updated_at = parseTimeAgo($item.next().text().trim(), now) || null
+      const updated_at = parseTimeAgo($item.next().text(), now) || null
       const views = parseNumber($item.next().next().text().trim())
 
       // eslint-disable-next-line camelcase
       return { id, path, name: name.replace("Chapter ", ""), updated_at, views }
     })
+
+  const comments = $("#nt_comments .comment-list .item")
+    .toArray()
+    .map((item) => parseComment($(item), now))
 
   return {
     name,
@@ -80,5 +85,6 @@ export default function slug(html: string, now: number) {
     follows,
     description,
     chapters,
+    comments,
   }
 }

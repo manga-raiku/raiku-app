@@ -10,7 +10,7 @@
     v-else-if="error"
     class="w-550px max-w-100% aspect-ratio-2 flex items-center justify-center"
   >
-    <p>Đã xảy ra lỗi khi tải hình ảnh (Code: {{ error + "" ?? -1 }})</p>
+    <p>Đã xảy ra lỗi khi tải hình ảnh (Code: {{ error + "" || -1 }})</p>
   </div>
 </template>
 

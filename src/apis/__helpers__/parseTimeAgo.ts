@@ -1,6 +1,6 @@
 // 35 phút trước
 export function parseTimeAgo(ago: string, now: number): number {
-  ago = ago.toLowerCase()
+  ago = ago.trim().toLowerCase()
 
   if (ago.endsWith("giây trước")) return now - parseInt(ago) * 1_000
   if (ago.endsWith("phút trước")) return now - parseInt(ago) * 1_000 * 60

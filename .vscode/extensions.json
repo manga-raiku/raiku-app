@@ -10,7 +10,8 @@
     "antfu.iconify",
     "unthrottled.doki-theme",
     "codium.codium",
-    "equinusocio.vsc-material-theme-icons"
+    "equinusocio.vsc-material-theme-icons",
+    "yoavbls.pretty-ts-errors"
   ],
   "unwantedRecommendations": [
     "octref.vetur",
