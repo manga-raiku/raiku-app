@@ -121,7 +121,7 @@ meta:
           class="mr-2"
         />
 
-        Bắt đầu xem {{ data.chapters.at(-1)!.name }}</q-btn
+        Bắt đầu xem Ch. {{ data.chapters.at(-1)!.name }}</q-btn
       >
 
       <q-btn
@@ -317,7 +317,7 @@ meta:
           class="mr-2"
         />
 
-        Xem {{ data.chapters.at(-1)!.name }}</q-btn
+        Xem Ch. {{ data.chapters.at(-1)!.name }}</q-btn
       >
     </q-toolbar>
   </q-footer>

@@ -50,7 +50,12 @@
               ])
             "
             @update:can-swipe="canSwipes[index] = $event"
-          />
+          >
+            <template #loading>
+              <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
+              <q-spinner size="40px" color="main-3" />
+            </template>
+          </ChapterPageModeSingle>
         </template>
         <template v-else>
           <ChapterPageModeDouble
@@ -67,7 +72,12 @@
                 ($event.target as HTMLImageElement)!.naturalHeight,
               ])
             "
-          />
+          >
+            <template #loading>
+              <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
+              <q-spinner size="40px" color="main-3" />
+            </template>
+          </ChapterPageModeDouble>
         </template>
       </div>
     </section>

@@ -37,7 +37,12 @@
             : widthImageDefault,
           height: sizes.has(index) ? undefined : heightImageDefault,
         }"
-      />
+      >
+        <template #loading>
+          <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
+          <q-spinner size="40px" color="main-3" />
+        </template>
+      </PageView>
     </section>
   </section>
 </template>
@@ -193,7 +198,7 @@ watch(
     const arr = mapOffset.value
     let left = 0
     let right = arr.length - 1
-    const positiveDiffYZoom = -diffYZoom * props.zoom/100 + pHeight.value
+    const positiveDiffYZoom = (-diffYZoom * props.zoom) / 100 + pHeight.value
 
     while (left !== right) {
       const center = left + ~~(right - left) / 2

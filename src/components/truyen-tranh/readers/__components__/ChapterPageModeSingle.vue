@@ -32,7 +32,11 @@
         class="object-scale-down h-full mx-auto"
         :src="src"
         @load="emit('load', $event)"
-      />
+      >
+        <template #loading>
+          <slot name="loading" />
+        </template>
+      </PageView>
     </div>
   </div>
 </template>

@@ -12,7 +12,11 @@
       }"
       :src="src"
       @load="emit('load', $event)"
-    />
+    >
+      <template #loading>
+        <slot name="loading" />
+      </template>
+    </PageView>
   </div>
 </template>
 
