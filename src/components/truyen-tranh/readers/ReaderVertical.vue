@@ -39,12 +39,27 @@
         }"
       >
         <template #loading>
-          <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
-          <q-spinner size="40px" color="main-3" />
+          <div class="flex items-center flex-col justify-center">
+            <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
+            <q-spinner size="40px" color="main-3" />
+          </div>
         </template>
       </PageView>
     </section>
   </section>
+
+  <ScrollbarVertical
+    :min-y="maxDiffY"
+    :max-y="minDiffY"
+    v-model:scroll-y="diffYZoom"
+    :min-x="maxDiffX"
+    :max-x="minDiffX"
+    v-model:scroll-x="diffXZoom"
+    :p-width="pWidth"
+    :p-height="pHeight"
+    :o-width="oWidth"
+    :o-height="oHeight"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -222,7 +237,7 @@ watch(
   () => props.currentPage,
   (currentPage) => {
     if (disableReactiveCurrentPage) return
-
+    console.log("traffict emit")
     diffYZoom.value = -mapOffset.value[currentPage]
   }
 )

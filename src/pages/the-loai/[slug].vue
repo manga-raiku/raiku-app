@@ -29,7 +29,7 @@ meta:
       <GenresFilterMB
         v-model:show-full="showFilterFull"
         :show-toolbar="isCapacitor"
-        :filter="data.filter"
+        :filter="data.filters"
       />
       <!-- /filter -->
       <!--

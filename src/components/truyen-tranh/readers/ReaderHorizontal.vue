@@ -52,8 +52,10 @@
             @update:can-swipe="canSwipes[index] = $event"
           >
             <template #loading>
-              <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
-              <q-spinner size="40px" color="main-3" />
+              <div class="flex items-center flex-col justify-center">
+                <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
+                <q-spinner size="40px" color="main-3" />
+              </div>
             </template>
           </ChapterPageModeSingle>
         </template>
@@ -74,8 +76,10 @@
             "
           >
             <template #loading>
-              <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
-              <q-spinner size="40px" color="main-3" />
+              <div class="flex items-center flex-col justify-center">
+                <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
+                <q-spinner size="40px" color="main-3" />
+              </div>
             </template>
           </ChapterPageModeDouble>
         </template>

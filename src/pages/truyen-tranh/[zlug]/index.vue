@@ -173,12 +173,9 @@ meta:
       <header class="text-28px font-weight-regular">
         Comments of {{ data.name }}
       </header>
-      <!-- <Comments
+      <Comments
         :comments="data.comments"
-        :book-id="data.id"
-        :team-id="data.team_id"
-        @deleted="data.comments.splice($event, 1)"
-      /> -->
+      />
     </section>
   </template>
   <template v-else-if="loading">

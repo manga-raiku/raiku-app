@@ -41,6 +41,20 @@
 
         <span class="flex items-center mr-4 cursor-pointer">
           <Icon
+            icon="fluent:thumb-dislike-24-filled"
+            width="1.3em"
+            height="1.3em"
+            class="mr-1"
+          />
+          Không thích
+          <template v-if="comment.dislike"
+            >({{ comment.dislike }})</template
+          >
+        </span>
+
+
+        <span class="flex items-center mr-4 cursor-pointer">
+          <Icon
             icon="fluent:comment-multiple-24-filled"
             width="1.3em"
             height="1.3em"
@@ -55,8 +69,6 @@
       <template v-if="comment.replies">
         <Comments
           :comments="comment.replies"
-          :book-id="bookId"
-          :team-id="teamId"
         />
       </template>
     </div>
@@ -70,8 +82,6 @@ import dayjs from "src/logic/dayjs"
 
 const props = defineProps<{
   comment: RComment
-  bookId: number
-  teamId: number
 }>()
 
 const NO_AVATAR =

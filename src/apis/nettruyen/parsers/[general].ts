@@ -23,6 +23,9 @@ interface FilterQuery {
 export default function general(html: string, now: number) {
   const $ = parseDom(html)
 
+  const name = $("#ctl00_mainContent_ctl00_divBasicFilter > h1 > strong").text().trim()
+  const description = $("#ctl00_mainContent_ctl00_divDescription").text()
+
   const genres: FilterURI = {
     type: "Thể loại",
     select: $("#ctl00_divRight > div > div > ul > li > a")
@@ -91,5 +94,5 @@ export default function general(html: string, now: number) {
       )
     : 1
 
-  return { filters, items, curPage, maxPage }
+  return { name, description, filters, items, curPage, maxPage }
 }
