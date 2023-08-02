@@ -274,16 +274,27 @@ meta:
         no-wrap
         class="<md:order-6 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
+        @click="showMenuSettings = true"
       >
         <Icon icon="ri:settings-line" class="size-1.8rem mr-1" /> Settings
 
-        <q-menu
-          anchor="top middle"
-          self="bottom middle"
-          class="rounded-xl"
-          :offset="[0, 10]"
+        <q-dialog-menu
+          v-model="showMenuSettings"
+          :use-menu="$q.screen.gt.sm"
+          :menu-props="{
+            anchor: 'top middle',
+            self: 'bottom middle',
+            offset: [0, 10],
+            maxWidth: '560px',
+            maxHeight: '80%',
+          }"
+          :dialog-props="{
+            position: 'bottom',
+            fullWidth: true,
+          }"
+          class="rounded-xl overflow-visible flex column flex-nowrap <md:children:!px-0"
         >
-          <q-card>
+          <q-card class="rounded-xl">
             <q-card-section>
               <div class="text-subtitle1 mb-1">Reader mode</div>
               <div>
@@ -389,7 +400,7 @@ meta:
               </div>
             </q-card-section>
           </q-card>
-        </q-menu>
+        </q-dialog-menu>
       </q-btn>
 
       <q-btn
@@ -398,9 +409,47 @@ meta:
         no-wrap
         class="<md:order-7 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
+        @click="showMenuComments = true"
       >
         <Icon icon="system-uicons:message" class="size-1.8rem mr-1" />
         Comments
+
+        <q-dialog-menu
+          v-model="showMenuComments"
+          :use-menu="$q.screen.gt.sm"
+          :menu-props="{
+            anchor: 'top middle',
+            self: 'bottom middle',
+            offset: [0, 10],
+            maxWidth: '560px',
+            maxHeight: '80%',
+          }"
+          :dialog-props="{
+            position: 'bottom',
+            fullWidth: true,
+          }"
+          class="rounded-xl overflow-visible flex column flex-nowrap <md:children:!px-0"
+        >
+          <q-card
+            class="h-full <md:!max-h-70vh min-w-310px flex column min-h-0 rounded-xl"
+          >
+            <q-card-section
+              class="h-full flex column flex-nowrap min-h-0 children:flex-shrink-0 max-w-full"
+            >
+              <div class="text-subtitle1 mb-1">Comments</div>
+
+              <div v-if="!data" class="py-4 text-center">
+                <q-spinner color="main-3" size="40px" class="mx-auto" />
+              </div>
+              <div
+                v-else
+                class="w-full h-full flex-1 overflow-y-scroll scrollbar-custom"
+              >
+                <Comments :comments="data.comments" />
+              </div>
+            </q-card-section>
+          </q-card>
+        </q-dialog-menu>
       </q-btn>
 
       <q-btn
@@ -445,8 +494,7 @@ import { Icon } from "@iconify/vue"
 import { useFullscreen } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
-import type { QDialog } from "quasar"
-import { QMenu } from "quasar"
+import type { QDialog, QMenu } from "quasar"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
 import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
@@ -487,7 +535,9 @@ watch(error, (error) => {
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)
 const serversReady = computed(() =>
-  SERVERS.filter((item) => !data.value || item.has(data.value.pages[0], data.value))
+  SERVERS.filter(
+    (item) => !data.value || item.has(data.value.pages[0], data.value)
+  )
 )
 // eslint-disable-next-line no-void
 watch(serversReady, () => void (server.value = 0))
@@ -570,6 +620,8 @@ const nextEpisode = computed(() => {
 })
 
 const showMenuEpisodes = ref(false)
+const showMenuSettings = ref(false)
+const showMenuComments = ref(false)
 
 const menuEpisodesRef = ref<QMenu | QDialog>()
 function onChangeTabEpisodes() {
