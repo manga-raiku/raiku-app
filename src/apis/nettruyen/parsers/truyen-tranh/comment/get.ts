@@ -7,5 +7,5 @@ export default function (html: string, now: number) {
 
   return $(".item")
     .toArray()
-    .map((item) => parseComment($(item), now))
+    .map((item) => parseComment($, $(item), now))
 }

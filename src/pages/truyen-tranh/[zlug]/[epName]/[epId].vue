@@ -274,7 +274,7 @@ meta:
         no-wrap
         class="<md:order-6 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
-        @click="showMenuSettings = true"
+        @click="showMenuSettings = !showMenuSettings"
       >
         <Icon icon="ri:settings-line" class="size-1.8rem mr-1" /> Settings
 
@@ -294,8 +294,12 @@ meta:
           }"
           class="rounded-xl overflow-visible flex column flex-nowrap <md:children:!px-0"
         >
-          <q-card class="rounded-xl">
-            <q-card-section>
+          <q-card
+            class="h-full <md:!max-h-70vh min-w-310px flex column min-h-0 rounded-xl"
+          >
+            <q-card-section
+              class="h-full flex column flex-nowrap min-h-0 children:flex-shrink-0 max-w-full"
+            >
               <div class="text-subtitle1 mb-1">Reader mode</div>
               <div>
                 <q-btn
@@ -409,7 +413,7 @@ meta:
         no-wrap
         class="<md:order-7 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
-        @click="showMenuComments = true"
+        @click="showMenuComments = !showMenuComments"
       >
         <Icon icon="system-uicons:message" class="size-1.8rem mr-1" />
         Comments
@@ -443,7 +447,7 @@ meta:
               </div>
               <div
                 v-else
-                class="w-full h-full flex-1 overflow-y-scroll scrollbar-custom"
+                class="h-full flex-1 overflow-x-hidden overflow-y-scroll scrollbar-custom"
               >
                 <Comments :comments="data.comments" />
               </div>

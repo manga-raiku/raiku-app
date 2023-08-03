@@ -1,4 +1,5 @@
-import type { Cheerio, Element } from "cheerio"
+/* eslint-disable camelcase */
+import type { Cheerio, CheerioAPI, Element } from "cheerio"
 import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
 
 import { getImage } from "./getImage"
@@ -19,9 +20,10 @@ export interface RComment {
   dislike: number
   created_at: number
   replies: RComment[]
+  chapter_name: string | null
 }
 
-export function parseComment($item: Cheerio<Element>, now: number): RComment {
+export function parseComment($: CheerioAPI, $item: Cheerio<Element>, now: number): RComment {
   const id = parseInt(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     $item.attr("id")!.match(/\d+/)![0]
@@ -44,17 +46,33 @@ export function parseComment($item: Cheerio<Element>, now: number): RComment {
     },
     chapter: $item.find(".cmchapter").text().trim(),
   }
+  // patch content
+  $item.find(".comment-content img").each((i, item) => {
+    const $item2 = $(item)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    $item2.attr("src", getImage($item2)!)
+  })
   const content = $item.find(".comment-content").html()
   const like = parseInt($item.find(".vote-up-count").text())
   const dislike = parseInt($item.find(".vote-down-count").text())
-  // eslint-disable-next-line camelcase
   const created_at = parseTimeAgo($item.find("abbr:eq(0)").text(), now)
 
   const repiles: RComment[] = $item
     .find(".item.child")
     .toArray()
-    .map((item) => parseComment($item.find(item), now))
+    .map((item) => parseComment($, $item.find(item), now))
+  const chapter_name =
+    $item.find(".cmchapter").text().trim().replace("Chapter ", "") || null
 
-  // eslint-disable-next-line camelcase, @typescript-eslint/no-explicit-any
-  return { id, author, content, like, dislike, created_at, repiles } as any
+  return {
+    id,
+    author,
+    content,
+    like,
+    dislike,
+    created_at,
+    repiles,
+    chapter_name,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any
 }

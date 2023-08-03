@@ -1,5 +1,6 @@
 <template>
   <section
+    v-bind="attrs"
     class="h-full overflow-hidden relative"
     ref="parentRef"
     @mousedown.prevent="onTouchStart"
@@ -67,6 +68,10 @@ import { useElementSize, useEventListener } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import { debounce } from "quasar"
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<{
   pages: string[]
   currentPage: number
@@ -78,6 +83,7 @@ const emit = defineEmits<{
   // (name: "prev"): void
   // (name: "next"): void
 }>()
+const attrs = useAttrs()
 
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(

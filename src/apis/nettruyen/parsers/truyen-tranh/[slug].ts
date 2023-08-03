@@ -65,7 +65,7 @@ export default function slug(html: string, now: number) {
 
   const comments = $("#nt_comments .comment-list .item")
     .toArray()
-    .map((item) => parseComment($(item), now))
+    .map((item) => parseComment($, $(item), now))
   // eslint-disable-next-line camelcase
   const comments_count = parseInt($(".comment-count").text())
   // eslint-disable-next-line camelcase

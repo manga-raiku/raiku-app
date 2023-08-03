@@ -266,11 +266,15 @@ watch(
   }
   &-x:hover,
   &-x.swiping {
-    @apply h-11px;
+    .thumb {
+      @apply h-11px;
+    }
   }
   &-y:hover,
   &-y.swiping {
-    @apply w-11px;
+    .thumb {
+      @apply w-11px;
+    }
   }
 }
 </style>

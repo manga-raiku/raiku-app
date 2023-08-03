@@ -11,14 +11,23 @@
         "
       />
     </div>
-    <div>
+    <div class="w-full min-w-0">
       <div class="ml-3 min-w-0 bg-[rgba(50,50,50,0.5)] py-1 px-3 rounded-xl">
-        <h5 class="text-17px font-regular leading-normal">
+        <h5 class="text-17px font-regular leading-normal truncate w-100%">
           {{ comment.author.name }}
         </h5>
-        <h6 class="text-gray-300 leading-normal">
-          Cấp {{ comment.author.level.current }}
-        </h6>
+        <div class="flex flex-nowrap text-13px items-center text-gray-200">
+          <h6 class="leading-normal">
+            Cấp {{ comment.author.level.current }} -
+            {{ comment.author.level.perNext }}%
+          </h6>
+
+          <template v-if="comment.chapter_name">
+            <q-separator vertical class="mx-2" />
+
+            <small class="text-13px">Chương {{ comment.chapter_name }}</small>
+          </template>
+        </div>
 
         <p v-html="comment.content" class="leading-normal pt-2 font-16px" />
       </div>
@@ -34,9 +43,7 @@
             class="mr-1"
           />
           Thích
-          <template v-if="comment.like"
-            >({{ comment.like }})</template
-          >
+          <template v-if="comment.like">({{ comment.like }})</template>
         </span>
 
         <span class="flex items-center mr-4 cursor-pointer">
@@ -47,11 +54,8 @@
             class="mr-1"
           />
           Không thích
-          <template v-if="comment.dislike"
-            >({{ comment.dislike }})</template
-          >
+          <template v-if="comment.dislike">({{ comment.dislike }})</template>
         </span>
-
 
         <span class="flex items-center mr-4 cursor-pointer">
           <Icon
@@ -63,13 +67,13 @@
           Bình luận
         </span>
 
-        <span class="text-gray-400">{{ dayjs(comment.created_at).fromNow() }}</span>
+        <span class="text-gray-400">{{
+          dayjs(comment.created_at).fromNow()
+        }}</span>
       </div>
 
       <template v-if="comment.replies">
-        <Comments
-          :comments="comment.replies"
-        />
+        <Comments :comments="comment.replies" />
       </template>
     </div>
   </div>
@@ -86,5 +90,4 @@ const props = defineProps<{
 
 const NO_AVATAR =
   "https://st.truyenqqq.vn/template/frontend/images/noavatar.png"
-
 </script>

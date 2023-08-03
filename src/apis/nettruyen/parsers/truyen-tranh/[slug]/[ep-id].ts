@@ -36,7 +36,7 @@ export default function epId(html: string, now: number) {
 
   const comments = $("#nt_comments .comment-list .item")
     .toArray()
-    .map((item) => parseComment($(item), now))
+    .map((item) => parseComment($, $(item), now))
   const comments_count = parseInt($(".comment-count").text())
   const comments_page_number =
     parseInt(
