@@ -17,7 +17,7 @@ meta:
           <q-img
             :src="data.image"
             :ratio="190 / 247"
-            class="w-240px <sm:w-190px rounded"
+            class="w-240px <sm:w-190px max-w-30vw rounded"
             no-spinner
           />
         </div>
@@ -160,9 +160,7 @@ meta:
     </section>
 
     <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 mt-8">
-      <header class="text-28px font-weight-regular">
-        Chapter List of {{ data.name }}
-      </header>
+      <header class="text-28px font-weight-regular">Chapter List</header>
       <ListChapters
         :chapters="data.chapters"
         :reads-chapter="infoReadManga?.readsChapter"
@@ -170,9 +168,7 @@ meta:
     </section>
 
     <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 mt-8">
-      <header class="text-28px font-weight-regular">
-        Comments of {{ data.name }}
-      </header>
+      <header class="text-28px font-weight-regular">Comments</header>
       <Comments :comments="data.comments" />
     </section>
   </template>
@@ -185,7 +181,10 @@ meta:
             '--data-src': `url()`,
           }"
         >
-          <q-responsive :ratio="190 / 247" class="w-240px <sm:w-190px rounded">
+          <q-responsive
+            :ratio="190 / 247"
+            class="w-240px <sm:w-190px max-w-30vw rounded"
+          >
             <q-skeleton type="rect" width="100%" height="100%" />
           </q-responsive>
         </div>
