@@ -19,7 +19,7 @@ export default function index(html: string, now: number) {
         .attr("src")!
         .replace("290x191", "583x386")
       const name = $child.find("h3").text()
-      const chapter = $child.find(".chapter").text().replace("Chapter ", "")
+      const chapter = normalizeChName($child.find(".chapter").text())
       const genres = $child.find("h5").text().replace("Thể loại: ", "") || null
       const description = $child.find(".excerpt").text()
 

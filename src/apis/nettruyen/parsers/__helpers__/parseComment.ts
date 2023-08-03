@@ -23,7 +23,11 @@ export interface RComment {
   chapter_name: string | null
 }
 
-export function parseComment($: CheerioAPI, $item: Cheerio<Element>, now: number): RComment {
+export function parseComment(
+  $: CheerioAPI,
+  $item: Cheerio<Element>,
+  now: number
+): RComment {
   const id = parseInt(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     $item.attr("id")!.match(/\d+/)![0]
@@ -61,8 +65,7 @@ export function parseComment($: CheerioAPI, $item: Cheerio<Element>, now: number
     .find(".item.child")
     .toArray()
     .map((item) => parseComment($, $item.find(item), now))
-  const chapter_name =
-    $item.find(".cmchapter").text().trim().replace("Chapter ", "") || null
+  const chapter_name = normalizeChName($item.find(".cmchapter").text().trim())
 
   return {
     id,

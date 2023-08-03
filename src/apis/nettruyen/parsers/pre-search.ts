@@ -18,7 +18,7 @@ export default function (html: string) {
       const image = getImage($item.find("img"))!
       const $h4i = $item.find("h4 i")
       // eslint-disable-next-line camelcase
-      const last_chapter = $h4i.first().text().replace("Chapter ", "")
+      const last_chapter = normalizeChName($h4i.first().text())
       const othername = $h4i.length > 2 ? $h4i.eq(1).text().trim() : ""
       const tags = $h4i
         .last()

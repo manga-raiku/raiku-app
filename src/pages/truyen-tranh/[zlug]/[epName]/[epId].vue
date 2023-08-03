@@ -242,7 +242,7 @@ meta:
           ref="menuEpisodesRef"
         >
           <q-card
-            class="h-full <md:!max-h-70vh min-w-310px flex column min-h-0 rounded-xl"
+            class="h-full <md:!max-h-80vh sm:!max-h-70vh min-w-310px flex column min-h-0 rounded-xl"
           >
             <q-card-section
               class="h-full flex column flex-nowrap min-h-0 children:flex-shrink-0 max-w-full"
@@ -255,6 +255,7 @@ meta:
               <ListChapters
                 v-else
                 :chapters="data.chapters"
+                :reads-chapter="infoReadManga?.readsChapter"
                 focus-tab-active
                 @change-tab="onChangeTabEpisodes"
                 class-item="col-6 col-sm-4 col-md-4"
@@ -295,7 +296,7 @@ meta:
           class="rounded-xl overflow-visible flex column flex-nowrap <md:children:!px-0"
         >
           <q-card
-            class="h-full <md:!max-h-70vh min-w-310px flex column min-h-0 rounded-xl"
+            class="h-full <md:!max-h-80vh sm:!max-h-70vh min-w-310px flex column min-h-0 rounded-xl"
           >
             <q-card-section
               class="h-full flex column flex-nowrap min-h-0 children:flex-shrink-0 max-w-full"
@@ -435,7 +436,7 @@ meta:
           class="rounded-xl overflow-visible flex column flex-nowrap <md:children:!px-0"
         >
           <q-card
-            class="h-full <md:!max-h-70vh min-w-310px flex column min-h-0 rounded-xl"
+            class="h-full <md:!max-h-80vh sm:!max-h-70vh min-w-310px flex column min-h-0 rounded-xl"
           >
             <q-card-section
               class="h-full flex column flex-nowrap min-h-0 children:flex-shrink-0 max-w-full"
@@ -462,10 +463,17 @@ meta:
         no-wrap
         class="<md:order-5 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
+        @click="toggleFollow"
       >
-        <Icon icon="fluent:star-add-24-regular" class="size-1.8rem mr-1" />
-        Favorite
-        <!-- fluent:star-checkmark-24-filled -->
+        <Icon
+          :icon="
+            infoReadManga?.isFollowed
+              ? 'fluent:star-checkmark-24-filled'
+              : 'fluent:star-add-24-regular'
+          "
+          class="size-1.8rem mr-1"
+        />
+        {{ infoReadManga?.isFollowed ? "Unfollow" : "Follow" }}
       </q-btn>
 
       <q-btn
@@ -474,7 +482,7 @@ meta:
         no-wrap
         class="<md:order-8 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
-        @click="toggle"
+        @click="toggleFullscreen"
       >
         <Icon
           :icon="
@@ -514,7 +522,7 @@ const showSearchMB = ref(false)
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const route = useRoute()
 const router = useRouter()
-const { isFullscreen, toggle } = useFullscreen()
+const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 const { data, loading, runAsync, error } = useRequest(
   () => SlugChapChap(props.zlug + "/" + props.epName + "/" + props.epId, false),
   {
@@ -536,6 +544,7 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
+const { data: infoReadManga, toggleFollow } = useInfoReadManga(data)
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)
 const serversReady = computed(() =>

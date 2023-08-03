@@ -53,7 +53,7 @@ export function parseItem($: CheerioAPI, $item: Cheerio<Element>, now: number) {
 
       return {
         ...data,
-        name: data.name.replace("Chapter ", ""),
+        name: normalizeChName(data.name),
         updated_at:
           time.is(".time") && time.text()
             ? parseTimeAgo(time.text(), now)

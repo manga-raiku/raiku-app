@@ -64,28 +64,28 @@
         <li
           v-for="item in items"
           :key="item.path"
-          class="px-2 py-2"
-          :class="[
-            classItem ?? 'col-6 col-sm-4 col-md-3',
-            {
-              'text-main': readsChapter?.has(item.id),
-            },
-          ]"
+          class="px-2 py-1"
+          :class="[classItem ?? 'col-6 col-sm-4 col-md-3']"
         >
           <router-link
             :to="item.path"
-            class="block bg-#f8f8f8 bg-opacity-7.5 hover:bg-opacity-12 transition-background-color duration-200 rounded-md py-7px px-4 relative cursor-pointer"
+            class="flex flex-nowrap bg-#f8f8f8 bg-opacity-7.5 hover:bg-opacity-12 transition-background-color duration-200 rounded-md py-1 px-4 relative cursor-pointer"
             exact-active-class="!text-main reading text-weight-medium"
+            :class="{
+              'text-#eee text-opacity-70': readsChapter?.has(item.id),
+            }"
           >
-            <h5 class="text-16px">Chương {{ item.name }}</h5>
-            <span v-if="item.updated_at" class="text-gray-300"
-              >{{ (tmp = dayjs(item.updated_at)).fromNow() }} ({{
-                tmp.format("dd DD/MM/YYYY")
-              }})</span
-            >
+            <div class="flex-1 min-w-0">
+              <h5 class="text-14px ellipsis">Chương {{ item.name }}</h5>
+              <span v-if="item.updated_at" class="text-gray-300"
+                >{{ (tmp = dayjs(item.updated_at)).fromNow() }} ({{
+                  tmp.format("dd DD/MM/YYYY")
+                }})</span
+              >
+            </div>
             <span
               v-if="readsChapter?.has(item.id)"
-              class="absolute top-2 right-2 flex items-center"
+              class="mr--2 flex items-center"
             >
               <Icon
                 icon="fluent:checkmark-starburst-24-regular"
@@ -134,9 +134,9 @@ const route = useRoute()
 const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
     const [from, to] = [
-      normalizeChName(items[0].name),
+      parseFloat(normalizeChName(items[0].name)),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      normalizeChName(items.at(-1)!.name),
+      parseFloat(normalizeChName(items.at(-1)!.name)),
     ]
 
     return { from, to, items }

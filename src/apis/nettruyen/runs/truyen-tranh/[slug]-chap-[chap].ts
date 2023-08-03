@@ -36,7 +36,7 @@ export default async function <Fast extends boolean>(
         (item: { chapterId: number; name: string; url: string }) => {
           return {
             id: item.chapterId,
-            name: item.name.replace("Chapter ", ""),
+            name: normalizeChName(item.name),
             path: parsePath(item.url),
             updated_at: null,
           }

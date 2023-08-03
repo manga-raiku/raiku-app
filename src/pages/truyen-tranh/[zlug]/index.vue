@@ -73,7 +73,7 @@ meta:
               icon="material-symbols:thumb-up-rounded"
               class="text-yellow w-1.2em h-1.2em mr-1"
             />
-            {{ data.rate }} sao / {{ data.count_rate }}
+            {{ data.rate * 5 }} / 5 - {{ formatView(data.count_rate) }} đánh giá
           </div>
 
           <q-separator vertical class="mx-3 h-12px my-auto <md:display-none" />
@@ -129,17 +129,17 @@ meta:
         no-caps
         outline
         class="mr-3 text-weight-normal h-50px text-15px text-#f15a79"
-        @click="onClickFollow"
+        @click="toggleFollow"
       >
         <Icon
           :icon="
-            infoUserInManga?.isFollowed ? 'ri:heart-fill' : 'ri:heart-add-line'
+            infoReadManga?.isFollowed ? 'ri:heart-fill' : 'ri:heart-add-line'
           "
           width="1.3em"
           height="1.3em"
           class="mr-2"
         />
-        {{ infoUserInManga?.isFollowed ? "Bỏ theo dõi" : "Theo dõi" }}
+        {{ infoReadManga?.isFollowed ? "Bỏ theo dõi" : "Theo dõi" }}
       </q-btn>
 
       <q-btn
@@ -165,7 +165,7 @@ meta:
       </header>
       <ListChapters
         :chapters="data.chapters"
-        :reads-chapter="infoUserInManga?.readsChapter"
+        :reads-chapter="infoReadManga?.readsChapter"
       />
     </section>
 
@@ -173,9 +173,7 @@ meta:
       <header class="text-28px font-weight-regular">
         Comments of {{ data.name }}
       </header>
-      <Comments
-        :comments="data.comments"
-      />
+      <Comments :comments="data.comments" />
     </section>
   </template>
   <template v-else-if="loading">
@@ -278,7 +276,7 @@ meta:
     class="bg-dark-page"
     style="box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1)"
   >
-    <q-toolbar class="h-60px w-90% mx-auto justify-between">
+    <q-toolbar class="h-60px w-90% mx-auto justify-between children:mx-1">
       <q-btn
         rounded
         outline
@@ -305,7 +303,14 @@ meta:
         :to="data.chapters.at(-1)!.path"
         rounded
         no-caps
-        class="btn-action text-weight-normal min-h-0 h-35px font-normal max-w-60% w-full"
+        no-wrap
+        :outline="!!epContinue"
+        class="text-weight-normal min-h-0 h-35px font-normal max-w-30% w-full"
+        :class="{
+          'btn-action': !epContinue,
+          'text-#f15a79': !!epContinue,
+          'max-w-60%': !epContinue,
+        }"
       >
         <Icon
           icon="ion:book-outline"
@@ -314,8 +319,26 @@ meta:
           class="mr-2"
         />
 
-        Xem Ch. {{ data.chapters.at(-1)!.name }}</q-btn
+        Xem Ch. {{ data.chapters.at(-1)!.name }}
+      </q-btn>
+
+      <q-btn
+        v-if="epContinue"
+        :to="epContinue.path"
+        rounded
+        no-caps
+        no-wrap
+        class="btn-action text-weight-normal min-h-0 h-35px font-normal max-w-40% w-full"
       >
+        <Icon
+          icon="ion:book-outline"
+          width="1.3em"
+          height="1.3em"
+          class="mr-2"
+        />
+
+        Tiếp Ch. {{ epContinue.name }}
+      </q-btn>
     </q-toolbar>
   </q-footer>
 </template>
@@ -325,10 +348,8 @@ meta:
 import { Icon } from "@iconify/vue"
 import { useShare } from "@vueuse/core"
 // import Like from "src/apis/runs/frontend/regiter-like"
-// import Subscribe from "src/apis/runs/frontend/subscribe"
-import InfoUserInManga from "src/apis/nettruyen/runs/truyen-tranh/[auth]"
+// import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import Manga from "src/apis/nettruyen/runs/truyen-tranh/[slug]"
-import Follow from "src/apis/nettruyen/runs/truyen-tranh/follow"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
 
@@ -340,7 +361,6 @@ const $q = useQuasar()
 const { share } = useShare()
 const router = useRouter()
 const route = useRoute()
-const authStore = useAuthStore()
 const { data, loading, error, run } = useRequest(() => Manga(props.zlug), {
   refreshDeps: [() => props.zlug],
   refreshDepsAction() {
@@ -360,32 +380,15 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
-const infoUserInManga = ref<Awaited<ReturnType<typeof InfoUserInManga>>>()
-watch(
-  [
-    () => data.value?.uid,
-    () => authStore.user_data?.uid,
-    () => authStore.user_data?.token,
-  ],
-  // eslint-disable-next-line camelcase
-  async ([uid, user_uid, token]) => {
-    infoUserInManga.value = undefined
+const { data: infoReadManga, toggleFollow } = useInfoReadManga(data)
+const epContinue = computed(() => {
+  if (!infoReadManga.value?.readContinueId) return
 
-    // eslint-disable-next-line camelcase
-    if (!uid || !user_uid || !token) return
-    infoUserInManga.value = await InfoUserInManga(uid, user_uid, token)
-    // https://f.nettruyenmax.com/Comic/Services/ComicService.asmx/GetFollowedButtonComic?comicId=20727&userGuid=c96ea70b-be0c-445b-967d-20a6a73dfb3f&token=AkbYuyg%2BVSQIS19FZqybiNH2x%2BjWGdztxZtYWKqSCNdiYQqH3%2FjHrpyaOzChKISX8V6pAmykk3KdCy2%2BCB79na%2B9sgHLoKN1nn%2BRHhEddAk%3D
-  }
-)
+  return data.value?.chapters.find(
+    (item) => item.id === infoReadManga.value?.readContinueId
+  )
+})
 
-async function onClickFollow() {
-  if (!data.value?.uid || !authStore.user_data?.token || !infoUserInManga.value)
-    return
-
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const data2 = await Follow(data.value.uid, data.value.key!)
-  infoUserInManga.value.isFollowed = data2.isFollowed
-}
 function onClickShare() {
   if (!data.value) return
   share({

@@ -13,7 +13,8 @@ export default function slug(html: string, now: number) {
 
   const name = $detail.find("h1").text().trim()
   const uid = parseInt(html.match(/gOpts\.comicId=(\d+)/)?.[1] ?? "")
-  const key = html.match(/gOpts\.key='([^"]+)'/)?.[1]
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const key = html.match(/gOpts\.key=('|")([^"']+)\1/)![2]!
   // eslint-disable-next-line camelcase
   const updated_at = parseTimeAgo(
     $detail.find("time").text().trim().slice(16, -1),
@@ -60,7 +61,7 @@ export default function slug(html: string, now: number) {
       const views = parseNumber($item.next().next().text().trim())
 
       // eslint-disable-next-line camelcase
-      return { id, path, name: name.replace("Chapter ", ""), updated_at, views }
+      return { id, path, name: normalizeChName(name), updated_at, views }
     })
 
   const comments = $("#nt_comments .comment-list .item")

@@ -1,3 +1,4 @@
+import { parsePath } from "src/apis/__helpers__/parsePath"
 import { API_CURL } from "src/apis/nettruyen/const"
 
 export default async function (
@@ -11,13 +12,20 @@ export default async function (
     `${API_CURL}/Comic/Services/ComicService.asmx/GetFollowedButtonComic?comicId=${comicId}&userGuid=${user_uid}&token=${token}`
   )
 
-  const { isFollowed, readChapters, readHtml } = JSON.parse(data)
+  const { isFollowed, readChapters, readHtml, markAsReadHtml } =
+    JSON.parse(data)
+
+  const pathEpCont = readHtml?.match(/href="(.+)">Đ/)[1] as string | undefined
 
   return {
     isFollowed: isFollowed as boolean,
     readsChapter: new Set(
       readChapters?.map((item: string) => parseInt(item)) as number[]
     ),
-    readContinueId: readHtml?.match(/(\d+)">Đ/)[1] as string | undefined,
+    canMarkReadAll: !!markAsReadHtml,
+    readContinueId: pathEpCont
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ? parseInt(parsePath(pathEpCont).split("/").slice(-2).filter(Boolean).at(-1)!)
+      : undefined,
   }
 }

@@ -16,6 +16,8 @@ export default function epId(html: string, now: number) {
   const ep_id = parseInt(html.match(/gOpts\.chapterId=(\d+)/)?.[1] ?? "")
   const cdn = html.match(/gOpts\.cdn="([^"]+)"/)?.[1]
   const cdn2 = html.match(/gOpts\.cdn2="([^"]+)"/)?.[1]
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const key = html.match(/gOpts\.key=('|")([^"']+)\1/)![2]!
   const updated_at = parseTimeAgo(
     $("#ctl00_divCenter > div > div:nth-child(1) > div.top > i")
       .text()
@@ -49,6 +51,7 @@ export default function epId(html: string, now: number) {
   return {
     name,
     uid,
+    key,
     manga,
     ep_id,
     updated_at,
