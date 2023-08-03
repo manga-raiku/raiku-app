@@ -117,6 +117,46 @@
           />
           Trang chủ
         </q-route-tab>
+        <q-route-tab
+          replace
+          exact-active-class="tab-active"
+          class="pt-1"
+          to="/tim-kiem"
+        >
+          <Icon
+            icon="fluent:search-24-regular"
+            width="24"
+            height="24"
+            class="mb-1 regular"
+          />
+          <Icon
+            icon="fluent:search-24-filled"
+            width="24"
+            height="24"
+            class="mb-1 filled"
+          />
+          Tìm kiếm
+        </q-route-tab>
+        <q-route-tab
+          replace
+          exact-active-class="tab-active"
+          class="pt-1"
+          to="/tai-khoan"
+        >
+          <Icon
+            icon="fluent:person-24-regular"
+            width="24"
+            height="24"
+            class="mb-1 regular"
+          />
+          <Icon
+            icon="fluent:person-24-filled"
+            width="24"
+            height="24"
+            class="mb-1 filled"
+          />
+          Tôi
+        </q-route-tab>
       </q-tabs>
     </q-footer>
   </q-layout>

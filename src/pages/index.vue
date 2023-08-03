@@ -372,40 +372,7 @@ function Carousel({ swiper, on }: any) {
     }
   })
 }
-const genres = [
-  {
-    name: "Con gái",
-    path: "/truyen-con-gai",
-  },
-  {
-    name: "Con trai",
-    path: "/truyen-con-trai",
-  },
-  {
-    name: "Action",
-    path: "/the-loai/action-26",
-  },
-  {
-    name: "Isekai",
-    path: "/the-loai/isekai-85",
-  },
-  {
-    name: "Con gái",
-    path: "/truyen-con-gai",
-  },
-  {
-    name: "Con trai",
-    path: "/truyen-con-trai",
-  },
-  {
-    name: "Action",
-    path: "/the-loai/action-26",
-  },
-  {
-    name: "Isekai",
-    path: "/the-loai/isekai-85",
-  },
-]
+
 
 const { data } = useRequest(() => Index())
 
@@ -442,11 +409,12 @@ const sliderIndex = ref(0)
   max-height: 1012px;
 
   @media screen and (max-width: 767px) {
+    $height: 60vh;
     margin-bottom: 16px;
-    height: auto;
+    height: $height;//auto;
 
     .poster {
-      height: max(/*calc(100vw / v-bind("aspectRatio")),*/ 40vh, 56vw);
+      height: max(/*calc(100vw / v-bind("aspectRatio")),*/ #{$height}, 56vw);
     }
   }
 
