@@ -4,12 +4,16 @@
 
 A Manga Raiku Application
 
-## Tube on
+> 🍕The application is in beta. It's not ready for actual use yet.
 
-[ ] add comment
-[ ] page & player read
-[ ] player mobile
-[ ] player desktop
+> This repo contains the source code for the `Manga Raiku` application for `Android` and also the `PWA` version for computers and browsers.
+
+
+## Feature
+- 📚 Update new manga, manhua
+- 🔖 Track stories, reading history
+- 📖 New story reader
+- 💾 Download and read offline
 
 ## Install the dependencies
 
