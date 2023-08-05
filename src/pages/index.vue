@@ -126,19 +126,94 @@ meta:
           }"
         >
           <img
+            v-if="$q.screen.gt.sm"
             no-spinner
             :src="item.image"
             :ratio="583 / 306"
             referrerpolicy="no-referrer"
             class="poster z-1 h-full block object-fit-cover"
           />
+          <div
+            v-else
+            class="info z-400 !relative h-full flex flex-nowrap !px-3"
+          >
+            <div class="w-200px max-w-40% pt-4 text-center">
+              <q-img no-spinner :src="item.image" :ratio="250/357" class="w-full rounded-20px block" />
+
+              <q-btn
+                rounded
+                class="bg-main mt-2 sm:mt-4 pointer-events-all mx-auto"
+                no-caps
+              >
+                <Icon
+                  icon="fluent:play-24-filled"
+                  width="1.3em"
+                  height="1.3em"
+                  class="mr-2"
+                  :to="item.last_chapters[0].path"
+                />
+                Đọc ngay
+              </q-btn>
+            </div>
+            <div class="pl-3 min-w-0 pt-4 w-auto flex-1">
+              <div class=" ">
+                <div class="text-18px text-weight-medium line-clamp-2">
+                  {{ item.name }}
+                </div>
+                <small class="display-block ellipsis text-12px text-gray-200">{{
+                  item.othername
+                }}</small>
+              </div>
+              <div class="focus-item-info">
+                <Quality v-if="item.hot">Hot</Quality>
+
+                <q-separator vertical class="mx-2" />
+
+                <span class="focus-item-update">
+                  Chương {{ item.last_chapters[0].name }}
+                </span>
+
+                <q-separator vertical class="mx-2" />
+
+                {{ item.status }}
+
+                <q-separator vertical class="mx-2" />
+
+                <!-- <Icon icon="fluent:eye-24-filled" class="size-1.5em" /> -->
+                {{ formatView(item.views!) }}
+              </div>
+              <div class="mt-1 text-12px ellipsis">
+                {{ item.tags.join(", ") }}
+              </div>
+              <div class="focus-item-desc ellipsis-3-lines !h-auto w-full max-w-full !min-w-0">
+                {{ item.description }}
+              </div>
+
+              <!-- action -->
+<!--
+              <q-btn
+                rounded
+                class="bg-main mt-2 sm:mt-4 pointer-events-all"
+                no-caps
+              >
+                <Icon
+                  icon="fluent:play-24-filled"
+                  width="1.3em"
+                  height="1.3em"
+                  class="mr-2"
+                  :to="item.last_chapters[0].path"
+                />
+                Đọc ngay
+              </q-btn> -->
+            </div>
+          </div>
         </div>
       </swiper-slide>
-      <div class="drop-left z-2"></div>
-      <div class="drop-center z-2"></div>
-      <div class="drop-right z-2"></div>
+      <div v-if="$q.screen.gt.sm" class="drop-left z-2"></div>
+      <div v-if="$q.screen.gt.sm" class="drop-center z-2"></div>
+      <div v-if="$q.screen.gt.sm" class="drop-right z-2"></div>
 
-      <transition name="q-transition--fade">
+      <transition v-if="$q.screen.gt.sm" name="q-transition--fade">
         <div :key="sliderIndex" class="info pointer-events-none">
           <div class=" ">
             <div class="text-18px text-weight-medium line-clamp-2">
@@ -192,6 +267,7 @@ meta:
         </div>
       </transition>
       <div
+        v-if="$q.screen.gt.sm"
         class="mark-b w-full h-[30%] z-200 sm:z-300 absolute bottom-0 pointer-events-none z-200"
         :style="{
           'background-image': `linear-gradient(
@@ -206,11 +282,7 @@ meta:
       v-if="$q.screen.lt.sm"
       class="row text-grey text-[12px] mx-4 text-center mb-4"
     >
-      <router-link
-        to="/the-loai/school-life-37.html?country=4"
-        class="col-6 relative py-2"
-        v-ripple
-      >
+      <router-link to="/the-loai" class="col-6 relative py-2" v-ripple>
         <img
           src="src/assets/icon_tool_alp.png"
           width="30"
@@ -373,7 +445,6 @@ function Carousel({ swiper, on }: any) {
   })
 }
 
-
 const { data } = useRequest(() => Index())
 
 const sliderIndex = ref(0)
@@ -411,7 +482,7 @@ const sliderIndex = ref(0)
   @media screen and (max-width: 767px) {
     $height: 60vh;
     margin-bottom: 16px;
-    height: $height;//auto;
+    height: $height; //auto;
 
     .poster {
       height: max(/*calc(100vw / v-bind("aspectRatio")),*/ #{$height}, 56vw);
@@ -569,6 +640,7 @@ const sliderIndex = ref(0)
     .focus-item-desc {
       width: 31.25vw;
       min-width: 320px;
+      max-width: 100%;
       overflow: hidden;
       height: 32px;
       line-height: 16px;
