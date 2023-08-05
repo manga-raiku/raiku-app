@@ -10,6 +10,8 @@ export default async function (
   page: number,
   query: LocationQuery | Record<string, string | number>
 ) {
+  if (path.endsWith("/")) path = path.slice(0, -1)
+
   const url = new URL(path, "http://localhost")
   url.searchParams.set("page", page + "")
   for (const key in query) {

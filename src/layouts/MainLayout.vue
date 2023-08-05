@@ -18,7 +18,7 @@
             >Trang chủ</router-link
           >
           <router-link
-            to="/the-loai/school-life-37.html?country=4"
+            to="/the-loai"
             class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
             exact-active-class="!text-main-3 text-weight-medium"
             >Thể loại</router-link
@@ -115,7 +115,7 @@
           />
           Tìm kiếm
         </q-route-tab>
-        <q-route-tab replace class="pt-1" to="/genres">
+        <q-route-tab replace class="pt-1" to="/the-loai">
           <Icon
             icon="solar:box-minimalistic-bold-duotone"
             width="24"

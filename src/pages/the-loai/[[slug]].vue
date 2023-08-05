@@ -6,13 +6,13 @@ meta:
 <template>
   <section class="mx-4 sm:mx-6 md:mx-8">
     <template v-if="!data">
-      <BannerTitleSKT />
+      <BannerTitleSKT v-if="!isCapacitor" />
       <q-skeleton type="text" width="220px" class="mt-3" />
 
       <SkeletonGridCard :count="40" />
     </template>
     <template v-else>
-      <BannerTitle>
+      <BannerTitle v-if="!isCapacitor">
         {{ data.name }}
 
         <q-btn round class="text-white">
@@ -42,7 +42,7 @@ meta:
 
       <SkeletonGridCard v-if="loading" :count="40" />
       <InfiniteScroll v-else @load="onLoad">
-        <GridCard :items="data.items" />
+        <GridCard :items="data.items" class="<md:mx--4" />
       </InfiniteScroll>
 
       <!-- <div
@@ -57,12 +57,12 @@ meta:
 
 <script lang="ts" setup>
 // import data from "src/apis/parsers/__test__/assets/the-loai/fantacy-30.json"
-import TheLoaiType from "src/apis/nettruyen/runs/[general]"
+import General from "src/apis/nettruyen/runs/[general]"
 import "@fontsource/poppins"
 import { isCapacitor } from "src/constants"
 
 const props = defineProps<{
-  slug: string
+  slug?: string
 }>()
 
 const route = useRoute()
@@ -82,12 +82,16 @@ const page = computed<number>({
 })
 
 const { data, loading, runAsync, error } = useRequest(async () => {
-  const data = await TheLoaiType(props.slug, page.value, route.query)
+  const data = await General(
+    `/tim-truyen/${props.slug}`,
+    page.value,
+    route.query
+  )
   data.items = shallowReactive(data.items)
   return data
 })
 const onLoad = useLoadMorePage(
-  (page) => TheLoaiType(props.slug, page, route.query),
+  (page) => General(`/tim-truyen/${props.slug}`, page, route.query),
   data,
   page.value
 )
