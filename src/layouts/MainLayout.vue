@@ -93,67 +93,52 @@
     <q-footer v-if="isCapacitor" class="bg-dark-page">
       <q-tabs
         indicator-color="transparent"
-        exact-active-color="white"
-        class="bg-transparent text-grey-5 !shadow-2 text-[12px] tabs-main"
+        active-color="white"
+        class="bg-transparent text-grey-5 !shadow-2 text-[12px] tabs-main font-family-poppins children:w-20% children:min-w-0"
         no-caps
       >
-        <q-route-tab
-          replace
-          exact-active-class="tab-active"
-          class="pt-1"
-          to="/"
-        >
+        <q-route-tab replace class="pt-1" to="/">
           <Icon
-            icon="fluent:home-24-regular"
+            icon="solar:home-smile-angle-bold-duotone"
             width="24"
             height="24"
-            class="mb-1 regular"
-          />
-          <Icon
-            icon="fluent:home-24-filled"
-            width="24"
-            height="24"
-            class="mb-1 filled"
+            class="mb-1"
           />
           Trang chủ
         </q-route-tab>
-        <q-route-tab
-          replace
-          exact-active-class="tab-active"
-          class="pt-1"
-          to="/tim-kiem"
-        >
+        <q-route-tab replace class="pt-1" to="/tim-kiem">
           <Icon
-            icon="fluent:search-24-regular"
+            icon="iconamoon:search-duotone"
             width="24"
             height="24"
-            class="mb-1 regular"
-          />
-          <Icon
-            icon="fluent:search-24-filled"
-            width="24"
-            height="24"
-            class="mb-1 filled"
+            class="mb-1"
           />
           Tìm kiếm
         </q-route-tab>
-        <q-route-tab
-          replace
-          exact-active-class="tab-active"
-          class="pt-1"
-          to="/tai-khoan"
-        >
+        <q-route-tab replace class="pt-1" to="/genres">
           <Icon
-            icon="fluent:person-24-regular"
+            icon="solar:box-minimalistic-bold-duotone"
             width="24"
             height="24"
-            class="mb-1 regular"
+            class="mb-1"
           />
+          Thể loại
+        </q-route-tab>
+        <q-route-tab replace class="pt-1" to="/library">
           <Icon
-            icon="fluent:person-24-filled"
+            icon="solar:library-bold-duotone"
             width="24"
             height="24"
-            class="mb-1 filled"
+            class="mb-1"
+          />
+          Thư viện
+        </q-route-tab>
+        <q-route-tab replace class="pt-1" to="/tai-khoan">
+          <Icon
+            icon="solar:user-rounded-bold-duotone"
+            width="24"
+            height="24"
+            class="mb-1"
           />
           Tôi
         </q-route-tab>
@@ -196,20 +181,10 @@ watch(canvasRef, (ref) => {
 const showSearchMB = ref(false)
 </script>
 
-<style lang="scss">
-.filled {
-  display: none;
-}
-
-.tab-active {
-  color: #fff;
-
-  .regular {
-    display: none;
-  }
-
-  .filled {
-    display: inline-block;
+<style lang="scss" scoped>
+.tabs-main :deep(.q-router-link--exact-active) {
+  svg {
+    color: var(--sakura);
   }
 }
 </style>
