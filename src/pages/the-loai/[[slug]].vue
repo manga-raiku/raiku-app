@@ -1,6 +1,8 @@
 <route lang="yaml">
+alias: ["/tim-truyen/:slug?"]
 meta:
   padding: true
+  noMarginTop: true
 </route>
 
 <template>
@@ -27,11 +29,17 @@ meta:
 
       <!-- filter -->
       <GenresFilterMB
+        v-if="!isCapacitor"
         v-model:show-full="showFilterFull"
         :show-toolbar="isCapacitor"
         :filter="data.filters"
       />
       <!-- /filter -->
+
+      <!-- filter native -->
+      <GenresFilterNative v-else :filter="data.filters" />
+      <!-- /filter native -->
+
       <!--
       <div
         v-if="data.maxPage > 1 && $q.screen.gt.sm"
@@ -81,28 +89,27 @@ const page = computed<number>({
     }),
 })
 
-const { data, loading, runAsync, error } = useRequest(async () => {
-  const data = await General(
-    `/tim-truyen/${props.slug}`,
-    page.value,
-    route.query
-  )
-  data.items = shallowReactive(data.items)
-  return data
-})
+const { data, loading, runAsync, error } = useRequest(
+  async () => {
+    const data = await General(
+      `/tim-truyen/${props.slug}`,
+      page.value,
+      route.query
+    )
+    data.items = shallowReactive(data.items)
+    return data
+  },
+  {
+    refreshDeps: [() => props.slug, () => route.query],
+    refreshDepsAction() {
+      runAsync()
+    },
+  }
+)
 const onLoad = useLoadMorePage(
   (page) => General(`/tim-truyen/${props.slug}`, page, route.query),
   data,
   page.value
-)
-watch(
-  [
-    () => props.slug,
-    () => new URLSearchParams(route.query as Record<string, string>).toString(),
-  ],
-  () => {
-    if ($q.screen.gt.sm) runAsync()
-  }
 )
 watch(error, (error) => {
   if (error?.message === "not_found")

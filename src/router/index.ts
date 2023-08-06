@@ -27,6 +27,16 @@ routes.unshift({
   },
 })
 routes.push({
+  path: "/tim-truyen/:slug",
+  redirect(to) {
+    return {
+      path: `/the-loai/${to.params.slug}`,
+      hash: to.hash,
+      query: to.query,
+    }
+  },
+})
+routes.push({
   path: "/:catchAll(.*)*.html",
   redirect(to) {
     console.log(to)

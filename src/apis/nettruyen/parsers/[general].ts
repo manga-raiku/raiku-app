@@ -34,7 +34,7 @@ export default function general(html: string, now: number) {
         const $item = $(item)
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const path = parsePath($item.attr("href")!)
+        const path = parsePath($item.attr("href")!).replace(/\/tim-truyen(\/[^?]|$)/, "/the-loai$1")
         const name = $item.text()
 
         return { path, name }
