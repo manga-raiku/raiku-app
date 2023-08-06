@@ -9,7 +9,7 @@ meta:
     v-if="isCapacitor || $q.screen.lt.sm"
     class="bg-dark-page py-1"
     :class="{
-      'px-2': !isCapacitor
+      'px-2': !isCapacitor,
     }"
   >
     <q-toolbar>
@@ -63,6 +63,25 @@ meta:
 
       <AppHeaderUser v-if="!isCapacitor" />
     </q-toolbar>
+    <q-toolbar v-if="!route.query.query">
+      <div class="flex flex-nowrap items-center mx-3">
+        <div class="text-gray-300 mr-2">Bảng xếp hạng</div>
+
+        <div class="overflow-x-auto text-[14px] text-grey">
+          <div
+            v-for="({ name, value }, index) in typesRank"
+            :key="value"
+            class="inline-block px-2 py-2"
+            :class="{
+              'text-white text-weight-medium': activeIndex === index,
+            }"
+            @click="swiperRef?.slideTo(index)"
+          >
+            {{ name }}
+          </div>
+        </div>
+      </div>
+    </q-toolbar>
     <q-toolbar v-if="!isCapacitor && route.query.query">
       <div class="py-2 px-4">
         <span class="text-gray-400 mr-1">Tìm kiếm: </span>
@@ -75,47 +94,58 @@ meta:
   </q-header>
 
   <template v-if="!route.query.query">
-    <div v-if="dataTop && !loadingTop">
-      <h4 class="text-20px">🔥 Hot trong ngày</h4>
-      <!-- <div
-            v-if="data.maxPage > 1"
-            class="flex items-center justify-center q-pa-md"
-          >
-            <Pagination :max="data.maxPage" v-model="page" />
-          </div> -->
-      <section class="row mx--2 font-family-poppins">
-        <InfiniteScroll @load="onLoadTop">
-          <div
-            v-for="(item, index) in dataTop.items"
-            :key="item.path"
-            class="my-4 col-12 col-md-6 px-2"
-          >
-            <CardVertical :data="item">
-              <template #inside-image>
-                <Rank :index="index" />
-              </template>
-            </CardVertical>
-          </div>
-        </InfiniteScroll>
-      </section>
+    <div class="absolute w-full h-full top-108px">
+      <!-- swiper -->
 
-      <!-- <div
-            v-if="data.maxPage > 1"
-            class="flex items-center justify-center q-pa-md"
+      <Swiper
+        :slides-per-view="1"
+        @swiper="onSwiper"
+        @slide-change="onSlideChange"
+        class="h-full"
+      >
+        <swiper-slide
+          v-for="{ value } in typesRank"
+          :key="value"
+          class="h-full overflow-y-auto scroll-smooth"
+          style="white-space: pre-wrap"
+        >
+          <section
+            v-if="
+              !(_dataInStoreTmp = dataStore.get(value)) ||
+              _dataInStoreTmp.status === 'pending'
+            "
+            class="row mx--2 font-family-poppins"
           >
-            <Pagination :max="data.maxPage" v-model="page" />
-          </div> -->
+            <div
+              v-for="item in 12"
+              :key="item"
+              class="my-4 col-12 col-md-6 px-2"
+            >
+              <CardVerticalSKT />
+            </div>
+          </section>
+          <q-pull-to-refresh
+            v-else-if="_dataInStoreTmp.status === 'success'"
+            @refresh="refreshRank($event, value)"
+          >
+            <div
+              v-for="(item, index) in _dataInStoreTmp.response.items"
+              :key="item.path"
+              class="my-4 col-12 col-md-6 px-2"
+            >
+              <CardVertical :data="item">
+                <template #inside-image>
+                  <Rank :index="index" />
+                </template>
+              </CardVertical>
+            </div>
+          </q-pull-to-refresh>
+        </swiper-slide>
+      </Swiper>
     </div>
-    <template v-else>
-      <section class="row mx--2 font-family-poppins">
-        <div v-for="item in 12" :key="item" class="my-4 col-12 col-md-6 px-2">
-          <CardVerticalSKT />
-        </div>
-      </section>
-    </template>
   </template>
 
-  <section class="mx-4 sm:mx-6 md:mx-8">
+  <section v-else class="mx-4 sm:mx-6 md:mx-8 mt-58px">
     <div v-if="!$q.screen.lt.sm" class="py-2 px-4 text-16px text-left">
       <span class="text-gray-400 mr-1">Tìm kiếm: </span>
       <span class="font-bold truncate">{{ route.query.query }}</span>
@@ -147,9 +177,33 @@ meta:
 import General from "src/apis/nettruyen/runs/[general]"
 import TimKiem from "src/apis/nettruyen/runs/tim-kiem"
 import { isCapacitor } from "src/constants"
+import type { Swiper as TSwiper } from "swiper"
+import { Swiper, SwiperSlide } from "swiper/vue"
+
+// Import Swiper styles
+import "swiper/css"
+import "swiper/css/pagination"
+import "swiper/css/navigation"
+import "swiper/css/autoplay"
+import "swiper/css/grid"
 
 const route = useRoute()
 const router = useRouter()
+
+const typesRank = [
+  {
+    name: "Ngày",
+    value: "/tim-truyen?status=-1&sort=11",
+  },
+  {
+    name: "Tuần",
+    value: "/tim-truyen?status=-1&sort=12",
+  },
+  {
+    name: "Tháng",
+    value: "/tim-truyen?status=-1&sort=13",
+  },
+] as const
 
 const { data, loading, run } = useRequest(
   async () => {
@@ -171,25 +225,67 @@ const onLoad = useLoadMorePage(
   data
 )
 
-// top truyen
-const {
-  data: dataTop,
-  loading: loadingTop,
-  error: errorTop,
-} = useRequest(() =>
-  General("/tim-truyen", 1, {
-    status: -1,
-    sort: 13,
+const mobileSearching = ref(false)
+//  ========== top truyen ==========
+
+const dataStore = shallowReactive<
+  Map<
+    string,
+    | {
+        status: "pending" | "error"
+        response?: unknown
+      }
+    | {
+        status: "success"
+        response: Awaited<ReturnType<typeof General>>
+      }
+  >
+>(new Map())
+let _dataInStoreTmp: ReturnType<typeof dataStore.get>
+
+async function fetchRankType(type: string) {
+  if (dataStore.get(type)?.status === "success") return
+
+  try {
+    dataStore.set(type, {
+      status: "pending",
+    })
+    console.log("fetch %s", type)
+    dataStore.set(type, {
+      status: "success",
+      response: await General(`${type}`, 1, {}),
+    })
+  } catch (err) {
+    dataStore.set(type, {
+      status: "error",
+      response: err,
+    })
+    console.error(err)
+  }
+}
+async function refreshRank(done: () => void, type: string) {
+  dataStore.set(type, {
+    status: "success",
+    response: await General(`${type}`, 1, {}),
   })
-)
-const onLoadTop = useLoadMorePage(
-  (page) =>
-    General("/tim-truyen", page, {
-      status: -1,
-      sort: 13,
-    }),
-  dataTop
+
+  done()
+}
+
+const swiperRef = ref()
+const activeIndex = ref(0)
+watch(
+  activeIndex,
+  (activeIndex) => fetchRankType(typesRank[activeIndex].value),
+  { immediate: true }
 )
 
-const mobileSearching = ref(false)
+function onSwiper(swiper: TSwiper) {
+  swiperRef.value = swiper
+  activeIndex.value = swiper.activeIndex
+}
+
+function onSlideChange(swiper: TSwiper) {
+  activeIndex.value = swiper.activeIndex
+}
 </script>
