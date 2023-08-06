@@ -1,6 +1,7 @@
 <route lang="yaml">
 meta:
   padding: true
+  noMarginTop: true
 </route>
 
 <template>
