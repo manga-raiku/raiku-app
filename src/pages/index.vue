@@ -21,39 +21,9 @@ meta:
       />
     </div>
 
-    <div
-      v-if="$q.screen.lt.sm"
-      class="row text-grey text-[14px] mx-4 text-center mb-4"
-    >
-      <div class="col-6 relative py-2">
-        <q-skeleton type="circle" size="40px" class="mx-auto mb-2" />
-        <q-skeleton
-          type="text"
-          width="3.5rem"
-          height="1rem"
-          class="mt-2 mx-auto"
-        />
-      </div>
-      <div class="col-6 relative py-2">
-        <q-skeleton type="circle" size="40px" class="mx-auto mb-2" />
-        <q-skeleton
-          type="text"
-          width="3.5rem"
-          height="1rem"
-          class="mt-2 mx-auto"
-        />
-      </div>
-    </div>
-
-    <div class="mx-4 sm:mx-6 md:mx-13 relative">
-      <div class="wpa-grid">
-        <div class="ctnr">
-          <SkeletonCard
-            v-for="item in 12"
-            :key="item"
-            class="card-wrap inline-block"
-          />
-        </div>
+    <div class="mx-4 sm:mx-6 md:mx-13 relative whitespace-nowrap overflow-hidden">
+      <div v-for="i in 3" :key="i" class="display-inline-block px-3 w-90% sm:w-49% md:w-31%">
+        <CardVerticalSKT v-for='j in 3' :key=j class='my-2' />
       </div>
     </div>
 
@@ -138,7 +108,12 @@ meta:
             class="info z-400 !relative h-full flex flex-nowrap !px-3"
           >
             <div class="w-200px max-w-40% pt-4 text-center">
-              <q-img no-spinner :src="item.image" :ratio="250/357" class="w-full rounded-20px block" />
+              <q-img
+                no-spinner
+                :src="item.image"
+                :ratio="250 / 357"
+                class="w-full rounded-20px block"
+              />
 
               <q-btn
                 rounded
@@ -185,12 +160,14 @@ meta:
               <div class="mt-1 text-12px ellipsis">
                 {{ item.tags.join(", ") }}
               </div>
-              <div class="focus-item-desc ellipsis-3-lines !h-auto w-full max-w-full !min-w-0">
+              <div
+                class="focus-item-desc ellipsis-3-lines !h-auto w-full max-w-full !min-w-0"
+              >
                 {{ item.description }}
               </div>
 
               <!-- action -->
-<!--
+              <!--
               <q-btn
                 rounded
                 class="bg-main mt-2 sm:mt-4 pointer-events-all"
@@ -278,32 +255,35 @@ meta:
       />
     </swiper>
 
-    <div
-      v-if="$q.screen.lt.sm"
-      class="row text-grey text-[12px] mx-4 text-center mb-4"
-    >
-      <router-link to="/the-loai" class="col-6 relative py-2" v-ripple>
-        <img
-          src="src/assets/icon_tool_alp.png"
-          width="30"
-          class="mx-auto mb-2"
-        />
-        <span class="mt-2">Thể loại</span>
-      </router-link>
-      <router-link
-        to="/bang-xep-hang/ngay"
-        class="col-6 relative py-2"
-        v-ripple
+    <!-- test void swap -->
+    <div class="mx-4 sm:mx-6 md:mx-11 relative">
+      <swiper
+        :slides-per-view="1.1"
+        centered-slides
+        :space-between="8"
+        :modules="[]"
+        :breakpoints="{
+          [$q.screen.sizes.sm]: {
+            slidesPerView: 2.1,
+          },
+          [$q.screen.sizes.md]: {
+            slidesPerView: 3.2,
+          },
+        }"
       >
-        <img
-          src="src/assets/icon_tool_rank.png"
-          width="30"
-          class="mx-auto mb-2"
-        />
-        <span>Bảng xếp hạng</span>
-      </router-link>
+        <swiper-slide v-for="(items, i) in unflat(data.hot, 3)" :key="i" class="px-1">
+          <CardVertical
+            v-for="item in items"
+            :key="item.path"
+            :data="item"
+            class="my-2"
+          />
+        </swiper-slide>
+      </swiper>
     </div>
+    <!-- /test void swap -->
 
+    <!--
     <div class="mx-4 sm:mx-6 md:mx-11 relative">
       <swiper
         :slides-per-view="3"
@@ -332,7 +312,7 @@ meta:
 
       <div class="nav-btn swiper-button-prev swiper-button-prev-1" />
       <div class="nav-btn swiper-button-next swiper-button-next-1" />
-    </div>
+    </div> -->
 
     <!-- show genres -->
     <!-- <section v-if="!$q.screen.lt.md"
@@ -378,7 +358,8 @@ import { Icon } from "@iconify/vue"
 // import data from "src/apis/parsers/__test__/assets/index.json"
 import Index from "src/apis/nettruyen/runs/index"
 import { formatView } from "src/logic/formatView"
-import { Autoplay, Navigation } from "swiper"
+import { unflat } from "src/logic/unflat"
+import { Autoplay } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 
 import "@fontsource/poppins"
@@ -480,9 +461,12 @@ const sliderIndex = ref(0)
   max-height: 1012px;
 
   @media screen and (max-width: 767px) {
-    $height: 60vh;
-    margin-bottom: 16px;
+    $height: auto; //60vh;
+    margin-bottom: 0; //16px;
     height: $height; //auto;
+    @media (min-aspect-ratio: 1/1) {
+      // min-height: 480px;
+    }
 
     .poster {
       height: max(/*calc(100vw / v-bind("aspectRatio")),*/ #{$height}, 56vw);
