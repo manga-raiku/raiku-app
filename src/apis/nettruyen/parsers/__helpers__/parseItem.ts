@@ -75,7 +75,10 @@ export function parseItem($: CheerioAPI, $item: Cheerio<Element>, now: number) {
       ? parseAnchor($item.find("div > div.view.viewed > a"))
       : null
   if (visited) visited.name = visited.name.replace("Đọc tiếp Chapter ", "")
-  const read_at = $(".read-action .continue").text() ? parseTimeAgo($(".read-action .continue").text()) : null
+  // eslint-disable-next-line camelcase
+  const read_at = $item.find(".read-action .continue").text()
+    ? parseTimeAgo($item.find(".read-action .continue").text(), now)
+    : null
 
   return {
     image,
@@ -93,6 +96,7 @@ export function parseItem($: CheerioAPI, $item: Cheerio<Element>, now: number) {
     likes,
     hot,
     visited,
-    ...read_at ? {read_at} : undefined
+    // eslint-disable-next-line camelcase
+    ...(read_at ? { read_at } : undefined),
   }
 }

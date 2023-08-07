@@ -1,9 +1,3 @@
-<route lang="yaml">
-meta:
-  padding: true
-  noMarginTop: true
-</route>
-
 <template>
   <q-header
     v-if="isCapacitor || $q.screen.lt.sm"
@@ -93,84 +87,90 @@ meta:
     </q-toolbar>
   </q-header>
 
-  <template v-if="!route.query.query">
-    <div class="absolute w-full h-full top-108px">
-      <!-- swiper -->
+  <q-page
+    padding
+    :style-fn="
+      (offset, height) => {
+        return {
+          height: route.query.query ? undefined : height - offset + 'px',
+        }
+      }
+    "
+  >
+    <template v-if="!route.query.query">
+      <div class="w-full h-full">
+        <!-- swiper -->
 
-      <Swiper
-        :slides-per-view="1"
-        @swiper="onSwiper"
-        @slide-change="onSlideChange"
-        class="h-full"
-      >
-        <swiper-slide
-          v-for="{ value } in typesRank"
-          :key="value"
-          class="h-full overflow-y-auto scroll-smooth"
-          style="white-space: pre-wrap"
+        <Swiper
+          :slides-per-view="1"
+          @swiper="onSwiper"
+          @slide-change="onSlideChange"
+          class="h-full"
         >
-          <section
-            v-if="
-              !(_dataInStoreTmp = dataStore.get(value)) ||
-              _dataInStoreTmp.status === 'pending'
-            "
-            class="row mx--2 font-family-poppins"
+          <swiper-slide
+            v-for="{ value } in typesRank"
+            :key="value"
+            class="h-full overflow-y-auto scroll-smooth"
+            style="white-space: pre-wrap"
           >
-            <div
-              v-for="item in 12"
-              :key="item"
-              class="my-4 col-12 col-md-6 px-2"
+            <section
+              v-if="
+                !(_dataInStoreTmp = dataStore.get(value)) ||
+                _dataInStoreTmp.status === 'pending'
+              "
             >
-              <CardVerticalSKT />
-            </div>
-          </section>
-          <q-pull-to-refresh
-            v-else-if="_dataInStoreTmp.status === 'success'"
-            @refresh="refreshRank($event, value)"
-          >
-            <div
-              v-for="(item, index) in _dataInStoreTmp.response.items"
-              :key="item.path"
-              class="my-4 col-12 col-md-6 px-2"
+              <div v-for="item in 12" :key="item" class="my-4 px-2">
+                <CardVerticalSKT />
+              </div>
+            </section>
+            <q-pull-to-refresh
+              v-else-if="_dataInStoreTmp.status === 'success'"
+              @refresh="refreshRank($event, value)"
             >
-              <CardVertical :data="item">
-                <template #inside-image>
-                  <Rank :index="index" />
-                </template>
-              </CardVertical>
-            </div>
-          </q-pull-to-refresh>
-        </swiper-slide>
-      </Swiper>
-    </div>
-  </template>
-
-  <section v-else class="mx-4 sm:mx-6 md:mx-8 mt-58px">
-    <div v-if="!$q.screen.lt.sm" class="py-2 px-4 text-16px text-left">
-      <span class="text-gray-400 mr-1">Tìm kiếm: </span>
-      <span class="font-bold truncate">{{ route.query.query }}</span>
-      <span v-if="data" class="text-gray-300">
-        <span class="mx-2">&bull;</span>{{ data.maxPage }} trang kết quả
-      </span>
-    </div>
-
-    <template v-if="loading">
-      <SkeletonGridCard :count="40" />
+              <div
+                v-for="(item, index) in _dataInStoreTmp.response.items"
+                :key="item.path"
+                class="my-4 px-2"
+              >
+                <CardVertical :data="item">
+                  <template #inside-image>
+                    <Rank :index="index" />
+                  </template>
+                </CardVertical>
+              </div>
+            </q-pull-to-refresh>
+          </swiper-slide>
+        </Swiper>
+      </div>
     </template>
-    <template v-else-if="data">
-      <InfiniteScroll v-if="data.items.length > 0" @load="onLoad">
-        <GridCard :items="data.items" />
-      </InfiniteScroll>
-      <div v-else class="text-center text-20px py-10">Không có kết quả</div>
 
-      <!-- <div
+    <section v-else class="mx-4 sm:mx-6 md:mx-8 mt-58px">
+      <div v-if="!$q.screen.lt.sm" class="py-2 px-4 text-16px text-left">
+        <span class="text-gray-400 mr-1">Tìm kiếm: </span>
+        <span class="font-bold truncate">{{ route.query.query }}</span>
+        <span v-if="data" class="text-gray-300">
+          <span class="mx-2">&bull;</span>{{ data.maxPage }} trang kết quả
+        </span>
+      </div>
+
+      <template v-if="loading">
+        <SkeletonGridCard :count="40" />
+      </template>
+      <template v-else-if="data">
+        <InfiniteScroll v-if="data.items.length > 0" @load="onLoad">
+          <GridCard :items="data.items" />
+        </InfiniteScroll>
+        <div v-else class="text-center text-20px py-10">Không có kết quả</div>
+
+        <!-- <div
         v-if="data.maxPage > 1 && $q.screen.gt.sm"
         class="flex items-center justify-center q-pa-md"
       >
         <Pagination :max="data.maxPage" v-model="page" />
       </div> -->
-    </template>
-  </section>
+      </template>
+    </section>
+  </q-page>
 </template>
 
 <script lang="ts" setup>

@@ -1,17 +1,9 @@
 <template>
   <CardVerticalSKT v-if="loading" v-for="i in 12" :key="i" class="mb-4" />
-  <q-infinite-scroll
-    v-else-if="data"
-    @load="onLoad"
-    :offset="250"
-    :scroll-target="(qCardRef as unknown as Element)"
-  >
-    <template v-for="item in data?.items" :key="item.path">
+  <q-infinite-scroll v-else-if="data" @load="onLoad" :offset="250">
+    <template v-for="(item, index) in data?.items" :key="item.path">
       <div
-        v-if="
-          !data.items[index - 1] ||
-          !data.items[index - 1].read_at.isSame(item.read_at, 'day')
-        "
+        v-if="!data.items[index - 1]?.read_at.isSame(item.read_at, 'day')"
         class="text-subtitle2 text-weight-normal"
       >
         {{
@@ -19,7 +11,7 @@
             ? "Hôm nay"
             : item.read_at.isYesterday()
             ? "Hôm qua"
-            : item.read_at.format("d thag mm")
+            : `${item.read_at.get("d")} thg ${item.read_at.get("months")}`
         }}
       </div>
       <CardVertical :data="item" read-continue class="mb-4" />
@@ -41,34 +33,45 @@ import LichSu from "src/apis/nettruyen/runs/lich-su"
 import dayjs from "src/logic/dayjs"
 
 const authStore = useAuthStore()
-const $q = useQuasar()
 
-const showMenuHistory = ref(false)
-
-const { loading, data, refreshAsync } = useRequest(
-  async () => {
-    // eslint-disable-next-line functional/no-throw-statement
-    if (!authStore.user_data) throw new Error("need_login")
-
-    const data = await LichSu(1, authStore.user_data.token)
-    data.items = shallowReactive(data.items.map(item => {
-      item.read_at = dayjs(read_at)
-      return item
-    }))
-    return data
-  },
-  {
-    manual: true,
-    cacheKey: "history",
-    cacheTime: 5 * 60 * 1000, //
-  }
-)
-const onLoad = useLoadMorePage((page) => {
+const { loading, data, refreshAsync } = useRequest(async () => {
   // eslint-disable-next-line functional/no-throw-statement
   if (!authStore.user_data) throw new Error("need_login")
 
-  return LichSu(page, authStore.user_data.token)
+  const data = await LichSu(1, authStore.user_data.token)
+  data.items = shallowReactive(
+    data.items.map((item) => {
+      // eslint-disable-next-line functional/no-throw-statement
+      if (!item.read_at) throw new Error("read_at not found")
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      item.read_at = dayjs(item.read_at) as unknown as any
+      return item
+    })
+  )
+  return data as unknown as Omit<typeof data, "items"> & {
+    items: (Omit<(typeof data.items)[0], "read_at"> & {
+      read_at: dayjs.Dayjs
+    })[]
+  }
+})
+const onLoad = useLoadMorePage(async (page) => {
+  // eslint-disable-next-line functional/no-throw-statement
+  if (!authStore.user_data) throw new Error("need_login")
+
+  const data = await LichSu(page, authStore.user_data.token)
+
+  data.items = data.items.map((item) => {
+    // eslint-disable-next-line functional/no-throw-statement
+    if (!item.read_at) throw new Error("read_at not found")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    item.read_at = dayjs(item.read_at) as unknown as any
+    return item
+  })
+
+  return data as unknown as Omit<typeof data, "items"> & {
+    items: (Omit<(typeof data.items)[0], "read_at"> & {
+      read_at: dayjs.Dayjs
+    })[]
+  }
 }, data)
 </script>
-
-<style></style>

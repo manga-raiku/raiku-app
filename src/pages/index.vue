@@ -1,173 +1,180 @@
 <route lang="yaml">
 meta:
   transparentHeader: true
-  offset: true
 </route>
 
 <template>
-  <div v-if="!data" class="absolute w-full h-full overflow-hidden loader">
-    <div class="swiper-hot mt-[-60px]">
-      <q-responsive :ratio="583 / 306" class="poster">
-        <q-skeleton type="rect" width="100%" height="100%" />
-      </q-responsive>
-      <div
-        class="mark-b w-full h-[30%] z-101 absolute bottom-0 pointer-events-none"
-        :style="{
-          'background-image': `linear-gradient(
+  <q-page>
+    <div v-if="!data" class="absolute w-full h-full overflow-hidden loader">
+      <div class="swiper-hot mt-[-60px]">
+        <q-responsive :ratio="583 / 306" class="poster">
+          <q-skeleton type="rect" width="100%" height="100%" />
+        </q-responsive>
+        <div
+          class="mark-b w-full h-[30%] z-101 absolute bottom-0 pointer-events-none"
+          :style="{
+            'background-image': `linear-gradient(
             rgba(17, 19, 25, 0) 2%,
             rgb(17, 19, 25) 94%
           )`,
-        }"
-      />
-    </div>
-
-    <div class="mx-4 sm:mx-6 md:mx-13 relative whitespace-nowrap overflow-hidden">
-      <div v-for="i in 3" :key="i" class="display-inline-block px-3 w-90% sm:w-49% md:w-31%">
-        <CardVerticalSKT v-for='j in 3' :key=j class='my-2' />
+          }"
+        />
       </div>
-    </div>
 
-    <div class="mx-4 sm:mx-6 md:mx-8 relative">
-      <q-skeleton type="text" width="7rem" class="text-h6" />
-
-      <SkeletonGridCard :count="6" />
-    </div>
-
-    <div class="mx-4 sm:mx-6 md:mx-8 relative">
-      <q-skeleton type="text" width="7rem" class="text-h6" />
-
-      <div class="wpa-grid">
-        <div class="ctnr">
-          <SkeletonCard
-            v-for="item in 12"
-            :key="item"
-            class="card-wrap inline-block"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div class="mx-4 sm:mx-6 md:mx-8 relative">
-      <q-skeleton type="text" width="7rem" class="text-h6" />
-
-      <div class="wpa-grid">
-        <q-skeleton type="text" width="100%" />
-        <div class="ctnr">
-          <SkeletonCard
-            v-for="item in 12"
-            :key="item"
-            class="card-wrap inline-block"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div class="mx-4 sm:mx-6 md:mx-8 relative">
-      <q-skeleton type="text" width="7rem" class="text-h6" />
-
-      <SkeletonGridCard :count="6" />
-    </div>
-  </div>
-
-  <template v-else>
-    <swiper
-      :space-between="10"
-      :centered-slides="true"
-      :modules="[Autoplay, Carousel]"
-      loop
-      :autoplay="{
-        delay: 5000,
-        disableOnInteraction: false,
-      }"
-      @real-index-change="sliderIndex = $event.realIndex"
-      class="swiper-hot z--1"
-    >
-      <swiper-slide
-        v-for="(item, index) in data.sliders"
-        :key="index"
-        v-ripple
-        class="flex items-center"
-        @click="router.push(item.path)"
+      <div
+        class="mx-4 sm:mx-6 md:mx-13 relative whitespace-nowrap overflow-hidden"
       >
         <div
-          class="flex items-center justify-center w-full h-full backdrop-bg"
-          :style="{
-            '--data-src': `url(${item.image})`,
-          }"
+          v-for="i in 3"
+          :key="i"
+          class="display-inline-block px-3 w-90% sm:w-49% md:w-31%"
         >
-          <img
-            v-if="$q.screen.gt.sm"
-            no-spinner
-            :src="item.image"
-            :ratio="583 / 306"
-            referrerpolicy="no-referrer"
-            class="poster z-1 h-full block object-fit-cover"
-          />
+          <CardVerticalSKT v-for="j in 3" :key="j" class="my-2" />
+        </div>
+      </div>
+
+      <div class="mx-4 sm:mx-6 md:mx-8 relative">
+        <q-skeleton type="text" width="7rem" class="text-h6" />
+
+        <SkeletonGridCard :count="6" />
+      </div>
+
+      <div class="mx-4 sm:mx-6 md:mx-8 relative">
+        <q-skeleton type="text" width="7rem" class="text-h6" />
+
+        <div class="wpa-grid">
+          <div class="ctnr">
+            <SkeletonCard
+              v-for="item in 12"
+              :key="item"
+              class="card-wrap inline-block"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="mx-4 sm:mx-6 md:mx-8 relative">
+        <q-skeleton type="text" width="7rem" class="text-h6" />
+
+        <div class="wpa-grid">
+          <q-skeleton type="text" width="100%" />
+          <div class="ctnr">
+            <SkeletonCard
+              v-for="item in 12"
+              :key="item"
+              class="card-wrap inline-block"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="mx-4 sm:mx-6 md:mx-8 relative">
+        <q-skeleton type="text" width="7rem" class="text-h6" />
+
+        <SkeletonGridCard :count="6" />
+      </div>
+    </div>
+
+    <template v-else>
+      <swiper
+        :space-between="10"
+        :centered-slides="true"
+        :modules="[Autoplay, Carousel]"
+        loop
+        :autoplay="{
+          delay: 5000,
+          disableOnInteraction: false,
+        }"
+        @real-index-change="sliderIndex = $event.realIndex"
+        class="swiper-hot z--1"
+      >
+        <swiper-slide
+          v-for="(item, index) in data.sliders"
+          :key="index"
+          v-ripple
+          class="flex items-center"
+          @click="router.push(item.path)"
+        >
           <div
-            v-else
-            class="info z-400 !relative h-full flex flex-nowrap !px-3"
+            class="flex items-center justify-center w-full h-full backdrop-bg"
+            :style="{
+              '--data-src': `url(${item.image})`,
+            }"
           >
-            <div class="w-200px max-w-40% pt-4 text-center">
-              <q-img
-                no-spinner
-                :src="item.image"
-                :ratio="250 / 357"
-                class="w-full rounded-20px block"
-              />
-
-              <q-btn
-                rounded
-                class="bg-main mt-2 sm:mt-4 pointer-events-all mx-auto"
-                no-caps
-              >
-                <Icon
-                  icon="fluent:play-24-filled"
-                  width="1.3em"
-                  height="1.3em"
-                  class="mr-2"
-                  :to="item.last_chapters[0].path"
+            <img
+              v-if="$q.screen.gt.sm"
+              no-spinner
+              :src="item.image"
+              :ratio="583 / 306"
+              referrerpolicy="no-referrer"
+              class="poster z-1 h-full block object-fit-cover"
+            />
+            <div
+              v-else
+              class="info z-400 !relative h-full flex flex-nowrap !px-3"
+            >
+              <div class="w-200px max-w-40% pt-4 text-center">
+                <q-img
+                  no-spinner
+                  :src="item.image"
+                  :ratio="250 / 357"
+                  class="w-full rounded-20px block"
                 />
-                Đọc ngay
-              </q-btn>
-            </div>
-            <div class="pl-3 min-w-0 pt-4 w-auto flex-1">
-              <div class=" ">
-                <div class="text-18px text-weight-medium line-clamp-2">
-                  {{ item.name }}
+
+                <q-btn
+                  rounded
+                  class="bg-main mt-2 sm:mt-4 pointer-events-all mx-auto"
+                  no-caps
+                >
+                  <Icon
+                    icon="fluent:play-24-filled"
+                    width="1.3em"
+                    height="1.3em"
+                    class="mr-2"
+                    :to="item.last_chapters[0].path"
+                  />
+                  Đọc ngay
+                </q-btn>
+              </div>
+              <div class="pl-3 min-w-0 pt-4 w-auto flex-1">
+                <div class=" ">
+                  <div class="text-18px text-weight-medium line-clamp-2">
+                    {{ item.name }}
+                  </div>
+                  <small
+                    class="display-block ellipsis text-12px text-gray-200"
+                    >{{ item.othername }}</small
+                  >
                 </div>
-                <small class="display-block ellipsis text-12px text-gray-200">{{
-                  item.othername
-                }}</small>
-              </div>
-              <div class="focus-item-info">
-                <Quality v-if="item.hot">Hot</Quality>
+                <div class="focus-item-info">
+                  <Quality v-if="item.hot">Hot</Quality>
 
-                <q-separator vertical class="mx-2" />
+                  <q-separator vertical class="mx-2" />
 
-                <span class="focus-item-update">
-                  Chương {{ item.last_chapters[0].name }}
-                </span>
+                  <span class="focus-item-update">
+                    Chương {{ item.last_chapters[0].name }}
+                  </span>
 
-                <q-separator vertical class="mx-2" />
+                  <q-separator vertical class="mx-2" />
 
-                {{ item.status }}
+                  {{ item.status }}
 
-                <q-separator vertical class="mx-2" />
+                  <q-separator vertical class="mx-2" />
 
-                <!-- <Icon icon="fluent:eye-24-filled" class="size-1.5em" /> -->
-                {{ formatView(item.views!) }}
-              </div>
-              <div class="mt-1 text-12px ellipsis">
-                {{ item.tags.join(", ") }}
-              </div>
-              <div
-                class="focus-item-desc ellipsis-3-lines !h-auto w-full max-w-full !min-w-0"
-              >
-                {{ item.description }}
-              </div>
+                  <!-- <Icon icon="fluent:eye-24-filled" class="size-1.5em" /> -->
+                  {{ formatView(item.views!) }}
+                </div>
+                <div class="mt-1 text-12px ellipsis">
+                  {{ item.tags.join(", ") }}
+                </div>
+                <div
+                  class="focus-item-desc ellipsis-3-lines !h-auto w-full max-w-full !min-w-0"
+                >
+                  {{ item.description }}
+                </div>
 
-              <!-- action -->
-              <!--
+                <!-- action -->
+                <!--
               <q-btn
                 rounded
                 class="bg-main mt-2 sm:mt-4 pointer-events-all"
@@ -182,108 +189,112 @@ meta:
                 />
                 Đọc ngay
               </q-btn> -->
+              </div>
             </div>
           </div>
-        </div>
-      </swiper-slide>
-      <div v-if="$q.screen.gt.sm" class="drop-left z-2"></div>
-      <div v-if="$q.screen.gt.sm" class="drop-center z-2"></div>
-      <div v-if="$q.screen.gt.sm" class="drop-right z-2"></div>
+        </swiper-slide>
+        <div v-if="$q.screen.gt.sm" class="drop-left z-2"></div>
+        <div v-if="$q.screen.gt.sm" class="drop-center z-2"></div>
+        <div v-if="$q.screen.gt.sm" class="drop-right z-2"></div>
 
-      <transition v-if="$q.screen.gt.sm" name="q-transition--fade">
-        <div :key="sliderIndex" class="info pointer-events-none">
-          <div class=" ">
-            <div class="text-18px text-weight-medium line-clamp-2">
-              {{ data.sliders[sliderIndex].name }}
+        <transition v-if="$q.screen.gt.sm" name="q-transition--fade">
+          <div :key="sliderIndex" class="info pointer-events-none">
+            <div class=" ">
+              <div class="text-18px text-weight-medium line-clamp-2">
+                {{ data.sliders[sliderIndex].name }}
+              </div>
+              <small class="display-block ellipsis text-12px text-gray-200">{{
+                data.sliders[sliderIndex].othername
+              }}</small>
             </div>
-            <small class="display-block ellipsis text-12px text-gray-200">{{
-              data.sliders[sliderIndex].othername
-            }}</small>
+            <div class="focus-item-info">
+              <Quality v-if="data.sliders[sliderIndex].hot">Hot</Quality>
+
+              <q-separator vertical class="mx-2" />
+
+              <span class="focus-item-update">
+                Chương {{ data.sliders[sliderIndex].last_chapters[0].name }}
+              </span>
+
+              <q-separator vertical class="mx-2" />
+
+              {{ data.sliders[sliderIndex].status }}
+
+              <q-separator vertical class="mx-2" />
+
+              <!-- <Icon icon="fluent:eye-24-filled" class="size-1.5em" /> -->
+              {{ formatView(data.sliders[sliderIndex].views!) }}
+            </div>
+            <div class="mt-1 text-12px ellipsis">
+              {{ data.sliders[sliderIndex].tags.join(", ") }}
+            </div>
+            <div class="focus-item-desc">
+              {{ data.sliders[sliderIndex].description }}
+            </div>
+
+            <!-- action -->
+
+            <q-btn
+              rounded
+              class="bg-main mt-2 sm:mt-4 pointer-events-all"
+              no-caps
+            >
+              <Icon
+                icon="fluent:play-24-filled"
+                width="1.3em"
+                height="1.3em"
+                class="mr-2"
+                :to="data.sliders[sliderIndex].last_chapters[0].path"
+              />
+              Đọc ngay
+            </q-btn>
           </div>
-          <div class="focus-item-info">
-            <Quality v-if="data.sliders[sliderIndex].hot">Hot</Quality>
-
-            <q-separator vertical class="mx-2" />
-
-            <span class="focus-item-update">
-              Chương {{ data.sliders[sliderIndex].last_chapters[0].name }}
-            </span>
-
-            <q-separator vertical class="mx-2" />
-
-            {{ data.sliders[sliderIndex].status }}
-
-            <q-separator vertical class="mx-2" />
-
-            <!-- <Icon icon="fluent:eye-24-filled" class="size-1.5em" /> -->
-            {{ formatView(data.sliders[sliderIndex].views!) }}
-          </div>
-          <div class="mt-1 text-12px ellipsis">
-            {{ data.sliders[sliderIndex].tags.join(", ") }}
-          </div>
-          <div class="focus-item-desc">
-            {{ data.sliders[sliderIndex].description }}
-          </div>
-
-          <!-- action -->
-
-          <q-btn
-            rounded
-            class="bg-main mt-2 sm:mt-4 pointer-events-all"
-            no-caps
-          >
-            <Icon
-              icon="fluent:play-24-filled"
-              width="1.3em"
-              height="1.3em"
-              class="mr-2"
-              :to="data.sliders[sliderIndex].last_chapters[0].path"
-            />
-            Đọc ngay
-          </q-btn>
-        </div>
-      </transition>
-      <div
-        v-if="$q.screen.gt.sm"
-        class="mark-b w-full h-[30%] z-200 sm:z-300 absolute bottom-0 pointer-events-none z-200"
-        :style="{
-          'background-image': `linear-gradient(
+        </transition>
+        <div
+          v-if="$q.screen.gt.sm"
+          class="mark-b w-full h-[30%] z-200 sm:z-300 absolute bottom-0 pointer-events-none z-200"
+          :style="{
+            'background-image': `linear-gradient(
                 rgba(17, 19, 25, 0) 2%,
                 rgb(17, 19, 25) 94%
               )`,
-        }"
-      />
-    </swiper>
-
-    <!-- test void swap -->
-    <div class="mx-4 sm:mx-6 md:mx-11 relative">
-      <swiper
-        :slides-per-view="1.1"
-        centered-slides
-        :space-between="8"
-        :modules="[]"
-        :breakpoints="{
-          [$q.screen.sizes.sm]: {
-            slidesPerView: 2.1,
-          },
-          [$q.screen.sizes.md]: {
-            slidesPerView: 3.2,
-          },
-        }"
-      >
-        <swiper-slide v-for="(items, i) in unflat(data.hot, 3)" :key="i" class="px-1">
-          <CardVertical
-            v-for="item in items"
-            :key="item.path"
-            :data="item"
-            class="my-2"
-          />
-        </swiper-slide>
+          }"
+        />
       </swiper>
-    </div>
-    <!-- /test void swap -->
 
-    <!--
+      <!-- test void swap -->
+      <div class="mx-4 sm:mx-6 md:mx-11 relative">
+        <swiper
+          :slides-per-view="1.1"
+          centered-slides
+          :space-between="8"
+          :modules="[]"
+          :breakpoints="{
+            [$q.screen.sizes.sm]: {
+              slidesPerView: 2.1,
+            },
+            [$q.screen.sizes.md]: {
+              slidesPerView: 3.2,
+            },
+          }"
+        >
+          <swiper-slide
+            v-for="(items, i) in unflat(data.hot, 3)"
+            :key="i"
+            class="px-1"
+          >
+            <CardVertical
+              v-for="item in items"
+              :key="item.path"
+              :data="item"
+              class="my-2"
+            />
+          </swiper-slide>
+        </swiper>
+      </div>
+      <!-- /test void swap -->
+
+      <!--
     <div class="mx-4 sm:mx-6 md:mx-11 relative">
       <swiper
         :slides-per-view="3"
@@ -314,8 +325,8 @@ meta:
       <div class="nav-btn swiper-button-next swiper-button-next-1" />
     </div> -->
 
-    <!-- show genres -->
-    <!-- <section v-if="!$q.screen.lt.md"
+      <!-- show genres -->
+      <!-- <section v-if="!$q.screen.lt.md"
       class="mx-4 sm:mx-6 md:mx-8 mb-5 mt-7 flex flex-nowrap items-center justify-between"
     >
       <div>
@@ -344,13 +355,14 @@ meta:
         />
       </q-btn>
     </section> -->
-    <!-- /show genres -->
+      <!-- /show genres -->
 
-    <section class="mx-4 sm:mx-6 md:mx-8 mt-7">
-      <BannerTitle>Mới cập nhật</BannerTitle>
-      <GridCard :items="data.last_update" />
-    </section>
-  </template>
+      <section class="mx-4 sm:mx-6 md:mx-8 mt-7">
+        <BannerTitle>Mới cập nhật</BannerTitle>
+        <GridCard :items="data.last_update" />
+      </section>
+    </template>
+  </q-page>
 </template>
 
 <script setup lang="ts">

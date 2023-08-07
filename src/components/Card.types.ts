@@ -1,3 +1,5 @@
+import type dayjs from "dayjs"
+
 export interface CardProps {
   data: {
     image: string

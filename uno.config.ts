@@ -36,5 +36,6 @@ export default defineConfig({
     ),
     "text-weight-medium",
     "max-w-60%",
+    "text-20px",
   ],
 })

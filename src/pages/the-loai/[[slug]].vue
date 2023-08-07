@@ -1,46 +1,44 @@
 <route lang="yaml">
 alias: ["/tim-truyen/:slug?"]
-meta:
-  padding: true
-  noMarginTop: true
 </route>
 
 <template>
-  <section class="mx-4 sm:mx-6 md:mx-8">
-    <template v-if="!data">
-      <BannerTitleSKT v-if="!isCapacitor" />
-      <q-skeleton type="text" width="220px" class="mt-3" />
+  <q-page padding>
+    <section class="mx-4 sm:mx-6 md:mx-8">
+      <template v-if="!data">
+        <BannerTitleSKT v-if="!isCapacitor" />
+        <q-skeleton type="text" width="220px" class="mt-3" />
 
-      <SkeletonGridCard :count="40" />
-    </template>
-    <template v-else>
-      <BannerTitle v-if="!isCapacitor">
-        {{ data.name }}
+        <SkeletonGridCard :count="40" />
+      </template>
+      <template v-else>
+        <BannerTitle v-if="!isCapacitor">
+          {{ data.name }}
 
-        <q-btn round class="text-white">
-          <Icon
-            icon="fluent:filter-24-regular"
-            class="size-2em"
-            @click="showFilterFull = true"
-          />
-        </q-btn>
-      </BannerTitle>
-      <p class="mt-3 font-family-poppins">{{ data.description }}</p>
+          <q-btn round class="text-white">
+            <Icon
+              icon="fluent:filter-24-regular"
+              class="size-2em"
+              @click="showFilterFull = true"
+            />
+          </q-btn>
+        </BannerTitle>
+        <p class="mt-3 font-family-poppins">{{ data.description }}</p>
 
-      <!-- filter -->
-      <GenresFilterMB
-        v-if="!isCapacitor"
-        v-model:show-full="showFilterFull"
-        :show-toolbar="isCapacitor"
-        :filter="data.filters"
-      />
-      <!-- /filter -->
+        <!-- filter -->
+        <GenresFilterMB
+          v-if="!isCapacitor"
+          v-model:show-full="showFilterFull"
+          :show-toolbar="isCapacitor"
+          :filter="data.filters"
+        />
+        <!-- /filter -->
 
-      <!-- filter native -->
-      <GenresFilterNative v-else :filter="data.filters" />
-      <!-- /filter native -->
+        <!-- filter native -->
+        <GenresFilterNative v-else :filter="data.filters" />
+        <!-- /filter native -->
 
-      <!--
+        <!--
       <div
         v-if="data.maxPage > 1 && $q.screen.gt.sm"
         class="flex items-center justify-center q-pa-md"
@@ -48,19 +46,20 @@ meta:
         <Pagination :max="data.maxPage" v-model="page" />
       </div> -->
 
-      <SkeletonGridCard v-if="loading" :count="40" />
-      <InfiniteScroll v-else @load="onLoad">
-        <GridCard :items="data.items" class="<md:mx--4" />
-      </InfiniteScroll>
+        <SkeletonGridCard v-if="loading" :count="40" />
+        <InfiniteScroll v-else @load="onLoad">
+          <GridCard :items="data.items" class="<md:mx--4" />
+        </InfiniteScroll>
 
-      <!-- <div
+        <!-- <div
         v-if="data.maxPage > 1 && $q.screen.gt.sm"
         class="flex items-center justify-center q-pa-md"
       >
         <Pagination :max="data.maxPage" v-model="page" />
       </div> -->
-    </template>
-  </section>
+      </template>
+    </section>
+  </q-page>
 </template>
 
 <script lang="ts" setup>

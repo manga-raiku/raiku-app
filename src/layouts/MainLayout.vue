@@ -53,40 +53,11 @@
     </q-header>
 
     <q-page-container>
-      <q-page
-        :style-fn="
-          (offset, height) => {
-            if (route.meta?.offset)
-              return {
-                height:
-                  route.meta?.offset && route.meta.existsFooter
-                    ? '100%'
-                    : height + 'px',
-                width:
-                  route.meta?.offset && route.meta.existsFooter
-                    ? '100%'
-                    : undefined,
-                marginTop:
-                  offset === 0 || route.meta?.absolute
-                    ? undefined
-                    : (route.meta.existsFooter ? -50 : -offset) + 'px',
-              }
-            return {
-              height: height + 'px',
-              marginTop: route.meta?.noMarginTop ? undefined : 50 + 'px',
-            }
-          }
-        "
-        class="!py-0"
-        :class="{
-          'fixed top-0': route.meta?.absolute,
-        }"
-        :padding="route.meta?.padding"
-      >
-        <router-view v-if="Http.version" v-slot="{ Component }">
-          <component :is="Component" />
-        </router-view>
-        <NotExistsExtension v-else />
+      <router-view v-if="Http.version" v-slot="{ Component }">
+        <component :is="Component" />
+      </router-view>
+      <q-page v-else>
+        <NotExistsExtension />
       </q-page>
     </q-page-container>
 

@@ -1,9 +1,6 @@
 <route lang="yaml">
 meta:
   hiddenHeader: true
-  offset: true
-  existsFooter: true
-  absolute: true
 </route>
 
 <template>
@@ -62,62 +59,71 @@ meta:
     </q-toolbar>
   </q-header>
 
-  <!-- reader -->
-  <template v-if="pages && !loading">
-    <ReaderHorizontal
-      v-if="!scrollingMode"
-      ref="readerHorizontalRef"
-      :pages="pages"
+  <q-page
+    :style-fn="
+      (offset, height) => ({
+        height: height + 'px',
+      })
+    "
+    class="absolute"
+  >
+    <!-- reader -->
+    <template v-if="pages && !loading">
+      <ReaderHorizontal
+        v-if="!scrollingMode"
+        ref="readerHorizontalRef"
+        :pages="pages"
+        :single-page="singlePage || $q.screen.width <= 517"
+        :right-to-left="rightToLeft"
+        :min-page="minPage"
+        v-model:current-page="currentPage"
+        v-model:zoom="zoom"
+        @click="onClickReader"
+      />
+      <ReaderVertical
+        v-else
+        :pages="pages"
+        v-model:current-page="currentPage"
+        v-model:zoom="zoom"
+        @click="onClickReader"
+      />
+    </template>
+    <div v-else class="w-full h-full flex items-center justify-center">
+      <div>
+        <SpinnerSakura />
+        <p class="mt-1 text-gray-3 text-12px font-family-poppins">Loading...</p>
+      </div>
+    </div>
+
+    <!-- float absolute button -->
+    <FloatingStatus
+      v-if="$q.screen.gt.xs"
+      :scrolling-mode="scrollingMode"
       :single-page="singlePage || $q.screen.width <= 517"
       :right-to-left="rightToLeft"
-      :min-page="minPage"
-      v-model:current-page="currentPage"
-      v-model:zoom="zoom"
-      @click="onClickReader"
+      :pages-length="data?.pages.length"
+      :sizes="readerHorizontalRef?.sizes"
+      :current-page="currentPage"
+      :size-page="sizePage"
+      :meta-ep="currentEpisode?.value"
     />
-    <ReaderVertical
+    <!-- /float absolute button -->
+    <FloatingStatusMobile
       v-else
-      :pages="pages"
-      v-model:current-page="currentPage"
-      v-model:zoom="zoom"
-      @click="onClickReader"
+      :current-page="currentPage"
+      :size-page="sizePage"
+      :meta-ep="currentEpisode?.value"
     />
-  </template>
-  <div v-else class="w-full h-full flex items-center justify-center">
-    <div>
-      <SpinnerSakura />
-      <p class="mt-1 text-gray-3 text-12px font-family-poppins">Loading...</p>
-    </div>
-  </div>
 
-  <!-- float absolute button -->
-  <FloatingStatus
-    v-if="$q.screen.gt.xs"
-    :scrolling-mode="scrollingMode"
-    :single-page="singlePage || $q.screen.width <= 517"
-    :right-to-left="rightToLeft"
-    :pages-length="data?.pages.length"
-    :sizes="readerHorizontalRef?.sizes"
-    :current-page="currentPage"
-    :size-page="sizePage"
-    :meta-ep="currentEpisode?.value"
-  />
-  <!-- /float absolute button -->
-  <FloatingStatusMobile
-    v-else
-    :current-page="currentPage"
-    :size-page="sizePage"
-    :meta-ep="currentEpisode?.value"
-  />
+    <FabShowToolbar v-if="$q.screen.gt.xs" @click="showToolbar = true" />
 
-  <FabShowToolbar v-if="$q.screen.gt.xs" @click="showToolbar = true" />
-
-  <!-- tutorial reader -->
-  <TutorialModeHorizontal
-    v-model="showTutorialHorizontal"
-    :right-to-left="rightToLeft"
-  />
-  <!-- /tutorial reader -->
+    <!-- tutorial reader -->
+    <TutorialModeHorizontal
+      v-model="showTutorialHorizontal"
+      :right-to-left="rightToLeft"
+    />
+    <!-- /tutorial reader -->
+  </q-page>
 
   <q-footer
     class="bg-[rgba(0,0,0,0.9)] font-family-poppins"
