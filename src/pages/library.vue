@@ -52,6 +52,7 @@
 <script lang="ts" setup>
 import LibraryTabFollows from "components/library/LibraryTabFollows.vue"
 import LibraryTabHistory from "components/library/LibraryTabHistory.vue"
+import LibraryTabOffline from "components/library/LibraryTabOffline.vue"
 import type { Swiper as TSwiper } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 
@@ -74,9 +75,9 @@ const tabs = [
     component: LibraryTabFollows,
   },
   {
-    name: "Lịch sử",
-    value: "history",
-    component: LibraryTabHistory,
+    name: "Ngoại tuyến",
+    value: "offline",
+    component: LibraryTabOffline,
   },
 ]
 
