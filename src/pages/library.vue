@@ -41,6 +41,7 @@
 <script lang="ts" setup>
 import type { Swiper as TSwiper } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
+import LibraryTabHistory from 'components/library/LibraryTabHistory.vue'
 
 // Import Swiper styles
 import "swiper/css"
@@ -50,9 +51,9 @@ import "swiper/css/autoplay"
 import "swiper/css/grid"
 
 const tabs = [{
-  name: "",
-  value: "",
-  component: () => {}
+  name: "Lịch sử",
+  value: "history",
+  component: LibraryTabHistory
 }]
 
 const swiperRef = ref()
