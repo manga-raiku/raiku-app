@@ -500,9 +500,13 @@ describe("ListChapters", () => {
         id: 0,
       }
     })
+    cy.mount(ListChapters, {
+      props: {
+        chapters,
+      },
+    })
 
-    cy.get(".q-tab").should("have.length", chapters.length)
-    cy.get(".q-tab").eq(0).should("have.class", "!text-main-3")
+    cy.get("ul").find("li").should("have.length", chapters.length)
   })
 
   it("split chapters to group size 50", () => {
@@ -527,9 +531,6 @@ describe("ListChapters", () => {
       },
     })
 
-    cy.get(".overflow-auto")
-      .find("button")
-      .first()
-      .should("have.class", "!text-main-3")
+    cy.get(".q-tab").first().should("have.class", "!text-main-3")
   })
 })
