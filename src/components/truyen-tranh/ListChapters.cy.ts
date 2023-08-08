@@ -501,9 +501,8 @@ describe("ListChapters", () => {
       }
     })
 
-    cy.get("ul.row").find("li").should("have.length", chapters.length)
-    cy.get("li").eq(0).find("span").should("have.class", "absolute")
-    cy.get("li").eq(0).should("have.class", "text-main")
+    cy.get(".q-tab").should("have.length", chapters.length)
+    cy.get(".q-tab").eq(0).should("have.class", "!text-main-3")
   })
 
   it("split chapters to group size 50", () => {
@@ -513,9 +512,8 @@ describe("ListChapters", () => {
       },
     })
 
-    cy.get(".overflow-auto").find("button").should("have.length", 2)
-    cy.get(".overflow-auto")
-      .find("button")
+    cy.get(".q-tab").should("have.length", 2)
+    cy.get(".q-tab")
       .first()
       .should(($button) => {
         expect($button[0].innerText).to.contain("Ch. 27 - 4")
