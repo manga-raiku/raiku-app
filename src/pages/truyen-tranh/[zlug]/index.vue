@@ -1,10 +1,31 @@
+<route lang="yaml">
+meta:
+  hiddenFooter: true
+</route>
+
 <template>
+  <q-header v-if="isCapacitor" class="bg-dark-page header-blur">
+    <q-toolbar>
+      <q-btn round unelevated @click="router.back()">
+        <Icon icon="fluent:arrow-left-24-filled" class="size-1.5em" />
+      </q-btn>
+
+      <q-toolbar-title>{{ data?.name }}</q-toolbar-title>
+    </q-toolbar>
+  </q-header>
   <q-page padding>
+    <div
+      v-if="isCapacitor && $q.screen.lt.md"
+      class="before-filter-blur fixed top-0 left-0 w-full h-full z--1"
+      :style="{
+        '--data-src': `url('${data?.image}')`,
+      }"
+    />
     <template v-if="data && !loading">
       <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 mb-4 flex">
         <div>
           <div
-            class="bg-image-blur"
+            class="before-filter-blur before-filter-blur--no-after relative py-4 flex items-center justify-center"
             :style="{
               '--data-src': `url('${data.image}')`,
             }"
@@ -184,7 +205,7 @@
       <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 flex">
         <div>
           <div
-            class="bg-image-blur"
+            class="before-filter-blur before-filter-blur--no-after relative py-4 flex items-center justify-center"
             :style="{
               '--data-src': `url()`,
             }"
@@ -281,7 +302,7 @@
 
   <q-footer
     v-if="$q.screen.xs && data"
-    class="bg-dark-page"
+    class="bg-dark-page header-blur"
     style="box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1)"
   >
     <q-toolbar class="h-60px w-90% mx-auto justify-between children:mx-1">
@@ -360,6 +381,7 @@ import { useShare } from "@vueuse/core"
 import Manga from "src/apis/nettruyen/runs/truyen-tranh/[slug]"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
+import { isCapacitor } from 'src/constants'
 
 const props = defineProps<{
   zlug: string
@@ -412,22 +434,10 @@ function onClickShare() {
 </script>
 
 <style lang="scss" scoped>
+@import "src/modules/before-filter-blur.scss";
+
 .btn-action {
   background: #ff204e;
   box-shadow: 0px 5px 10px rgba(255, 32, 78, 0.3);
-}
-
-.bg-image-blur {
-  @apply relative py-4 flex items-center justify-center;
-
-  &:before {
-    content: "";
-    @apply absolute top-0 left-0 w-full h-full;
-    background: {
-      image: var(--data-src);
-      size: cover;
-    }
-    filter: blur(123px); //62px
-  }
 }
 </style>

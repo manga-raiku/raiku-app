@@ -1,0 +1,30 @@
+.before-filter-blur {
+  &:before {
+    content: "";
+    @apply absolute top-0 left-0 w-full h-full;
+    background: {
+      image: var(--data-src);
+      size: cover;
+    }
+    @supports not (backdrop-filter: blur(0px)) {
+      filter: blur(123px); //62px
+    }
+    z-index: -2;
+  }
+  &--no-after:before {
+    filter: blur(123px); //62px
+  }
+  &:after {
+    content: "";
+    @apply absolute top-0 left-0 w-full h-full;
+    background-color: rgba(0, 0, 0, 0.67);
+    backdrop-filter: blur(12px);
+    z-index: -1;
+    @supports not (backdrop-filter: blur(0px)) {
+      display: none;
+    }
+  }
+  &--no-after:after {
+    display: none;
+  }
+}

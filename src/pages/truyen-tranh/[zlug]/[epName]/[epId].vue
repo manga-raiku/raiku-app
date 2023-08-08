@@ -1,6 +1,7 @@
 <route lang="yaml">
 meta:
   hiddenHeader: true
+  hiddenFooter: true
 </route>
 
 <template>
@@ -25,7 +26,7 @@ meta:
       <q-space class="<md:display-none" />
 
       <div class="flex <md:!display-block items-center min-w-0">
-        <div class="ellipsis text-15px">{{ data?.name }}</div>
+        <div class="ellipsis text-15px">{{ data?.name ?? "__" }}</div>
 
         <Icon
           icon="fluent:chevron-right-24-regular"
@@ -34,28 +35,30 @@ meta:
 
         <small
           class="text-gray-300 md:text-14px md:text-white text-12px whitespace-nowrap"
-          >Chương {{ currentEpisode?.value.name }}</small
+          >Chương {{ currentEpisode?.value.name ?? "__" }}</small
         >
       </div>
 
-      <q-space />
+      <template v-if="!isCapacitor">
+        <q-space />
 
-      <template v-if="$q.screen.md || $q.screen.gt.md">
-        <AppHeaderSearch />
-        <AppHeaderGithub />
+        <template v-if="$q.screen.md || $q.screen.gt.md">
+          <AppHeaderSearch />
+          <AppHeaderGithub />
+        </template>
+        <template v-else>
+          <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
+            <q-icon name="search" />
+          </q-btn>
+          <AppHeaderSearchMB v-model:searching="showSearchMB" />
+        </template>
+
+        <AppHeaderFollows v-if="$q.screen.sm || $q.screen.gt.sm" />
+        <AppHeaderHistory v-if="$q.screen.sm || $q.screen.gt.sm" />
+        <AppHeaderNotify />
+
+        <AppHeaderUser />
       </template>
-      <template v-else>
-        <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
-          <q-icon name="search" />
-        </q-btn>
-        <AppHeaderSearchMB v-model:searching="showSearchMB" />
-      </template>
-
-      <AppHeaderFollows v-if="$q.screen.sm || $q.screen.gt.sm" />
-      <AppHeaderHistory v-if="$q.screen.sm || $q.screen.gt.sm" />
-      <AppHeaderNotify />
-
-      <AppHeaderUser />
     </q-toolbar>
   </q-header>
 
@@ -454,7 +457,7 @@ meta:
               </div>
               <div
                 v-else
-                class="h-full flex-1 overflow-x-hidden overflow-y-scroll scrollbar-custom"
+                class="h-full min-h-0 !flex-1 overflow-x-hidden overflow-y-scroll scrollbar-custom"
               >
                 <Comments :comments="data.comments" />
               </div>
@@ -513,6 +516,7 @@ import { useFullscreen } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import type { QDialog, QMenu } from "quasar"
+import { isCapacitor } from "src/constants"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
 import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"

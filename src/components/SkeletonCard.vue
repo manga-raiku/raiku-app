@@ -9,7 +9,7 @@
       />
     </div>
 
-    <span class="line-clamp-2 min-h-10">
+    <span class="line-clamp-2 min-h-10 text-1em">
       <q-skeleton type="text" width="100%" class="py-0 my-0" height="20px" />
       <q-skeleton type="text" width="60%" class="py-0 my-0" height="20px" />
     </span>

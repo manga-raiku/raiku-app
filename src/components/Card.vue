@@ -33,7 +33,7 @@
 
         <slot name="inside-image" />
       </q-img>
-      <span class="a line-clamp-2 min-h-10 mt-1">{{ data.name }}</span>
+      <span class="a line-clamp-2 min-h-10 mt-1 text-1.2em">{{ data.name }}</span>
     </q-card>
   </router-link>
 
@@ -101,7 +101,7 @@
         <!-- <div class="text-gray-400 mt-2">{{ t("cap-nhat-toi-tap-_duration", [data.process]) }}</div> -->
 
         <div class="mt-2 text-[#eee] font-weight-medium">Giới thiệu</div>
-        <p class="text-gray-400">{{ data.description ?? "Không có mô tả" }}</p>
+        <p class="text-gray-400 text-0.95em">{{ data.description ?? "Không có mô tả" }}</p>
 
         <div class="tags mt-2">
           <span

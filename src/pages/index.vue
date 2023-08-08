@@ -6,7 +6,7 @@ meta:
 <template>
   <q-page>
     <div v-if="!data" class="absolute w-full h-full overflow-hidden loader">
-      <div class="swiper-hot mt-[-60px]">
+      <div class="swiper-hot">
         <q-responsive :ratio="583 / 306" class="poster">
           <q-skeleton type="rect" width="100%" height="100%" />
         </q-responsive>
@@ -86,28 +86,25 @@ meta:
           disableOnInteraction: false,
         }"
         @real-index-change="sliderIndex = $event.realIndex"
-        class="swiper-hot z--1"
+        class="swiper-hot"
       >
         <swiper-slide
           v-for="(item, index) in data.sliders"
           :key="index"
           v-ripple
-          class="flex items-center"
+          class="flex flex-col items-center slide"
           @click="router.push(item.path)"
         >
           <div
-            class="flex items-center justify-center w-full h-full backdrop-bg"
+            class="flex-1 flex items-center justify-center w-full h-full backdrop-bg"
             :style="{
               '--data-src': `url(${item.image})`,
             }"
           >
             <img
-              v-if="$q.screen.gt.sm"
-              no-spinner
+              v-if="$q.screen.gt.xs"
               :src="item.image"
-              :ratio="583 / 306"
-              referrerpolicy="no-referrer"
-              class="poster z-1 h-full block object-fit-cover"
+              class="absolute poster z-1 h-full block object-fit-cover"
             />
             <div
               v-else
@@ -123,7 +120,7 @@ meta:
 
                 <q-btn
                   rounded
-                  class="bg-main mt-2 sm:mt-4 pointer-events-all mx-auto"
+                  class="bg-main mt-2 xs:mt-4 pointer-events-all mx-auto"
                   no-caps
                 >
                   <Icon
@@ -193,11 +190,11 @@ meta:
             </div>
           </div>
         </swiper-slide>
-        <div v-if="$q.screen.gt.sm" class="drop-left z-2"></div>
-        <div v-if="$q.screen.gt.sm" class="drop-center z-2"></div>
-        <div v-if="$q.screen.gt.sm" class="drop-right z-2"></div>
+        <div v-if="$q.screen.gt.xs" class="drop-left z-2"></div>
+        <div v-if="$q.screen.gt.xs" class="drop-center z-2"></div>
+        <div v-if="$q.screen.gt.xs" class="drop-right z-2"></div>
 
-        <transition v-if="$q.screen.gt.sm" name="q-transition--fade">
+        <transition v-if="$q.screen.gt.xs" name="q-transition--fade">
           <div :key="sliderIndex" class="info pointer-events-none">
             <div class=" ">
               <div class="text-18px text-weight-medium line-clamp-2">
@@ -251,8 +248,8 @@ meta:
           </div>
         </transition>
         <div
-          v-if="$q.screen.gt.sm"
-          class="mark-b w-full h-[30%] z-200 sm:z-300 absolute bottom-0 pointer-events-none z-200"
+          v-if="$q.screen.gt.xs"
+          class="mark-b w-full h-[30%] z-300 absolute bottom-0 pointer-events-none"
           :style="{
             'background-image': `linear-gradient(
                 rgba(17, 19, 25, 0) 2%,
@@ -262,39 +259,47 @@ meta:
         />
       </swiper>
 
-      <!-- test void swap -->
-      <div class="mx-4 sm:mx-6 md:mx-11 relative">
+      <div class="px-2 sm:px-4">
+        <!-- test void swap -->
+        <h3 class="text-17px text-light-900">Hot trong ngày</h3>
         <swiper
           :slides-per-view="1.1"
-          centered-slides
+          :centered-slides="$q.screen.xs"
           :space-between="8"
           :modules="[]"
           :breakpoints="{
             [$q.screen.sizes.sm]: {
               slidesPerView: 2.1,
+              centeredSlides: false,
             },
             [$q.screen.sizes.md]: {
               slidesPerView: 3.2,
+              centeredSlides: false,
             },
           }"
+          class="<sm:!ml--4"
         >
           <swiper-slide
             v-for="(items, i) in unflat(data.hot, 3)"
             :key="i"
             class="px-1"
+            :class="{
+              'pl-0': i === 0,
+            }"
           >
             <CardVertical
               v-for="item in items"
               :key="item.path"
               :data="item"
-              class="my-2"
+              img-width="100px"
+              class="my-2 text-13px"
             />
           </swiper-slide>
         </swiper>
-      </div>
-      <!-- /test void swap -->
 
-      <!--
+        <!-- /test void swap -->
+
+        <!--
     <div class="mx-4 sm:mx-6 md:mx-11 relative">
       <swiper
         :slides-per-view="3"
@@ -325,8 +330,8 @@ meta:
       <div class="nav-btn swiper-button-next swiper-button-next-1" />
     </div> -->
 
-      <!-- show genres -->
-      <!-- <section v-if="!$q.screen.lt.md"
+        <!-- show genres -->
+        <!-- <section v-if="!$q.screen.lt.md"
       class="mx-4 sm:mx-6 md:mx-8 mb-5 mt-7 flex flex-nowrap items-center justify-between"
     >
       <div>
@@ -355,12 +360,11 @@ meta:
         />
       </q-btn>
     </section> -->
-      <!-- /show genres -->
+        <!-- /show genres -->
 
-      <section class="mx-4 sm:mx-6 md:mx-8 mt-7">
         <BannerTitle>Mới cập nhật</BannerTitle>
         <GridCard :items="data.last_update" />
-      </section>
+      </div>
     </template>
   </q-page>
 </template>
@@ -469,18 +473,22 @@ const sliderIndex = ref(0)
   cursor: pointer;
   z-index: 0;
   width: 100%;
-  height: 48vw; //56vw;
+  height: 48vw; //56vw
+  &, & .slide {
+  min-height: 48vw;
+  }
   max-height: 1012px;
 
-  @media screen and (max-width: 767px) {
-    $height: auto; //60vh;
+  $height: auto; //60vh;
+  height: $height; //auto;
+  @media screen and (max-width: $breakpoint-xs-max) {
     margin-bottom: 0; //16px;
-    height: $height; //auto;
     @media (min-aspect-ratio: 1/1) {
       // min-height: 480px;
     }
 
     .poster {
+      min-height: 48vw;
       height: max(/*calc(100vw / v-bind("aspectRatio")),*/ #{$height}, 56vw);
     }
   }
@@ -592,6 +600,9 @@ const sliderIndex = ref(0)
     color: rgb(255, 255, 255);
     width: 100%;
     padding: 60px 30px calc(15% + 24px + 3.5vw) (30px + 64);
+    @media screen and (max-width: $breakpoint-xs-max) {
+      padding-top: 0;
+    }
     // padding-top: 0;
     background-image: linear-gradient(
       -180deg,
@@ -620,7 +631,7 @@ const sliderIndex = ref(0)
     @media screen and (max-width: 1023px) and (min-width: 768px) {
       padding: {
         left: 56px;
-        bottom: calc(15% + 16px + 36px);
+        bottom: 15%;
       }
     }
 
@@ -689,7 +700,7 @@ const sliderIndex = ref(0)
     position: center;
   }
 
-  filter: blur(60px);
+  filter: blur(10px);
 }
 
 .card-wrap {

@@ -5,6 +5,7 @@ import AutoImport from "unplugin-auto-import/vite"
 import DefineOptions from "unplugin-vue-define-options/vite"
 import tsconfigPaths from "vite-tsconfig-paths"
 import { defineConfig } from "vitest/config"
+import UnoCSS from "unocss/vite"
 // vite.config.ts
 
 // https://vitejs.dev/config/
@@ -60,5 +61,8 @@ export default defineConfig({
       },
     }),
     DefineOptions(),
+    UnoCSS({
+      configFile: "./uno.config.ts",
+    })
   ],
 })
