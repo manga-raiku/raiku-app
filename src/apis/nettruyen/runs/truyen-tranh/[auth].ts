@@ -24,8 +24,11 @@ export default async function (
     ),
     canMarkReadAll: !!markAsReadHtml,
     readContinueId: pathEpCont
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      ? parseInt(parsePath(pathEpCont).split("/").slice(-2).filter(Boolean).at(-1)!)
+      ?
+        parseInt(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          parsePath(pathEpCont).split("/").slice(-2).filter(Boolean).at(-1)!
+        )
       : undefined,
   }
 }

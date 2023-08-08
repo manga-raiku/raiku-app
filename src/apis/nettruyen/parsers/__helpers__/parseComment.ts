@@ -48,7 +48,7 @@ export function parseComment(
           .match(/width:\s*(\d+)/)![1]
       ),
     },
-    chapter: $item.find(".cmchapter").text().trim(),
+    chapter: normalizeChName($item.find(".cmchapter").text().trim())
   }
   // patch content
   $item.find(".comment-content img").each((i, item) => {
@@ -65,7 +65,6 @@ export function parseComment(
     .find(".item.child")
     .toArray()
     .map((item) => parseComment($, $item.find(item), now))
-  const chapter_name = normalizeChName($item.find(".cmchapter").text().trim())
 
   return {
     id,
@@ -75,7 +74,6 @@ export function parseComment(
     dislike,
     created_at,
     repiles,
-    chapter_name,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any
 }

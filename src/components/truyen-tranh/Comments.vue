@@ -1,10 +1,7 @@
 <template>
   <ul>
     <li v-for="(item, index) in comments" :key="index">
-      <Comment
-        :comment="item"
-        class="my-4"
-      />
+      <Comment :comment="item" class="my-4" />
     </li>
   </ul>
 </template>
@@ -16,8 +13,5 @@ import Comment from "./__components__/Comment.vue"
 
 defineProps<{
   comments: RComment[]
-}>()
-const emit = defineEmits<{
-  (name: "deleted", index: number): void
 }>()
 </script>

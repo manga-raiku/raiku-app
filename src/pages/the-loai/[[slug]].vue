@@ -74,7 +74,6 @@ const props = defineProps<{
 
 const route = useRoute()
 const router = useRouter()
-const $q = useQuasar()
 
 const page = computed<number>({
   get: () => parseInt(route.query.page?.toString() ?? "1") || 1,

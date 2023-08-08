@@ -6,6 +6,8 @@ describe("FloatingStatus", () => {
       props: {
         scrollingMode: true,
         singlePage: false,
+        rightToLeft: false,
+        pagesLength: 3,
         sizePage: 3,
         currentPage: 0,
 
@@ -30,6 +32,8 @@ describe("FloatingStatus", () => {
       props: {
         scrollingMode: false,
         singlePage: true,
+        rightToLeft: false,
+        pagesLength: 3,
         sizePage: 3,
         currentPage: 0,
 
@@ -55,6 +59,8 @@ describe("FloatingStatus", () => {
         props: {
           scrollingMode: false,
           singlePage: false,
+          rightToLeft: false,
+          pagesLength: 3,
           sizePage: 3,
           currentPage: 0,
 
@@ -86,6 +92,7 @@ describe("FloatingStatus", () => {
       props: {
         scrollingMode: false,
         singlePage: true,
+        rightToLeft: false,
         sizePage: 3,
         pagesLength: 2,
         currentPage: 0,

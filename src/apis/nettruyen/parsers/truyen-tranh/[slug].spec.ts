@@ -8,7 +8,7 @@ import slug from "./[slug]"
 describe("[slug]", () => {
   test("works", () => {
     const result = slug(html, 1690510234674)
-
+    
     expect(result).toEqual(json)
   })
 })

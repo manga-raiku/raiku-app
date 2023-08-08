@@ -2,7 +2,6 @@
 
 import cookie from "js-cookie"
 import { defineStore } from "pinia"
-import { parse } from "set-cookie-parser"
 import Login from "src/apis/nettruyen/runs/auth/login"
 import GetUser from "src/apis/nettruyen/runs/auth/user"
 

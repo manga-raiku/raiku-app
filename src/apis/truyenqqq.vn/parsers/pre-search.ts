@@ -15,7 +15,7 @@ export default function presearch(html: string) {
       const image = $item.find("img").attr("src")!
       const name = $item.find(".name").text()
       const othername = $item.find(".name_other").text()
-      const chapter = $item.find(".search_info p:eq(2)").text()
+      const chapter = normalizeChName($item.find(".search_info p:eq(2)").text())
 
       return { path, image, name, othername, chapter }
     })

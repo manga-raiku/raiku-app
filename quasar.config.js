@@ -189,10 +189,7 @@ module.exports = configure((/* ctx */) => {
             ],
           },
         ],
-        [
-          "unplugin-vue-define-options/vite",
-          {}
-        ]
+        ["unplugin-vue-define-options/vite", {}],
       ],
     },
 

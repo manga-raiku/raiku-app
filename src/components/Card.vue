@@ -119,8 +119,8 @@
 
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue"
-import type { MaybeComputedRef } from "@vueuse/core"
 import { useElementHover } from "@vueuse/core"
+import type { MaybeComputedRef } from "@vueuse/head"
 import { debounce, QCard, QImg, QMenu } from "quasar"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"

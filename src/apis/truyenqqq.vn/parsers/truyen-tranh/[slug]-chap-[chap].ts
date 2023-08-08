@@ -18,7 +18,7 @@ export default function chap(html: string, now: number) {
     .map((item) => {
       const $item = $(item)
       return {
-        name: $item.text(),
+        name: normalizeChName($item.text()),
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         path: parsePath($item.attr("value")!)!,
       }

@@ -47,9 +47,11 @@ export default function manga(html: string, now: number) {
     .map((item) => {
       const $item = $(item)
       const $time = $item.find(".time-chap")
+      const data = parseAnchor($item.find("a"))!
+      data.name = normalizeChName(data.name)
+
       return {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        ...parseAnchor($item.find("a"))!,
+        ...data,
         update: parseDate($time.text()),
         readed: $item.find(".active").length > 0,
       }
