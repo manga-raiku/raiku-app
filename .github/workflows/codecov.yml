@@ -45,8 +45,11 @@ jobs:
           version: 8.3.1
           run_install: false
 
-      - name: Install depends & Run test
-        run: pnpm setup && pnpm test:unit:ci
+      - name: Install depends
+        run: sh install.sh
+
+      - name: Test
+        run: pnpm test
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
