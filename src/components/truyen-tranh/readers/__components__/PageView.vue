@@ -2,7 +2,7 @@
   <img v-show="loaded" v-bind="attrs" :src="srcImage" @load="onLoad" />
   <div
     v-if="!loaded"
-    class="text-center w-550px max-w-100% aspect-ratio-2 flex items-center justify-center"
+    class="text-center w-100% aspect-ratio-2 flex items-center justify-center"
   >
     <slot name="loading" />
   </div>

@@ -1,77 +1,7 @@
 <template>
-  <CardVerticalSKT v-if="loading" v-for="i in 12" :key="i" class="mb-4" />
-  <q-infinite-scroll v-else-if="data" @load="onLoad" :offset="250">
-    <template v-for="(item, index) in data?.items" :key="item.path">
-      <div
-        v-if="!data.items[index - 1]?.read_at.isSame(item.read_at, 'day')"
-        class="text-subtitle2 text-weight-normal"
-      >
-        {{
-          item.read_at.isToday()
-            ? "Hôm nay"
-            : item.read_at.isYesterday()
-            ? "Hôm qua"
-            : `${item.read_at.get("d")} thg ${item.read_at.get("months")}`
-        }}
-      </div>
-      <CardVertical :data="item" read-continue class="mb-4" />
-    </template>
-    <template #loading>
-      <div class="row justify-center q-my-md">
-        <q-spinner-dots color="main-3" size="40px" />
-      </div>
-    </template>
-  </q-infinite-scroll>
-  <div v-else class="text-center">
-    <div class="text-subtitle1 font-weight-medium">Lỗi không xác định</div>
-    <q-btn outline rounded color="main" @click="refreshAsync">Thử lại</q-btn>
-  </div>
+  <pre>{{ IDMStore.queue }}</pre>
 </template>
 
 <script lang="ts" setup>
-import LichSu from "src/apis/nettruyen/runs/lich-su"
-import dayjs from "src/logic/dayjs"
-
-const authStore = useAuthStore()
-
-const { loading, data, refreshAsync } = useRequest(async () => {
-  // eslint-disable-next-line functional/no-throw-statement
-  if (!authStore.user_data) throw new Error("need_login")
-
-  const data = await LichSu(1, authStore.user_data.token)
-  data.items = shallowReactive(
-    data.items.map((item) => {
-      // eslint-disable-next-line functional/no-throw-statement
-      if (!item.read_at) throw new Error("read_at not found")
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      item.read_at = dayjs(item.read_at) as unknown as any
-      return item
-    })
-  )
-  return data as unknown as Omit<typeof data, "items"> & {
-    items: (Omit<(typeof data.items)[0], "read_at"> & {
-      read_at: dayjs.Dayjs
-    })[]
-  }
-})
-const onLoad = useLoadMorePage(async (page) => {
-  // eslint-disable-next-line functional/no-throw-statement
-  if (!authStore.user_data) throw new Error("need_login")
-
-  const data = await LichSu(page, authStore.user_data.token)
-
-  data.items = data.items.map((item) => {
-    // eslint-disable-next-line functional/no-throw-statement
-    if (!item.read_at) throw new Error("read_at not found")
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    item.read_at = dayjs(item.read_at) as unknown as any
-    return item
-  })
-
-  return data as unknown as Omit<typeof data, "items"> & {
-    items: (Omit<(typeof data.items)[0], "read_at"> & {
-      read_at: dayjs.Dayjs
-    })[]
-  }
-}, data)
+const IDMStore = useIDMStore()
 </script>

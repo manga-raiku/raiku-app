@@ -8,7 +8,7 @@ meta:
   <q-header class="bg-[rgba(0,0,0,.9)]" :model-value="showToolbar">
     <q-toolbar>
       <AppHeaderIconApp
-        v-if="$q.screen.sm || $q.screen.gt.sm"
+        v-if="!isCapacitor && ($q.screen.sm || $q.screen.gt.sm)"
         :no-name="$q.screen.lt.md"
         class="mr-8"
       />
@@ -59,16 +59,40 @@ meta:
 
         <AppHeaderUser />
       </template>
+
+      <q-space />
+
+      <q-btn
+        round
+        unelevated
+        @click="
+          data &&
+            currentEpisode?.value &&
+            IDMStore.download({
+              path: `/truyen-tranh/${zlug}/${epName}/${epId}`,
+              manga_id: data.uid,
+              manga_name: data.name,
+              manga_image: data.image,
+              ep_id: data.ep_id,
+              ep_name: currentEpisode.value.name,
+              pages: data.pages.map((item) => item.src),
+            })
+        "
+      >
+        <Icon icon="solar:download-minimalistic-broken" class="size-1.5em" />
+      </q-btn>
     </q-toolbar>
   </q-header>
 
   <q-page
     :style-fn="
-      (offset, height) => ({
-        height: height + 'px',
-      })
+      (offset, height) => {
+        return {
+          height: height + 'px',
+        }
+      }
     "
-    class="absolute"
+    class="fixed top-0 w-full"
   >
     <!-- reader -->
     <template v-if="pages && !loading">
@@ -528,6 +552,7 @@ const props = defineProps<{
 }>()
 
 const $q = useQuasar()
+const IDMStore = useIDMStore()
 const showSearchMB = ref(false)
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const route = useRoute()

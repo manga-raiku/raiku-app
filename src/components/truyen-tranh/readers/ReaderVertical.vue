@@ -49,18 +49,20 @@
     </section>
   </section>
 
-  <ScrollbarVertical
-    :min-y="maxDiffY"
-    :max-y="minDiffY"
-    v-model:scroll-y="diffYZoom"
-    :min-x="maxDiffX"
-    :max-x="minDiffX"
-    v-model:scroll-x="diffXZoom"
-    :p-width="pWidth"
-    :p-height="pHeight"
-    :o-width="oWidth"
-    :o-height="oHeight"
-  />
+  <teleport to="body">
+    <ScrollbarVertical
+      :min-y="maxDiffY"
+      :max-y="minDiffY"
+      v-model:scroll-y="diffYZoom"
+      :min-x="maxDiffX"
+      :max-x="minDiffX"
+      v-model:scroll-x="diffXZoom"
+      :p-width="pWidth"
+      :p-height="pHeight"
+      :o-width="oWidth"
+      :o-height="oHeight"
+    />
+  </teleport>
 </template>
 
 <script lang="ts" setup>

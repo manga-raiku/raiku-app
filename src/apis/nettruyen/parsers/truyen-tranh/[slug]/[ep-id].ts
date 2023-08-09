@@ -8,6 +8,9 @@ import { parseComment } from "../../__helpers__/parseComment"
 export default function epId(html: string, now: number) {
   const $ = parseDom(html)
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const image = $("#ctl00_Head1 > meta:nth-child(12)").attr("content")!
+
   const name = $("h1").text().split("-").slice(0, -1).join("-").trim()
   const { path: manga } = parseAnchor(
     $("#ctl00_divCenter > div > div:nth-child(1) > div.top > h1 > a")
@@ -29,7 +32,8 @@ export default function epId(html: string, now: number) {
     .toArray()
     .map((item) => {
       const $item = $(item)
-      const src = $item.attr("src")
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const src = $item.attr("src")!
       const original = $item.attr("data-original")
       const cdn = $item.attr("data-cdn")
 
@@ -50,6 +54,7 @@ export default function epId(html: string, now: number) {
 
   return {
     name,
+    image,
     uid,
     key,
     manga,

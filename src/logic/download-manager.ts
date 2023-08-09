@@ -9,7 +9,7 @@ export interface MetaEpisode {
   readonly manga_name: string
   readonly manga_image: string
 
-  readonly ep_id: string
+  readonly ep_id: number
   readonly ep_name: string
 
   readonly pages: readonly string[]
