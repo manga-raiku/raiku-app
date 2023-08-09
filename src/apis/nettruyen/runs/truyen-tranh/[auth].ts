@@ -24,8 +24,7 @@ export default async function (
     ),
     canMarkReadAll: !!markAsReadHtml,
     readContinueId: pathEpCont
-      ?
-        parseInt(
+      ? parseInt(
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           parsePath(pathEpCont).split("/").slice(-2).filter(Boolean).at(-1)!
         )

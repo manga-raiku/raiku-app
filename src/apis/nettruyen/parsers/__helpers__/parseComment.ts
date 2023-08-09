@@ -48,7 +48,7 @@ export function parseComment(
           .match(/width:\s*(\d+)/)![1]
       ),
     },
-    chapter: normalizeChName($item.find(".cmchapter").text().trim())
+    chapter: normalizeChName($item.find(".cmchapter").text().trim()),
   }
   // patch content
   $item.find(".comment-content img").each((i, item) => {

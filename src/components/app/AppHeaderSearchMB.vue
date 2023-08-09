@@ -125,7 +125,7 @@ const route = useRoute()
 const keyword = ref("")
 
 const query = ref((route.query.query ?? "") + "")
-const { data,run } = useRequest(() => PreSearch(query.value, 1), {
+const { data, run } = useRequest(() => PreSearch(query.value, 1), {
   manual: true,
 })
 watch(query, debounce(run, 300))

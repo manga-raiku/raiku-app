@@ -379,9 +379,9 @@ import { useShare } from "@vueuse/core"
 // import Like from "src/apis/runs/frontend/regiter-like"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import Manga from "src/apis/nettruyen/runs/truyen-tranh/[slug]"
+import { isCapacitor } from "src/constants"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
-import { isCapacitor } from 'src/constants'
 
 const props = defineProps<{
   zlug: string

@@ -516,10 +516,10 @@ import { useFullscreen } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import type { QDialog, QMenu } from "quasar"
-import { isCapacitor } from "src/constants"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
 import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
+import { isCapacitor } from "src/constants"
 
 const props = defineProps<{
   zlug: string

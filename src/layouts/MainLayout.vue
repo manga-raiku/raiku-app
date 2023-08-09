@@ -61,7 +61,11 @@
       </q-page>
     </q-page-container>
 
-    <q-footer v-if="isCapacitor" v-show='!route.meta?.hiddenFooter' class="bg-dark-page">
+    <q-footer
+      v-if="isCapacitor"
+      v-show="!route.meta?.hiddenFooter"
+      class="bg-dark-page"
+    >
       <q-tabs
         indicator-color="transparent"
         active-color="white"

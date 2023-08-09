@@ -474,8 +474,9 @@ const sliderIndex = ref(0)
   z-index: 0;
   width: 100%;
   height: 48vw; //56vw
-  &, & .slide {
-  min-height: 48vw;
+  &,
+  & .slide {
+    min-height: 48vw;
   }
   max-height: 1012px;
 

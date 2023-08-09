@@ -7,4 +7,4 @@ declare module "vue-router" {
     hiddenHeader?: boolean
     hiddenFooter?: boolean
   }
-|
+}

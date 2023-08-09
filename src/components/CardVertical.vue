@@ -6,7 +6,7 @@
         :src="data.image"
         referrerpolicy="no-referrer"
         :ratio="190 / 247"
-        :width='imgWidth ?? "120px"'
+        :width="imgWidth ?? '120px'"
         class="rounded-lg"
       >
         <BottomBlur>
@@ -60,7 +60,10 @@
         </router-link>
       </div>
 
-      <p v-if="data.description" class="text-grey mt-3 line-clamp-2 text-0.95em">
+      <p
+        v-if="data.description"
+        class="text-grey mt-3 line-clamp-2 text-0.95em"
+      >
         {{ data.description }}
       </p>
 

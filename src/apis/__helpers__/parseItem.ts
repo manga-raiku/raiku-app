@@ -13,7 +13,9 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
   // eslint-disable-next-line camelcase, @typescript-eslint/no-non-null-assertion
   const last_chapter = parseAnchor($li.find(".last_chapter > a"))!
   // eslint-disable-next-line camelcase
-  last_chapter.name = normalizeChName(last_chapter.name).replace("Đọc Tiếp", '').trim()
+  last_chapter.name = normalizeChName(last_chapter.name)
+    .replace("Đọc Tiếp", "")
+    .trim()
   const $updated = $li.find(".time-ago").text().trim()
   const updated = $updated ? parseTimeAgo($updated, now) : null
   const label = $li.find(".type-label").text().trim() // "Hot" // "Label"
