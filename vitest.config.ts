@@ -14,7 +14,7 @@ export default defineConfig({
     environment: "happy-dom",
     globals: true,
     setupFiles: "test/vitest/setup-file.ts",
-    testTimeout: 5000,
+    testTimeout: 5_000,
     include: [
       // Matches vitest tests in any subfolder of 'src' or into 'test/vitest/__tests__'
       // Matches all files with extension 'js', 'jsx', 'ts' and 'tsx'

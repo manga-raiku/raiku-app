@@ -31,3 +31,9 @@ export function readFile(path: string, encoding?: Encoding) {
     encoding,
   }).then((res) => res.data)
 }
+
+export function exists(path: string) {
+  return Filesystem.stat({ path, directory: Directory.External })
+    .then(() => true)
+    .catch(() => false)
+}

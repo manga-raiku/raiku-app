@@ -1,3 +1,22 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`download-manager > should download episode x for the first time 1`] = `
+{
+  "downloaded": 8,
+  "ep_id": 1234,
+  "ep_name": "Chapter 1",
+  "pages": [
+    "offline://files/1a96284b/30089c30/1a96284a",
+    "offline://files/1a96284b/30089c30/1a96284b",
+    "offline://files/1a96284b/30089c30/1a96284c",
+    "offline://files/1a96284b/30089c30/1a96284d",
+    "offline://files/1a96284b/30089c30/1a96284e",
+    "offline://files/1a96284b/30089c30/1a96284f",
+    "offline://files/1a96284b/30089c30/1a962850",
+    "offline://files/1a96284b/30089c30/1a962851",
+  ],
+  "start_download_at": 1690022500169,
+}
+`;
+
 exports[`download-manager > should forcibly stopped while downloading 1`] = `"time_out"`;
