@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import hashSum from "hash-sum"
-import { someLimit } from "modern-async"
 
 export interface MetaEpisode {
   readonly path: string
@@ -70,16 +69,12 @@ async function downloadFiles(
   startIndex: number,
   onprogress: (cur: number, total: number, path: string) => boolean
 ): Promise<void> {
-  await someLimit(
-    sources,
-    async (src: string, index) => {
-      const path = `files/${hash_id}/${hashSum(startIndex + index)}`
-      await downloadFile(src, path)
+  await someLimit(sources,  async (src: string, index: number) => {
+    const path = `files/${hash_id}/${hashSum(startIndex + index)}`
+    await downloadFile(src, path)
 
-      return onprogress(index, sources.length, "offline://" + path)
-    },
-    5
-  )
+    return onprogress(index, sources.length, "offline://" + path)
+  }, 5)
 }
 
 export function createTaskDownloadEpisode(meta: MetaEpisode) {
@@ -95,7 +90,7 @@ export function createTaskDownloadEpisode(meta: MetaEpisode) {
     downloaded: 0,
   })
 
-  const start = async (loadMetaOnDisk: boolean = true) => {
+  const start = async (loadMetaOnDisk = true) => {
     downloading.value = true
     // check continue this passed
     const metaInDisk = loadMetaOnDisk
@@ -163,15 +158,17 @@ export function createTaskDownloadEpisode(meta: MetaEpisode) {
         metaCloned.pages[cur + startIndex] = path
         metaCloned.downloaded = cur + startIndex + 1
         saveMeta()
-        return downloading.value
+        return !downloading.value
       }
     ).catch(async (err) => {
       await saveMeta()
+      downloading.value = false
       // eslint-disable-next-line functional/no-throw-statement
       throw err
     })
 
     await saveMeta()
+    downloading.value = false
   }
   const stop = () => {
     downloading.value = false
