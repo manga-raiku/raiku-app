@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import hashSum from "hash-sum"
-import { mapLimit } from "modern-async"
+import { someLimit } from "modern-async"
 
 export interface MetaEpisode {
   readonly path: string
@@ -68,15 +68,15 @@ async function downloadFiles(
   sources: readonly string[],
   hash_id: string,
   startIndex: number,
-  onprogress: (cur: number, total: number, path: string) => void
+  onprogress: (cur: number, total: number, path: string) => boolean
 ): Promise<void> {
-  await mapLimit(
+  await someLimit(
     sources,
     async (src: string, index) => {
       const path = `files/${hash_id}/${hashSum(startIndex + index)}`
       await downloadFile(src, path)
 
-      onprogress(index, sources.length, "offline://" + path)
+      return onprogress(index, sources.length, "offline://" + path)
     },
     5
   )
@@ -86,25 +86,30 @@ export function createTaskDownloadEpisode(meta: MetaEpisode) {
   const id = `${meta.manga_id}ɣ${meta.ep_id}`
   const hash_id = hashSum(id)
 
+  const downloading = ref(false)
   const refValue = ref<MetaEpisodeRunning>({
+    start_download_at: Date.now(),
     ...meta,
     pages: meta.pages as string[],
     manga_image_downloaded: false,
     downloaded: 0,
-    start_download_at: Date.now(),
   })
 
-  const start = async () => {
+  const start = async (loadMetaOnDisk: boolean = true) => {
+    downloading.value = true
     // check continue this passed
-    const metaInDisk = await Filesystem.readFile({
-      path: `meta/${hash_id}`,
-      directory: Directory.External,
-      encoding: Encoding.UTF8,
-    })
-      .then(
-        (res) => JSON.parse(res.data) as MetaEpisode & { downloaded: number }
-      )
-      .catch(() => undefined)
+    const metaInDisk = loadMetaOnDisk
+      ? await Filesystem.readFile({
+          path: `meta/${hash_id}`,
+          directory: Directory.External,
+          encoding: Encoding.UTF8,
+        })
+          .then(
+            (res) =>
+              JSON.parse(res.data) as MetaEpisode & { downloaded: number }
+          )
+          .catch(() => undefined)
+      : undefined
 
     // save meta
     const metaCloned = Object.assign(refValue.value, metaInDisk, {
@@ -146,6 +151,8 @@ export function createTaskDownloadEpisode(meta: MetaEpisode) {
       await saveMeta()
     }
 
+    if (!downloading.value) return
+
     const startIndex = metaCloned.downloaded
     // save files
     await downloadFiles(
@@ -156,6 +163,7 @@ export function createTaskDownloadEpisode(meta: MetaEpisode) {
         metaCloned.pages[cur + startIndex] = path
         metaCloned.downloaded = cur + startIndex + 1
         saveMeta()
+        return downloading.value
       }
     ).catch(async (err) => {
       await saveMeta()
@@ -165,8 +173,12 @@ export function createTaskDownloadEpisode(meta: MetaEpisode) {
 
     await saveMeta()
   }
+  const stop = () => {
+    downloading.value = false
+  }
+  const resume = () => start(false)
 
-  return { ref: refValue, start }
+  return { ref: refValue, downloading, start, stop, resume }
 }
 
 export async function deleteEpisode(manga_id: string, ep_id: string) {

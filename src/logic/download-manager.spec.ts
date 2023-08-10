@@ -403,6 +403,96 @@ describe("download-manager", () => {
   })
 
   // test("should run multiple download episodes", async () => {})
+  
+  
+  test("should download stop and resume", async () => {
+    ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(async (url) => {
+      await sleep(500)
+    
+      return Promise.resolve({
+        async arrayBuffer() {
+          return new TextEncoder().encode(url)
+        },
+        async text() {
+          return url
+        },
+      })
+    })
+    
+    const { ref, downloading, start, stop, resume } = createTaskDownloadEpisode(meta)
+    expect(downloading.value).toBe(false)
+    expect(ref.value.downloaded).toBe(0)
+    
+    const watcher = vi.fn()
+    watch(ref, watcher, { deep: true })
+    
+    void start()
+    await sleep(1_000)
+
+    expect(downloading.value).toBe(true)
+    expect(ref.value.downloaded).toBeGreaterThan(0)
+
+    stop()
+    
+    expect(downloading.value).toBe(false)
+    expect(ref.value.downloaded).toBeGreaterThan(1)
+    
+    resume()
+    
+    expect(downloading.value).toBe(true)
+    expect(ref.value.downloaded).toBeGreaterThan(0)
+    
+    await start()
+    
+    const hash_id = hashSum(`${manga_id}ɣ${ep_id}`)
+    // check directory
+    expect(await readdir("")).toEqual(["files", "meta", "poster"])
+    expect(await readdir("files")).toEqual([hash_id])
+    
+    // check hash file page
+    expect(await readdir(`files/${hash_id}`)).toEqual([
+      "1a96284a",
+      "1a96284b",
+      "1a96284c",
+      "1a96284d",
+      "1a96284e",
+      "1a96284f",
+      "1a962850",
+      "1a962851",
+    ])
+    
+    expect(await readdir("meta")).toEqual([hash_id])
+    expect(await readdir("poster")).toEqual([hash_id])
+    
+    // valid image pages
+    for (const index in pages) {
+      const path = `files/${hash_id}/${hashSum(+index)}`
+    
+      expect(await readFile(path, Encoding.UTF8)).toBe(pages[index])
+    }
+    
+    // valid meta
+    expect(
+      JSON.parse(await readFile("meta/" + hash_id, Encoding.UTF8))
+    ).toEqual({
+      path: "/manga-1/chap-1",
+      manga_id: 1,
+      manga_name: "Manga 1",
+      ep_id: "Chapter 1",
+      manga_image: "offline://poster/" + hash_id,
+      manga_image_downloaded: true,
+      ep_name: "Chapter 1",
+      pages: pages.map(
+        (_, index) => `offline://files/${hash_id}/${hashSum(index)}`
+      ),
+      downloaded: pages.length,
+      start_download_at: 1690022500169,
+    })
+    
+    // valid meta image
+    expect(await readFile("poster/" + hash_id, Encoding.UTF8)).toBe(manga_image)
+    expect(watcher.mock.calls.length).toBe(10)
+  })
 })
 
 export {}
