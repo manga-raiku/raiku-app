@@ -68,15 +68,21 @@ meta:
         @click="
           data &&
             currentEpisode?.value &&
-            IDMStore.download({
-              path: `/truyen-tranh/${zlug}/${epName}/${epId}`,
-              manga_id: data.uid,
-              manga_name: data.name,
-              manga_image: data.image,
-              ep_id: data.ep_id,
-              ep_name: currentEpisode.value.name,
-              pages,
-            })
+            pages &&
+            IDMStore.download(
+              {
+                path: `/truyen-tranh/${zlug}`,
+                manga_id: data.uid,
+                manga_name: data.name,
+                manga_image: data.image,
+              },
+              {
+                path: `/truyen-tranh/${zlug}/${epName}/${epId}`,
+                ep_id: data.ep_id,
+                ep_name: currentEpisode.value.name,
+                pages: pages.slice(0),
+              }
+            )
         "
       >
         <Icon icon="solar:download-minimalistic-broken" class="size-1.5em" />

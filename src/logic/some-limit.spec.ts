@@ -28,10 +28,14 @@ describe("someLimit", () => {
   it("should stop if true value", async () => {
     const sources = [vi.fn(), vi.fn()]
 
-    someLimit(sources , val => {
-      val()
-      return true
-    }, 1)
+    someLimit(
+      sources,
+      (val) => {
+        val()
+        return true
+      },
+      1
+    )
 
     expect(sources[0].mock.calls.length).toBe(1)
     expect(sources[1].mock.calls.length).toBe(0)
