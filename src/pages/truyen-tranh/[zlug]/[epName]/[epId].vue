@@ -75,7 +75,7 @@ meta:
               manga_image: data.image,
               ep_id: data.ep_id,
               ep_name: currentEpisode.value.name,
-              pages: data.pages.map((item) => item.src),
+              pages,
             })
         "
       >

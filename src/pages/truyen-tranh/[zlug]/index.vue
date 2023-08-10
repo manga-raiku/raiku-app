@@ -134,7 +134,7 @@ meta:
       </section>
 
       <section
-        v-if="!$q.screen.xs"
+        v-if="!isCapacitor && !$q.screen.xs"
         class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 children:my-2"
       >
         <q-btn
@@ -301,7 +301,7 @@ meta:
   </q-page>
 
   <q-footer
-    v-if="$q.screen.xs && data"
+    v-if="isCapacitor || $q.screen.xs"
     class="bg-dark-page header-blur"
     style="box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1)"
   >
@@ -329,7 +329,7 @@ meta:
       </q-btn>
 
       <q-btn
-        :to="data.chapters.at(-1)!.path"
+        :to="data?.chapters.at(-1)!.path"
         rounded
         no-caps
         no-wrap
@@ -348,7 +348,7 @@ meta:
           class="mr-2"
         />
 
-        Xem Ch. {{ data.chapters.at(-1)!.name }}
+        Xem Ch. {{ data?.chapters.at(-1)!.name ?? "__" }}
       </q-btn>
 
       <q-btn
