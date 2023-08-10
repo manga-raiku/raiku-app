@@ -480,7 +480,7 @@ describe("download-manager", () => {
       path: "/manga-1/chap-1",
       manga_id: 1,
       manga_name: "Manga 1",
-      ep_id: "Chapter 1",
+      ep_id,
       manga_image: "offline://poster/" + hash_id,
       manga_image_downloaded: true,
       ep_name: "Chapter 1",
