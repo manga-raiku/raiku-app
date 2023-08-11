@@ -2,14 +2,14 @@
 
 「無邪気な笑顔の下の、日付は遥かなメモリー」
 
-A Manga Raiku Application
+Free and ad-free private online Manga, manhua, manhwa reading app!
 
-## Tube on
+> The app is in development
 
-[ ] add comment
-[ ] page & player read
-[ ] player mobile
-[ ] player desktop
+The app currently supports:
+- Android APK (native app)
+- SPA
+- PWA
 
 ## Install the dependencies
 
