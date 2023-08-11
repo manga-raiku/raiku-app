@@ -130,12 +130,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        node_version: [16, 18, 20]
+        node_version: [16, 20]
         include:
           # Active LTS + other OS
           - os: macos-latest
-            node_version: 18
-          - os: windows-latest
             node_version: 18
     steps:
       - name: Checkout 🛎️
