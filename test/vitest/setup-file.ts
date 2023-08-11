@@ -2,10 +2,15 @@
 import "fake-indexeddb/auto"
 
 const { Date } = self
-;(self as unknown as never).Date = class extends Date {
-  constructor(value: string | number | Date) {
-    if (typeof value === "string") value += " GMT+0"
+Object.assign(self, {
+  Date: class extends Date {
+    constructor(value: string | number | Date) {
+      const raw = value
+      if (typeof value === "string" && !value.includes("+")) value += " GMT+0"
 
-    super(value)
-  }
-}
+      super(value)
+
+      if (Number.isNaN(this.getTime())) console.error(raw)
+    }
+  },
+})
