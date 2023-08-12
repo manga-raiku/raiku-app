@@ -9,8 +9,9 @@ export async function someLimit<T>(
   while (i < length) {
     const tasks = []
 
-    for (let j = 0; j < concurrency && i < length; j++, i++) {
+    for (let j = 0; j < concurrency && i < length; j++) {
       tasks.push(fn(sources[i], i))
+      i++
     }
 
     const results = await Promise.all(tasks)

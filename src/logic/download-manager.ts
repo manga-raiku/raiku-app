@@ -46,9 +46,14 @@ export interface MetaEpisodeRunning extends MetaEpisodeOnDisk {
   pages: string[]
 }
 
-async function downloadFile(src: string, path: string): Promise<void> {
+async function downloadFile(
+  src: string,
+  path: string,
+  downloading: Ref<boolean>
+): Promise<void> {
   const buffer = await fetch(src).then((res) => res.arrayBuffer())
 
+  if (!downloading.value) throw new Error("user_paused")
   await Filesystem.writeFile({
     path,
     data: uint8ToBase64(new Uint8Array(buffer)),
@@ -62,17 +67,21 @@ async function downloadFiles(
   hashIDManga: string,
   hashIDEp: string,
   startIndex: number,
-  onprogress: (cur: number, total: number, path: string) => boolean
+  downloading: Ref<boolean>,
+  onprogress: (cur: number, total: number, path: string) => void
 ): Promise<void> {
   await someLimit(
     sources,
     async (src: string, index: number) => {
+      if (!downloading.value) {
+        throw new Error("user_paused")
+      }
       const path = `${DIR_FILES}/${hashIDManga}/${hashIDEp}/${hashSum(
         startIndex + index
       )}`
-      await downloadFile(src, path)
+      await downloadFile(src, path, downloading)
 
-      return onprogress(index, sources.length, PROTOCOL_OFFLINE + path)
+      onprogress(index, sources.length, PROTOCOL_OFFLINE + path)
     },
     5
   )
@@ -185,11 +194,11 @@ export function createTaskDownloadEpisode(
       hashIDManga,
       hashIDEp,
       startIndex,
+      downloading,
       (cur, total, path) => {
         metaCloned.pages[cur + startIndex] = path
-        metaCloned.downloaded = cur + startIndex + 1
+        metaCloned.downloaded++
         saveMeta()
-        return !downloading.value
       }
     ).catch(async (err) => {
       await saveMeta()
@@ -210,30 +219,53 @@ export function createTaskDownloadEpisode(
 }
 
 export async function getListManga() {
-  // return
-  const { files } = await Filesystem.readdir({
-    path: DIR_META,
-    directory: Directory.External,
-  })
+  try {
+    // return
+    const { files } = await Filesystem.readdir({
+      path: DIR_META,
+      directory: Directory.External,
+    })
 
-  const list = (
-    await Promise.all(
-      // eslint-disable-next-line array-callback-return
-      files.map((item) => {
-        if (item.type === "file")
-          return Filesystem.readFile({
-            path: `${DIR_META}/${item.name}`,
-            directory: Directory.External,
-            encoding: Encoding.UTF8,
-          }).then((res) => JSON.parse(res.data) as MetaMangaOnDisk)
-        // .catch(() => null)
-      })
-    )
-  ).filter(Boolean) as MetaMangaOnDisk[]
+    const list = (
+      await Promise.all(
+        // eslint-disable-next-line array-callback-return
+        files.map((item) => {
+          if (item.type === "file")
+            return Filesystem.readFile({
+              path: `${DIR_META}/${item.name}`,
+              directory: Directory.External,
+              encoding: Encoding.UTF8,
+            }).then((res) => JSON.parse(res.data) as MetaMangaOnDisk)
+          // .catch(() => null)
+        })
+      )
+    ).filter(Boolean) as MetaMangaOnDisk[]
 
-  list.sort((a, b) => a.start_download_at - b.start_download_at)
+    list.sort((a, b) => a.start_download_at - b.start_download_at)
 
-  return list
+    return list
+  } catch (err) {
+    if (err?.message === "Folder does not exist.") return []
+
+    throw err
+  }
+}
+
+export async function getCountEpisodes(manga_id: number) {
+  const hashIDManga = hashSum(manga_id)
+
+  try {
+    const { files } = await Filesystem.readdir({
+      path: `${DIR_META}/${hashIDManga}`,
+      directory: Directory.External,
+    })
+
+    return files.length
+  } catch (err) {
+    if (err?.message === "Folder does not exist.") return 0
+
+    throw err
+  }
 }
 
 export async function getListEpisodes(manga_id: number) {

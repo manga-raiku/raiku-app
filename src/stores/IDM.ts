@@ -6,40 +6,73 @@ import type {
   MetaMangaOnDisk,
 } from "src/logic/download-manager"
 
-Object.assign(window, { Filesystem, Directory, Encoding })
 export const useIDMStore = defineStore("IDM", () => {
-  const _queue = shallowReactive<
-    Map<
-      MetaMangaOnDisk,
-      Set<MetaEpisodeOnDisk | ReturnType<typeof createTaskDownloadEpisode>>
-    >
+  const loadingDataInMemory = ref(false)
+
+  const mapMetaManga = reactive<Map<number, MetaEpisodeOnDisk>>(new Map())
+  const queue = reactive<
+    Map<number, Map<number, ReturnType<typeof createTaskDownloadEpisode>>>
   >(new Map())
-  const listManga = shallowReactive<MetaMangaOnDisk[]>([])
+  const listMangaSorted = reactive<MetaEpisodeOnDisk[]>([])
 
   let gettedList = false
-  const queue = computed(() => {
+  async function runLoadInMemory() {
+    let gettedList = false
     if (!gettedList) {
+      loadingDataInMemory.value = true
       // eslint-disable-next-line promise/catch-or-return, promise/always-return
-      getListManga().then((list) => {
-        listManga.push(...list)
-        listManga.sort((a, b) => b.start_download_at - a.start_download_at)
-        listManga.forEach((item) => _queue.set(item, new Set()))
+      getListManga().then(async (list) => {
+        await Promise.all(
+          list.map(async (item) => {
+            const itemReactive = shallowReactive(item)
+            item.count_ep = await getCountEpisodes(item.manga_id)
+            mapMetaManga.set(item.manga_id, itemReactive)
+            listMangaSorted.push(itemReactive)
+          })
+        )
+        loadingDataInMemory.value = false
       })
       gettedList = true
     }
-    return _queue
-  })
-
-  async function download(metaManga: MetaManga, metaEp: MetaEpisode) {
-    const task = createTaskDownloadEpisode(metaManga, metaEp)
-    const manga = await task.startSaveMetaManga()
-
-    listManga.unshift(manga)
-
-    const store = _queue.get(manga)
-    if (store) store.add(task)
-    else _queue.set(manga, new Set([task]))
   }
 
-  return { queue, download }
+  async function download(metaManga: MetaManga, metaEp: MetaEpisode) {
+    console.log(metaManga, metaEp)
+    const task = createTaskDownloadEpisode(metaManga, metaEp)
+
+    if (!mapMetaManga.has(metaManga.manga_id)) {
+      const manga = shallowReactive(await task.startSaveMetaManga())
+      manga.count_ep = 0
+      mapMetaManga.set(manga.manga_id, manga)
+      listMangaSorted.unshift(manga)
+    }
+
+    let store = queue.get(metaManga.manga_id)
+    if (store) {
+      store.set(metaEp.ep_id, task)
+    } else queue.set(metaManga.manga_id,store= new Map([[metaEp.ep_id, task]]))
+
+    await task.start()
+    mapMetaManga.get(metaManga.manga_id).count_ep++
+    store.delete(metaEp.ep_id)
+
+    return task
+  }
+
+  async function resumeDownload(metaManga: MetaManga, task: Awaited<ReturnType<typeof download>> | {
+    ref: MetaEpisodeOnDisk
+  }) {
+    if (typeof task.resume === "function") return task.resume()
+
+    return download(metaManga, task)
+  }
+
+  return {
+    loadingDataInMemory,
+    mapMetaManga,
+    listMangaSorted,
+    queue,
+    runLoadInMemory,
+    download,
+  }
 })
