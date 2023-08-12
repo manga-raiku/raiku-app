@@ -19,7 +19,7 @@ const srcImage = ref("")
 watch(srcImage, (n, o) => {
   if (o?.startsWith("blob:")) URL.revokeObjectURL(o)
 })
-function onLoad(event: Event) {
+function onLoad() {
   if (srcImage.value.startsWith("blob:")) URL.revokeObjectURL(srcImage.value)
 }
 

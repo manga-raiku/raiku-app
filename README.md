@@ -7,6 +7,7 @@ Free and ad-free private online Manga, manhua, manhwa reading app!
 > The app is in development
 
 The app currently supports:
+
 - Android APK (native app)
 - SPA
 - PWA

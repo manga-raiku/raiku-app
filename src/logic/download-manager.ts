@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-throw-statement */
 /* eslint-disable camelcase */
 import hashSum from "hash-sum"
 
@@ -82,6 +83,8 @@ async function downloadFiles(
       await downloadFile(src, path, downloading)
 
       onprogress(index, sources.length, PROTOCOL_OFFLINE + path)
+
+      return false
     },
     5
   )
@@ -106,7 +109,9 @@ async function saveMetaManga(metaManga: MetaManga): Promise<MetaMangaOnDisk> {
   } catch {}
 
   const pathPoster = `${DIR_POSTER}/${hash_id}`
-  await downloadFile(metaManga.manga_image, pathPoster)
+  await downloadFile(metaManga.manga_image, pathPoster, {
+    value: true,
+  } as Ref<boolean>)
 
   const metaOnDisk: MetaMangaOnDisk = {
     ...metaManga,
@@ -126,7 +131,14 @@ async function saveMetaManga(metaManga: MetaManga): Promise<MetaMangaOnDisk> {
 export function createTaskDownloadEpisode(
   metaMannga: MetaManga,
   metaEp: MetaEpisode
-) {
+): {
+  ref: Ref<MetaEpisodeRunning>
+  startSaveMetaManga: () => Promise<MetaMangaOnDisk>
+  downloading: Ref<boolean>
+  start: () => Promise<void>
+  stop: () => void
+  resume: () => Promise<void>
+} {
   const hashIDEp = hashSum(metaEp.ep_id)
 
   const downloading = ref(false)
@@ -203,7 +215,6 @@ export function createTaskDownloadEpisode(
     ).catch(async (err) => {
       await saveMeta()
       downloading.value = false
-      // eslint-disable-next-line functional/no-throw-statement
       throw err
     })
 
@@ -245,7 +256,8 @@ export async function getListManga() {
 
     return list
   } catch (err) {
-    if (err?.message === "Folder does not exist.") return []
+    if ((err as Error | undefined)?.message === "Folder does not exist.")
+      return []
 
     throw err
   }
@@ -262,7 +274,8 @@ export async function getCountEpisodes(manga_id: number) {
 
     return files.length
   } catch (err) {
-    if (err?.message === "Folder does not exist.") return 0
+    if ((err as Error | undefined)?.message === "Folder does not exist.")
+      return 0
 
     throw err
   }

@@ -18,7 +18,7 @@ meta:
       v-if="isCapacitor && $q.screen.lt.md"
       class="fixed top-0 left-0 w-full h-full z--1"
       :class="{
-        'before-filter-blur': data?.image
+        'before-filter-blur': data?.image,
       }"
       :style="{
         '--data-src': `url('${data?.image}')`,
