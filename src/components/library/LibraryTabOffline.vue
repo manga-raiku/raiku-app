@@ -51,8 +51,8 @@
           <li v-for="item in list" :key="item.ref.ep_id" class="py-2">
             <EpControl
               :data="item.ref"
-              :downloading="(item as unknown as TaskDownload).downloading"
-              @stop=";(item as unknown as TaskDownload).stop"
+              :downloading="(item as unknown as any).downloading"
+              @stop=";(item as unknown as any).stop"
               @resume="IDMStore.resumeDownload(metaMangaShowInfo, item)"
             />
           </li>
@@ -64,8 +64,6 @@
 
 <script lang="ts" setup>
 import type { UnwrapRef } from "vue"
-
-type TaskDownload = ReturnType<typeof createTaskDownloadEpisode>
 
 const IDMStore = useIDMStore()
 
