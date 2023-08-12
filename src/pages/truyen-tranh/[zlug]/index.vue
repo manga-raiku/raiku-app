@@ -10,13 +10,16 @@ meta:
         <Icon icon="fluent:arrow-left-24-filled" class="size-1.5em" />
       </q-btn>
 
-      <q-toolbar-title>{{ data?.name }}</q-toolbar-title>
+      <div class="ellipsis text-16px text-weight-medium">{{ data?.name }}</div>
     </q-toolbar>
   </q-header>
   <q-page padding>
     <div
       v-if="isCapacitor && $q.screen.lt.md"
-      class="before-filter-blur fixed top-0 left-0 w-full h-full z--1"
+      class="fixed top-0 left-0 w-full h-full z--1"
+      :class="{
+        'before-filter-blur': data?.image
+      }"
       :style="{
         '--data-src': `url('${data?.image}')`,
       }"
