@@ -70,7 +70,7 @@ describe("download-manager", () => {
       metaManga,
       metaEp
     )
-    expect(ref.value.downloaded).toBe(0)
+    expect(ref.downloaded).toBe(0)
     expect(downloading.value).toBeFalsy()
 
     const watcher = vi.fn()
@@ -148,7 +148,7 @@ describe("download-manager", () => {
     expect(await readFile("poster/" + hashIDManga, Encoding.UTF8)).toBe(
       manga_image
     )
-    expect(watcher.mock.calls.length).toBe(9)
+    expect(watcher.mock.calls.length).toBe(8)
   })
 
   test("should forcibly stopped while downloading", async () => {
@@ -171,7 +171,7 @@ describe("download-manager", () => {
       metaManga,
       metaEp
     )
-    expect(ref.value.downloaded).toBe(0)
+    expect(ref.downloaded).toBe(0)
     expect(downloading.value).toBeFalsy()
 
     await start().catch(() => null)
@@ -239,7 +239,7 @@ describe("download-manager", () => {
       metaManga,
       metaEp
     )
-    expect(ref.value.downloaded).toBe(0)
+    expect(ref.downloaded).toBe(0)
     expect(downloading.value).toBeFalsy()
 
     await start().catch(() => null)
@@ -294,7 +294,7 @@ describe("download-manager", () => {
       start: start2,
       downloading: dl2,
     } = createTaskDownloadEpisode(metaManga, metaEp)
-    expect(ref2.value.downloaded).toBe(0)
+    expect(ref2.downloaded).toBe(0)
     expect(dl2.value).toBeFalsy()
 
     await start2().catch(() => null)
@@ -355,30 +355,27 @@ describe("download-manager", () => {
       metaEp
     )
     expect(downloading.value).toBe(false)
-    expect(ref.value.downloaded).toBe(0)
+    expect(ref.downloaded).toBe(0)
 
     const watcher = vi.fn()
     watch(ref, watcher, { deep: true })
 
     start()
-    await sleep(1_000)
-
+    await sleep(300)
     expect(downloading.value).toBe(true)
-    expect(ref.value.downloaded).toBeGreaterThanOrEqual(0)
-
-    await sleep(1_500)
+    expect(ref.downloaded).toBeGreaterThanOrEqual(1)
 
     stop()
+    await sleep(500)
 
     expect(downloading.value).toBe(false)
-    expect(ref.value.downloaded).toBeGreaterThanOrEqual(1)
+    expect(ref.downloaded).toBeGreaterThanOrEqual(1)
 
-    resume()
-
+    const promise = resume()
     expect(downloading.value).toBe(true)
-    expect(ref.value.downloaded).toBeGreaterThanOrEqual(1)
+    expect(ref.downloaded).toBeGreaterThanOrEqual(1)
 
-    await start()
+    await promise
 
     // check hash file page
     expect(await readdir(`files/${hashIDManga}/${hashIDEp}`)).toEqual([

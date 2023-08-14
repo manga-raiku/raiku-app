@@ -105,7 +105,7 @@
               listEpRemove =
                 listEpRemove.length === list?.size
                   ? []
-                  : [...new Set([...listEpRemove, ...list.keys()])]
+                  : [...new Set([...listEpRemove, ...(list?.keys() ?? [])])]
             "
           >
             <Icon icon="solar:check-circle-linear" class="size-1.5em mr-1" />
@@ -155,8 +155,8 @@
             <li class="px-1 py-1 col-3">
               <q-btn
                 no-caps
-                :outline="!list.has(data.id)"
-                :disable="list.has(data.id)"
+                :outline="!list?.has(data.id)"
+                :disable="list?.has(data.id)"
                 class="bg-gray-400 bg-opacity-10 w-full text-light-200 text-opacity-90 text-weight-regular"
                 :class="{
                   'text-blue': epsSelected.has(data),
@@ -169,7 +169,7 @@
               >
                 {{ parseFloat(data.name) }}
                 <Icon
-                  v-if="list.has(data.id)"
+                  v-if="list?.has(data.id)"
                   icon="iconoir:check"
                   class="absolute top-1 left-1 size-1.2em text-green-400"
                 />
@@ -184,7 +184,9 @@
         <q-btn no-caps stack unelevated class="min-w-15% text-weight-regular">
           <Icon icon="solar:download-minimalistic-bold" class="size-1.5em" />
           Download
-          <q-badge floating>{{ list.size }}</q-badge>
+          <q-badge v-if="list && list.size > 0" floating>{{
+            list.size
+          }}</q-badge>
         </q-btn>
         <q-btn
           no-caps
@@ -222,10 +224,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { UnwrapRef } from "vue"
+import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
 import GetListChapters from "src/apis/nettruyen/runs/get-list-chapters"
 import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
-import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
+import type { MetaEpisodeOnDisk } from "src/logic/download-manager"
 
 const IDMStore = useIDMStore()
 const $q = useQuasar()
@@ -233,7 +235,11 @@ const $q = useQuasar()
 IDMStore.runLoadInMemory()
 
 const metaMangaShowInfo = ref<(typeof IDMStore.listMangaSorted)[0]>()
-const listEpDownloaded = ref<Awaited<ReturnType<typeof getListEpisodes>>>()
+const listEpDownloaded = ref<
+  {
+    ref: Awaited<ReturnType<typeof getListEpisodes>>[0]
+  }[]
+>()
 watch(
   metaMangaShowInfo,
   async (meta) => {
@@ -241,9 +247,9 @@ watch(
     if (meta) {
       listEpDownloaded.value = shallowReactive(
         await getListEpisodes(meta.manga_id).catch(() => [])
-      )
+      ).map((ref) => ({ ref }))
     } else {
-      listEpDownloaded.value = void 0
+      listEpDownloaded.value = undefined
     }
   },
   { immediate: true }
@@ -260,28 +266,41 @@ const list = computed(() => {
   if (!listEpDownloading.value || !listEpDownloaded.value) return
 
   return new Map(
-    [
-      ...(listEpDownloaded.value.map((ref) => ({ ref })) ?? []),
-      ...(listEpDownloading.value as UnwrapRef<
-        ReturnType<typeof createTaskDownloadEpisode>
-      >[]),
-    ]
+    [...(listEpDownloaded.value ?? []), ...listEpDownloading.value]
       .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
       .map((item) => [item.ref.ep_id, item])
-  )
+  ) as Map<
+    number,
+    {
+      ref: Awaited<ReturnType<typeof getListEpisodes>>[0]
+      downloading?: boolean
+      stop?: () => void
+    }
+  >
 })
 
-async function resume(item) {
+async function resume(
+  item:
+    | Awaited<ReturnType<typeof IDMStore.download>>
+    | {
+        ref: MetaEpisodeOnDisk
+      }
+) {
+  if (!metaMangaShowInfo.value || !listEpDownloaded.value) return
+
   try {
-    const { ref } = await IDMStore.resumeDownload(metaMangaShowInfo.value, item)
+    const result = await IDMStore.resumeDownload(metaMangaShowInfo.value, item)
+
     listEpDownloaded.value.splice(
-      listEpDownloaded.value.findIndex((item) => item.ep_id === ref.ep_id) >>>
-        0,
+      listEpDownloaded.value.findIndex(
+        (item) => item.ref.ep_id === result.ref.ep_id
+      ) >>> 0,
       1,
-      ref
+      result
     )
   } catch (err) {
-    if (err?.message === "user_paused") return
+    if ((err as Error | undefined)?.message === "user_paused") return
+    // eslint-disable-next-line functional/no-throw-statement
     throw err
   }
 }
@@ -295,24 +314,28 @@ async function remove() {
   removing.value = true
 
   const meta = metaMangaShowInfo.value
+  // eslint-disable-next-line camelcase
   const { manga_id } = meta
   await Promise.allSettled(
+    // eslint-disable-next-line camelcase
     listEpRemove.value.map(async (ep_id) => {
       await IDMStore.deleteEpisode(manga_id, ep_id)
     })
   )
 
   const storeTask = IDMStore.queue.get(manga_id)
-  if (storeTask?.size > 0)
+  if (storeTask && storeTask?.size > 0)
+    // eslint-disable-next-line camelcase
     listEpRemove.value.forEach((ep_id) => {
       // clear
       storeTask.delete(ep_id)
     })
-  listEpDownloaded.value = listEpDownloaded.value.filter((item) => {
-    return !listEpRemove.value.includes(item.ep_id)
-  })
+  if (listEpDownloaded.value)
+    listEpDownloaded.value = listEpDownloaded.value.filter((item) => {
+      return !listEpRemove.value.includes(item.ref.ep_id)
+    })
 
-  if (list.size === 0) {
+  if (list.value?.size === 0) {
     IDMStore.listMangaSorted.splice(
       IDMStore.listMangaSorted.indexOf(meta) >>> 0,
       1
@@ -330,7 +353,7 @@ const epsSelected = shallowReactive<
 >(new Set())
 
 watch(showDownloadMore, async (state) => {
-  allEpisodes.value = void 0
+  allEpisodes.value = undefined
   epsSelected.clear()
 
   if (!state || !list.value) return
@@ -367,22 +390,27 @@ async function download() {
 
   downloading.value = true
   for (const ep of epsSelected) {
-    const { pages } = await SlugChapChap(
+    const conf = await SlugChapChap(
       ep.path.split("/").slice(2).join("/"),
       false
     )
+    // eslint-disable-next-line promise/catch-or-return
     IDMStore.download(metaMangaShowInfo.value, {
       path: ep.path,
       ep_id: ep.id,
       ep_name: ep.name,
-      pages: pages.map((item) => SERVERS[0].parse(item)),
-    }).then(({ ref }) => {
-      listEpDownloaded.value.splice(
-        listEpDownloaded.value.findIndex((item) => item.ep_id === ref.ep_id) >>>
-          0,
-        1,
-        ref
-      )
+      pages: conf.pages.map((item) => SERVERS[0].parse(item, conf)),
+    }).then((result) => {
+      if (listEpDownloaded.value)
+        listEpDownloaded.value.splice(
+          listEpDownloaded.value.findIndex(
+            (item) => item.ref.ep_id === result.ref.ep_id
+          ) >>> 0,
+          1,
+          result
+        )
+      // eslint-disable-next-line no-useless-return
+      return
     })
   }
   downloading.value = false

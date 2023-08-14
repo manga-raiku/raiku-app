@@ -85,13 +85,15 @@ export const useIDMStore = defineStore("IDM", () => {
     } else {
       queue.set(metaManga.manga_id, new Map())
       store = queue.get(metaManga.manga_id)
-      store.set(metaEp.ep_id, task)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      store!.set(metaEp.ep_id, task)
     }
 
     await task.start()
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     mapMetaManga.get(metaManga.manga_id)!.count_ep++
-    store.delete(metaEp.ep_id)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    store!.delete(metaEp.ep_id)
 
     return task
   }
@@ -107,8 +109,10 @@ export const useIDMStore = defineStore("IDM", () => {
     if (
       typeof (task as Awaited<ReturnType<typeof download>>).resume ===
       "function"
-    )
-      return (task as Awaited<ReturnType<typeof download>>).resume()
+    ) {
+      await (task as Awaited<ReturnType<typeof download>>).resume()
+      return task as Awaited<ReturnType<typeof download>>
+    }
 
     return download(
       metaManga,

@@ -1,6 +1,7 @@
 /* eslint-disable functional/no-throw-statement */
 /* eslint-disable camelcase */
 import hashSum from "hash-sum"
+import { mapLimit } from "modern-async"
 
 /*
 .
@@ -67,21 +68,18 @@ async function downloadFiles(
   sources: readonly string[],
   hashIDManga: string,
   hashIDEp: string,
-  startIndex: number,
   downloading: Ref<boolean>,
   onprogress: (cur: number, total: number, path: string) => void
 ): Promise<void> {
-  await someLimit(
+  await mapLimit(
     sources,
     async (src: string, index: number) => {
-      if (src.startsWith(PROTOCOL_OFFLINE)) return
+      if (src.startsWith(PROTOCOL_OFFLINE)) return false
 
       if (!downloading.value) {
         throw new Error("user_paused")
       }
-      const path = `${DIR_FILES}/${hashIDManga}/${hashIDEp}/${hashSum(
-        startIndex + index
-      )}`
+      const path = `${DIR_FILES}/${hashIDManga}/${hashIDEp}/${hashSum(index)}`
       await downloadFile(src, path, downloading)
 
       onprogress(index, sources.length, PROTOCOL_OFFLINE + path)
@@ -131,16 +129,17 @@ async function saveMetaManga(metaManga: MetaManga): Promise<MetaMangaOnDisk> {
 }
 
 export function createTaskDownloadEpisode(
-  metaMannga: MetaManga,
+  metaManga: MetaManga,
   metaEp: MetaEpisode
 ): {
-  ref: Ref<MetaEpisodeRunning>
+  ref: MetaEpisodeRunning
   startSaveMetaManga: () => Promise<MetaMangaOnDisk>
   downloading: Ref<boolean>
   start: () => Promise<void>
   stop: () => void
   resume: () => Promise<void>
 } {
+  const hashIDManga = hashSum(metaManga.manga_id)
   const hashIDEp = hashSum(metaEp.ep_id)
 
   const downloading = ref(false)
@@ -148,84 +147,85 @@ export function createTaskDownloadEpisode(
     start_download_at: Date.now(),
     downloaded: 0,
     ...metaEp,
-    pages: metaEp.pages as string[],
+    pages: metaEp.pages.slice(0),
   })
 
-  const startSaveMetaManga = () => saveMetaManga(metaMannga)
-  const start = async (loadMetaOnDisk = true) => {
+  const startSaveMetaManga = () => saveMetaManga(metaManga)
+
+  let timeout: NodeJS.Timeout | number
+  let taskSaveMeta: Promise<void> | undefined
+  const saveMeta = (metaCloned: MetaEpisodeOnDisk) => {
+    taskSaveMeta = new Promise<void>((resolve, reject) => {
+      // delay 1s
+      clearTimeout(timeout)
+
+      timeout = setTimeout(async () => {
+        try {
+          await Filesystem.writeFile({
+            path: `${DIR_META}/${hashIDManga}/${hashIDEp}.mod`,
+            data: JSON.stringify(metaCloned),
+            directory: Directory.External,
+            encoding: Encoding.UTF8,
+          })
+          resolve()
+        } catch (err) {
+          reject(err)
+        }
+      }, 1_000)
+    })
+    return taskSaveMeta
+  }
+
+  const start = async () => {
+    if (downloading.value) console.warn("task is running")
+
     downloading.value = true
     const hashIDManga = hashSum((await startSaveMetaManga()).manga_id)
 
     // check continue this passed
-    const metaInDisk = loadMetaOnDisk
-      ? await Filesystem.readFile({
-          path: `${DIR_META}/${hashIDManga}/${hashIDEp}.mod`,
-          directory: Directory.External,
-          encoding: Encoding.UTF8,
-        })
-          .then(
-            (res) =>
-              JSON.parse(res.data) as MetaEpisodeOnDisk & {
-                downloaded: number
-              }
-          )
-          .catch(() => undefined)
-      : undefined
+    const metaInDisk = await Filesystem.readFile({
+      path: `${DIR_META}/${hashIDManga}/${hashIDEp}.mod`,
+      directory: Directory.External,
+      encoding: Encoding.UTF8,
+    })
+      .then(
+        (res) =>
+          JSON.parse(res.data) as MetaEpisodeOnDisk & {
+            downloaded: number
+          }
+      )
+      .catch(() => undefined)
 
     // save meta
-    const metaCloned = Object.assign(refValue, metaInDisk, {
-      pages: mergeArray(metaEp.pages, metaInDisk?.pages),
-    })
-
-    let timeout: NodeJS.Timeout | number
-    const saveMeta = () => {
-      return new Promise<void>((resolve, reject) => {
-        // delay 1s
-        clearTimeout(timeout)
-
-        timeout = setTimeout(async () => {
-          try {
-            await Filesystem.writeFile({
-              path: `${DIR_META}/${hashIDManga}/${hashIDEp}.mod`,
-              data: JSON.stringify(metaCloned),
-              directory: Directory.External,
-              encoding: Encoding.UTF8,
-            })
-            resolve()
-          } catch (err) {
-            reject(err)
-          }
-        }, 1_000)
-      })
-    }
+    Object.assign(refValue, metaInDisk)
 
     if (!downloading.value) return
 
     // save files
     await downloadFiles(
-      metaCloned.pages,
+      refValue.pages,
       hashIDManga,
       hashIDEp,
-      0,
       downloading,
       (cur, total, path) => {
-        metaCloned.pages[cur] = path
-        metaCloned.downloaded++
-        saveMeta()
+        refValue.pages[cur] = path
+        refValue.downloaded++
+        saveMeta(refValue)
       }
     ).catch(async (err) => {
-      await saveMeta()
+      await saveMeta(refValue)
       downloading.value = false
       throw err
     })
 
-    await saveMeta()
+    await saveMeta(refValue)
     downloading.value = false
   }
-  const stop = () => {
+  const stop = async () => {
     downloading.value = false
+    return taskSaveMeta
   }
-  const resume = () => start(false)
+  const resume = start
 
   return { ref: refValue, startSaveMetaManga, downloading, start, stop, resume }
 }
