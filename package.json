@@ -107,7 +107,7 @@
     "prettier": "^2.8.3",
     "prompts": "^2.4.2",
     "sass": "1.32.11",
-    "tsx": "^3.12.2",
+    "tsx": "^3.12.7",
     "typescript": "^5.0.4",
     "unocss": "^0.53.4",
     "unplugin-auto-import": "^0.16.4",
