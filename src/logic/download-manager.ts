@@ -1,7 +1,6 @@
 /* eslint-disable functional/no-throw-statement */
 /* eslint-disable camelcase */
 import hashSum from "hash-sum"
-import { mapLimit } from "modern-async"
 
 /*
 .
@@ -71,7 +70,7 @@ async function downloadFiles(
   downloading: Ref<boolean>,
   onprogress: (cur: number, total: number, path: string) => void
 ): Promise<void> {
-  await mapLimit(
+  await someLimit(
     sources,
     async (src: string, index: number) => {
       if (src.startsWith(PROTOCOL_OFFLINE)) return false

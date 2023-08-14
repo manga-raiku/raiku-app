@@ -153,6 +153,7 @@ describe("download-manager", () => {
 
   test("should forcibly stopped while downloading", async () => {
     let counter = 0
+    ;(fetch as ReturnType<typeof vi.fn>).mockReset()
     ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(async (url) => {
       // await sleep(500)
       if (counter++ > 5) return Promise.reject(new Error("time_out"))
@@ -221,6 +222,7 @@ describe("download-manager", () => {
 
   test("should continue while downloading", async () => {
     let counter = 0
+    ;(fetch as ReturnType<typeof vi.fn>).mockReset()
     ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(async (url) => {
       // await sleep(500)
       if (counter++ > 5) return Promise.reject(new Error("time_out"))
