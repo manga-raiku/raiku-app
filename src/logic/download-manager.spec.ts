@@ -60,7 +60,10 @@ function patchFetch() {
 }
 
 describe("download-manager", () => {
-  beforeEach(cleanup)
+  beforeEach(async () => {
+    await cleanup()
+    await sleep(1000)
+  })
   ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(1690022500169)
 
   test("should download episode x for the first time", async () => {

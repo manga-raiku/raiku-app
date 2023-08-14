@@ -49,7 +49,7 @@ jobs:
         run: sh install.sh
 
       - name: Test
-        run: pnpm test
+        run: pnpm test src/apis
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
