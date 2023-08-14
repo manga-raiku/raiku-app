@@ -1,6 +1,6 @@
 # Manga Raiku (git.shin.mangaraiku)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmanga-raiku%2Fmanga-raiku.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmanga-raiku%2Fmanga-raiku?ref=badge_shield)
 
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmanga-raiku%2Fmanga-raiku.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmanga-raiku%2Fmanga-raiku?ref=badge_shield)
 
 「無邪気な笑顔の下の、日付は遥かなメモリー」
 
@@ -54,6 +54,6 @@ quasar build
 
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
 
-
 ## License
+
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmanga-raiku%2Fmanga-raiku.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmanga-raiku%2Fmanga-raiku?ref=badge_large)

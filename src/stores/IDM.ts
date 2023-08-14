@@ -46,7 +46,12 @@ export const useIDMStore = defineStore("IDM", () => {
               count_ep: await getCountEpisodes(item.manga_id),
             })
             mapMetaManga.set(item.manga_id, itemReactive)
-            listMangaSorted.push(itemReactive)
+            if (
+              listMangaSorted.findIndex(
+                (item) => item.manga_id === itemReactive.manga_id
+              ) === -1
+            )
+              listMangaSorted.push(itemReactive)
           })
         )
         loadingDataInMemory.value = false
@@ -56,23 +61,32 @@ export const useIDMStore = defineStore("IDM", () => {
   }
 
   async function download(metaManga: MetaManga, metaEp: MetaEpisode) {
-    console.log(metaManga, metaEp)
+    console.log("start download: ", metaEp)
     const task = createTaskDownloadEpisode(metaManga, metaEp)
 
     if (!mapMetaManga.has(metaManga.manga_id)) {
-      const manga = shallowReactive({
+      const manga = {
         ...(await task.startSaveMetaManga()),
         count_ep: 0,
-      })
+      }
       mapMetaManga.set(manga.manga_id, manga)
-      listMangaSorted.unshift(manga)
+      if (
+        listMangaSorted.findIndex(
+          (item) => item.manga_id === manga.manga_id
+        ) === -1
+      )
+        listMangaSorted.unshift(manga)
     }
 
     let store = queue.get(metaManga.manga_id)
+    console.log("set store", store)
     if (store) {
       store.set(metaEp.ep_id, task)
-    } else
-      queue.set(metaManga.manga_id, (store = new Map([[metaEp.ep_id, task]])))
+    } else {
+      queue.set(metaManga.manga_id, new Map())
+      store = queue.get(metaManga.manga_id)
+      store.set(metaEp.ep_id, task)
+    }
 
     await task.start()
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -114,5 +128,6 @@ export const useIDMStore = defineStore("IDM", () => {
     runLoadInMemory,
     download,
     resumeDownload,
+    deleteEpisode,
   }
 })

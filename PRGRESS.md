@@ -1,0 +1,5 @@
+- [ ] add function to button `Edit` on `LibraryTabOffline.vue`
+- [ ] show more episode download
+- [ ] add download data meta request
+- [ ] create `useRequestCache`
+- [ ] Deep integration allows offline reading in the reader

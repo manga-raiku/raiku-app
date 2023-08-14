@@ -1,5 +1,5 @@
 <template>
-  <section v-if="segments.length > 1">
+  <section v-if="segments.length > 1" class="py-1">
     <q-tabs
       v-model="tabActive"
       narrow-indicator
@@ -62,9 +62,10 @@
         :ref="($el) => (ulPanelRef = ($el as HTMLUListElement))"
       >
         <li
+          v-if="!slots.item"
           v-for="item in items"
-          :key="item.path"
           class="px-2 py-1"
+          :key="item.path"
           :class="[classItem ?? 'col-6 col-sm-4 col-md-3']"
         >
           <router-link
@@ -76,12 +77,10 @@
             }"
           >
             <div class="flex-1 min-w-0">
-              <h5 class="text-14px ellipsis">Chương {{ item.name }}</h5>
-              <span v-if="item.updated_at" class="text-gray-300"
-                >{{ (tmp = dayjs(item.updated_at)).fromNow() }} ({{
-                  tmp.format("dd DD/MM/YYYY")
-                }})</span
-              >
+              <h5 class="text-14px ellipsis">Ch. {{ item.name }}</h5>
+              <span v-if="item.updated_at" class="text-gray-300">{{
+                (tmp = dayjs(item.updated_at)).fromNow()
+              }}</span>
             </div>
             <span
               v-if="readsChapter?.has(item.id)"
@@ -97,6 +96,14 @@
             </span>
           </router-link>
         </li>
+
+        <slot
+          v-else
+          name="item"
+          v-for="item in items"
+          :key="item.path"
+          :data="item"
+        />
       </ul>
     </q-tab-panel>
   </q-tab-panels>
@@ -128,6 +135,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (name: "change-tab"): void
 }>()
+const slots = useSlots()
 
 const route = useRoute()
 

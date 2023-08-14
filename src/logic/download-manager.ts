@@ -74,6 +74,8 @@ async function downloadFiles(
   await someLimit(
     sources,
     async (src: string, index: number) => {
+      if (src.startsWith(PROTOCOL_OFFLINE)) return
+
       if (!downloading.value) {
         throw new Error("user_paused")
       }
@@ -142,7 +144,7 @@ export function createTaskDownloadEpisode(
   const hashIDEp = hashSum(metaEp.ep_id)
 
   const downloading = ref(false)
-  const refValue = ref<MetaEpisodeRunning>({
+  const refValue = reactive<MetaEpisodeRunning>({
     start_download_at: Date.now(),
     downloaded: 0,
     ...metaEp,
@@ -171,7 +173,7 @@ export function createTaskDownloadEpisode(
       : undefined
 
     // save meta
-    const metaCloned = Object.assign(refValue.value, metaInDisk, {
+    const metaCloned = Object.assign(refValue, metaInDisk, {
       pages: mergeArray(metaEp.pages, metaInDisk?.pages),
     })
 
@@ -199,16 +201,15 @@ export function createTaskDownloadEpisode(
 
     if (!downloading.value) return
 
-    const startIndex = metaCloned.downloaded
     // save files
     await downloadFiles(
-      metaEp.pages.slice(startIndex),
+      metaCloned.pages,
       hashIDManga,
       hashIDEp,
-      startIndex,
+      0,
       downloading,
       (cur, total, path) => {
-        metaCloned.pages[cur + startIndex] = path
+        metaCloned.pages[cur] = path
         metaCloned.downloaded++
         saveMeta()
       }
