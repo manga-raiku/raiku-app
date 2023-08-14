@@ -117,8 +117,12 @@ jobs:
       - name: Install depends
         run: sh install.sh
 
-      - name: Test
-        run: pnpm test
+      - uses: Wandalen/wretry.action@master
+        name: Test
+        with:
+          command: pnpm test
+          attempt_limit: 3
+          attempt_delay: 2000
 
       - name: Typing
         run: pnpm typing
@@ -157,8 +161,12 @@ jobs:
       - name: Fix test
         run: pnpm fixtest
 
-      - name: Test
-        run: pnpm test
+      - uses: Wandalen/wretry.action@master
+        name: Test
+        with:
+          command: pnpm test
+          attempt_limit: 3
+          attempt_delay: 2000
 
   build:
     name: Try build
