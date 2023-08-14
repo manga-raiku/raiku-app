@@ -118,7 +118,7 @@ jobs:
         run: sh install.sh
 
       - name: Test
-        run: pnpm test:unit src/apis
+        run: pnpm test
 
       - name: Typing
         run: pnpm typing
