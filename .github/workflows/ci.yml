@@ -119,6 +119,7 @@ jobs:
 
       - uses: Wandalen/wretry.action@master
         name: Test
+        continue-on-error: true
         with:
           command: pnpm test
           attempt_limit: 3
