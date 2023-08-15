@@ -9,8 +9,8 @@ dependencies:
     specifier: ^4.5.10
     version: 4.5.10
   '@fontsource/poppins':
-    specifier: ^5.0.4
-    version: 5.0.4
+    specifier: ^5.0.8
+    version: 5.0.8
   '@hannoeru/eslint-plugin':
     specifier: ^0.9.5
     version: 0.9.5(eslint@8.33.0)(typescript@5.0.4)
@@ -1872,8 +1872,8 @@ packages:
     resolution: {integrity: sha512-uTg0I4hBXfOzjpUQlGwdmdlcLUlwSNXlux52IwFq7TCHlyHMAHPEqP1zDyg8lWKD86L7wOyv9jmIK/Iy5erndg==}
     dev: false
 
-  /@fontsource/poppins@5.0.4:
-    resolution: {integrity: sha512-9D7qztWP7prwrBMCf7pTbKDAfRG6KT1P9kEGimMUfRfznvfBIZ9H+y9Sr2vrE1O1Ybn4F8rrFZaLjtTxJZcTng==}
+  /@fontsource/poppins@5.0.8:
+    resolution: {integrity: sha512-P8owfYWluoUY5Nyzk4gT/L6LmLmseP6ezFWhj6VBUa5pRIdnCvNJpoQ6i/vhekjtJOfqX6nKlB+LCttoUl2GQQ==}
     dev: false
 
   /@hannoeru/eslint-plugin@0.9.5(eslint@8.33.0)(typescript@5.0.4):
