@@ -47,7 +47,7 @@ defineProps<{
   data: {
     ep_name: string
     downloaded: number
-    pages: number[]
+    pages: number[] | readonly number[]
   }
   downloading?: boolean
 }>()
