@@ -8,6 +8,8 @@
 
 const { extend } = require("quasar")
 const { configure } = require("quasar/wrappers")
+const esbuild = require("esbuild")
+const { obfuscate } = require("javascript-obfuscator")
 
 function removeDataTestAttrs(node) {
   if (node.type === 1 /* NodeTypes.ELEMENT */) {
@@ -16,6 +18,68 @@ function removeDataTestAttrs(node) {
         ? prop.name !== "data-test"
         : true
     )
+  }
+}
+
+function vitePluginBuildRaw() {
+  return {
+    name: "vite-plugin-build-raw",
+    transform(src, id) {
+      if (id.includes("?braw")) {
+        id = id.replace(/\?braw$/, "")
+        // console.log({ id })
+
+        const code = esbuild.buildSync({
+          entryPoints: [id],
+          format: "iife",
+          bundle: true,
+          minify:
+            id.includes("&minify") || process.env.NODE_ENV !== "production",
+          treeShaking: true,
+          write: false,
+          // sourcemap: true
+          // sideEff,
+          define: Object.fromEntries(
+            [
+              ...Object.entries(process.env),
+              ...Object.entries(require("dotenv").config().parsed),
+            ].map(([name, value]) => [
+              `process.env.${name.replace(/[^\w\d_$]/g, "_")}`,
+              JSON.stringify(value),
+            ])
+          ),
+        })
+        const { text } = code.outputFiles[0]
+
+        return {
+          code: `export default ${JSON.stringify(
+            id.includes("&obfuscate")
+              ? esbuild.transformSync(
+                  obfuscate(text, {
+                    compact: false,
+                    // controlFlowFlattening: true,
+                    controlFlowFlatteningThreshold: 1,
+                    numbersToExpressions: true,
+                    simplify: true,
+                    stringArrayShuffle: true,
+                    splitStrings: true,
+                    stringArrayThreshold: 1,
+                    // transformObjectKeys: true
+                  }).getObfuscatedCode(),
+                  {
+                    minify:
+                      id.includes("&minify") ||
+                      process.env.NODE_ENV !== "production",
+                    treeShaking: true,
+                  }
+                ).code
+              : text
+          )}`,
+
+          map: null,
+        }
+      }
+    },
   }
 }
 
@@ -184,12 +248,16 @@ module.exports = configure((/* ctx */) => {
               (componentName) => {
                 // where `componentName` is always CapitalCase
                 if (componentName.toLowerCase() === "icon")
-                  return { name: componentName, from: "@iconify/vue" }
+                  return {
+                    name: componentName,
+                    from: "@iconify/vue",
+                  }
               },
             ],
           },
         ],
         ["unplugin-vue-define-options/vite", {}],
+        [vitePluginBuildRaw, {}],
       ],
     },
 

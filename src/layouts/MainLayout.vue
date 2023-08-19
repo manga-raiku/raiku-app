@@ -53,7 +53,7 @@
     </q-header>
 
     <q-page-container>
-      <router-view v-if="Http.version" v-slot="{ Component }">
+      <router-view v-if="true" v-slot="{ Component }">
         <component :is="Component" />
       </router-view>
       <q-page v-else>
@@ -108,7 +108,7 @@
           />
           Thư viện
         </q-route-tab>
-        <q-route-tab replace class="pt-1" to="/tai-khoan">
+        <q-route-tab replace class="pt-1" to="/app">
           <Icon
             icon="solar:user-rounded-bold-duotone"
             width="24"

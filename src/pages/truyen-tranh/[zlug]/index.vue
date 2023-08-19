@@ -394,13 +394,19 @@ const $q = useQuasar()
 const { share } = useShare()
 const router = useRouter()
 const route = useRoute()
-const { data, loading, error, run } = useRequest(() => Manga(props.zlug), {
-  refreshDeps: [() => props.zlug],
-  refreshDepsAction() {
-    // data.value = undefined
-    run()
-  },
-})
+const { data, loading, error, run } = useRequest(
+  useWithCache(
+    () => Manga(props.zlug),
+    computed(() => `/manga/${props.zlug}`)
+  ),
+  {
+    refreshDeps: [() => props.zlug],
+    refreshDepsAction() {
+      // data.value = undefined
+      run()
+    },
+  }
+)
 watch(error, (error) => {
   if (error?.message === "not_found")
     router.replace({

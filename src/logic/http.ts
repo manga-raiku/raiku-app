@@ -2,17 +2,7 @@ import type { GetOption } from "client-ext-animevsub-helper"
 import { Http } from "client-ext-animevsub-helper"
 import { i18n } from "src/boot/i18n"
 
-const noExt = () =>
-  Promise.reject(
-    Object.assign(
-      new Error(
-        i18n.global.t(
-          "trang-web-can-extension-animevsub-helper-de-hoat-dong-binh-thuong"
-        )
-      ),
-      { extesionNotExists: true }
-    )
-  )
+const helperInstalled = Http.allowedRoot
 
 async function httpGet(
   url: string | GetOption,
@@ -66,5 +56,54 @@ async function httpPost(
   return response as Omit<typeof response, "data"> & { data: string }
 }
 
-export const get = Http.version ? httpGet : noExt
-export const post = Http.version ? httpPost : noExt
+export function proxyGet(
+  url: string | GetOption,
+  headers: Record<string, string>
+): ReturnType<typeof Http.get> {
+  return fetch(
+    `https://corsproxy.io/?${encodeURIComponent(
+      typeof url === "string" ? url : url.url
+    )}`,
+    {
+      headers: new Headers(url?.headers),
+    }
+  ).then(async (res) => {
+    return {
+      data: await res.text(),
+      headers: Object.fromEntries([...res.headers.entries()]),
+      url: res.url,
+    }
+  })
+}
+
+export function proxyPost(
+  url: string,
+  data: string | Record<string, number | string | boolean>,
+  headers?: Record<string, string>
+): ReturnType<typeof Http.post> {
+  return fetch(
+    `https://corsproxy.io/?${encodeURIComponent(
+      typeof url === "string" ? url : url.url
+    )}`,
+    {
+      method: "post",
+      headers: new Headers(url?.headers),
+      data:
+        typeof data === "string"
+          ? data
+          : Object.entries(data).reduce((form, [key, value]) => {
+              form.set(key, value)
+              return form
+            }, new FormData()),
+    }
+  ).then(async (res) => {
+    return {
+      data: await res.text(),
+      headers: Object.fromEntries([...res.headers.entries()]),
+      url: res.url,
+    }
+  })
+}
+
+export const get = Http.version ? httpGet : proxyGet
+export const post = Http.version ? httpPost : proxyPost
