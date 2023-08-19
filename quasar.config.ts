@@ -6,18 +6,14 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
-import fs from "fs"
-import { join } from "path"
-
 // eslint-disable-next-line n/no-extraneous-import
 import type { RootNode, TemplateChildNode } from "@vue/compiler-core"
 import dotenv from "dotenv"
-import esbuild from "esbuild"
-import ISO6391 from "iso-639-1"
-import { obfuscate } from "javascript-obfuscator"
 import { extend } from "quasar"
 import { configure } from "quasar/wrappers"
-import type { Plugin } from "vite"
+
+import vitePluginBuildRaw from "./modules/vite-plugin-build-raw"
+import vitePluginI18nLangs from "./modules/vite-plugin-i18n-langs"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parsed = (dotenv.config().parsed ?? {}) as unknown as any
@@ -31,91 +27,6 @@ function removeDataTestAttrs(
         ? prop.name !== "data-test"
         : true,
     )
-  }
-}
-
-function vitePluginBuildRaw(): Plugin {
-  return {
-    name: "vite-plugin-build-raw",
-    transform(src, id) {
-      if (id.includes("?braw")) {
-        id = id.replace(/\?braw$/, "")
-        // console.log({ id })
-
-        const code = esbuild.buildSync({
-          entryPoints: [id],
-          format: "iife",
-          bundle: true,
-          minify:
-            id.includes("&minify") || process.env.NODE_ENV !== "production",
-          treeShaking: true,
-          write: false,
-          // sourcemap: true
-          // sideEff,
-          define: Object.fromEntries(
-            [...Object.entries(process.env), ...Object.entries(parsed)].map(
-              ([name, value]) => [
-                `process.env.${name.replace(/[^\w\d_$]/g, "_")}`,
-                JSON.stringify(value),
-              ],
-            ),
-          ),
-        })
-        const { text } = code.outputFiles[0]
-
-        return {
-          code: `export default ${JSON.stringify(
-            id.includes("&obfuscate")
-              ? esbuild.transformSync(
-                  obfuscate(text, {
-                    compact: false,
-                    // controlFlowFlattening: true,
-                    controlFlowFlatteningThreshold: 1,
-                    numbersToExpressions: true,
-                    simplify: true,
-                    stringArrayShuffle: true,
-                    splitStrings: true,
-                    stringArrayThreshold: 1,
-                    // transformObjectKeys: true
-                  }).getObfuscatedCode(),
-                  {
-                    minify:
-                      id.includes("&minify") ||
-                      process.env.NODE_ENV !== "production",
-                    treeShaking: true,
-                  },
-                ).code
-              : text,
-          )}`,
-
-          map: null,
-        }
-      }
-    },
-  }
-}
-
-const reg = /[\w-]+(?=\.json$)/
-function vitePluginI18nLangs(): Plugin {
-  return {
-    name: "vite-plugin-i18n-langs",
-    async transform(src, id) {
-      if (id === "virual:i18n-langs") {
-        const langs = (
-          await fs.promises.readdir(join(__dirname, "src/i18n/messages"))
-        ).map((name) => reg.exec(name)?.[0])
-        const languages = langs.map((code) => {
-          return {
-            code,
-            name: ISO6391.getNativeName(code?.slice(0, 2) ?? "en"),
-          }
-        })
-
-        return {
-          code: `export default ${JSON.stringify(languages)}`,
-        }
-      }
-    },
   }
 }
 
