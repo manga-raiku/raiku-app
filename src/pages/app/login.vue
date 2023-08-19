@@ -97,21 +97,21 @@ meta:
 </template>
 
 <script lang="ts" setup>
-import Login from "src/apis/nettruyen/runs/auth/login"
 import { computedAsync } from "@vueuse/core"
-import dayjs from "src/logic/dayjs"
-
+import Login from "src/apis/nettruyen/runs/auth/login"
 import jscode from "src/injecters/user-auth?braw&minify&obfuscate"
+import dayjs from "src/logic/dayjs"
 
 const $q = useQuasar()
 const router = useRouter()
 const authStore = useAuthStore()
 
 const binaryAuth = ref("")
-async function verifyBinaryAuth(binaryAuth: string): true | string {
+async function verifyBinaryAuth(binaryAuth: string): Promise<string | true> {
   try {
     const data = JSON.parse(binaryAuth)
-    await decryptText(data, process.env.CRYPTO_PASSWORD)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    await decryptText(data, process.env.CRYPTO_PASSWORD!)
     return true
   } catch (err) {
     console.warn(err)
@@ -129,14 +129,15 @@ const auth = computedAsync(
     return JSON.parse(
       await decryptText(
         JSON.parse(binaryAuth.value),
-        process.env.CRYPTO_PASSWORD
-      )
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        process.env.CRYPTO_PASSWORD!,
+      ),
     )
   },
   undefined,
   {
     onError: import.meta.env.DEV ? console.error.bind(console) : undefined,
-  }
+  },
 )
 
 async function copyCodeToClipboard() {
@@ -172,11 +173,13 @@ async function pasteCodeFromClipboard() {
       typeof data.salt !== "string" ||
       typeof data.buffer !== "string"
     ) {
+      // eslint-disable-next-line functional/no-throw-statement
       throw new Error("Binary auth not verify format.")
     }
 
     const msg = await verifyBinaryAuth(text)
     if (msg === true) binaryAuth.value = text
+    // eslint-disable-next-line functional/no-throw-statement
     else throw new Error(msg)
   } catch (err) {
     $q.notify({

@@ -9,15 +9,15 @@ export default async function (
   page: number,
   user_uid: string,
   token: string,
-  type: string
+  type: string,
 ) {
   const { data } = await get(
-    `${API_CURL}/Comic/Services/ComicService.asmx/GetFollowedPageComics?page=${page}&userGuid=${user_uid}&loadType=${type}&token=${token}`
+    `${API_CURL}/Comic/Services/ComicService.asmx/GetFollowedPageComics?page=${page}&userGuid=${user_uid}&loadType=${type}&token=${token}`,
   )
 
   return PostWorker<typeof Parse>(
     Worker,
     decodeURIComponent(JSON.parse(data).followedListHtml),
-    Date.now()
+    Date.now(),
   )
 }

@@ -6,7 +6,7 @@ export default async function (token: string) {
     {},
     {
       cookie: `.ASPXAUTH=${token}`,
-    }
+    },
   )
 
   const $data = JSON.parse(data)

@@ -92,7 +92,7 @@ const { data, loading, runAsync, error } = useRequest(
     const data = await General(
       `/tim-truyen/${props.slug}`,
       page.value,
-      route.query
+      route.query,
     )
     data.items = shallowReactive(data.items)
     return data
@@ -102,12 +102,12 @@ const { data, loading, runAsync, error } = useRequest(
     refreshDepsAction() {
       runAsync()
     },
-  }
+  },
 )
 const onLoad = useLoadMorePage(
   (page) => General(`/tim-truyen/${props.slug}`, page, route.query),
   data,
-  page.value
+  page.value,
 )
 watch(error, (error) => {
   if (error?.message === "not_found")

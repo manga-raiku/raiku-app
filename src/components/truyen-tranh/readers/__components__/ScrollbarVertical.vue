@@ -63,11 +63,11 @@ const disabledX = computed(() => props.pWidth >= props.oWidth)
 const disabledY = computed(() => props.pHeight >= props.oHeight)
 
 const widthThumb = computed(() =>
-  Math.round(Math.max(props.pWidth ** 2 / props.oWidth, 15))
+  Math.round(Math.max(props.pWidth ** 2 / props.oWidth, 15)),
 )
 const widthThumbH = computed(() => Math.round(widthThumb.value / 2))
 const heightThumb = computed(() =>
-  Math.round(Math.max(props.pHeight ** 2 / props.oHeight, 15))
+  Math.round(Math.max(props.pHeight ** 2 / props.oHeight, 15)),
 )
 const heightThumbH = computed(() => Math.round(heightThumb.value / 2))
 
@@ -85,7 +85,7 @@ let offsetTopStart: number | null = null
 function onMouseDownY(event: MouseEvent | TouchEvent) {
   touchStartY = isTouchEvent(event) ? event.touches[0] : event
   offsetTopStart = (event.target as HTMLElement | null)?.classList.contains(
-    "thumb"
+    "thumb",
   )
     ? offsetTop.value
     : null
@@ -135,7 +135,7 @@ let offsetLeftStart: number | null = null
 function onMouseDownX(event: MouseEvent | TouchEvent) {
   touchStartX = isTouchEvent(event) ? event.touches[0] : event
   offsetLeftStart = (event.target as HTMLElement | null)?.classList.contains(
-    "thumb"
+    "thumb",
   )
     ? offsetLeft.value
     : null
@@ -203,7 +203,7 @@ watch(
     offsetLeft.value = ((scrollX - props.minX) / ΔX.value) * spacedX.value
     await nextTick()
     disableReactiveOffsetLeft = false
-  }
+  },
 )
 
 let disableReactiveScrollY = false
@@ -225,7 +225,7 @@ watch(
     offsetTop.value = ((scrollY - props.minY) / ΔY.value) * spacedY.value
     await nextTick()
     disableReactiveOffsetTop = false
-  }
+  },
 )
 </script>
 
@@ -233,7 +233,9 @@ watch(
 .scrollbar {
   @apply absolute z-9999;
   opacity: 0.6;
-  transition: background-color 0.2s linear, opacity 0.2s linear;
+  transition:
+    background-color 0.2s linear,
+    opacity 0.2s linear;
   &-x {
     @apply bottom-0 left-0 w-full h-15px;
   }
@@ -249,7 +251,9 @@ watch(
 
   .thumb {
     @apply absolute bg-#aaa rounded-6px opacity-100;
-    transition: background-color 0.2s linear, width 0.2s ease-in-out;
+    transition:
+      background-color 0.2s linear,
+      width 0.2s ease-in-out;
   }
   &-x .thumb {
     @apply h-6px bottom-2px;

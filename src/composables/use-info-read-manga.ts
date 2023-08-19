@@ -17,7 +17,7 @@ export function useInfoReadManga(
             key: string
           }
         | undefined
-      >
+      >,
 ) {
   const authStore = useAuthStore()
 
@@ -36,7 +36,7 @@ export function useInfoReadManga(
       if (!uid || !user_uid || !token) return
       infoUserInManga.value = await InfoUserInManga(uid, user_uid, token)
       // https://f.nettruyenmax.com/Comic/Services/ComicService.asmx/GetFollowedButtonComic?comicId=20727&userGuid=c96ea70b-be0c-445b-967d-20a6a73dfb3f&token=AkbYuyg%2BVSQIS19FZqybiNH2x%2BjWGdztxZtYWKqSCNdiYQqH3%2FjHrpyaOzChKISX8V6pAmykk3KdCy2%2BCB79na%2B9sgHLoKN1nn%2BRHhEddAk%3D
-    }
+    },
   )
 
   async function toggleFollow() {

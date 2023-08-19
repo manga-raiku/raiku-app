@@ -27,7 +27,7 @@
               :class="{
                 '!opacity-100': pathEqual(
                   router.resolve(item.path).path,
-                  route.path
+                  route.path,
                 ),
               }"
               >{{ item.name }}</q-btn
@@ -157,12 +157,12 @@ const { data, loading, error } = useRequest(
   },
   {
     refreshDeps: [() => props.type, page, () => route.query],
-  }
+  },
 )
 const onLoad = useLoadMorePage(
   (page) => BangXepHangType(props.type, page, route.query),
   data,
-  page.value
+  page.value,
 )
 watch(error, (error) => {
   if (error?.message === "not_found")
@@ -237,8 +237,8 @@ watch(error, (error) => {
   }
 
   &__container {
-    background: top right / 320px 320px no-repeat
-        url(assets/anime-ranking-icon.png),
+    background:
+      top right / 320px 320px no-repeat url(assets/anime-ranking-icon.png),
       linear-gradient(
         -213deg,
         #ffffff 0%,
@@ -255,8 +255,8 @@ watch(error, (error) => {
   }
   &.dark {
     .trending-card__container {
-      background: top right / 320px 320px no-repeat
-          url(assets/anime-ranking-icon.png),
+      background:
+        top right / 320px 320px no-repeat url(assets/anime-ranking-icon.png),
         linear-gradient(
           -213deg,
           rgb(10, 10, 10) 0%,

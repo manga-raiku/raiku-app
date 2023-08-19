@@ -41,7 +41,7 @@
                   :class="{
                     '!text-main-3': pathEqual(
                       router.resolve(path).path,
-                      route.path
+                      route.path,
                     ),
                   }"
                   >{{ name }}</q-btn

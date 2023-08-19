@@ -7,8 +7,8 @@ import Worker from "../workers/pre-search?worker"
 export default async function presearch(keyword: string, page: number) {
   const { data } = await get(
     `${CURL}/Comic/Services/SuggestSearch.ashx?q=${encodeURIComponent(
-      keyword
-    )}&page=${page}`
+      keyword,
+    )}&page=${page}`,
   )
 
   return PostWorker<typeof Parse>(Worker, data)

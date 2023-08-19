@@ -6,17 +6,17 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
-const { extend } = require("quasar")
-const { configure } = require("quasar/wrappers")
 const esbuild = require("esbuild")
 const { obfuscate } = require("javascript-obfuscator")
+const { extend } = require("quasar")
+const { configure } = require("quasar/wrappers")
 
 function removeDataTestAttrs(node) {
   if (node.type === 1 /* NodeTypes.ELEMENT */) {
     node.props = node.props.filter((prop) =>
       prop.type === 6 /* NodeTypes.ATTRIBUTE */
         ? prop.name !== "data-test"
-        : true
+        : true,
     )
   }
 }
@@ -46,7 +46,7 @@ function vitePluginBuildRaw() {
             ].map(([name, value]) => [
               `process.env.${name.replace(/[^\w\d_$]/g, "_")}`,
               JSON.stringify(value),
-            ])
+            ]),
           ),
         })
         const { text } = code.outputFiles[0]
@@ -71,9 +71,9 @@ function vitePluginBuildRaw() {
                       id.includes("&minify") ||
                       process.env.NODE_ENV !== "production",
                     treeShaking: true,
-                  }
+                  },
                 ).code
-              : text
+              : text,
           )}`,
 
           map: null,
@@ -157,7 +157,7 @@ module.exports = configure((/* ctx */) => {
                   // removes the protocol and replaces it with the port we're connecting to
                   host: process.env.GITPOD_WORKSPACE_URL.replace(
                     "https://",
-                    "9000-"
+                    "9000-",
                   ),
                   protocol: "wss",
                   clientPort: 443,

@@ -147,10 +147,10 @@ const enablePopup = props.data.views !== null
 
 if (enablePopup) {
   const mouseInCard = useElementHover(
-    imgRef as unknown as MaybeComputedRef<EventTarget>
+    imgRef as unknown as MaybeComputedRef<EventTarget>,
   )
   const mouseInCardMenu = useElementHover(
-    cardMenuRef as unknown as MaybeComputedRef<EventTarget>
+    cardMenuRef as unknown as MaybeComputedRef<EventTarget>,
   )
 
   const showMenu = debounce(() => {
@@ -163,7 +163,7 @@ if (enablePopup) {
       showMenu.cancel()
       if (outsideCard || outsideCardMenu) showMenu()
       else menuRef.value?.hide()
-    }, 10)
+    }, 10),
   )
 }
 </script>

@@ -38,6 +38,6 @@ watch(
   (modelValue) => {
     if (!modelValue) return
     setTimeout(() => emit("update:model-value", false), 3_000)
-  }
+  },
 )
 </script>

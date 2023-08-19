@@ -75,7 +75,7 @@ export function uint8ToBase64(aBytes: Uint8Array) {
         uint6ToB64((nUint24 >>> 18) & 63),
         uint6ToB64((nUint24 >>> 12) & 63),
         uint6ToB64((nUint24 >>> 6) & 63),
-        uint6ToB64(nUint24 & 63)
+        uint6ToB64(nUint24 & 63),
       )
       nUint24 = 0
     }

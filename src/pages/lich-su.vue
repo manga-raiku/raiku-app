@@ -72,7 +72,7 @@ const { data, loading } = useRequest(
   },
   {
     // refreshDeps: [page],
-  }
+  },
 )
 const onLoad = useLoadMorePage(
   (page) => {
@@ -82,6 +82,6 @@ const onLoad = useLoadMorePage(
     return LichSu(page, authStore.user_data.token)
   },
   data,
-  page.value
+  page.value,
 )
 </script>

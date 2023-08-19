@@ -9,7 +9,7 @@ import { getImage } from "./getImage"
 function findWithFirstText(
   $: CheerioAPI,
   $list: Cheerio<Element>,
-  text: string
+  text: string,
 ) {
   return $(
     $list.toArray().find((el) => {
@@ -19,7 +19,7 @@ function findWithFirstText(
       if (c.startsWith(text)) return true
 
       return false
-    })
+    }),
   )
     .text()
     .trim()

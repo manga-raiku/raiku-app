@@ -19,7 +19,7 @@ class Sakura {
     private scale: number,
     private direction: Lorenzo,
     private rotate: Lorenzo,
-    private wind: number
+    private wind: number,
   ) {}
 
   draw(ctx: CanvasRenderingContext2D, maxWidth: number, maxHeight: number) {
@@ -45,7 +45,7 @@ class Sakura {
       -5 * z_rad,
       10 * x_rad,
       0 * z_rad,
-      10 * x_rad
+      10 * x_rad,
     )
     ctx.bezierCurveTo(
       5 * z_rad,
@@ -53,7 +53,7 @@ class Sakura {
       10 * z_rad,
       0 * x_rad,
       6 * z_rad,
-      -10 * x_rad
+      -10 * x_rad,
     )
     ctx.bezierCurveTo(
       0 * z_rad,
@@ -61,7 +61,7 @@ class Sakura {
       0 * z_rad,
       -7 * x_rad,
       0 * z_rad,
-      -5 * x_rad
+      -5 * x_rad,
     )
     ctx.bezierCurveTo(
       0 * z_rad,
@@ -69,7 +69,7 @@ class Sakura {
       0 * z_rad,
       -10 * x_rad,
       -6 * z_rad,
-      -10 * x_rad
+      -10 * x_rad,
     )
     ctx.fill()
     ctx.restore()
@@ -118,7 +118,7 @@ function createSakura(x1: number, y1: number, x2: number, y2: number): Sakura {
     Math.random() + 0.5,
     { x: random(360), y: random(360), z: random(360) },
     { x: random(10), y: random(10), z: random(10) },
-    random(5)
+    random(5),
   )
 }
 

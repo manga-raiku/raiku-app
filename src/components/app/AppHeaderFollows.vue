@@ -136,7 +136,7 @@ async function refresh(type: string) {
         1,
         authStore.user_data.uid,
         authStore.user_data.token,
-        type
+        type,
       ),
     })
   } catch (err) {

@@ -35,7 +35,7 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
             .trim()
             .replace("Lượt xem:", "")
             .trim()
-            .replace(/,/g, "")
+            .replace(/,/g, ""),
         )
   const follows =
     $info.length === 0
@@ -46,7 +46,7 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
             .text()
             .trim()
             .replace("Lượt theo dõi:", "")
-            .replace(/,/g, "")
+            .replace(/,/g, ""),
         )
   const tags = $li
     .find(".list-tags")

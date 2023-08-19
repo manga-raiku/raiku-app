@@ -26,11 +26,11 @@ export interface RComment {
 export function parseComment(
   $: CheerioAPI,
   $item: Cheerio<Element>,
-  now: number
+  now: number,
 ): RComment {
   const id = parseInt(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    $item.attr("id")!.match(/\d+/)![0]
+    $item.attr("id")!.match(/\d+/)![0],
   )
 
   const author = {
@@ -45,7 +45,7 @@ export function parseComment(
         $item
           .find(".member > .progress-bar")
           .attr("style")!
-          .match(/width:\s*(\d+)/)![1]
+          .match(/width:\s*(\d+)/)![1],
       ),
     },
     chapter: normalizeChName($item.find(".cmchapter").text().trim()),

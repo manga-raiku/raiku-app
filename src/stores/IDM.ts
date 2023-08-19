@@ -48,11 +48,11 @@ export const useIDMStore = defineStore("IDM", () => {
             mapMetaManga.set(item.manga_id, itemReactive)
             if (
               listMangaSorted.findIndex(
-                (item) => item.manga_id === itemReactive.manga_id
+                (item) => item.manga_id === itemReactive.manga_id,
               ) === -1
             )
               listMangaSorted.push(itemReactive)
-          })
+          }),
         )
         loadingDataInMemory.value = false
       })
@@ -72,7 +72,7 @@ export const useIDMStore = defineStore("IDM", () => {
       mapMetaManga.set(manga.manga_id, manga)
       if (
         listMangaSorted.findIndex(
-          (item) => item.manga_id === manga.manga_id
+          (item) => item.manga_id === manga.manga_id,
         ) === -1
       )
         listMangaSorted.unshift(manga)
@@ -104,7 +104,7 @@ export const useIDMStore = defineStore("IDM", () => {
       | Awaited<ReturnType<typeof download>>
       | {
           ref: MetaEpisodeOnDisk
-        }
+        },
   ) {
     if (
       typeof (task as Awaited<ReturnType<typeof download>>).resume ===
@@ -120,7 +120,7 @@ export const useIDMStore = defineStore("IDM", () => {
         task as {
           ref: MetaEpisodeOnDisk
         }
-      ).ref
+      ).ref,
     )
   }
 

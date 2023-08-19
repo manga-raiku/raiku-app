@@ -6,7 +6,7 @@ import { CURL } from "../const"
 export default async function (manga_id: number) {
   const { data } = await get(
     // eslint-disable-next-line camelcase
-    `${CURL}/Comic/Services/ComicService.asmx/ProcessChapterList?comicId=${manga_id}`
+    `${CURL}/Comic/Services/ComicService.asmx/ProcessChapterList?comicId=${manga_id}`,
   )
 
   return JSON.parse(data).chapters.map(
@@ -17,6 +17,6 @@ export default async function (manga_id: number) {
         path: parsePath(item.url),
         updated_at: null,
       }
-    }
+    },
   )
 }

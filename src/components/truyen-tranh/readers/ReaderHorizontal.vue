@@ -115,7 +115,7 @@ const emit = defineEmits<{
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(
   () => props.pages,
-  () => sizes.clear()
+  () => sizes.clear(),
 )
 
 const sizePage = computed(() => {
@@ -131,7 +131,7 @@ const sizePage = computed(() => {
       else prev += 0.5
 
       return prev
-    }, 0)
+    }, 0),
   )
 })
 defineExpose({ sizes, sizePage })
@@ -279,7 +279,7 @@ function onTouchEnd(event: TouchEvent) {
 
 const minDiffX = computed(() => Math.min(0, (pWidth.value - oWidth.value) / 2))
 const minDiffY = computed(() =>
-  Math.min(0, (pHeight.value - oHeight.value) / 2)
+  Math.min(0, (pHeight.value - oHeight.value) / 2),
 )
 const maxDiffX = computed(() => -minDiffX.value)
 const maxDiffY = computed(() => -minDiffY.value)
@@ -382,7 +382,7 @@ function onMouseUpCheckClick(event: MouseEvent | TouchEvent) {
     !xor(
       directionLeft,
       (isTouchEvent(event) ? event.changedTouches[0].clientX : event.clientX) <
-        pWidthH.value
+        pWidthH.value,
     )
   ) {
     console.log("click %s", directionLeft ? "L" : "R")

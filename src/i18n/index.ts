@@ -6,7 +6,7 @@ export function loadLocalize(locale: string) {
 
 const reg = /[\w-]+(?=\.json$)/
 const langs = Object.keys(import.meta.glob("./messages/*.json")).map(
-  (path) => reg.exec(path)?.[0]
+  (path) => reg.exec(path)?.[0],
 ) as string[]
 
 export const languages = langs.map((code) => {

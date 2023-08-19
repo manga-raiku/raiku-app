@@ -61,7 +61,7 @@ async function startLoad(src: string) {
     if (!response.ok) throw new Error("die")
 
     srcImage.value = URL.createObjectURL(
-      new Blob([await response.arrayBuffer()])
+      new Blob([await response.arrayBuffer()]),
     )
   } catch (err) {
     error.value = err

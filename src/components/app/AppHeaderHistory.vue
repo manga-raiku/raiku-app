@@ -89,7 +89,7 @@ const { loading, data, refreshAsync } = useRequest(
     manual: true,
     cacheKey: "history",
     cacheTime: 5 * 60 * 1000, //
-  }
+  },
 )
 const onLoad = useLoadMorePage((page) => {
   // eslint-disable-next-line functional/no-throw-statement

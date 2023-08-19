@@ -8,7 +8,7 @@ import Worker from "../workers/[general]?worker"
 export default async function (
   path: string,
   page: number,
-  query: LocationQuery | Record<string, string | number>
+  query: LocationQuery | Record<string, string | number>,
 ) {
   if (path.endsWith("/")) path = path.slice(0, -1)
 

@@ -71,7 +71,7 @@ describe("download-manager", () => {
 
     const { ref, start, downloading } = createTaskDownloadEpisode(
       metaManga,
-      metaEp
+      metaEp,
     )
     expect(ref.downloaded).toBe(0)
     expect(downloading.value).toBeFalsy()
@@ -117,7 +117,7 @@ describe("download-manager", () => {
 
     // valid meta manga
     expect(
-      JSON.parse(await readFile(`meta/${hashIDManga}.mod`, Encoding.UTF8))
+      JSON.parse(await readFile(`meta/${hashIDManga}.mod`, Encoding.UTF8)),
     ).toEqual({
       ...metaManga,
       manga_image: "offline:///poster/1a96284b",
@@ -127,8 +127,8 @@ describe("download-manager", () => {
     // valid meta episode
     expect(
       JSON.parse(
-        await readFile(`meta/${hashIDManga}/${hashIDEp}.mod`, Encoding.UTF8)
-      )
+        await readFile(`meta/${hashIDManga}/${hashIDEp}.mod`, Encoding.UTF8),
+      ),
     ).toEqual({
       path: pathEp,
       start_download_at: 1690022500169,
@@ -149,7 +149,7 @@ describe("download-manager", () => {
 
     // valid meta image
     expect(await readFile("poster/" + hashIDManga, Encoding.UTF8)).toBe(
-      manga_image
+      manga_image,
     )
     expect(watcher.mock.calls.length).toBe(8)
   })
@@ -173,7 +173,7 @@ describe("download-manager", () => {
 
     const { ref, start, downloading } = createTaskDownloadEpisode(
       metaManga,
-      metaEp
+      metaEp,
     )
     expect(ref.downloaded).toBe(0)
     expect(downloading.value).toBeFalsy()
@@ -201,9 +201,9 @@ describe("download-manager", () => {
       JSON.parse(
         await readFile(
           "meta/" + hashIDManga + "/" + hashIDEp + ".mod",
-          Encoding.UTF8
-        )
-      )
+          Encoding.UTF8,
+        ),
+      ),
     ).toEqual({
       path: pathEp,
       start_download_at: 1690022500169,
@@ -242,7 +242,7 @@ describe("download-manager", () => {
 
     const { ref, start, downloading } = createTaskDownloadEpisode(
       metaManga,
-      metaEp
+      metaEp,
     )
     expect(ref.downloaded).toBe(0)
     expect(downloading.value).toBeFalsy()
@@ -270,9 +270,9 @@ describe("download-manager", () => {
       JSON.parse(
         await readFile(
           "meta/" + hashIDManga + "/" + hashIDEp + ".mod",
-          Encoding.UTF8
-        )
-      )
+          Encoding.UTF8,
+        ),
+      ),
     ).toEqual({
       path: pathEp,
       ep_id,
@@ -328,9 +328,9 @@ describe("download-manager", () => {
       JSON.parse(
         await readFile(
           "meta/" + hashIDManga + "/" + hashIDEp + ".mod",
-          Encoding.UTF8
-        )
-      )
+          Encoding.UTF8,
+        ),
+      ),
     ).toEqual({
       path: pathEp,
       start_download_at: 1690022500169,
@@ -357,7 +357,7 @@ describe("download-manager", () => {
 
     const { ref, downloading, start, stop, resume } = createTaskDownloadEpisode(
       metaManga,
-      metaEp
+      metaEp,
     )
     expect(downloading.value).toBe(false)
     expect(ref.downloaded).toBe(0)
@@ -406,9 +406,9 @@ describe("download-manager", () => {
       JSON.parse(
         await readFile(
           "meta/" + hashIDManga + "/" + hashIDEp + ".mod",
-          Encoding.UTF8
-        )
-      )
+          Encoding.UTF8,
+        ),
+      ),
     ).toEqual({
       path: pathEp,
       start_download_at: 1690022500169,
@@ -571,33 +571,33 @@ describe("download-manager", () => {
     await expect(exists(`files/${hashIDManga}`)).resolves.toBeTruthy()
 
     await expect(
-      exists(`meta/${hashIDManga}/${hashIDEp}.mod`)
+      exists(`meta/${hashIDManga}/${hashIDEp}.mod`),
     ).resolves.toBeTruthy()
     await expect(
-      exists(`files/${hashIDManga}/${hashIDEp}`)
+      exists(`files/${hashIDManga}/${hashIDEp}`),
     ).resolves.toBeTruthy()
 
     const hashIDEp2 = hashSum(metaEp.ep_id + 1)
     await expect(
-      exists(`meta/${hashIDManga}/${hashIDEp2}.mod`)
+      exists(`meta/${hashIDManga}/${hashIDEp2}.mod`),
     ).resolves.toBeTruthy()
     await expect(
-      exists(`files/${hashIDManga}/${hashIDEp2}`)
+      exists(`files/${hashIDManga}/${hashIDEp2}`),
     ).resolves.toBeTruthy()
 
     await deleteEpisode(manga_id, ep_id)
 
     await expect(
-      exists(`meta/${hashIDManga}/${hashIDEp}.mod`)
+      exists(`meta/${hashIDManga}/${hashIDEp}.mod`),
     ).resolves.toBeFalsy()
     await expect(
-      exists(`files/${hashIDManga}/${hashIDEp}`)
+      exists(`files/${hashIDManga}/${hashIDEp}`),
     ).resolves.toBeFalsy()
     await expect(
-      exists(`meta/${hashIDManga}/${hashIDEp2}.mod`)
+      exists(`meta/${hashIDManga}/${hashIDEp2}.mod`),
     ).resolves.toBeTruthy()
     await expect(
-      exists(`files/${hashIDManga}/${hashIDEp2}`)
+      exists(`files/${hashIDManga}/${hashIDEp2}`),
     ).resolves.toBeTruthy()
 
     await deleteEpisode(manga_id, ep_id + 1)

@@ -90,7 +90,7 @@ const attrs = useAttrs()
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(
   () => props.pages,
-  () => sizes.clear()
+  () => sizes.clear(),
 )
 
 const parentRef = ref<HTMLDivElement>()
@@ -101,15 +101,15 @@ const { width: oWidth, height: oHeight } = useElementSize(overflowRef)
 const oWidthH = computed(() => oWidth.value / 2)
 
 const widthImageDefault = computed(
-  () => sizes.get(0)?.[0] ?? pWidth.value * 0.8
+  () => sizes.get(0)?.[0] ?? pWidth.value * 0.8,
 )
 const heightImageDefault = computed(
-  () => sizes.get(0)?.[1] ?? pHeight.value * 0.8
+  () => sizes.get(0)?.[1] ?? pHeight.value * 0.8,
 )
 
 const minDiffX = computed(() => Math.min(0, (pWidth.value - oWidth.value) / 2))
 const minDiffY = computed(
-  () => Math.min(0, pHeight.value - oHeight.value) /* / 2 */
+  () => Math.min(0, pHeight.value - oHeight.value) /* / 2 */,
 )
 const maxDiffX = computed(() => -minDiffX.value)
 const maxDiffY = computed(() => 0 /* -minDiffY.value */)
@@ -238,7 +238,7 @@ watch(
     emit("update:current-page", left < 1 ? 0 : left - 1)
     await nextTick()
     disableReactiveCurrentPage = false
-  }, 200)
+  }, 200),
 )
 
 watch(
@@ -247,6 +247,6 @@ watch(
     if (disableReactiveCurrentPage) return
     console.log("traffict emit")
     diffYZoom.value = -mapOffset.value[currentPage]
-  }
+  },
 )
 </script>

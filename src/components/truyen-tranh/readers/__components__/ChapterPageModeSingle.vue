@@ -68,7 +68,7 @@ const zoom = ref(120.0)
 
 const minDiffX = computed(() => Math.min(0, (pWidth.value - oWidth.value) / 2))
 const minDiffY = computed(() =>
-  Math.min(0, (pHeight.value - oHeight.value) / 2)
+  Math.min(0, (pHeight.value - oHeight.value) / 2),
 )
 const maxDiffX = computed(() => -minDiffX.value)
 const maxDiffY = computed(() => -minDiffY.value)

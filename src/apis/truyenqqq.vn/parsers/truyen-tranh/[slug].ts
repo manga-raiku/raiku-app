@@ -20,10 +20,10 @@ export default function manga(html: string, now: number) {
     .map((item) => parseAnchor($(item)))
   const status = $(".status p:not(.name)").text().trim()
   const likes = parseInt(
-    $(".status").next().find("p:not(.name)").text().replace(/,/g, "")
+    $(".status").next().find("p:not(.name)").text().replace(/,/g, ""),
   )
   const follows = parseInt(
-    $(".status").next().next().find("p:not(.name)").text().replace(/,/g, "")
+    $(".status").next().next().find("p:not(.name)").text().replace(/,/g, ""),
   )
   const followed = $(".btn-subscribe .fa-heart").length === 0
   const views = parseInt(
@@ -33,7 +33,7 @@ export default function manga(html: string, now: number) {
       .next()
       .find("p:not(.name)")
       .text()
-      .replace(/,/g, "")
+      .replace(/,/g, ""),
   )
   const genres = $(".list01 a")
     .toArray()

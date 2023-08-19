@@ -412,7 +412,7 @@ function Carousel({ swiper, on }: any) {
       let scale = 1
       if (absProgress > 1) scale = 0.3 * (absProgress - 1) + 1
       const opacityEls = slide.querySelectorAll(
-        ".swiper-carousel-animate-opacity"
+        ".swiper-carousel-animate-opacity",
       )
       const translateX =
         progress * scale * 50 * (swiper.rtlTranslate ? -1 : 1) + "%"
@@ -431,7 +431,7 @@ function Carousel({ swiper, on }: any) {
       for (let i = 0; i < swiper.slides.length; i++) {
         const slide = swiper.slides[i]
         const opacityEls = slide.querySelectorAll(
-          ".swiper-carousel-animate-opacity"
+          ".swiper-carousel-animate-opacity",
         )
         slide.style.transitionDuration = `${speed}ms`
         opacityEls.forEach((el: HTMLDivElement) => {

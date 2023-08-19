@@ -6,13 +6,13 @@ interface Offset {
 export function useScrollInertia(
   diffXZoom: Ref<number>,
   diffYZoom: Ref<number>,
-  mouseZooming: Ref<boolean>
+  mouseZooming: Ref<boolean>,
 ) {
   let request: number | null = null
   return (
     touch: Touch | MouseEvent,
     last2Mouse: Readonly<Offset>,
-    last2Time: number
+    last2Time: number,
   ) => {
     if (request) cancelAnimationFrame(request)
 

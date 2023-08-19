@@ -397,15 +397,15 @@ const route = useRoute()
 const { data, loading, error, run } = useRequest(
   useWithCache(
     () => Manga(props.zlug),
-    computed(() => `/manga/${props.zlug}`)
-  ),
+    computed(() => `/manga/${props.zlug}`),
+  ) as unknown as () => ReturnType<typeof Manga>,
   {
     refreshDeps: [() => props.zlug],
     refreshDepsAction() {
       // data.value = undefined
       run()
     },
-  }
+  },
 )
 watch(error, (error) => {
   if (error?.message === "not_found")
@@ -424,7 +424,7 @@ const epContinue = computed(() => {
   if (!infoReadManga.value?.readContinueId) return
 
   return data.value?.chapters.find(
-    (item) => item.id === infoReadManga.value?.readContinueId
+    (item) => item.id === infoReadManga.value?.readContinueId,
   )
 })
 

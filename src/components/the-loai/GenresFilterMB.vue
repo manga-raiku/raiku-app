@@ -64,7 +64,7 @@
               :class="{
                 '!text-main-3': pathEqual(
                   router.resolve(path).path,
-                  route.path
+                  route.path,
                 ),
               }"
             >
@@ -155,7 +155,7 @@
                 :class="{
                   '!text-main': pathEqual(
                     router.resolve(path).path,
-                    route.path
+                    route.path,
                   ),
                 }"
               >

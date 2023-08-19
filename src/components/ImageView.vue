@@ -38,7 +38,7 @@ watch(
       srcImage.value = src
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>
 

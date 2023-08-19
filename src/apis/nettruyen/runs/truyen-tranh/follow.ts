@@ -9,7 +9,7 @@ export default async function Follow(comicId: number, key: string) {
     }) + "",
     {
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-    }
+    },
   )
   const { data: token2 } = JSON.parse(data)
 
@@ -21,7 +21,7 @@ export default async function Follow(comicId: number, key: string) {
     }) + "",
     {
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-    }
+    },
   )
 
   const { status, followedCount } = JSON.parse(data2)

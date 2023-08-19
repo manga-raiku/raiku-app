@@ -38,7 +38,7 @@ export default function general(html: string, now: number) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const path = parsePath($item.attr("href")!).replace(
           /\/tim-truyen(\/[^?]|$)/,
-          "/the-loai$1"
+          "/the-loai$1",
         )
         const name = $item.text()
 
@@ -55,7 +55,7 @@ export default function general(html: string, now: number) {
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const value = new URL(path, "http://localhost").searchParams.get(
-          "status"
+          "status",
         )!
 
         return { name, value }
@@ -71,7 +71,7 @@ export default function general(html: string, now: number) {
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const value = new URL(path, "http://localhost").searchParams.get(
-          "sort"
+          "sort",
         )!
 
         return { name, value }
@@ -80,13 +80,13 @@ export default function general(html: string, now: number) {
 
   const filters = [genres, status, sort]
   const items = $(
-    "#ctl00_divCenter > div.Module.Module-170 .item, .items .item"
+    "#ctl00_divCenter > div.Module.Module-170 .item, .items .item",
   )
     .toArray()
     .map((item) => parseItem($, $(item), now))
 
   const $curPage = parseInt(
-    $("#ctl00_mainContent_ctl01_divPager .active").text().trim()
+    $("#ctl00_mainContent_ctl01_divPager .active").text().trim(),
   )
   const curPage = Number.isNaN($curPage) ? 1 : $curPage
   const maxPage = $curPage
@@ -94,8 +94,8 @@ export default function general(html: string, now: number) {
         new URL(
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           $("#ctl00_mainContent_ctl01_divPager a").last().attr("href")!,
-          "http://localhost"
-        ).searchParams.get("page") ?? "1"
+          "http://localhost",
+        ).searchParams.get("page") ?? "1",
       )
     : 1
 

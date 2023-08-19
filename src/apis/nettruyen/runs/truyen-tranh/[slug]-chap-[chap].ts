@@ -7,7 +7,7 @@ import Worker from "../../workers/truyen-tranh/[slug]-chap-[chap]?worker"
 
 export default async function <Fast extends boolean>(
   slug: string,
-  fast: Fast
+  fast: Fast,
 ): Promise<
   Fast extends true
     ? Awaited<ReturnType<typeof Parse>>
@@ -28,7 +28,7 @@ export default async function <Fast extends boolean>(
   const result = await PostWorker<typeof Parse>(Worker, data, Date.now())
   if (!fast) {
     const { data } = await get(
-      `${CURL}/Comic/Services/ComicService.asmx/ProcessChapterList?comicId=${result.uid}`
+      `${CURL}/Comic/Services/ComicService.asmx/ProcessChapterList?comicId=${result.uid}`,
     )
     return {
       ...result,
@@ -40,7 +40,7 @@ export default async function <Fast extends boolean>(
             path: parsePath(item.url),
             updated_at: null,
           }
-        }
+        },
       ),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any

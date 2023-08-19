@@ -11,9 +11,9 @@ export async function cleanup() {
           path: name,
           directory: Directory.External,
           recursive: true,
-        })
+        }),
       )
-    })
+    }),
   )
 }
 

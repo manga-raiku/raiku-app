@@ -246,13 +246,13 @@ watch(
     console.log(meta)
     if (meta) {
       listEpDownloaded.value = shallowReactive(
-        await getListEpisodes(meta.manga_id).catch(() => [])
+        await getListEpisodes(meta.manga_id).catch(() => []),
       ).map((ref) => ({ ref }))
     } else {
       listEpDownloaded.value = undefined
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 const listEpDownloading = computed(() => {
@@ -268,7 +268,7 @@ const list = computed(() => {
   return new Map(
     [...(listEpDownloaded.value ?? []), ...listEpDownloading.value]
       .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
-      .map((item) => [item.ref.ep_id, item])
+      .map((item) => [item.ref.ep_id, item]),
   ) as Map<
     number,
     {
@@ -284,7 +284,7 @@ async function resume(
     | Awaited<ReturnType<typeof IDMStore.download>>
     | {
         ref: MetaEpisodeOnDisk
-      }
+      },
 ) {
   if (!metaMangaShowInfo.value || !listEpDownloaded.value) return
 
@@ -293,10 +293,10 @@ async function resume(
 
     listEpDownloaded.value.splice(
       listEpDownloaded.value.findIndex(
-        (item) => item.ref.ep_id === result.ref.ep_id
+        (item) => item.ref.ep_id === result.ref.ep_id,
       ) >>> 0,
       1,
-      result
+      result,
     )
   } catch (err) {
     if ((err as Error | undefined)?.message === "user_paused") return
@@ -320,7 +320,7 @@ async function remove() {
     // eslint-disable-next-line camelcase
     listEpRemove.value.map(async (ep_id) => {
       await IDMStore.deleteEpisode(manga_id, ep_id)
-    })
+    }),
   )
 
   const storeTask = IDMStore.queue.get(manga_id)
@@ -338,7 +338,7 @@ async function remove() {
   if (list.value?.size === 0) {
     IDMStore.listMangaSorted.splice(
       IDMStore.listMangaSorted.indexOf(meta) >>> 0,
-      1
+      1,
     )
   }
 
@@ -392,7 +392,7 @@ async function download() {
   for (const ep of epsSelected) {
     const conf = await SlugChapChap(
       ep.path.split("/").slice(2).join("/"),
-      false
+      false,
     )
     // eslint-disable-next-line promise/catch-or-return
     IDMStore.download(metaMangaShowInfo.value, {
@@ -404,10 +404,10 @@ async function download() {
       if (listEpDownloaded.value)
         listEpDownloaded.value.splice(
           listEpDownloaded.value.findIndex(
-            (item) => item.ref.ep_id === result.ref.ep_id
+            (item) => item.ref.ep_id === result.ref.ep_id,
           ) >>> 0,
           1,
-          result
+          result,
         )
       // eslint-disable-next-line no-useless-return
       return

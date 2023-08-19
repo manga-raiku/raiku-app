@@ -13,7 +13,7 @@ export default function epId(html: string, now: number) {
 
   const name = $("h1").text().split("-").slice(0, -1).join("-").trim()
   const { path: manga } = parseAnchor(
-    $("#ctl00_divCenter > div > div:nth-child(1) > div.top > h1 > a")
+    $("#ctl00_divCenter > div > div:nth-child(1) > div.top > h1 > a"),
   )
   const uid = parseInt(html.match(/gOpts\.comicId=(\d+)/)?.[1] ?? "")
   const ep_id = parseInt(html.match(/gOpts\.chapterId=(\d+)/)?.[1] ?? "")
@@ -26,7 +26,7 @@ export default function epId(html: string, now: number) {
       .text()
       .trim()
       .slice(16, -1),
-    now
+    now,
   )
   const pages = $(".reading-detail img")
     .toArray()
@@ -49,7 +49,7 @@ export default function epId(html: string, now: number) {
       $("#ctl00_mainContent_divPager > ul > li:nth-child(14) > a")
         .last()
         .attr("href")
-        ?.slice(1) ?? "1"
+        ?.slice(1) ?? "1",
     ) || 1
 
   return {
@@ -95,15 +95,15 @@ export const SERVERS: {
         return withProxyDeno(
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           decodeURIComponent(item.original!.split("&url", 2)[1]),
-          headersNettruyen
+          headersNettruyen,
         )
       }
 
       return withProxyDeno(
         `https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&resize_h=0&rewriteMime=image%2F*&url=${encodeURIComponent(
-          item.original
+          item.original,
         )}`,
-        headersNettruyen
+        headersNettruyen,
       )
     },
   },

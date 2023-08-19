@@ -8,7 +8,7 @@ export default async function login(username: string, password: string) {
       ctl00$mainContent$login1$LoginCtrl$Password: password,
       ctl00$mainContent$login1$LoginCtrl$RememberMe: "on",
       ctl00$mainContent$login1$LoginCtrl$Login: "Đăng nhập",
-    }
+    },
   )
 
   // eslint-disable-next-line functional/no-throw-statement

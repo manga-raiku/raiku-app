@@ -37,7 +37,7 @@ export default boot(({ app }) => {
       i18n.global.setLocaleMessage(locale, messages)
       ;(i18n.global.locale as Ref<string>).value = locale
     },
-    { immediate: true }
+    { immediate: true },
   )
   // Set i18n instance on app
   app.use(i18n)

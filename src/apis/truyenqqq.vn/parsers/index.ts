@@ -38,8 +38,8 @@ export default function index(html: string, now: number) {
   // Lịch Ra Truyện Ngày 29/06/2023
   const $date = new Date(
     parseDate(
-      $schedule.find(".time").text().trim().replace("Lịch Ra Truyện Ngày ", "")
-    )
+      $schedule.find(".time").text().trim().replace("Lịch Ra Truyện Ngày ", ""),
+    ),
   )
   const schedule = {
     date: $date.getTime(),
@@ -54,7 +54,7 @@ export default function index(html: string, now: number) {
         const time = new Date(
           $li.find("strong").text().trim().slice(1, -1) +
             ":00 " +
-            `${$date.getMonth()}/${$date.getDay()}/${$date.getFullYear()}`
+            `${$date.getMonth()}/${$date.getDay()}/${$date.getFullYear()}`,
         ).getTime()
         const release = $li.find(".hot").length > 0
         $li.find("strong").remove()

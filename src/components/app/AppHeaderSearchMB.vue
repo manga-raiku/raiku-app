@@ -136,7 +136,7 @@ function onBack() {
 }
 function onClickItemPreLoad(
   item: Exclude<typeof data.value, undefined>[0],
-  load?: boolean
+  load?: boolean,
 ) {
   if (load) {
     query.value = item.name

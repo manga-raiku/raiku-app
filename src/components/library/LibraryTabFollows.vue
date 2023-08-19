@@ -98,10 +98,10 @@ const onLoads = types.map(({ value }) => {
         page,
         authStore.user_data.uid,
         authStore.user_data.token,
-        value
+        value,
       )
     },
-    computed(() => (datas.get(value) as DataSuccess)?.data)
+    computed(() => (datas.get(value) as DataSuccess)?.data),
   )
 })
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -115,7 +115,7 @@ watch(
 
     await refresh(type)
   },
-  { immediate: true }
+  { immediate: true },
 )
 async function refresh(type: string) {
   datas.delete(type)
@@ -127,7 +127,7 @@ async function refresh(type: string) {
       1,
       authStore.user_data.uid,
       authStore.user_data.token,
-      type
+      type,
     )
     data.items = shallowReactive(data.items)
     datas.set(type, {

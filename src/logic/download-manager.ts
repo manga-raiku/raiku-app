@@ -50,7 +50,7 @@ export interface MetaEpisodeRunning extends MetaEpisodeOnDisk {
 async function downloadFile(
   src: string,
   path: string,
-  downloading: Ref<boolean>
+  downloading: Ref<boolean>,
 ): Promise<void> {
   const buffer = await fetch(src).then((res) => res.arrayBuffer())
 
@@ -68,7 +68,7 @@ async function downloadFiles(
   hashIDManga: string,
   hashIDEp: string,
   downloading: Ref<boolean>,
-  onprogress: (cur: number, total: number, path: string) => void
+  onprogress: (cur: number, total: number, path: string) => void,
 ): Promise<void> {
   await someLimit(
     sources,
@@ -85,7 +85,7 @@ async function downloadFiles(
 
       return false
     },
-    5
+    5,
   )
 }
 
@@ -101,7 +101,7 @@ async function saveMetaManga(metaManga: MetaManga): Promise<MetaMangaOnDisk> {
         path,
         directory: Directory.External,
         encoding: Encoding.UTF8,
-      }).then((res) => res.data)
+      }).then((res) => res.data),
     )
 
     if (val) return val as MetaMangaOnDisk
@@ -129,7 +129,7 @@ async function saveMetaManga(metaManga: MetaManga): Promise<MetaMangaOnDisk> {
 
 export function createTaskDownloadEpisode(
   metaManga: MetaManga,
-  metaEp: MetaEpisode
+  metaEp: MetaEpisode,
 ): {
   ref: MetaEpisodeRunning
   startSaveMetaManga: () => Promise<MetaMangaOnDisk>
@@ -191,7 +191,7 @@ export function createTaskDownloadEpisode(
         (res) =>
           JSON.parse(res.data) as MetaEpisodeOnDisk & {
             downloaded: number
-          }
+          },
       )
       .catch(() => undefined)
 
@@ -210,7 +210,7 @@ export function createTaskDownloadEpisode(
         refValue.pages[cur] = path
         refValue.downloaded++
         saveMeta(refValue)
-      }
+      },
     ).catch(async (err) => {
       await saveMeta(refValue)
       downloading.value = false
@@ -248,7 +248,7 @@ export async function getListManga() {
               encoding: Encoding.UTF8,
             }).then((res) => JSON.parse(res.data) as MetaMangaOnDisk)
           // .catch(() => null)
-        })
+        }),
       )
     ).filter(Boolean) as MetaMangaOnDisk[]
 
@@ -297,8 +297,8 @@ export async function getListEpisodes(manga_id: number) {
           path: `${DIR_META}/${hashIDManga}/${item.name}`,
           directory: Directory.External,
           encoding: Encoding.UTF8,
-        }).then((res) => JSON.parse(res.data) as MetaEpisodeOnDisk)
-    )
+        }).then((res) => JSON.parse(res.data) as MetaEpisodeOnDisk),
+    ),
   ).then((list) => list.filter(Boolean) as MetaEpisodeOnDisk[])
 }
 

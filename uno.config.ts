@@ -32,7 +32,7 @@ export default defineConfig({
   },
   safelist: [
     ..."overflow-y-scroll flex-shrink-1 mt-2 text-#eee text-opacity-70".split(
-      " "
+      " ",
     ),
     "text-weight-medium",
     "max-w-60%",

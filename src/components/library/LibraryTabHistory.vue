@@ -46,7 +46,7 @@ const { loading, data, refreshAsync } = useRequest(async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       item.read_at = dayjs(item.read_at) as unknown as any
       return item
-    })
+    }),
   )
   return data as unknown as Omit<typeof data, "items"> & {
     items: (Omit<(typeof data.items)[0], "read_at"> & {

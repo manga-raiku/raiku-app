@@ -56,7 +56,7 @@ export default function general(html: string, now: number) {
               ...new URL(
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 $item.attr("href")!,
-                "http://localhost"
+                "http://localhost",
               ).searchParams.entries(),
             ].at(-1)!
 
@@ -82,7 +82,7 @@ export default function general(html: string, now: number) {
     $(".page_redirect > *")
       .last()
       .attr("href")
-      ?.match(/\/trang-(\d+)/)?.[1] ?? curPage + ""
+      ?.match(/\/trang-(\d+)/)?.[1] ?? curPage + "",
   )
   const maxPage = Number.isNaN($maxPage) ? 1 : $maxPage
 

@@ -81,7 +81,7 @@ meta:
                 ep_id: data.ep_id,
                 ep_name: currentEpisode.value.name,
                 pages: pages.slice(0),
-              }
+              },
             )
         "
       >
@@ -571,7 +571,7 @@ const { data, loading, runAsync, error } = useRequest(
     refreshDepsAction() {
       runAsync()
     },
-  }
+  },
 )
 watch(error, (error) => {
   if (error?.message === "not_found")
@@ -590,30 +590,30 @@ const zoom = useClamp(100, 50, 200)
 const server = ref(0)
 const serversReady = computed(() =>
   SERVERS.filter(
-    (item) => !data.value || item.has(data.value.pages[0], data.value)
-  )
+    (item) => !data.value || item.has(data.value.pages[0], data.value),
+  ),
 )
 // eslint-disable-next-line no-void
 watch(serversReady, () => void (server.value = 0))
 const pageGetter = computed(
   () =>
     serversReady.value.find(
-      (item) => item.name === serversReady.value[server.value].name
-    )?.parse
+      (item) => item.name === serversReady.value[server.value].name,
+    )?.parse,
 )
 const pages = computed(
   () =>
     data.value?.pages.map(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      (item) => pageGetter.value?.(item, data.value!) ?? item.src
-    ) as string[] | undefined
+      (item) => pageGetter.value?.(item, data.value!) ?? item.src,
+    ) as string[] | undefined,
 )
 const singlePage = ref(false)
 const rightToLeft = ref(false)
 const scrollingMode = ref(true)
 
 const sizePage = computed(
-  () => readerHorizontalRef.value?.sizePage ?? pages.value?.length ?? 0
+  () => readerHorizontalRef.value?.sizePage ?? pages.value?.length ?? 0,
 )
 const minPage = computed(() => (rightToLeft.value ? -(sizePage.value - 1) : 0))
 const maxPage = computed(() => (rightToLeft.value ? 0 : sizePage.value - 1))

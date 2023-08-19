@@ -11,7 +11,7 @@ export default function chap(html: string, now: number) {
   const name = $("h1 > a").text()
   const updated = new Date(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    $(".detail-title").next("time").attr("datetime")!
+    $(".detail-title").next("time").attr("datetime")!,
   ).getTime()
   const chapters = $(".chapter_list option")
     .toArray()
@@ -77,7 +77,7 @@ export const SERVERS: {
     has: () => true,
     get: (item) =>
       `https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&resize_h=0&rewriteMime=image%2F*&url=${encodeURIComponent(
-        item.src
+        item.src,
       )}`,
   },
   {
@@ -93,7 +93,7 @@ export const SERVERS: {
         if (item.original?.includes(host))
           return item.original.replace(
             host,
-            replaceHosts[host as keyof typeof replaceHosts]
+            replaceHosts[host as keyof typeof replaceHosts],
           )
       }
       return item.original

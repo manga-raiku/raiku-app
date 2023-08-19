@@ -218,11 +218,11 @@ const { data, loading, run } = useRequest(
     refreshDepsAction() {
       run()
     },
-  }
+  },
 )
 const onLoad = useLoadMorePage(
   (page) => TimKiem(route.query.query + "", page),
-  data
+  data,
 )
 
 const mobileSearching = ref(false)
@@ -277,7 +277,7 @@ const activeIndex = ref(0)
 watch(
   activeIndex,
   (activeIndex) => fetchRankType(typesRank[activeIndex].value),
-  { immediate: true }
+  { immediate: true },
 )
 
 function onSwiper(swiper: TSwiper) {

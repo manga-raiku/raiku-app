@@ -20,7 +20,7 @@ export default async function (slug: string) {
 
     result.chapters = await PostWorker<typeof ParseMangaList>(
       WorkerMangaList,
-      data
+      data,
     )
   }
 

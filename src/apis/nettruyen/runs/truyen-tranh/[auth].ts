@@ -5,11 +5,11 @@ export default async function (
   comicId: number,
   // eslint-disable-next-line camelcase
   user_uid: string,
-  token: string
+  token: string,
 ) {
   const { data } = await get(
     // eslint-disable-next-line camelcase
-    `${API_CURL}/Comic/Services/ComicService.asmx/GetFollowedButtonComic?comicId=${comicId}&userGuid=${user_uid}&token=${token}`
+    `${API_CURL}/Comic/Services/ComicService.asmx/GetFollowedButtonComic?comicId=${comicId}&userGuid=${user_uid}&token=${token}`,
   )
 
   const { isFollowed, readChapters, readHtml, markAsReadHtml } =
@@ -20,13 +20,13 @@ export default async function (
   return {
     isFollowed: isFollowed as boolean,
     readsChapter: new Set(
-      readChapters?.map((item: string) => parseInt(item)) as number[]
+      readChapters?.map((item: string) => parseInt(item)) as number[],
     ),
     canMarkReadAll: !!markAsReadHtml,
     readContinueId: pathEpCont
       ? parseInt(
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          parsePath(pathEpCont).split("/").slice(-2).filter(Boolean).at(-1)!
+          parsePath(pathEpCont).split("/").slice(-2).filter(Boolean).at(-1)!,
         )
       : undefined,
   }

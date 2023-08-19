@@ -16,9 +16,11 @@
         :class="{
           '!text-main-3 segment': tabActive === index,
         }"
-        :ref="($el: QTab) => {
-        if (tabActive === index) btnActiveRef = $el
-      }"
+        :ref="
+          ($el: QTab) => {
+            if (tabActive === index) btnActiveRef = $el
+          }
+        "
       />
     </q-tabs>
     <!-- <ScrollDimPart class="overflow-auto whitespace-nowrap">
@@ -59,7 +61,7 @@
     >
       <ul
         class="row mx--2"
-        :ref="($el) => (ulPanelRef = ($el as HTMLUListElement))"
+        :ref="($el) => (ulPanelRef = $el as HTMLUListElement)"
       >
         <li
           v-if="!slots.item"
@@ -157,9 +159,9 @@ const tabActive = ref(
         segments.value.findIndex(({ items }) => {
           return items.some((item) => pathEqual(item.path, route.path))
         }),
-        0
+        0,
       )
-    : 0
+    : 0,
 )
 watch(tabActive, () => emit("change-tab"))
 
@@ -172,7 +174,7 @@ watch(
     setTimeout(() => {
       if (segment) scrollXIntoView(segment)
     }, 70)
-  }
+  },
 )
 
 const ulPanelRef = ref<HTMLUListElement>()

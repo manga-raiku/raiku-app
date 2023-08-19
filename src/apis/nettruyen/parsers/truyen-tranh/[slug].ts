@@ -18,11 +18,11 @@ export default function slug(html: string, now: number) {
   // eslint-disable-next-line camelcase
   const updated_at = parseTimeAgo(
     $detail.find("time").text().trim().slice(16, -1),
-    now
+    now,
   )
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const image = getImage(
-    $("#item-detail > div.detail-info > div > div.col-xs-4.col-image > img")
+    $("#item-detail > div.detail-info > div > div.col-xs-4.col-image > img"),
   )!
 
   const othername = $detail.find(".othername p:not(.name)").text().trim()
@@ -38,7 +38,7 @@ export default function slug(html: string, now: number) {
     .toArray()
     .map((item) => parseAnchor($(item)))
   const views = parseInt(
-    $detail.find(".kind").next().find("p:not(.name)").text().replace(/\./, "")
+    $detail.find(".kind").next().find("p:not(.name)").text().replace(/\./, ""),
   )
   const $rate = $detail.find("span[itemprop=aggregateRating]")
   const rate =
@@ -75,7 +75,7 @@ export default function slug(html: string, now: number) {
       $("#ctl00_mainContent_divPager > ul > li:nth-child(14) > a")
         .last()
         .attr("href")
-        ?.slice(1) ?? "1"
+        ?.slice(1) ?? "1",
     ) || 1
 
   return {

@@ -1,12 +1,9 @@
 import type { GetOption } from "client-ext-animevsub-helper"
 import { Http } from "client-ext-animevsub-helper"
-import { i18n } from "src/boot/i18n"
-
-const helperInstalled = Http.allowedRoot
 
 async function httpGet(
   url: string | GetOption,
-  headers?: Record<string, string>
+  headers?: Record<string, string>,
 ) {
   console.log("get: ", url)
 
@@ -16,7 +13,7 @@ async function httpGet(
       : {
           url: url + "#nettruyen",
           headers,
-        }
+        },
   ).then((response) => {
     if (response.status === 403 || response.status === 520) {
       console.log("response fail")
@@ -35,7 +32,7 @@ async function httpGet(
 async function httpPost(
   url: string,
   data: string | Record<string, number | string | boolean>,
-  headers?: Record<string, string>
+  headers?: Record<string, string>,
 ) {
   console.log("post: ", {
     url,
@@ -58,19 +55,23 @@ async function httpPost(
 
 export function proxyGet(
   url: string | GetOption,
-  headers: Record<string, string>
-): ReturnType<typeof Http.get> {
+  headers?: Record<string, string>,
+): ReturnType<typeof httpGet> {
   return fetch(
     `https://corsproxy.io/?${encodeURIComponent(
-      typeof url === "string" ? url : url.url
+      typeof url === "string" ? url : url.url,
     )}`,
     {
-      headers: new Headers(url?.headers),
-    }
+      headers: new Headers(headers ?? (url as GetOption)?.headers),
+    },
   ).then(async (res) => {
     return {
       data: await res.text(),
-      headers: Object.fromEntries([...res.headers.entries()]),
+      status: res.status,
+      headers: Object.fromEntries([
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ...(res.headers as unknown as any).entries(),
+      ]),
       url: res.url,
     }
   })
@@ -79,27 +80,26 @@ export function proxyGet(
 export function proxyPost(
   url: string,
   data: string | Record<string, number | string | boolean>,
-  headers?: Record<string, string>
-): ReturnType<typeof Http.post> {
-  return fetch(
-    `https://corsproxy.io/?${encodeURIComponent(
-      typeof url === "string" ? url : url.url
-    )}`,
-    {
-      method: "post",
-      headers: new Headers(url?.headers),
-      data:
-        typeof data === "string"
-          ? data
-          : Object.entries(data).reduce((form, [key, value]) => {
-              form.set(key, value)
-              return form
-            }, new FormData()),
-    }
-  ).then(async (res) => {
+  headers?: Record<string, string>,
+): ReturnType<typeof httpPost> {
+  return fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`, {
+    method: "post",
+    headers: new Headers(headers),
+    body:
+      typeof data === "string"
+        ? data
+        : Object.entries(data).reduce((form, [key, value]) => {
+            form.set(key, value + "")
+            return form
+          }, new FormData()),
+  }).then(async (res) => {
     return {
       data: await res.text(),
-      headers: Object.fromEntries([...res.headers.entries()]),
+      status: res.status,
+      headers: Object.fromEntries([
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ...(res.headers as unknown as any).entries(),
+      ]),
       url: res.url,
     }
   })
