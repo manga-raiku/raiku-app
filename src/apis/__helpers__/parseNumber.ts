@@ -4,7 +4,7 @@ export function parseNumber(val: string) {
 
   if (Number.isNaN(k)) return null
 
-  switch (val.at(-1)) {
+  switch (val[val.length - 1]) {
     case "k":
       return k * 1e3
     case "m":
