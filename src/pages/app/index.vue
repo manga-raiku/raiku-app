@@ -12,7 +12,7 @@
       class="fixed w-full h-[calc(65%-58px)] bottom-58px left-0 rounded-25px bg-dark-page px-4 overflow-y-scroll scrollbar-custom"
     >
       <q-list padding>
-        <q-item clickable v-ripple to="/app/login">
+        <q-item v-if="!authStore.isLogged" clickable v-ripple to="/app/login">
           <q-item-section avatar>
             <q-avatar>
               <Icon icon="solar:user-circle-bold-duotone" class="size-50px" />
@@ -20,6 +20,16 @@
           </q-item-section>
           <q-item-section class="text-16px">
             <q-item-label>Đăng nhập</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item v-else clickable v-ripple>
+          <q-item-section avatar>
+            <q-avatar>
+              <img :src="authStore.user_data?.avatar" />
+            </q-avatar>
+          </q-item-section>
+          <q-item-section class="text-16px">
+            <q-item-label>{{ authStore.user_data?.fullName }}</q-item-label>
           </q-item-section>
         </q-item>
 
@@ -53,6 +63,8 @@ import { App } from "@capacitor/app"
 import { version } from "app/package.json"
 import { isCapacitor } from "src/constants"
 
+const authStore = useAuthStore()
+
 const buttons = [
   {
     href: "https://ko-fi.com/tachib_shin",
@@ -85,7 +97,7 @@ const buttons = [
     text: "Kiểm tra lỗi mạng",
   },
   {
-    to: "/app/info",
+    to: "/app/about",
     icon: "solar:notebook-bookmark-bold-duotone",
     text: "Giới thiệu",
     side: computedAsync(async () => {

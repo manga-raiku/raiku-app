@@ -9,14 +9,14 @@ export default async function (token: string) {
     },
   )
 
-  const $data = JSON.parse(data)
-
-  return {
-    uid: $data.userGuid as string,
-    avatar: $data.avatar as string,
-    token: $data.token as string,
-    name: $data.fullName as string,
-    email: $data.email as string | null,
-    readToken: $data.readToken as string,
+  const $data = JSON.parse(data) as {
+    userGuid: string
+    avatar: string
+    token: string
+    fullName: string
+    email: string | null
+    readToken: string
   }
+
+  return $data
 }

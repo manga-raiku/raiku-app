@@ -9,22 +9,23 @@ export default function vitePluginBuildRaw(): Plugin {
       if (id.includes("?braw")) {
         id = id.replace(/\?braw$/, "")
         // console.log({ id })
-
         const code = esbuild.buildSync({
           entryPoints: [id],
           format: "iife",
           bundle: true,
           minify:
-            id.includes("&minify") || process.env.NODE_ENV !== "production",
+            id.includes("&minify") || process.env.NODE_ENV === "production",
           treeShaking: true,
           write: false,
           // sourcemap: true
           // sideEff,
           define: Object.fromEntries(
-            [...Object.entries(process.env)].map(([name, value]) => [
-              `process.env.${name.replace(/[^\w\d_$]/g, "_")}`,
-              JSON.stringify(value),
-            ]),
+            [["CRYPTO_PASSWORD", ""], ...Object.entries(process.env)].map(
+              ([name, value]) => [
+                `process.env.${name.replace(/[^\w\d_$]/g, "_")}`,
+                JSON.stringify(value),
+              ],
+            ),
           ),
         })
         const { text } = code.outputFiles[0]
@@ -47,7 +48,7 @@ export default function vitePluginBuildRaw(): Plugin {
                   {
                     minify:
                       id.includes("&minify") ||
-                      process.env.NODE_ENV !== "production",
+                      process.env.NODE_ENV === "production",
                     treeShaking: true,
                   },
                 ).code

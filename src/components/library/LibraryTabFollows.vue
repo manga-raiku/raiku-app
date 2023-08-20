@@ -96,7 +96,7 @@ const onLoads = types.map(({ value }) => {
 
       return await TheoDoi(
         page,
-        authStore.user_data.uid,
+        authStore.user_data.userGuid,
         authStore.user_data.token,
         value,
       )
@@ -125,7 +125,7 @@ async function refresh(type: string) {
 
     const data = await TheoDoi(
       1,
-      authStore.user_data.uid,
+      authStore.user_data.userGuid,
       authStore.user_data.token,
       type,
     )

@@ -25,7 +25,7 @@ export function useInfoReadManga(
   watch(
     [
       () => data.value?.uid,
-      () => authStore.user_data?.uid,
+      () => authStore.user_data?.userGuid,
       () => authStore.user_data?.token,
     ],
     // eslint-disable-next-line camelcase

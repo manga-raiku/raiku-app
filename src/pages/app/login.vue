@@ -43,7 +43,7 @@ meta:
         outlined
         label="Dán ủy quyền nhị phân vào đây"
         color="main-3"
-        class="mt-4"
+        class="mt-6"
         :rules="[verifyBinaryAuth]"
         clearable
       >
@@ -190,6 +190,13 @@ async function pasteCodeFromClipboard() {
 }
 
 async function continueLogin() {
-  if (auth.value) authStore.setUser(auth.value)
+  if (auth.value) {
+    authStore.setUser(auth.value)
+    $q.notify({
+      position: "bottom-right",
+      message: `Đã đăng nhập với tư cách ${auth.value.fullName}`,
+    })
+    router.back()
+  }
 }
 </script>

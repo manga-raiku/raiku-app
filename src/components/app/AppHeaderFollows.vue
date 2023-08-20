@@ -134,7 +134,7 @@ async function refresh(type: string) {
     datas.set(type, {
       data: await TheoDoi(
         1,
-        authStore.user_data.uid,
+        authStore.user_data.userGuid,
         authStore.user_data.token,
         type,
       ),

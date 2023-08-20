@@ -6,10 +6,10 @@ import Login from "src/apis/nettruyen/runs/auth/login"
 import GetUser from "src/apis/nettruyen/runs/auth/user"
 
 interface User {
-  uid: string
+  userGuid: string
   avatar: string
   token: string
-  name: string
+  fullName: string
   email: string | null
   readToken: string
 }
@@ -19,7 +19,7 @@ export const useAuthStore = defineStore("auth", () => {
   const user_data = ref(parseJSON(cookie.get("user_data")) as null | User)
 
   const isLogged = computed(() => {
-    return !!token.value && !!user_data.value
+    return !!token.value || !!user_data.value
   })
 
   if (token.value)
