@@ -3,7 +3,6 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "editorconfig.editorconfig",
-    "vue.volar",
     "wayou.vscode-todo-highlight",
     "lokalise.i18n-ally",
     "codeium.codeium",
@@ -11,7 +10,12 @@
     "unthrottled.doki-theme",
     "codium.codium",
     "equinusocio.vsc-material-theme-icons",
-    "yoavbls.pretty-ts-errors"
+    "yoavbls.pretty-ts-errors",
+    "wix.vscode-import-cost",
+    "gengjiawen.vscode-npm-dependency",
+    "socketsecurity.vscode-socket-security",
+    "meganrogge.template-string-converter",
+    "johnsoncodehk.vscode-typescript-vue-plugin"
   ],
   "unwantedRecommendations": [
     "octref.vetur",

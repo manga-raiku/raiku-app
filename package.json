@@ -27,6 +27,8 @@
     "fixtest": "tsx ./scripts/fixtest.ts"
   },
   "dependencies": {
+    "@capacitor/device": "^5.0.6",
+    "@capacitor/network": "^5.0.6",
     "@fontsource/caveat": "^4.5.10",
     "@fontsource/poppins": "^5.0.8",
     "@hannoeru/eslint-plugin": "^0.9.5",
