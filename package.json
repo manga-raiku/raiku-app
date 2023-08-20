@@ -66,6 +66,7 @@
     "vue-router": "^4.2.2"
   },
   "devDependencies": {
+    "@capacitor/app": "^5.0.6",
     "@intlify/vite-plugin-vue-i18n": "^6.0.3",
     "@quasar/app-vite": "^1.4.3",
     "@quasar/cli": "^2.2.3",

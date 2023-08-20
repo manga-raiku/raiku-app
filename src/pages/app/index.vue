@@ -39,6 +39,7 @@
           <q-item-section>
             <q-item-label>{{ item.text }}</q-item-label>
           </q-item-section>
+          <q-item-section v-if="item.side" side>{{ item.side }}</q-item-section>
         </q-item>
       </q-list>
     </div>
@@ -48,6 +49,10 @@
 </template>
 
 <script lang="ts" setup>
+import { App } from "@capacitor/app"
+import { version } from "app/package.json"
+import { isCapacitor } from "src/constants"
+
 const buttons = [
   {
     href: "https://ko-fi.com/tachib_shin",
@@ -83,6 +88,13 @@ const buttons = [
     to: "/app/info",
     icon: "solar:notebook-bookmark-bold-duotone",
     text: "Giới thiệu",
+    side: computedAsync(async () => {
+      try {
+        return isCapacitor ? (await App.getInfo()).version : version
+      } catch {
+        return version
+      }
+    }),
   },
 ]
 </script>

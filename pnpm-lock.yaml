@@ -118,6 +118,9 @@ dependencies:
     version: 4.2.2(vue@3.2.45)
 
 devDependencies:
+  '@capacitor/app':
+    specifier: ^5.0.6
+    version: 5.0.6(@capacitor/core@5.2.2)
   '@intlify/vite-plugin-vue-i18n':
     specifier: ^6.0.3
     version: 6.0.3(vite@2.9.16)(vue-i18n@9.2.2)
@@ -1521,11 +1524,18 @@ packages:
       '@babel/helper-validator-identifier': 7.22.5
       to-fast-properties: 2.0.0
 
+  /@capacitor/app@5.0.6(@capacitor/core@5.2.2):
+    resolution: {integrity: sha512-6ZXVdnNmaYILasC/RjQw+yfTmq2ZO7Q3v5lFcDVfq3PFGnybyYQh+RstBrYri+376OmXOXxBD7E6UxBhrMzXGA==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.2.2
+    dev: true
+
   /@capacitor/core@5.2.2:
     resolution: {integrity: sha512-3jKECZC5+YD2rljMZm1e/K3AYyoxUmLDZCyofTPbRYPBSI0wJh5ZCkX+XIGzNM0o/Wokl3Voa1JB8xsLC0MPxA==}
     dependencies:
       tslib: 2.6.0
-    dev: false
 
   /@capacitor/device@5.0.6(@capacitor/core@5.2.2):
     resolution: {integrity: sha512-tmjK0H8IKbDLMcmzZzJPbV+9yLkKJ76QOdz4A7fZAOYx2GnFHsFngxldq/wKotGAJuDX/ih3ZzHNrzVguzlv2g==}
