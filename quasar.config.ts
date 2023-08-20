@@ -12,8 +12,7 @@ import dotenv from "dotenv"
 import { extend } from "quasar"
 import { configure } from "quasar/wrappers"
 
-import vitePluginBuildRaw from "./modules/vite-plugin-build-raw"
-import vitePluginI18nLangs from "./modules/vite-plugin-i18n-langs"
+import { vitePlugins } from "./vite-plugins"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parsed = (dotenv.config().parsed ?? {}) as unknown as any
@@ -127,86 +126,7 @@ export default configure((/* ctx */) => {
         },
       },
 
-      vitePlugins: [
-        [
-          "@tachibana-shin/vite-plugin-pages",
-          {
-            routeStyle: "nuxt3",
-            importMode: () => "async",
-          },
-        ],
-        // ['unplugin-vue-router/vite', {}],
-        ["vite-plugin-rewrite-all", {}],
-        ["vite-plugin-remove-console", {}],
-        [
-          "vite-plugin-vue-layouts",
-          {
-            defaultLayout: "MainLayout",
-          },
-        ],
-        [
-          "unocss/vite",
-          {
-            configFile: "./uno.config.ts",
-          },
-        ],
-        [
-          "unplugin-auto-import/vite",
-          {
-            resolvers: [],
-            // targets to transform
-            include: [/\.tsx?$/, /\.vue$/, /\.vue\?vue/],
-
-            // global imports to register
-            imports: [
-              // presets
-              "vue",
-              "vue-router",
-              {
-                "@iconify/vue": ["Icon"],
-                "@vueuse/core": ["computedAsync"],
-                quasar: ["useQuasar"],
-                "vue-request": ["useRequest"],
-                "vue-i18n": ["useI18n"],
-                "@tachibana-shin/capacitor-filesystem": [
-                  "Filesystem",
-                  "Directory",
-                  "Encoding",
-                ],
-              },
-            ],
-            dirs: [
-              "src/logic/**/*.ts",
-              "src/logic/**/*.tsx",
-              "src/stores/**/*.ts",
-              "src/composables/*.ts",
-            ],
-            eslintrc: {
-              enabled: true, // Default `false`
-              filepath: "./.eslintrc-auto-import.json", // Default `./.eslintrc-auto-import.json`
-              globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
-            },
-          },
-        ],
-        [
-          "unplugin-vue-components/vite",
-          {
-            resolvers: [
-              (componentName: string) => {
-                // where `componentName` is always CapitalCase
-                if (componentName.toLowerCase() === "icon")
-                  return {
-                    name: componentName,
-                    from: "@iconify/vue",
-                  }
-              },
-            ],
-          },
-        ],
-        ["unplugin-vue-define-options/vite", {}],
-        [vitePluginBuildRaw, {}],
-        [vitePluginI18nLangs, {}],
-      ],
+      vitePlugins,
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
