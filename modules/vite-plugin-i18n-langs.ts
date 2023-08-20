@@ -6,12 +6,20 @@ import type { Plugin } from "vite"
 
 const reg = /[\w-]+(?=\.json$)/
 export default function vitePluginI18nLangs(): Plugin {
+  const virtualModuleId = "virtual:i18n-langs"
+  const resolvedVirtualModuleId = "\0" + "virtual:i18n-langs"
+
   return {
     name: "vite-plugin-i18n-langs",
-    async transform(src, id) {
-      if (id === "virual:i18n-langs") {
+    resolveId(id) {
+      if (id === virtualModuleId) {
+        return resolvedVirtualModuleId
+      }
+    },
+    async load(id) {
+      if (id === resolvedVirtualModuleId) {
         const langs = (
-          await fs.promises.readdir(join(__dirname, "src/i18n/messages"))
+          await fs.promises.readdir(join(__dirname, "..", "src/i18n/messages"))
         ).map((name) => reg.exec(name)?.[0])
         const languages = langs.map((code) => {
           return {
@@ -22,6 +30,7 @@ export default function vitePluginI18nLangs(): Plugin {
 
         return {
           code: `export default ${JSON.stringify(languages)}`,
+          map: null,
         }
       }
     },

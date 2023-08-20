@@ -15,6 +15,7 @@ export const vitePlugins: [
   (conf: object | undefined) => Plugin | Plugin[],
   object | undefined,
 ][] = [
+  [vitePluginI18nLangs, {}],
   [
     Pages,
     {
@@ -86,5 +87,4 @@ export const vitePlugins: [
   ],
   [DefineOptions, {}],
   [vitePluginBuildRaw, {}],
-  [vitePluginI18nLangs, {}],
 ]
