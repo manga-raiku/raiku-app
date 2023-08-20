@@ -1,3 +1,4 @@
+const fs = require("fs")
 const Module = require("module")
 const { join } = require("path")
 
@@ -6,6 +7,8 @@ const originalLoad = Module._load
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 Module._load = function (request, parent, isMain) {
+  if (fs.existsSync(`${request}.ts`)) request += ".ts"
+
   if (request.endsWith(".ts")) {
     const result = esbuild.buildSync({
       entryPoints: [request],

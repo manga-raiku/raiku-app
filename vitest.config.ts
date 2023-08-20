@@ -30,6 +30,6 @@ export default defineConfig({
       sassVariables: "src/quasar-variables.scss",
     }),
     tsconfigPaths(),
-    ...vitePlugins,
+    ...vitePlugins.map(([fn, conf]) => fn(conf)),
   ],
 })

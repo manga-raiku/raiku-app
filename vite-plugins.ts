@@ -11,71 +11,80 @@ import Layouts from "vite-plugin-vue-layouts"
 import vitePluginBuildRaw from "./modules/vite-plugin-build-raw"
 import vitePluginI18nLangs from "./modules/vite-plugin-i18n-langs"
 
-export const vitePlugins: (Plugin | Plugin[])[] = [
-  Pages({
-    routeStyle: "nuxt3",
-    importMode: () => "async",
-  }),
-  // ['unplugin-vue-router/vite', {}],
-  ReWriteAll(),
-  RemoveConsole(),
-  Layouts({
-    defaultLayout: "MainLayout",
-  }),
-  UnoCSS({
-    configFile: "./uno.config.ts",
-  }),
-
-  AutoImport({
-    resolvers: [],
-    // targets to transform
-    include: [/\.tsx?$/, /\.vue$/, /\.vue\?vue/],
-
-    // global imports to register
-    imports: [
-      // presets
-      "vue",
-      "vue-router",
-      {
-        "@iconify/vue": ["Icon"],
-        "@vueuse/core": ["computedAsync"],
-        quasar: ["useQuasar"],
-        "vue-request": ["useRequest"],
-        "vue-i18n": ["useI18n"],
-        "@tachibana-shin/capacitor-filesystem": [
-          "Filesystem",
-          "Directory",
-          "Encoding",
-        ],
-      },
-    ],
-    dirs: [
-      "src/logic/**/*.ts",
-      "src/logic/**/*.tsx",
-      "src/stores/**/*.ts",
-      "src/composables/*.ts",
-    ],
-    eslintrc: {
-      enabled: true, // Default `false`
-      filepath: "./.eslintrc-auto-import.json", // Default `./.eslintrc-auto-import.json`
-      globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+export const vitePlugins: [
+  (conf: object | undefined) => Plugin | Plugin[],
+  object | undefined,
+][] = [
+  [
+    Pages,
+    {
+      routeStyle: "nuxt3",
+      importMode: () => "async",
     },
-  }),
-
-  Components({
-    resolvers: [
-      (componentName: string) => {
-        // where `componentName` is always CapitalCase
-        if (componentName.toLowerCase() === "icon")
-          return {
-            name: componentName,
-            from: "@iconify/vue",
-          }
+  ],
+  [ReWriteAll, {}],
+  [() => RemoveConsole, {}],
+  [
+    Layouts,
+    {
+      defaultLayout: "MainLayout",
+    },
+  ],
+  [
+    UnoCSS,
+    {
+      configFile: "./uno.config.ts",
+    },
+  ],
+  [
+    AutoImport,
+    {
+      resolvers: [],
+      include: [/\.tsx?$/, /\.vue$/, /\.vue\?vue/],
+      imports: [
+        "vue",
+        "vue-router",
+        {
+          "@iconify/vue": ["Icon"],
+          "@vueuse/core": ["computedAsync"],
+          quasar: ["useQuasar"],
+          "vue-request": ["useRequest"],
+          "vue-i18n": ["useI18n"],
+          "@tachibana-shin/capacitor-filesystem": [
+            "Filesystem",
+            "Directory",
+            "Encoding",
+          ],
+        },
+      ],
+      dirs: [
+        "src/logic/**/*.ts",
+        "src/logic/**/*.tsx",
+        "src/stores/**/*.ts",
+        "src/composables/*.ts",
+      ],
+      eslintrc: {
+        enabled: true,
+        filepath: "./.eslintrc-auto-import.json",
+        globalsPropValue: true,
       },
-    ],
-  }),
-
-  DefineOptions(),
-  vitePluginBuildRaw(),
-  vitePluginI18nLangs(),
+    },
+  ],
+  [
+    Components,
+    {
+      resolvers: [
+        (componentName: string) => {
+          if (componentName.toLowerCase() === "icon")
+            return {
+              name: componentName,
+              from: "@iconify/vue",
+            }
+        },
+      ],
+    },
+  ],
+  [DefineOptions, {}],
+  [vitePluginBuildRaw, {}],
+  [vitePluginI18nLangs, {}],
 ]
