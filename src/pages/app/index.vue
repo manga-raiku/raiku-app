@@ -1,9 +1,15 @@
 <template>
   <q-page>
-    <img src="~/assets/yae-miko-genshin.gif" class="h-full object-cover" />
+    <video
+      src="~/assets/yae-miko-genshin-impact.mp4"
+      autoplay
+      loop
+      muted
+      class="h-full object-cover"
+    />
 
     <div
-      class="fixed w-full h-65% bottom-0 left-0 rounded-25px bg-dark-page px-4 scrollbar-auto"
+      class="fixed w-full h-[calc(65%-58px)] bottom-58px left-0 rounded-25px bg-dark-page px-4 overflow-y-scroll scrollbar-custom"
     >
       <q-list padding>
         <q-item clickable v-ripple to="/app/login">
@@ -57,6 +63,21 @@ const buttons = [
     href: "mailto://contact@mangaraiku.eu.org?title=Feedback%20app%20git.shin.raiku",
     icon: "solar:info-circle-bold-duotone",
     text: "Phản hồi",
+  },
+  {
+    href: "https://github.com/manga-raiku/manga-raiku",
+    icon: "solar:code-bold-duotone",
+    text: "Mã nguồn mở",
+  },
+  {
+    href: "https://mangaraiku.eu.org",
+    icon: "logos:pwa",
+    text: "Web tiến bộ cho iOS và máy tính",
+  },
+  {
+    to: "/app/settings/check-network",
+    icon: "solar:bug-bold-duotone",
+    text: "Kiểm tra lỗi mạng",
   },
   {
     to: "/app/info",
