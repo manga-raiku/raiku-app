@@ -81,8 +81,8 @@ dependencies:
     specifier: ^2.0.29
     version: 2.0.29(typescript@5.0.4)(vue@3.2.45)
   pinia-plugin-persistedstate:
-    specifier: ^3.0.2
-    version: 3.0.2(pinia@2.0.29)
+    specifier: ^3.2.0
+    version: 3.2.0(pinia@2.0.29)
   quasar:
     specifier: ^2.12.2
     version: 2.12.2
@@ -11167,8 +11167,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /pinia-plugin-persistedstate@3.0.2(pinia@2.0.29):
-    resolution: {integrity: sha512-84vPyUhPA/8Pr+1mT1ioNb2d8z4tvdgYRqMQf8xyauOVBKjo0ZcRBwPQBV7ZAJG43Kwar43nXG2jU+ZMvAFFRQ==}
+  /pinia-plugin-persistedstate@3.2.0(pinia@2.0.29):
+    resolution: {integrity: sha512-tZbNGf2vjAQcIm7alK40sE51Qu/m9oWr+rEgNm/2AWr1huFxj72CjvpQcIQzMknDBJEkQznCLAGtJTIcLKrKdw==}
     peerDependencies:
       pinia: ^2.0.0
     dependencies:
