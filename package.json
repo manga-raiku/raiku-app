@@ -70,7 +70,7 @@
     "@intlify/vite-plugin-vue-i18n": "^6.0.3",
     "@quasar/app-vite": "^1.4.3",
     "@quasar/cli": "^2.2.3",
-    "@quasar/icongenie": "^2.5.4",
+    "@quasar/icongenie": "^3.1.1",
     "@quasar/quasar-app-extension-testing-e2e-cypress": "^5.1.0",
     "@quasar/quasar-app-extension-testing-unit-vitest": "^0.3.0",
     "@tachibana-shin/eslint-config": "^1.0.7",
