@@ -188,8 +188,8 @@ devDependencies:
     specifier: ^5.49.0
     version: 5.49.0(eslint@8.33.0)(typescript@5.0.4)
   '@unocss/transformer-directives':
-    specifier: ^0.53.4
-    version: 0.53.4
+    specifier: ^0.55.2
+    version: 0.55.2
   '@vitest/ui':
     specifier: ^0.31.0
     version: 0.31.0(vitest@0.31.0)
@@ -3842,6 +3842,10 @@ packages:
     resolution: {integrity: sha512-JvmpuFOiJ8NkGzRmh0dCUmNdYjr8MmMtCX+czCmSnX2kvKyQjJIw3RIu84/DQbd/M/yxZmPjle8DrcZ1Ql86rQ==}
     dev: true
 
+  /@unocss/core@0.55.2:
+    resolution: {integrity: sha512-ZLEES8RDgWoK/vttUzl3PM2bZqL3HvhLgj8xdDa09Xw+JiTlR4c66s+hLn52oCoJTnT9lGsD2j7tTGN9ToSiTA==}
+    dev: true
+
   /@unocss/extractor-arbitrary-variants@0.53.4:
     resolution: {integrity: sha512-ydkfObZALqRqe/M68hBsIfT6KsUFm3nBD/4xUf4hvOiIySwptzUWYliVSoPHqhEq8L122oAEG1i5Yg8kQUUJZQ==}
     dependencies:
@@ -3957,6 +3961,13 @@ packages:
     resolution: {integrity: sha512-21dCt3u0WHqXFMfRkkPgjKGyDtghhqItCInr/vB9uKnJFLUdFWlqJu/wRHCUDVypeykwtaLVeCPwpvphCP+VHg==}
     dependencies:
       '@unocss/core': 0.53.4
+      css-tree: 2.3.1
+    dev: true
+
+  /@unocss/transformer-directives@0.55.2:
+    resolution: {integrity: sha512-IJKL5clOiv2RjvHYr4xumS4eFScPsi3Vg4vGugsmn43PZ1FsApp8UElHfhuhBsEEiffnsgTD+N5u/EiPpyI0Gw==}
+    dependencies:
+      '@unocss/core': 0.55.2
       css-tree: 2.3.1
     dev: true
 
