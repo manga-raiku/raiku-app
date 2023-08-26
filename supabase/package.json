@@ -1,0 +1,19 @@
+{
+  "name": "supabase",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite-tsconfig-paths": "^4.2.0",
+    "vitest": "^0.34.3"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.33.1"
+  }
+}
