@@ -50,6 +50,11 @@ npm run format
 quasar build
 ```
 
+### To be on
+- [ ] add `OAuth2`
+- [ ] add verify `2MPA`
+- [ ] add `history`, `favorite` use `supabase`
+
 ### Customize the configuration
 
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).

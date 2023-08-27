@@ -24,7 +24,11 @@
     "test:e2e:ci": "cross-env NODE_ENV=test start-test \"quasar dev\" http-get://localhost:9000 \"cypress run --e2e\"",
     "test:component": "cross-env NODE_ENV=test cypress open --component",
     "test:component:ci": "cross-env NODE_ENV=test cypress run --component",
-    "fixtest": "tsx ./scripts/fixtest.ts"
+    "fixtest": "tsx ./scripts/fixtest.ts",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:gen": "supabase gen",
+    "db:migration": "supabase migration"
   },
   "dependencies": {
     "@capacitor/device": "^5.0.6",
@@ -34,6 +38,7 @@
     "@hannoeru/eslint-plugin": "^0.9.5",
     "@iconify/vue": "^4.1.1",
     "@quasar/extras": "^1.15.10",
+    "@supabase/supabase-js": "^2.33.1",
     "@tachibana-shin/capacitor-filesystem": "^5.0.2",
     "@vueuse/core": "^10.2.1",
     "@vueuse/head": "^1.0.23",
@@ -112,6 +117,7 @@
     "prettier": "^3.0.1",
     "prompts": "^2.4.2",
     "sass": "1.32.11",
+    "supabase": "^1.88.0",
     "tsx": "^3.12.7",
     "typescript": "^5.0.4",
     "unocss": "^0.53.4",
