@@ -1,97 +1,83 @@
-/* eslint-disable camelcase */
-
-import cookie from "js-cookie"
+import type { Session, UserAttributes } from "@supabase/supabase-js"
 import { defineStore } from "pinia"
-import Login from "src/apis/nettruyen/runs/auth/login"
-import GetUser from "src/apis/nettruyen/runs/auth/user"
 
-interface User {
-  userGuid: string
-  avatar: string
-  token: string
-  fullName: string
-  email: string | null
-  readToken: string
-}
-
-export const useAuthStore = defineStore("auth", () => {
-  const token = ref(cookie.get("token") ?? (null as null | string))
-  const user_data = ref(parseJSON(cookie.get("user_data")) as null | User)
-
-  const isLogged = computed(() => {
-    return !!token.value || !!user_data.value
+export const useAuthStore = defineStore("auth-spb", () => {
+  const session = shallowRef<Session | null>(null)
+  const user = computed(() => session.value?.user ?? null)
+  // eslint-disable-next-line promise/catch-or-return
+  supabase.auth.getSession().then((res) => (session.value = res.data.session))
+  supabase.auth.onAuthStateChange((event, ses) => {
+    session.value = ses
   })
 
-  if (token.value)
-    // eslint-disable-next-line promise/catch-or-return, promise/always-return
-    GetUser(token.value).then((data) => {
-      setUser(data)
-    })
-
-  function setUser(value: User) {
-    user_data.value = value
-    cookie.set("user_data", JSON.stringify(value), {
-      expires: 30,
-      sameSite: "None",
-      secure: true,
-    })
-  }
-  function setToken(value: string) {
-    token.value = value
-    cookie.set("token", value, {
-      expires: 30,
-      sameSite: "None",
-      secure: true,
-    })
-  }
-  function deleteUser() {
-    user_data.value = null
-    cookie.set("user_data", "", { expires: -1 })
-  }
-  function deleteToken() {
-    token.value = null
-    cookie.set("token", "", { expires: -1 })
-  }
-  function setTokenByCookie(cookie: string) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const token = cookie.match(/\.ASPXAUTH=([^";]+)/)![1]
-    // set token
-    setToken(token)
-    return token
-  }
-  // ** actions **
   async function login(email: string, password: string) {
-    const data = await Login(email, password)
-    setTokenByCookie(data.cookie)
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const user = await GetUser(token.value!)
-
-    setUser(user)
-
-    return user
+    if (error) throw error
+    return data
   }
   async function logout() {
-    deleteToken()
-    deleteUser()
+    const { error } = await supabase.auth.signOut()
+
+    if (error) throw error
+  }
+  async function signUp(email: string, password: string) {
+    const { data, error } = await supabase.auth.signUp({ email, password })
+
+    if (error) throw error
+    return data
+  }
+  async function resetPassword(email: string) {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${location.protocol}://${location.pathname}/update-password`,
+    })
+
+    if (error) throw error
+    return data
+  }
+  async function setNewPassword(password: string) {
+    const { data, error } = await supabase.auth.updateUser({
+      password,
+    })
+
+    if (error) throw error
+    return data
+  }
+  async function sendNOnce() {
+    const { data, error } = await supabase.auth.reauthenticate()
+
+    if (error) throw error
+    return data
+  }
+  async function updatePassword(nonce: string, password: string) {
+    const { data, error } = await supabase.auth.updateUser({
+      password,
+      nonce,
+    })
+
+    if (error) throw error
+    return data
+  }
+  async function updateUser(row: Omit<UserAttributes, "password">) {
+    const { data, error } = await supabase.auth.updateUser(row)
+
+    if (error) throw error
+    return data
   }
 
   return {
-    user_data,
-    token,
-    isLogged,
+    session,
+    user,
     login,
     logout,
-    setUser,
+    signUp,
+    resetPassword,
+    setNewPassword,
+    sendNOnce,
+    updatePassword,
+    updateUser,
   }
 })
-
-function parseJSON(value?: string) {
-  if (!value) return null
-
-  try {
-    return JSON.parse(value) ?? null
-  } catch {
-    return null
-  }
-}
