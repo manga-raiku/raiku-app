@@ -72,7 +72,7 @@ const buttons = [
   },
   {
     text: "Chính sách bảo mật",
-    href: "https://anime-vsub.github.io/privacy-police",
+    href: "https://anime-vsub.github.io/privacy-policy",
   },
 ]
 </script>

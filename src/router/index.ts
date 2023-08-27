@@ -1,4 +1,5 @@
 import { route } from "quasar/wrappers"
+import { isCapacitor } from "src/constants"
 import { setupLayouts } from "virtual:generated-layouts"
 import generatedRoutes from "virtual:generated-pages"
 import {
@@ -39,11 +40,10 @@ routes.push({
 routes.push({
   path: "/:catchAll(.*)*.html",
   redirect(to) {
-    console.log(to)
     return `/${(to.params.catchAll as string[]).join("/")}`
   },
 })
-console.log(routes)
+
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
@@ -65,6 +65,23 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
+  })
+
+  Router.beforeEach(async (to) => {
+    const authStore = useAuthStore()
+
+    await authStore.setup
+
+    const auth = to.meta.auth
+    if (auth === undefined || auth === "guest") return
+
+    if (auth) {
+      if (authStore.session) return
+      return false
+    }
+    if (authStore.session) {
+      return isCapacitor ? "/app" : "/"
+    }
   })
 
   return Router

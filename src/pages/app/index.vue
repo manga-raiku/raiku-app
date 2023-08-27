@@ -12,7 +12,7 @@
       class="fixed w-full h-[calc(65%-58px)] bottom-58px left-0 rounded-25px bg-dark-page px-4 overflow-y-scroll scrollbar-custom"
     >
       <q-list padding>
-        <q-item v-if="!authStore.isLogged" clickable v-ripple to="/app/login">
+        <q-item v-if="!authStore.isLogged" clickable v-ripple to="/app/sign-in">
           <q-item-section avatar>
             <q-avatar>
               <Icon icon="solar:user-circle-bold-duotone" class="size-50px" />

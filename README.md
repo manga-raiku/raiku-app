@@ -51,9 +51,22 @@ quasar build
 ```
 
 ### To be on
+
 - [ ] add `OAuth2`
 - [ ] add verify `2MPA`
 - [ ] add `history`, `favorite` use `supabase`
+- [ ] `/app/sign-in`
+  - [x] native
+  - [ ] mobile
+  - [ ] desktop
+- [ ] `/app/forgot-password`
+  - [ ] native
+  - [ ] mobile
+  - [ ] desktop
+- [ ] `/app/sign-up`
+  - [ ] native
+  - [ ] mobile
+  - [ ] desktop
 
 ### Customize the configuration
 

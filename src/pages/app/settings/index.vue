@@ -49,7 +49,7 @@ const buttons = [
   },
   {
     text: "Chính sách bảo mật",
-    href: "https://anime-vsub.github.io/privacy-police",
+    href: "https://anime-vsub.github.io/privacy-policy",
   },
   {
     text: "Kiểm tra lỗi mạng",

@@ -4,75 +4,66 @@ import { defineStore } from "pinia"
 export const useAuthStore = defineStore("auth-spb", () => {
   const session = shallowRef<Session | null>(null)
   const user = computed(() => session.value?.user ?? null)
-  // eslint-disable-next-line promise/catch-or-return
-  supabase.auth.getSession().then((res) => (session.value = res.data.session))
+  const setup = ref<Promise<void>>()
+  setup.value = supabase.auth
+    .getSession()
+    // eslint-disable-next-line no-void
+    .then((res) => void (session.value = res.data.session))
+    .finally(() => {
+      setup.value = undefined
+    })
   supabase.auth.onAuthStateChange((event, ses) => {
     session.value = ses
   })
 
-  async function login(email: string, password: string) {
-    const { data, error } = await supabase.auth.signInWithPassword({
+  async function signIn(email: string, password: string) {
+    return supabase.auth.signInWithPassword({
       email,
       password,
     })
-
-    if (error) throw error
-    return data
   }
-  async function logout() {
-    const { error } = await supabase.auth.signOut()
-
-    if (error) throw error
+  async function signInOAuth2(provider: "google" | "twitter") {
+    return supabase.auth.signInWithOAuth({
+      provider,
+    })
+  }
+  async function signOut() {
+    return supabase.auth.signOut()
   }
   async function signUp(email: string, password: string) {
-    const { data, error } = await supabase.auth.signUp({ email, password })
-
-    if (error) throw error
-    return data
+    return await supabase.auth.signUp({ email, password })
   }
   async function resetPassword(email: string) {
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    return await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${location.protocol}://${location.pathname}/update-password`,
     })
-
-    if (error) throw error
-    return data
   }
   async function setNewPassword(password: string) {
-    const { data, error } = await supabase.auth.updateUser({
+    return await supabase.auth.updateUser({
       password,
     })
-
-    if (error) throw error
-    return data
   }
   async function sendNOnce() {
-    const { data, error } = await supabase.auth.reauthenticate()
-
-    if (error) throw error
-    return data
+    return await supabase.auth.reauthenticate()
   }
   async function updatePassword(nonce: string, password: string) {
-    const { data, error } = await supabase.auth.updateUser({
+    return await supabase.auth.updateUser({
       password,
       nonce,
     })
-
-    if (error) throw error
-    return data
   }
   async function updateUser(row: Omit<UserAttributes, "password">) {
-    const { data, error } = await supabase.auth.updateUser(row)
-
-    if (error) throw error
-    return data
+    return await supabase.auth.updateUser(row)
   }
 
   return {
     session,
     user,
-    login,
-    logout,
+    setup,
+
+    signIn,
+    signInOAuth2,
+    signOut,
     signUp,
     resetPassword,
     setNewPassword,
