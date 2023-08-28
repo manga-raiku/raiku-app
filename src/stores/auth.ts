@@ -25,6 +25,13 @@ export const useAuthStore = defineStore("auth-spb", () => {
   async function signInOAuth2(provider: "google" | "twitter") {
     return supabase.auth.signInWithOAuth({
       provider,
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
+        redirectTo: location.href,
+      },
     })
   }
   async function signOut() {
