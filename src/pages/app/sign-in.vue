@@ -113,6 +113,7 @@ meta:
               rounded
               no-caps
               class="w-full text-#fff text-opacity-20 py-2 mt-2"
+              @click="authStore.signInOAuth2('twitter')"
             >
               <div class="w-full flex flex-items pl-8 pr-28%">
                 <Icon icon="logos:twitter" class="size-1.5em mr-10" />

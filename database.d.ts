@@ -51,7 +51,7 @@ export interface Database {
           manga_id: number
           manga_name: string
           path: string
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -94,7 +94,7 @@ export interface Database {
           name: string
           path: string
           poster: string
-          user_id: string
+          user_id?: string
         }
         Update: {
           ch_id?: number
@@ -112,6 +112,34 @@ export interface Database {
           {
             foreignKeyName: "history_user_id_fkey"
             columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -287,6 +315,10 @@ export interface Database {
           size: number
           bucket_id: string
         }[]
+      }
+      handle_after_upsert_s_avatars: {
+        Args: Record<PropertyKey, never>
+        Returns: Record<string, unknown>
       }
       search: {
         Args: {
