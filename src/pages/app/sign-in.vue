@@ -169,6 +169,7 @@ meta:
 
 <script lang="ts" setup>
 import { QForm } from "quasar"
+  // import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 
 const $q = useQuasar()
 const router = useRouter()
@@ -183,7 +184,14 @@ const accept = ref(false)
 const showPassword = ref(false)
 
 async function login() {
+  const loader = $q.loading.show({
+    spinnerColor: "main-3",
+    spinnerSize: 40,
+  })
+
   const { data, error } = await authStore.signIn(email.value, password.value)
+
+  loader()
 
   if (error) {
     $q.notify({
