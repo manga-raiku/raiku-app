@@ -1,10 +1,16 @@
 <template>
-  <img v-show="loaded" v-bind="attrs" :src="srcImage" @load="onLoad" />
+  <img
+    v-if="!error"
+    v-bind="attrs"
+    :src="srcImage"
+    @load="onLoad"
+    ref="imgRef"
+  />
   <div
     v-if="!loaded"
     class="text-center w-100% aspect-ratio-2 flex items-center justify-center"
   >
-    <slot name="loading" />
+    <slot v-if="imgIsVisible" name="loading" />
   </div>
   <div
     v-else-if="error"
@@ -26,6 +32,8 @@
 </template>
 
 <script lang="ts" setup>
+import { useElementVisibility } from "@vueuse/core"
+
 defineOptions({
   inheritAttrs: true,
 })
@@ -47,7 +55,25 @@ function onLoad(event: Event) {
   if (src.startsWith("blob:")) URL.revokeObjectURL(src)
 }
 
+// ======= controller =======
+const imgRef = ref<HTMLImageElement>()
+const imgIsVisible = useElementVisibility(imgRef)
+watch(
+  imgIsVisible,
+  (visible) => {
+    if (visible) startLoad(props.src)
+  },
+  { immediate: true },
+)
+// ===========================
+
+let srcLoaded: string | null = null
+
 async function startLoad(src: string) {
+  if (!imgIsVisible.value) return
+  if (src === srcLoaded) return
+  srcLoaded = null
+
   loaded.value = false
   error.value = null
 
@@ -63,6 +89,7 @@ async function startLoad(src: string) {
     srcImage.value = URL.createObjectURL(
       new Blob([await response.arrayBuffer()]),
     )
+    srcLoaded = src
   } catch (err) {
     error.value = err
 
