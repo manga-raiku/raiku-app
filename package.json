@@ -1,5 +1,6 @@
 {
   "name": "manga-raiku",
+  "packageName": "git.shin.raiku",
   "version": "0.0.1",
   "description": "Free and ad-free private online Manga, manhua, manhwa reading app!",
   "productName": "Manga Raiku",

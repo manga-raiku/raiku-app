@@ -1,4 +1,4 @@
-<template>
+t<template>
   <q-layout view="hHh Lpr lFf">
     <q-header
       v-if="!isCapacitor && route.meta?.hiddenHeader !== true"

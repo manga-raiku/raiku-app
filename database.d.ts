@@ -71,46 +71,80 @@ export interface Database {
           }
         ]
       }
-      history: {
+      history_chapter: {
         Row: {
-          ch_id: number
-          ch_name: string
-          ch_path: string
+          created_at: string
+          ep_id: number
+          history_manga_id: number
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          ep_id: number
+          history_manga_id: number
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          ep_id?: number
+          history_manga_id?: number
+          id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "history_chapter_history_manga_id_fkey"
+            columns: ["history_manga_id"]
+            referencedRelation: "history_manga"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      history_manga: {
+        Row: {
           created_at: string
           id: number
+          image: string
+          last_ch_id: number
+          last_ch_name: string
+          last_ch_path: string
           manga_id: number
-          name: string
-          path: string
-          poster: string
+          manga_name: string
+          manga_path: string
+          updated_at: string
           user_id: string
         }
         Insert: {
-          ch_id: number
-          ch_name: string
-          ch_path: string
           created_at?: string
           id?: number
+          image: string
+          last_ch_id: number
+          last_ch_name: string
+          last_ch_path: string
           manga_id: number
-          name: string
-          path: string
-          poster: string
+          manga_name: string
+          manga_path: string
+          updated_at?: string
           user_id?: string
         }
         Update: {
-          ch_id?: number
-          ch_name?: string
-          ch_path?: string
           created_at?: string
           id?: number
+          image?: string
+          last_ch_id?: number
+          last_ch_name?: string
+          last_ch_path?: string
           manga_id?: number
-          name?: string
-          path?: string
-          poster?: string
+          manga_name?: string
+          manga_path?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "history_user_id_fkey"
+            foreignKeyName: "history_manga_user_id_fkey"
             columns: ["user_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]

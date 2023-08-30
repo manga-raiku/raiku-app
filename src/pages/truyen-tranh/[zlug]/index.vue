@@ -381,6 +381,7 @@ import { Icon } from "@iconify/vue"
 import { useShare } from "@vueuse/core"
 // import Like from "src/apis/runs/frontend/regiter-like"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
+import { packageName } from "app/package.json"
 import Manga from "src/apis/nettruyen/runs/truyen-tranh/[slug]"
 import { isCapacitor } from "src/constants"
 import dayjs from "src/logic/dayjs"
@@ -389,7 +390,12 @@ import { formatView } from "src/logic/formatView"
 const props = defineProps<{
   zlug: string
 }>()
-
+Object.assign(self, {
+  getData:  useWithCache(
+    () => Manga(props.zlug),
+    computed(() => `${packageName}:///manga/${props.zlug}`),
+  )
+})
 const $q = useQuasar()
 const { share } = useShare()
 const router = useRouter()
@@ -397,7 +403,7 @@ const route = useRoute()
 const { data, loading, error, run } = useRequest(
   useWithCache(
     () => Manga(props.zlug),
-    computed(() => `/manga/${props.zlug}`),
+    computed(() => `${packageName}:///manga/${props.zlug}`),
   ) as unknown as () => ReturnType<typeof Manga>,
   {
     refreshDeps: [() => props.zlug],
