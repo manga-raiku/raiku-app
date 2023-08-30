@@ -50,7 +50,7 @@
   </section>
 
   <teleport to="body">
-    <ScrollbarVertical
+    <r-scrollbar
       :min-y="maxDiffY"
       :max-y="minDiffY"
       v-model:scroll-y="diffYZoom"
