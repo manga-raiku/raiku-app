@@ -390,12 +390,6 @@ import { formatView } from "src/logic/formatView"
 const props = defineProps<{
   zlug: string
 }>()
-Object.assign(self, {
-  getData:  useWithCache(
-    () => Manga(props.zlug),
-    computed(() => `${packageName}:///manga/${props.zlug}`),
-  )
-})
 const $q = useQuasar()
 const { share } = useShare()
 const router = useRouter()

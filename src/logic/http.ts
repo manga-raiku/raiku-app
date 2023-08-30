@@ -62,7 +62,7 @@ export function proxyGet(
   return fetch(
     `https://api.allorigins.win/raw?url=${encodeURIComponent(
       typeof url === "string" ? url : url.url,
-    )}?proxy=win`,
+    )}`,
     {
       headers: new Headers(headers ?? (url as GetOption)?.headers),
     },
@@ -85,7 +85,7 @@ export function proxyPost(
   headers?: Record<string, string>,
 ): ReturnType<typeof httpPost> {
   return fetch(
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}?proxy=win`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
     {
       method: "post",
       headers: new Headers(headers),

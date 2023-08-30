@@ -63,7 +63,7 @@ t<template>
 
     <q-footer
       v-if="isCapacitor"
-      v-show="!route.meta?.hiddenFooter"
+      :model-value="!route.meta.hiddenFooter"
       class="bg-dark-page"
     >
       <q-tabs

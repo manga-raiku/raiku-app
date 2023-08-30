@@ -544,6 +544,7 @@ meta:
 import { Icon } from "@iconify/vue"
 import { useFullscreen } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
+import { packageName } from "app/package.json"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import type { QDialog, QMenu } from "quasar"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
@@ -559,13 +560,23 @@ const props = defineProps<{
 
 const $q = useQuasar()
 const IDMStore = useIDMStore()
+const historyStore = useHistoryStore()
 const showSearchMB = ref(false)
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const route = useRoute()
 const router = useRouter()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 const { data, loading, runAsync, error } = useRequest(
-  () => SlugChapChap(props.zlug + "/" + props.epName + "/" + props.epId, false),
+  useWithCache(
+    () =>
+      SlugChapChap(props.zlug + "/" + props.epName + "/" + props.epId, false),
+    computed(
+      () =>
+        `${packageName}:///manga/${
+          props.zlug + "/" + props.epName + "/" + props.epId
+        }`,
+    ),
+  ) as unknown as () => ReturnType<typeof SlugChapChap<false>>,
   {
     refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
     refreshDepsAction() {

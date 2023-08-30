@@ -71,6 +71,10 @@ quasar build
   - [ ] native
   - [ ] mobile
   - [ ] desktop
+- [ ] jump IDM APi
+  - [ ] native
+  - [ ] mobile
+  - [ ] desktop
 
 ### Customize the configuration
 

@@ -7,7 +7,7 @@ export async function withCache<T extends object>(
 ): Promise<ShallowReactive<Awaited<T>>> {
   let result: ShallowReactive<Awaited<T>>
 
-  await Promise.race([
+  await Promise.any([
     get(uniKey).then((json) => {
       // eslint-disable-next-line functional/no-throw-statement
       if (!json) throw new Error("not_found")
@@ -23,7 +23,8 @@ export async function withCache<T extends object>(
         result = shallowReactive(data as Awaited<T>)
       }
       set(uniKey, JSON.stringify(data))
-    }),
+    })
+    .catch(err => console.error(err))
   ])
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
