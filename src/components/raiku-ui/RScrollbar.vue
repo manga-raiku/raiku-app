@@ -14,6 +14,7 @@
         left: offsetLeft + 'px',
         width: `${widthThumb}px`,
       }"
+      @mousedown.prevent="onMouseDownX"
     />
   </div>
 
@@ -32,6 +33,7 @@
         top: offsetTop + 'px',
         height: `${heightThumb}px`,
       }"
+      @mousedown.prevent="onMouseDownY"
     />
   </div>
 </template>

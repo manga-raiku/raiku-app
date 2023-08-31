@@ -17,13 +17,15 @@ export function useScrollInertia(
     if (request) cancelAnimationFrame(request)
 
     let speedX =
-      ((touch.clientX - last2Mouse.x) / (Date.now() - last2Time)) * 10
+      ((touch.clientX - last2Mouse.x) / (Date.now() - last2Time)) * 120
     let speedY =
-      ((touch.clientY - last2Mouse.y) / (Date.now() - last2Time)) * 10
+      ((touch.clientY - last2Mouse.y) / (Date.now() - last2Time)) * 120
     const isScrollXDown = speedX < 0
     const isScrollYDown = speedY < 0
-    const spreadXDetail = isScrollXDown ? 0.5 : -0.5
-    const spreadYDetail = isScrollYDown ? 0.5 : -0.5
+    const spreadXDetail = isScrollXDown ? 3 : -3
+    const spreadYDetail = isScrollYDown ? 3 : -3
+    diffXZoom.value = Math.round(diffXZoom.value)
+    diffYZoom.value = Math.round(diffYZoom.value)
 
     function loop() {
       if (isScrollXDown ? speedX > 0 : speedX < 0) speedX = 0

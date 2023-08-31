@@ -44,8 +44,8 @@ export function parseComment(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         $item
           .find(".member > .progress-bar")
-          .attr("style")!
-          .match(/width:\s*(\d+)/)![1],
+          .attr("style")
+          ?.match(/width:\s*(\d+)/)![1],
       ),
     },
     chapter: normalizeChName($item.find(".cmchapter").text().trim()),

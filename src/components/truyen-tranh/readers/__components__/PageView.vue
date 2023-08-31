@@ -10,7 +10,7 @@
     v-if="!loaded"
     class="text-center w-100% aspect-ratio-2 flex items-center justify-center"
   >
-    <slot v-if="imgIsVisible" name="loading" />
+    <slot v-if="intersection?.isIntersecting" name="loading" />
   </div>
   <div
     v-else-if="error"
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useElementVisibility } from "@vueuse/core"
+import { useIntersectionObserver } from "@vueuse/core"
 
 defineOptions({
   inheritAttrs: true,
@@ -40,6 +40,14 @@ defineOptions({
 
 const props = defineProps<{
   src: string
+}>()
+const emit = defineEmits<{
+  (
+    name: "load",
+    img: HTMLImageElement,
+    intersection: IntersectionObserverEntry,
+  ): void
+  (name: "change:visible", value: boolean): void
 }>()
 const attrs = useAttrs()
 
@@ -51,26 +59,42 @@ watch(srcImage, (n, o) => {
   if (o?.startsWith("blob:")) URL.revokeObjectURL(o)
 })
 function onLoad(event: Event) {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  emit("load", event.target as HTMLImageElement, intersection.value!)
   const { src } = event.target as HTMLImageElement
   if (src.startsWith("blob:")) URL.revokeObjectURL(src)
 }
 
 // ======= controller =======
 const imgRef = ref<HTMLImageElement>()
-const imgIsVisible = useElementVisibility(imgRef)
+const intersection = shallowRef<IntersectionObserverEntry>()
+useIntersectionObserver(
+  imgRef,
+  ([inter]) => {
+    intersection.value = inter
+  },
+  {
+    threshold: 0,
+  },
+)
+
 watch(
-  imgIsVisible,
-  (visible) => {
-    if (visible) startLoad(props.src)
+  () => intersection.value?.isIntersecting,
+  (visible = false) => {
+    emit("change:visible", visible)
+    if (visible)
+     startLoad(props.src)
   },
   { immediate: true },
 )
+defineExpose({ intersection, imgRef })
+
 // ===========================
 
 let srcLoaded: string | null = null
 
 async function startLoad(src: string) {
-  if (!imgIsVisible.value) return
+  if (!intersection.value?.isIntersecting) return
   if (src === srcLoaded) return
   srcLoaded = null
 

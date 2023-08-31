@@ -11,7 +11,7 @@
         'ml-auto': prime,
       }"
       :src="src"
-      @load="emit('load', $event)"
+      @load="(image) => emit('load', image)"
     >
       <template #loading>
         <slot name="loading" />
@@ -27,6 +27,6 @@ defineProps<{
   singlePage: boolean
 }>()
 const emit = defineEmits<{
-  (name: "load", event: Event): void
+  (name: "load", image: HTMLImageElement): void
 }>()
 </script>

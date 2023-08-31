@@ -31,7 +31,7 @@
       <PageView
         class="object-scale-down h-full mx-auto"
         :src="src"
-        @load="emit('load', $event)"
+        @load="image => emit('load', image)"
       >
         <template #loading>
           <slot name="loading" />
@@ -49,7 +49,7 @@ defineProps<{
   src: string
 }>()
 const emit = defineEmits<{
-  (name: "load", event: Event): void
+  (name: "load", image: HTMLImageElement): void
   (name: "update:can-swipe", value: "R" | "L" | "A" | null): void
 }>()
 

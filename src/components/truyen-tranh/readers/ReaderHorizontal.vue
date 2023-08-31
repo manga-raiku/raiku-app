@@ -39,14 +39,14 @@
         <template v-if="singlePage">
           <ChapterPageModeSingle
             v-for="(src, index) in rightToLeft
-              ? pages.slice(0).reverse()
-              : pages"
+              ? pagesRender.slice(0).reverse()
+              : pagesRender"
             :key="index"
             :src="src"
             @load="
               sizes.set(index, [
-                ($event.target as HTMLImageElement)!.naturalWidth,
-                ($event.target as HTMLImageElement)!.naturalHeight,
+                ($event).naturalWidth,
+                ($event).naturalHeight,
               ])
             "
             @update:can-swipe="canSwipes[index] = $event"
@@ -62,16 +62,16 @@
         <template v-else>
           <ChapterPageModeDouble
             v-for="(src, index) in rightToLeft
-              ? pages.slice(0).reverse()
-              : pages"
+              ? pagesRender.slice(0).reverse()
+              : pagesRender"
             :key="index"
             :single-page="sizes.get(index)?.[0]! > 1200"
             :prime="index % 2 === 0"
             :src="src"
             @load="
               sizes.set(index, [
-                ($event.target as HTMLImageElement)!.naturalWidth,
-                ($event.target as HTMLImageElement)!.naturalHeight,
+                ($event).naturalWidth,
+                ($event).naturalHeight,
               ])
             "
           >
@@ -99,6 +99,8 @@ import { isTouchEvent } from "src/logic/is-touch-event"
 
 const props = defineProps<{
   pages: string[]
+  pagesNext?: string[]
+
   singlePage: boolean // 517px
   rightToLeft?: boolean
   minPage: number
@@ -111,6 +113,10 @@ const emit = defineEmits<{
   // (name: "prev"): void
   // (name: "next"): void
 }>()
+
+const pagesRender = computed(() => {
+  return props.pages//.concat(props.pagesNext ?? [])
+})
 
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(

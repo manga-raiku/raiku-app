@@ -75,6 +75,7 @@ quasar build
   - [ ] native
   - [ ] mobile
   - [ ] desktop
+- [ ] Infinite reader
 
 ### Customize the configuration
 

@@ -99,6 +99,7 @@ meta:
       }
     "
     class="fixed top-0 w-full"
+        @touchstart.prevent
   >
     <!-- reader -->
     <template v-if="pages && !loading">
@@ -118,7 +119,9 @@ meta:
         :pages="pages"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
+        :next-episode="nextEpisode?.value.path"
         @click="onClickReader"
+        @action:next-ch="nextCh"
       />
     </template>
     <div v-else class="w-full h-full flex items-center justify-center">
@@ -566,21 +569,24 @@ const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const route = useRoute()
 const router = useRouter()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
+let disableReactiveParams = false
 const { data, loading, runAsync, error } = useRequest(
   useWithCache(
-    () =>
-      SlugChapChap(props.zlug + "/" + props.epName + "/" + props.epId, false),
+    () => {
+      const path = props.zlug + "/" + props.epName + "/" + props.epId
+      return SlugChapChap(path, false)
+    },
     computed(
       () =>
         `${packageName}:///manga/${
           props.zlug + "/" + props.epName + "/" + props.epId
         }`,
     ),
-  ) as unknown as () => ReturnType<typeof SlugChapChap<false>>,
+  ),
   {
-    refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
+    // refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
     refreshDepsAction() {
-      runAsync()
+      if (!disableReactiveParams) runAsync()
     },
   },
 )
@@ -681,7 +687,9 @@ const nextEpisode = computed(() => {
 
   if (!value) return
 
-  return { index, value } as const
+  const { zlug, epName, epId } = router.resolve(value.path).params
+
+  return { index, value, path: `${zlug}/${epName}/${epId}` as string } as const
 })
 
 const showMenuEpisodes = ref(false)
@@ -691,6 +699,29 @@ const showMenuComments = ref(false)
 const menuEpisodesRef = ref<QMenu | QDialog>()
 function onChangeTabEpisodes() {
   setTimeout(() => (menuEpisodesRef.value as QMenu)?.updatePosition?.(), 70)
+}
+
+const fnNextCh = useWithCache(
+  async () => {
+    const path = nextEpisode.value!.path
+    return SlugChapChap(path, false)
+  },
+  computed(() => `${packageName}:///manga/${nextEpisode.value!.path}`),
+)
+
+async function nextCh() {
+  // console.log("start load next ch")
+
+  // const next = await fnNextCh()
+  // disableReactiveParams = true
+  // data.value = {
+  //   ...next,
+  //   pages: [...(data.value?.pages ?? []), ...next.pages],
+  // }
+  router.push(nextEpisode.value!.value.path)
+  // await nextTick()
+  // disableReactiveParams = false
+  // console.log("data next", next)
 }
 </script>
 
