@@ -140,7 +140,8 @@ watch(
 )
 
 const btnNextEpRef = ref<InstanceType<typeof RouterLink>>()
-const btnNextIsVisible = useElementVisibility(btnNextEpRef)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const btnNextIsVisible = useElementVisibility(btnNextEpRef as Ref<any>)
 watch(btnNextIsVisible, (visible) => {
   if (visible) emit("action:next-ch")
 })

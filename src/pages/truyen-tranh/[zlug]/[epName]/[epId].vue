@@ -569,7 +569,7 @@ const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const route = useRoute()
 const router = useRouter()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
-let disableReactiveParams = false
+// let disableReactiveParams = false
 const { data, loading, runAsync, error } = useRequest(
   useWithCache(
     () => {
@@ -584,9 +584,10 @@ const { data, loading, runAsync, error } = useRequest(
     ),
   ),
   {
-    // refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
+    refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
     refreshDepsAction() {
-      if (!disableReactiveParams) runAsync()
+      // if (!disableReactiveParams) runAsync()
+      runAsync()
     },
   },
 )
