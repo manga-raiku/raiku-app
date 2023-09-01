@@ -1,4 +1,3 @@
-t
 <template>
   <q-layout view="hHh Lpr lFf">
     <q-header

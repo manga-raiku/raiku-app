@@ -4,7 +4,18 @@ meta:
 </route>
 
 <template>
-  <q-page>
+  <q-page
+    :style-fn="
+      isCapacitor
+        ? undefined
+        : (offset, height) => {
+            return {
+              height: height + 'px',
+              marginTop: -offset + 'px',
+            }
+          }
+    "
+  >
     <div v-if="!data" class="absolute w-full h-full overflow-hidden loader">
       <div class="swiper-hot">
         <q-responsive :ratio="583 / 306" class="poster">
@@ -92,7 +103,7 @@ meta:
           v-for="(item, index) in data.sliders"
           :key="index"
           v-ripple
-          class="flex flex-col items-center slide"
+          class="!flex flex-col items-center slide"
           @click="router.push(item.path)"
         >
           <div
@@ -154,7 +165,9 @@ meta:
                     </span>
                   </div>
 
-                  <div class="ellipsis flex items-center text-0.95em text-gray-300 py-2">
+                  <div
+                    class="ellipsis flex items-center text-0.95em text-gray-300 py-2"
+                  >
                     {{ item.status }}
 
                     <q-separator vertical class="mx-2" />
@@ -261,7 +274,7 @@ meta:
         />
       </swiper>
 
-      <div class="px-2 sm:px-4">
+      <div class="px-2 sm:px-4 md:px-5">
         <!-- test void swap -->
         <h3 class="text-17px text-light-900">Hot trong ngày</h3>
         <swiper
@@ -375,6 +388,7 @@ meta:
 import { Icon } from "@iconify/vue"
 // import data from "src/apis/parsers/__test__/assets/index.json"
 import Index from "src/apis/nettruyen/runs/index"
+import { isCapacitor } from "src/constants"
 import { formatView } from "src/logic/formatView"
 import { unflat } from "src/logic/unflat"
 import { Autoplay } from "swiper"
