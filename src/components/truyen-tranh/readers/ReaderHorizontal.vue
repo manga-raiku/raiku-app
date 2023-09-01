@@ -15,9 +15,9 @@
       :style="{
         width: `${singlePage ? 100 : zoom}%`,
         height: `${singlePage ? 100 : zoom}%`,
-        transform: `translate(${-oWidthH + diffXZoom}px, ${
+        transform: `translate3d(${-oWidthH + diffXZoom}px, ${
           -oHeightH + diffYZoom
-        }px)`,
+        }px, 0px)`,
         'transition-property': mouseZooming
           ? 'width,height'
           : 'width,height,transform',
@@ -115,7 +115,7 @@ const emit = defineEmits<{
 }>()
 
 const pagesRender = computed(() => {
-  return props.pages//.concat(props.pagesNext ?? [])
+  return props.pages// .concat(props.pagesNext ?? [])
 })
 
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
