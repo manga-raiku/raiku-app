@@ -143,23 +143,25 @@ meta:
                     >{{ item.othername }}</small
                   >
                 </div>
-                <div class="focus-item-info">
-                  <Quality v-if="item.hot">Hot</Quality>
+                <div class="focus-item-info !display-block">
+                  <div class="ellipsis flex items-center">
+                    <Quality v-if="item.hot">Hot</Quality>
 
-                  <q-separator vertical class="mx-2" />
+                    <q-separator vertical class="mx-2" />
 
-                  <span class="focus-item-update">
-                    Chương {{ item.last_chapters[0].name }}
-                  </span>
+                    <span class="focus-item-update">
+                      Chương {{ item.last_chapters[0].name }}
+                    </span>
+                  </div>
 
-                  <q-separator vertical class="mx-2" />
+                  <div class="ellipsis flex items-center text-0.95em text-gray-300 py-2">
+                    {{ item.status }}
 
-                  {{ item.status }}
+                    <q-separator vertical class="mx-2" />
 
-                  <q-separator vertical class="mx-2" />
-
-                  <!-- <Icon icon="fluent:eye-24-filled" class="size-1.5em" /> -->
-                  {{ formatView(item.views!) }}
+                    <!-- <Icon icon="fluent:eye-24-filled" class="size-1.5em" /> -->
+                    {{ formatView(item.views!) }}
+                  </div>
                 </div>
                 <div class="mt-1 text-12px ellipsis">
                   {{ item.tags.join(", ") }}

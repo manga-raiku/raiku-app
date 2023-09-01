@@ -1,4 +1,5 @@
-t<template>
+t
+<template>
   <q-layout view="hHh Lpr lFf">
     <q-header
       v-if="!isCapacitor && route.meta?.hiddenHeader !== true"
@@ -69,7 +70,7 @@ t<template>
       <q-tabs
         indicator-color="transparent"
         active-color="white"
-        class="bg-transparent text-grey-5 !shadow-2 text-[12px] tabs-main font-family-poppins children:w-20% children:min-w-0"
+        class="bg-transparent text-grey-5 !shadow-2 text-[12px] tabs-main children:w-20% children:min-w-0"
         no-caps
       >
         <q-route-tab replace class="pt-1" to="/">
@@ -156,10 +157,13 @@ watch(canvasRef, (ref) => {
 const showSearchMB = ref(false)
 </script>
 
-<style lang="scss" scoped>
-.tabs-main :deep(.q-router-link--exact-active) {
+<style lang="scss">
+.tabs-main .q-router-link--exact-active {
   svg {
     color: var(--sakura);
   }
+}
+.tabs-main .q-tab {
+  width: (100% / 5) !important;
 }
 </style>
