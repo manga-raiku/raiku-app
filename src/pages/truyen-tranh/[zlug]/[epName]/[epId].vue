@@ -99,7 +99,6 @@ meta:
       }
     "
     class="fixed top-0 w-full"
-        @touchstart.prevent
   >
     <!-- reader -->
     <template v-if="pages && !loading">

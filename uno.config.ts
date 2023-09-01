@@ -37,5 +37,7 @@ export default defineConfig({
     "text-weight-medium",
     "max-w-60%",
     "text-20px",
+    "!overflow-scroll",
+    ..."relative top-0 left-1/2".split(" "),
   ],
 })
