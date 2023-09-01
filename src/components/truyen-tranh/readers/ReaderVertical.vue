@@ -6,7 +6,7 @@
     @mousedown.prevent="onMouseDown"
   >
     <section
-      class="transition-width duration-444ms"
+      class="transition-width duration-444ms mx-auto"
       :style="{
         width: `${zoom}%`,
       }"
@@ -76,7 +76,7 @@ import {
   useEventListener,
   useScroll,
 } from "@vueuse/core"
-import { debounce, type DomOffset } from "quasar"
+import { type DomOffset } from "quasar"
 import { RouterLink } from "vue-router"
 
 import PageView from "./__components__/PageView.vue"

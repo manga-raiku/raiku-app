@@ -718,7 +718,7 @@ async function nextCh() {
   //   ...next,
   //   pages: [...(data.value?.pages ?? []), ...next.pages],
   // }
-  router.push(nextEpisode.value!.value.path)
+  // router.push(nextEpisode.value!.value.path)
   // await nextTick()
   // disableReactiveParams = false
   // console.log("data next", next)
