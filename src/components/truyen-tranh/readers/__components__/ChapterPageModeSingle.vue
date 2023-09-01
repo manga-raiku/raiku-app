@@ -29,8 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useElementSize, useEventListener, useScroll } from "@vueuse/core"
-import { useClamp } from "@vueuse/math"
+import { useEventListener, useScroll } from "@vueuse/core"
 import type { DomOffset } from "quasar"
 
 defineProps<{
@@ -83,7 +82,7 @@ function onMouseMove(event: MouseEvent) {
   // last2Time = lastTime
   // lastTime = Date.now()
 }
-async function onMouseUp(event: MouseEvent) {
+async function onMouseUp() {
   mouseStart = null
   scrollStart = null
   // if (last2Mouse && last2Time) await scrollInertia(event, last2Mouse, last2Time)

@@ -711,7 +711,6 @@ const fnNextCh = useWithCache(
 
 async function nextCh() {
   // console.log("start load next ch")
-
   // const next = await fnNextCh()
   // disableReactiveParams = true
   // data.value = {
@@ -723,6 +722,32 @@ async function nextCh() {
   // disableReactiveParams = false
   // console.log("data next", next)
 }
+
+// save to history
+let timeoutUpsertHistory: NodeJS.Timeout | number | null = null
+watch(
+  [() => props.zlug, () => props.epName, () => props.epId, data],
+  ([zlug, epName, epId, data]) => {
+    if (timeoutUpsertHistory) clearTimeout(timeoutUpsertHistory)
+
+    const ep = currentEpisode.value?.value
+    if (!data || !ep) return
+
+    timeoutUpsertHistory = setTimeout(() => {
+      historyStore.upsert({
+        image: data.image,
+        last_ch_id: ep.id,
+        last_ch_name: ep.name,
+        last_ch_path: ep.path,
+        manga_id: data.uid,
+        manga_name: data.name,
+        manga_path: `/truyen-tranh/${zlug}/${epName}/${epId}`,
+      })
+      timeoutUpsertHistory = null
+    }, 1_000)
+  },
+  { immediate: true },
+)
 </script>
 
 <!-- <swiper

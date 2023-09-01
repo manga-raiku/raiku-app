@@ -18,7 +18,10 @@ export const useHistoryStore = defineStore("history", () => {
   }
 
   async function upsert(
-    row: Database["public"]["Tables"]["history_manga"]["Row"],
+    row: Omit<
+      Database["public"]["Tables"]["history_manga"]["Row"],
+      "id" | "created_at" | "updated_at" | "user_id"
+    >,
   ) {
     const { data, error } = await supabase.from("history_manga").upsert(row, {
       onConflict: "manga_id,user_id",
