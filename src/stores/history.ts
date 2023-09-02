@@ -24,7 +24,8 @@ export const useHistoryStore = defineStore("history", () => {
     >,
   ) {
     const { data, error } = await supabase.from("history_manga").upsert(row, {
-      onConflict: "manga_id,user_id",
+      ignoreDuplicates: false,
+      onConflict: "manga_id, user_id",
     })
 
     // eslint-disable-next-line functional/no-throw-statement

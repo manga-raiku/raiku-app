@@ -7,6 +7,6 @@ declare module "vue-router" {
     hiddenHeader?: boolean
     hiddenFooter?: boolean
 
-    auth?: boolean | 'guest'
+    auth?: boolean | "guest"
   }
 }

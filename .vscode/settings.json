@@ -54,5 +54,6 @@
   ],
   "editor.tabCompletion": "on",
   "diffEditor.codeLens": true,
-  "typescript.preferences.autoImportFileExcludePatterns": ["vue-router"]
+  "typescript.preferences.autoImportFileExcludePatterns": ["vue-router"],
+  "MutableAI.upsell": false
 }

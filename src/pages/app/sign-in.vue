@@ -169,7 +169,7 @@ meta:
 
 <script lang="ts" setup>
 import { QForm } from "quasar"
-  // import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
+// import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 
 const $q = useQuasar()
 const router = useRouter()

@@ -106,7 +106,7 @@ async function signOut() {
 
   $q.notify({
     position: "bottom-right",
-    message: "Đã đăng xuất"
+    message: "Đã đăng xuất",
   })
   router.back()
 }

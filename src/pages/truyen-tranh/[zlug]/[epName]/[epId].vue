@@ -733,7 +733,7 @@ watch(
     const ep = currentEpisode.value?.value
     if (!data || !ep) return
 
-    timeoutUpsertHistory = setTimeout(() => {
+    timeoutUpsertHistory = setTimeout(window.save = () => {
       historyStore.upsert({
         image: data.image,
         last_ch_id: ep.id,

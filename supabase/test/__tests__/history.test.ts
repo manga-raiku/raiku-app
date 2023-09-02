@@ -30,7 +30,7 @@ describe("table `history`", () => {
       name: "Manga 1",
       path: "/truyen-tranh/1",
       poster: "/poster",
-      user_id: await getIdExample()
+      user_id: await getIdExample(),
     })
 
     expect(res.status).toBe(201)

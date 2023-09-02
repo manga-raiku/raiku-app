@@ -44,10 +44,7 @@
             :key="index"
             :src="src"
             @load="
-              sizes.set(index, [
-                ($event).naturalWidth,
-                ($event).naturalHeight,
-              ])
+              sizes.set(index, [$event.naturalWidth, $event.naturalHeight])
             "
             @update:can-swipe="canSwipes[index] = $event"
           >
@@ -69,10 +66,7 @@
             :prime="index % 2 === 0"
             :src="src"
             @load="
-              sizes.set(index, [
-                ($event).naturalWidth,
-                ($event).naturalHeight,
-              ])
+              sizes.set(index, [$event.naturalWidth, $event.naturalHeight])
             "
           >
             <template #loading>
@@ -115,7 +109,7 @@ const emit = defineEmits<{
 }>()
 
 const pagesRender = computed(() => {
-  return props.pages// .concat(props.pagesNext ?? [])
+  return props.pages // .concat(props.pagesNext ?? [])
 })
 
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())

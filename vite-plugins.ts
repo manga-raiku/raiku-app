@@ -63,7 +63,7 @@ export const vitePlugins: [
         "src/logic/**/*.tsx",
         "src/stores/**/*.ts",
         "src/composables/*.ts",
-        "src/boot/*.ts"
+        "src/boot/*.ts",
       ],
       eslintrc: {
         enabled: true,

@@ -1,5 +1,5 @@
 <template>
-  <q-btn v-if="authStore.isLogged" round unelevated class="mr-2">
+  <q-btn v-if="authStore.session" round unelevated class="mr-2">
     <Icon
       :icon="
         showMenuFollow
@@ -21,67 +21,36 @@
 
         <q-toolbar-title>Truyện đang theo dõi</q-toolbar-title>
       </q-toolbar>
-      <div class="px-3 py-3">
-        <q-tabs
-          narrow-indicator
-          no-caps
-          active-class="text-main"
-          v-model="loadType"
-        >
-          <q-tab
-            v-for="{ name, value } in types"
-            class="rounded-30px text-[rgba(255,255,255,0.86)] bg-[#fbe0ef] bg-opacity-8 text-weight-light font-family-poppins !min-h-32px mx-2"
-            :key="value"
-            :name="value"
-            :label="name"
-          />
-        </q-tabs>
-      </div>
-      <q-tab-panels
-        v-model="loadType"
-        animated
-        swipeable
-        infinite
-        keep-alive
-        class="transparent children:overflow-visible w-[415px] <sm:w-full <sm:h-full flex column children:flex-1 children:min-h-0 children:flex children:flex-col"
+
+      <q-card
+        class="transparent min-h-0 shadow-none scrollbar-custom overflow-y-auto"
       >
-        <q-tab-panel
-          v-for="{ value } in types"
-          :key="value"
-          :name="value"
-          class="px-0 flex flex-col min-h-0"
-        >
-          <q-card
-            class="transparent min-h-0 shadow-none scrollbar-custom overflow-y-auto"
-          >
-            <q-card-section>
-              <CardVerticalSKT
-                v-if="!datas.get(value)"
-                v-for="j in 12"
-                :key="j"
-                class="mb-4"
-              />
-              <div v-else-if="isSuccess(datas.get(value)!)">
-                <CardVertical
-                  v-for="item in (datas.get(value) as DataSuccess)!.data.items"
-                  :key="item.path"
-                  :data="item"
-                  read-continue
-                  class="mb-4"
-                />
-              </div>
-              <div v-else class="text-center">
-                <div class="text-subtitle1 font-weight-medium">
-                  Lỗi không xác định
-                </div>
-                <q-btn outline rounded color="main" @click="refresh(value)"
-                  >Thử lại</q-btn
-                >
-              </div>
-            </q-card-section>
-          </q-card>
-        </q-tab-panel>
-      </q-tab-panels>
+        <q-card-section>
+          <CardVerticalSKT
+            v-if="loading"
+            v-for="j in 12"
+            :key="j"
+            class="mb-4"
+          />
+          <div v-else-if="data">
+            <CardVertical
+              v-for="item in data"
+              :key="item.path"
+              :data="item"
+              read-continue
+              class="mb-4"
+            />
+          </div>
+          <div v-else class="text-center">
+            <div class="text-subtitle1 font-weight-medium">
+              Lỗi không xác định {{ error }}
+            </div>
+            <q-btn outline rounded color="main" @click="runAsync"
+              >Thử lại</q-btn
+            >
+          </div>
+        </q-card-section>
+      </q-card>
 
       <router-link to="/truyen-dang-theo-doi" class="block py-2 text-center"
         >Xem tất cả</router-link
@@ -92,62 +61,12 @@
 
 <script lang="ts" setup>
 import { QCard } from "quasar"
-import TheoDoi from "src/apis/nettruyen/runs/theo-doi"
 
 const authStore = useAuthStore()
 const $q = useQuasar()
+const followStore = useFollowStore()
 
 const showMenuFollow = ref(false)
 
-const types = [
-  { name: "Mới cập nhật", value: "0" },
-  { name: "Chưa đọc", value: "3" },
-]
-// ========= state data ========
-const loadType = ref<"0" | "3">("0")
-
-interface DataSuccess {
-  data: Awaited<ReturnType<typeof TheoDoi>>
-}
-interface DataError {
-  err: unknown
-}
-
-const datas = shallowReactive<Map<string, DataSuccess | DataError>>(new Map())
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const isSuccess = (val: any): val is DataSuccess => {
-  return "data" in val
-}
-watch(loadType, async (type) => {
-  if (!showMenuFollow.value) return
-
-  if (datas.has(type)) return
-
-  await refresh(type)
-})
-async function refresh(type: string) {
-  datas.delete(type)
-  try {
-    // eslint-disable-next-line functional/no-throw-statement
-    if (!authStore.user_data) throw new Error("need_login")
-
-    datas.set(type, {
-      data: await TheoDoi(
-        1,
-        authStore.user_data.userGuid,
-        authStore.user_data.token,
-        type,
-      ),
-    })
-  } catch (err) {
-    datas.set(type, { err })
-  }
-}
-
-if ($q.screen.lt.sm) {
-  const bodyOverflow = useBodyOverflow()
-  watch(showMenuFollow, (show) => {
-    bodyOverflow.value = show ? "hidden" : ""
-  })
-}
+const { data, loading, error, runAsync } = useRequest(() => followStore.get())
 </script>

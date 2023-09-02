@@ -91,6 +91,14 @@ export const useAuthStore = defineStore("auth-spb", () => {
     return await supabase.auth.updateUser(row)
   }
 
+  async function assert() {
+    await setup.value
+    // eslint-disable-next-line functional/no-throw-statement
+    if (!session.value) throw new Error("need_login")
+
+    return session.value
+  }
+
   return {
     session,
     profile,
@@ -105,5 +113,7 @@ export const useAuthStore = defineStore("auth-spb", () => {
     sendNOnce,
     updatePassword,
     updateUser,
+
+    assert
   }
 })
