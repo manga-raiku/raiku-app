@@ -2,7 +2,7 @@
   <q-page-sticky
     expand
     position="top"
-    class="w-full bg-dark-page text-13px sm:text-14px z-9999 header-blur"
+    class="w-auto bg-dark-page text-13px sm:text-14px z-9999 header-blur"
   >
     <q-toolbar class="font-family-poppins">
       <div class="w-full min-w-0 whitespace-nowrap">

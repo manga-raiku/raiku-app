@@ -1,31 +1,33 @@
 <template>
   <q-card class="transparent min-h-0 shadow-none overflow-y-auto">
-    <q-card-section>
-      <CardVerticalSKT v-if="loading" v-for="j in 12" :key="j" class="mb-4" />
-      <div v-else-if="data">
-        <q-infinite-scroll @load="onLoad" :offset="250">
+    <div v-if="loading" class="row">
+      <CardVerticalSKT
+        v-for="i in 12"
+        :key="i"
+        class="col-12 col-md-6 px-2 pb-4"
+      />
+    </div>
+    <div v-else-if="data">
+      <q-infinite-scroll @load="onLoad" :offset="250" class="row">
+        <div v-for="item in data" :key="item.path" class="col-12 col-md-6 px-2 pb-4">
           <ItemBasicHistory
-            v-for="item in data"
-            :key="item.path"
             :path="item.path"
             :name="item.manga_name"
             :image="item.image"
             :history="item.history"
           />
-          <template #loading>
-            <div class="row justify-center q-my-md">
-              <q-spinner-dots color="main-3" size="40px" />
-            </div>
-          </template>
-        </q-infinite-scroll>
-      </div>
-      <div v-else class="text-center">
-        <div class="text-subtitle1 font-weight-medium">Lỗi không xác định</div>
-        <q-btn outline rounded color="main" @click="refreshAsync"
-          >Thử lại</q-btn
-        >
-      </div>
-    </q-card-section>
+        </div>
+        <template #loading>
+          <div class="row justify-center q-my-md">
+            <q-spinner-dots color="main-3" size="40px" />
+          </div>
+        </template>
+      </q-infinite-scroll>
+    </div>
+    <div v-else class="text-center">
+      <div class="text-subtitle1 font-weight-medium">Lỗi không xác định</div>
+      <q-btn outline rounded color="main" @click="refreshAsync">Thử lại</q-btn>
+    </div>
   </q-card>
 </template>
 

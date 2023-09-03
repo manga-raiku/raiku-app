@@ -45,11 +45,11 @@ const buttons = [
   // },
   {
     text: "Điều khoản dịch vụ",
-    href: "https://anime-vsub.github.io/term-of-use",
+    href: "https://manga-raiku.github.io/term-of-use",
   },
   {
     text: "Chính sách bảo mật",
-    href: "https://anime-vsub.github.io/privacy-policy",
+    href: "https://manga-raiku.github.io/privacy-policy",
   },
   {
     text: "Kiểm tra lỗi mạng",

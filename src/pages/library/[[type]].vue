@@ -1,13 +1,18 @@
+<route lang="yaml">
+meta:
+  hiddenHeader: $lt.md
+</route>
+
 <template>
-  <q-header class="bg-dark-page">
+  <q-header v-if="$q.screen.lt.md" class="w-full bg-dark-page text-16px">
     <q-toolbar>
       <div class="overflow-x-auto text-grey">
         <div
           v-for="({ name, value }, index) in tabs"
           :key="value"
-          class="inline-block px-2 py-2 text-20px transition-color duration-200"
+          class="inline-block px-2 py-2 transition-color duration-200"
           :class="{
-            'text-white': activeIndex === value,
+            'text-white': activeValue === value,
           }"
           @click="swiperRef?.slideTo(index)"
         >
@@ -18,6 +23,7 @@
   </q-header>
 
   <q-page
+    v-if="$q.screen.lt.md"
     padding
     :style-fn="
       (offset, height) => {
@@ -32,11 +38,7 @@
 
       <Swiper
         :slides-per-view="1"
-        :initial-slide="
-          tabs.findIndex(
-            (item) => item.value.toLowerCase() === type?.toLowerCase(),
-          ) >>> 0
-        "
+        :initial-slide="activeIndex"
         @swiper="onSwiper"
         @slide-change="onSlideChange"
         class="h-full"
@@ -50,6 +52,17 @@
           <component :is="component" />
         </swiper-slide>
       </Swiper>
+    </div>
+  </q-page>
+  <q-page v-else padding>
+    <q-page-sticky position="top" expand :offset="[0, 0]">
+      <q-toolbar>
+        <q-toolbar-title>{{ tabs[activeIndex].name }}</q-toolbar-title>
+      </q-toolbar>
+    </q-page-sticky>
+
+    <div class="pt-40px">
+      <component :is="tabs[activeIndex].component" />
     </div>
   </q-page>
 </template>
@@ -92,15 +105,23 @@ const tabs = [
 ]
 
 const swiperRef = ref<TSwiper>()
-const activeIndex = ref(props.type || tabs[0].value)
-watch(activeIndex, (activeIndex) => router.push(`/library/${activeIndex}`))
+const activeValue = ref(props.type || tabs[0].value)
+const activeIndex = computed(() =>
+  Math.max(
+    0,
+    tabs.findIndex(
+      (item) => item.value.toLowerCase() === props.type?.toLowerCase(),
+    ),
+  ),
+)
 
 function onSwiper(swiper: TSwiper) {
   swiperRef.value = swiper
-  activeIndex.value = tabs[swiper.activeIndex].value
+  activeValue.value = tabs[swiper.activeIndex].value
 }
 
 function onSlideChange(swiper: TSwiper) {
-  activeIndex.value = tabs[swiper.activeIndex].value
+  activeValue.value = tabs[swiper.activeIndex].value
+  router.push(`/library/${activeValue.value}`)
 }
 </script>

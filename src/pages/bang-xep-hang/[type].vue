@@ -137,6 +137,12 @@ const typesRank = [
   },
 ]
 
+const valuesOf: Record<string, string> = {
+  ngay: "/tim-truyen?status=-1&sort=13",
+  tuan: "/tim-truyen?status=-1&sort=12",
+  thang: "/tim-truyen?status=-1&sort=11",
+}
+
 const page = computed<number>({
   get: () => parseInt(route.query.page?.toString() ?? "1") || 1,
   set: (page) =>
@@ -151,7 +157,11 @@ const page = computed<number>({
 
 const { data, loading, error } = useRequest(
   async () => {
-    const data = await BangXepHangType(props.type, page.value, route.query)
+    const data = await BangXepHangType(
+      valuesOf[props.type.toLowerCase()],
+      page.value,
+      route.query,
+    )
     data.items = shallowReactive(data.items)
     return data
   },
@@ -160,7 +170,8 @@ const { data, loading, error } = useRequest(
   },
 )
 const onLoad = useLoadMorePage(
-  (page) => BangXepHangType(props.type, page, route.query),
+  (page) =>
+    BangXepHangType(valuesOf[props.type.toLowerCase()], page, route.query),
   data,
   page.value,
 )

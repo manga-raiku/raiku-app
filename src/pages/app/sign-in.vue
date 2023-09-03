@@ -93,11 +93,11 @@ meta:
                 class="mr-1"
               />
               I am at least 13 years old. I have read and agree to the
-              <a href="/terms-of-use" target="_blank" class="text-white"
+              <a href="https://manga-raiku.github.io/tems-of-use" target="_blank" class="text-white"
                 >Terms</a
               >
               and
-              <a href="/privacy-policy" target="_blank" class="text-white"
+              <a href="https://manga-raiku.github.io/privacy-police" target="_blank" class="text-white"
                 >Privacy Policy</a
               >
             </small>
