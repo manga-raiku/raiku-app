@@ -12,7 +12,7 @@
 
     <q-menu
       v-model="showMenuFollow"
-      class="flex flex-nowrap column bg-dark-page shadow-xl sm:rounded-xl <sm:w-full <sm:!left-0 <sm:!top-0 <sm:!max-w-full <sm:!max-h-full"
+      class="flex flex-nowrap flex-col bg-dark-page shadow-xl md:rounded-xl <md:w-full <md:!left-0 <md:!top-0 <md:!max-w-full <md:!max-h-full <md:!h-full"
     >
       <q-toolbar>
         <q-btn v-if="$q.screen.lt.sm" round v-close-popup>
@@ -23,7 +23,7 @@
       </q-toolbar>
 
       <q-card
-        class="transparent min-h-0 shadow-none scrollbar-custom overflow-y-auto"
+        class="transparent h-full flex-1 min-h-0 shadow-none scrollbar-custom overflow-y-auto"
       >
         <q-card-section>
           <CardVerticalSKT
@@ -33,13 +33,13 @@
             class="mb-4"
           />
           <div v-else-if="data">
-            {{data}}
-            <CardVertical
+            <ItemBasicHistory
               v-for="item in data"
               :key="item.path"
-              :data="item"
-              read-continue
-              class="mb-4"
+              :path="item.path"
+              :name="item.manga_name"
+              :image="item.image"
+              :history="item.history"
             />
           </div>
           <div v-else class="text-center">
@@ -53,7 +53,7 @@
         </q-card-section>
       </q-card>
 
-      <router-link to="/truyen-dang-theo-doi" class="block py-2 text-center"
+      <router-link to="/library/follow" class="block py-2 text-center"
         >Xem tất cả</router-link
       >
     </q-menu>

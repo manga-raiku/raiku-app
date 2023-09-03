@@ -1,77 +1,73 @@
 <template>
-  <CardVerticalSKT v-if="loading" v-for="i in 12" :key="i" class="mb-4" />
-  <q-infinite-scroll v-else-if="data" @load="onLoad" :offset="250">
-    <template v-for="(item, index) in data?.items" :key="item.path">
-      <div
-        v-if="!data.items[index - 1]?.read_at.isSame(item.read_at, 'day')"
-        class="text-subtitle2 text-weight-normal"
-      >
-        {{
-          item.read_at.isToday()
-            ? "Hôm nay"
-            : item.read_at.isYesterday()
-            ? "Hôm qua"
-            : `${item.read_at.get("d")} thg ${item.read_at.get("months")}`
-        }}
+  <q-card class="transparent min-h-0 shadow-none overflow-y-auto">
+    <q-card-section>
+      <CardVerticalSKT v-if="loading" v-for="i in 12" :key="i" class="mb-4" />
+      <q-infinite-scroll v-else-if="data" @load="onLoad" :offset="250">
+        <template v-for="(item, index) in data" :key="item.path">
+          <div
+            v-if="!data[index - 1]?.updated_at.isSame(item.updated_at, 'day')"
+            class="text-1em mb-1.2 text-weight-normal text-gray-300"
+          >
+            {{
+              item.updated_at.isToday()
+                ? "Hôm nay"
+                : item.updated_at.isYesterday()
+                ? "Hôm qua"
+                : `${item.updated_at.get("d")} thg ${item.updated_at.get(
+                    "months",
+                  )}`
+            }}
+          </div>
+          <ItemBasicHistory
+            :path="item.manga_path"
+            :name="item.manga_name"
+            :image="item.image"
+            :history="{
+              name: item.last_ch_name,
+              path: item.last_ch_path,
+              updated_at: item.$updated_at,
+            }"
+          />
+        </template>
+        <template #loading>
+          <div class="row justify-center q-my-md">
+            <q-spinner-dots color="main-3" size="40px" />
+          </div>
+        </template>
+      </q-infinite-scroll>
+      <div v-else class="text-center">
+        <div class="text-subtitle1 font-weight-medium">Lỗi không xác định</div>
+        <q-btn outline rounded color="main" @click="refreshAsync"
+          >Thử lại</q-btn
+        >
       </div>
-      <CardVertical :data="item" read-continue class="mb-4" />
-    </template>
-    <template #loading>
-      <div class="row justify-center q-my-md">
-        <q-spinner-dots color="main-3" size="40px" />
-      </div>
-    </template>
-  </q-infinite-scroll>
-  <div v-else class="text-center">
-    <div class="text-subtitle1 font-weight-medium">Lỗi không xác định</div>
-    <q-btn outline rounded color="main" @click="refreshAsync">Thử lại</q-btn>
-  </div>
+    </q-card-section>
+  </q-card>
 </template>
 
 <script lang="ts" setup>
-import LichSu from "src/apis/nettruyen/runs/lich-su"
-import dayjs from "src/logic/dayjs"
+const historyStore = useHistoryStore()
 
-const authStore = useAuthStore()
-
-const { loading, data, refreshAsync } = useRequest(async () => {
-  // eslint-disable-next-line functional/no-throw-statement
-  if (!authStore.user_data) throw new Error("need_login")
-
-  const data = await LichSu(1, authStore.user_data.token)
-  data.items = shallowReactive(
-    data.items.map((item) => {
-      // eslint-disable-next-line functional/no-throw-statement
-      if (!item.read_at) throw new Error("read_at not found")
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      item.read_at = dayjs(item.read_at) as unknown as any
-      return item
-    }),
+const { loading, data, refreshAsync } = useRequest(() =>
+  historyStore.get().then((res) =>
+    res.map((item) => ({
+      ...item,
+      $updated_at: item.updated_at,
+      updated_at: dayjs(item.updated_at),
+    })),
+  ),
+)
+const onLoad = async (index: number, done: (stop?: boolean) => void) => {
+  const more = await historyStore.get(data.value?.at(-1)?.id).then((res) =>
+    res.map((item) => ({
+      ...item,
+      $updated_at: item.updated_at,
+      updated_at: dayjs(item.updated_at),
+    })),
   )
-  return data as unknown as Omit<typeof data, "items"> & {
-    items: (Omit<(typeof data.items)[0], "read_at"> & {
-      read_at: dayjs.Dayjs
-    })[]
-  }
-})
-const onLoad = useLoadMorePage(async (page) => {
-  // eslint-disable-next-line functional/no-throw-statement
-  if (!authStore.user_data) throw new Error("need_login")
 
-  const data = await LichSu(page, authStore.user_data.token)
-
-  data.items = data.items.map((item) => {
-    // eslint-disable-next-line functional/no-throw-statement
-    if (!item.read_at) throw new Error("read_at not found")
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    item.read_at = dayjs(item.read_at) as unknown as any
-    return item
-  })
-
-  return data as unknown as Omit<typeof data, "items"> & {
-    items: (Omit<(typeof data.items)[0], "read_at"> & {
-      read_at: dayjs.Dayjs
-    })[]
-  }
-}, data)
+  data.value?.push(...more)
+  if (more.length === 0) done(true)
+  done()
+}
 </script>

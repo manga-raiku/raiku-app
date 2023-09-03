@@ -2,21 +2,40 @@
 import type { Database } from "app/database"
 import { defineStore } from "pinia"
 
+Object.assign(window, { supabase })
+
 export const useFollowStore = defineStore("follow", () => {
   const authStore = useAuthStore()
 
-  async function get(last?: Database["public"]["Tables"]["follow"]["Row"]) {
+  async function get(lastId?: number) {
     await authStore.assert()
 
     const res = supabase.from("follow").select("*").order("created_at", {
       ascending: false,
     })
 
-    const { data, error } = last ? await res.lt("id", last.id) : await res
+    const { data, error } = lastId ? await res.lt("id", lastId) : await res
 
     if (error) throw error
 
-    return data
+    const { data: data2, error: error2 } = await supabase
+      .from("history_manga")
+      .select("name:last_ch_name, path:last_ch_path, manga_id, updated_at")
+      .in(
+        "manga_id",
+        data.map((item) => item.manga_id),
+      )
+
+    if (error2) throw error2
+
+    const storeRead = new Map(data2.map((item) => [item.manga_id, item]))
+
+    return data.map((item) => {
+      return {
+        ...item,
+        history: storeRead.get(item.manga_id),
+      }
+    })
   }
 
   // eslint-disable-next-line camelcase
@@ -25,7 +44,7 @@ export const useFollowStore = defineStore("follow", () => {
 
     const { data, error } = await supabase
       .from("follow")
-      .select("id", { count: "exact"})
+      .select("id", { count: "exact" })
       .eq("manga_id", manga_id)
       .eq("user_id", session.user.id)
       .limit(1)

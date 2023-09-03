@@ -1,5 +1,5 @@
 <template>
-  <q-btn v-if="authStore.isLogged" round unelevated class="mr-2">
+  <q-btn v-if="authStore.session" round unelevated class="mr-2">
     <Icon
       :icon="
         showMenuHistory ? 'fluent:clock-24-filled' : 'fluent:clock-24-regular'
@@ -10,7 +10,7 @@
 
     <q-menu
       v-model="showMenuHistory"
-      class="flex flex-nowrap column bg-dark-page shadow-xl sm:rounded-xl <sm:w-full <sm:!left-0 <sm:!top-0 <sm:!max-w-full <sm:!max-h-full"
+      class="flex flex-nowrap flex-col bg-dark-page shadow-xl md:rounded-xl <md:w-full <md:!left-0 <md:!top-0 <md:!max-w-full <md:!max-h-full <md:!h-full"
     >
       <q-toolbar>
         <q-btn v-if="$q.screen.lt.sm" round v-close-popup>
@@ -19,48 +19,43 @@
 
         <q-toolbar-title>Lịch sử đọc</q-toolbar-title>
       </q-toolbar>
+
       <q-card
-        class="transparent shadow-none w-[415px] <sm:w-full <sm:h-full scrollbar-custom overflow-y-auto"
-        ref="qCardRef"
+        class="transparent h-full flex-1 min-h-0 shadow-none scrollbar-custom overflow-y-auto"
       >
         <q-card-section>
           <CardVerticalSKT
             v-if="loading"
-            v-for="i in 12"
-            :key="i"
+            v-for="j in 12"
+            :key="j"
             class="mb-4"
           />
-          <q-infinite-scroll
-            v-else-if="data"
-            @load="onLoad"
-            :offset="250"
-            :scroll-target="qCardRef as unknown as Element"
-          >
-            <CardVertical
-              v-for="item in data?.items"
-              :key="item.path"
-              :data="item"
-              read-continue
-              class="mb-4"
+          <div v-else-if="data">
+            <ItemBasicHistory
+              v-for="item in data"
+              :key="item.manga_path"
+              :path="item.manga_path"
+              :name="item.manga_name"
+              :image="item.image"
+              :history="{
+                name: item.last_ch_name,
+                path: item.last_ch_path,
+                updated_at: item.updated_at,
+              }"
             />
-            <template #loading>
-              <div class="row justify-center q-my-md">
-                <q-spinner-dots color="main-3" size="40px" />
-              </div>
-            </template>
-          </q-infinite-scroll>
+          </div>
           <div v-else class="text-center">
             <div class="text-subtitle1 font-weight-medium">
-              Lỗi không xác định
+              Lỗi không xác định {{ error }}
             </div>
-            <q-btn outline rounded color="main" @click="refreshAsync"
+            <q-btn outline rounded color="main" @click="runAsync"
               >Thử lại</q-btn
             >
           </div>
         </q-card-section>
       </q-card>
 
-      <router-link to="/lich-su" class="block py-2 text-center"
+      <router-link to="/library/history" class="block py-2 text-center"
         >Xem tất cả</router-link
       >
     </q-menu>
@@ -68,44 +63,11 @@
 </template>
 
 <script lang="ts" setup>
-import { QCard } from "quasar"
-import LichSu from "src/apis/nettruyen/runs/lich-su"
-
 const authStore = useAuthStore()
 const $q = useQuasar()
+const historyStore = useHistoryStore()
 
 const showMenuHistory = ref(false)
 
-const { loading, data, refreshAsync } = useRequest(
-  async () => {
-    // eslint-disable-next-line functional/no-throw-statement
-    if (!authStore.user_data) throw new Error("need_login")
-
-    const data = await LichSu(1, authStore.user_data.token)
-    data.items = shallowReactive(data.items)
-    return data
-  },
-  {
-    manual: true,
-    cacheKey: "history",
-    cacheTime: 5 * 60 * 1000, //
-  },
-)
-const onLoad = useLoadMorePage((page) => {
-  // eslint-disable-next-line functional/no-throw-statement
-  if (!authStore.user_data) throw new Error("need_login")
-
-  return LichSu(page, authStore.user_data.token)
-}, data)
-watch(showMenuHistory, (show) => {
-  if (show) refreshAsync()
-})
-const qCardRef = ref<QCard>()
-
-if ($q.screen.lt.sm) {
-  const bodyOverflow = useBodyOverflow()
-  watch(showMenuHistory, (show) => {
-    bodyOverflow.value = show ? "hidden" : ""
-  })
-}
+const { data, loading, error, runAsync } = useRequest(() => historyStore.get())
 </script>

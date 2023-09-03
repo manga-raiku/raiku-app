@@ -16,7 +16,8 @@
     "socketsecurity.vscode-socket-security",
     "meganrogge.template-string-converter",
     "johnsoncodehk.vscode-typescript-vue-plugin",
-    "aminer.codegeex"
+    "aminer.codegeex",
+    "vue.volar"
   ],
   "unwantedRecommendations": [
     "octref.vetur",

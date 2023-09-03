@@ -39,5 +39,8 @@ export default defineConfig({
     "text-20px",
     "!overflow-scroll",
     ..."relative top-0 left-1/2".split(" "),
+    "text-blue-400",
+    "bg-blue-400",
+    "bg-gray-700"
   ],
 })
