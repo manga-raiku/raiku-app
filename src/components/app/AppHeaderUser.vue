@@ -1,17 +1,12 @@
 <template>
   <q-btn flat round unelevated>
-    <q-avatar v-if="authStore.isLogged" size="35px">
+    <q-avatar v-if="authStore.session" size="35px">
       <q-img
-        v-if="authStore.user_data?.avatar"
-        :src="authStore.user_data.avatar"
+        :src="
+          authStore.profile?.avatar_url ??
+          `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
+        "
         no-spinner
-        referrerpolicy="no-referrer"
-      />
-      <Icon
-        v-else
-        icon="fluent:person-circle-24-filled"
-        width="30"
-        height="30"
       />
     </q-avatar>
     <Icon v-else icon="fluent:settings-24-regular" width="30" height="30" />
@@ -19,26 +14,22 @@
     <q-menu v-model="showMenuAccount" class="rounded-xl bg-dark-page shadow-xl">
       <q-card class="transparent w-[280px] px-2 pb-3">
         <q-list v-if="tabMenuAccountActive === 'normal'">
-          <template v-if="authStore.isLogged">
+          <template v-if="authStore.session">
             <q-item class="rounded-xl">
               <q-item-section avatar>
                 <q-avatar size="45px">
-                  <img
-                    v-if="authStore.user_data?.avatar"
-                    :src="authStore.user_data.avatar"
-                    referrerpolicy="no-referrer"
-                  />
-                  <Icon
-                    v-else
-                    icon="fluent:person-circle-24-filled"
-                    width="45"
-                    height="45"
+                  <q-img
+                    :src="
+                      authStore.profile?.avatar_url ??
+                      `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
+                    "
+                    no-spinner
                   />
                 </q-avatar>
               </q-item-section>
               <q-item-section>
                 <q-item-label class="font-weight-medium text-subtitle1">{{
-                  authStore.user_data?.fullName
+                  authStore.profile?.full_name
                 }}</q-item-label>
               </q-item-section>
             </q-item>
@@ -103,11 +94,11 @@
           </q-item>
 
           <q-item
-            v-if="authStore.isLogged"
+            v-if="authStore.session"
             clickable
             v-ripple
             class="rounded-xl"
-            @click="authStore.logout"
+            @click="authStore.signOut"
           >
             <q-item-section avatar class="min-w-0">
               <Icon icon="fa:sign-out" width="20" height="20" />
@@ -186,7 +177,7 @@
   </q-btn>
 
   <q-btn
-    v-if="!authStore.isLogged"
+    v-if="!authStore.session"
     flat
     stack
     no-caps
@@ -196,7 +187,6 @@
     @click="showDialogLogin = true"
   >
     <Icon icon="fluent:person-24-regular" width="20" height="20" />
-    Đăng nhập
   </q-btn>
 
   <q-dialog v-model="showDialogLogin">
@@ -311,14 +301,23 @@ async function login() {
   })
 
   try {
-    const data = await authStore.login(email.value, password.value)
+    const {
+      data: { user },
+    } = await authStore.signIn(email.value, password.value)
+
+    const { data } = await supabase
+      .from("profiles")
+      .select("*")
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      .eq("id", user!.id)
+      .single()
 
     showDialogLogin.value = false
     email.value = ""
     password.value = ""
     $q.notify({
       position: "bottom-right",
-      message: `Đã đăng nhập với tư cách ${data.fullName}`,
+      message: `Đã đăng nhập với tư cách ${data?.full_name}`,
     })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {

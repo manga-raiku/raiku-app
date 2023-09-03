@@ -5,7 +5,7 @@ const value = { v: Math.random() }
 describe("with-cache", () => {
   test("should get value from fn", async () => {
     expect(
-      await withCache(async () => value, ref("key")).then((res) => res.value),
+      await withCache(async () => value, ref("key"))
     ).toEqual(value)
   })
 
@@ -18,7 +18,7 @@ describe("with-cache", () => {
       }, ref("key"))
 
       expect(performance.now() - start < 1300).toEqual(true)
-      expect(data.value).toEqual(value)
+      expect(data).toEqual(value)
     }
     {
       const start = performance.now()
@@ -28,7 +28,7 @@ describe("with-cache", () => {
       }, ref("key"))
 
       expect(performance.now() - start < 999).toEqual(true)
-      expect(data.value).toEqual(value)
+      expect(data).toEqual(value)
     }
   })
 
@@ -38,6 +38,6 @@ describe("with-cache", () => {
     const newVal = { v: Math.random() }
     const data = await withCache(async () => newVal, ref("key"))
 
-    expect(data.value).toEqual(newVal)
+    expect(data).toEqual(newVal)
   })
 })

@@ -296,7 +296,7 @@ meta:
               <ListChapters
                 v-else
                 :chapters="data.chapters"
-                :reads-chapter="infoReadManga?.readsChapter"
+                :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
                 focus-tab-active
                 @change-tab="onChangeTabEpisodes"
                 class-item="col-6 col-sm-4 col-md-4"
@@ -504,17 +504,29 @@ meta:
         no-wrap
         class="<md:order-5 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
-        @click="toggleFollow"
+        :disable="(isFollow = undefined)"
+        @click="
+          data &&
+            followStore.set(
+              {
+                image: data.image,
+                manga_id: data.uid,
+                manga_name: data.name,
+                path: `/truyen-tranh/${zlug}`,
+              },
+              (isFollow = !isFollow),
+            )
+        "
       >
         <Icon
           :icon="
-            infoReadManga?.isFollowed
+            isFollow
               ? 'fluent:star-checkmark-24-filled'
               : 'fluent:star-add-24-regular'
           "
           class="size-1.8rem mr-1"
         />
-        {{ infoReadManga?.isFollowed ? "Unfollow" : "Follow" }}
+        {{ isFollow ? "Unfollow" : "Follow" }}
       </q-btn>
 
       <q-btn
@@ -562,6 +574,7 @@ const props = defineProps<{
 
 const $q = useQuasar()
 const IDMStore = useIDMStore()
+const followStore = useFollowStore()
 const historyStore = useHistoryStore()
 const showSearchMB = ref(false)
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
@@ -602,7 +615,25 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
-const { data: infoReadManga, toggleFollow } = useInfoReadManga(data)
+const isFollow = computedAsync<boolean | undefined>((onCleanup) => {
+  onCleanup(() => (isFollow.value = undefined))
+  if (!data.value) return
+
+  return followStore.check(data.value.uid)
+}, undefined)
+const lastEpRead = computedAsync((onCleanup) => {
+  onCleanup(() => (lastEpRead.value = undefined))
+  if (!data.value) return
+
+  return historyStore.getLastEpRead(data.value.uid)
+}, undefined)
+const listEpRead = computedAsync((onCleanup) => {
+  onCleanup(() => (listEpRead.value = undefined))
+  if (!data.value) return
+
+  return historyStore.getListEpRead(data.value.uid)
+})
+
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)
 const serversReady = computed(() =>
@@ -733,7 +764,7 @@ watch(
     const ep = currentEpisode.value?.value
     if (!data || !ep) return
 
-    timeoutUpsertHistory = setTimeout(window.save = () => {
+    timeoutUpsertHistory = setTimeout(() => {
       historyStore.upsert({
         image: data.image,
         last_ch_id: ep.id,

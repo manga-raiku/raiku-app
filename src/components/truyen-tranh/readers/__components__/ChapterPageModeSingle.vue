@@ -71,7 +71,7 @@ function onMouseMove(event: MouseEvent) {
   parentRef.value?.scrollTo({
     top: scrollStart.top - diffY,
     left: scrollStart.left - diffX,
-    behavior: "instant",
+    behavior: "auto",
   })
   // diffXZoom.value = scrollStart.left - diffX
   // console.log({ diffXZoom }, scrollStart.left - diffX)
