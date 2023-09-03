@@ -6,14 +6,11 @@ meta:
 <template>
   <q-page
     :style-fn="
-      isCapacitor
-        ? undefined
-        : (offset, height) => {
-            return {
-              height: height + 'px',
-              marginTop: -offset + 'px',
-            }
-          }
+      (offset, height) => {
+        return {
+          height: height + 'px',
+        }
+      }
     "
   >
     <div v-if="!data" class="absolute w-full h-full overflow-hidden loader">
@@ -107,7 +104,7 @@ meta:
           @click="router.push(item.path)"
         >
           <div
-            class="flex-1 flex items-center justify-center w-full h-full backdrop-bg"
+            class="flex-1 flex items-center justify-center w-full h-full backdrop-bg <md:pt-50px"
             :style="{
               '--data-src': `url(${item.image})`,
             }"

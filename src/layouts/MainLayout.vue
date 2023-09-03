@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh Lpr lFf">
     <q-header
-      v-if="!isCapacitor && route.meta?.hiddenHeader !== true"
+      v-if="route.meta?.hiddenHeader !== true"
       class="bg-dark-page py-1 px-2 header-blur"
       :class="{
         '!bg-transparent': route.meta?.transparentHeader,
@@ -62,7 +62,7 @@
     </q-page-container>
 
     <q-footer
-      v-if="isCapacitor"
+      v-if="$q.screen.lt.md"
       :model-value="!route.meta.hiddenFooter"
       class="bg-dark-page"
     >

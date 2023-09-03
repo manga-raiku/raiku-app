@@ -25,7 +25,7 @@ export const useFollowStore = defineStore("follow", () => {
 
     const { data, error } = await supabase
       .from("follow")
-      .select("1")
+      .select("id", { count: "exact"})
       .eq("manga_id", manga_id)
       .eq("user_id", session.user.id)
       .limit(1)
@@ -36,26 +36,28 @@ export const useFollowStore = defineStore("follow", () => {
   }
 
   async function set(
-    row: Database["public"]["Tables"]["follow"]["Row"],
+    row: Omit<
+      Database["public"]["Tables"]["follow"]["Row"],
+      "created_at" | "user_id" | "id"
+    >,
     follow: boolean,
   ) {
     const session = await authStore.assert()
 
     if (follow) {
-      const { data, error } = await supabase
-        .from("follow")
-        .select("1")
-        .eq("manga_id", row.manga_id)
-        .eq("user_id", session.user.id)
+      const { error } = await supabase.from("follow").upsert(row, {
+        ignoreDuplicates: true,
+        onConflict: "manga_id, user_id",
+      })
 
       if (error) throw error
-      return data.length > 0
+      return true
     }
-    const { error } = await supabase.from("follow").upsert(row, {
-      ignoreDuplicates: true,
-      onConflict: "manga_id, user_id",
-    })
-
+    const { error } = await supabase
+      .from("follow")
+      .delete()
+      .eq("manga_id", row.manga_id)
+      .eq("user_id", session.user.id)
     if (error) throw error
     return true
   }

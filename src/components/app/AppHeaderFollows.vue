@@ -33,6 +33,7 @@
             class="mb-4"
           />
           <div v-else-if="data">
+            {{data}}
             <CardVertical
               v-for="item in data"
               :key="item.path"

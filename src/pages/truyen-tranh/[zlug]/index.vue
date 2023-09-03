@@ -1,10 +1,11 @@
 <route lang="yaml">
 meta:
   hiddenFooter: true
+  hiddenHeader: true
 </route>
 
 <template>
-  <q-header v-if="isCapacitor" class="bg-dark-page header-blur">
+  <q-header v-if="$q.screen.lt.md" class="bg-dark-page header-blur">
     <q-toolbar>
       <q-btn round unelevated @click="router.back()">
         <Icon icon="fluent:arrow-left-24-filled" class="size-1.5em" />
@@ -126,10 +127,10 @@ meta:
             :items="data.genres"
           />
         </div>
-        <div class="w-full">
+        <div class="w-full min-w-0">
           <Tags class="mt-3" v-if="$q.screen.lt.md" :items="data.genres" />
           <p
-            class="mt-4 whitespace-pre-wrap text-16px text-[#fff] text-opacity-80"
+            class="mt-4 whitespace-pre-wrap text-16px text-[#fff] text-opacity-80 break-words"
           >
             {{ data.description }}
           </p>
@@ -156,7 +157,7 @@ meta:
           Bắt đầu xem Ch. {{ data.chapters.at(-1)!.name }}</q-btn
         >
 
-        <q-btn
+        <!-- <q-btn
           rounded
           no-caps
           outline
@@ -172,7 +173,7 @@ meta:
             class="mr-2"
           />
           {{ infoReadManga?.isFollowed ? "Bỏ theo dõi" : "Theo dõi" }}
-        </q-btn>
+        </q-btn> -->
 
         <q-btn
           rounded
@@ -195,7 +196,7 @@ meta:
         <header class="text-28px font-weight-regular">Chapter List</header>
         <ListChapters
           :chapters="data.chapters"
-          :reads-chapter="infoReadManga?.readsChapter"
+          :reads-chapter="new Set(listEpRead?.map(item => item.ep_id))"
         />
       </section>
 
@@ -323,9 +324,27 @@ meta:
         />
       </q-btn>
 
-      <q-btn rounded outline no-caps class="text-#f15a79 min-h-0 h-35px w-15%">
+      <q-btn
+        rounded
+        outline
+        no-caps
+        class="text-#f15a79 min-h-0 h-35px w-15%"
+        :disable="(isFollow = undefined)"
+        @click="
+          data &&
+            followStore.set(
+              {
+                image: data.image,
+                manga_id: data.uid,
+                manga_name: data.name,
+                path: `/truyen-tranh/${zlug}`,
+              },
+              (isFollow = !isFollow),
+            )
+        "
+      >
         <Icon
-          :icon="true ? 'ri:heart-fill' : 'ri:heart-add-line'"
+          :icon="isFollow ? 'ri:heart-fill' : 'ri:heart-add-line'"
           width="1.3em"
           height="1.3em"
         />
@@ -336,12 +355,12 @@ meta:
         rounded
         no-caps
         no-wrap
-        :outline="!!epContinue"
+        :outline="!!lastEpRead"
         class="text-weight-normal min-h-0 h-35px font-normal max-w-30% w-full"
         :class="{
-          'btn-action': !epContinue,
-          'text-#f15a79': !!epContinue,
-          'max-w-60%': !epContinue,
+          'btn-action': !lastEpRead,
+          'text-#f15a79': !!lastEpRead,
+          'max-w-60%': !lastEpRead,
         }"
       >
         <Icon
@@ -355,8 +374,8 @@ meta:
       </q-btn>
 
       <q-btn
-        v-if="epContinue"
-        :to="epContinue.path"
+        v-if="lastEpRead"
+        :to="lastEpRead.path"
         rounded
         no-caps
         no-wrap
@@ -369,7 +388,7 @@ meta:
           class="mr-2"
         />
 
-        Tiếp Ch. {{ epContinue.name }}
+        Tiếp Ch. {{ lastEpRead.name }}
       </q-btn>
     </q-toolbar>
   </q-footer>
@@ -394,6 +413,9 @@ const $q = useQuasar()
 const { share } = useShare()
 const router = useRouter()
 const route = useRoute()
+const followStore = useFollowStore()
+const historyStore = useHistoryStore()
+
 const { data, loading, error, run } = useRequest(
   useWithCache(
     () => Manga(props.zlug),
@@ -419,13 +441,23 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
-const { data: infoReadManga, toggleFollow } = useInfoReadManga(data)
-const epContinue = computed(() => {
-  if (!infoReadManga.value?.readContinueId) return
+const isFollow = computedAsync<boolean | undefined>((onCleanup) => {
+  onCleanup(() => (isFollow.value = undefined))
+  if (!data.value) return
 
-  return data.value?.chapters.find(
-    (item) => item.id === infoReadManga.value?.readContinueId,
-  )
+  return followStore.check(data.value.uid)
+}, undefined)
+const lastEpRead = computedAsync((onCleanup) => {
+  onCleanup(() => (lastEpRead.value = undefined))
+  if (!data.value) return
+
+  return historyStore.getLastEpRead(data.value.uid)
+}, undefined)
+const listEpRead = computedAsync((onCleanup) => {
+  onCleanup(() => (listEpRead.value = undefined))
+  if (!data.value) return
+
+  return historyStore.getListEpRead(data.value.uid)
 })
 
 function onClickShare() {
