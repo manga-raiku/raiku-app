@@ -1,7 +1,8 @@
 <template>
   <q-layout view="hHh Lpr lFf">
     <q-header
-      v-if="route.meta?.hiddenHeader !== true"
+      v-if="execScriptMeta(route.meta?.hiddenHeader) !== true"
+      :reveal="route.meta.revealHeader"
       class="bg-dark-page py-1 px-2 header-blur"
       :class="{
         '!bg-transparent': route.meta?.transparentHeader,
@@ -137,9 +138,6 @@
 import "@fontsource/poppins"
 // =========== suth
 
-import { Http } from "client-ext-animevsub-helper"
-import { isCapacitor } from "src/constants"
-
 import NotExistsExtension from "./NotExistsExtension.vue"
 // key bind
 
@@ -158,6 +156,16 @@ watch(canvasRef, (ref) => {
 })
 
 const showSearchMB = ref(false)
+
+function execScriptMeta(src?: string | boolean) {
+  if (!src || typeof src === "boolean") return src
+
+  try {
+    return JSON.parse(src.replace("$lt.md", JSON.stringify($q.screen.lt.md)))
+  } catch (err) {
+    console.warn(err, route.path)
+  }
+}
 </script>
 
 <style lang="scss">

@@ -1,10 +1,12 @@
 <route lang="yaml">
 alias: ["/tim-truyen/:slug?"]
+meta:
+  hiddenHeader: false
+  revealHeader: true
 </route>
 
 <template>
   <q-page padding>
-    <section class="mx-4 sm:mx-6 md:mx-8">
       <template v-if="!data">
         <BannerTitleSKT v-if="!isCapacitor" />
         <q-skeleton type="text" width="220px" class="mt-3" />
@@ -12,30 +14,11 @@ alias: ["/tim-truyen/:slug?"]
         <SkeletonGridCard :count="40" />
       </template>
       <template v-else>
-        <BannerTitle v-if="!isCapacitor">
-          {{ data.name }}
+        <GenresFilterNative :filter="data.filters" />
 
-          <q-btn round class="text-white">
-            <Icon
-              icon="fluent:filter-24-regular"
-              class="size-2em"
-              @click="showFilterFull = true"
-            />
-          </q-btn>
-        </BannerTitle>
-        <p class="mt-3 font-family-poppins">{{ data.description }}</p>
-
-        <!-- filter -->
-        <GenresFilterMB
-          v-if="!isCapacitor"
-          v-model:show-full="showFilterFull"
-          :show-toolbar="isCapacitor"
-          :filter="data.filters"
-        />
-        <!-- /filter -->
+        <p class="mt-80px font-family-poppins">{{ data.description }}</p>
 
         <!-- filter native -->
-        <GenresFilterNative v-else :filter="data.filters" />
         <!-- /filter native -->
 
         <!--
@@ -48,7 +31,7 @@ alias: ["/tim-truyen/:slug?"]
 
         <SkeletonGridCard v-if="loading" :count="40" />
         <InfiniteScroll v-else @load="onLoad">
-          <GridCard :items="data.items" class="<md:mx--4" />
+          <GridCard :items="data.items"  />
         </InfiniteScroll>
 
         <!-- <div
@@ -58,7 +41,6 @@ alias: ["/tim-truyen/:slug?"]
         <Pagination :max="data.maxPage" v-model="page" />
       </div> -->
       </template>
-    </section>
   </q-page>
 </template>
 

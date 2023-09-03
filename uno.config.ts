@@ -20,6 +20,7 @@ export default defineConfig({
   rules: [
     [/^size-\[?([^[\]]+)\]?/, ([, value]) => ({ width: value, height: value })],
     [/^font-family-(.+)/, ([, value]) => ({ "font-family": value })],
+    [/^font-size-(.+)/, ([, value]) => ({ "font-size": value })],
   ],
   transformers: [transformerDirectives()],
   theme: {
@@ -41,6 +42,6 @@ export default defineConfig({
     ..."relative top-0 left-1/2".split(" "),
     "text-blue-400",
     "bg-blue-400",
-    "bg-gray-700"
+    "bg-gray-700",
   ],
 })

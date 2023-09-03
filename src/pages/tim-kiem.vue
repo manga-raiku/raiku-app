@@ -1,6 +1,6 @@
 <route lang="yaml">
 meta:
-  hiddenHeader: true
+  hiddenHeader: $lt.md
 </route>
 
 <template>
