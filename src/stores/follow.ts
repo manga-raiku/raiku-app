@@ -44,7 +44,7 @@ export const useFollowStore = defineStore("follow", () => {
 
     const { data, error } = await supabase
       .from("follow")
-      .select("id", { count: "exact" })
+      .select("id")
       .eq("manga_id", manga_id)
       .eq("user_id", session.user.id)
       .limit(1)

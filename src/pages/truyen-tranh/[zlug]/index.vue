@@ -196,7 +196,7 @@ meta:
         <header class="text-28px font-weight-regular">Chapter List</header>
         <ListChapters
           :chapters="data.chapters"
-          :reads-chapter="new Set(listEpRead?.map(item => item.ep_id))"
+          :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
         />
       </section>
 
@@ -329,7 +329,7 @@ meta:
         outline
         no-caps
         class="text-#f15a79 min-h-0 h-35px w-15%"
-        :disable="(isFollow = undefined)"
+        :disable="isFollow === undefined"
         @click="
           data &&
             followStore.set(

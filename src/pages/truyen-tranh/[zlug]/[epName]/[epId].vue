@@ -504,7 +504,7 @@ meta:
         no-wrap
         class="<md:order-5 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
-        :disable="(isFollow = undefined)"
+        :disable="(isFollow === undefined)"
         @click="
           data &&
             followStore.set(
