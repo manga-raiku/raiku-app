@@ -1,7 +1,12 @@
+<route lang="yaml">
+meta:
+  hiddenHeader: true
+</route>
+
 <template>
   <q-header
     v-if="isCapacitor || $q.screen.lt.sm"
-    class="bg-dark-page py-1"
+    class="bg-dark-page"
     :class="{
       'px-2': !isCapacitor,
     }"
@@ -13,7 +18,7 @@
       </q-btn>
 
       <div
-        class="flex flex-nowrap items-center relative w-full bg-[#2a2a2a] h-[39px] <md:h-[35px] rounded-[30px]"
+        class="flex flex-nowrap items-center relative w-full bg-[#2a2a2a] h-[39px] <md:h-[35px] rounded-[30px] py-1"
       >
         <div
           class="relative w-full h-full cursor-text"
@@ -90,11 +95,9 @@
   <q-page
     padding
     :style-fn="
-      (offset, height) => {
-        return {
-          height: route.query.query ? undefined : height - offset + 'px',
-        }
-      }
+      (offset, height) => ({
+        height: height - offset + 'px',
+      })
     "
   >
     <template v-if="!route.query.query">
@@ -144,7 +147,7 @@
       </div>
     </template>
 
-    <section v-else class="mx-4 sm:mx-6 md:mx-8 mt-58px">
+    <section v-else>
       <div v-if="!$q.screen.lt.sm" class="py-2 px-4 text-16px text-left">
         <span class="text-gray-400 mr-1">Tìm kiếm: </span>
         <span class="font-bold truncate">{{ route.query.query }}</span>

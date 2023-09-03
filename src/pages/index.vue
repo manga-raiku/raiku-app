@@ -1,6 +1,7 @@
 <route lang="yaml">
 meta:
   transparentHeader: true
+  noSpaceHeader: true
 </route>
 
 <template>

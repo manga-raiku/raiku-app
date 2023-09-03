@@ -1,9 +1,8 @@
 <template>
   <teleport to="body">
-    <q-header
+    <header
       v-if="searching"
-      @update:model-value="emit('update:searching', $event)"
-      class="bg-dark-page"
+      class="fixed top-0 left-0 w-full bg-dark-page z-9999"
     >
       <q-toolbar class="relative">
         <q-btn
@@ -16,12 +15,12 @@
         >
           <Icon icon="fluent:chevron-left-24-regular" width="25" height="25" />
         </q-btn>
-        <div class="w-full flex items-center py-3">
+        <div class="w-full flex items-center py-2">
           <div
             class="relative w-full flex items-center flex-nowrap py-3 bg-[#2a2a2a] rounded-[30px] h-[39px] <md:h-[35px]"
           >
             <input
-              class="min-w-0 w-full bg-transparent placeholder-[#818181] focus-visible:outline-none pl-6"
+              class="min-w-0 w-full bg-transparent placeholder-[#818181] focus-visible:outline-none !pl-6"
               placeholder="Tìm kiếm"
               v-model="query"
               autofocus
@@ -104,7 +103,7 @@
           </q-item>
         </q-list>
       </div>
-    </q-header>
+    </header>
   </teleport>
 </template>
 

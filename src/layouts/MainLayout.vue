@@ -52,7 +52,11 @@
       </q-toolbar>
     </q-header>
 
-    <q-page-container>
+    <q-page-container
+      :class="{
+        '!pt-0': route.meta.noSpaceHeader,
+      }"
+    >
       <router-view v-if="true" v-slot="{ Component }">
         <component :is="Component" />
       </router-view>
