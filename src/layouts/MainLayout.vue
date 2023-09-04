@@ -292,8 +292,8 @@ function execScriptMeta(src?: string | boolean) {
   }
 }
 
-const hideDrawer = ref(false)
-const showDrawer = ref(true)
+const hideDrawer = computed(() => route.meta.hiddenDrawer ?? false)
+const showDrawer = ref(false)
 
 const Icons = {
   home: ["solar:home-smile-broken", "solar:home-smile-bold-duotone"],
