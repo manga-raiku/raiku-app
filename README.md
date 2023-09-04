@@ -17,7 +17,7 @@ The app currently supports:
 ## Screenshot
 - Android, Web Mobile:
 <div style="overflow-x: scroll; white-space: nowrap">
-  
+
 <img src=https://github.com/manga-raiku/manga-raiku/assets/45375496/abe85c67-e3f2-4427-9464-5aed4605dfaf width=240 />
 <img src=https://github.com/manga-raiku/manga-raiku/assets/45375496/b8dbdaf6-27d2-449b-b994-9e6a516afdec width=240 />
 <img src=https://github.com/manga-raiku/manga-raiku/assets/45375496/758637a0-66a8-4792-99aa-b93157f8caf2 width=240 />
@@ -79,7 +79,7 @@ quasar build
 - [ ] `/app/sign-in`
   - [x] native
   - [x] mobile
-  - [ ] desktop
+  - [x] desktop
 - [ ] `/app/myaccount`
   - [ ] native
   - [ ] mobile
@@ -88,10 +88,10 @@ quasar build
   - [ ] native
   - [ ] mobile
   - [ ] desktop
-- [ ] `/app/sign-up`
-  - [ ] native
+- [x] `/app/sign-up`
+  - [x] native
   - [ ] mobile
-  - [ ] desktop
+  - [x] desktop
 - [ ] jump IDM APi
   - [ ] native
   - [ ] mobile

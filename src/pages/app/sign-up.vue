@@ -14,7 +14,7 @@ meta:
           <Icon icon="fluent:chevron-left-24-filled" class="size-1.5em" />
         </q-btn>
 
-        <q-toolbar-title>Đăng nhập</q-toolbar-title>
+        <q-toolbar-title>Đăng ký</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -29,13 +29,13 @@ meta:
           <div
             class="relative flex items-center justify-between <md:display-none"
           >
-            <div class="text-20px mx-2">Đăng nhập</div>
+            <div class="text-20px mx-2">Đăng ký</div>
 
             <div class="card-bg-cyan top--20%"></div>
             <div class="card-bg-blue top--20%"></div>
           </div>
 
-          <q-form @submit.prevent="login" ref="qFormRef">
+          <q-form @submit.prevent="signUp" ref="qFormRef">
             <q-card-section>
               <q-input
                 v-model="email"
@@ -80,13 +80,6 @@ meta:
                   </q-btn>
                 </template>
               </q-input>
-              <div class="text-right pt-4">
-                <router-link
-                  to="/app/forgot-password"
-                  class="text-gray-300 text-12px"
-                  >Forget Password?</router-link
-                >
-              </div>
             </q-card-section>
 
             <q-card-section class="pt-0">
@@ -98,7 +91,7 @@ meta:
                   no-caps
                   :disable="!email || !password || !accept"
                   class="w-full max-w-420px mx-auto text-weight-normal"
-                  >Log in</q-btn
+                  >Create new account</q-btn
                 >
               </div>
 
@@ -129,61 +122,17 @@ meta:
             </q-card-section>
 
             <q-card-section class="mt-4">
-              <div class="or mb-2">
-                <span class="px-4 text-gray-300 bg-dark-page">hoặc</span>
-              </div>
-
               <q-btn
-                outline
                 rounded
                 no-caps
-                class="w-full text-#fff text-opacity-20 py-2 mt-2"
-                @click="authStore.signInOAuth2('twitter')"
+                unelevated
+                class="w-full max-w-420px mx-auto text-weight-normal text-gray-300"
               >
-                <div class="w-full flex flex-items pl-8 pr-28%">
-                  <Icon icon="logos:twitter" class="size-1.5em mr-10" />
-                  <div
-                    class="text-weight-normal text-white text-center min-w-0 w-full flex-1"
-                  >
-                    Continue with Twitter
-                  </div>
-                </div>
-              </q-btn>
-              <q-btn
-                outline
-                rounded
-                no-caps
-                class="w-full text-#fff text-opacity-20 py-2 mt-2"
-                @click="authStore.signInOAuth2('google')"
-              >
-                <div class="w-full flex flex-items pl-8 pr-28%">
-                  <Icon icon="logos:google-icon" class="size-1.5em mr-10" />
-                  <div
-                    class="text-weight-normal text-white text-center min-w-0 w-full flex-1"
-                  >
-                    Continue with Google
-                  </div>
-                </div>
-              </q-btn>
-              <q-btn
-                outline
-                rounded
-                no-caps
-                class="w-full text-#fff text-opacity-20 py-2 mt-2"
-                to="/app/sign-up"
-              >
-                <div class="w-full flex flex-items pl-8 pr-28%">
-                  <Icon
-                    icon="fluent:mail-24-filled"
-                    color="white"
-                    class="size-1.5em mr-10"
-                  />
-                  <div
-                    class="text-weight-normal text-white text-center min-w-0 w-full flex-1"
-                  >
-                    Sign up with Email
-                  </div>
-                </div>
+                <Icon
+                  icon="fluent:chevron-left-20-regular"
+                  class="size-1.5em"
+                />
+                Back
               </q-btn>
             </q-card-section>
           </q-form>
@@ -209,13 +158,13 @@ const password = ref("")
 const accept = ref(false)
 const showPassword = ref(false)
 
-async function login() {
+async function signUp() {
   const loader = $q.loading.show({
     spinnerColor: "main-3",
     spinnerSize: 40,
   })
 
-  const { data, error } = await authStore.signIn(email.value, password.value)
+  const { error } = await authStore.signUp(email.value, password.value)
 
   loader()
 
@@ -223,7 +172,7 @@ async function login() {
     $q.notify({
       position: "bottom-right",
       message:
-        `Đăng nhập thất bại (code: ${error.status})` +
+        "Đăng ký tài khoản thất bại " +
         (import.meta.env.DEV ? `(${error.message})` : ""),
     })
 
@@ -232,9 +181,7 @@ async function login() {
 
   $q.notify({
     position: "bottom-right",
-    message: `Đã đăng nhập với tư cách ${
-      data.user.user_metadata.name ?? data.user.email
-    }`,
+    message: "Đã đăng ký, hãy kiểm tra email",
   })
   router.back()
 }
