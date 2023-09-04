@@ -19,16 +19,16 @@ meta:
     </q-header>
 
     <q-page padding>
-      <q-card class="md:max-w-450px md:mx-auto bg-dark-page <md:transparent">
+      <q-card
+        class="md:max-w-450px md:mx-auto bg-dark-page <md:transparent <md:shadow-none"
+      >
         <q-card-section class="transparent relative">
           <img
             src="~assets/girl.png"
-            class="absolute top--25% blur-20px <md:display-none"
+            class="absolute top--25% blur-20px <md:!hidden"
           />
 
-          <div
-            class="relative flex items-center justify-between <md:display-none"
-          >
+          <div class="relative flex items-center justify-between <md:!hidden">
             <div class="text-20px mx-2">Đăng nhập</div>
 
             <div class="card-bg-cyan top--20%"></div>
@@ -221,7 +221,6 @@ async function login() {
 
   if (error) {
     $q.notify({
-      position: "bottom-right",
       message:
         `Đăng nhập thất bại (code: ${error.status})` +
         (import.meta.env.DEV ? `(${error.message})` : ""),
@@ -231,7 +230,6 @@ async function login() {
   }
 
   $q.notify({
-    position: "bottom-right",
     message: `Đã đăng nhập với tư cách ${
       data.user.user_metadata.name ?? data.user.email
     }`,

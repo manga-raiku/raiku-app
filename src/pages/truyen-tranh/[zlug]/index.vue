@@ -66,10 +66,7 @@ meta:
               {{ data.status }}
             </div>
 
-            <q-separator
-              vertical
-              class="mx-3 h-12px my-auto <md:display-none"
-            />
+            <q-separator vertical class="mx-3 h-12px my-auto <md:!hidden" />
 
             <div class="flex <md:w-full items-center">
               <Icon
@@ -79,10 +76,7 @@ meta:
               {{ dayjs(data.updated_at).fromNow() }}
             </div>
 
-            <q-separator
-              vertical
-              class="mx-3 h-12px my-auto <md:display-none"
-            />
+            <q-separator vertical class="mx-3 h-12px my-auto <md:!hidden" />
 
             <div class="flex <md:w-full items-center">
               <Icon
@@ -92,10 +86,7 @@ meta:
               {{ formatView(data.views) }} lượt xem
             </div>
 
-            <q-separator
-              vertical
-              class="mx-3 h-12px my-auto <md:display-none"
-            />
+            <q-separator vertical class="mx-3 h-12px my-auto <md:!hidden" />
 
             <div class="flex <md:w-full items-center">
               <Icon
@@ -106,10 +97,7 @@ meta:
               giá
             </div>
 
-            <q-separator
-              vertical
-              class="mx-3 h-12px my-auto <md:display-none"
-            />
+            <q-separator vertical class="mx-3 h-12px my-auto <md:!hidden" />
 
             <div v-if="data.follows" class="flex <md:w-full items-center">
               <Icon

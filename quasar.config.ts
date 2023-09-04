@@ -148,6 +148,9 @@ export default configure((/* ctx */) => {
         loadingBar: {
           color: "main",
         },
+        notify: {
+          classes: "rounded-30px",
+        },
       },
 
       // iconSet: 'material-icons', // Quasar icon set

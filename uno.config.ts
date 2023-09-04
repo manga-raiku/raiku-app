@@ -43,5 +43,6 @@ export default defineConfig({
     "text-blue-400",
     "bg-blue-400",
     "bg-gray-700",
+    "rounded-30px",
   ],
 })

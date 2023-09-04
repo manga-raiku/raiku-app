@@ -23,15 +23,12 @@ meta:
         />
       </q-btn>
 
-      <q-space class="<md:display-none" />
+      <q-space class="<md:!hidden" />
 
       <div class="flex <md:!display-block items-center min-w-0">
         <div class="ellipsis text-15px">{{ data?.name ?? "__" }}</div>
 
-        <Icon
-          icon="fluent:chevron-right-24-regular"
-          class="mx-1 <md:display-none"
-        />
+        <Icon icon="fluent:chevron-right-24-regular" class="mx-1 <md:!hidden" />
 
         <small
           class="text-gray-300 md:text-14px md:text-white text-12px whitespace-nowrap"
@@ -181,7 +178,7 @@ meta:
         </button>
       </div>
 
-      <span class="display-block text-#777 whitespace-nowrap <md:display-none"
+      <span class="display-block text-#777 whitespace-nowrap <md:!hidden"
         >{{ (rightToLeft ? -currentPage : currentPage) + 1 }} /
         {{ sizePage }}</span
       >
@@ -248,7 +245,7 @@ meta:
         >
       </q-btn>
 
-      <div class="md:display-none w-full order-4" />
+      <div class="md:!hidden w-full order-4" />
 
       <q-btn
         no-caps
@@ -308,7 +305,7 @@ meta:
         </q-dialog-menu>
       </q-btn>
 
-      <q-separator class="<md:display-none" />
+      <q-separator class="<md:!hidden" />
 
       <q-btn
         no-caps
@@ -504,7 +501,7 @@ meta:
         no-wrap
         class="<md:order-5 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
-        :disable="(isFollow === undefined)"
+        :disable="isFollow === undefined"
         @click="
           data &&
             followStore.set(

@@ -1,3 +1,10 @@
+<route lang="yaml">
+meta:
+  hiddenHeader: $lt.md
+  hiddenFooter: false
+  hiddenDrawer: true
+</route>
+
 <template>
   <q-page>
     <video

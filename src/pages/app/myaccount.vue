@@ -1,6 +1,8 @@
 <route lang="yaml">
 meta:
+  hiddenHeader: $lt.md
   hiddenFooter: true
+  hiddenDrawer: true
   auth: true
 </route>
 
@@ -53,7 +55,7 @@ meta:
           </q-item-section>
           <q-item-section side>
             <div class="flex items-center">
-              <span class="text-gray-300">{{ authStore.profile?.gener }}</span>
+              <span class="text-gray-300">{{ authStore.profile?.genre }}</span>
               <Icon icon="fluent:chevron-right-20-regular" class="size-1.5em" />
             </div>
           </q-item-section>
@@ -95,7 +97,7 @@ async function signOut() {
 
   if (error) {
     $q.notify({
-      position: "bottom-right",
+      position: "bottom",
       message:
         `Không thể đăng xuất (code: ${error.status})` +
         (import.meta.env.DEV ? `(${error.message})` : ""),
@@ -105,7 +107,7 @@ async function signOut() {
   }
 
   $q.notify({
-    position: "bottom-right",
+    position: "bottom",
     message: "Đã đăng xuất",
   })
   router.back()

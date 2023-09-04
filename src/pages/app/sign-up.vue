@@ -19,16 +19,16 @@ meta:
     </q-header>
 
     <q-page padding>
-      <q-card class="md:max-w-450px md:mx-auto bg-dark-page <md:transparent">
+      <q-card
+        class="md:max-w-450px md:mx-auto bg-dark-page <md:transparent <md:shadow-none"
+      >
         <q-card-section class="transparent relative">
           <img
             src="~assets/girl.png"
-            class="absolute top--25% blur-20px <md:display-none"
+            class="absolute top--25% blur-20px <md:!hidden"
           />
 
-          <div
-            class="relative flex items-center justify-between <md:display-none"
-          >
+          <div class="relative flex items-center justify-between <md:!hidden">
             <div class="text-20px mx-2">Đăng ký</div>
 
             <div class="card-bg-cyan top--20%"></div>
@@ -127,12 +127,13 @@ meta:
                 no-caps
                 unelevated
                 class="w-full max-w-420px mx-auto text-weight-normal text-gray-300"
+                to="/app/sign-in"
               >
                 <Icon
                   icon="fluent:chevron-left-20-regular"
                   class="size-1.5em"
                 />
-                Back
+                Sign in
               </q-btn>
             </q-card-section>
           </q-form>
@@ -170,7 +171,6 @@ async function signUp() {
 
   if (error) {
     $q.notify({
-      position: "bottom-right",
       message:
         "Đăng ký tài khoản thất bại " +
         (import.meta.env.DEV ? `(${error.message})` : ""),
@@ -180,7 +180,6 @@ async function signUp() {
   }
 
   $q.notify({
-    position: "bottom-right",
     message: "Đã đăng ký, hãy kiểm tra email",
   })
   router.back()
@@ -190,21 +189,6 @@ async function signUp() {
 <style lang="scss" scoped>
 .login-input :deep(.q-field__append) {
   height: 45px !important;
-}
-
-.or {
-  @apply relative text-center;
-
-  &:before {
-    content: "";
-    @apply w-full h-1px absolute top-1/2 left-0 translate-y--1/2;
-    background-color: rgba($color: #fff, $alpha: 0.1);
-  }
-
-  span {
-    @apply relative;
-    z-index: 2;
-  }
 }
 
 .card-bg-cyan {

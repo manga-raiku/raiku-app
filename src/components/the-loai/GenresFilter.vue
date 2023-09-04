@@ -23,7 +23,7 @@
             name: undefined,
             path,
           }"
-          class="text-[rgba(255,255,255,0.86)] before:display-none text-weight-normal my-1 !py-1 !px-3 min-h-0"
+          class="text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
           :class="{
             '!text-main-3': pathEqual(router.resolve(path).path, route.path),
           }"
@@ -45,7 +45,7 @@
               [item.key]: value,
             },
           }"
-          class="text-[rgba(255,255,255,0.86)] before:display-none text-weight-normal my-1 !py-1 !px-3 min-h-0"
+          class="text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
           :class="{
             '!text-main-3': route.query[item.key] === value,
           }"

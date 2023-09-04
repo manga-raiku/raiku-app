@@ -94,7 +94,7 @@
                 height="1.3em"
                 class="mr-1"
               />
-              <span class="<sm:display-none">Đã đọc</span>
+              <span class="<sm:!hidden">Đã đọc</span>
             </span>
           </router-link>
         </li>
@@ -103,7 +103,7 @@
           v-else
           name="item"
           v-for="item in items"
-          :key="item.path"
+          :key="item.id"
           :data="item"
         />
       </ul>

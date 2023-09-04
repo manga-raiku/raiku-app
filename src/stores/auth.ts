@@ -81,10 +81,9 @@ export const useAuthStore = defineStore("auth-spb", () => {
   async function sendNOnce() {
     return await supabase.auth.reauthenticate()
   }
-  async function updatePassword(nonce: string, password: string) {
+  async function updatePassword(password: string) {
     return await supabase.auth.updateUser({
       password,
-      nonce,
     })
   }
   async function updateUser(row: Omit<UserAttributes, "password">) {
