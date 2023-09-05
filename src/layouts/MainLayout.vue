@@ -261,6 +261,7 @@
 import "@fontsource/poppins"
 // =========== suth
 
+import {Icons } from "src/constants"
 import { pathEqual } from "src/logic/path-equal"
 
 import NotExistsExtension from "./NotExistsExtension.vue"
@@ -294,27 +295,6 @@ function execScriptMeta(src?: string | boolean) {
 
 const hideDrawer = computed(() => route.meta.hiddenDrawer ?? false)
 const showDrawer = ref(false)
-
-const Icons = {
-  home: ["solar:home-smile-broken", "solar:home-smile-bold-duotone"],
-  search: ["iconamoon:search", "iconamoon:search-duotone"],
-  box: ["solar:box-minimalistic-broken", "solar:box-minimalistic-bold-duotone"],
-
-  library: ["solar:library-line-duotone", "solar:library-bold-duotone"],
-  user: ["solar:user-line-duotone", "solar:user-rounded-bold-duotone"],
-
-  fire: ["solar:fire-line-duotone", "solar:fire-bold-duotone"],
-
-  history: ["solar:history-line-duotone", "solar:history-bold-duotone"],
-  favorite: [
-    "solar:folder-favourite-star-line-duotone",
-    "solar:folder-favourite-star-bold-duotone",
-  ],
-  download: [
-    "solar:download-minimalistic-line-duotone",
-    "solar:download-minimalistic-bold-duotone",
-  ],
-}
 
 const drawers = computed(() => [
   {

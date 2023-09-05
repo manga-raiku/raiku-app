@@ -198,6 +198,7 @@ import { QForm } from "quasar"
 // import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 
 const $q = useQuasar()
+const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 
@@ -234,7 +235,7 @@ async function login() {
       data.user.user_metadata.name ?? data.user.email
     }`,
   })
-  router.back()
+  router.push((route.query.redirectTo ?? "/") + "")
 }
 </script>
 

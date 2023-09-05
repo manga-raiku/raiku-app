@@ -39,7 +39,7 @@
             <q-item
               clickable
               v-ripple
-              to="/tai-khoan/edit-profile"
+              to="/app/myaccount"
               active-class=""
               class="rounded-xl"
             >

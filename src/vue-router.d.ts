@@ -13,6 +13,6 @@ declare module "vue-router" {
 
     noSpaceHeader?: boolean
 
-    auth?: boolean | "guest"
+    auth?: boolean | "guest" | string
   }
 }
