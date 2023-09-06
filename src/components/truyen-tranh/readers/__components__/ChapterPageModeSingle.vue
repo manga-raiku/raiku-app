@@ -42,8 +42,12 @@ const overflowRef = ref<HTMLDivElement>()
 
 const behavior = ref<ScrollBehavior>("smooth")
 const scroller = useScroll(parentRef, { behavior })
+watch(parentRef, (ref) => {
+  if (!ref) return
+  scroller.measure()
+}, { immediate: true })
 
-const zoom = ref(120.0)
+const zoom = ref(100.0)
 
 const diffXZoom = scroller.x
 const diffYZoom = scroller.y
