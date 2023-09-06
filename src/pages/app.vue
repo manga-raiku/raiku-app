@@ -3,7 +3,7 @@
     v-if="$q.screen.gt.sm"
     :model-value="true"
     show-if-above
-    :width="250"
+    :width="Math.min(400, ~~$q.screen.width / 4)"
     :breakpoint="500"
     class="bg-dark-page overflow-visible column flex-nowrap"
   >
@@ -30,6 +30,7 @@
             class="min-h-0 my-2 rounded-xl"
             :to="to"
             :href="href"
+            :target="href ? '_blank' : undefined"
             active-class=""
             exact-active-class="bg-[rgba(255,255,255,0.1)] text-main"
           >
@@ -43,7 +44,14 @@
               <Icon v-else :icon="icon[1]" width="23" height="23" />
             </q-item-section>
             <q-item-section class="ml-5">
-              <q-item-label class="text-[16px]">{{ text }}</q-item-label>
+              <q-item-label class="flex items-center">
+                {{ text }}
+                <Icon
+                  v-if="href"
+                  icon="solar:arrow-right-up-outline"
+                  class="size-1em text-gray-400 ml-2"
+                />
+              </q-item-label>
             </q-item-section>
           </q-item>
         </template>
@@ -71,14 +79,14 @@ const buttons: {
   side?: Ref<string>
 }[] = [
   {
-    href: "https://ko-fi.com/tachib_shin",
-    icon: Icons.user_heart,
-    text: "Tài trợ / Ủng hộ",
-  },
-  {
     to: "/app/settings",
     icon: Icons.settings,
     text: "Cài đặt",
+  },
+  {
+    href: "https://ko-fi.com/tachib_shin",
+    icon: Icons.user_heart,
+    text: "Tài trợ / Ủng hộ",
   },
   {
     href: "mailto://contact@mangaraiku.eu.org?title=Feedback%20app%20git.shin.raiku",
@@ -93,7 +101,7 @@ const buttons: {
   {
     href: "https://mangaraiku.eu.org",
     icon: ["ant-design:apple-outlined", "ant-design:apple-outlined"],
-    text: "Phiên bản PWA cho iPhone và máy tính",
+    text: "PWA cho iOS và desktop",
   },
   {
     to: "/app/settings/check-network",

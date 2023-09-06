@@ -71,47 +71,115 @@ export interface Database {
           }
         ]
       }
-      history: {
+      history_chapter: {
         Row: {
-          ch_id: number
-          ch_name: string
-          ch_path: string
+          created_at: string
+          ep_id: number
+          h_manga_id: number
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          ep_id: number
+          h_manga_id: number
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          ep_id?: number
+          h_manga_id?: number
+          id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "history_chapter_h_manga_id_fkey"
+            columns: ["h_manga_id"]
+            referencedRelation: "history_manga"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      history_manga: {
+        Row: {
           created_at: string
           id: number
+          image: string
+          last_ch_id: number
+          last_ch_name: string
+          last_ch_path: string
           manga_id: number
-          name: string
-          path: string
-          poster: string
+          manga_name: string
+          manga_path: string
+          updated_at: string
           user_id: string
         }
         Insert: {
-          ch_id: number
-          ch_name: string
-          ch_path: string
           created_at?: string
           id?: number
+          image: string
+          last_ch_id: number
+          last_ch_name: string
+          last_ch_path: string
           manga_id: number
-          name: string
-          path: string
-          poster: string
+          manga_name: string
+          manga_path: string
+          updated_at?: string
           user_id?: string
         }
         Update: {
-          ch_id?: number
-          ch_name?: string
-          ch_path?: string
           created_at?: string
           id?: number
+          image?: string
+          last_ch_id?: number
+          last_ch_name?: string
+          last_ch_path?: string
           manga_id?: number
-          name?: string
-          path?: string
-          poster?: string
+          manga_name?: string
+          manga_path?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "history_user_id_fkey"
+            foreignKeyName: "history_manga_user_id_fkey"
             columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          birthday: string | null
+          full_name: string
+          genre: boolean | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          birthday?: string | null
+          full_name: string
+          genre?: boolean | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          birthday?: string | null
+          full_name?: string
+          genre?: boolean | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -122,7 +190,15 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_ls_ep_read: {
+        Args: {
+          manga_id: number
+        }
+        Returns: {
+          ep_id: number
+          updated_at: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
@@ -240,6 +316,12 @@ export interface Database {
             columns: ["bucket_id"]
             referencedRelation: "buckets"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "objects_owner_fkey"
+            columns: ["owner"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           }
         ]
       }
@@ -282,6 +364,10 @@ export interface Database {
           bucket_id: string
         }[]
       }
+      handle_after_upsert_s_avatars: {
+        Args: Record<PropertyKey, never>
+        Returns: Record<string, unknown>
+      }
       search: {
         Args: {
           prefix: string
@@ -311,4 +397,3 @@ export interface Database {
     }
   }
 }
-

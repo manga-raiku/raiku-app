@@ -1,7 +1,7 @@
 <route lang="yaml">
 meta:
   hiddenFooter: true
-  hiddenHeader: true
+  hiddenHeader: $lt.md
 </route>
 
 <template>
@@ -16,7 +16,7 @@ meta:
   </q-header>
   <q-page padding>
     <div
-      v-if="isCapacitor && $q.screen.lt.md"
+      v-if="$q.screen.lt.md"
       class="fixed top-0 left-0 w-full h-full z--1"
       :class="{
         'before-filter-blur': data?.image,
@@ -126,14 +126,14 @@ meta:
       </section>
 
       <section
-        v-if="!isCapacitor && !$q.screen.xs"
+        v-if="!$q.screen.lt.md"
         class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 children:my-2"
       >
         <q-btn
           :to="data.chapters.at(-1)!.path"
           rounded
           no-caps
-          class="mr-3 btn-action text-weight-normal h-50px text-15px"
+          class="mr-3 text-weight-normal text-15px bg-#fff bg-opacity-10 btn-action"
         >
           <Icon
             icon="ion:book-outline"
@@ -145,29 +145,54 @@ meta:
           Bắt đầu xem Ch. {{ data.chapters.at(-1)!.name }}</q-btn
         >
 
-        <!-- <q-btn
+        <q-btn
+          v-if="lastEpRead"
+          :to="lastEpRead.path"
           rounded
           no-caps
-          outline
-          class="mr-3 text-weight-normal h-50px text-15px text-#f15a79"
-          @click="toggleFollow"
+          class="mr-3 text-weight-normal text-15px bg-#fff bg-opacity-10"
         >
           <Icon
-            :icon="
-              infoReadManga?.isFollowed ? 'ri:heart-fill' : 'ri:heart-add-line'
-            "
+            icon="ion:book-outline"
             width="1.3em"
             height="1.3em"
             class="mr-2"
           />
-          {{ infoReadManga?.isFollowed ? "Bỏ theo dõi" : "Theo dõi" }}
-        </q-btn> -->
+
+          Tiếp Ch. {{ lastEpRead.name }}
+        </q-btn>
 
         <q-btn
           rounded
           no-caps
-          outline
-          class="mr-3 text-weight-normal h-50px text-15px text-#f15a79"
+          class="mr-3 text-weight-normal text-15px bg-#fff bg-opacity-10"
+          :disable="isFollow === undefined"
+          @click="
+            data &&
+              followStore.set(
+                {
+                  image: data.image,
+                  manga_id: data.uid,
+                  manga_name: data.name,
+                  path: `/truyen-tranh/${zlug}`,
+                },
+                (isFollow = !isFollow),
+              )
+          "
+        >
+          <Icon
+            :icon="isFollow ? 'ri:heart-fill' : 'ri:heart-add-line'"
+            width="1.3em"
+            height="1.3em"
+            class="mr-1"
+          />
+          {{ isFollow ? "Bỏ theo dõi" : "Theo dõi" }}
+        </q-btn>
+
+        <q-btn
+          rounded
+          no-caps
+          class="mr-3 text-weight-normal text-15px bg-#fff bg-opacity-10"
           @click="onClickShare"
         >
           <Icon
@@ -176,7 +201,7 @@ meta:
             height="1.3em"
             class="mr-2"
           />
-          Chia sẻ
+          Chia sẻ {{data.uid}}
         </q-btn>
       </section>
 
@@ -293,7 +318,7 @@ meta:
   </q-page>
 
   <q-footer
-    v-if="isCapacitor || $q.screen.xs"
+    v-if="$q.screen.lt.md"
     class="bg-dark-page header-blur"
     style="box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1)"
   >
@@ -390,7 +415,6 @@ import { useShare } from "@vueuse/core"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import { packageName } from "app/package.json"
 import Manga from "src/apis/nettruyen/runs/truyen-tranh/[slug]"
-import { isCapacitor } from "src/constants"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
 

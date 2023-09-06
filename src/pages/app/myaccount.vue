@@ -26,8 +26,13 @@ meta:
           </q-item-section>
           <q-item-section side>
             <div class="flex items-center">
-              <q-avatar v-if="authStore.profile?.avatar_url" size="25">
-                <img :src="authStore.profile?.avatar_url" />
+              <q-avatar size="25">
+                <img
+                  :src="
+                    authStore.profile?.avatar_url ??
+                    `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
+                  "
+                />
               </q-avatar>
 
               <Icon icon="fluent:chevron-right-20-regular" class="size-1.5em" />
@@ -55,7 +60,13 @@ meta:
           </q-item-section>
           <q-item-section side>
             <div class="flex items-center">
-              <span class="text-gray-300">{{ authStore.profile?.genre }}</span>
+              <span class="text-gray-300">{{
+                authStore.profile?.genre === true
+                  ? "Trai"
+                  : authStore.profile?.genre === false
+                  ? "Gái"
+                  : ""
+              }}</span>
               <Icon icon="fluent:chevron-right-20-regular" class="size-1.5em" />
             </div>
           </q-item-section>
@@ -67,7 +78,9 @@ meta:
           </q-item-section>
           <q-item-section side>
             <div class="flex items-center">
-              <span class="text-gray-300">{{ authStore.profile?.birth }}</span>
+              <span class="text-gray-300">{{
+                authStore.profile?.birthday
+              }}</span>
               <Icon icon="fluent:chevron-right-20-regular" class="size-1.5em" />
             </div>
           </q-item-section>

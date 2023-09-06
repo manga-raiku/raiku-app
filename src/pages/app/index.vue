@@ -62,7 +62,7 @@ meta:
           <q-item-section>
             <q-item-label>{{ item.text }}</q-item-label>
           </q-item-section>
-          <q-item-section v-if="item.side" side>{{ item.side }}</q-item-section>
+          <q-item-section v-if="item.side" side>{{ item.side.value }}</q-item-section>
         </q-item>
       </q-list>
     </div>

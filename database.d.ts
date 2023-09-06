@@ -154,19 +154,25 @@ export interface Database {
       profiles: {
         Row: {
           avatar_url: string | null
-          full_name: string | null
+          birthday: string | null
+          full_name: string
+          genre: boolean | null
           id: string
           updated_at: string
         }
         Insert: {
           avatar_url?: string | null
-          full_name?: string | null
+          birthday?: string | null
+          full_name: string
+          genre?: boolean | null
           id: string
           updated_at?: string
         }
         Update: {
           avatar_url?: string | null
-          full_name?: string | null
+          birthday?: string | null
+          full_name?: string
+          genre?: boolean | null
           id?: string
           updated_at?: string
         }

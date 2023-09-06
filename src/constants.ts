@@ -37,7 +37,8 @@ export const Icons: Record<string, [string, string]> = {
   code_bold: ["solar:code-bold-duotone", "solar:code-bold-duotone"],
   bug: ["solar:bug-line-duotone", "solar:bug-bold-duotone"],
   notebook: [
-    "solar:notebook-bookmark-bold-duotone",
+    "solar:notebook-bookmark-line-duotone",
     "solar:notebook-bookmark-bold-duotone",
   ],
+  translate: ["ph:translate-duotone", "ph:translate-duotone"]
 }

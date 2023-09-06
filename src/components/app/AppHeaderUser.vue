@@ -11,167 +11,176 @@
     </q-avatar>
     <Icon v-else icon="fluent:settings-24-regular" width="30" height="30" />
 
-    <q-menu v-model="showMenuAccount" class="rounded-xl bg-dark-page shadow-xl">
-      <q-card class="transparent w-[280px] px-2 pb-3">
-        <q-list v-if="tabMenuAccountActive === 'normal'">
-          <template v-if="authStore.session">
-            <q-item class="rounded-xl">
-              <q-item-section avatar>
-                <q-avatar size="45px">
-                  <q-img
-                    :src="
-                      authStore.profile?.avatar_url ??
-                      `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
-                    "
-                    no-spinner
+    <q-menu
+      v-model="showMenuAccount"
+      class="rounded-xl bg-dark-page shadow-xl overflow-visible flex flex-col"
+    >
+      <q-card
+        class="transparent min-w-300px px-2 pb-3 h-full flex-1 min-h-0 flex flex-nowrap flex-col"
+      >
+        <div v-if="authStore.session && tabMenuAccountActive === 'normal'">
+          <q-item class="rounded-xl">
+            <q-item-section avatar>
+              <q-avatar size="45px">
+                <q-img
+                  :src="
+                    authStore.profile?.avatar_url ??
+                    `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
+                  "
+                  no-spinner
+                />
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="font-weight-medium text-subtitle1">{{
+                authStore.profile?.full_name
+              }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-separator class="bg-[rgba(255,255,255,0.1)]" />
+        </div>
+
+        <div class="flex-1 h-full min-h-0 overflow-y-auto scrollbar-custom">
+          <q-list v-if="tabMenuAccountActive === 'normal'">
+            <template v-if="authStore.session">
+              <q-item
+                clickable
+                v-ripple
+                to="/app/myaccount"
+                active-class=""
+                class="rounded-xl"
+              >
+                <q-item-section avatar class="min-w-0">
+                  <Icon :icon="Icons.info_circle[0]" width="20" height="20" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Trung tâm cá nhân</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item
+                clickable
+                v-ripple
+                class="rounded-xl"
+                @click="authStore.signOut"
+              >
+                <q-item-section avatar class="min-w-0">
+                  <Icon
+                    icon="solar:logout-line-duotone"
+                    width="20"
+                    height="20"
                   />
-                </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Thoát</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-separator class="bg-[rgba(255,255,255,0.1)]" />
+            </template>
+            <template v-else>
+              <q-item class="rounded-xl">
+                <q-item-section>Cài đặt</q-item-section>
+              </q-item>
+
+              <q-separator class="bg-[rgba(255,255,255,0.1)]" />
+            </template>
+
+            <template v-for="item in buttons" :key="item.text">
+              <q-separator
+                v-if="item.divider"
+                class="bg-[rgba(255,255,255,0.1)]"
+              />
+
+              <q-item
+                clickable
+                v-ripple
+                :href="item.href"
+                :to="item.to"
+                @click="item.onClick"
+                class="rounded-xl"
+              >
+                <q-item-section avatar class="min-w-0">
+                  <Icon :icon="item.icon[0]" width="20" height="20" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>{{ item.text }}</q-item-label>
+                </q-item-section>
+                <q-item-section v-if="item.onClick || item.side" side>
+                  <template v-if="!item.onClick">
+                    {{ item.side?.value }}
+                  </template>
+                  <Icon v-else icon="fluent:chevron-right-24-regular" />
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-list>
+
+          <q-list v-if="tabMenuAccountActive === 'locale'">
+            <q-item class="rounded-xl">
+              <q-item-section avatar class="min-w-0">
+                <q-btn
+                  round
+                  dense
+                  unelevated
+                  @click="tabMenuAccountActive = 'normal'"
+                >
+                  <Icon
+                    icon="fluent:ios-arrow-ltr-24-regular"
+                    width="20"
+                    height="20"
+                  />
+                </q-btn>
               </q-item-section>
-              <q-item-section>
-                <q-item-label class="font-weight-medium text-subtitle1">{{
-                  authStore.profile?.full_name
-                }}</q-item-label>
-              </q-item-section>
+              <q-item-section>Chọn ngôn ngữ của bạn</q-item-section>
             </q-item>
 
-            <q-separator class="bg-[rgba(255,255,255,0.1)]" />
+            <!-- <q-separator class="bg-[rgba(255,255,255,0.1)]" /> -->
 
             <q-item
+              v-for="{ name, code } in languages"
+              :key="code"
               clickable
               v-ripple
-              to="/app/myaccount"
-              active-class=""
               class="rounded-xl"
+              @click="settingsStore.locale = code"
             >
               <q-item-section avatar class="min-w-0">
-                <Icon icon="fluent:info-24-regular" width="20" height="20" />
+                <Icon
+                  v-if="settingsStore.locale === code"
+                  icon="fluent:checkmark-24-regular"
+                  width="20"
+                  height="20"
+                />
+                <span v-else class="block w-[20px]" />
               </q-item-section>
-              <q-item-section>
-                <q-item-label>Trung tâm cá nhân</q-item-label>
-              </q-item-section>
+              <q-item-section>{{ name }}</q-item-section>
             </q-item>
-          </template>
-          <template v-else>
+          </q-list>
+
+          <q-list v-if="tabMenuAccountActive === 'setting'">
             <q-item class="rounded-xl">
-              <q-item-section>Cài đặt</q-item-section>
+              <q-item-section avatar class="min-w-0">
+                <q-btn
+                  round
+                  dense
+                  unelevated
+                  @click="tabMenuAccountActive = 'normal'"
+                >
+                  <Icon
+                    icon="fluent:ios-arrow-ltr-24-regular"
+                    width="20"
+                    height="20"
+                  />
+                </q-btn>
+              </q-item-section>
+              <q-item-section>Cài đặt chung</q-item-section>
             </q-item>
 
-            <q-separator class="bg-[rgba(255,255,255,0.1)]" />
-          </template>
-
-          <q-item
-            clickable
-            v-ripple
-            class="rounded-xl"
-            @click="tabMenuAccountActive = 'locale'"
-          >
-            <q-item-section avatar class="min-w-0">
-              <Icon icon="carbon:translate" width="20" height="20" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Ngôn ngữ</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <Icon icon="fluent:chevron-right-24-regular" />
-            </q-item-section>
-          </q-item>
-
-          <q-item
-            clickable
-            v-ripple
-            class="rounded-xl"
-            @click="tabMenuAccountActive = 'setting'"
-          >
-            <q-item-section avatar class="min-w-0">
-              <Icon icon="fluent:settings-24-regular" width="20" height="20" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Cài đặt chung</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <Icon icon="fluent:chevron-right-24-regular" />
-            </q-item-section>
-          </q-item>
-
-          <q-item
-            v-if="authStore.session"
-            clickable
-            v-ripple
-            class="rounded-xl"
-            @click="authStore.signOut"
-          >
-            <q-item-section avatar class="min-w-0">
-              <Icon icon="fa:sign-out" width="20" height="20" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Thoát</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-
-        <q-list v-if="tabMenuAccountActive === 'locale'">
-          <q-item class="rounded-xl">
-            <q-item-section avatar class="min-w-0">
-              <q-btn
-                round
-                dense
-                unelevated
-                @click="tabMenuAccountActive = 'normal'"
-              >
-                <Icon
-                  icon="fluent:ios-arrow-ltr-24-regular"
-                  width="20"
-                  height="20"
-                />
-              </q-btn>
-            </q-item-section>
-            <q-item-section>Chọn ngôn ngữ của bạn</q-item-section>
-          </q-item>
-
-          <!-- <q-separator class="bg-[rgba(255,255,255,0.1)]" /> -->
-
-          <q-item
-            v-for="{ name, code } in languages"
-            :key="code"
-            clickable
-            v-ripple
-            class="rounded-xl"
-            @click="settingsStore.locale = code"
-          >
-            <q-item-section avatar class="min-w-0">
-              <Icon
-                v-if="settingsStore.locale === code"
-                icon="fluent:checkmark-24-regular"
-                width="20"
-                height="20"
-              />
-              <span v-else class="block w-[20px]" />
-            </q-item-section>
-            <q-item-section>{{ name }}</q-item-section>
-          </q-item>
-        </q-list>
-
-        <q-list v-if="tabMenuAccountActive === 'setting'">
-          <q-item class="rounded-xl">
-            <q-item-section avatar class="min-w-0">
-              <q-btn
-                round
-                dense
-                unelevated
-                @click="tabMenuAccountActive = 'normal'"
-              >
-                <Icon
-                  icon="fluent:ios-arrow-ltr-24-regular"
-                  width="20"
-                  height="20"
-                />
-              </q-btn>
-            </q-item-section>
-            <q-item-section>Cài đặt chung</q-item-section>
-          </q-item>
-
-          <!-- <q-separator class="bg-[rgba(255,255,255,0.1)]" /> -->
-        </q-list>
+            <!-- <q-separator class="bg-[rgba(255,255,255,0.1)]" /> -->
+          </q-list>
+        </div>
       </q-card>
     </q-menu>
   </q-btn>
@@ -184,96 +193,18 @@
     rounded
     unelevated
     class="font-weight-normal"
-    @click="showDialogLogin = true"
+    to="/app/sign-in"
   >
     <Icon icon="fluent:person-24-regular" width="20" height="20" />
   </q-btn>
-
-  <q-dialog v-model="showDialogLogin">
-    <q-card class="h-[60vh] bg-dark-500 min-w-[300px] rounded-xl">
-      <q-card-section>
-        <div class="flex justify-between">
-          <q-btn dense round flat unelevated />
-
-          <div class="flex-1 text-center text-subtitle1">
-            Đăng nhập để đồng bộ dữ liệu
-          </div>
-
-          <q-btn dense round unelevated icon="close" v-close-popup />
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <form @submit.prevent="login">
-          <div>
-            <q-input
-              v-model="email"
-              outlined
-              required
-              type="email"
-              name="email"
-              class="login-input w-full"
-              placeholder="E-mail"
-              @keydown.stop
-            />
-          </div>
-          <div class="mt-4 relative flex items-center flex-nowrap input-wrap">
-            <q-input
-              v-model="password"
-              outlined
-              required
-              :type="showPassword ? 'text' : 'password'"
-              name="password"
-              class="login-input w-full"
-              placeholder="Mật khẩu"
-              @keydown.stop
-            >
-              <template #append>
-                <q-btn
-                  round
-                  unelevated
-                  class="mr-1"
-                  @click="showPassword = !showPassword"
-                >
-                  <Icon
-                    v-if="showPassword"
-                    icon="fluent:eye-24-regular"
-                    width="22"
-                    height="22"
-                  />
-                  <Icon v-else icon="fluent:eye-off-24-regular" />
-                </q-btn>
-              </template>
-            </q-input>
-          </div>
-
-          <div class="text-center text-gray-300 my-3">
-            Đăng nhập bằng tài khoản của bạn trên
-            <a href="https://truyenqqq.vn" target="_blank">TruyenQQ</a>. Dữ liệu
-            của bạn sẽ được đồng bộ cả ở đó và ở đây
-          </div>
-
-          <div class="text-grey text-center mt-5 mb-4">Tìm lại mật khẩu</div>
-
-          <q-btn
-            type="submit"
-            no-caps
-            rounded
-            unelevated
-            class="bg-main w-full"
-            :disable="!email || !password"
-            >Đăng nhập</q-btn
-          >
-        </form>
-      </q-card-section>
-    </q-card>
-  </q-dialog>
 </template>
 
 <script lang="ts" setup>
+import { App } from "@capacitor/app"
+import { version } from "app/package.json"
+import { Icons } from "src/constants"
 import { languages } from "src/i18n"
 
-const $q = useQuasar()
 const authStore = useAuthStore()
 const settingsStore = useSettingsStore()
 
@@ -285,75 +216,64 @@ watch(showMenuAccount, (val) => {
   if (val) tabMenuAccountActive.value = "normal"
 })
 
-const showDialogLogin = ref(false)
-
-const showPassword = ref(false)
-
-const email = ref("")
-const password = ref("")
-
-async function login() {
-  const loader = $q.loading.show({
-    message: "Đang xác thực vui lòng đợi",
-    boxClass: "bg-dark text-light-9",
-    spinnerColor: "main",
-    delay: Infinity,
-  })
-
-  try {
-    const {
-      data: { user },
-    } = await authStore.signIn(email.value, password.value)
-
-    const { data } = await supabase
-      .from("profiles")
-      .select("*")
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      .eq("id", user!.id)
-      .single()
-
-    showDialogLogin.value = false
-    email.value = ""
-    password.value = ""
-    $q.notify({
-      position: "bottom-right",
-      message: `Đã đăng nhập với tư cách ${data?.full_name}`,
-    })
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    console.error(err)
-    $q.notify({
-      position: "bottom-right",
-      message: "Đăng nhập thất bại",
-      caption:
-        toType(err) === "Error" ? err.message : Object.values(err).join(", "),
-    })
-  } finally {
-    loader()
-  }
-}
+const buttons: {
+  divider?: true
+  href?: string
+  to?: string
+  onClick?: () => void
+  icon: [string, string]
+  text: string
+  side?: Ref<string>
+}[] = [
+  {
+    // eslint-disable-next-line no-void
+    onClick: () => void (tabMenuAccountActive.value = "locale"),
+    icon: Icons.translate,
+    text: "Ngôn ngữ",
+  },
+  {
+    to: "/app/settings",
+    icon: Icons.settings,
+    text: "Cài đặt",
+  },
+  {
+    divider: true,
+    to: "/app/settings/check-network",
+    icon: Icons.bug,
+    text: "Kiểm tra lỗi mạng",
+  },
+  {
+    divider: true,
+    href: "mailto://contact@mangaraiku.eu.org?title=Feedback%20app%20git.shin.raiku",
+    icon: Icons.info_circle,
+    text: "Phản hồi",
+  },
+  {
+    href: "https://ko-fi.com/tachib_shin",
+    icon: Icons.user_heart,
+    text: "Tài trợ / Ủng hộ",
+  },
+  {
+    href: "https://github.com/manga-raiku/manga-raiku",
+    icon: Icons.code_bold,
+    text: "Mã nguồn mở",
+  },
+  {
+    href: "https://mangaraiku.eu.org",
+    icon: ["ant-design:apple-outlined", "ant-design:apple-outlined"],
+    text: "PWA cho iOS và desktop",
+  },
+  {
+    to: "/app/about",
+    icon: Icons.notebook,
+    text: "Giới thiệu",
+    side: computedAsync(async () => {
+      try {
+        return (await App.getInfo()).version
+      } catch {
+        return version
+      }
+    }),
+  },
+]
 </script>
-
-<style lang="scss" scoped>
-.login-input :deep(.q-field__native) {
-  background-color: transparent !important;
-
-  &,
-  &:focus,
-  &:focus-visible {
-    outline: none !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
-}
-.login-input :deep(.q-field__control),
-.login-input :deep(.q-field__append) {
-  height: 45px !important;
-}
-</style>
-<!--
-<style lang="scss" scoped>
-.hidden-focus-helper :deep(.q-focus-helper) {
-  display: none !important;
-}
-</style> -->

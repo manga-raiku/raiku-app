@@ -115,7 +115,7 @@
                 <Icon v-else :icon="active!" width="23" height="23" />
               </q-item-section>
               <q-item-section class="ml-5">
-                <q-item-label class="text-[16px]">{{ name }}</q-item-label>
+                <q-item-label>{{ name }}</q-item-label>
               </q-item-section>
             </q-item>
           </template>
