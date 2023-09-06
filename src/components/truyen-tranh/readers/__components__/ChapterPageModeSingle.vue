@@ -1,9 +1,6 @@
 <template>
   <div
-    class="w-1/2 h-full display-inline-block overflow-hidden relative !overflow-scroll scrollbar-hide"
-    :class="{
-      'w-full': true,
-    }"
+    class="w-full h-full display-inline-block overflow-auto relative scrollbar-hide"
     ref="parentRef"
     @mousedown.prevent="onMouseDown"
   >
@@ -46,7 +43,7 @@ const overflowRef = ref<HTMLDivElement>()
 const behavior = ref<ScrollBehavior>("smooth")
 const scroller = useScroll(parentRef, { behavior })
 
-const zoom = ref(100.0)
+const zoom = ref(120.0)
 
 const diffXZoom = scroller.x
 const diffYZoom = scroller.y
@@ -90,4 +87,16 @@ async function onMouseUp() {
 
 useEventListener(window, "mousemove", onMouseMove)
 useEventListener(window, "mouseup", onMouseUp)
+
+watch(
+  () => [scroller.arrivedState.left, scroller.arrivedState.right],
+  ([left, right]) => {
+    if (left && right) return emit("update:can-swipe", "A")
+    if (left) return emit("update:can-swipe", "L")
+    if (right) return emit("update:can-swipe", "R")
+
+    emit("update:can-swipe", null)
+  },
+  { immediate: true },
+)
 </script>
