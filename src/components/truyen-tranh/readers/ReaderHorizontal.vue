@@ -2,22 +2,19 @@
   <section
     class="h-full overflow-hidden relative"
     ref="parentRef"
-    @mousedown.prevent="onMouseDown"
-    @mousemove="onMouseMoveCheckClick"
-    @mouseup="onMouseUpCheckClick"
     @wheel="onWheel"
     @touchstart="onTouchStart"
     @touchmove.passive="onTouchMove"
     @touchend.passive="onTouchEnd"
   >
     <section
-      class="h-full whitespace-nowrap overflow-hidden transition-width,height,transform relative top-1/2 left-1/2"
+      class="h-full whitespace-nowrap overflow-hidden transition-width,height,transform relative top-1/2 left-1/2 i"
       :style="{
         width: `${singlePage ? 100 : zoom}%`,
         height: `${singlePage ? 100 : zoom}%`,
-        transform: `translate3d(${-oWidthH + diffXZoom}px, ${
+        transform: `translate(${-oWidthH + diffXZoom}px, ${
           -oHeightH + diffYZoom
-        }px, 0px)`,
+        }px)`,
         'transition-property': mouseZooming
           ? 'width,height'
           : 'width,height,transform',
@@ -277,9 +274,9 @@ function onTouchEnd(event: TouchEvent) {
   // }
 }
 
-const minDiffX = computed(() => Math.min(0, (pWidth.value - oWidth.value) / 2))
+const minDiffX = computed(() => Math.max(0, (pWidth.value - oWidth.value) / 2))
 const minDiffY = computed(() =>
-  Math.min(0, (pHeight.value - oHeight.value) / 2),
+  Math.max(0, (pHeight.value - oHeight.value) / 2),
 )
 const maxDiffX = computed(() => -minDiffX.value)
 const maxDiffY = computed(() => -minDiffY.value)

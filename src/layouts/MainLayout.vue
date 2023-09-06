@@ -63,7 +63,7 @@
     </q-header>
 
     <q-drawer
-      :model-value="hideDrawer ? showDrawer : true"
+      :model-value="!$q.screen.lt.md && (hideDrawer ? showDrawer : true)"
       @update:model-value="hideDrawer ? (showDrawer = $event) : undefined"
       :mini="hideDrawer ? false : !showDrawer"
       show-if-above

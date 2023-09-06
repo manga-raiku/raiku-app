@@ -15,7 +15,7 @@
       class="flex flex-nowrap flex-col bg-dark-page shadow-xl md:rounded-xl <md:w-full <md:!left-0 <md:!top-0 <md:!max-w-full <md:!max-h-full <md:!h-full"
     >
       <q-toolbar>
-        <q-btn v-if="$q.screen.lt.sm" round v-close-popup>
+        <q-btn v-if="$q.screen.lt.md" round v-close-popup>
           <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
         </q-btn>
 

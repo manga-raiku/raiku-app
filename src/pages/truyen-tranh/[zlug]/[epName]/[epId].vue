@@ -7,14 +7,16 @@ meta:
 <template>
   <q-header class="bg-[rgba(0,0,0,.9)]" :model-value="showToolbar">
     <q-toolbar>
-      <AppHeaderIconApp
-        v-if="!isCapacitor && ($q.screen.sm || $q.screen.gt.sm)"
-        :no-name="$q.screen.lt.md"
-        class="mr-8"
-      />
-      <!-- <q-btn v-else round unelevated class="mr-1" @click="router.back()">
-          <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
-        </q-btn> -->
+      <AppHeaderIconApp v-if="!$q.screen.lt.md" no-name class="mr-8" />
+      <q-btn
+        v-else-if="MODE === 'capacitor'"
+        round
+        unelevated
+        class="mr-1"
+        @click="router.back()"
+      >
+        <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
+      </q-btn>
 
       <q-btn v-else round unelevated :to="data?.manga" class="mr-1">
         <Icon
@@ -36,28 +38,24 @@ meta:
         >
       </div>
 
-      <template v-if="!isCapacitor">
-        <q-space />
+      <q-space />
 
-        <template v-if="$q.screen.md || $q.screen.gt.md">
-          <AppHeaderSearch />
-          <AppHeaderGithub />
-        </template>
-        <template v-else>
-          <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
-            <q-icon name="search" />
-          </q-btn>
-          <AppHeaderSearchMB v-model:searching="showSearchMB" />
-        </template>
-
-        <AppHeaderFollows v-if="$q.screen.sm || $q.screen.gt.sm" />
-        <AppHeaderHistory v-if="$q.screen.sm || $q.screen.gt.sm" />
-        <AppHeaderNotify />
-
-        <AppHeaderUser />
+      <template v-if="!$q.screen.lt.md">
+        <AppHeaderSearch />
+        <AppHeaderGithub />
+      </template>
+      <template v-else-if="MODE !== 'capacitor'">
+        <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
+          <q-icon name="search" />
+        </q-btn>
+        <AppHeaderSearchMB v-model:searching="showSearchMB" />
       </template>
 
-      <q-space />
+      <AppHeaderFollows v-if="$q.screen.gt.xs" />
+      <AppHeaderHistory v-if="$q.screen.gt.xs" />
+      <!-- <AppHeaderNotify /> -->
+
+      <AppHeaderUser v-if="MODE !== 'capacitor'" />
 
       <q-btn
         round
@@ -561,7 +559,6 @@ import type { QDialog, QMenu } from "quasar"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
 import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
-import { isCapacitor } from "src/constants"
 
 const props = defineProps<{
   zlug: string
@@ -569,6 +566,7 @@ const props = defineProps<{
   epId: string
 }>()
 
+const { MODE } = import.meta.env
 const $q = useQuasar()
 const IDMStore = useIDMStore()
 const followStore = useFollowStore()

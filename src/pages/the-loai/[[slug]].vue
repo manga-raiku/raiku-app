@@ -8,7 +8,6 @@ meta:
 <template>
   <q-page padding>
       <template v-if="!data">
-        <BannerTitleSKT v-if="!isCapacitor" />
         <q-skeleton type="text" width="220px" class="mt-3" />
 
         <SkeletonGridCard :count="40" />
@@ -48,7 +47,6 @@ meta:
 // import data from "src/apis/parsers/__test__/assets/the-loai/fantacy-30.json"
 import General from "src/apis/nettruyen/runs/[general]"
 import "@fontsource/poppins"
-import { isCapacitor } from "src/constants"
 
 const props = defineProps<{
   slug?: string
@@ -103,6 +101,4 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
-
-const showFilterFull = ref(false)
 </script>

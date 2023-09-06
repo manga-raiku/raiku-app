@@ -74,7 +74,7 @@ meta:
 <script lang="ts" setup>
 import { App } from "@capacitor/app"
 import { version } from "app/package.json"
-import { Icons, isCapacitor } from "src/constants"
+import { Icons } from "src/constants"
 
 const authStore = useAuthStore()
 const $q = useQuasar()
@@ -123,7 +123,7 @@ const buttons: {
     text: "Giới thiệu",
     side: computedAsync(async () => {
       try {
-        return isCapacitor ? (await App.getInfo()).version : version
+        return  (await App.getInfo()).version
       } catch {
         return version
       }

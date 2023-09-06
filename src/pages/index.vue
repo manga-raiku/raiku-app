@@ -105,7 +105,7 @@ meta:
           @click="router.push(item.path)"
         >
           <div
-            class="flex-1 flex items-center justify-center w-full h-full backdrop-bg <md:pt-50px"
+            class="flex-1 flex items-center justify-center w-full h-full backdrop-bg <sm:pt-50px"
             :style="{
               '--data-src': `url(${item.image})`,
             }"
@@ -386,7 +386,6 @@ meta:
 import { Icon } from "@iconify/vue"
 // import data from "src/apis/parsers/__test__/assets/index.json"
 import Index from "src/apis/nettruyen/runs/index"
-import { isCapacitor } from "src/constants"
 import { formatView } from "src/logic/formatView"
 import { unflat } from "src/logic/unflat"
 import { Autoplay } from "swiper"
