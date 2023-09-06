@@ -203,4 +203,4 @@ jobs:
         run: pnpm i
 
       - name: Build
-        run: pnpm build
+        run: cp .env.example .env && pnpm build
