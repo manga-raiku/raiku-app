@@ -16,7 +16,7 @@
     >
       <q-toolbar>
         <q-btn v-if="$q.screen.lt.md" round v-close-popup>
-          <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
+          <Icon icon="line-md:arrow-left" class="size-1.5em" />
         </q-btn>
 
         <q-toolbar-title>Truyện đang theo dõi</q-toolbar-title>

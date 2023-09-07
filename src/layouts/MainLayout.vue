@@ -19,7 +19,7 @@
           @click="showDrawer = !showDrawer"
         />
 
-        <AppHeaderIconApp :no-name="false" class="mr-8" />
+        <AppHeaderIconApp :no-name="$q.screen.lt.sm" class="mr-8" />
 
         <!-- <template v-if="$q.screen.md || $q.screen.gt.md">
           <router-link
@@ -55,8 +55,8 @@
           <AppHeaderSearchMB v-model:searching="showSearchMB" />
         </template>
 
-        <AppHeaderFollows />
-        <AppHeaderHistory />
+        <AppHeaderFollows v-if="MODE !== 'capacitor'" />
+        <AppHeaderHistory v-if="MODE !== 'capacitor'" />
         <AppHeaderNotify />
 
         <AppHeaderUser />
@@ -271,6 +271,7 @@ import NotExistsExtension from "./NotExistsExtension.vue"
 const route = useRoute()
 const router = useRouter()
 const $q = useQuasar()
+const { MODE } = import.meta.env
 
 const canvasRef = ref<HTMLCanvasElement>()
 const instance = getCurrentInstance()

@@ -9,12 +9,21 @@
         no-spinner
       />
     </q-avatar>
-    <Icon v-else icon="fluent:settings-24-regular" width="30" height="30" />
+    <Icon v-else icon="times" width="30" height="30" />
 
     <q-menu
       v-model="showMenuAccount"
-      class="rounded-xl bg-dark-page shadow-xl overflow-visible flex flex-col"
+      class="flex flex-nowrap flex-col bg-dark-page shadow-xl md:rounded-xl <md:w-full <md:!left-0 <md:!top-0 <md:!max-w-full <md:!max-h-full <md:!h-full"
+      :transition-show="$q.screen.lt.md ? 'jump-up' : undefined"
+      :transition-hide="$q.screen.lt.md ? 'jump-down' : undefined"
+      :transition-duration="$q.screen.lt.md ? 100 : undefined"
     >
+      <q-toolbar v-if="$q.screen.lt.md">
+        <q-btn round v-close-popup>
+          <Icon icon="line-md:close" class="size-2em" />
+        </q-btn>
+      </q-toolbar>
+
       <q-card
         class="transparent min-w-300px px-2 pb-3 h-full flex-1 min-h-0 flex flex-nowrap flex-col"
       >
