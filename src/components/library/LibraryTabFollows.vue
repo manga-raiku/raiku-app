@@ -40,7 +40,7 @@ const followStore = useFollowStore()
 
 const { loading, data, refreshAsync } = useRequest(() => followStore.get())
 const onLoad = async (index: number, done: (stop?: boolean) => void) => {
-  const more = await followStore.get(data.value?.at(-1)?.id)
+  const more = await followStore.get(data.value?.length)
 
   data.value?.push(...more)
   if (more.length === 0) done(true)

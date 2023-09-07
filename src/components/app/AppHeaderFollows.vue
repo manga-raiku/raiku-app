@@ -33,7 +33,12 @@
               class="col-12 col-sm-6 px-2 pb-4"
             />
           </div>
-          <div v-else-if="data" class="row">
+          <q-infinite-scroll
+            v-else-if="data"
+            @load="onLoad"
+            :offset="250"
+            class="row"
+          >
             <div
               v-for="item in data"
               :key="item.path"
@@ -46,7 +51,12 @@
                 :history="item.history"
               />
             </div>
-          </div>
+            <template #loading>
+              <div class="col-12 justify-center flex q-my-md">
+                <q-spinner-dots color="main-3" size="40px" />
+              </div>
+            </template>
+          </q-infinite-scroll>
           <div v-else class="text-center">
             <div class="text-subtitle1 font-weight-medium">
               Lỗi không xác định {{ error }}
@@ -75,4 +85,11 @@ const followStore = useFollowStore()
 const showMenuFollow = ref(false)
 
 const { data, loading, error, runAsync } = useRequest(() => followStore.get())
+const onLoad = async (index: number, done: (stop?: boolean) => void) => {
+  const more = await followStore.get(data.value?.length)
+
+  data.value?.push(...more)
+  if (more.length === 0) done(true)
+  done()
+}
 </script>

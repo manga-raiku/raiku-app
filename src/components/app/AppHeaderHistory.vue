@@ -31,7 +31,12 @@
               class="col-12 col-sm-6 px-2 pb-4"
             />
           </div>
-          <div v-else-if="data" class="row">
+          <q-infinite-scroll
+            v-else-if="data"
+            @load="onLoad"
+            :offset="250"
+            class="row"
+          >
             <template v-for="(item, index) in data" :key="item.path">
               <div
                 v-if="
@@ -62,7 +67,12 @@
                 />
               </div>
             </template>
-          </div>
+            <template #loading>
+              <div class="col-12 justify-center flex q-my-md">
+                <q-spinner-dots color="main-3" size="40px" />
+              </div>
+            </template>
+          </q-infinite-scroll>
           <div v-else class="text-center">
             <div class="text-subtitle1 font-weight-medium">
               Lỗi không xác định {{ error }}
@@ -97,4 +107,17 @@ const { data, loading, error, runAsync } = useRequest(() =>
     })),
   ),
 )
+const onLoad = async (index: number, done: (stop?: boolean) => void) => {
+  const more = await historyStore.get(data.value?.length).then((res) =>
+    res.map((item) => ({
+      ...item,
+      $updated_at: item.updated_at,
+      updated_at: dayjs(item.updated_at),
+    })),
+  )
+
+  data.value?.push(...more)
+  if (more.length === 0) done(true)
+  done()
+}
 </script>
