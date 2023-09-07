@@ -2,6 +2,7 @@
   <section
     class="h-full overflow-hidden relative"
     ref="parentRef"
+    @mousedown="onMouseDown"
     @wheel="onWheel"
     @touchstart="onTouchStart"
     @touchmove.passive="onTouchMove"
