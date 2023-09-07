@@ -3,6 +3,7 @@ meta:
   hiddenHeader: $lt.md
   hiddenFooter: true
   hiddenDrawer: true
+  hiddenDrawerScope: true
   auth: false
 </route>
 

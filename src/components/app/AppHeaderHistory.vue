@@ -28,14 +28,14 @@
             <CardVerticalSKT
               v-for="i in 12"
               :key="i"
-              class="col-12 col-sm-6 px-2 pb-4"
+              class="col-12 col-sm-6 col-md-12 px-2 pb-4"
             />
           </div>
           <q-infinite-scroll
             v-else-if="data"
             @load="onLoad"
             :offset="250"
-            class="row"
+            class="row md:block"
           >
             <template v-for="(item, index) in data" :key="item.path">
               <div
@@ -54,7 +54,7 @@
                       )}`
                 }}
               </div>
-              <div class="col-12 col-sm-6 px-2 pb-4">
+              <div class="col-12 col-sm-6 col-md-12 px-2 pb-4">
                 <ItemBasicHistory
                   :path="item.manga_path"
                   :name="item.manga_name"

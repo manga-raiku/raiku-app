@@ -9,7 +9,7 @@
         no-spinner
       />
     </q-avatar>
-    <Icon v-else icon="times" width="30" height="30" />
+    <Icon v-else icon="solar:settings-line-duotone" width="30" height="30" />
 
     <q-menu
       v-model="showMenuAccount"
@@ -204,7 +204,7 @@
     class="font-weight-normal"
     to="/app/sign-in"
   >
-    <Icon icon="fluent:person-24-regular" width="20" height="20" />
+    <Icon icon="solar:user-circle-bold-duotone" class="size-30px" />
   </q-btn>
 </template>
 

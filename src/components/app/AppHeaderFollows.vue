@@ -30,19 +30,19 @@
             <CardVerticalSKT
               v-for="i in 12"
               :key="i"
-              class="col-12 col-sm-6 px-2 pb-4"
+              class="col-12 col-sm-6 col-md-12 px-2 pb-4"
             />
           </div>
           <q-infinite-scroll
             v-else-if="data"
             @load="onLoad"
             :offset="250"
-            class="row"
+            class="row md:block"
           >
             <div
               v-for="item in data"
               :key="item.path"
-              class="col-12 col-sm-6 px-2 pb-4"
+              class="col-12 col-sm-6 col-md-12 px-2 pb-4"
             >
               <ItemBasicHistory
                 :path="item.path"

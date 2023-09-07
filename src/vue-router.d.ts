@@ -13,6 +13,8 @@ declare module "vue-router" {
 
     noSpaceHeader?: boolean
 
+    hiddenDrawerScope?: boolean
+
     auth?: boolean | "guest" | string
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <q-drawer
-    v-if="$q.screen.gt.sm"
+    v-if="$q.screen.gt.sm && route.meta.hiddenDrawerScope !==true"
     :model-value="true"
     show-if-above
     :width="Math.min(400, ~~$q.screen.width / 4)"
