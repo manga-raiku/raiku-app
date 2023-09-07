@@ -10,11 +10,17 @@ export const useFollowStore = defineStore("follow", () => {
   async function get(lastIndex?: number) {
     await authStore.assert()
 
-    const res = supabase.from("follow").select("*").order("created_at", {
-      ascending: false,
-    })
+    const res = supabase
+      .from("follow")
+      .select("*")
+      .order("created_at", {
+        ascending: false,
+      })
+      .limit(30)
 
-    const { data, error } = lastIndex ? await res.range(lastIndex, lastIndex + 30) : await res
+    const { data, error } = lastIndex
+      ? await res.range(lastIndex, lastIndex + 30)
+      : await res
 
     if (error) throw error
 

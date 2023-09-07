@@ -5,12 +5,18 @@ export const useHistoryStore = defineStore("history", () => {
   const authStore = useAuthStore()
 
   async function get(lastIndex?: number) {
-    const res = supabase.from("history_manga").select("*").order("updated_at", {
-      ascending: false,
-    })
+    const res = supabase
+      .from("history_manga")
+      .select("*")
+      .order("updated_at", {
+        ascending: false,
+      })
+      .limit(30)
 
-    const { data, error } = lastIndex ? await res.range(lastIndex, lastIndex + 30) : await res
-    console.log({ data, lastIndex })
+    const { data, error } = lastIndex
+      ? await res.range(lastIndex, lastIndex + 30)
+      : await res
+
     // eslint-disable-next-line functional/no-throw-statement
     if (error) throw error
 
