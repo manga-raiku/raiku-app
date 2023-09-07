@@ -10,6 +10,7 @@
     >
       <q-toolbar>
         <q-btn
+          v-if="$q.screen.gt.sm"
           dense
           flat
           round
@@ -18,7 +19,7 @@
           @click="showDrawer = !showDrawer"
         />
 
-        <AppHeaderIconApp :no-name="$q.screen.lt.sm" class="mr-8" />
+        <AppHeaderIconApp :no-name="false" class="mr-8" />
 
         <!-- <template v-if="$q.screen.md || $q.screen.gt.md">
           <router-link
@@ -63,7 +64,8 @@
     </q-header>
 
     <q-drawer
-      :model-value="!$q.screen.lt.md && (hideDrawer ? showDrawer : true)"
+    v-if="$q.screen.gt.sm"
+      :model-value="(hideDrawer ? showDrawer : true)"
       @update:model-value="hideDrawer ? (showDrawer = $event) : undefined"
       :mini="hideDrawer ? false : !showDrawer"
       show-if-above
@@ -261,7 +263,7 @@
 import "@fontsource/poppins"
 // =========== suth
 
-import {Icons } from "src/constants"
+import { Icons } from "src/constants"
 import { pathEqual } from "src/logic/path-equal"
 
 import NotExistsExtension from "./NotExistsExtension.vue"
@@ -285,6 +287,11 @@ const showSearchMB = ref(false)
 
 function execScriptMeta(src?: string | boolean) {
   if (!src || typeof src === "boolean") return src
+
+  if (src === "$lt.md or isNative")
+    return $q.screen.lt.md || import.meta.env.MODE === "capacitor"
+  if (src === "isNative")
+  return import.meta.env.MODE === "capacitor"
 
   try {
     return JSON.parse(src.replace("$lt.md", JSON.stringify($q.screen.lt.md)))

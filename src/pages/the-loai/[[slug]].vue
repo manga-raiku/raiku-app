@@ -1,7 +1,7 @@
 <route lang="yaml">
 alias: ["/tim-truyen/:slug?"]
 meta:
-  hiddenHeader: false
+  hiddenHeader: isNative
   revealHeader: true
 </route>
 

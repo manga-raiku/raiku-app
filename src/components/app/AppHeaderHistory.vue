@@ -24,25 +24,44 @@
         class="transparent h-full flex-1 min-h-0 shadow-none scrollbar-custom overflow-y-auto"
       >
         <q-card-section>
-          <CardVerticalSKT
-            v-if="loading"
-            v-for="j in 12"
-            :key="j"
-            class="mb-4"
-          />
-          <div v-else-if="data">
-            <ItemBasicHistory
-              v-for="item in data"
-              :key="item.manga_path"
-              :path="item.manga_path"
-              :name="item.manga_name"
-              :image="item.image"
-              :history="{
-                name: item.last_ch_name,
-                path: item.last_ch_path,
-                updated_at: item.updated_at,
-              }"
+          <div v-if="loading" class="row">
+            <CardVerticalSKT
+              v-for="i in 12"
+              :key="i"
+              class="col-12 col-sm-6 px-2 pb-4"
             />
+          </div>
+          <div v-else-if="data" class="row">
+            <template v-for="(item, index) in data" :key="item.path">
+              <div
+                v-if="
+                  !data[index - 1]?.updated_at.isSame(item.updated_at, 'day')
+                "
+                class="col-12 text-1em mb-1.2 text-weight-normal text-gray-300"
+              >
+                {{
+                  item.updated_at.isToday()
+                    ? "Hôm nay"
+                    : item.updated_at.isYesterday()
+                    ? "Hôm qua"
+                    : `${item.updated_at.get("d")} thg ${item.updated_at.get(
+                        "months",
+                      )}`
+                }}
+              </div>
+              <div class="col-12 col-sm-6 px-2 pb-4">
+                <ItemBasicHistory
+                  :path="item.manga_path"
+                  :name="item.manga_name"
+                  :image="item.image"
+                  :history="{
+                    name: item.last_ch_name,
+                    path: item.last_ch_path,
+                    updated_at: item.$updated_at,
+                  }"
+                />
+              </div>
+            </template>
           </div>
           <div v-else class="text-center">
             <div class="text-subtitle1 font-weight-medium">
@@ -69,5 +88,13 @@ const historyStore = useHistoryStore()
 
 const showMenuHistory = ref(false)
 
-const { data, loading, error, runAsync } = useRequest(() => historyStore.get())
+const { data, loading, error, runAsync } = useRequest(() =>
+  historyStore.get().then((res) =>
+    res.map((item) => ({
+      ...item,
+      $updated_at: item.updated_at,
+      updated_at: dayjs(item.updated_at),
+    })),
+  ),
+)
 </script>

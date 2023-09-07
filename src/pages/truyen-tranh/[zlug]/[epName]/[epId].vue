@@ -1,13 +1,14 @@
 <route lang="yaml">
 meta:
   hiddenHeader: true
+  hiddenDrawer: true
   hiddenFooter: true
 </route>
 
 <template>
   <q-header class="bg-[rgba(0,0,0,.9)]" :model-value="showToolbar">
     <q-toolbar>
-      <AppHeaderIconApp v-if="!$q.screen.lt.md" no-name class="mr-8" />
+      <AppHeaderIconApp v-if="!$q.screen.lt.md" :no-name="$q.screen.lt.md" class="mr-8" />
       <q-btn
         v-else-if="MODE === 'capacitor'"
         round
@@ -610,20 +611,17 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
-const isFollow = computedAsync<boolean | undefined>((onCleanup) => {
-  onCleanup(() => (isFollow.value = undefined))
+const isFollow = computedAsync<boolean | undefined>(() => {
   if (!data.value) return
 
   return followStore.check(data.value.uid)
 }, undefined)
-const lastEpRead = computedAsync((onCleanup) => {
-  onCleanup(() => (lastEpRead.value = undefined))
+const lastEpRead = computedAsync(() => {
   if (!data.value) return
 
   return historyStore.getLastEpRead(data.value.uid)
 }, undefined)
-const listEpRead = computedAsync((onCleanup) => {
-  onCleanup(() => (listEpRead.value = undefined))
+const listEpRead = computedAsync(() => {
   if (!data.value) return
 
   return historyStore.getListEpRead(data.value.uid)

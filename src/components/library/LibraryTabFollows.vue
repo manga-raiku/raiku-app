@@ -4,12 +4,16 @@
       <CardVerticalSKT
         v-for="i in 12"
         :key="i"
-        class="col-12 col-md-6 px-2 pb-4"
+        class="col-12 col-sm-6 px-2 pb-4"
       />
     </div>
     <div v-else-if="data">
       <q-infinite-scroll @load="onLoad" :offset="250" class="row">
-        <div v-for="item in data" :key="item.path" class="col-12 col-md-6 px-2 pb-4">
+        <div
+          v-for="item in data"
+          :key="item.path"
+          class="col-12 col-sm-6 px-2 pb-4"
+        >
           <ItemBasicHistory
             :path="item.path"
             :name="item.manga_name"
@@ -18,7 +22,7 @@
           />
         </div>
         <template #loading>
-          <div class="row justify-center q-my-md">
+          <div class="col-12 justify-center flex q-my-md">
             <q-spinner-dots color="main-3" size="40px" />
           </div>
         </template>

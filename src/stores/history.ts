@@ -10,7 +10,7 @@ export const useHistoryStore = defineStore("history", () => {
     })
 
     const { data, error } = lastId ? await res.lt("id", lastId) : await res
-
+console.log({data,lastId})
     // eslint-disable-next-line functional/no-throw-statement
     if (error) throw error
 

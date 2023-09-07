@@ -1,6 +1,7 @@
 <route lang="yaml">
 meta:
   transparentHeader: true
+  hiddenDrawer: true
   noSpaceHeader: true
 </route>
 

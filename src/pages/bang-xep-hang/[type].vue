@@ -68,7 +68,7 @@
                 <div
                   v-for="(item, index) in data.items"
                   :key="item.path"
-                  class="my-4 col-12 col-md-6 px-2"
+                  class="my-4 col-12 col-sm-6 px-2"
                 >
                   <CardVertical :data="item">
                     <template #inside-image>
@@ -91,7 +91,7 @@
               <div
                 v-for="item in 12"
                 :key="item"
-                class="my-4 col-12 col-md-6 px-2"
+                class="my-4 col-12 col-sm-6 px-2"
               >
                 <CardVerticalSKT />
               </div>

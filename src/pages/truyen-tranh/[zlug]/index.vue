@@ -1,6 +1,7 @@
 <route lang="yaml">
 meta:
   hiddenFooter: true
+  hiddenDrawer: true
   hiddenHeader: $lt.md
 </route>
 
@@ -453,20 +454,17 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
-const isFollow = computedAsync<boolean | undefined>((onCleanup) => {
-  onCleanup(() => (isFollow.value = undefined))
+const isFollow = computedAsync<boolean | undefined>(() => {
   if (!data.value) return
 
   return followStore.check(data.value.uid)
 }, undefined)
-const lastEpRead = computedAsync((onCleanup) => {
-  onCleanup(() => (lastEpRead.value = undefined))
+const lastEpRead = computedAsync(() => {
   if (!data.value) return
 
   return historyStore.getLastEpRead(data.value.uid)
 }, undefined)
-const listEpRead = computedAsync((onCleanup) => {
-  onCleanup(() => (listEpRead.value = undefined))
+const listEpRead = computedAsync(() => {
   if (!data.value) return
 
   return historyStore.getListEpRead(data.value.uid)

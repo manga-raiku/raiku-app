@@ -32,11 +32,11 @@
         </small>
       </div>
 
-      <div class="mb-4">
+      <div class="mb-4 flex flex-nowrap">
         <q-btn
           v-if="history"
           rounded
-          no-caps
+          no-caps no-wrap
           :to="history.path"
           class="text-12px mr-2"
           color="blue-400"
@@ -48,7 +48,7 @@
           Đọc tiếp
         </q-btn>
 
-        <q-btn rounded no-caps :to="path" class="text-12px" color="gray-700">
+        <q-btn rounded no-caps no-wrap :to="path" class="text-12px" color="gray-700">
           Đọc từ đầu
         </q-btn>
       </div>

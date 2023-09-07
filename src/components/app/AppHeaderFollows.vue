@@ -26,21 +26,26 @@
         class="transparent h-full flex-1 min-h-0 shadow-none scrollbar-custom overflow-y-auto"
       >
         <q-card-section>
-          <CardVerticalSKT
-            v-if="loading"
-            v-for="j in 12"
-            :key="j"
-            class="mb-4"
-          />
-          <div v-else-if="data">
-            <ItemBasicHistory
+          <div v-if="loading" class="row">
+            <CardVerticalSKT
+              v-for="i in 12"
+              :key="i"
+              class="col-12 col-sm-6 px-2 pb-4"
+            />
+          </div>
+          <div v-else-if="data" class="row">
+            <div
               v-for="item in data"
               :key="item.path"
-              :path="item.path"
-              :name="item.manga_name"
-              :image="item.image"
-              :history="item.history"
-            />
+              class="col-12 col-sm-6 px-2 pb-4"
+            >
+              <ItemBasicHistory
+                :path="item.path"
+                :name="item.manga_name"
+                :image="item.image"
+                :history="item.history"
+              />
+            </div>
           </div>
           <div v-else class="text-center">
             <div class="text-subtitle1 font-weight-medium">
