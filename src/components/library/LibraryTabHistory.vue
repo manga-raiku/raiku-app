@@ -67,7 +67,7 @@ const { loading, data, refreshAsync } = useRequest(() =>
   ),
 )
 const onLoad = async (index: number, done: (stop?: boolean) => void) => {
-  const more = await historyStore.get(data.value?.at(-1)?.id).then((res) =>
+  const more = await historyStore.get(data.value?.length).then((res) =>
     res.map((item) => ({
       ...item,
       $updated_at: item.updated_at,

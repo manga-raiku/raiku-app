@@ -4,13 +4,13 @@ import { defineStore } from "pinia"
 export const useHistoryStore = defineStore("history", () => {
   const authStore = useAuthStore()
 
-  async function get(lastId?: number) {
+  async function get(lastIndex?: number) {
     const res = supabase.from("history_manga").select("*").order("updated_at", {
       ascending: false,
     })
 
-    const { data, error } = lastId ? await res.lt("id", lastId) : await res
-console.log({data,lastId})
+    const { data, error } = lastIndex ? await res.range(lastIndex, lastIndex + 30) : await res
+    console.log({ data, lastIndex })
     // eslint-disable-next-line functional/no-throw-statement
     if (error) throw error
 

@@ -7,14 +7,14 @@ Object.assign(window, { supabase })
 export const useFollowStore = defineStore("follow", () => {
   const authStore = useAuthStore()
 
-  async function get(lastId?: number) {
+  async function get(lastIndex?: number) {
     await authStore.assert()
 
     const res = supabase.from("follow").select("*").order("created_at", {
       ascending: false,
     })
 
-    const { data, error } = lastId ? await res.lt("id", lastId) : await res
+    const { data, error } = lastIndex ? await res.range(lastIndex, lastIndex + 30) : await res
 
     if (error) throw error
 
