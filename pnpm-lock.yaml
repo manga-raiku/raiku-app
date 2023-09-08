@@ -11240,9 +11240,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /pinia-plugin-persistedstate@3.0.2(pinia@2.0.29):
-    resolution: {integrity: sha512-84vPyUhPA/8Pr+1mT1ioNb2d8z4tvdgYRqMQf8xyauOVBKjo0ZcRBwPQBV7ZAJG43Kwar43nXG2jU+ZMvAFFRQ==}
-
+  /pinia-plugin-persistedstate@3.2.0(pinia@2.0.29):
+    resolution: {integrity: sha512-tZbNGf2vjAQcIm7alK40sE51Qu/m9oWr+rEgNm/2AWr1huFxj72CjvpQcIQzMknDBJEkQznCLAGtJTIcLKrKdw==}
     peerDependencies:
       pinia: ^2.0.0
     dependencies:
