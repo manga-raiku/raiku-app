@@ -44,12 +44,12 @@ meta:
         class="h-full"
       >
         <swiper-slide
-          v-for="{ value, component } in tabs"
+          v-for="({ value, component }, index) in tabs"
           :key="value"
           class="h-full overflow-y-auto scroll-smooth"
           style="white-space: pre-wrap"
         >
-          <component :is="component" />
+          <component :is="component" :visible="activeIndex === index" />
         </swiper-slide>
       </Swiper>
     </div>

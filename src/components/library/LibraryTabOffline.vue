@@ -229,6 +229,10 @@ import GetListChapters from "src/apis/nettruyen/runs/get-list-chapters"
 import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
 import type { MetaEpisodeOnDisk } from "src/logic/download-manager"
 
+defineProps<{
+  visible?: boolean
+}>()
+
 const IDMStore = useIDMStore()
 const $q = useQuasar()
 
