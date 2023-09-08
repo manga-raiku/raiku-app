@@ -202,7 +202,7 @@ meta:
             height="1.3em"
             class="mr-2"
           />
-          Chia sẻ {{data.uid}}
+          Chia sẻ {{ data.uid }}
         </q-btn>
       </section>
 
@@ -428,20 +428,18 @@ const router = useRouter()
 const route = useRoute()
 const followStore = useFollowStore()
 const historyStore = useHistoryStore()
-
-const { data, loading, error, run } = useRequest(
-  useWithCache(
-    () => Manga(props.zlug),
-    computed(() => `${packageName}:///manga/${props.zlug}`),
-  ) as unknown as () => ReturnType<typeof Manga>,
-  {
-    refreshDeps: [() => props.zlug],
-    refreshDepsAction() {
-      // data.value = undefined
-      run()
-    },
-  },
+const GetWithCache = useWithCache(
+  () => Manga(props.zlug),
+  computed(() => `${packageName}:///manga/${props.zlug}`),
 )
+
+const { data, loading, error, run } = useRequest(GetWithCache, {
+  refreshDeps: [() => props.zlug],
+  refreshDepsAction() {
+    // data.value = undefined
+    run()
+  },
+})
 watch(error, (error) => {
   if (error?.message === "not_found")
     router.replace({
