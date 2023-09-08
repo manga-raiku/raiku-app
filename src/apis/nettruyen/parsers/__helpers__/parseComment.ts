@@ -33,6 +33,11 @@ export function parseComment(
     $item.attr("id")!.match(/\d+/)![0],
   )
 
+  const per = $item
+    .find(".member > .progress-bar")
+    .attr("style")
+    ?.match(/width:\s*(\d+)/)?.[1]
+
   const author = {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     avatar: getImage($item.find(".avatar img"))!,
@@ -40,13 +45,7 @@ export function parseComment(
     level: {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       current: parseInt($item.find(".member > span:eq(0)").attr("data-level")!),
-      perNext: parseFloat(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        $item
-          .find(".member > .progress-bar")
-          .attr("style")!
-          .match(/width:\s*(\d+)/)![1],
-      ),
+      perNext: per ? parseFloat(per) : null,
     },
     chapter: normalizeChName($item.find(".cmchapter").text().trim()),
   }

@@ -2,16 +2,14 @@
   <section
     class="h-full overflow-hidden relative"
     ref="parentRef"
-    @mousedown.prevent="onMouseDown"
-    @mousemove="onMouseMoveCheckClick"
-    @mouseup="onMouseUpCheckClick"
+    @mousedown="onMouseDown"
     @wheel="onWheel"
     @touchstart="onTouchStart"
     @touchmove.passive="onTouchMove"
     @touchend.passive="onTouchEnd"
   >
     <section
-      class="h-full whitespace-nowrap overflow-hidden transition-width,height,transform relative top-1/2 left-1/2"
+      class="h-full whitespace-nowrap overflow-hidden transition-width,height,transform relative top-1/2 left-1/2 i"
       :style="{
         width: `${singlePage ? 100 : zoom}%`,
         height: `${singlePage ? 100 : zoom}%`,
@@ -39,15 +37,12 @@
         <template v-if="singlePage">
           <ChapterPageModeSingle
             v-for="(src, index) in rightToLeft
-              ? pages.slice(0).reverse()
-              : pages"
+              ? pagesRender.slice(0).reverse()
+              : pagesRender"
             :key="index"
             :src="src"
             @load="
-              sizes.set(index, [
-                ($event.target as HTMLImageElement)!.naturalWidth,
-                ($event.target as HTMLImageElement)!.naturalHeight,
-              ])
+              sizes.set(index, [$event.naturalWidth, $event.naturalHeight])
             "
             @update:can-swipe="canSwipes[index] = $event"
           >
@@ -62,17 +57,14 @@
         <template v-else>
           <ChapterPageModeDouble
             v-for="(src, index) in rightToLeft
-              ? pages.slice(0).reverse()
-              : pages"
+              ? pagesRender.slice(0).reverse()
+              : pagesRender"
             :key="index"
             :single-page="sizes.get(index)?.[0]! > 1200"
             :prime="index % 2 === 0"
             :src="src"
             @load="
-              sizes.set(index, [
-                ($event.target as HTMLImageElement)!.naturalWidth,
-                ($event.target as HTMLImageElement)!.naturalHeight,
-              ])
+              sizes.set(index, [$event.naturalWidth, $event.naturalHeight])
             "
           >
             <template #loading>
@@ -99,6 +91,8 @@ import { isTouchEvent } from "src/logic/is-touch-event"
 
 const props = defineProps<{
   pages: string[]
+  pagesNext?: string[]
+
   singlePage: boolean // 517px
   rightToLeft?: boolean
   minPage: number
@@ -111,6 +105,10 @@ const emit = defineEmits<{
   // (name: "prev"): void
   // (name: "next"): void
 }>()
+
+const pagesRender = computed(() => {
+  return props.pages // .concat(props.pagesNext ?? [])
+})
 
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(
@@ -277,9 +275,9 @@ function onTouchEnd(event: TouchEvent) {
   // }
 }
 
-const minDiffX = computed(() => Math.min(0, (pWidth.value - oWidth.value) / 2))
+const minDiffX = computed(() => Math.max(0, (pWidth.value - oWidth.value) / 2))
 const minDiffY = computed(() =>
-  Math.min(0, (pHeight.value - oHeight.value) / 2),
+  Math.max(0, (pHeight.value - oHeight.value) / 2),
 )
 const maxDiffX = computed(() => -minDiffX.value)
 const maxDiffY = computed(() => -minDiffY.value)

@@ -1,5 +1,6 @@
 {
   "name": "manga-raiku",
+  "packageName": "git.shin.raiku",
   "version": "0.0.1",
   "description": "Free and ad-free private online Manga, manhua, manhwa reading app!",
   "productName": "Manga Raiku",
@@ -48,6 +49,7 @@
     "cheerio": "1.0.0-rc.12",
     "client-ext-animevsub-helper": "^1.0.4",
     "dayjs": "^1.11.9",
+    "eruda2": "0.0.2-b8",
     "fetch-retry": "^5.0.6",
     "hash-sum": "^2.0.0",
     "htmlparser2": "^8.0.1",
@@ -105,6 +107,7 @@
     "chalk": "^5.2.0",
     "cypress": "^12.17.0",
     "dotenv": "^16.3.1",
+    "envalid": "^7.3.1",
     "esbuild": "^0.19.2",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^9.0.0",

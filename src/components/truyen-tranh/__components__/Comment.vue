@@ -55,7 +55,7 @@
           />
 
           <template v-if="comment.dislike">({{ comment.dislike }})</template>
-          <span v-else class="<sm:display-none">Không thích</span>
+          <span v-else class="<sm:!hidden">Không thích</span>
         </span>
 
         <span class="flex items-center mr-4 cursor-pointer">
@@ -65,7 +65,7 @@
             height="1.3em"
             class="mr-1"
           />
-          <span class="<sm:display-none">Bình luận</span>
+          <span class="<sm:!hidden">Bình luận</span>
         </span>
 
         <span class="text-gray-400">{{

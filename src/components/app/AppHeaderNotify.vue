@@ -1,5 +1,5 @@
 <template>
-  <q-btn v-if="authStore.isLogged" round unelevated class="mr-2">
+  <q-btn v-if="authStore.session" round unelevated class="mr-2">
     <Icon
       :icon="
         showMenuNotify

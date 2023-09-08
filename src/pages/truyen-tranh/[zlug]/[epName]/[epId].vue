@@ -1,20 +1,23 @@
 <route lang="yaml">
 meta:
   hiddenHeader: true
+  hiddenDrawer: true
   hiddenFooter: true
 </route>
 
 <template>
   <q-header class="bg-[rgba(0,0,0,.9)]" :model-value="showToolbar">
     <q-toolbar>
-      <AppHeaderIconApp
-        v-if="!isCapacitor && ($q.screen.sm || $q.screen.gt.sm)"
-        :no-name="$q.screen.lt.md"
-        class="mr-8"
-      />
-      <!-- <q-btn v-else round unelevated class="mr-1" @click="router.back()">
-          <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
-        </q-btn> -->
+      <AppHeaderIconApp v-if="!$q.screen.lt.md" :no-name="$q.screen.lt.md" class="mr-8" />
+      <q-btn
+        v-else-if="MODE === 'capacitor'"
+        round
+        unelevated
+        class="mr-1"
+        @click="router.back()"
+      >
+        <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
+      </q-btn>
 
       <q-btn v-else round unelevated :to="data?.manga" class="mr-1">
         <Icon
@@ -23,15 +26,12 @@ meta:
         />
       </q-btn>
 
-      <q-space class="<md:display-none" />
+      <q-space class="<md:!hidden" />
 
       <div class="flex <md:!display-block items-center min-w-0">
         <div class="ellipsis text-15px">{{ data?.name ?? "__" }}</div>
 
-        <Icon
-          icon="fluent:chevron-right-24-regular"
-          class="mx-1 <md:display-none"
-        />
+        <Icon icon="fluent:chevron-right-24-regular" class="mx-1 <md:!hidden" />
 
         <small
           class="text-gray-300 md:text-14px md:text-white text-12px whitespace-nowrap"
@@ -39,28 +39,24 @@ meta:
         >
       </div>
 
-      <template v-if="!isCapacitor">
-        <q-space />
+      <q-space />
 
-        <template v-if="$q.screen.md || $q.screen.gt.md">
-          <AppHeaderSearch />
-          <AppHeaderGithub />
-        </template>
-        <template v-else>
-          <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
-            <q-icon name="search" />
-          </q-btn>
-          <AppHeaderSearchMB v-model:searching="showSearchMB" />
-        </template>
-
-        <AppHeaderFollows v-if="$q.screen.sm || $q.screen.gt.sm" />
-        <AppHeaderHistory v-if="$q.screen.sm || $q.screen.gt.sm" />
-        <AppHeaderNotify />
-
-        <AppHeaderUser />
+      <template v-if="!$q.screen.lt.md">
+        <AppHeaderSearch />
+        <AppHeaderGithub />
+      </template>
+      <template v-else-if="MODE !== 'capacitor'">
+        <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
+          <q-icon name="search" />
+        </q-btn>
+        <AppHeaderSearchMB v-model:searching="showSearchMB" />
       </template>
 
-      <q-space />
+      <AppHeaderFollows v-if="$q.screen.gt.xs" />
+      <AppHeaderHistory v-if="$q.screen.gt.xs" />
+      <!-- <AppHeaderNotify /> -->
+
+      <AppHeaderUser v-if="MODE !== 'capacitor'" />
 
       <q-btn
         round
@@ -118,7 +114,9 @@ meta:
         :pages="pages"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
+        :next-episode="nextEpisode?.value.path"
         @click="onClickReader"
+        @action:next-ch="nextCh"
       />
     </template>
     <div v-else class="w-full h-full flex items-center justify-center">
@@ -179,7 +177,7 @@ meta:
         </button>
       </div>
 
-      <span class="display-block text-#777 whitespace-nowrap <md:display-none"
+      <span class="display-block text-#777 whitespace-nowrap <md:!hidden"
         >{{ (rightToLeft ? -currentPage : currentPage) + 1 }} /
         {{ sizePage }}</span
       >
@@ -246,7 +244,7 @@ meta:
         >
       </q-btn>
 
-      <div class="md:display-none w-full order-4" />
+      <div class="md:!hidden w-full order-4" />
 
       <q-btn
         no-caps
@@ -294,7 +292,7 @@ meta:
               <ListChapters
                 v-else
                 :chapters="data.chapters"
-                :reads-chapter="infoReadManga?.readsChapter"
+                :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
                 focus-tab-active
                 @change-tab="onChangeTabEpisodes"
                 class-item="col-6 col-sm-4 col-md-4"
@@ -306,7 +304,7 @@ meta:
         </q-dialog-menu>
       </q-btn>
 
-      <q-separator class="<md:display-none" />
+      <q-separator class="<md:!hidden" />
 
       <q-btn
         no-caps
@@ -502,17 +500,29 @@ meta:
         no-wrap
         class="<md:order-5 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
-        @click="toggleFollow"
+        :disable="isFollow === undefined"
+        @click="
+          data &&
+            followStore.set(
+              {
+                image: data.image,
+                manga_id: data.uid,
+                manga_name: data.name,
+                path: `/truyen-tranh/${zlug}`,
+              },
+              (isFollow = !isFollow),
+            )
+        "
       >
         <Icon
           :icon="
-            infoReadManga?.isFollowed
+            isFollow
               ? 'fluent:star-checkmark-24-filled'
               : 'fluent:star-add-24-regular'
           "
           class="size-1.8rem mr-1"
         />
-        {{ infoReadManga?.isFollowed ? "Unfollow" : "Follow" }}
+        {{ isFollow ? "Unfollow" : "Follow" }}
       </q-btn>
 
       <q-btn
@@ -544,12 +554,12 @@ meta:
 import { Icon } from "@iconify/vue"
 import { useFullscreen } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
+import { packageName } from "app/package.json"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import type { QDialog, QMenu } from "quasar"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
 import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
-import { isCapacitor } from "src/constants"
 
 const props = defineProps<{
   zlug: string
@@ -557,18 +567,34 @@ const props = defineProps<{
   epId: string
 }>()
 
+const { MODE } = import.meta.env
 const $q = useQuasar()
 const IDMStore = useIDMStore()
+const followStore = useFollowStore()
+const historyStore = useHistoryStore()
 const showSearchMB = ref(false)
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const route = useRoute()
 const router = useRouter()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
+// let disableReactiveParams = false
 const { data, loading, runAsync, error } = useRequest(
-  () => SlugChapChap(props.zlug + "/" + props.epName + "/" + props.epId, false),
+  useWithCache(
+    () => {
+      const path = props.zlug + "/" + props.epName + "/" + props.epId
+      return SlugChapChap(path, false)
+    },
+    computed(
+      () =>
+        `${packageName}:///manga/${
+          props.zlug + "/" + props.epName + "/" + props.epId
+        }`,
+    ),
+  ),
   {
     refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
     refreshDepsAction() {
+      // if (!disableReactiveParams) runAsync()
       runAsync()
     },
   },
@@ -585,7 +611,22 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
-const { data: infoReadManga, toggleFollow } = useInfoReadManga(data)
+const isFollow = computedAsync<boolean | undefined>(() => {
+  if (!data.value) return
+
+  return followStore.check(data.value.uid)
+}, undefined)
+const lastEpRead = computedAsync(() => {
+  if (!data.value) return
+
+  return historyStore.getLastEpRead(data.value.uid)
+}, undefined)
+const listEpRead = computedAsync(() => {
+  if (!data.value) return
+
+  return historyStore.getListEpRead(data.value.uid)
+})
+
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)
 const serversReady = computed(() =>
@@ -670,7 +711,9 @@ const nextEpisode = computed(() => {
 
   if (!value) return
 
-  return { index, value } as const
+  const { zlug, epName, epId } = router.resolve(value.path).params
+
+  return { index, value, path: `${zlug}/${epName}/${epId}` as string } as const
 })
 
 const showMenuEpisodes = ref(false)
@@ -681,6 +724,54 @@ const menuEpisodesRef = ref<QMenu | QDialog>()
 function onChangeTabEpisodes() {
   setTimeout(() => (menuEpisodesRef.value as QMenu)?.updatePosition?.(), 70)
 }
+
+const fnNextCh = useWithCache(
+  async () => {
+    const path = nextEpisode.value!.path
+    return SlugChapChap(path, false)
+  },
+  computed(() => `${packageName}:///manga/${nextEpisode.value!.path}`),
+)
+
+async function nextCh() {
+  // console.log("start load next ch")
+  // const next = await fnNextCh()
+  // disableReactiveParams = true
+  // data.value = {
+  //   ...next,
+  //   pages: [...(data.value?.pages ?? []), ...next.pages],
+  // }
+  // router.push(nextEpisode.value!.value.path)
+  // await nextTick()
+  // disableReactiveParams = false
+  // console.log("data next", next)
+}
+
+// save to history
+let timeoutUpsertHistory: NodeJS.Timeout | number | null = null
+watch(
+  [() => props.zlug, () => props.epName, () => props.epId, data],
+  ([zlug, epName, epId, data]) => {
+    if (timeoutUpsertHistory) clearTimeout(timeoutUpsertHistory)
+
+    const ep = currentEpisode.value?.value
+    if (!data || !ep) return
+
+    timeoutUpsertHistory = setTimeout(() => {
+      historyStore.upsert({
+        image: data.image,
+        last_ch_id: ep.id,
+        last_ch_name: ep.name,
+        last_ch_path: ep.path,
+        manga_id: data.uid,
+        manga_name: data.name,
+        manga_path: `/truyen-tranh/${zlug}/${epName}/${epId}`,
+      })
+      timeoutUpsertHistory = null
+    }, 1_000)
+  },
+  { immediate: true },
+)
 </script>
 
 <!-- <swiper

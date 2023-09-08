@@ -1,7 +1,11 @@
 <template>
-  <q-header class="bg-dark-page px-4 text-12px">
-    <section class="font-family-poppins">
-      <div class="whitespace-nowrap">
+  <q-page-sticky
+    expand
+    position="top"
+    class="w-auto bg-dark-page text-13px sm:text-14px z-9999 header-blur"
+  >
+    <q-toolbar class="font-family-poppins">
+      <div class="w-full min-w-0 whitespace-nowrap">
         <div
           v-for="(item, index) in filter"
           :key="index"
@@ -18,8 +22,11 @@
           >
             <div class="flex flex-nowrap w-full min-w-0">
               <div
-                class="min-w-0 max-w-full overflow-x-auto scrollbar-hide"
-                :class="{ 'whitespace-nowrap': !showFullGenres }"
+                class="min-w-0 max-w-full overflow-x-auto scrollbar-hide max-h-[max(220px,50vh)]"
+                :class="{
+                  'whitespace-nowrap': !showFullGenres,
+                  'overflow-y-scroll': showFullGenres,
+                }"
               >
                 <q-btn
                   v-for="{ path, name } in item.select"
@@ -37,7 +44,7 @@
                     name: undefined,
                     path,
                   }"
-                  class="text-12px text-[rgba(255,255,255,0.86)] before:display-none text-weight-normal my-1 !py-1 !px-3 min-h-0"
+                  class="font-size-inherit text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
                   :class="{
                     '!text-main-3': pathEqual(
                       router.resolve(path).path,
@@ -76,7 +83,7 @@
                   [item.key]: value,
                 },
               }"
-              class="text-12px text-[rgba(255,255,255,0.86)] before:display-none text-weight-normal my-1 !py-1 !px-3 min-h-0"
+              class="font-size-inherit text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
               :class="{
                 '!text-main-3': route.query[item.key] === value,
               }"
@@ -95,15 +102,15 @@
           rounded
           unelevated
           outline
-          class="text-12px text-[rgba(255,255,255,0.86)] text-weight-normal my-1 !py-1 !px-3 min-h-0 mx-1"
+          class="font-size-inherit text-[rgba(255,255,255,0.86)] text-weight-normal my-1 !py-1 !px-3 min-h-0 mx-1"
           @click="showOnlyFirst = false"
         >
           {{ item.type }}
           <Icon icon="fluent:chevron-down-24-regular" class="size-1.5em ml-1" />
         </q-btn>
       </div>
-    </section>
-  </q-header>
+    </q-toolbar>
+  </q-page-sticky>
 </template>
 
 <script lang="ts" setup>

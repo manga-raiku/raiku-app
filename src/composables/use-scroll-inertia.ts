@@ -14,6 +14,7 @@ export function useScrollInertia(
     last2Mouse: Readonly<Offset>,
     last2Time: number,
   ) => {
+    console.log("start inertia")
     if (request) cancelAnimationFrame(request)
 
     let speedX =
@@ -24,8 +25,11 @@ export function useScrollInertia(
     const isScrollYDown = speedY < 0
     const spreadXDetail = isScrollXDown ? 0.5 : -0.5
     const spreadYDetail = isScrollYDown ? 0.5 : -0.5
+    diffXZoom.value = Math.round(diffXZoom.value)
+    diffYZoom.value = Math.round(diffYZoom.value)
 
     function loop() {
+      console.log("loop")
       if (isScrollXDown ? speedX > 0 : speedX < 0) speedX = 0
       else {
         diffXZoom.value += speedX
@@ -35,7 +39,9 @@ export function useScrollInertia(
 
       if (isScrollYDown ? speedY > 0 : speedY < 0) speedY = 0
       else {
-        diffYZoom.value += speedY
+        diffYZoom.value -= speedY
+        // diffYZoom.value += 100
+        // console.log(diffYZoom.value, speedY)
         if (Math.abs(speedY) < Math.abs(spreadXDetail)) speedY = 0
         speedY += spreadYDetail
       }

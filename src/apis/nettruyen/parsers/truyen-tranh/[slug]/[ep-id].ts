@@ -37,7 +37,11 @@ export default function epId(html: string, now: number) {
       const original = $item.attr("data-original")
       const cdn = $item.attr("data-cdn")
 
-      return { src, original, cdn }
+      return {
+        src: src.includes("/logos/logo-nettruyen.png") ? original : src,
+        original,
+        cdn,
+      }
     })
 
   const comments = $("#nt_comments .comment-list .item")

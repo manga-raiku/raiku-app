@@ -1,19 +1,27 @@
+<route lang="yaml">
+meta:
+  hiddenHeader: $lt.md
+</route>
+
 <template>
-  <q-header
-    v-if="isCapacitor || $q.screen.lt.sm"
-    class="bg-dark-page py-1"
-    :class="{
-      'px-2': !isCapacitor,
-    }"
-  >
+  <q-header v-if="$q.screen.lt.md" class="bg-dark-page">
     <q-toolbar>
-      <AppHeaderIconApp v-if="!isCapacitor" no-name class="pr-2" />
-      <q-btn v-else-if="route.query.query" flat dense round class="mr-2">
+      <AppHeaderIconApp v-if="!route.query.query" no-name class="pr-2" />
+      <q-btn
+        v-else
+        flat
+        dense
+        round
+        class="mr-2"
+        @click="
+          router.push({ ...route, query: { ...route.query, query: undefined } })
+        "
+      >
         <Icon icon="fluent:chevron-left-24-regular" width="25" height="25" />
       </q-btn>
 
       <div
-        class="flex flex-nowrap items-center relative w-full bg-[#2a2a2a] h-[39px] <md:h-[35px] rounded-[30px]"
+        class="flex flex-nowrap items-center relative w-full bg-[#2a2a2a] h-[39px] <md:h-[35px] rounded-[30px] py-1"
       >
         <div
           class="relative w-full h-full cursor-text"
@@ -55,7 +63,7 @@
 
       <AppHeaderSearchMB v-model:searching="mobileSearching" />
 
-      <AppHeaderUser v-if="!isCapacitor" />
+      <AppHeaderUser v-if="!route.query.query" />
     </q-toolbar>
     <q-toolbar v-if="!route.query.query">
       <div class="flex flex-nowrap items-center mx-3">
@@ -76,7 +84,7 @@
         </div>
       </div>
     </q-toolbar>
-    <q-toolbar v-if="!isCapacitor && route.query.query">
+    <q-toolbar v-if="route.query.query">
       <div class="py-2 px-4">
         <span class="text-gray-400 mr-1">Tìm kiếm: </span>
         <span class="font-bold truncate">{{ route.query.query }}</span>
@@ -90,11 +98,9 @@
   <q-page
     padding
     :style-fn="
-      (offset, height) => {
-        return {
-          height: route.query.query ? undefined : height - offset + 'px',
-        }
-      }
+      (offset, height) => ({
+        height: height - offset + 'px',
+      })
     "
   >
     <template v-if="!route.query.query">
@@ -144,8 +150,8 @@
       </div>
     </template>
 
-    <section v-else class="mx-4 sm:mx-6 md:mx-8 mt-58px">
-      <div v-if="!$q.screen.lt.sm" class="py-2 px-4 text-16px text-left">
+    <section v-else>
+      <div v-if="!$q.screen.lt.md" class="py-2 px-4 text-16px text-left">
         <span class="text-gray-400 mr-1">Tìm kiếm: </span>
         <span class="font-bold truncate">{{ route.query.query }}</span>
         <span v-if="data" class="text-gray-300">
@@ -176,7 +182,6 @@
 <script lang="ts" setup>
 import General from "src/apis/nettruyen/runs/[general]"
 import TimKiem from "src/apis/nettruyen/runs/tim-kiem"
-import { isCapacitor } from "src/constants"
 import type { Swiper as TSwiper } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 

@@ -11,9 +11,10 @@
     <div
       class="thumb"
       :style="{
-        left: offsetLeft + 'px',
+        left: Math.round(offsetLeft) + 'px',
         width: `${widthThumb}px`,
       }"
+      @mousedown.prevent="onMouseDownX"
     />
   </div>
 
@@ -29,9 +30,10 @@
     <div
       class="thumb"
       :style="{
-        top: offsetTop + 'px',
+        top: Math.round(offsetTop) + 'px',
         height: `${heightThumb}px`,
       }"
+      @mousedown.prevent="onMouseDownY"
     />
   </div>
 </template>
@@ -53,10 +55,13 @@ const props = defineProps<{
   minY: number
   maxY: number
   scrollY: number
+
+  behavior: ScrollBehavior
 }>()
 const emit = defineEmits<{
   (name: "update:scroll-x", v: number): void
   (name: "update:scroll-y", v: number): void
+  (name: "update:behavior", value: ScrollBehavior): void
 }>()
 
 const disabledX = computed(() => props.pWidth >= props.oWidth)
@@ -90,6 +95,7 @@ function onMouseDownY(event: MouseEvent | TouchEvent) {
     ? offsetTop.value
     : null
   swipingY.value = true
+  emit("update:behavior", "auto")
 }
 function onMouseMoveY(event: MouseEvent | TouchEvent) {
   if (!touchStartY) return
@@ -125,6 +131,7 @@ function onMouseUpY(event: MouseEvent | TouchEvent) {
   touchStartY = null
   offsetTopStart = null
   swipingY.value = false
+  emit("update:behavior", "smooth")
 }
 
 useEventListener(window, "mousemove", onMouseMoveY)
@@ -140,6 +147,7 @@ function onMouseDownX(event: MouseEvent | TouchEvent) {
     ? offsetLeft.value
     : null
   swipingX.value = true
+  emit("update:behavior", "auto")
 }
 function onMouseMoveX(event: MouseEvent | TouchEvent) {
   if (!touchStartX) return
@@ -175,6 +183,7 @@ function onMouseUpX(event: MouseEvent | TouchEvent) {
   touchStartX = null
   offsetLeftStart = null
   swipingX.value = false
+  emit("update:behavior", "smooth")
 }
 
 useEventListener(window, "mousemove", onMouseMoveX)
@@ -211,6 +220,7 @@ watch(offsetTop, async (offsetTop) => {
   if (disableReactiveOffsetTop) return
 
   disableReactiveScrollY = true
+  console.log("run update")
   emit("update:scroll-y", (offsetTop / spacedY.value) * ΔY.value + props.minY)
   await nextTick()
   disableReactiveScrollY = false

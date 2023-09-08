@@ -1,11 +1,14 @@
 <route lang="yaml">
-meta:
-  hiddenFooter: true
-</route>
-
+  meta:
+    hiddenHeader: $lt.md
+    hiddenFooter: true
+    hiddenDrawer: true
+    auth: true
+  </route>
+  
 <template>
   <div>
-    <q-header class="bg-dark-page">
+    <q-header v-if="$q.screen.lt.md" class="bg-dark-page">
       <q-toolbar>
         <q-btn round unelevated @click="router.back()">
           <Icon icon="fluent:chevron-left-24-filled" class="size-1.5em" />
@@ -68,11 +71,11 @@ const buttons = [
   },
   {
     text: "Điều khoản dịch vụ",
-    href: "https://anime-vsub.github.io/term-of-use",
+    href: "https://manga-raiku.github.io/term-of-use",
   },
   {
     text: "Chính sách bảo mật",
-    href: "https://anime-vsub.github.io/privacy-policy",
+    href: "https://manga-raiku.github.io/privacy-police",
   },
 ]
 </script>

@@ -1,12 +1,14 @@
 <route lang="yaml">
 meta:
+  hiddenHeader: $lt.md
   hiddenFooter: true
+  hiddenDrawer: true
   auth: true
 </route>
 
 <template>
   <div>
-    <q-header class="bg-dark-page">
+    <q-header v-if="$q.screen.lt.md" class="bg-dark-page">
       <q-toolbar>
         <q-btn round unelevated @click="router.back()">
           <Icon icon="fluent:chevron-left-24-filled" class="size-1.5em" />
@@ -24,8 +26,13 @@ meta:
           </q-item-section>
           <q-item-section side>
             <div class="flex items-center">
-              <q-avatar v-if="authStore.profile?.avatar_url" size="25">
-                <img :src="authStore.profile?.avatar_url" />
+              <q-avatar size="25">
+                <img
+                  :src="
+                    authStore.profile?.avatar_url ??
+                    `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
+                  "
+                />
               </q-avatar>
 
               <Icon icon="fluent:chevron-right-20-regular" class="size-1.5em" />
@@ -53,7 +60,13 @@ meta:
           </q-item-section>
           <q-item-section side>
             <div class="flex items-center">
-              <span class="text-gray-300">{{ authStore.profile?.gener }}</span>
+              <span class="text-gray-300">{{
+                authStore.profile?.genre === true
+                  ? "Trai"
+                  : authStore.profile?.genre === false
+                  ? "Gái"
+                  : ""
+              }}</span>
               <Icon icon="fluent:chevron-right-20-regular" class="size-1.5em" />
             </div>
           </q-item-section>
@@ -65,7 +78,9 @@ meta:
           </q-item-section>
           <q-item-section side>
             <div class="flex items-center">
-              <span class="text-gray-300">{{ authStore.profile?.birth }}</span>
+              <span class="text-gray-300">{{
+                authStore.profile?.birthday
+              }}</span>
               <Icon icon="fluent:chevron-right-20-regular" class="size-1.5em" />
             </div>
           </q-item-section>
@@ -95,7 +110,7 @@ async function signOut() {
 
   if (error) {
     $q.notify({
-      position: "bottom-right",
+      position: "bottom",
       message:
         `Không thể đăng xuất (code: ${error.status})` +
         (import.meta.env.DEV ? `(${error.message})` : ""),
@@ -105,8 +120,8 @@ async function signOut() {
   }
 
   $q.notify({
-    position: "bottom-right",
-    message: "Đã đăng xuất"
+    position: "bottom",
+    message: "Đã đăng xuất",
   })
   router.back()
 }
