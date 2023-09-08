@@ -7,6 +7,16 @@
     />
   </div>
   <div v-else class="relative row">
+    <div class="col-12 flex justify-end">
+      <q-btn
+        dense
+        rounded
+        no-caps
+        :label="editMode ? 'Done' : 'Edit'"
+        @click="editMode = !editMode"
+      />
+    </div>
+
     <div
       v-if="IDMStore.listMangaSorted.length > 0"
       v-for="item in IDMStore.listMangaSorted"
@@ -15,7 +25,25 @@
       @click="metaMangaShowInfo = item"
     >
       <q-card class="transparent cursor-pointer">
-        <ImageView :src="item.manga_image" />
+        <div class="relative">
+          <ImageView :src="item.manga_image" />
+          <div
+            v-if="editMode"
+            class="absolute w-full h-full top-0 left-0 bg-#000 bg-opacity-50"
+          >
+            <q-radio
+              :model-value="mangaSelected.has(item.manga_id) ? '1' : undefined"
+              @click="
+                mangaSelected.has(item.manga_id)
+                  ? mangaSelected.delete(item.manga_id)
+                  : mangaSelected.add(item.manga_id)
+              "
+              val="1"
+              color="white        "
+              class="absolute top-1 right-1 z-10"
+            />
+          </div>
+        </div>
 
         <div class="text-1em ellipsis">{{ item.manga_name }}</div>
         <div class="text-0.92em text-gray-300 text-opacity-90">
@@ -31,6 +59,43 @@
   </div>
 
   <DialogDLManga v-model="metaMangaShowInfo" />
+
+  <teleport to="body">
+    <q-page-sticky
+      v-if="visible && editMode"
+      position="bottom"
+      expand
+      :offset="[0, 0]"
+      class="z-9999 bg-dark-page"
+    >
+      <q-toolbar>
+        <q-btn
+          no-caps
+          unelevated
+          class="w-1/2 text-weight-regular"
+          @click="mangaSelected.size > 0 ? mangaSelected.clear() : selectAll()"
+        >
+          <Icon icon="solar:check-circle-linear" class="size-1.5em mr-1" />
+          <span class="whitespace-nowrap">{{
+            mangaSelected.size > 0 ? "Unselect all" : "Select all"
+          }}</span>
+        </q-btn>
+        <q-btn
+          no-caps
+          unelevated
+          class="w-1/2 text-weight-regular text-red"
+          :loading="removing"
+          @click="remove"
+        >
+          <Icon
+            icon="solar:trash-bin-minimalistic-broken mr-1"
+            class="size-1.5em"
+          />
+          Delete
+        </q-btn>
+      </q-toolbar>
+    </q-page-sticky>
+  </teleport>
 </template>
 
 <script lang="ts" setup>
@@ -48,5 +113,28 @@ watch(
   { immediate: true },
 )
 
+const editMode = ref(false)
+const mangaSelected = shallowReactive<Set<number>>(new Set())
+
 const metaMangaShowInfo = ref<(typeof IDMStore.listMangaSorted)[0] | null>(null)
+
+function selectAll() {
+  // eslint-disable-next-line camelcase
+  IDMStore.listMangaSorted.forEach(({ manga_id }) => {
+    mangaSelected.add(manga_id)
+  })
+}
+const removing = ref(false)
+async function remove() {
+  removing.value = true
+  // eslint-disable-next-line camelcase
+  for (const manga_id of mangaSelected) {
+    await deleteManga(manga_id)
+  }
+  IDMStore.listMangaSorted.forEach((item, index) => {
+    if (mangaSelected.has(item.manga_id))
+      IDMStore.listMangaSorted.splice(index, 1)
+  })
+  removing.value = false
+}
 </script>

@@ -102,7 +102,7 @@
           <q-btn
             no-caps
             unelevated
-            class="w-1/2 text-weight-regular"
+            class="w-1/2 text-weight-regular text-red"
             :loading="removing"
             @click="remove"
           >
