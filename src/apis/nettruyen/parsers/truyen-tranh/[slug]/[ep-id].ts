@@ -89,21 +89,21 @@ export const SERVERS: {
     name: "Server 1",
     has: () => true,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    parse: (item: Page) => withProxyDeno(item.src!, headersNettruyen),
+    parse: (item: Page) => withProxyImage(item.src!, headersNettruyen),
   },
   {
     name: "Server 2",
     has: (item: Page) => item.original !== null && item.original !== item.src,
     parse(item) {
       if (item.original?.indexOf("focus-opensocial.googleusercontent") !== -1) {
-        return withProxyDeno(
+        return withProxyImage(
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           decodeURIComponent(item.original!.split("&url", 2)[1]),
           headersNettruyen,
         )
       }
 
-      return withProxyDeno(
+      return withProxyImage(
         `https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&resize_h=0&rewriteMime=image%2F*&url=${encodeURIComponent(
           item.original,
         )}`,
@@ -116,14 +116,14 @@ export const SERVERS: {
     has: (item: ReturnType<typeof epId>["pages"][0]) => item.cdn !== null,
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    parse: (item) => withProxyDeno(item.cdn!, headersNettruyen),
+    parse: (item) => withProxyImage(item.cdn!, headersNettruyen),
   },
   {
     name: "Server 4",
     has: (item, { cdn, cdn2 }) => item.cdn !== null && !!cdn && !!cdn2,
     parse: (item, { cdn, cdn2 }) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return withProxyDeno(item.cdn!.replace(cdn!, cdn2!), headersNettruyen)
+      return withProxyImage(item.cdn!.replace(cdn!, cdn2!), headersNettruyen)
     },
   },
 ]
