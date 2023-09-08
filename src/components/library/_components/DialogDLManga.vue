@@ -6,8 +6,11 @@
     :model-value="!!metaMangaShowInfo"
     @update:model-value="$event ? null : emit('update:model-value', null)"
   >
-    <q-card v-if="metaMangaShowInfo" class="bg-dark-page">
-      <q-header class="bg-dark-page">
+    <q-card
+      v-if="metaMangaShowInfo"
+      class="bg-dark-page h-full flex flex-col flex-nowrap"
+    >
+      <header>
         <q-toolbar>
           <q-btn round unelevated v-close-popup>
             <Icon icon="fluent:chevron-left-24-filled" class="size-1.5em" />
@@ -31,9 +34,11 @@
             {{ modeEdit ? "Done" : "Edit" }}
           </q-btn>
         </q-toolbar>
-      </q-header>
+      </header>
 
-      <main class="pt-50px">
+      <main
+        class="h-full min-h-0 flex-1 overflow-y-auto scrollbar-custom pb-50px"
+      >
         <!-- button more download -->
         <q-item @click="showDownloadMore = true" clickable>
           <q-item-section>
@@ -61,7 +66,10 @@
             <div class="w-full min-w-0">
               <EpControl
                 :data="item.ref"
-                :downloading="(item.downloading as unknown as boolean | undefined)"
+                :downloading="
+                  // eslint-disable-next-line vue/no-deprecated-filter
+                  item.downloading as unknown as boolean | undefined
+                "
                 @stop="item.stop"
                 @resume="resume(item)"
               />
@@ -70,7 +78,10 @@
         </ul>
       </main>
 
-      <q-footer :model-value="modeEdit" class="bg-dark-page">
+      <footer
+        v-show="modeEdit"
+        class="fixed bottom-0 left-0 w-full z-9999 bg-dark-page"
+      >
         <q-toolbar>
           <q-btn
             no-caps
@@ -78,16 +89,14 @@
             class="w-1/2 text-weight-regular"
             @click="
               listEpRemove =
-                listEpRemove.length === mapEp?.size
+                listEpRemove.length > 0
                   ? []
                   : [...new Set([...listEpRemove, ...(mapEp?.keys() ?? [])])]
             "
           >
             <Icon icon="solar:check-circle-linear" class="size-1.5em mr-1" />
             <span class="whitespace-nowrap">{{
-              listEpRemove.length === mapEp?.size
-                ? "Unselect all"
-                : "Select all"
+              listEpRemove.length > 0 ? "Unselect all" : "Select all"
             }}</span>
           </q-btn>
           <q-btn
@@ -104,7 +113,7 @@
             Delete
           </q-btn>
         </q-toolbar>
-      </q-footer>
+      </footer>
     </q-card>
   </q-dialog>
 
