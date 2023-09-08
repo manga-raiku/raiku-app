@@ -9,6 +9,7 @@
 // eslint-disable-next-line n/no-extraneous-import
 import type { RootNode, TemplateChildNode } from "@vue/compiler-core"
 import dotenv from "dotenv"
+import { cleanEnv, str } from "envalid"
 import { extend } from "quasar"
 import { configure } from "quasar/wrappers"
 
@@ -16,6 +17,11 @@ import { vitePlugins } from "./vite-plugins"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parsed = (dotenv.config().parsed ?? {}) as unknown as any
+
+cleanEnv(process.env, {
+  SUPABASE_PROJECT_URL: str(),
+  SUPABASE_PROJECT_KEY: str(),
+})
 
 function removeDataTestAttrs(
   node: RootNode | TemplateChildNode,
@@ -141,6 +147,9 @@ export default configure((/* ctx */) => {
         dark: true,
         loadingBar: {
           color: "main",
+        },
+        notify: {
+          classes: "rounded-30px",
         },
       },
 

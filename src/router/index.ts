@@ -1,3 +1,4 @@
+import { Screen } from "quasar"
 import { route } from "quasar/wrappers"
 import { isCapacitor } from "src/constants"
 import { setupLayouts } from "virtual:generated-layouts"
@@ -72,12 +73,17 @@ export default route(function (/* { store, ssrContext } */) {
 
     await authStore.setup
 
-    const auth = to.meta.auth
+    let auth = to.meta.auth
     if (auth === undefined || auth === "guest") return
+
+    if (auth === "null if $lt.md else true") {
+      if (Screen.lt.md) return
+      auth = true
+    }
 
     if (auth) {
       if (authStore.session) return
-      return false
+      return "/app/sign-in?redirect=" + to.fullPath
     }
     if (authStore.session) {
       return isCapacitor ? "/app" : "/"

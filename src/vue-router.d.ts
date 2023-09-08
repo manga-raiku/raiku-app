@@ -7,6 +7,14 @@ declare module "vue-router" {
     hiddenHeader?: boolean
     hiddenFooter?: boolean
 
-    auth?: boolean | 'guest'
+    hiddenDrawer?: boolean
+
+    revealHeader?: boolean
+
+    noSpaceHeader?: boolean
+
+    hiddenDrawerScope?: boolean
+
+    auth?: boolean | "guest" | string
   }
 }

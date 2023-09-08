@@ -80,7 +80,7 @@
             v-ripple
             class="rounded-xl"
             target="_blank"
-            href="https://anime-vsub.github.io/about/sponsors"
+            href="https://ko-fi.com/tachib_shin"
           >
             <q-item-section avatar class="min-w-0">
               <Icon icon="octicon:sponsor-tiers-24" width="20" height="20" />

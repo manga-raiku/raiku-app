@@ -81,7 +81,7 @@
             <div class="flex-1 min-w-0">
               <h5 class="text-14px ellipsis">Ch. {{ item.name }}</h5>
               <span v-if="item.updated_at" class="text-gray-300">{{
-                (tmp = dayjs(item.updated_at)).fromNow()
+                (dayjs(item.updated_at)).fromNow()
               }}</span>
             </div>
             <span
@@ -94,7 +94,7 @@
                 height="1.3em"
                 class="mr-1"
               />
-              <span class="<sm:display-none">Đã đọc</span>
+              <span class="<sm:!hidden">Đã đọc</span>
             </span>
           </router-link>
         </li>
@@ -103,7 +103,7 @@
           v-else
           name="item"
           v-for="item in items"
-          :key="item.path"
+          :key="item.id"
           :data="item"
         />
       </ul>
@@ -188,8 +188,6 @@ watch(ulPanelRef, (ulPanelRef) => {
     if (reading) scrollYIntoView(reading)
   }, 70)
 })
-
-let tmp: dayjs.Dayjs
 
 const qTabsRef = ref<QTabs>()
 

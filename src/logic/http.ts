@@ -53,12 +53,14 @@ async function httpPost(
   return response as Omit<typeof response, "data"> & { data: string }
 }
 
+// Proxy: https://corsproxy.io/
+
 export function proxyGet(
   url: string | GetOption,
   headers?: Record<string, string>,
 ): ReturnType<typeof httpGet> {
   return fetch(
-    `https://corsproxy.io/?${encodeURIComponent(
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(
       typeof url === "string" ? url : url.url,
     )}`,
     {
@@ -82,17 +84,20 @@ export function proxyPost(
   data: string | Record<string, number | string | boolean>,
   headers?: Record<string, string>,
 ): ReturnType<typeof httpPost> {
-  return fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`, {
-    method: "post",
-    headers: new Headers(headers),
-    body:
-      typeof data === "string"
-        ? data
-        : Object.entries(data).reduce((form, [key, value]) => {
-            form.set(key, value + "")
-            return form
-          }, new FormData()),
-  }).then(async (res) => {
+  return fetch(
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    {
+      method: "post",
+      headers: new Headers(headers),
+      body:
+        typeof data === "string"
+          ? data
+          : Object.entries(data).reduce((form, [key, value]) => {
+              form.set(key, value + "")
+              return form
+            }, new FormData()),
+    },
+  ).then(async (res) => {
     return {
       data: await res.text(),
       status: res.status,

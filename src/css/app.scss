@@ -180,3 +180,7 @@ input:focus {
   border: 0px !important;
   padding: 0;
 }
+
+.q-infinite-scroll.row > .q-infinite-scroll__loading {
+  flex: 1 !important;
+}

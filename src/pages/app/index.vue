@@ -1,5 +1,13 @@
+<route lang="yaml">
+meta:
+  hiddenHeader: $lt.md
+  hiddenFooter: false
+  hiddenDrawer: true
+  auth: null if $lt.md else $lt.md
+</route>
+
 <template>
-  <q-page>
+  <q-page v-if="$q.screen.lt.md">
     <video
       src="~/assets/yae-miko-genshin-impact.mp4"
       autoplay
@@ -27,14 +35,14 @@
             <q-avatar>
               <img
                 :src="
-                  authStore.profile.avatar_url ??
-                  `https://ui-avatars.com/api/?name=${authStore.profile.full_name}`
+                  authStore.profile?.avatar_url ??
+                  `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
                 "
               />
             </q-avatar>
           </q-item-section>
           <q-item-section class="text-16px">
-            <q-item-label>{{ authStore.profile.full_name }}</q-item-label>
+            <q-item-label>{{ authStore.profile?.full_name }}</q-item-label>
           </q-item-section>
         </q-item>
 
@@ -49,12 +57,12 @@
           :href="item.href"
         >
           <q-item-section avatar>
-            <Icon :icon="item.icon" class="size-25px" />
+            <Icon :icon="item.icon[0]" class="size-25px" />
           </q-item-section>
           <q-item-section>
             <q-item-label>{{ item.text }}</q-item-label>
           </q-item-section>
-          <q-item-section v-if="item.side" side>{{ item.side }}</q-item-section>
+          <q-item-section v-if="item.side" side>{{ item.side.value }}</q-item-section>
         </q-item>
       </q-list>
     </div>
@@ -66,52 +74,68 @@
 <script lang="ts" setup>
 import { App } from "@capacitor/app"
 import { version } from "app/package.json"
-import { isCapacitor } from "src/constants"
+import { Icons } from "src/constants"
 
 const authStore = useAuthStore()
+const $q = useQuasar()
+const router = useRouter()
 
-const buttons = [
+const buttons: {
+  href?: string
+  to?: string
+  icon: [string, string]
+  text: string
+  side?: Ref<string>
+}[] = [
   {
     href: "https://ko-fi.com/tachib_shin",
-    icon: "solar:user-heart-bold-duotone",
+    icon: Icons.user_heart,
     text: "Tài trợ / Ủng hộ",
   },
   {
     to: "/app/settings",
-    icon: "solar:settings-bold-duotone",
+    icon: Icons.settings,
     text: "Cài đặt",
   },
   {
     href: "mailto://contact@mangaraiku.eu.org?title=Feedback%20app%20git.shin.raiku",
-    icon: "solar:info-circle-bold-duotone",
+    icon: Icons.info_circle,
     text: "Phản hồi",
   },
   {
     href: "https://github.com/manga-raiku/manga-raiku",
-    icon: "solar:code-bold-duotone",
+    icon: Icons.code_bold,
     text: "Mã nguồn mở",
   },
   {
     href: "https://mangaraiku.eu.org",
-    icon: "logos:pwa",
-    text: "Web tiến bộ cho iOS và máy tính",
+    icon: ["ant-design:apple-outlined", "ant-design:apple-outlined"],
+    text: "Phiên bản PWA cho iPhone và máy tính",
   },
   {
     to: "/app/settings/check-network",
-    icon: "solar:bug-bold-duotone",
+    icon: Icons.bug,
     text: "Kiểm tra lỗi mạng",
   },
   {
     to: "/app/about",
-    icon: "solar:notebook-bookmark-bold-duotone",
+    icon: Icons.notebook,
     text: "Giới thiệu",
     side: computedAsync(async () => {
       try {
-        return isCapacitor ? (await App.getInfo()).version : version
+        return  (await App.getInfo()).version
       } catch {
         return version
       }
     }),
   },
 ]
+
+watch(
+  () => $q.screen.lt.md,
+  (mobile) => {
+    if (!mobile) router.push("/app/myaccount")
+  },
+{ immediate: true }
+)
 </script>
