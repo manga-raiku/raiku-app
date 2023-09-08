@@ -97,6 +97,7 @@ quasar build
   - [ ] mobile
   - [ ] desktop
 - [ ] Infinite reader
+- [ ] Common API to support various sources
 
 ### Customize the configuration
 
