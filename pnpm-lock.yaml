@@ -148,9 +148,6 @@ devDependencies:
   '@quasar/quasar-app-extension-testing-unit-vitest':
     specifier: ^0.3.0
     version: 0.3.0(@vitest/ui@0.31.0)(@vue/test-utils@2.4.0)(quasar@2.12.2)(vite@2.9.16)(vitest@0.31.0)(vue@3.2.45)
-  '@scala-js/vite-plugin-scalajs':
-    specifier: ^1.0.0
-    version: 1.0.0(@types/node@18.8.0)(sass@1.32.11)
   '@tachibana-shin/eslint-config':
     specifier: ^1.0.7
     version: 1.0.7(eslint@8.33.0)(typescript@5.0.4)
@@ -3299,20 +3296,6 @@ packages:
       '@types/estree': 1.0.1
       estree-walker: 2.0.2
       picomatch: 2.3.1
-
-  /@scala-js/vite-plugin-scalajs@1.0.0(@types/node@18.8.0)(sass@1.32.11):
-    resolution: {integrity: sha512-QqeOXFWiwZyl4LrtAg7ZMeoShVWTD+4qcmuv0M7QNCu8QYzf+h3ysozbmyWYJKVpxJYMLnuSZZSiygD8Tzh+eg==}
-    dependencies:
-      vite: 4.4.9(@types/node@18.8.0)(sass@1.32.11)
-    transitivePeerDependencies:
-      - '@types/node'
-      - less
-      - lightningcss
-      - sass
-      - stylus
-      - sugarss
-      - terser
-    dev: true
 
   /@sideway/address@4.1.4:
     resolution: {integrity: sha512-7vwq+rOHVWjyXxVlR76Agnvhy8I9rpzjosTESvmhNeXOXdZZB15Fl+TI9x1SiHZH5Jv2wTGduSxFDIaq0m3DUw==}
