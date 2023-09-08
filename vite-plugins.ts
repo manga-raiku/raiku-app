@@ -1,3 +1,4 @@
+import ScalaJS from "@scala-js/vite-plugin-scalajs"
 import Pages from "@tachibana-shin/vite-plugin-pages"
 import UnoCSS from "unocss/vite"
 import AutoImport from "unplugin-auto-import/vite"
@@ -89,4 +90,5 @@ export const vitePlugins: [
   ],
   [DefineOptions, {}],
   [vitePluginBuildRaw, {}],
+  [ScalaJS, {}],
 ]

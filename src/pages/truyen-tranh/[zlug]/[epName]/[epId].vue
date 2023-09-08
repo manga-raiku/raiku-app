@@ -8,7 +8,11 @@ meta:
 <template>
   <q-header class="bg-[rgba(0,0,0,.9)]" :model-value="showToolbar">
     <q-toolbar>
-      <AppHeaderIconApp v-if="!$q.screen.lt.md" :no-name="$q.screen.lt.md" class="mr-8" />
+      <AppHeaderIconApp
+        v-if="!$q.screen.lt.md"
+        :no-name="$q.screen.lt.md"
+        class="mr-8"
+      />
       <q-btn
         v-else-if="MODE === 'capacitor'"
         round
@@ -577,28 +581,26 @@ const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const route = useRoute()
 const router = useRouter()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
-// let disableReactiveParams = false
-const { data, loading, runAsync, error } = useRequest(
-  useWithCache(
-    () => {
-      const path = props.zlug + "/" + props.epName + "/" + props.epId
-      return SlugChapChap(path, false)
-    },
-    computed(
-      () =>
-        `${packageName}:///manga/${
-          props.zlug + "/" + props.epName + "/" + props.epId
-        }`,
-    ),
-  ),
-  {
-    refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
-    refreshDepsAction() {
-      // if (!disableReactiveParams) runAsync()
-      runAsync()
-    },
+const GetWithCache = useWithCache(
+  () => {
+    const path = props.zlug + "/" + props.epName + "/" + props.epId
+    return SlugChapChap(path, false)
   },
+  computed(
+    () =>
+      `${packageName}:///manga/${
+        props.zlug + "/" + props.epName + "/" + props.epId
+      }`,
+  ),
 )
+// let disableReactiveParams = false
+const { data, loading, runAsync, error } = useRequest(GetWithCache, {
+  refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
+  refreshDepsAction() {
+    // if (!disableReactiveParams) runAsync()
+    runAsync()
+  },
+})
 watch(error, (error) => {
   if (error?.message === "not_found")
     router.replace({
