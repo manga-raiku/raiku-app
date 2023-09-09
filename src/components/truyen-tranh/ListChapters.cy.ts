@@ -1,5 +1,9 @@
 /* eslint-disable camelcase */
+import { createPinia, setActivePinia } from "pinia"
+
 import ListChapters from "./ListChapters.vue"
+
+setActivePinia(createPinia())
 
 const chapters_long = [
   {
