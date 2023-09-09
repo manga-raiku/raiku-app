@@ -17,6 +17,7 @@
     "typing": "vue-tsc --noEmit",
     "build": "quasar build",
     "ci": "pnpm format && pnpm lint --fix && pnpm typing && pnpm test:unit:ci",
+    "gen:icon:cap": "icongenie generate -m capacitor -i src/assets/app_icon.png -b src/assets/bg-blur.png --png-color 000 --splashscreen-color 000   --skip-trim",
     "test:unit:ui": "vitest --ui",
     "test:unit": "vitest",
     "test:unit:ci": "vitest run",
