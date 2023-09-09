@@ -133,10 +133,10 @@ export function createTaskDownloadEpisode(
 ): {
   ref: MetaEpisodeRunning
   startSaveMetaManga: () => Promise<MetaMangaOnDisk>
-  downloading: Ref<boolean>
-  start: () => Promise<void>
+  downloading: globalThis.Ref<boolean>
+  start: () => Promise<MetaEpisodeOnDisk | undefined>
   stop: () => void
-  resume: () => Promise<void>
+  resume: () => Promise<MetaEpisodeOnDisk | undefined>
 } {
   const hashIDManga = hashSum(metaManga.manga_id)
   const hashIDEp = hashSum(metaEp.ep_id)
@@ -152,9 +152,9 @@ export function createTaskDownloadEpisode(
   const startSaveMetaManga = () => saveMetaManga(metaManga)
 
   let timeout: NodeJS.Timeout | number
-  let taskSaveMeta: Promise<void> | undefined
+  let taskSaveMeta: Promise<MetaEpisodeOnDisk> | undefined
   const saveMeta = (metaCloned: MetaEpisodeOnDisk) => {
-    taskSaveMeta = new Promise<void>((resolve, reject) => {
+    taskSaveMeta = new Promise<MetaEpisodeOnDisk>((resolve, reject) => {
       // delay 1s
       clearTimeout(timeout)
 
@@ -166,7 +166,7 @@ export function createTaskDownloadEpisode(
             directory: Directory.External,
             encoding: Encoding.UTF8,
           })
-          resolve()
+          resolve(metaCloned)
         } catch (err) {
           reject(err)
         }
@@ -176,7 +176,10 @@ export function createTaskDownloadEpisode(
   }
 
   const start = async () => {
-    if (downloading.value) console.warn("task is running")
+    if (downloading.value) {
+      console.warn("task is running")
+      return
+    }
 
     downloading.value = true
     const hashIDManga = hashSum((await startSaveMetaManga()).manga_id)
@@ -216,9 +219,10 @@ export function createTaskDownloadEpisode(
       downloading.value = false
       throw err
     })
-
-    await saveMeta(refValue)
+console.log("task fpromise")
+    const meta = await saveMeta(refValue)
     downloading.value = false
+    return meta
   }
   const stop = async () => {
     downloading.value = false
@@ -400,4 +404,32 @@ export async function deleteEpisode(manga_id: number, ep_id: number) {
       })
       .catch(() => null),
   ])
+}
+
+export async function getEpisode(manga_id: number, ep_id: number) {
+  const hashIDManga = hashSum(manga_id)
+  const hashIDEp = hashSum(ep_id)
+
+  return JSON.parse(
+    await Filesystem.readFile({
+      path: `${DIR_META}/${hashIDManga}/${hashIDEp}.mod`,
+      directory: Directory.External,
+      encoding: Encoding.UTF8,
+    }).then((res) => res.data),
+  ) as MetaEpisodeOnDisk
+}
+
+// eslint-disable-next-line functional/no-mixed-type
+export interface TaskDDEp {
+  ref: MetaEpisodeOnDisk
+  downloading?: boolean
+  stop?: () => void
+}
+export type TaskDLEp = Pick<
+  ReturnType<typeof createTaskDownloadEpisode>,
+  "ref" | "downloading" | "stop" | "resume"
+>
+
+export function isTaskDLEp(value: any): value is TaskDLEp {
+  return typeof value?.resume === "function"
 }

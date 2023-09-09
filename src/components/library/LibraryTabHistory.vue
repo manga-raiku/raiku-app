@@ -1,18 +1,6 @@
 <template>
   <q-card class="transparent min-h-0 shadow-none overflow-y-auto">
-    <div v-if="loading" class="row">
-      <CardVerticalSKT
-        v-for="i in 12"
-        :key="i"
-        class="col-12 col-sm-6 px-2 pb-4"
-      />
-    </div>
-    <q-infinite-scroll
-      v-else-if="data"
-      @load="onLoad"
-      :offset="250"
-      class="row"
-    >
+    <q-infinite-scroll v-if="data" @load="onLoad" :offset="250" class="row">
       <template v-for="(item, index) in data" :key="item.path">
         <div
           v-if="!data[index - 1]?.updated_at.isSame(item.updated_at, 'day')"
@@ -47,17 +35,28 @@
         </div>
       </template>
     </q-infinite-scroll>
-    <div v-else class="text-center">
+    <div v-else-if="error" class="text-center">
       <div class="text-subtitle1 font-weight-medium">Lỗi không xác định</div>
       <q-btn outline rounded color="main" @click="refreshAsync">Thử lại</q-btn>
+    </div>
+    <div v-else class="row">
+      <CardVerticalSKT
+        v-for="i in 12"
+        :key="i"
+        class="col-12 col-sm-6 px-2 pb-4"
+      />
     </div>
   </q-card>
 </template>
 
 <script lang="ts" setup>
+const props = defineProps<{
+  visible?: boolean
+}>()
+
 const historyStore = useHistoryStore()
 
-const { loading, data, refreshAsync } = useRequest(() =>
+const { error, data, refreshAsync } = useRequest(() =>
   historyStore.get().then((res) =>
     res.map((item) => ({
       ...item,
@@ -65,6 +64,15 @@ const { loading, data, refreshAsync } = useRequest(() =>
       updated_at: dayjs(item.updated_at),
     })),
   ),
+)
+watch(
+  () => props.visible,
+  (visible) => {
+    if (visible === undefined) return
+
+    if (visible && !data.value) refreshAsync()
+  },
+  { immediate: true },
 )
 const onLoad = async (index: number, done: (stop?: boolean) => void) => {
   const more = await historyStore.get(data.value?.length).then((res) =>

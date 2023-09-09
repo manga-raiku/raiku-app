@@ -4,6 +4,8 @@ import type {
   MetaEpisodeOnDisk,
   MetaManga,
   MetaMangaOnDisk,
+  TaskDDEp,
+  TaskDLEp,
 } from "src/logic/download-manager"
 import type { ShallowReactive } from "vue"
 
@@ -60,7 +62,7 @@ export const useIDMStore = defineStore("IDM", () => {
     }
   }
 
-  async function download(metaManga: MetaManga, metaEp: MetaEpisode) {
+  async function download(metaManga: MetaManga, metaEp: MetaEpisode): Promise<TaskDLEp | TaskDDEp> {
     console.log("start download: ", metaEp)
     const task = createTaskDownloadEpisode(metaManga, metaEp)
 
@@ -89,39 +91,33 @@ export const useIDMStore = defineStore("IDM", () => {
       store!.set(metaEp.ep_id, task)
     }
 
-    await task.start()
+    const meta = await task.start()
+
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     mapMetaManga.get(metaManga.manga_id)!.count_ep++
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     store!.delete(metaEp.ep_id)
 
-    return task
+    return meta ? { ref: meta } : task
   }
 
   async function resumeDownload(
     metaManga: MetaManga,
-    task:
-      | Awaited<ReturnType<typeof download>>
-      | {
-          ref: MetaEpisodeOnDisk
-        },
-  ) {
+    task: Awaited<ReturnType<typeof download>>,
+  ): ReturnType<typeof download> {
     if (
-      typeof (task as Awaited<ReturnType<typeof download>>).resume ===
-      "function"
+      typeof (task as Awaited<ReturnType<typeof createTaskDownloadEpisode>>)
+        .resume === "function"
     ) {
-      await (task as Awaited<ReturnType<typeof download>>).resume()
-      return task as Awaited<ReturnType<typeof download>>
+      const meta = await (
+        task as Awaited<ReturnType<typeof createTaskDownloadEpisode>>
+      ).resume?.()
+
+      if (meta) return { ref: meta }
+      return task
     }
 
-    return download(
-      metaManga,
-      (
-        task as {
-          ref: MetaEpisodeOnDisk
-        }
-      ).ref,
-    )
+    return download(metaManga, task.ref)
   }
 
   return {

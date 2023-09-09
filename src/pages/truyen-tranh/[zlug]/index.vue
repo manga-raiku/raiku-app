@@ -202,7 +202,7 @@ meta:
             height="1.3em"
             class="mr-2"
           />
-          Chia sẻ {{data.uid}}
+          Chia sẻ {{ data.uid }}
         </q-btn>
       </section>
 
@@ -211,6 +211,13 @@ meta:
         <ListChapters
           :chapters="data.chapters"
           :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
+          :map-offline="mapEp"
+          :meta-manga="{
+            path: `/truyen-tranh/${zlug}`,
+            manga_id: data.uid,
+            manga_name: data.name,
+            manga_image: data.image,
+          }"
         />
       </section>
 
@@ -417,6 +424,7 @@ import { useShare } from "@vueuse/core"
 import { packageName } from "app/package.json"
 import Manga from "src/apis/nettruyen/runs/truyen-tranh/[slug]"
 import dayjs from "src/logic/dayjs"
+import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 import { formatView } from "src/logic/formatView"
 
 const props = defineProps<{
@@ -428,20 +436,19 @@ const router = useRouter()
 const route = useRoute()
 const followStore = useFollowStore()
 const historyStore = useHistoryStore()
-
-const { data, loading, error, run } = useRequest(
-  useWithCache(
-    () => Manga(props.zlug),
-    computed(() => `${packageName}:///manga/${props.zlug}`),
-  ) as unknown as () => ReturnType<typeof Manga>,
-  {
-    refreshDeps: [() => props.zlug],
-    refreshDepsAction() {
-      // data.value = undefined
-      run()
-    },
-  },
+const IDMStore = useIDMStore()
+const GetWithCache = useWithCache(
+  () => Manga(props.zlug),
+  computed(() => `${packageName}:///manga/${props.zlug}`),
 )
+
+const { data, loading, error, run } = useRequest(GetWithCache, {
+  refreshDeps: [() => props.zlug],
+  refreshDepsAction() {
+    // data.value = undefined
+    run()
+  },
+})
 watch(error, (error) => {
   if (error?.message === "not_found")
     router.replace({
@@ -454,6 +461,30 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
+
+const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
+  if (!data.value) return
+
+  return shallowReactive(
+    await getListEpisodes(data.value.uid).catch(() => []),
+  ).map((ref) => ({ ref }))
+})
+const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
+  if (!data.value) return
+
+  return [...(IDMStore.queue.get(data.value.uid)?.values() ?? [])]
+})
+
+const mapEp = computed<Map<number, TaskDDEp | TaskDLEp> | undefined>(() => {
+  if (!lsEpDD.value || !lsEpDL.value) return
+
+  return new Map(
+    [...(lsEpDL.value ?? []), ...lsEpDD.value]
+      .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
+      .map((item) => [item.ref.ep_id, item]),
+  )
+})
+
 const isFollow = computedAsync<boolean | undefined>(() => {
   if (!data.value) return
 
