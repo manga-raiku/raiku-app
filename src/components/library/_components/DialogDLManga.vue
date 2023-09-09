@@ -213,6 +213,7 @@
 import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
 import GetListChapters from "src/apis/nettruyen/runs/get-list-chapters"
 import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
+import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
 const $q = useQuasar()
 const IDMStore = useIDMStore()
@@ -227,16 +228,6 @@ const emit = defineEmits<{
     value: (typeof IDMStore.listMangaSorted)[0] | null,
   ): void
 }>()
-
-interface TaskDDEp {
-  ref: Awaited<ReturnType<typeof getListEpisodes>>[0]
-  downloading?: boolean
-  stop?: () => void
-}
-type TaskDLEp = Pick<
-  ReturnType<typeof createTaskDownloadEpisode>,
-  "ref" | "downloading" | "stop"
->
 
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   const meta = metaMangaShowInfo.value
@@ -270,13 +261,11 @@ async function resume(item: TaskDLEp | TaskDDEp) {
   try {
     const result = await IDMStore.resumeDownload(metaMangaShowInfo.value, item)
 
+    if (!isTaskDLEp(result))
     lsEpDL.value.splice(
-      lsEpDL.value.findIndex((item) => item.ref.ep_id === result.ref.ep_id) >>>
-        0,
+      lsEpDL.value.findIndex((item) => item.ref.ep_id === result.ref.ep_id) >>> 0,
       1,
-      result as unknown as Omit<typeof result, "downloading"> & {
-        downloading: boolean
-      },
+      result ,
     )
   } catch (err) {
     if ((err as Error | undefined)?.message === "user_paused") return
@@ -380,14 +369,15 @@ async function download() {
       ep_name: ep.name,
       pages: conf.pages.map((item) => SERVERS[0].parse(item, conf)),
     }).then((result) => {
-      if (lsEpDD.value)
-        lsEpDD.value.splice(
-          lsEpDD.value.findIndex(
-            (item) => item.ref.ep_id === result.ref.ep_id,
-          ) >>> 0,
+      if (lsEpDL.value && !isTaskDLEp(result)) {
+        lsEpDL.value.splice(
+          lsEpDL.value.findIndex((item) => item.ref.ep_id === result.ref.ep_id) >>>
+            0,
           1,
-          result,
+         result,
         )
+      }
+
       // eslint-disable-next-line no-useless-return
       return
     })

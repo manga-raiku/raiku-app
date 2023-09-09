@@ -1,0 +1,94 @@
+<template>
+  <q-btn round unelevated :disable="disable" @click="onClickDownload">
+    <q-circular-progress
+      v-if="modelValue && isTaskDLEp(modelValue)"
+      :value="(modelValue.ref.downloaded / modelValue.ref.pages.length) * 100"
+      show-value
+      size="35px"
+      color="main"
+    >
+      <Icon
+        v-if="!modelValue.downloading"
+        icon="solar:download-minimalistic-linear"
+        class="size-2em"
+      />
+      <template v-else
+        >{{
+          Math.round(
+            (modelValue.ref.downloaded / modelValue.ref.pages.length) * 100,
+          )
+        }}%</template
+      >
+    </q-circular-progress>
+    <Icon
+      v-else-if="!modelValue"
+      icon="solar:download-minimalistic-broken"
+      class="size-1.5em"
+    />
+    <Icon v-else icon="material-symbols:offline-pin-rounded" class="size-2em" />
+  </q-btn>
+</template>
+
+<script lang="ts" setup>
+import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import { isTaskDLEp } from "src/logic/download-manager"
+
+const props = defineProps<{
+  modelValue?: TaskDDEp | TaskDLEp | null
+  mangaId: number | null
+  epId: number | null
+  canDownload: boolean
+}>()
+const $q = useQuasar()
+const emit = defineEmits<{
+  (name: "update:model-value", value: undefined | TaskDDEp | TaskDDEp): void
+  (name: "action:download"): void
+  (name: "action:delete", ep_id: number): void
+}>()
+
+const disable = computed(() => {
+  if (props.modelValue) return false
+
+  if (!props.canDownload) return true
+
+  return false
+})
+
+function onClickDownload() {
+  if (props.modelValue && isTaskDLEp(props.modelValue)) {
+    if (props.modelValue.downloading.value) props.modelValue.stop()
+    else props.modelValue.resume()
+
+    return
+  }
+  // confirm delete
+  if (props.modelValue) {
+    $q.dialog({
+      message: "Bạn muốn xóa chương này khỏi ngoại tuyến chứ?",
+      ok: {
+        label: "Xóa",
+        color: "red",
+        rounded: true,
+        noCaps: true,
+        flat: true,
+      },
+      cancel: {
+        label: "Hủy",
+        color: "white",
+        rounded: true,
+        noCaps: true,
+        flat: true,
+      },
+    }).onOk(async () => {
+      if (props.mangaId !== null && props.epId !== null)
+        await deleteEpisode(props.mangaId, props.epId)
+      emit("update:model-value", undefined)
+      if (props.epId) emit("action:delete", props.epId)
+    })
+
+    return
+  }
+
+  emit("action:download")
+}
+</script>

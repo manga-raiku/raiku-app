@@ -81,21 +81,35 @@
             <div class="flex-1 min-w-0">
               <h5 class="text-14px ellipsis">Ch. {{ item.name }}</h5>
               <span v-if="item.updated_at" class="text-gray-300">{{
-                (dayjs(item.updated_at)).fromNow()
+                dayjs(item.updated_at).fromNow()
               }}</span>
             </div>
-            <span
-              v-if="readsChapter?.has(item.id)"
-              class="mr--2 flex items-center"
-            >
-              <Icon
-                icon="fluent:checkmark-starburst-24-regular"
-                width="1.3em"
-                height="1.3em"
-                class="mr-1"
-              />
-              <span class="<sm:!hidden">Đã đọc</span>
-            </span>
+            <div class="mr--2 flex justify-end">
+              <span
+                v-if="readsChapter?.has(item.id)"
+                class="mr--2 flex items-center"
+              >
+                <Icon
+                  icon="fluent:checkmark-starburst-24-regular"
+                  width="1.3em"
+                  height="1.3em"
+                  class="mr-1"
+                />
+                <span class="<sm:!hidden">Đã đọc</span>
+              </span>
+
+              <span @click.stop.prevent>
+                <BtnDownload
+                  :model-value="mapOffline?.get(item.id)"
+                  @update:model-value="mapOffline?.delete(item.id)"
+                  :manga-id="metaManga?.manga_id ?? null"
+                  :ep-id="item.id"
+                  :can-download="true"
+                  @action:download="downloadEp(item)"
+                />
+              </span>
+            </div>
+            <!-- {{ mapOffline?.get(item.id) }} -->
           </router-link>
         </li>
 
@@ -116,7 +130,10 @@ import "@fontsource/poppins"
 import { Icon } from "@iconify/vue"
 import type { QBtn } from "quasar"
 import { QTab, QTabs } from "quasar"
+import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
+import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
 import dayjs from "src/logic/dayjs"
+import type { MetaManga, TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
 const props = defineProps<{
   classItem?: string
@@ -126,6 +143,8 @@ const props = defineProps<{
   focusTabActive?: boolean
 
   readsChapter?: Set<number>
+  mapOffline?: Map<number, TaskDDEp | TaskDLEp>
+  metaManga?: MetaManga
 
   chapters: {
     id: number
@@ -140,6 +159,7 @@ const emit = defineEmits<{
 const slots = useSlots()
 
 const route = useRoute()
+const IDMStore = useIDMStore()
 
 const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
@@ -195,6 +215,21 @@ function onWheelTabs(event: WheelEvent) {
   qTabsRef.value?.$el
     ?.querySelector(".q-tabs__content")
     ?.scrollBy({ left: event.deltaY * 2, behavior: "smooth" })
+}
+
+async function downloadEp(item: { path: string; id: number; name: string }) {
+  const conf = await SlugChapChap(
+    item.path.split("/").slice(2).join("/"),
+    false,
+  )
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  IDMStore.download(props.metaManga!, {
+    path: item.path,
+    ep_id: item.id,
+    ep_name: item.name,
+    pages: conf.pages.map((item) => SERVERS[0].parse(item, conf)),
+  })
 }
 </script>
 
