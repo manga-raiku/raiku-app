@@ -98,6 +98,8 @@ quasar build
   - [ ] desktop
 - [ ] Infinite reader
 - [ ] Common API to support various sources
+- [ ] Localize app
+- [ ] Download manager
 
 ### Customize the configuration
 

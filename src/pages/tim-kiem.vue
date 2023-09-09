@@ -38,6 +38,7 @@ meta:
         </div>
         <q-btn
           round
+          unelevated
           class="text-[#aaa] h-full flex items-center"
           v-show="route.query.query"
           @click="
@@ -54,6 +55,7 @@ meta:
         </q-btn>
         <q-btn
           round
+          unelevated
           class="text-[#aaa] h-full flex items-center mr-2"
           type="submit"
         >

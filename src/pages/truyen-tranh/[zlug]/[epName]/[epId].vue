@@ -60,33 +60,16 @@ meta:
       <AppHeaderHistory v-if="$q.screen.gt.xs" />
       <!-- <AppHeaderNotify /> -->
 
-      <AppHeaderUser v-if="MODE !== 'capacitor'" />
+      <AppHeaderUser v-if="MODE !== 'capacitor'" class="mr-2" />
 
-      <q-btn
-        round
-        unelevated
-        @click="
-          data &&
-            currentEpisode?.value &&
-            pages &&
-            IDMStore.download(
-              {
-                path: `/truyen-tranh/${zlug}`,
-                manga_id: data.uid,
-                manga_name: data.name,
-                manga_image: data.image,
-              },
-              {
-                path: `/truyen-tranh/${zlug}/${epName}/${epId}`,
-                ep_id: data.ep_id,
-                ep_name: currentEpisode.value.name,
-                pages: pages.slice(0),
-              },
-            )
-        "
-      >
-        <Icon icon="solar:download-minimalistic-broken" class="size-1.5em" />
-      </q-btn>
+      <BtnDownload
+        v-model="statusEPDL"
+        :manga-id="data?.uid ?? null"
+        :ep-id="data?.ep_id ?? null"
+        @action:delete="deleteEp"
+        :can-download="!!(data && currentEpisode && pages)"
+        @action:download="downloadEp"
+      />
     </q-toolbar>
   </q-header>
 
@@ -297,6 +280,13 @@ meta:
                 v-else
                 :chapters="data.chapters"
                 :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
+                :map-offline="mapEp"
+                :meta-manga="{
+                  path: `/truyen-tranh/${zlug}`,
+                  manga_id: data.uid,
+                  manga_name: data.name,
+                  manga_image: data.image,
+                }"
                 focus-tab-active
                 @change-tab="onChangeTabEpisodes"
                 class-item="col-6 col-sm-4 col-md-4"
@@ -564,6 +554,7 @@ import type { QDialog, QMenu } from "quasar"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
 import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
+import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
 const props = defineProps<{
   zlug: string
@@ -613,6 +604,84 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
+const statusEPDL = computedAsync<TaskDDEp | TaskDLEp | null | undefined>(
+  async () => {
+    if (!data.value) return
+
+    const task = IDMStore.queue.get(data.value.uid)?.get(data.value.ep_id)
+    if (task) return task
+
+    const onDisk = await getEpisode(data.value.uid, data.value.ep_id).catch(
+      () => null,
+    )
+
+    if (onDisk) return { ref: onDisk }
+    return null
+  },
+  undefined,
+  {
+    onError: console.error.bind(console),
+  },
+)
+const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
+  if (!data.value) return
+
+  return shallowReactive(
+    await getListEpisodes(data.value.uid).catch(() => []),
+  ).map((ref) => ({ ref }))
+})
+const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
+  if (!data.value) return
+
+  return [...(IDMStore.queue.get(data.value.uid)?.values() ?? [])]
+})
+
+const mapEp = computed<Map<number, TaskDDEp | TaskDLEp> | undefined>(() => {
+  if (!lsEpDD.value || !lsEpDL.value) return
+
+  return new Map(
+    [...(lsEpDL.value ?? []), ...lsEpDD.value]
+      .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
+      .map((item) => [item.ref.ep_id, item]),
+  )
+})
+
+async function downloadEp() {
+  if (!data.value || !currentEpisode.value || !pages.value) return
+
+  const meta = await IDMStore.download(
+    {
+      path: `/truyen-tranh/${props.zlug}`,
+      manga_id: data.value.uid,
+      manga_name: data.value.name,
+      manga_image: data.value.image,
+    },
+    {
+      path: `/truyen-tranh/${props.zlug}/${props.epName}/${props.epId}`,
+      ep_id: data.value.ep_id,
+      ep_name: currentEpisode.value.value.name,
+      pages: pages.value.slice(0),
+    },
+  )
+
+  console.log(lsEpDL, meta)
+  if (!isTaskDLEp(meta)) {
+    lsEpDL.value?.splice(
+      lsEpDL.value.findIndex((item) => item.ref.ep_id === meta.ref.ep_id) >>> 0,
+      1,
+      meta,
+    )
+    lsEpDL.value = [...(lsEpDL.value || [])]
+  }
+}
+async function deleteEp(epId: number) {
+  lsEpDL.value?.splice(
+    lsEpDL.value.findIndex((item) => item.ref.ep_id === epId) >>> 0,
+    1,
+  )
+  lsEpDL.value = [...(lsEpDL.value || [])]
+}
+
 const isFollow = computedAsync<boolean | undefined>(() => {
   if (!data.value) return
 

@@ -1,5 +1,5 @@
 <template>
-  <q-btn flat round unelevated>
+  <q-btn v-bind="attrs" flat round unelevated>
     <q-avatar v-if="authStore.session" size="35px">
       <q-img
         :src="
@@ -196,6 +196,7 @@
 
   <q-btn
     v-if="!authStore.session"
+    v-bind="attrs"
     flat
     stack
     no-caps
@@ -214,8 +215,13 @@ import { version } from "app/package.json"
 import { Icons } from "src/constants"
 import { languages } from "src/i18n"
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const authStore = useAuthStore()
 const settingsStore = useSettingsStore()
+const attrs = useAttrs()
 
 const showMenuAccount = ref(false)
 // account

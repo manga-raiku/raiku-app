@@ -1,6 +1,22 @@
 <template>
-  <div v-if="IDMStore.loadingDataInMemory">loading...</div>
+  <div v-if="IDMStore.loadingDataInMemory" class="row">
+    <CardVerticalSKT
+      v-for="i in 12"
+      :key="i"
+      class="col-12 col-sm-6 px-2 pb-4"
+    />
+  </div>
   <div v-else class="relative row">
+    <div class="col-12 flex justify-end">
+      <q-btn
+        dense
+        rounded
+        no-caps
+        :label="editMode ? 'Done' : 'Edit'"
+        @click="editMode = !editMode"
+      />
+    </div>
+
     <div
       v-if="IDMStore.listMangaSorted.length > 0"
       v-for="item in IDMStore.listMangaSorted"
@@ -9,7 +25,25 @@
       @click="metaMangaShowInfo = item"
     >
       <q-card class="transparent cursor-pointer">
-        <ImageView :src="item.manga_image" />
+        <div class="relative">
+          <ImageView :src="item.manga_image" />
+          <div
+            v-if="editMode"
+            class="absolute w-full h-full top-0 left-0 bg-#000 bg-opacity-50"
+          >
+            <q-radio
+              :model-value="mangaSelected.has(item.manga_id) ? '1' : undefined"
+              @click="
+                mangaSelected.has(item.manga_id)
+                  ? mangaSelected.delete(item.manga_id)
+                  : mangaSelected.add(item.manga_id)
+              "
+              val="1"
+              color="white        "
+              class="absolute top-1 right-1 z-10"
+            />
+          </div>
+        </div>
 
         <div class="text-1em ellipsis">{{ item.manga_name }}</div>
         <div class="text-0.92em text-gray-300 text-opacity-90">
@@ -24,397 +58,83 @@
     </div>
   </div>
 
-  <q-dialog
-    maximized
-    transition-show="slide-up"
-    transition-hide="slide-down"
-    :model-value="!!metaMangaShowInfo"
-    @update:model-value="$event ? null : (metaMangaShowInfo = undefined)"
-  >
-    <q-card v-if="metaMangaShowInfo" class="bg-dark-page">
-      <q-header class="bg-dark-page">
-        <q-toolbar>
-          <q-btn round unelevated v-close-popup>
-            <Icon icon="fluent:chevron-left-24-filled" class="size-1.5em" />
-          </q-btn>
+  <DialogDLManga v-model="metaMangaShowInfo" />
 
-          <q-space />
-
-          <div class="ellipsis text-16px text-weight-medium">
-            {{ metaMangaShowInfo.manga_name }}
-          </div>
-
-          <q-space />
-
-          <q-btn
-            round
-            unelevated
-            no-caps
-            class="text-weight-normal"
-            @click="modeEdit = !modeEdit"
-          >
-            {{ modeEdit ? "Done" : "Edit" }}
-          </q-btn>
-        </q-toolbar>
-      </q-header>
-
-      <main class="pt-50px">
-        <!-- button more download -->
-        <q-item @click="showDownloadMore = true" clickable>
-          <q-item-section>
-            <q-item-label>Download more episodes</q-item-label>
-          </q-item-section>
-          <q-item-section side>
-            <Icon icon="fluent:chevron-right-24-regular" class="size-1.5em" />
-          </q-item-section>
-        </q-item>
-        <!-- /button more download -->
-
-        <ul class="mx-4">
-          <li
-            v-for="[ep_id, item] in list"
-            :key="item.ref.ep_id"
-            class="py-2 flex flex-nowrap items-center"
-          >
-            <q-checkbox
-              v-if="modeEdit"
-              v-model="listEpRemove"
-              dense
-              :val="ep_id"
-              class="mr-2"
-            />
-            <div class="w-full min-w-0">
-              <EpControl
-                :data="item.ref"
-                :downloading="item.downloading"
-                @stop="item.stop"
-                @resume="resume(item)"
-              />
-            </div>
-          </li>
-        </ul>
-      </main>
-
-      <q-footer :model-value="modeEdit" class="bg-dark-page">
-        <q-toolbar>
-          <q-btn
-            no-caps
-            unelevated
-            class="w-1/2 text-weight-regular"
-            @click="
-              listEpRemove =
-                listEpRemove.length === list?.size
-                  ? []
-                  : [...new Set([...listEpRemove, ...(list?.keys() ?? [])])]
-            "
-          >
-            <Icon icon="solar:check-circle-linear" class="size-1.5em mr-1" />
-            <span class="whitespace-nowrap">{{
-              listEpRemove.length === list?.size ? "Unselect all" : "Select all"
-            }}</span>
-          </q-btn>
-          <q-btn
-            no-caps
-            unelevated
-            class="w-1/2 text-weight-regular"
-            :loading="removing"
-            @click="remove"
-          >
-            <Icon
-              icon="solar:trash-bin-minimalistic-broken mr-1"
-              class="size-1.5em"
-            />
-            Delete
-          </q-btn>
-        </q-toolbar>
-      </q-footer>
-    </q-card>
-  </q-dialog>
-
-  <q-dialog
-    position="bottom"
-    full-width
-    :model-value="showDownloadMore && !!allEpisodes"
-    @update:model-value="$event ? null : (showDownloadMore = false)"
-  >
-    <q-card
-      v-if="allEpisodes"
-      class="h-full <md:!max-h-80vh sm:!max-h-70vh min-w-310px flex flex-nowrap column min-h-0 rounded-xl"
+  <teleport to="body">
+    <q-page-sticky
+      v-if="visible && editMode"
+      position="bottom"
+      expand
+      :offset="[0, 0]"
+      class="z-9999 bg-dark-page"
     >
-      <q-card-section class="text-16px">
-        {{ allEpisodes.length }} episodes
-      </q-card-section>
-      <q-card-section
-        class="w-full h-full min-h-0 flex-1 flex flex-nowrap column !py-0"
-      >
-        <ListChapters
-          :chapters="allEpisodes"
-          class-panels="px-1 overflow-y-auto scrollbar-custom"
-        >
-          <template #item="{ data }">
-            <li class="px-1 py-1 col-3">
-              <q-btn
-                no-caps
-                :outline="!list?.has(data.id)"
-                :disable="list?.has(data.id)"
-                class="bg-gray-400 bg-opacity-10 w-full text-light-200 text-opacity-90 text-weight-regular"
-                :class="{
-                  'text-blue': epsSelected.has(data),
-                }"
-                @click="
-                  epsSelected.has(data)
-                    ? epsSelected.delete(data)
-                    : epsSelected.add(data)
-                "
-              >
-                {{ parseFloat(data.name) }}
-                <Icon
-                  v-if="list?.has(data.id)"
-                  icon="iconoir:check"
-                  class="absolute top-1 left-1 size-1.2em text-green-400"
-                />
-              </q-btn>
-            </li>
-          </template>
-        </ListChapters>
-      </q-card-section>
-      <q-card-section
-        class="flex flex-nowrap items-center justify-between !py-0"
-      >
-        <q-btn no-caps stack unelevated class="min-w-15% text-weight-regular">
-          <Icon icon="solar:download-minimalistic-bold" class="size-1.5em" />
-          Download
-          <q-badge v-if="list && list.size > 0" floating>{{
-            list.size
-          }}</q-badge>
-        </q-btn>
+      <q-toolbar>
         <q-btn
           no-caps
-          stack
           unelevated
-          class="min-w-15% text-weight-regular"
-          @click="epsSelected.size > 0 ? unSelectAll() : selectAll()"
+          class="w-1/2 text-weight-regular"
+          @click="mangaSelected.size > 0 ? mangaSelected.clear() : selectAll()"
         >
-          <Icon
-            :icon="
-              epsSelected.size > 0
-                ? 'solar:close-circle-linear'
-                : 'solar:check-circle-linear'
-            "
-            class="size-1.5em"
-          />
+          <Icon icon="solar:check-circle-linear" class="size-1.5em mr-1" />
           <span class="whitespace-nowrap">{{
-            epsSelected.size > 0 ? "Unselect all" : "Select all"
+            mangaSelected.size > 0 ? "Unselect all" : "Select all"
           }}</span>
         </q-btn>
-
         <q-btn
           no-caps
           unelevated
-          color="blue"
-          class="w-60%"
-          :disable="epsSelected.size === 0"
-          @click="download"
-          :loading="downloading"
-          >Download</q-btn
+          class="w-1/2 text-weight-regular text-red"
+          :loading="removing"
+          @click="remove"
         >
-      </q-card-section>
-    </q-card>
-  </q-dialog>
+          <Icon
+            icon="solar:trash-bin-minimalistic-broken mr-1"
+            class="size-1.5em"
+          />
+          Delete
+        </q-btn>
+      </q-toolbar>
+    </q-page-sticky>
+  </teleport>
 </template>
 
 <script lang="ts" setup>
-import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
-import GetListChapters from "src/apis/nettruyen/runs/get-list-chapters"
-import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
-import type { MetaEpisodeOnDisk } from "src/logic/download-manager"
+const props = defineProps<{
+  visible?: boolean
+}>()
 
 const IDMStore = useIDMStore()
-const $q = useQuasar()
 
-IDMStore.runLoadInMemory()
-
-const metaMangaShowInfo = ref<(typeof IDMStore.listMangaSorted)[0]>()
-const listEpDownloaded = ref<
-  {
-    ref: Awaited<ReturnType<typeof getListEpisodes>>[0]
-  }[]
->()
 watch(
-  metaMangaShowInfo,
-  async (meta) => {
-    console.log(meta)
-    if (meta) {
-      listEpDownloaded.value = shallowReactive(
-        await getListEpisodes(meta.manga_id).catch(() => []),
-      ).map((ref) => ({ ref }))
-    } else {
-      listEpDownloaded.value = undefined
-    }
+  () => props.visible,
+  (visible) => {
+    if (visible !== false) IDMStore.runLoadInMemory()
   },
   { immediate: true },
 )
 
-const listEpDownloading = computed(() => {
-  const meta = metaMangaShowInfo.value
-  if (!meta) return
+const editMode = ref(false)
+const mangaSelected = shallowReactive<Set<number>>(new Set())
 
-  return [...(IDMStore.queue.get(meta.manga_id)?.values() ?? [])]
-})
-
-const list = computed(() => {
-  if (!listEpDownloading.value || !listEpDownloaded.value) return
-
-  return new Map(
-    [...(listEpDownloaded.value ?? []), ...listEpDownloading.value]
-      .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
-      .map((item) => [item.ref.ep_id, item]),
-  ) as Map<
-    number,
-    {
-      ref: Awaited<ReturnType<typeof getListEpisodes>>[0]
-      downloading?: boolean
-      stop?: () => void
-    }
-  >
-})
-
-async function resume(
-  item:
-    | Awaited<ReturnType<typeof IDMStore.download>>
-    | {
-        ref: MetaEpisodeOnDisk
-      },
-) {
-  if (!metaMangaShowInfo.value || !listEpDownloaded.value) return
-
-  try {
-    const result = await IDMStore.resumeDownload(metaMangaShowInfo.value, item)
-
-    listEpDownloaded.value.splice(
-      listEpDownloaded.value.findIndex(
-        (item) => item.ref.ep_id === result.ref.ep_id,
-      ) >>> 0,
-      1,
-      result,
-    )
-  } catch (err) {
-    if ((err as Error | undefined)?.message === "user_paused") return
-    // eslint-disable-next-line functional/no-throw-statement
-    throw err
-  }
-}
-
-const modeEdit = ref(false)
-const listEpRemove = shallowRef<number[]>([])
-const removing = ref(false)
-async function remove() {
-  if (!metaMangaShowInfo.value) return
-
-  removing.value = true
-
-  const meta = metaMangaShowInfo.value
-  // eslint-disable-next-line camelcase
-  const { manga_id } = meta
-  await Promise.allSettled(
-    // eslint-disable-next-line camelcase
-    listEpRemove.value.map(async (ep_id) => {
-      await IDMStore.deleteEpisode(manga_id, ep_id)
-    }),
-  )
-
-  const storeTask = IDMStore.queue.get(manga_id)
-  if (storeTask && storeTask?.size > 0)
-    // eslint-disable-next-line camelcase
-    listEpRemove.value.forEach((ep_id) => {
-      // clear
-      storeTask.delete(ep_id)
-    })
-  if (listEpDownloaded.value)
-    listEpDownloaded.value = listEpDownloaded.value.filter((item) => {
-      return !listEpRemove.value.includes(item.ref.ep_id)
-    })
-
-  if (list.value?.size === 0) {
-    IDMStore.listMangaSorted.splice(
-      IDMStore.listMangaSorted.indexOf(meta) >>> 0,
-      1,
-    )
-  }
-
-  removing.value = false
-}
-// ===== download more =====
-
-const showDownloadMore = ref(false)
-const allEpisodes = shallowRef<Awaited<ReturnType<typeof GetListChapters>>[]>()
-const epsSelected = shallowReactive<
-  Set<Awaited<ReturnType<typeof GetListChapters>>>
->(new Set())
-
-watch(showDownloadMore, async (state) => {
-  allEpisodes.value = undefined
-  epsSelected.clear()
-
-  if (!state || !list.value) return
-
-  const meta = metaMangaShowInfo.value
-  if (!meta) return
-
-  // get port
-
-  const loader = $q.loading.show({
-    spinnerColor: "white",
-  })
-
-  // load episodes
-  const episodes = await GetListChapters(meta.manga_id)
-
-  loader()
-
-  allEpisodes.value = episodes
-})
+const metaMangaShowInfo = ref<(typeof IDMStore.listMangaSorted)[0] | null>(null)
 
 function selectAll() {
-  allEpisodes.value?.forEach((item) => {
-    epsSelected.add(item)
+  // eslint-disable-next-line camelcase
+  IDMStore.listMangaSorted.forEach(({ manga_id }) => {
+    mangaSelected.add(manga_id)
   })
 }
-function unSelectAll() {
-  epsSelected.clear()
-}
-
-const downloading = ref(false)
-async function download() {
-  if (!metaMangaShowInfo.value) return
-
-  downloading.value = true
-  for (const ep of epsSelected) {
-    const conf = await SlugChapChap(
-      ep.path.split("/").slice(2).join("/"),
-      false,
-    )
-    // eslint-disable-next-line promise/catch-or-return
-    IDMStore.download(metaMangaShowInfo.value, {
-      path: ep.path,
-      ep_id: ep.id,
-      ep_name: ep.name,
-      pages: conf.pages.map((item) => SERVERS[0].parse(item, conf)),
-    }).then((result) => {
-      if (listEpDownloaded.value)
-        listEpDownloaded.value.splice(
-          listEpDownloaded.value.findIndex(
-            (item) => item.ref.ep_id === result.ref.ep_id,
-          ) >>> 0,
-          1,
-          result,
-        )
-      // eslint-disable-next-line no-useless-return
-      return
-    })
+const removing = ref(false)
+async function remove() {
+  removing.value = true
+  // eslint-disable-next-line camelcase
+  for (const manga_id of mangaSelected) {
+    await deleteManga(manga_id)
   }
-  downloading.value = false
-
-  showDownloadMore.value = false
+  IDMStore.listMangaSorted.forEach((item, index) => {
+    if (mangaSelected.has(item.manga_id))
+      IDMStore.listMangaSorted.splice(index, 1)
+  })
+  removing.value = false
 }
 </script>
