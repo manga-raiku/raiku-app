@@ -67,7 +67,7 @@
     v-if="$q.screen.gt.sm"
       :model-value="(hideDrawer ? showDrawer : true)"
       @update:model-value="hideDrawer ? (showDrawer = $event) : undefined"
-      :mini="hideDrawer ? false : !showDrawer"
+      :mini="hideDrawer ? false : showDrawer"
       show-if-above
       :width="250"
       :breakpoint="500"

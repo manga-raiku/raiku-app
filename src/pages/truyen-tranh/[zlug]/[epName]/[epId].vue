@@ -60,32 +60,46 @@ meta:
       <AppHeaderHistory v-if="$q.screen.gt.xs" />
       <!-- <AppHeaderNotify /> -->
 
-      <AppHeaderUser v-if="MODE !== 'capacitor'" />
+      <AppHeaderUser v-if="MODE !== 'capacitor'" class="mr-2" />
 
       <q-btn
         round
         unelevated
-        @click="
-          data &&
-            currentEpisode?.value &&
-            pages &&
-            IDMStore.download(
-              {
-                path: `/truyen-tranh/${zlug}`,
-                manga_id: data.uid,
-                manga_name: data.name,
-                manga_image: data.image,
-              },
-              {
-                path: `/truyen-tranh/${zlug}/${epName}/${epId}`,
-                ep_id: data.ep_id,
-                ep_name: currentEpisode.value.name,
-                pages: pages.slice(0),
-              },
-            )
-        "
+        :disable="statusEPDL === undefined"
+        @click="onClickDownload"
       >
-        <Icon icon="solar:download-minimalistic-broken" class="size-1.5em" />
+        <q-circular-progress
+          v-if="statusEPDL && !isMetaEpOnDisk(statusEPDL)"
+          :value="
+            (statusEPDL.ref.downloaded / statusEPDL.ref.pages.length) * 100
+          "
+          show-value
+          size="35px"
+          color="main"
+        >
+          <Icon
+            v-if="!statusEPDL.downloading"
+            icon="solar:download-minimalistic-linear"
+            class="size-2em"
+          />
+          <template v-else
+            >{{
+              Math.round(
+                (statusEPDL.ref.downloaded / statusEPDL.ref.pages.length) * 100,
+              )
+            }}%</template
+          >
+        </q-circular-progress>
+        <Icon
+          v-else-if="!statusEPDL"
+          icon="solar:download-minimalistic-broken"
+          class="size-1.5em"
+        />
+        <Icon
+          v-else
+          icon="material-symbols:offline-pin-rounded"
+          class="size-2em"
+        />
       </q-btn>
     </q-toolbar>
   </q-header>
@@ -564,6 +578,7 @@ import type { QDialog, QMenu } from "quasar"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
 import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
+import type { MetaEpisodeOnDisk } from "src/logic/download-manager"
 
 const props = defineProps<{
   zlug: string
@@ -613,6 +628,83 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
+const statusEPDL = computedAsync(
+  async () => {
+    if (!data.value) return
+
+    return (
+      IDMStore.queue.get(data.value.uid)?.get(data.value.ep_id) ||
+      getEpisode(data.value.uid, data.value.ep_id).catch(() => null)
+    )
+  },
+  undefined,
+  {
+    onError: console.error.bind(console),
+  },
+)
+const isMetaEpOnDisk = (val: any): val is MetaEpisodeOnDisk =>
+  typeof val.downloaded === "number"
+function onClickDownload() {
+  if (!data.value) return
+
+  if (statusEPDL.value && !isMetaEpOnDisk(statusEPDL.value)) {
+    if (statusEPDL.value.downloading) statusEPDL.value.stop()
+    else statusEPDL.value.resume()
+
+    return
+  }
+  // confirm delete
+  if (statusEPDL.value) {
+    $q.dialog({
+      message: "Bạn muốn xóa chương này khỏi ngoại tuyến chứ?",
+      ok: {
+        label: "Xóa",
+        color: "red",
+        rounded: true,
+        noCaps: true,
+        flat: true,
+      },
+      cancel: {
+        label: "Hủy",
+        color: "white",
+        rounded: true,
+        noCaps: true,
+        flat: true,
+      },
+    }).onOk(async () => {
+      if (data.value) await deleteEpisode(data.value.uid, data.value.ep_id)
+      statusEPDL.value = null
+    })
+
+    return
+  }
+
+  if (
+    !props.zlug ||
+    !props.epName ||
+    !props.epId ||
+    !data.value ||
+    !currentEpisode.value ||
+    !pages.value
+  )
+    return
+
+  IDMStore.download(
+    {
+      path: `/truyen-tranh/${props.zlug}`,
+      manga_id: data.value.uid,
+      manga_name: data.value.name,
+      manga_image: data.value.image,
+    },
+    {
+      path: `/truyen-tranh/${props.zlug}/${props.epName}/${props.epId}`,
+      ep_id: data.value.ep_id,
+      ep_name: currentEpisode.value.value.name,
+      pages: pages.value.slice(0),
+    },
+  )
+}
+
 const isFollow = computedAsync<boolean | undefined>(() => {
   if (!data.value) return
 

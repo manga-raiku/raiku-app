@@ -401,3 +401,16 @@ export async function deleteEpisode(manga_id: number, ep_id: number) {
       .catch(() => null),
   ])
 }
+
+export async function getEpisode(manga_id: number, ep_id: number) {
+  const hashIDManga = hashSum(manga_id)
+  const hashIDEp = hashSum(ep_id)
+
+  return JSON.parse(
+    await Filesystem.readFile({
+      path: `${DIR_META}/${hashIDManga}/${hashIDEp}.mod`,
+      directory: Directory.External,
+      encoding: Encoding.UTF8,
+    }).then((res) => (res.data)),
+  ) as MetaEpisodeOnDisk
+}
