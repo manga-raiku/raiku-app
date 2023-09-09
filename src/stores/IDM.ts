@@ -62,7 +62,10 @@ export const useIDMStore = defineStore("IDM", () => {
     }
   }
 
-  async function download(metaManga: MetaManga, metaEp: MetaEpisode): Promise<TaskDLEp | TaskDDEp> {
+  async function download(
+    metaManga: MetaManga,
+    metaEp: MetaEpisode,
+  ): Promise<TaskDLEp | TaskDDEp> {
     console.log("start download: ", metaEp)
     const task = createTaskDownloadEpisode(metaManga, metaEp)
 

@@ -42,12 +42,9 @@ const props = defineProps<{
 
 const followStore = useFollowStore()
 
-const { data, error, refreshAsync } = useRequest(
-  () => followStore.get(),
-  {
-    manual: props.visible !== undefined,
-  },
-)
+const { data, error, refreshAsync } = useRequest(() => followStore.get(), {
+  manual: props.visible !== undefined,
+})
 watch(
   () => props.visible,
   (visible) => {

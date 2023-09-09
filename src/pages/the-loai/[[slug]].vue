@@ -1,26 +1,26 @@
 <route lang="yaml">
 alias: ["/tim-truyen/:slug?"]
 meta:
-  hiddenHeader: isNative
+  hiddenHeader: isNative or ($lt.md and isPWA)
   revealHeader: true
 </route>
 
 <template>
   <q-page padding>
-      <template v-if="!data">
-        <q-skeleton type="text" width="220px" class="mt-3" />
+    <template v-if="!data">
+      <q-skeleton type="text" width="220px" class="mt-3" />
 
-        <SkeletonGridCard :count="40" />
-      </template>
-      <template v-else>
-        <GenresFilterNative :filter="data.filters" />
+      <SkeletonGridCard :count="40" />
+    </template>
+    <template v-else>
+      <GenresFilterNative :filter="data.filters" />
 
-        <p class="mt-80px font-family-poppins">{{ data.description }}</p>
+      <p class="mt-80px font-family-poppins">{{ data.description }}</p>
 
-        <!-- filter native -->
-        <!-- /filter native -->
+      <!-- filter native -->
+      <!-- /filter native -->
 
-        <!--
+      <!--
       <div
         v-if="data.maxPage > 1 && $q.screen.gt.sm"
         class="flex items-center justify-center q-pa-md"
@@ -28,18 +28,18 @@ meta:
         <Pagination :max="data.maxPage" v-model="page" />
       </div> -->
 
-        <SkeletonGridCard v-if="loading" :count="40" />
-        <InfiniteScroll v-else @load="onLoad">
-          <GridCard :items="data.items"  />
-        </InfiniteScroll>
+      <SkeletonGridCard v-if="loading" :count="40" />
+      <InfiniteScroll v-else @load="onLoad">
+        <GridCard :items="data.items" />
+      </InfiniteScroll>
 
-        <!-- <div
+      <!-- <div
         v-if="data.maxPage > 1 && $q.screen.gt.sm"
         class="flex items-center justify-center q-pa-md"
       >
         <Pagination :max="data.maxPage" v-model="page" />
       </div> -->
-      </template>
+    </template>
   </q-page>
 </template>
 

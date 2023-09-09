@@ -15,6 +15,7 @@ The app currently supports:
 - PWA
 
 ## Screenshot
+
 - Android, Web Mobile:
 <div style="overflow-x: scroll; white-space: nowrap">
 
@@ -32,8 +33,7 @@ The app currently supports:
 </div>
 
 - Desktop
-![image](https://github.com/manga-raiku/manga-raiku/assets/45375496/6d891e67-29f5-4860-91b2-e85b4aa1987f)
-
+  ![image](https://github.com/manga-raiku/manga-raiku/assets/45375496/6d891e67-29f5-4860-91b2-e85b4aa1987f)
 
 ## Install the dependencies
 

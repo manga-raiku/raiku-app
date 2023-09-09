@@ -62,7 +62,9 @@ meta:
           <q-item-section>
             <q-item-label>{{ item.text }}</q-item-label>
           </q-item-section>
-          <q-item-section v-if="item.side" side>{{ item.side.value }}</q-item-section>
+          <q-item-section v-if="item.side" side>{{
+            item.side.value
+          }}</q-item-section>
         </q-item>
       </q-list>
     </div>
@@ -123,7 +125,7 @@ const buttons: {
     text: "Giới thiệu",
     side: computedAsync(async () => {
       try {
-        return  (await App.getInfo()).version
+        return (await App.getInfo()).version
       } catch {
         return version
       }
@@ -136,6 +138,6 @@ watch(
   (mobile) => {
     if (!mobile) router.push("/app/myaccount")
   },
-{ immediate: true }
+  { immediate: true },
 )
 </script>

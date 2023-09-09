@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh Lpr lFf">
     <q-header
-      v-if="execScriptMeta(route.meta?.hiddenHeader) !== true"
+      v-if="execScriptMeta($q, route.meta?.hiddenHeader) !== true"
       :reveal="route.meta.revealHeader"
       class="bg-dark-page py-1 px-2 header-blur"
       :class="{
@@ -64,8 +64,8 @@
     </q-header>
 
     <q-drawer
-    v-if="$q.screen.gt.sm"
-      :model-value="(hideDrawer ? showDrawer : true)"
+      v-if="$q.screen.gt.sm"
+      :model-value="hideDrawer ? showDrawer : true"
       @update:model-value="hideDrawer ? (showDrawer = $event) : undefined"
       :mini="hideDrawer ? false : showDrawer"
       show-if-above
@@ -264,6 +264,7 @@ import "@fontsource/poppins"
 // =========== suth
 
 import { Icons } from "src/constants"
+import { execScriptMeta } from "src/logic/exec-script-meta"
 import { pathEqual } from "src/logic/path-equal"
 
 import NotExistsExtension from "./NotExistsExtension.vue"
@@ -285,21 +286,6 @@ watch(canvasRef, (ref) => {
 })
 
 const showSearchMB = ref(false)
-
-function execScriptMeta(src?: string | boolean) {
-  if (!src || typeof src === "boolean") return src
-
-  if (src === "$lt.md or isNative")
-    return $q.screen.lt.md || import.meta.env.MODE === "capacitor"
-  if (src === "isNative")
-  return import.meta.env.MODE === "capacitor"
-
-  try {
-    return JSON.parse(src.replace("$lt.md", JSON.stringify($q.screen.lt.md)))
-  } catch (err) {
-    console.warn(err, route.path)
-  }
-}
 
 const hideDrawer = computed(() => route.meta.hiddenDrawer ?? false)
 const showDrawer = ref(false)

@@ -1,6 +1,5 @@
 import { Screen } from "quasar"
 import { route } from "quasar/wrappers"
-import { isCapacitor } from "src/constants"
 import { setupLayouts } from "virtual:generated-layouts"
 import generatedRoutes from "virtual:generated-pages"
 import {
@@ -86,7 +85,7 @@ export default route(function (/* { store, ssrContext } */) {
       return "/app/sign-in?redirect=" + to.fullPath
     }
     if (authStore.session) {
-      return isCapacitor ? "/app" : "/"
+      return import.meta.env.MODE === "capacitor" ? "/app" : "/"
     }
   })
 

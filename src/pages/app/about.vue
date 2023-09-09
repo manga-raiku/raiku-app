@@ -1,11 +1,11 @@
 <route lang="yaml">
-  meta:
-    hiddenHeader: $lt.md
-    hiddenFooter: true
-    hiddenDrawer: true
-    auth: true
-  </route>
-  
+meta:
+  hiddenHeader: $lt.md
+  hiddenFooter: true
+  hiddenDrawer: true
+  auth: true
+</route>
+
 <template>
   <div>
     <q-header v-if="$q.screen.lt.md" class="bg-dark-page">

@@ -1,5 +1,4 @@
 export const C_URL = "https://truyenqqq.vn"
-export const isCapacitor = false // import.meta.env.MODE === "capacitor"
 
 export const Icons: Record<string, [string, string]> = {
   home: ["solar:home-smile-broken", "solar:home-smile-bold-duotone"],
@@ -40,5 +39,5 @@ export const Icons: Record<string, [string, string]> = {
     "solar:notebook-bookmark-line-duotone",
     "solar:notebook-bookmark-bold-duotone",
   ],
-  translate: ["ph:translate-duotone", "ph:translate-duotone"]
+  translate: ["ph:translate-duotone", "ph:translate-duotone"],
 }

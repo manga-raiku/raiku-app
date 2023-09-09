@@ -262,11 +262,13 @@ async function resume(item: TaskDLEp | TaskDDEp) {
     const result = await IDMStore.resumeDownload(metaMangaShowInfo.value, item)
 
     if (!isTaskDLEp(result))
-    lsEpDL.value.splice(
-      lsEpDL.value.findIndex((item) => item.ref.ep_id === result.ref.ep_id) >>> 0,
-      1,
-      result ,
-    )
+      lsEpDL.value.splice(
+        lsEpDL.value.findIndex(
+          (item) => item.ref.ep_id === result.ref.ep_id,
+        ) >>> 0,
+        1,
+        result,
+      )
   } catch (err) {
     if ((err as Error | undefined)?.message === "user_paused") return
     // eslint-disable-next-line functional/no-throw-statement
@@ -357,6 +359,7 @@ async function download() {
   if (!metaMangaShowInfo.value) return
 
   downloading.value = true
+
   for (const ep of epsSelected) {
     const conf = await SlugChapChap(
       ep.path.split("/").slice(2).join("/"),
@@ -371,10 +374,11 @@ async function download() {
     }).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {
         lsEpDL.value.splice(
-          lsEpDL.value.findIndex((item) => item.ref.ep_id === result.ref.ep_id) >>>
-            0,
+          lsEpDL.value.findIndex(
+            (item) => item.ref.ep_id === result.ref.ep_id,
+          ) >>> 0,
           1,
-         result,
+          result,
         )
       }
 

@@ -43,10 +43,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { MetaEpisodeOnDisk, MetaEpisodeRunning } from "src/logic/download-manager"
+import type {
+  MetaEpisodeOnDisk,
+  MetaEpisodeRunning,
+} from "src/logic/download-manager"
 
 defineProps<{
-  data:MetaEpisodeOnDisk | MetaEpisodeRunning
+  data: MetaEpisodeOnDisk | MetaEpisodeRunning
   downloading?: boolean
 }>()
 const emit = defineEmits<{

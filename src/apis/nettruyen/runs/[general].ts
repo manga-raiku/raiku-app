@@ -14,6 +14,7 @@ export default async function (
 
   const url = new URL(path, "http://localhost")
   url.searchParams.set("page", page + "")
+
   for (const key in query) {
     url.searchParams.set(key, query[key] + "")
   }

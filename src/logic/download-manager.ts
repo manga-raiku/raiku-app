@@ -219,7 +219,7 @@ export function createTaskDownloadEpisode(
       downloading.value = false
       throw err
     })
-console.log("task fpromise")
+    console.log("task fpromise")
     const meta = await saveMeta(refValue)
     downloading.value = false
     return meta

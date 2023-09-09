@@ -25,7 +25,7 @@ export const useAuthStore = defineStore("auth-spb", () => {
           .abortSignal(controllerUpdateProfile.signal)
           .single()
 
-        // eslint-disable-next-line  functional/no-throw-statement
+        // eslint-disable-next-line functional/no-throw-statement
         if (error) throw error
 
         return data
@@ -113,6 +113,6 @@ export const useAuthStore = defineStore("auth-spb", () => {
     updatePassword,
     updateUser,
 
-    assert
+    assert,
   }
 })

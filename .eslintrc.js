@@ -95,5 +95,6 @@ module.exports = {
     "no-undef": "off",
     "functional/no-let": "off",
     "vue/valid-v-for": "off",
+    "functional/no-loop-statements": "off",
   },
 }

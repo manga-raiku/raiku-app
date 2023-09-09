@@ -4,9 +4,7 @@ const value = { v: Math.random() }
 
 describe("with-cache", () => {
   test("should get value from fn", async () => {
-    expect(
-      await withCache(async () => value, ref("key"))
-    ).toEqual(value)
+    expect(await withCache(async () => value, ref("key"))).toEqual(value)
   })
 
   test("should get value from cache if exists", async () => {

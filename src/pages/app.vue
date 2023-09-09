@@ -1,6 +1,6 @@
 <template>
   <q-drawer
-    v-if="$q.screen.gt.sm && route.meta.hiddenDrawerScope !==true"
+    v-if="$q.screen.gt.sm && route.meta.hiddenDrawerScope !== true"
     :model-value="true"
     show-if-above
     :width="Math.min(400, ~~$q.screen.width / 4)"
@@ -114,7 +114,7 @@ const buttons: {
     text: "Giới thiệu",
     side: computedAsync(async () => {
       try {
-        return  (await App.getInfo()).version
+        return (await App.getInfo()).version
       } catch {
         return version
       }

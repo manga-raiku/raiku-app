@@ -1,4 +1,3 @@
-/* eslint-disable functional/no-throw-statement */
 import type { Database } from "app/database"
 import { defineStore } from "pinia"
 
@@ -22,6 +21,7 @@ export const useFollowStore = defineStore("follow", () => {
       ? await res.range(lastIndex, lastIndex + 30)
       : await res
 
+    // eslint-disable-next-line functional/no-throw-statement
     if (error) throw error
 
     const { data: data2, error: error2 } = await supabase
@@ -32,6 +32,7 @@ export const useFollowStore = defineStore("follow", () => {
         data.map((item) => item.manga_id),
       )
 
+    // eslint-disable-next-line functional/no-throw-statement
     if (error2) throw error2
 
     const storeRead = new Map(data2.map((item) => [item.manga_id, item]))
@@ -55,6 +56,7 @@ export const useFollowStore = defineStore("follow", () => {
       .eq("user_id", session.user.id)
       .limit(1)
 
+    // eslint-disable-next-line functional/no-throw-statement
     if (error) throw error
 
     return data.length > 0
@@ -75,6 +77,7 @@ export const useFollowStore = defineStore("follow", () => {
         onConflict: "manga_id, user_id",
       })
 
+      // eslint-disable-next-line functional/no-throw-statement
       if (error) throw error
       return true
     }
@@ -83,6 +86,7 @@ export const useFollowStore = defineStore("follow", () => {
       .delete()
       .eq("manga_id", row.manga_id)
       .eq("user_id", session.user.id)
+    // eslint-disable-next-line functional/no-throw-statement
     if (error) throw error
     return true
   }

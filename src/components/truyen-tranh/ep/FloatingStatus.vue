@@ -70,6 +70,7 @@ const indexed = computed(() => {
   const indexed: [number, number?][] = []
 
   const iMax = props.sizes.size - 1
+
   for (let i = 0; i < props.sizes.size; i++) {
     const val = props.sizes.get(i)
 

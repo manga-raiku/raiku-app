@@ -68,7 +68,7 @@ export interface Database {
             columns: ["user_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       history_chapter: {
@@ -99,7 +99,7 @@ export interface Database {
             columns: ["h_manga_id"]
             referencedRelation: "history_manga"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       history_manga: {
@@ -148,7 +148,7 @@ export interface Database {
             columns: ["user_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       profiles: {
@@ -182,7 +182,7 @@ export interface Database {
             columns: ["id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }
@@ -249,7 +249,7 @@ export interface Database {
             columns: ["owner"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       migrations: {
@@ -322,7 +322,7 @@ export interface Database {
             columns: ["owner"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }
