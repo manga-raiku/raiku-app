@@ -1,0 +1,10 @@
+{
+  "appId": "git.shin.raiku",
+  "appName": "Manga Raiku",
+  "bundledWebRuntime": false,
+  "npmClient": "pnpm",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
