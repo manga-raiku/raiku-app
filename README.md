@@ -100,6 +100,7 @@ quasar build
 - [ ] Common API to support various sources
 - [ ] Localize app
 - [ ] Download manager
+- [ ] meta header
 
 ### Customize the configuration
 
