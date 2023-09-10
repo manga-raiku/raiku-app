@@ -14,6 +14,7 @@ on:
   pull_request:
   schedule:
     - cron: '15 10 * * 5'
+  workflow_call:
 
 jobs:
   eslint:
