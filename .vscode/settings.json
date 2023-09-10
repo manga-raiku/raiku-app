@@ -55,5 +55,8 @@
   "editor.tabCompletion": "on",
   "diffEditor.codeLens": true,
   "typescript.preferences.autoImportFileExcludePatterns": ["vue-router"],
-  "MutableAI.upsell": false
+  "MutableAI.upsell": false,
+  "[ruby]": {
+    "editor.defaultFormatter": "mbessey.vscode-rufo"
+  }
 }

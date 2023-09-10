@@ -37,7 +37,10 @@
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:gen": "supabase gen",
-    "db:migration": "supabase migration"
+    "db:migration": "supabase migration",
+    "release:pwa": "tsx scripts/bumpp-pwa.ts",
+    "release:android": "tsx scripts/bumpp-android.ts",
+    "release:ios": "tsx scripts/bumpp-ios.ts"
   },
   "dependencies": {
     "@capacitor/device": "^5.0.6",
@@ -130,6 +133,7 @@
     "prettier": "^3.0.1",
     "prompts": "^2.4.2",
     "sass": "1.32.11",
+    "semver": "^7.5.4",
     "supabase": "^1.88.0",
     "tsx": "^3.12.7",
     "typescript": "^5.0.4",
