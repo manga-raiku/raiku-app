@@ -69,7 +69,7 @@ jobs:
 
       - name: Generate changelog
         id: changelog
-        uses: manga-raiku/changelog-generator@v4.1.0-patch2
+        uses: manga-raiku/changelog-generator@v4.0.1-patch2
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
           match-tag: android@*
