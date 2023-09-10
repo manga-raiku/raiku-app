@@ -29,7 +29,7 @@ jobs:
 
       - name: Generate changelog
         id: changelog
-        uses: manga-raiku/changelog-generator@v4.1.0-patch1
+        uses: manga-raiku/changelog-generator@v4.1.0-patch2
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
           match-tag: pwa@*
