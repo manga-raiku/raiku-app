@@ -1,8 +1,8 @@
-name: Release
+name: PWA Release
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "pwa@*"
 jobs:
   ci:
     uses: ./.github/workflows/ci.yml

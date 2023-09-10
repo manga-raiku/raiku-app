@@ -1,8 +1,8 @@
-name: Release
+name: Android Release
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "android@*"
 jobs:
   ci:
     uses: ./.github/workflows/ci.yml
