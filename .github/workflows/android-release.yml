@@ -1,4 +1,4 @@
-name: Android Release
+name: Release for Android
 on:
   push:
     tags:
@@ -21,10 +21,17 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+
       - name: Install and Build Capacitor 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
           sh install.sh
           pnpm build:android --ide
+
+      - name: Setup .env
+        run: |
+          echo "" > .env
+          echo SUPABASE_PROJECT_URL=${{ secrets.SUPABASE_PROJECT_URL }} >> .env
+          echo SUPABASE_PROJECT_KEY=${{ secrets.SUPABASE_PROJECT_KEY }} >> .env
 
       - name: Build Android App
         uses: anime-vsub/android-build-action@1.2.1
@@ -62,7 +69,7 @@ jobs:
 
       - name: Generate changelog
         id: changelog
-        uses: manga-raiku/changelog-generator@4.1.0
+        uses: manga-raiku/changelog-generator@v4.1.0-patch1
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
           match-tag: android@*
