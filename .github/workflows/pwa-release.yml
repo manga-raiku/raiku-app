@@ -25,9 +25,10 @@ jobs:
 
       - name: Generate changelog
         id: changelog
-        uses: metcalfc/changelog-generator@v4.0.1
+        uses: manga-raiku/changelog-generator@4.1.0
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
+          match-tag: pwa@*
 
       - name: Create Release
         id: create_release
