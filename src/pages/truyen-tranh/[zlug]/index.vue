@@ -130,7 +130,7 @@ meta:
         >
           <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
-          {{ $t("bat-dau-xem-ch-name", [data.chapters.at(-1)!.name]) }}}</q-btn
+          {{ $t("bat-dau-xem-ch-name", [data.chapters.at(-1)!.name]) }}</q-btn
         >
 
         <q-btn
