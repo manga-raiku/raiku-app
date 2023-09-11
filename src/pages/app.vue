@@ -35,20 +35,19 @@
             exact-active-class="bg-[rgba(255,255,255,0.1)] text-main"
           >
             <q-item-section avatar class="pr-0 min-w-0">
-              <Icon
+              <component
                 v-if="!to || router.resolve(to).fullPath !== route.fullPath"
-                :icon="icon[0]"
+                :is="icon[0]"
                 width="23"
                 height="23"
               />
-              <Icon v-else :icon="icon[1]" width="23" height="23" />
+              <component v-else :is="icon[1]" width="23" height="23" />
             </q-item-section>
             <q-item-section class="ml-5">
               <q-item-label class="flex items-center">
                 {{ text }}
-                <Icon
+                <i-solar-arrow-right-up-outline
                   v-if="href"
-                  icon="solar:arrow-right-up-outline"
                   class="size-1em text-gray-400 ml-2"
                 />
               </q-item-label>
@@ -68,13 +67,16 @@
 import { App } from "@capacitor/app"
 import { version } from "app/package.json"
 import { Icons } from "src/constants"
+import type { Icon } from "src/constants"
+
+import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
 
 const router = useRouter()
 const route = useRoute()
 const buttons: {
   href?: string
   to?: string
-  icon: [string, string]
+  icon: [Icon, Icon]
   text: string
   side?: Ref<string>
 }[] = [
@@ -100,7 +102,7 @@ const buttons: {
   },
   {
     href: "https://mangaraiku.eu.org",
-    icon: ["ant-design:apple-outlined", "ant-design:apple-outlined"],
+    icon: [antDesignAppleOutlined, antDesignAppleOutlined],
     text: "PWA cho iOS và desktop",
   },
   {

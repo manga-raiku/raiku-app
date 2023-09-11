@@ -1,14 +1,7 @@
 <template>
   <q-btn v-if="authStore.session" round unelevated class="mr-2">
-    <Icon
-      :icon="
-        showMenuFollow
-          ? 'majesticons:bookmark-plus'
-          : 'majesticons:bookmark-plus-line'
-      "
-      width="24"
-      height="24"
-    />
+    <i-majesticons-bookmark-plus v-if="showMenuFollow" width="24" height="24" />
+    <i-majesticons-bookmark-plus-line v-else width="24" height="24" />
 
     <q-menu
       v-model="showMenuFollow"
@@ -16,7 +9,7 @@
     >
       <q-toolbar>
         <q-btn v-if="$q.screen.lt.sm" round v-close-popup>
-          <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
+          <i-fluent-arrow-left-24-regular class="size-1.5em" />
         </q-btn>
 
         <q-toolbar-title>Truyện đang theo dõi</q-toolbar-title>

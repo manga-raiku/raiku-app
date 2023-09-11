@@ -36,8 +36,7 @@
         class="text-gray-300 text-weight-medium px-5 mt-1 text-13px flex items-center"
       >
         <span class="flex items-center mr-4 cursor-pointer">
-          <Icon
-            icon="fluent:thumb-like-28-filled"
+          <i-fluent-thumb-like-28-filled
             width="1.3em"
             height="1.3em"
             class="mr-1"
@@ -47,8 +46,7 @@
         </span>
 
         <span class="flex items-center mr-4 cursor-pointer">
-          <Icon
-            icon="fluent:thumb-dislike-24-filled"
+          <i-fluent-thumb-dislike-24-filled
             width="1.3em"
             height="1.3em"
             class="mr-1"
@@ -59,8 +57,7 @@
         </span>
 
         <span class="flex items-center mr-4 cursor-pointer">
-          <Icon
-            icon="fluent:comment-multiple-24-filled"
+          <i-fluent-comment-multiple-24-filled
             width="1.3em"
             height="1.3em"
             class="mr-1"
@@ -81,11 +78,10 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue"
 import type { RComment } from "src/apis/nettruyen/parsers/__helpers__/parseComment"
 import dayjs from "src/logic/dayjs"
 
-const props = defineProps<{
+defineProps<{
   comment: RComment
 }>()
 

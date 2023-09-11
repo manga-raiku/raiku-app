@@ -108,13 +108,13 @@
               exact-active-class="bg-[rgba(255,255,255,0.1)] text-main"
             >
               <q-item-section avatar class="pr-0 min-w-0">
-                <Icon
+                <component
                   v-if="router.resolve(path!).fullPath !== route.fullPath"
-                  :icon="icon!"
+                  :is="icon!"
                   width="23"
                   height="23"
                 />
-                <Icon v-else :icon="active!" width="23" height="23" />
+                <component v-else :is="active!" width="23" height="23" />
               </q-item-section>
               <q-item-section class="ml-5">
                 <q-item-label>{{ name }}</q-item-label>
@@ -161,10 +161,8 @@
         no-caps
       >
         <q-route-tab replace class="pt-1" to="/">
-          <Icon
-            :icon="
-              pathEqual(route.fullPath, '/') ? Icons.home[1] : Icons.home[0]
-            "
+          <component
+            :is="pathEqual(route.fullPath, '/') ? Icons.home[1] : Icons.home[0]"
             width="24"
             height="24"
             class="mb-1"
@@ -179,8 +177,8 @@
             'q-router-link--exact-active': route.path.startsWith('/tim-kiem'),
           }"
         >
-          <Icon
-            :icon="
+          <component
+            :is="
               route.path.startsWith('/tim-kiem')
                 ? Icons.search[1]
                 : Icons.search[0]
@@ -199,8 +197,8 @@
             'q-router-link--exact-active': route.path.startsWith('/the-loai'),
           }"
         >
-          <Icon
-            :icon="
+          <component
+            :is="
               route.path.startsWith('/the-loai') ? Icons.box[1] : Icons.box[0]
             "
             width="24"
@@ -217,8 +215,8 @@
             'q-router-link--exact-active': route.path.startsWith('/library'),
           }"
         >
-          <Icon
-            :icon="
+          <component
+            :is="
               route.path.startsWith('/library')
                 ? Icons.library[1]
                 : Icons.library[0]
@@ -237,10 +235,8 @@
             'q-router-link--exact-active': route.path.startsWith('/app'),
           }"
         >
-          <Icon
-            :icon="
-              route.path.startsWith('/app') ? Icons.user[1] : Icons.user[0]
-            "
+          <component
+            :is="route.path.startsWith('/app') ? Icons.user[1] : Icons.user[0]"
             width="24"
             height="24"
             class="mb-1"

@@ -42,10 +42,7 @@
           class="text-12px mr-2"
           color="blue-400"
         >
-          <Icon
-            icon="fluent:play-multiple-16-regular"
-            class="size-1.5em mr-1"
-          />
+          <i-fluent-play-multiple-16-regular class="size-1.5em mr-1" />
           Đọc tiếp
         </q-btn>
 

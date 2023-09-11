@@ -87,6 +87,11 @@
   },
   "devDependencies": {
     "@capacitor/app": "^5.0.6",
+    "@iconify-json/carbon": "^1.1.21",
+    "@iconify-json/ep": "^1.1.12",
+    "@iconify-json/ic": "^1.1.14",
+    "@iconify-json/iconamoon": "^1.1.1",
+    "@iconify-json/line-md": "^1.1.29",
     "@intlify/vite-plugin-vue-i18n": "^6.0.3",
     "@pinia/testing": "^0.1.3",
     "@quasar/app-vite": "^1.4.3",
@@ -131,6 +136,8 @@
     "javascript-obfuscator": "^4.0.2",
     "jsdom": "^21.1.0",
     "kleur": "^4.1.5",
+    "nx": "16.8.1",
+    "nx-cloud": "latest",
     "prettier": "^3.0.1",
     "prompts": "^2.4.2",
     "sass": "1.32.11",
@@ -140,6 +147,7 @@
     "typescript": "^5.0.4",
     "unocss": "^0.53.4",
     "unplugin-auto-import": "^0.16.6",
+    "unplugin-icons": "^0.17.0",
     "unplugin-vue-components": "^0.25.1",
     "unplugin-vue-define-options": "^1.3.12",
     "vite": "^2.9.16",
@@ -155,9 +163,7 @@
     "workbox-expiration": "^6.5.0",
     "workbox-precaching": "^6.5.0",
     "workbox-routing": "^6.5.0",
-    "workbox-strategies": "^6.5.0",
-    "nx": "16.8.1",
-    "nx-cloud": "latest"
+    "workbox-strategies": "^6.5.0"
   },
   "overrides": {
     "vite": "^2.9.16",

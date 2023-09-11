@@ -1,6 +1,8 @@
 import Pages from "@tachibana-shin/vite-plugin-pages"
 import UnoCSS from "unocss/vite"
 import AutoImport from "unplugin-auto-import/vite"
+import IconsResolver from "unplugin-icons/resolver"
+import Icons from "unplugin-icons/vite"
 import Components from "unplugin-vue-components/vite"
 import DefineOptions from "unplugin-vue-define-options/vite"
 import type { Plugin } from "vite"
@@ -77,6 +79,7 @@ export const vitePlugins: [
     Components,
     {
       resolvers: [
+        IconsResolver(),
         (componentName: string) => {
           if (componentName.toLowerCase() === "icon")
             return {
@@ -89,4 +92,10 @@ export const vitePlugins: [
   ],
   [DefineOptions, {}],
   [vitePluginBuildRaw, {}],
+  [
+    Icons,
+    {
+      autoInstall: true,
+    },
+  ],
 ]

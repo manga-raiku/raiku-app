@@ -11,7 +11,7 @@ meta:
     <q-header v-if="$q.screen.lt.md" class="bg-dark-page">
       <q-toolbar>
         <q-btn round unelevated @click="router.back()">
-          <Icon icon="fluent:chevron-left-24-filled" class="size-1.5em" />
+          <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
         <q-toolbar-title>Profile</q-toolbar-title>
@@ -35,7 +35,7 @@ meta:
                 />
               </q-avatar>
 
-              <Icon icon="fluent:chevron-right-20-regular" class="size-1.5em" />
+              <i-fluent-chevron-right-20-regular class="size-1.5em" />
             </div>
           </q-item-section>
         </q-item>
@@ -49,7 +49,7 @@ meta:
               <span class="text-gray-300">{{
                 authStore.profile?.full_name
               }}</span>
-              <Icon icon="fluent:chevron-right-20-regular" class="size-1.5em" />
+              <i-fluent-chevron-right-20-regular class="size-1.5em" />
             </div>
           </q-item-section>
         </q-item>
@@ -67,7 +67,7 @@ meta:
                   ? "Gái"
                   : ""
               }}</span>
-              <Icon icon="fluent:chevron-right-20-regular" class="size-1.5em" />
+              <i-fluent-chevron-right-20-regular class="size-1.5em" />
             </div>
           </q-item-section>
         </q-item>
@@ -81,7 +81,7 @@ meta:
               <span class="text-gray-300">{{
                 authStore.profile?.birthday
               }}</span>
-              <Icon icon="fluent:chevron-right-20-regular" class="size-1.5em" />
+              <i-fluent-chevron-right-20-regular class="size-1.5em" />
             </div>
           </q-item-section>
         </q-item>

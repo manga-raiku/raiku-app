@@ -38,7 +38,7 @@ export default function slug(html: string, now: number) {
     .find("a")
     .toArray()
     .map((item) => parseAnchor($(item)))
-  const views = parseInt(
+  const views = parseNumber(
     $detail.find(".kind").next().find("p:not(.name)").text().replace(/\./, ""),
   )
   const $rate = $detail.find("span[itemprop=aggregateRating]")

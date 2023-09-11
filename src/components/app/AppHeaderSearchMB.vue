@@ -13,7 +13,7 @@
           v-show="keyword || searching"
           @click="onBack"
         >
-          <Icon icon="fluent:chevron-left-24-regular" width="25" height="25" />
+          <i-fluent-chevron-left-24-regular width="25" height="25" />
         </q-btn>
         <div class="w-full flex items-center py-2">
           <div
@@ -42,7 +42,7 @@
               v-show="query"
               @click="query = ''"
             >
-              <Icon icon="ep:close-bold" class="size-1.5em" />
+              <i-ep-close-bold class="size-1.5em" />
             </q-btn>
             <q-btn
               round
@@ -58,7 +58,7 @@
                 }
               "
             >
-              <Icon icon="fluent:search-24-regular" class="size-1.5em" />
+              <i-fluent-search-24-regular class="size-1.5em" />
             </q-btn>
           </div>
         </div>
@@ -77,11 +77,8 @@
             @click="onClickItemPreLoad(item)"
           >
             <q-item-section avatar class="min-w-0">
-              <Icon
-                v-if="typeof item === 'object'"
-                icon="fluent:search-24-regular"
-              />
-              <Icon v-else icon="fluent:history-24-regular" />
+              <i-fluent-search-24-regular v-if="typeof item === 'object'" />
+              <i-fluent-history-24-regular v-else />
             </q-item-section>
             <q-item-section>
               <q-item-label class="flex items-center">
@@ -98,7 +95,7 @@
               class="min-w-0"
               @click.stop.prevent="onClickItemPreLoad(item, true)"
             >
-              <Icon icon="fluent:arrow-up-left-24-regular" />
+              <i-fluent-arrow-up-left-24-regular />
             </q-item-section>
           </q-item>
         </q-list>

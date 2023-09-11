@@ -89,8 +89,7 @@
                 v-if="readsChapter?.has(item.id)"
                 class="mr--2 flex items-center"
               >
-                <Icon
-                  icon="fluent:checkmark-starburst-24-regular"
+                <i-fluent-checkmark-starburst-24-regular
                   width="1.3em"
                   height="1.3em"
                   class="mr-1"
@@ -127,7 +126,6 @@
 
 <script lang="ts" setup>
 import "@fontsource/poppins"
-import { Icon } from "@iconify/vue"
 import type { QBtn } from "quasar"
 import { QTab, QTabs } from "quasar"
 import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"

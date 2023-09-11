@@ -136,8 +136,7 @@ meta:
                     class="bg-main mt-2 xs:mt-4 pointer-events-all mx-auto"
                     no-caps
                   >
-                    <Icon
-                      icon="fluent:play-24-filled"
+                    <i-fluent-play-24-filled
                       width="1.3em"
                       height="1.3em"
                       class="mr-2"
@@ -180,7 +179,7 @@ meta:
 
                       <q-separator vertical class="mx-2" />
 
-                      <!-- <Icon icon="fluent:eye-24-filled" class="size-1.5em" /> -->
+                      <!-- <i-fluent-eye-24-filled class="size-1.5em" /> -->
                       {{ formatView(item.views!) }}
                     </div>
                   </div>
@@ -195,8 +194,7 @@ meta:
                 class="bg-main mt-2 sm:mt-4 pointer-events-all"
                 no-caps
               >
-                <Icon
-                  icon="fluent:play-24-filled"
+                <i-fluent-play-24-filled
                   width="1.3em"
                   height="1.3em"
                   class="mr-2"
@@ -258,14 +256,14 @@ meta:
 
               <q-separator vertical class="mx-2" />
 
-              <!-- <Icon icon="fluent:eye-24-filled" class="size-1.5em" /> -->
+              <!-- <i-fluent-eye-24-filled class="size-1.5em" /> -->
               {{ formatView(data.sliders[sliderIndex].views!) }}
             </div>
             <div class="mt-1 text-12px ellipsis">
               {{ data.sliders[sliderIndex].tags.join(", ") }}
             </div>
             <div
-              class="focus-item-desc text-gray-200 line-clamp-3  sm:line-clamp-2 md:line-clamp-5 !leading-normal"
+              class="focus-item-desc text-gray-200 line-clamp-3 sm:line-clamp-2 md:line-clamp-5 !leading-normal"
             >
               {{ data.sliders[sliderIndex].description }}
             </div>
@@ -277,8 +275,7 @@ meta:
               class="bg-main mt-2 sm:mt-4 pointer-events-all"
               no-caps
             >
-              <Icon
-                icon="fluent:play-24-filled"
+              <i-fluent-play-24-filled
                 width="1.3em"
                 height="1.3em"
                 class="mr-2"
@@ -394,8 +391,7 @@ meta:
         class="text-15px font-family-poppins text-main-4"
       >
         Tất cả thể loại
-        <Icon
-          icon="fluent:chevron-right-24-regular"
+        <i-fluent-chevron-right-24-regular
           width="1.3rem"
           height="1.3rem"
         />
@@ -411,7 +407,6 @@ meta:
 </template>
 
 <script setup lang="ts">
-import { Icon } from "@iconify/vue"
 // import data from "src/apis/parsers/__test__/assets/index.json"
 import Index from "src/apis/nettruyen/runs/index"
 import { formatView } from "src/logic/formatView"

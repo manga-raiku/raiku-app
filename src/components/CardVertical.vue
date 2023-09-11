@@ -47,12 +47,16 @@
         </div>
         <div class="flex items-center">
           <div v-if="data.likes" class="flex items-center">
-            <Icon icon="iconamoon:heart-thin" class="size-1.2em mr-1" />
+            <i-iconamoon-heart-thin class="size-1.2em mr-1" />
             {{ formatView(data.likes) }}
-            <q-separator v-if="data.comments" vertical class="mx-2 h-10px my-auto" />
+            <q-separator
+              v-if="data.comments"
+              vertical
+              class="mx-2 h-10px my-auto"
+            />
           </div>
           <div v-if="data.comments" class="flex items-center">
-            <Icon icon="iconamoon:comment-dots-light" class="size-1.2em mr-1" />
+            <i-iconamoon-comment-dots-light class="size-1.2em mr-1" />
             {{ formatView(data.comments) }}
           </div>
         </div>

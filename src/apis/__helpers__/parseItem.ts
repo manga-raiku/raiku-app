@@ -2,6 +2,7 @@ import type { Cheerio, CheerioAPI, Element } from "cheerio"
 import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { parseAnchor } from "./parseAnchor"
+import { parseNumber } from "./parseNumber"
 import { parsePath } from "./parsePath"
 import { parseTimeAgo } from "./parseTimeAgo"
 
@@ -29,7 +30,7 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
   const views =
     $info.length === 0
       ? null
-      : parseInt(
+      : parseNumber(
           $info
             .eq(1)
             .text()
@@ -41,7 +42,7 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
   const follows =
     $info.length === 0
       ? null
-      : parseInt(
+      : parseNumber(
           $info
             .eq(2)
             .text()

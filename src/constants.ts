@@ -1,49 +1,124 @@
+import type { FunctionalComponent, SVGAttributes } from "vue"
+
+import iconamoonSearchDuotone from "~icons/iconamoon/search-duotone.svg"
+import iconamoonSearch from "~icons/iconamoon/search.svg"
+import phTranslateDuotone from "~icons/ph/translate-duotone.svg"
+import solarBoxMinimalisticBoldDuotone from "~icons/solar/box-minimalistic-bold-duotone.svg"
+import solarBoxMinimalisticBroken from "~icons/solar/box-minimalistic-broken.svg"
+import solarBugBoldDuotone from "~icons/solar/bug-bold-duotone.svg"
+import solarBugLineDuotone from "~icons/solar/bug-line-duotone.svg"
+import solarCodeBoldDuotone from "~icons/solar/code-bold-duotone.svg"
+import solarDocumentTextBoldDuotone from "~icons/solar/document-text-bold-duotone.svg"
+import solarDocumentTextLineDuotone from "~icons/solar/document-text-line-duotone.svg"
+import solarDownloadMinimalisticBoldDuotone from "~icons/solar/download-minimalistic-bold-duotone.svg"
+import solarDownloadMinimalisticLineDuotone from "~icons/solar/download-minimalistic-line-duotone.svg"
+import solarFireBoldDuotone from "~icons/solar/fire-bold-duotone.svg"
+import solarFireLineDuotone from "~icons/solar/fire-line-duotone.svg"
+import solarFolderFavouriteStarBoldDuotone from "~icons/solar/folder-favourite-star-bold-duotone.svg"
+import solarFolderFavouriteStarLineDuotone from "~icons/solar/folder-favourite-star-line-duotone.svg"
+import solarHistoryBoldDuotone from "~icons/solar/history-bold-duotone.svg"
+import solarHistoryLineDuotone from "~icons/solar/history-line-duotone.svg"
+import solarHomeSmileBoldDuotone from "~icons/solar/home-smile-bold-duotone.svg"
+import solarHomeSmileBroken from "~icons/solar/home-smile-broken.svg"
+import solarInfoCircleBoldDuotone from "~icons/solar/info-circle-bold-duotone.svg"
+import solarInfoCircleLineDuotone from "~icons/solar/info-circle-line-duotone.svg"
+import solarLibraryBoldDuotone from "~icons/solar/library-bold-duotone.svg"
+import solarLibraryLineDuotone from "~icons/solar/library-line-duotone.svg"
+import solarNotebookBookmarkBoldDuotone from "~icons/solar/notebook-bookmark-bold-duotone.svg"
+import solarNotebookBookmarkLineDuotone from "~icons/solar/notebook-bookmark-line-duotone.svg"
+import solarSettingsBoldDuotone from "~icons/solar/settings-bold-duotone.svg"
+import solarSettingsLineDuotone from "~icons/solar/settings-line-duotone.svg"
+import solarUserCircleBoldDuotone from "~icons/solar/user-circle-bold-duotone.svg"
+import solarUserCircleLineDuotone from "~icons/solar/user-circle-line-duotone.svg"
+import solarUserHeartBoldDuotone from "~icons/solar/user-heart-bold-duotone.svg"
+import solarUserHeartLineDuotone from "~icons/solar/user-heart-line-duotone.svg"
+import solarUserLineDuotone from "~icons/solar/user-line-duotone.svg"
+import solarUserRoundedBoldDuotone from "~icons/solar/user-rounded-bold-duotone.svg"
+
 export const SUPABASE_PROJECT_URL = process.env.SUPABASE_PROJECT_URL
 export const SUPABASE_PROJECT_KEY = process.env.SUPABASE_PROJECT_KEY
 
-export const Icons: Readonly<Record<string, [string, string]>> = {
-  home: ["solar:home-smile-broken", "solar:home-smile-bold-duotone"],
-  search: ["iconamoon:search", "iconamoon:search-duotone"],
-  box: ["solar:box-minimalistic-broken", "solar:box-minimalistic-bold-duotone"],
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type Icon = FunctionalComponent<SVGAttributes, {}>
 
-  library: ["solar:library-line-duotone", "solar:library-bold-duotone"],
-  user: ["solar:user-line-duotone", "solar:user-rounded-bold-duotone"],
+const iconHome = [solarHomeSmileBroken, solarHomeSmileBoldDuotone] as [
+  Icon,
+  Icon,
+]
+const iconSearch = [iconamoonSearch, iconamoonSearchDuotone] as [Icon, Icon]
+const iconBox = [
+  solarBoxMinimalisticBroken,
+  solarBoxMinimalisticBoldDuotone,
+] as [Icon, Icon]
+const iconLibrary = [solarLibraryLineDuotone, solarLibraryBoldDuotone] as [
+  Icon,
+  Icon,
+]
+const iconUser = [solarUserLineDuotone, solarUserRoundedBoldDuotone] as [
+  Icon,
+  Icon,
+]
+const iconFire = [solarFireLineDuotone, solarFireBoldDuotone] as [Icon, Icon]
+const iconHistory = [solarHistoryLineDuotone, solarHistoryBoldDuotone] as [
+  Icon,
+  Icon,
+]
+const iconFavorite = [
+  solarFolderFavouriteStarLineDuotone,
+  solarFolderFavouriteStarBoldDuotone,
+] as [Icon, Icon]
+const iconDownload = [
+  solarDownloadMinimalisticLineDuotone,
+  solarDownloadMinimalisticBoldDuotone,
+] as [Icon, Icon]
+const iconDocument = [
+  solarDocumentTextLineDuotone,
+  solarDocumentTextBoldDuotone,
+] as [Icon, Icon]
+const iconUserHeart = [
+  solarUserHeartLineDuotone,
+  solarUserHeartBoldDuotone,
+] as [Icon, Icon]
+const iconSettings = [solarSettingsLineDuotone, solarSettingsBoldDuotone] as [
+  Icon,
+  Icon,
+]
+const iconInfoCircle = [
+  solarInfoCircleLineDuotone,
+  solarInfoCircleBoldDuotone,
+] as [Icon, Icon]
+const iconCodeBold = [solarCodeBoldDuotone, solarCodeBoldDuotone] as [
+  Icon,
+  Icon,
+]
+const iconBug = [solarBugLineDuotone, solarBugBoldDuotone] as [Icon, Icon]
+const iconNotebook = [
+  solarNotebookBookmarkLineDuotone,
+  solarNotebookBookmarkBoldDuotone,
+] as [Icon, Icon]
+const iconTranslate = [phTranslateDuotone, phTranslateDuotone] as [Icon, Icon]
+const iconUserCircle = [
+  solarUserCircleLineDuotone,
+  solarUserCircleBoldDuotone,
+] as [Icon, Icon]
 
-  fire: ["solar:fire-line-duotone", "solar:fire-bold-duotone"],
-
-  history: ["solar:history-line-duotone", "solar:history-bold-duotone"],
-  favorite: [
-    "solar:folder-favourite-star-line-duotone",
-    "solar:folder-favourite-star-bold-duotone",
-  ],
-  download: [
-    "solar:download-minimalistic-line-duotone",
-    "solar:download-minimalistic-bold-duotone",
-  ],
-
-  document: [
-    "solar:document-text-line-duotone",
-    "solar:document-text-bold-duotone",
-  ],
-  user_heart: [
-    "solar:user-heart-line-duotone",
-    "solar:user-heart-bold-duotone",
-  ],
-  settings: ["solar:settings-line-duotone", "solar:settings-bold-duotone"],
-  info_circle: [
-    "solar:info-circle-line-duotone",
-    "solar:info-circle-bold-duotone",
-  ],
-  code_bold: ["solar:code-bold-duotone", "solar:code-bold-duotone"],
-  bug: ["solar:bug-line-duotone", "solar:bug-bold-duotone"],
-  notebook: [
-    "solar:notebook-bookmark-line-duotone",
-    "solar:notebook-bookmark-bold-duotone",
-  ],
-  translate: ["ph:translate-duotone", "ph:translate-duotone"],
-
-  user_circle: [
-    "solar:user-circle-line-duotone",
-    "solar:user-circle-bold-duotone",
-  ],
+export const Icons: Record<string, [Icon, Icon]> = {
+  home: iconHome,
+  search: iconSearch,
+  box: iconBox,
+  library: iconLibrary,
+  user: iconUser,
+  fire: iconFire,
+  history: iconHistory,
+  favorite: iconFavorite,
+  download: iconDownload,
+  document: iconDocument,
+  user_heart: iconUserHeart,
+  settings: iconSettings,
+  info_circle: iconInfoCircle,
+  code_bold: iconCodeBold,
+  bug: iconBug,
+  notebook: iconNotebook,
+  translate: iconTranslate,
+  user_circle: iconUserCircle,
 }

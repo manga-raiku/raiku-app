@@ -20,14 +20,11 @@ meta:
         class="mr-1"
         @click="router.back()"
       >
-        <Icon icon="fluent:arrow-left-24-regular" class="size-1.5em" />
+        <i-fluent-arrow-left-24-regular class="size-1.5em" />
       </q-btn>
 
       <q-btn v-else round unelevated :to="data?.manga" class="mr-1">
-        <Icon
-          icon="fluent:text-bullet-list-ltr-24-regular"
-          class="size-1.5em"
-        />
+        <i-fluent-text-bullet-list-ltr-24-regular class="size-1.5em" />
       </q-btn>
 
       <q-space class="<md:!hidden" />
@@ -35,7 +32,7 @@ meta:
       <div class="flex <md:!display-block items-center min-w-0">
         <div class="ellipsis text-15px">{{ data?.name ?? "__" }}</div>
 
-        <Icon icon="fluent:chevron-right-24-regular" class="mx-1 <md:!hidden" />
+        <i-iconamoon-arrow-right-2-thin class="mx-1 <md:!hidden" />
 
         <small
           class="text-gray-300 md:text-14px md:text-white text-12px whitespace-nowrap"
@@ -153,14 +150,14 @@ meta:
         class="w-120px h-36px rounded-18px border border-[hsla(0,0%,100%,.4)] ml-10px mr-30px flex items-center flex-nowrap justify-between overflow-hidden"
       >
         <button class="size-36px relative" v-ripple @click="zoom -= 5">
-          <Icon icon="fluent:subtract-24-filled" class="size-1.3em mx-auto" />
+          <i-iconamoon-sign-minus class="size-1.3em mx-auto" />
         </button>
         <span
           class="display-inline-block w-48px leading-36px text-12px color-[hsla(0,0%,100%,.5)] text-center"
           >{{ zoom }}%</span
         >
         <button class="size-36px relative" v-ripple @click="zoom += 5">
-          <Icon icon="fluent:add-24-filled" class="size-1.3em mx-auto" />
+          <i-iconamoon-sign-plus class="size-1.3em mx-auto" />
         </button>
       </div>
 
@@ -190,9 +187,8 @@ meta:
         class="<md:order-1"
         :to="previousEpisode?.value.path"
       >
-        <Icon
+        <i-solar-alt-arrow-left-line-duotone
           v-if="$q.screen.lt.md && scrollingMode"
-          icon="ep:arrow-left-bold"
           class="size-1.8em"
         />
         <template v-else>Previous</template>
@@ -214,9 +210,8 @@ meta:
         class="<md:order-3"
         :to="nextEpisode?.value.path"
       >
-        <Icon
+        <i-solar-alt-arrow-right-line-duotone
           v-if="$q.screen.lt.md && scrollingMode"
-          icon="ep:arrow-right-bold"
           class="size-1.8em"
         />
         <template v-else>Next</template>
@@ -241,9 +236,8 @@ meta:
         :stack="$q.screen.lt.md"
         @click="showMenuEpisodes = !showMenuEpisodes"
       >
-        <Icon
+        <i-solar-document-line-duotone
           v-if="$q.screen.lt.md"
-          icon="system-uicons:document-list"
           class="size-1.8rem mr-1"
         />
         Episodes
@@ -308,7 +302,7 @@ meta:
         :stack="$q.screen.lt.md"
         @click="showMenuSettings = !showMenuSettings"
       >
-        <Icon icon="ri:settings-line" class="size-1.8rem mr-1" /> Settings
+        <i-solar-settings-line-duotone class="size-1.8rem mr-1" /> Settings
 
         <q-dialog-menu
           v-model="showMenuSettings"
@@ -343,8 +337,7 @@ meta:
                   :color="!scrollingMode ? 'main-3' : undefined"
                   @click="scrollingMode = false"
                 >
-                  <Icon
-                    icon="solar:posts-carousel-horizontal-bold-duotone"
+                  <i-solar-posts-carousel-horizontal-bold-duotone
                     class="size-1.5em mr-1"
                   />
                   Flipping
@@ -358,8 +351,7 @@ meta:
                   :color="scrollingMode ? 'main-3' : undefined"
                   @click="scrollingMode = true"
                 >
-                  <Icon
-                    icon="solar:posts-carousel-vertical-bold-duotone"
+                  <i-solar-posts-carousel-vertical-bold-duotone
                     class="size-1.5em mr-1"
                   />
                   Scrolling
@@ -447,7 +439,7 @@ meta:
         :stack="$q.screen.lt.md"
         @click="showMenuComments = !showMenuComments"
       >
-        <Icon icon="system-uicons:message" class="size-1.8rem mr-1" />
+        <i-solar-chat-line-line-duotone class="size-1.8rem mr-1" />
         Comments
 
         <q-dialog-menu
@@ -508,14 +500,9 @@ meta:
             )
         "
       >
-        <Icon
-          :icon="
-            isFollow
-              ? 'fluent:star-checkmark-24-filled'
-              : 'fluent:star-add-24-regular'
-          "
-          class="size-1.8rem mr-1"
-        />
+        <i-solar-heart-bold v-if="isFollow" class="size-1.8em mr-1" />
+        <i-solar-heart-linear v-else class="size-1.8em mr-1" />
+
         {{ isFollow ? "Unfollow" : "Follow" }}
       </q-btn>
 
@@ -527,14 +514,11 @@ meta:
         :stack="$q.screen.lt.md"
         @click="toggleFullscreen"
       >
-        <Icon
-          :icon="
-            isFullscreen
-              ? 'fluent:full-screen-minimize-24-regular'
-              : 'fluent:full-screen-maximize-24-regular'
-          "
+        <i-solar-quit-full-screen-line-duotone
+          v-if="isFullscreen"
           class="size-1.8rem mr-1"
         />
+        <i-solar-full-screen-line-duotone v-else class="size-1.8rem mr-1" />
         Fullscreen
         <!-- ふふ -->
         <!-- fluent:full-screen-minimize-24-regular -->
@@ -545,7 +529,6 @@ meta:
 </template>
 
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue"
 import { useFullscreen } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import { packageName } from "app/package.json"

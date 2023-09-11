@@ -82,7 +82,7 @@
           </div>
           <div class="flex items-center">
             <div v-if="data.likes" class="flex items-center">
-              <Icon icon="iconamoon:heart-thin" class="size-1.2em mr-1" />
+              <i-iconamoon-heart-thin class="size-1.2em mr-1" />
               {{ formatView(data.likes) }}
               <q-separator
                 v-if="data.comments"
@@ -91,10 +91,7 @@
               />
             </div>
             <div v-if="data.comments" class="flex items-center">
-              <Icon
-                icon="iconamoon:comment-dots-light"
-                class="size-1.2em mr-1"
-              />
+              <i-iconamoon-comment-dots-light class="size-1.2em mr-1" />
               {{ formatView(data.comments) }}
             </div>
           </div>
@@ -124,7 +121,6 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue"
 import { useElementHover } from "@vueuse/core"
 import type { MaybeComputedRef } from "@vueuse/head"
 import { debounce, QCard, QImg, QMenu } from "quasar"

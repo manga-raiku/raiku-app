@@ -7,9 +7,8 @@
       size="35px"
       color="main"
     >
-      <Icon
+      <i-solar-download-minimalistic-linear
         v-if="!modelValue.downloading"
-        icon="solar:download-minimalistic-linear"
         class="size-2em"
       />
       <template v-else
@@ -20,12 +19,11 @@
         }}%</template
       >
     </q-circular-progress>
-    <Icon
+    <i-solar-download-minimalistic-broken
       v-else-if="!modelValue"
-      icon="solar:download-minimalistic-broken"
       class="size-1.5em"
     />
-    <Icon v-else icon="material-symbols:offline-pin-rounded" class="size-2em" />
+    <i-material-symbols-offline-pin-rounded v-else class="size-2em" />
   </q-btn>
 </template>
 

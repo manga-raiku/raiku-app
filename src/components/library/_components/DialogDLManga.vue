@@ -13,7 +13,7 @@
       <header>
         <q-toolbar>
           <q-btn round unelevated v-close-popup>
-            <Icon icon="fluent:chevron-left-24-filled" class="size-1.5em" />
+            <i-fluent-chevron-left-24-filled class="size-1.5em" />
           </q-btn>
 
           <q-space />
@@ -45,7 +45,7 @@
             <q-item-label>Download more episodes</q-item-label>
           </q-item-section>
           <q-item-section side>
-            <Icon icon="fluent:chevron-right-24-regular" class="size-1.5em" />
+            <i-fluent-chevron-right-24-regular class="size-1.5em" />
           </q-item-section>
         </q-item>
         <!-- /button more download -->
@@ -94,7 +94,7 @@
                   : [...new Set([...listEpRemove, ...(mapEp?.keys() ?? [])])]
             "
           >
-            <Icon icon="solar:check-circle-linear" class="size-1.5em mr-1" />
+            <i-solar-check-circle-linear class="size-1.5em mr-1" />
             <span class="whitespace-nowrap">{{
               listEpRemove.length > 0 ? "Unselect all" : "Select all"
             }}</span>
@@ -106,10 +106,7 @@
             :loading="removing"
             @click="remove"
           >
-            <Icon
-              icon="solar:trash-bin-minimalistic-broken mr-1"
-              class="size-1.5em"
-            />
+            <i-solar-trash-bin-minimalistic-broken mr-1 class="size-1.5em" />
             Delete
           </q-btn>
         </q-toolbar>
@@ -154,9 +151,8 @@
                 "
               >
                 {{ parseFloat(data.name) }}
-                <Icon
+                <i-iconoir-check
                   v-if="mapEp?.has(data.id)"
-                  icon="iconoir:check"
                   class="absolute top-1 left-1 size-1.2em text-green-400"
                 />
               </q-btn>
@@ -168,7 +164,7 @@
         class="flex flex-nowrap items-center justify-between !py-0"
       >
         <q-btn no-caps stack unelevated class="min-w-15% text-weight-regular">
-          <Icon icon="solar:download-minimalistic-bold" class="size-1.5em" />
+          <i-solar-download-minimalistic-bold class="size-1.5em" />
           Download
           <q-badge v-if="mapEp && mapEp.size > 0" floating>{{
             epsSelected.size
@@ -181,8 +177,8 @@
           class="min-w-15% text-weight-regular"
           @click="epsSelected.size > 0 ? unSelectAll() : selectAll()"
         >
-          <Icon
-            :icon="
+          <component
+            :is="
               epsSelected.size > 0
                 ? 'solar:close-circle-linear'
                 : 'solar:check-circle-linear'

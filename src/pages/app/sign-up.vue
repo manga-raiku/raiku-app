@@ -12,7 +12,7 @@ meta:
     <q-header v-if="$q.screen.lt.md" class="bg-dark-page">
       <q-toolbar>
         <q-btn round unelevated @click="router.back()">
-          <Icon icon="fluent:chevron-left-24-filled" class="size-1.5em" />
+          <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
         <q-toolbar-title>Đăng ký</q-toolbar-title>
@@ -71,13 +71,16 @@ meta:
                     class="mr-1"
                     @click="showPassword = !showPassword"
                   >
-                    <Icon
+                    <i-fluent-eye-24-regular
                       v-if="showPassword"
-                      icon="fluent:eye-24-regular"
                       width="22"
                       height="22"
                     />
-                    <Icon v-else icon="fluent:eye-off-24-regular" />
+                    <i-fluent-eye-off-24-regular
+                      v-else
+                      width="22"
+                      height="22"
+                    />
                   </q-btn>
                 </template>
               </q-input>
@@ -130,10 +133,7 @@ meta:
                 class="w-full max-w-420px mx-auto text-weight-normal text-gray-300"
                 to="/app/sign-in"
               >
-                <Icon
-                  icon="fluent:chevron-left-20-regular"
-                  class="size-1.5em"
-                />
+                <i-fluent-chevron-left-20-regular class="size-1.5em" />
                 Sign in
               </q-btn>
             </q-card-section>

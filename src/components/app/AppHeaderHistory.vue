@@ -1,12 +1,7 @@
 <template>
   <q-btn v-if="authStore.session" round unelevated class="mr-2">
-    <Icon
-      :icon="
-        showMenuHistory ? 'fluent:clock-24-filled' : 'fluent:clock-24-regular'
-      "
-      width="24"
-      height="24"
-    />
+    <i-fluent-clock-24-filled v-if="showMenuHistory" width="24" height="24" />
+    <i-fluent-clock-24-regular v-else width="24" height="24" />
 
     <q-menu
       v-model="showMenuHistory"
@@ -14,7 +9,7 @@
     >
       <q-toolbar>
         <q-btn v-if="$q.screen.lt.md" round v-close-popup>
-          <Icon icon="line-md:arrow-left" class="size-1.5em" />
+          <i-line-md-arrow-left class="size-1.5em" />
         </q-btn>
 
         <q-toolbar-title>Lịch sử đọc</q-toolbar-title>

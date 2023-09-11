@@ -11,7 +11,7 @@ meta:
     <q-header v-if="$q.screen.lt.md" class="bg-dark-page">
       <q-toolbar>
         <q-btn round unelevated @click="router.back()">
-          <Icon icon="fluent:chevron-left-24-filled" class="size-1.5em" />
+          <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
         <q-toolbar-title>Kiểm tra lỗi mạng</q-toolbar-title>

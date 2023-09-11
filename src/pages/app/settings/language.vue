@@ -11,7 +11,7 @@ meta:
     <q-header v-if="$q.screen.lt.md" class="bg-dark-page">
       <q-toolbar>
         <q-btn round unelevated @click="router.back()">
-          <Icon icon="fluent:chevron-left-24-filled" class="size-1.5em" />
+          <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
         <q-toolbar-title>Ngôn ngữ</q-toolbar-title>
@@ -30,7 +30,7 @@ meta:
             <q-item-label>{{ name }}</q-item-label>
           </q-item-section>
           <q-item-section v-if="code === settingsStore.locale" side>
-            <Icon icon="fluent:checkmark-24-regular" class="size-1.5em" />
+            <i-fluent-checkmark-24-regular class="size-1.5em" />
           </q-item-section>
         </q-item>
       </q-list>

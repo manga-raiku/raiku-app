@@ -9,7 +9,7 @@ meta:
   <q-header v-if="$q.screen.lt.md" class="bg-dark-page header-blur">
     <q-toolbar>
       <q-btn round unelevated @click="router.back()">
-        <Icon icon="fluent:arrow-left-24-filled" class="size-1.5em" />
+        <i-fluent-arrow-left-24-filled class="size-1.5em" />
       </q-btn>
 
       <div class="ellipsis text-16px text-weight-medium">{{ data?.name }}</div>
@@ -54,13 +54,15 @@ meta:
           >
             {{ data.othername }}
           </h2>
+          <small class="text-14px text-gray-400 my-2"
+            >{{ formatView(data.views ?? 0) }} lượt xem</small
+          >
 
           <div
             class="mt-3 flex children:my-1 text-gray-300 text-15px font-family-poppins"
           >
             <div class="flex <md:w-full items-center">
-              <Icon
-                icon="fluent:dual-screen-status-bar-24-regular"
+              <i-fluent-dual-screen-status-bar-24-regular
                 class="text-pink w-1.2em h-1.2em mr-1"
               />
 
@@ -70,8 +72,7 @@ meta:
             <q-separator vertical class="mx-3 h-12px my-auto <md:!hidden" />
 
             <div class="flex <md:w-full items-center">
-              <Icon
-                icon="fluent:flash-24-filled"
+              <i-iconamoon-clock-duotone
                 class="text-blue w-1.2em h-1.2em mr-1"
               />
               {{ dayjs(data.updated_at).fromNow() }}
@@ -80,18 +81,7 @@ meta:
             <q-separator vertical class="mx-3 h-12px my-auto <md:!hidden" />
 
             <div class="flex <md:w-full items-center">
-              <Icon
-                icon="fluent:eye-24-filled"
-                class="text-orange w-1.2em h-1.2em mr-1"
-              />
-              {{ formatView(data.views) }} lượt xem
-            </div>
-
-            <q-separator vertical class="mx-3 h-12px my-auto <md:!hidden" />
-
-            <div class="flex <md:w-full items-center">
-              <Icon
-                icon="material-symbols:thumb-up-rounded"
+              <i-iconamoon-like-duotone
                 class="text-yellow w-1.2em h-1.2em mr-1"
               />
               {{ data.rate * 5 }} / 5 - {{ formatView(data.count_rate) }} đánh
@@ -101,8 +91,7 @@ meta:
             <q-separator vertical class="mx-3 h-12px my-auto <md:!hidden" />
 
             <div v-if="data.follows" class="flex <md:w-full items-center">
-              <Icon
-                icon="fluent:heart-24-filled"
+              <i-iconamoon-heart-duotone
                 class="text-[#F5574B] w-1.2em h-1.2em mr-1"
               />
               {{ formatView(data.follows) }}
@@ -136,12 +125,7 @@ meta:
           no-caps
           class="mr-3 text-weight-normal text-15px bg-#fff bg-opacity-10 btn-action"
         >
-          <Icon
-            icon="ion:book-outline"
-            width="1.3em"
-            height="1.3em"
-            class="mr-2"
-          />
+          <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
           Bắt đầu xem Ch. {{ data.chapters.at(-1)!.name }}</q-btn
         >
@@ -153,12 +137,7 @@ meta:
           no-caps
           class="mr-3 text-weight-normal text-15px bg-#fff bg-opacity-10"
         >
-          <Icon
-            icon="ion:book-outline"
-            width="1.3em"
-            height="1.3em"
-            class="mr-2"
-          />
+          <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
           Tiếp Ch. {{ lastEpRead.name }}
         </q-btn>
@@ -181,12 +160,8 @@ meta:
               )
           "
         >
-          <Icon
-            :icon="isFollow ? 'ri:heart-fill' : 'ri:heart-add-line'"
-            width="1.3em"
-            height="1.3em"
-            class="mr-1"
-          />
+          <i-iconamoon-heart-fill v-if="isFollow" class="size-1.3em mr-1" />
+          <i-iconamoon-heart v-else class="size-1.3em mr-1" />
           {{ isFollow ? "Bỏ theo dõi" : "Theo dõi" }}
         </q-btn>
 
@@ -196,12 +171,7 @@ meta:
           class="mr-3 text-weight-normal text-15px bg-#fff bg-opacity-10"
           @click="onClickShare"
         >
-          <Icon
-            icon="fluent:share-android-24-regular"
-            width="1.3em"
-            height="1.3em"
-            class="mr-2"
-          />
+          <i-iconamoon-share-1-bold width="1.3em" height="1.3em" class="mr-2" />
           Chia sẻ {{ data.uid }}
         </q-btn>
       </section>
@@ -338,11 +308,7 @@ meta:
         class="text-#f15a79 min-h-0 h-35px w-15%"
         @click="onClickShare"
       >
-        <Icon
-          icon="fluent:share-android-24-regular"
-          width="1.3em"
-          height="1.3em"
-        />
+        <i-iconamoon-share-1-thin width="1.3em" height="1.3em" />
       </q-btn>
 
       <q-btn
@@ -364,11 +330,8 @@ meta:
             )
         "
       >
-        <Icon
-          :icon="isFollow ? 'ri:heart-fill' : 'ri:heart-add-line'"
-          width="1.3em"
-          height="1.3em"
-        />
+        <i-iconamoon-heart-fill v-if="isFollow" width="1.3em" height="1.3em" />
+        <i-iconamoon-heart v-else width="1.3em" height="1.3em" />
       </q-btn>
 
       <q-btn
@@ -384,12 +347,7 @@ meta:
           'max-w-60%': !lastEpRead,
         }"
       >
-        <Icon
-          icon="ion:book-outline"
-          width="1.3em"
-          height="1.3em"
-          class="mr-2"
-        />
+        <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
         Xem Ch. {{ data?.chapters.at(-1)!.name ?? "__" }}
       </q-btn>
@@ -402,12 +360,7 @@ meta:
         no-wrap
         class="btn-action text-weight-normal min-h-0 h-35px font-normal max-w-40% w-full"
       >
-        <Icon
-          icon="ion:book-outline"
-          width="1.3em"
-          height="1.3em"
-          class="mr-2"
-        />
+        <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
         Tiếp Ch. {{ lastEpRead.name }}
       </q-btn>
@@ -417,7 +370,6 @@ meta:
 
 <script lang="ts" setup>
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164.json"
-import { Icon } from "@iconify/vue"
 import { useShare } from "@vueuse/core"
 // import Like from "src/apis/runs/frontend/regiter-like"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk

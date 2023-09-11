@@ -12,7 +12,7 @@ meta:
     <q-header v-if="$q.screen.lt.md" class="bg-dark-page">
       <q-toolbar>
         <q-btn round unelevated @click="router.back()">
-          <Icon icon="fluent:chevron-left-24-filled" class="size-1.5em" />
+          <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
         <q-toolbar-title>Đăng nhập</q-toolbar-title>
@@ -71,13 +71,16 @@ meta:
                     class="mr-1"
                     @click="showPassword = !showPassword"
                   >
-                    <Icon
+                    <i-fluent-eye-24-regular
                       v-if="showPassword"
-                      icon="fluent:eye-24-regular"
                       width="22"
                       height="22"
                     />
-                    <Icon v-else icon="fluent:eye-off-24-regular" />
+                    <i-fluent-eye-off-24-regular
+                      v-else
+                      width="22"
+                      height="22"
+                    />
                   </q-btn>
                 </template>
               </q-input>
@@ -142,7 +145,7 @@ meta:
                 @click="authStore.signInOAuth2('twitter')"
               >
                 <div class="w-full flex flex-items pl-8 pr-28%">
-                  <Icon icon="logos:twitter" class="size-1.5em mr-10" />
+                  <i-logos-twitter class="size-1.5em mr-10" />
                   <div
                     class="text-weight-normal text-white text-center min-w-0 w-full flex-1"
                   >
@@ -158,7 +161,7 @@ meta:
                 @click="authStore.signInOAuth2('google')"
               >
                 <div class="w-full flex flex-items pl-8 pr-28%">
-                  <Icon icon="logos:google-icon" class="size-1.5em mr-10" />
+                  <i-logos-google-icon class="size-1.5em mr-10" />
                   <div
                     class="text-weight-normal text-white text-center min-w-0 w-full flex-1"
                   >
@@ -174,8 +177,7 @@ meta:
                 to="/app/sign-up"
               >
                 <div class="w-full flex flex-items pl-8 pr-28%">
-                  <Icon
-                    icon="fluent:mail-24-filled"
+                  <i-fluent-mail-24-filled
                     color="white"
                     class="size-1.5em mr-10"
                   />

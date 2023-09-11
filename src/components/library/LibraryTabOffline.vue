@@ -75,7 +75,7 @@
           class="w-1/2 text-weight-regular"
           @click="mangaSelected.size > 0 ? mangaSelected.clear() : selectAll()"
         >
-          <Icon icon="solar:check-circle-linear" class="size-1.5em mr-1" />
+          <i-solar-check-circle-linear class="size-1.5em mr-1" />
           <span class="whitespace-nowrap">{{
             mangaSelected.size > 0 ? "Unselect all" : "Select all"
           }}</span>
@@ -87,10 +87,7 @@
           :loading="removing"
           @click="remove"
         >
-          <Icon
-            icon="solar:trash-bin-minimalistic-broken mr-1"
-            class="size-1.5em"
-          />
+          <i-solar-trash-bin-minimalistic-broken mr-1 class="size-1.5em" />
           Delete
         </q-btn>
       </q-toolbar>

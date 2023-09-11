@@ -8,9 +8,9 @@
       size="35px"
       color="main"
     >
-      <Icon icon="codicon:github-inverted" width="24" height="24" />
+      <i-codicon-github-inverted width="24" height="24" />
     </q-circular-progress>
-    <Icon v-else icon="codicon:github-inverted" width="24" height="24" />
+    <i-codicon-github-inverted v-else width="24" height="24" />
 
     <q-menu
       anchor="bottom right"
@@ -33,7 +33,7 @@
             href="https://github.com/manga-raiku/manga-raiku"
           >
             <q-item-section avatar class="min-w-0">
-              <Icon icon="carbon:repo-source-code" width="20" height="20" />
+              <i-carbon-repo-source-code width="20" height="20" />
             </q-item-section>
             <q-item-section>
               <q-item-label>Mã nguồn mở trên GitHub</q-item-label>
@@ -47,11 +47,7 @@
             href="https://github.com/manga-raiku/manga-raiku/issues"
           >
             <q-item-section avatar class="min-w-0">
-              <Icon
-                icon="fluent:person-feedback-24-regular"
-                width="20"
-                height="20"
-              />
+              <i-fluent-person-feedback-24-regular width="20" height="20" />
             </q-item-section>
             <q-item-section>
               <q-item-label>Phản hồi hoặc báo lỗi</q-item-label>
@@ -65,11 +61,7 @@
             href="https://github.com/manga-raiku/manga-raiku/discussions"
           >
             <q-item-section avatar class="min-w-0">
-              <Icon
-                icon="fluent:plug-disconnected-24-regular"
-                width="20"
-                height="20"
-              />
+              <i-fluent-plug-disconnected-24-regular width="20" height="20" />
             </q-item-section>
             <q-item-section>
               <q-item-label>Thảo luân</q-item-label>
@@ -83,7 +75,7 @@
             href="https://ko-fi.com/tachib_shin"
           >
             <q-item-section avatar class="min-w-0">
-              <Icon icon="octicon:sponsor-tiers-24" width="20" height="20" />
+              <i-octicon-sponsor-tiers-24 width="20" height="20" />
             </q-item-section>
             <q-item-section>
               <q-item-label>Tài trợ / Ủng hộ</q-item-label>
@@ -91,7 +83,7 @@
           </q-item>
           <q-item clickable v-ripple class="rounded-xl">
             <q-item-section avatar class="min-w-0">
-              <Icon icon="charm:refresh" width="20" height="20" />
+              <i-charm-refresh width="20" height="20" />
             </q-item-section>
             <q-item-section>
               <q-item-label>Kiểm tra cập nhật</q-item-label>

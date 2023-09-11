@@ -17,7 +17,7 @@ meta:
           router.push({ ...route, query: { ...route.query, query: undefined } })
         "
       >
-        <Icon icon="fluent:chevron-left-24-regular" width="25" height="25" />
+        <i-fluent-chevron-left-24-regular width="25" height="25" />
       </q-btn>
 
       <div
@@ -51,7 +51,7 @@ meta:
             })
           "
         >
-          <Icon icon="ep:close-bold" class="size-1.5em" />
+          <i-ep-close-bold class="size-1.5em" />
         </q-btn>
         <q-btn
           round
@@ -59,7 +59,7 @@ meta:
           class="text-[#aaa] h-full flex items-center mr-2"
           type="submit"
         >
-          <Icon icon="fluent:search-24-regular" class="size-1.5em" />
+          <i-fluent-search-24-regular class="size-1.5em" />
         </q-btn>
       </div>
 

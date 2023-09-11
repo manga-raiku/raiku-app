@@ -12,7 +12,7 @@
         <div class="ellipsis">
           {{ item.type }}
         </div>
-        <Icon icon="fluent:chevron-down-24-regular" class="ml-1" />
+        <i-fluent-chevron-down-24-regular class="ml-1" />
       </q-btn>
     </div>
   </section>

@@ -1,7 +1,6 @@
 import { defineStore } from "pinia"
 import type {
   MetaEpisode,
-  MetaEpisodeOnDisk,
   MetaManga,
   MetaMangaOnDisk,
   TaskDDEp,

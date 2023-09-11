@@ -2,6 +2,7 @@ import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
 import { parseComment } from "src/apis/__helpers__/parseComment"
 import { parseDate } from "src/apis/__helpers__/parseDate"
 import { parseDom } from "src/apis/__helpers__/parseDom"
+import { parseNumber } from "src/apis/__helpers__/parseNumber"
 import { parsePath } from "src/apis/__helpers__/parsePath"
 import { normalizeChName } from "src/logic/normalize-ch-name"
 
@@ -27,7 +28,7 @@ export default function manga(html: string, now: number) {
     $(".status").next().next().find("p:not(.name)").text().replace(/,/g, ""),
   )
   const followed = $(".btn-subscribe .fa-heart").length === 0
-  const views = parseInt(
+  const views = parseNumber(
     $(".status")
       .next()
       .next()
@@ -48,6 +49,7 @@ export default function manga(html: string, now: number) {
     .map((item) => {
       const $item = $(item)
       const $time = $item.find(".time-chap")
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const data = parseAnchor($item.find("a"))!
       data.name = normalizeChName(data.name)
 

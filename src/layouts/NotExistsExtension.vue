@@ -1,8 +1,7 @@
 <template>
   <div class="text-center h-full absolute w-full">
     <div class="pt-[140px]">
-      <Icon
-        icon="logos:airflow-icon"
+      <i-logos-airflow-icon
         width="75"
         height="75"
         class="airflow-icon mx-auto"
@@ -50,8 +49,8 @@
           target="_blank"
           :href="currentBrowser.href"
         >
-          <Icon
-            :icon="currentBrowser.icon"
+          <component
+            :is="currentBrowser.icon"
             width="35"
             height="35"
             class="mr-1 my-1"
@@ -71,7 +70,7 @@
           :href="href"
           target="_blank"
         >
-          <Icon :icon="icon" width="55" height="55" />
+          <component :is="icon" width="55" height="55" />
           <span class="mt-[5px] text-white text-[16px] text-weight-regular">{{
             text
           }}</span>
@@ -83,7 +82,6 @@
 </template>
 
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue"
 import { useHead } from "@vueuse/head"
 import UAParser from "ua-parser-js"
 import { computed } from "vue"

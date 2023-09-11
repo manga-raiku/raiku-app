@@ -60,10 +60,7 @@
                 round
                 @click="showFullGenres = true"
               >
-                <Icon
-                  icon="fluent:chevron-down-24-regular"
-                  class="size-1.5em"
-                />
+                <i-fluent-chevron-down-24-regular class="size-1.5em" />
               </q-btn>
             </div>
             <!-- <q-btn></q-btn> -->
@@ -106,7 +103,7 @@
           @click="showOnlyFirst = false"
         >
           {{ item.type }}
-          <Icon icon="fluent:chevron-down-24-regular" class="size-1.5em ml-1" />
+          <i-fluent-chevron-down-24-regular class="size-1.5em ml-1" />
         </q-btn>
       </div>
     </q-toolbar>

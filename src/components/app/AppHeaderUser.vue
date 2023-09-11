@@ -9,9 +9,9 @@
         no-spinner
       />
     </q-avatar>
-    <Icon icon="solar:menu-dots-bold" class="size-1.5em" :rotate="1" />
-    <!-- <Icon v-else :icon="Icons.user_circle[1]" class="size-30px" /> -->
-    <!-- <Icon v-else :icon="Icons.settings[0]" width="30" height="30" /> -->
+    <i-solar-menu-dots-bold class="size-1.5em rotate-90deg" />
+    <!-- <component v-else :is="Icons.user_circle[1]" class="size-30px" /> -->
+    <!-- <component v-else :is="Icons.settings[0]" width="30" height="30" /> -->
 
     <q-menu
       v-model="showMenuAccount"
@@ -22,7 +22,7 @@
     >
       <q-toolbar v-if="$q.screen.lt.md">
         <q-btn round v-close-popup>
-          <Icon icon="line-md:close" class="size-2em" />
+          <i-line-md-close class="size-2em" />
         </q-btn>
       </q-toolbar>
 
@@ -60,7 +60,7 @@
           >
             <q-item-section avatar>
               <q-avatar size="45px">
-                <Icon :icon="Icons.user_circle[1]" class="size-45px" />
+                <component :is="Icons.user_circle[1]" class="size-45px" />
               </q-avatar>
             </q-item-section>
             <q-item-section>
@@ -84,7 +84,11 @@
                 class="rounded-xl"
               >
                 <q-item-section avatar class="min-w-0">
-                  <Icon :icon="Icons.info_circle[0]" width="20" height="20" />
+                  <component
+                    :is="Icons.info_circle[0]"
+                    width="20"
+                    height="20"
+                  />
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>Trung tâm cá nhân</q-item-label>
@@ -98,11 +102,7 @@
                 @click="authStore.signOut"
               >
                 <q-item-section avatar class="min-w-0">
-                  <Icon
-                    icon="solar:logout-line-duotone"
-                    width="20"
-                    height="20"
-                  />
+                  <i-solar-logout-line-duotone width="20" height="20" />
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>Thoát</q-item-label>
@@ -127,7 +127,7 @@
                 class="rounded-xl"
               >
                 <q-item-section avatar class="min-w-0">
-                  <Icon :icon="item.icon[0]" width="20" height="20" />
+                  <component :is="item.icon[0]" width="20" height="20" />
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>{{ item.text }}</q-item-label>
@@ -136,7 +136,7 @@
                   <template v-if="!item.onClick">
                     {{ item.side?.value }}
                   </template>
-                  <Icon v-else icon="fluent:chevron-right-24-regular" />
+                  <i-fluent-chevron-right-24-regular v-else />
                 </q-item-section>
               </q-item>
             </template>
@@ -151,11 +151,7 @@
                   unelevated
                   @click="tabMenuAccountActive = 'normal'"
                 >
-                  <Icon
-                    icon="fluent:ios-arrow-ltr-24-regular"
-                    width="20"
-                    height="20"
-                  />
+                  <i-fluent-ios-arrow-ltr-24-regular width="20" height="20" />
                 </q-btn>
               </q-item-section>
               <q-item-section>Chọn ngôn ngữ của bạn</q-item-section>
@@ -172,9 +168,8 @@
               @click="settingsStore.locale = code"
             >
               <q-item-section avatar class="min-w-0">
-                <Icon
+                <i-fluent-checkmark-24-regular
                   v-if="settingsStore.locale === code"
-                  icon="fluent:checkmark-24-regular"
                   width="20"
                   height="20"
                 />
@@ -193,11 +188,7 @@
                   unelevated
                   @click="tabMenuAccountActive = 'normal'"
                 >
-                  <Icon
-                    icon="fluent:ios-arrow-ltr-24-regular"
-                    width="20"
-                    height="20"
-                  />
+                  <i-fluent-ios-arrow-ltr-24-regular width="20" height="20" />
                 </q-btn>
               </q-item-section>
               <q-item-section>Cài đặt chung</q-item-section>
@@ -219,7 +210,7 @@
     class="font-weight-normal"
     to="/app/sign-in"
   >
-    <Icon icon="solar:user-circle-bold-duotone" class="size-30px" />
+    <i-solar-user-circle-bold-duotone class="size-30px" />
   </q-btn>
 </template>
 
@@ -227,7 +218,10 @@
 import { App } from "@capacitor/app"
 import { version } from "app/package.json"
 import { Icons } from "src/constants"
+import type { Icon } from "src/constants"
 import langs from "virtual:i18n-langs"
+
+import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
 
 defineOptions({
   inheritAttrs: false,
@@ -251,7 +245,7 @@ const buttons: {
   href?: string
   to?: string
   onClick?: () => void
-  icon: [string, string]
+  icon: [Icon, Icon]
   text: string
   side?: Ref<string>
 }[] = [
@@ -290,7 +284,7 @@ const buttons: {
   },
   {
     href: "https://mangaraiku.eu.org",
-    icon: ["ant-design:apple-outlined", "ant-design:apple-outlined"],
+    icon: [antDesignAppleOutlined, antDesignAppleOutlined],
     text: "PWA cho iOS và desktop",
   },
   {

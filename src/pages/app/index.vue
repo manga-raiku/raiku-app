@@ -20,10 +20,15 @@ meta:
       class="fixed w-full h-[calc(65%-58px)] bottom-58px left-0 rounded-25px bg-dark-page px-4 overflow-y-scroll scrollbar-custom"
     >
       <q-list padding>
-        <q-item v-if="!authStore.profile" clickable v-ripple to="/app/sign-in?redirect=/app">
+        <q-item
+          v-if="!authStore.profile"
+          clickable
+          v-ripple
+          to="/app/sign-in?redirect=/app"
+        >
           <q-item-section avatar>
             <q-avatar>
-              <Icon icon="solar:user-circle-bold-duotone" class="size-50px" />
+              <i-solar-user-circle-bold-duotone class="size-50px" />
             </q-avatar>
           </q-item-section>
           <q-item-section class="text-16px">
@@ -57,7 +62,7 @@ meta:
           :href="item.href"
         >
           <q-item-section avatar>
-            <Icon :icon="item.icon[0]" class="size-25px" />
+            <component :is="item.icon[0]" class="size-25px" />
           </q-item-section>
           <q-item-section>
             <q-item-label>{{ item.text }}</q-item-label>
@@ -77,6 +82,9 @@ meta:
 import { App } from "@capacitor/app"
 import { version } from "app/package.json"
 import { Icons } from "src/constants"
+import type { Icon } from "src/constants"
+
+import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
 
 const authStore = useAuthStore()
 const $q = useQuasar()
@@ -85,7 +93,7 @@ const router = useRouter()
 const buttons: {
   href?: string
   to?: string
-  icon: [string, string]
+  icon: [Icon, Icon]
   text: string
   side?: Ref<string>
 }[] = [
@@ -111,7 +119,7 @@ const buttons: {
   },
   {
     href: "https://mangaraiku.eu.org",
-    icon: ["ant-design:apple-outlined", "ant-design:apple-outlined"],
+    icon: [antDesignAppleOutlined, antDesignAppleOutlined],
     text: "Phiên bản PWA cho iPhone và máy tính",
   },
   {
