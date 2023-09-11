@@ -2,6 +2,7 @@ import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
 import { parseDom } from "src/apis/__helpers__/parseDom"
 import { parseNumber } from "src/apis/__helpers__/parseNumber"
 import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
+import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { getImage } from "../__helpers__/getImage"
 import { parseComment } from "../__helpers__/parseComment"

@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import type { Cheerio, CheerioAPI, Element } from "cheerio"
 import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
+import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { getImage } from "./getImage"
 

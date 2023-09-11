@@ -2,6 +2,7 @@ import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
 import { parseComment } from "src/apis/__helpers__/parseComment"
 import { parseDom } from "src/apis/__helpers__/parseDom"
 import { parsePath } from "src/apis/__helpers__/parsePath"
+import { normalizeChName } from "src/logic/normalize-ch-name"
 
 export default function chap(html: string, now: number) {
   const $ = parseDom(html)

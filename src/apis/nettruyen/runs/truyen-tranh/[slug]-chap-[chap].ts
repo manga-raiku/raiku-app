@@ -1,5 +1,6 @@
 import { parsePath } from "src/apis/__helpers__/parsePath"
 import { PostWorker } from "src/apis/wrap-worker"
+import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { CURL } from "../../const"
 import type Parse from "../../parsers/truyen-tranh/[slug]/[ep-id]"

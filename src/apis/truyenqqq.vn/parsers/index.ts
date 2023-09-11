@@ -2,6 +2,7 @@ import { parseDate } from "src/apis/__helpers__/parseDate"
 import { parseDom } from "src/apis/__helpers__/parseDom"
 import { parseItem } from "src/apis/__helpers__/parseItem"
 import { parsePath } from "src/apis/__helpers__/parsePath"
+import { normalizeChName } from "src/logic/normalize-ch-name"
 
 export default function index(html: string, now: number) {
   const $ = parseDom(html)

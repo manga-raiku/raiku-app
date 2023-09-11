@@ -1,4 +1,5 @@
 import { parsePath } from "src/apis/__helpers__/parsePath"
+import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { CURL } from "../const"
 

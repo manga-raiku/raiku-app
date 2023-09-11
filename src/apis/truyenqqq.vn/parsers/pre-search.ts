@@ -1,5 +1,6 @@
 import { parseDom } from "src/apis/__helpers__/parseDom"
 import { parsePath } from "src/apis/__helpers__/parsePath"
+import { normalizeChName } from "src/logic/normalize-ch-name"
 
 export default function presearch(html: string) {
   const $ = parseDom(html)

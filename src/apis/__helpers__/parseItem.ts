@@ -1,4 +1,5 @@
 import type { Cheerio, CheerioAPI, Element } from "cheerio"
+import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { parseAnchor } from "./parseAnchor"
 import { parsePath } from "./parsePath"

@@ -3,6 +3,7 @@ import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
 import { parseNumber } from "src/apis/__helpers__/parseNumber"
 import { parsePath } from "src/apis/__helpers__/parsePath"
 import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
+import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { getImage } from "./getImage"
 
