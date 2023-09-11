@@ -121,69 +121,73 @@ meta:
               class="info z-400 !relative h-full flex flex-nowrap !px-3"
             >
               <div class="w-200px max-w-40% pt-4 text-center">
-                <q-img
-                  no-spinner
-                  :src="item.image"
-                  :ratio="250 / 357"
-                  class="w-full rounded-20px block"
-                />
-
-                <q-btn
-                  rounded
-                  class="bg-main mt-2 xs:mt-4 pointer-events-all mx-auto"
-                  no-caps
+                <div
+                  :ref="($el) => (leftSecRefs[index] = $el as HTMLDivElement)"
                 >
-                  <Icon
-                    icon="fluent:play-24-filled"
-                    width="1.3em"
-                    height="1.3em"
-                    class="mr-2"
-                    :to="item.last_chapters[0].path"
+                  <q-img
+                    no-spinner
+                    :src="item.image"
+                    :ratio="250 / 357"
+                    class="w-full rounded-20px block"
                   />
-                  Đọc ngay
-                </q-btn>
+
+                  <q-btn
+                    rounded
+                    class="bg-main mt-2 xs:mt-4 pointer-events-all mx-auto"
+                    no-caps
+                  >
+                    <Icon
+                      icon="fluent:play-24-filled"
+                      width="1.3em"
+                      height="1.3em"
+                      class="mr-2"
+                      :to="item.last_chapters[0].path"
+                    />
+                    Đọc ngay
+                  </q-btn>
+                </div>
               </div>
               <div class="pl-3 min-w-0 pt-4 w-auto flex-1">
-                <div class=" ">
-                  <div class="text-18px text-weight-medium line-clamp-2">
-                    {{ item.name }}
-                  </div>
-                  <small
-                    class="display-block ellipsis text-12px text-gray-200"
-                    >{{ item.othername }}</small
-                  >
-                </div>
-                <div class="focus-item-info !display-block">
-                  <div class="ellipsis flex items-center">
-                    <Quality v-if="item.hot">Hot</Quality>
-
-                    <q-separator vertical class="mx-2" />
-
-                    <span class="focus-item-update">
-                      Chương {{ item.last_chapters[0].name }}
-                    </span>
-                  </div>
-
-                  <div
-                    class="ellipsis flex items-center text-0.95em text-gray-300 py-2"
-                  >
-                    {{ item.status }}
-
-                    <q-separator vertical class="mx-2" />
-
-                    <!-- <Icon icon="fluent:eye-24-filled" class="size-1.5em" /> -->
-                    {{ formatView(item.views!) }}
-                  </div>
-                </div>
-                <div class="mt-1 text-12px ellipsis">
-                  {{ item.tags.join(", ") }}
-                </div>
                 <div
-                  class="focus-item-desc ellipsis-3-lines !h-auto w-full max-w-full !min-w-0"
+                  :ref="
+                    ($el) => (rightTopSecRefs[index] = $el as HTMLDivElement)
+                  "
                 >
-                  {{ item.description }}
-                </div>
+                  <div class=" ">
+                    <div class="text-18px text-weight-medium line-clamp-2">
+                      {{ item.name }}
+                    </div>
+                    <small
+                      class="display-block ellipsis text-12px text-gray-200"
+                      >{{ item.othername }}</small
+                    >
+                  </div>
+                  <div class="focus-item-info !display-block">
+                    <div class="ellipsis flex items-center">
+                      <Quality v-if="item.hot">Hot</Quality>
 
+                      <q-separator vertical class="mx-2" />
+
+                      <span class="focus-item-update">
+                        Chương {{ item.last_chapters[0].name }}
+                      </span>
+                    </div>
+
+                    <div
+                      class="ellipsis flex items-center text-0.95em text-gray-300 py-2"
+                    >
+                      {{ item.status }}
+
+                      <q-separator vertical class="mx-2" />
+
+                      <!-- <Icon icon="fluent:eye-24-filled" class="size-1.5em" /> -->
+                      {{ formatView(item.views!) }}
+                    </div>
+                  </div>
+                  <div class="mt-1 text-12px ellipsis">
+                    {{ item.tags.join(", ") }}
+                  </div>
+                </div>
                 <!-- action -->
                 <!--
               <q-btn
@@ -200,6 +204,27 @@ meta:
                 />
                 Đọc ngay
               </q-btn> -->
+                <div
+                  class="focus-item-desc !h-0px w-full max-w-full !min-w-0 line-clamp-1 text-13px !leading-normal"
+                  :style="{
+                    '-webkit-line-clamp': Math.round(
+                      (leftSecRefs[index]?.offsetHeight -
+                        rightTopSecRefs[index]?.offsetHeight) /
+                        25,
+                    ),
+                    'line-clamp': Math.round(
+                      (leftSecRefs[index]?.offsetHeight -
+                        rightTopSecRefs[index]?.offsetHeight) /
+                        25,
+                    ),
+                    height:
+                      leftSecRefs[index] && rightTopSecRefs[index]
+                        ? 'auto !important'
+                        : undefined,
+                  }"
+                >
+                  {{ item.description }}
+                </div>
               </div>
             </div>
           </div>
@@ -239,7 +264,9 @@ meta:
             <div class="mt-1 text-12px ellipsis">
               {{ data.sliders[sliderIndex].tags.join(", ") }}
             </div>
-            <div class="focus-item-desc">
+            <div
+              class="focus-item-desc line-clamp-3 sm:line-clamp-2 md:line-clamp-5"
+            >
               {{ data.sliders[sliderIndex].description }}
             </div>
 
@@ -273,7 +300,7 @@ meta:
         />
       </swiper>
 
-      <div class="px-2 sm:px-4 md:px-5">
+      <div class="px-2 sm:px-4 md:px-8">
         <!-- test void swap -->
         <h3 class="text-17px text-light-900">Hot trong ngày</h3>
         <swiper
@@ -403,6 +430,9 @@ import "swiper/css/grid"
 // Import Swiper Vue.js components
 
 const router = useRouter()
+
+const leftSecRefs = shallowReactive<HTMLDivElement[]>([])
+const rightTopSecRefs = shallowReactive<HTMLDivElement[]>([])
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Carousel({ swiper, on }: any) {
@@ -638,7 +668,7 @@ const sliderIndex = ref(0)
 
     @media screen and (max-width: 768px) and (min-width: 599px) {
       padding: {
-        bottom: 19%;
+        bottom: 10%;
         // left: 150px; whitespace -> right
       }
     }
@@ -660,18 +690,22 @@ const sliderIndex = ref(0)
     }
 
     .focus-item-desc {
-      width: 31.25vw;
+      width: 42.25vw;
       min-width: 320px;
       max-width: 100%;
       overflow: hidden;
-      height: 32px;
+      // height: 32px;
+      height: (15.5px * 3);
+      @media screen and (max-width: 768px) and (min-width: 599px) {
+        height: (15.5px * 2);
+      }
       line-height: 16px;
       margin-top: 12px;
       font-size: 14px;
-      display: -webkit-box;
-      text-overflow: ellipsis;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+      // display: -webkit-box;
+      // text-overflow: ellipsis;
+      // -webkit-line-clamp: 2;
+      // -webkit-box-orient: vertical;
       text-shadow: rgb(0 0 0 / 50%) 0px 1px 2px;
       font-weight: 400; //500;
 
