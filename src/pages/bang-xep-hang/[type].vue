@@ -1,3 +1,5 @@
+<route lang="yaml"></route>
+
 <template>
   <q-page>
     <section class="main dark px-4 sm:px-6 md:px-8">

@@ -429,7 +429,7 @@ const title = () =>
         data.value.othername ? `(${data.value.othername})` : "",
         data.value.chapters[0].name,
       ])
-    : "Raiku"
+    : ""
 const description = () => data.value?.description
 useSeoMeta({
   title,

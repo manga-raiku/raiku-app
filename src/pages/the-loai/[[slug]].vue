@@ -103,7 +103,10 @@ watch(error, (error) => {
     })
 })
 
-const title = () => i18n.t("the-loai-name", [data.value?.name])
+const title = () =>
+  i18n.t("the-loai-name", [
+    data.value ? data.value.name ?? i18n.t("tat-ca") : "",
+  ])
 const description = () => data.value?.description
 useSeoMeta({
   title,

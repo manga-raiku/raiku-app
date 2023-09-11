@@ -598,7 +598,7 @@ watch(error, (error) => {
 const title = () =>
   data.value
     ? `${data.value.name} Chương ${data.value.chapters[0].name}`
-    : "Raiku"
+    : ""
 const description = title
 useSeoMeta({
   title,

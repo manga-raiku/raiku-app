@@ -67,7 +67,7 @@
       v-if="$q.screen.gt.sm"
       :model-value="hideDrawer ? showDrawer : true"
       @update:model-value="hideDrawer ? (showDrawer = $event) : undefined"
-      :mini="hideDrawer ? false : showDrawer"
+      :mini="hideDrawer ? showDrawer : false"
       show-if-above
       :width="250"
       :breakpoint="500"
@@ -123,7 +123,7 @@
           </template>
         </q-list>
 
-        <div v-if="hideDrawer ? true : showDrawer" class="text-gray-500 mt-7">
+        <div v-if="hideDrawer ? false : !showDrawer" class="text-gray-500 mt-7">
           <a
             v-for="item in drawersBottom"
             :key="item.name"

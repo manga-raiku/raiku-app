@@ -8,7 +8,7 @@ import eruda2 from "eruda2"
 const i18n = useI18n()
 
 useHead({
-  titleTemplate: "%s - Manga Raiku",
+  titleTemplate: (title) => (title && title !== "Manga Raiku" ? `${title} - Manga Raiku` : "Manga Raiku"),
 })
 
 const title = "Manga Raiku"
