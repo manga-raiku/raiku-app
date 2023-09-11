@@ -23,6 +23,12 @@ dependencies:
   '@hcaptcha/vue3-hcaptcha':
     specifier: ^1.3.0
     version: 1.3.0(vue@3.2.45)
+  '@iconify-icons/logos':
+    specifier: ^1.2.35
+    version: 1.2.35
+  '@iconify-json/uim':
+    specifier: ^1.1.6
+    version: 1.1.6
   '@iconify/vue':
     specifier: ^4.1.1
     version: 4.1.1(vue@3.2.45)
@@ -151,12 +157,18 @@ devDependencies:
   '@iconify-json/iconamoon':
     specifier: ^1.1.1
     version: 1.1.1
+  '@iconify-json/iconoir':
+    specifier: ^1.1.32
+    version: 1.1.32
   '@iconify-json/ion':
     specifier: ^1.1.12
     version: 1.1.12
   '@iconify-json/line-md':
     specifier: ^1.1.29
     version: 1.1.29
+  '@iconify-json/logos':
+    specifier: ^1.1.36
+    version: 1.1.36
   '@iconify-json/material-symbols':
     specifier: ^1.1.58
     version: 1.1.58
@@ -2491,6 +2503,12 @@ packages:
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
 
+  /@iconify-icons/logos@1.2.35:
+    resolution: {integrity: sha512-OBbS7NRNnZvofXur5/iXd75K+Nf+EDdsxweaAuHDbzx3P+u4B7Oog0iAt91jY8+A99gPfEbzIjaJTBbrGjYl8A==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
+
   /@iconify-json/ant-design@1.1.10:
     resolution: {integrity: sha512-XgBEAl+3N0QIn3nDN9xFPw5WlU9IgnmJvis2Ev1au4Y6ITG4zReMglXi+I21xmfK3mnjFnfAteZ4EzLVKHm7Hw==}
     dependencies:
@@ -2521,6 +2539,12 @@ packages:
       '@iconify/types': 2.0.0
     dev: true
 
+  /@iconify-json/iconoir@1.1.32:
+    resolution: {integrity: sha512-z12EzOZsqatGuCAc7CzYpxufVoexRKC910ZouB29sDT8lJiGUSVCmrhgqZSz4M7PIeqaN6YUuE6jNRgH7Wal+A==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
   /@iconify-json/ion@1.1.12:
     resolution: {integrity: sha512-YvVxa9pVUJFEp7S5n97VIYZv1/qU/aX1RSehDBQRfI0YsZCZhBQY77SxYXGCb/Gc0fP4//b9wtx8UE4hfwr0eQ==}
     dependencies:
@@ -2529,6 +2553,12 @@ packages:
 
   /@iconify-json/line-md@1.1.29:
     resolution: {integrity: sha512-MUYvm4vSqD/aWk2VjEgwyqPJI7mOvL/4m3nPN5ktw6kbyDry5eeDeGChK4o9kWFm6QXT3WL+aEzXaIzY+tY9qg==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/logos@1.1.36:
+    resolution: {integrity: sha512-YdBiDwmomgedInuBS4YcQ+qpMkvixBhPqmwRLtnNp+qd9C/lKfM5Y4pNsSi6lRZSALiOqXxiZJZ1e9+L+BRrKQ==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
@@ -2544,6 +2574,12 @@ packages:
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
+
+  /@iconify-json/uim@1.1.6:
+    resolution: {integrity: sha512-d9egjzVLmd3TCC6OGy5UnZMqR8uPslAFWoe+EU0YkAX67MnbKovOsDVmk96kDmylNE+uVfHhmxy8vb+NC07Aqg==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
 
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}

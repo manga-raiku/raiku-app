@@ -94,10 +94,5 @@ export const vitePlugins: [
   ],
   [DefineOptions, {}],
   [vitePluginBuildRaw, {}],
-  [
-    Icons,
-    {
-      autoInstall: true,
-    },
-  ],
+  [Icons, {}],
 ]
