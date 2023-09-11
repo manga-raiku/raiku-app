@@ -105,7 +105,7 @@
 </template>
 
 <script lang="ts" setup>
-import { debounce } from "quasar"
+import { debounce } from "perfect-debounce"
 import PreSearch from "src/apis/nettruyen/runs/pre-search"
 
 const props = defineProps<{
@@ -121,10 +121,10 @@ const route = useRoute()
 const keyword = ref("")
 
 const query = ref((route.query.query ?? "") + "")
-const { data, run } = useRequest(() => PreSearch(query.value, 1), {
+const { data, runAsync } = useRequest(() => PreSearch(query.value, 1), {
   manual: true,
 })
-watch(query, debounce(run, 300))
+watch(query, debounce(runAsync, 300))
 
 function onBack() {
   if (props.searching) emit("update:searching", false)

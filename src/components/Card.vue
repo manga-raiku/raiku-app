@@ -131,9 +131,10 @@
 <script lang="ts" setup>
 import { useElementHover } from "@vueuse/core"
 import type { MaybeComputedRef } from "@vueuse/head"
-import { debounce, QCard, QImg, QMenu } from "quasar"
+import { QCard, QImg, QMenu } from "quasar"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
+import { debounce } from "perfect-debounce"
 
 import type { CardProps } from "./Card.types"
 

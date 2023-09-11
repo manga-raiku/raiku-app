@@ -111,7 +111,8 @@
 
 <script lang="ts" setup>
 import { useEventListener } from "@vueuse/core"
-import { debounce, QInput } from "quasar"
+import { debounce } from "perfect-debounce"
+import { QInput } from "quasar"
 import PreSearch from "src/apis/nettruyen/runs/pre-search"
 
 // key bind
@@ -124,11 +125,11 @@ const query = ref("")
 const {
   data: searchResult,
   loading: searchLoading,
-  run,
+  runAsync,
 } = useRequest(() => PreSearch(query.value, 1), {
   manual: true,
 })
-watch(query, debounce(run, 300))
+watch(query, debounce(runAsync, 300))
 
 const focusing = ref(false)
 
