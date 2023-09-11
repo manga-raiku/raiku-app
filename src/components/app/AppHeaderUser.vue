@@ -148,7 +148,7 @@
             <!-- <q-separator class="bg-[rgba(255,255,255,0.1)]" /> -->
 
             <q-item
-              v-for="{ name, code } in languages"
+              v-for="{ name, code } in langs"
               :key="code"
               clickable
               v-ripple
@@ -213,7 +213,7 @@
 import { App } from "@capacitor/app"
 import { version } from "app/package.json"
 import { Icons } from "src/constants"
-import { languages } from "src/i18n"
+import langs from "virtual:i18n-langs"
 
 defineOptions({
   inheritAttrs: false,
