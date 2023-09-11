@@ -47,7 +47,7 @@ function patchFetch() {
   // continue download
   ;(fetch as ReturnType<typeof vi.fn>).mockReset()
   ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(async (url) => {
-    await sleep(100)
+    await sleep(200)
     return Promise.resolve({
       async arrayBuffer() {
         return new TextEncoder().encode(url)
@@ -366,7 +366,7 @@ describe("download-manager", () => {
     watch(ref, watcher, { deep: true })
 
     start()
-    await sleep(300)
+    await sleep(500)
     expect(downloading.value).toBe(true)
     expect(ref.downloaded).toBeGreaterThanOrEqual(1)
 

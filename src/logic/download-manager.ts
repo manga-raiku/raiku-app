@@ -219,7 +219,7 @@ export function createTaskDownloadEpisode(
       downloading.value = false
       throw err
     })
-    console.log("task fpromise")
+
     const meta = await saveMeta(refValue)
     downloading.value = false
     return meta
@@ -430,6 +430,7 @@ export type TaskDLEp = Pick<
   "ref" | "downloading" | "stop" | "resume"
 >
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isTaskDLEp(value: any): value is TaskDLEp {
   return typeof value?.resume === "function"
 }
