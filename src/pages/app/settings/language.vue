@@ -3,7 +3,7 @@ meta:
   hiddenHeader: $lt.md
   hiddenFooter: true
   hiddenDrawer: true
-  auth: true
+  auth: guest
 </route>
 
 <template>

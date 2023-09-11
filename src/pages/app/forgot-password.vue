@@ -4,6 +4,7 @@ meta:
   hiddenFooter: true
   hiddenDrawer: true
   hiddenDrawerScope: true
+  auth: guest
 </route>
 
 <template>
