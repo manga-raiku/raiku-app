@@ -1,4 +1,5 @@
-export const C_URL = "https://truyenqqq.vn"
+export const SUPABASE_PROJECT_URL = process.env.SUPABASE_PROJECT_URL
+export const SUPABASE_PROJECT_KEY = process.env.SUPABASE_PROJECT_KEY
 
 export const Icons: Record<string, [string, string]> = {
   home: ["solar:home-smile-broken", "solar:home-smile-bold-duotone"],
