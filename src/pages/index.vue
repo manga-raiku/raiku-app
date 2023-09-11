@@ -236,7 +236,7 @@ meta:
         <transition v-if="$q.screen.gt.xs" name="q-transition--fade">
           <div :key="sliderIndex" class="info pointer-events-none">
             <div class=" ">
-              <div class="text-18px text-weight-medium line-clamp-2">
+              <div class="text-20px text-weight-medium line-clamp-2">
                 {{ data.sliders[sliderIndex].name }}
               </div>
               <small class="display-block ellipsis text-12px text-gray-200">{{
@@ -265,7 +265,7 @@ meta:
               {{ data.sliders[sliderIndex].tags.join(", ") }}
             </div>
             <div
-              class="focus-item-desc line-clamp-3 sm:line-clamp-2 md:line-clamp-5"
+              class="focus-item-desc text-gray-200 line-clamp-3  sm:line-clamp-2 md:line-clamp-5 !leading-normal"
             >
               {{ data.sliders[sliderIndex].description }}
             </div>
@@ -695,10 +695,10 @@ const sliderIndex = ref(0)
       max-width: 100%;
       overflow: hidden;
       // height: 32px;
-      height: (15.5px * 3);
-      @media screen and (max-width: 768px) and (min-width: 599px) {
-        height: (15.5px * 2);
-      }
+      // height: (21px * 3);
+      // @media screen and (max-width: 768px) and (min-width: 599px) {
+      //   height: (21px * 2);
+      // }
       line-height: 16px;
       margin-top: 12px;
       font-size: 14px;
