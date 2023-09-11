@@ -116,6 +116,14 @@ const activeIndex = computed(() =>
   ),
 )
 
+const title = () => (tabs.value[activeIndex.value] ?? tabs.value[0]).name
+useSeoMeta({
+  title,
+  description: title,
+  ogTitle: title,
+  ogDescription: title,
+})
+
 function onSwiper(swiper: TSwiper) {
   swiperRef.value = swiper
   activeValue.value = tabs.value[swiper.activeIndex].value

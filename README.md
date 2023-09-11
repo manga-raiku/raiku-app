@@ -4,7 +4,7 @@
 
 「無邪気な笑顔の下の、日付は遥かなメモリー」
 
-Free and ad-free private online Manga, manhua, manhwa reading app!
+App reading manga, comic safe, free, private and ad-free.
 
 > The app is in development
 
@@ -82,6 +82,7 @@ quasar build
 - [ ] update UI screen error
 - [ ] add redirect to not found page
 - [ ] show error if throw error
+- [ ] fix favicon small
 
 ### Customize the configuration
 

@@ -43,4 +43,13 @@ import langs from "virtual:i18n-langs"
 
 const router = useRouter()
 const settingsStore = useSettingsStore()
+const i18n = useI18n()
+
+const title = () => i18n.t("cai-dat-ngon-ngu")
+useSeoMeta({
+  title,
+  description: title,
+  ogTitle: title,
+  ogDescription: title,
+})
 </script>

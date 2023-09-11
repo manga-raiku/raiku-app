@@ -23,4 +23,13 @@ meta:
 
 <script lang="ts" setup>
 const router = useRouter()
+const i18n = useI18n()
+
+const title = () => i18n.t("cai-dat-thong-bao")
+useSeoMeta({
+  title,
+  description: title,
+  ogTitle: title,
+  ogDescription: title,
+})
 </script>

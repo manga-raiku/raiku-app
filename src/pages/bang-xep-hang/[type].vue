@@ -138,6 +138,17 @@ const typesRank = computed(() => [
   },
 ])
 
+const title = () =>
+  i18n.t("bang-xep-hang-type", [
+    typesRank.value.find((item) => pathEqual(item.path, route.path))?.name,
+  ])
+useSeoMeta({
+  title,
+  description: title,
+  ogTitle: title,
+  ogDescription: title,
+})
+
 const valuesOf: Record<string, string> = {
   ngay: "/tim-truyen?status=-1&sort=13",
   tuan: "/tim-truyen?status=-1&sort=12",

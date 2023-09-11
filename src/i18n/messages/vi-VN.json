@@ -170,5 +170,21 @@
   "ung-dung-thuoc-to-chuc-phi-loi-nhuan": "Ứng dụng thuộc tổ chức phi lợi nhuận",
   "ma-nguon-mo-giay-phep-gnu-v3": "Mã nguồn mở giấy phép GNU v3",
   "dieu-khoan-dich-vu": "Điều khoản dịch vụ",
-  "phan-hoi-hoac-bao-loi": "Phản hồi hoặc báo lỗi"
+  "phan-hoi-hoac-bao-loi": "Phản hồi hoặc báo lỗi",
+  "loai-ket-noi": "Loại kết nối",
+  "ping": "Ping",
+  "time-ms": "{0}ms",
+  "thiet-bi": "Thiết bị",
+  "kiem-tra-tinh-trang-mang": "Kiểm tra tình trạng mạng",
+  "app-des": "Ứng dụng đọc truyện tranh, truyện tranh an toàn, miễn phí, riêng tư và không có quảng cáo",
+  "cai-dat-ngon-ngu": "Cài đặt ngôn ngữ",
+  "cai-dat-thong-bao": "Cài đặt thông báo",
+  "ve-ung-dung": "Về ứng dụng",
+  "khoi-phuc-mat-khau": "Khôi phục mật khẩu",
+  "tai-khoan-cua-toi": "Tài khoản của tôi",
+  "dang-nhap-de-su-dung-cac-chuc-nang-nang-cao": "Đăng nhập để sử dụng các chức năng nâng cao",
+  "dang-ky-mot-tai-khoan-moi": "Đăng ký một tài khoản mới",
+  "bang-xep-hang-type": "Bảng xếp hạng {0}",
+  "the-loai-name": "Thể loại {0}",
+  "title-page-meta-manga": "{0} ({1}) [Chương mới {2}]"
 }

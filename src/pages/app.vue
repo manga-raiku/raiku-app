@@ -75,6 +75,15 @@ const router = useRouter()
 const route = useRoute()
 const i18n = useI18n()
 
+const title = "Ứng dụng này"
+const description = title
+useSeoMeta({
+  title,
+  description,
+  ogTitle: title,
+  ogDescription: description,
+})
+
 const buttons: ComputedRef<
   {
     href?: string

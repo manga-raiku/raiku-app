@@ -1,4 +1,5 @@
 import Pages from "@tachibana-shin/vite-plugin-pages"
+import { unheadVueComposablesImports } from "@unhead/vue"
 import UnoCSS from "unocss/vite"
 import AutoImport from "unplugin-auto-import/vite"
 import IconsResolver from "unplugin-icons/resolver"
@@ -59,6 +60,7 @@ export const vitePlugins: [
             "Encoding",
           ],
         },
+        unheadVueComposablesImports,
       ],
       dirs: [
         "src/logic/**/*.ts",

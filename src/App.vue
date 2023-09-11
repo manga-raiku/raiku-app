@@ -5,5 +5,22 @@
 <script setup lang="ts">
 import eruda2 from "eruda2"
 
+const i18n = useI18n()
+
+useHead({
+  titleTemplate: "%s - Manga Raiku",
+})
+
+const title = "Manga Raiku"
+const description = computed(() => i18n.t("app-des"))
+useSeoMeta({
+  title,
+  description,
+  ogTitle: title,
+  ogDescription: description,
+  ogImage: "/favicon.png",
+  ogSiteName: "Manga Raiku",
+})
+
 if (import.meta.env.DEV) eruda2.init()
 </script>

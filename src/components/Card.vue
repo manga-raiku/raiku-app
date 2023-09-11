@@ -129,12 +129,11 @@
 </template>
 
 <script lang="ts" setup>
+import type { MaybeRefOrGetter } from "@vueuse/core"
 import { useElementHover } from "@vueuse/core"
-import type { MaybeComputedRef } from "@vueuse/head"
-import { QCard, QImg, QMenu } from "quasar"
+import { debounce, QCard, QImg, QMenu } from "quasar"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
-import { debounce } from "perfect-debounce"
 
 import type { CardProps } from "./Card.types"
 
@@ -154,10 +153,10 @@ const enablePopup = props.data.views !== null
 
 if (enablePopup) {
   const mouseInCard = useElementHover(
-    imgRef as unknown as MaybeComputedRef<EventTarget>,
+    imgRef as unknown as MaybeRefOrGetter<EventTarget>,
   )
   const mouseInCardMenu = useElementHover(
-    cardMenuRef as unknown as MaybeComputedRef<EventTarget>,
+    cardMenuRef as unknown as MaybeRefOrGetter<EventTarget>,
   )
 
   const showMenu = debounce(() => {

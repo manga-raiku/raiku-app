@@ -14,7 +14,7 @@ meta:
           <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
-        <q-toolbar-title>Kiểm tra lỗi mạng</q-toolbar-title>
+        <q-toolbar-title>{{ $t("kiem-tra-loi-mang") }}</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -22,7 +22,7 @@ meta:
       <q-list padding>
         <q-item>
           <q-item-section>
-            <q-item-label>Loại kết nối</q-item-label>
+            <q-item-label>{{ $t("loai-ket-noi") }}</q-item-label>
           </q-item-section>
           <q-item-section side>
             <q-item-label>{{ connectionType }}</q-item-label>
@@ -40,10 +40,12 @@ meta:
 
         <q-item>
           <q-item-section>
-            <q-item-label>Ping</q-item-label>
+            <q-item-label>{{ $t("ping") }}</q-item-label>
           </q-item-section>
           <q-item-section side>
-            <q-item-label>{{ ping?.toFixed(2) ?? "__" }}ms</q-item-label>
+            <q-item-label>{{
+              $t("time-ms", [ping?.toFixed(2) ?? "__"])
+            }}</q-item-label>
           </q-item-section>
         </q-item>
 
@@ -58,7 +60,7 @@ meta:
 
         <q-item>
           <q-item-section>
-            <q-item-label>Thiết bị</q-item-label>
+            <q-item-label>{{ $t("thiet-bi") }}</q-item-label>
           </q-item-section>
           <q-item-section side>
             <q-item-label>{{ device?.model }}</q-item-label>
@@ -83,6 +85,16 @@ import { Device } from "@capacitor/device"
 import type { ConnectionType } from "@capacitor/network"
 import { Network } from "@capacitor/network"
 import index from "src/apis/nettruyen/runs"
+
+const i18n = useI18n()
+
+const title = () => i18n.t("kiem-tra-tinh-trang-mang")
+useSeoMeta({
+  title,
+  description: title,
+  ogTitle: title,
+  ogDescription: title,
+})
 
 const router = useRouter()
 

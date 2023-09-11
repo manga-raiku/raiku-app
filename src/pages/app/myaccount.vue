@@ -106,6 +106,14 @@ const authStore = useAuthStore()
 const $q = useQuasar()
 const i18n = useI18n()
 
+const title = () => i18n.t("tai-khoan-cua-toi")
+useSeoMeta({
+  title,
+  description: title,
+  ogTitle: title,
+  ogDescription: title,
+})
+
 async function signOut() {
   const { error } = await authStore.signOut()
 

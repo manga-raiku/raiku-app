@@ -431,6 +431,16 @@ import "swiper/css/grid"
 // Import Swiper Vue.js components
 
 const router = useRouter()
+const i18n = useI18n()
+
+const title = "Manga Raiku"
+const description = computed(() => i18n.t("app-des"))
+useSeoMeta({
+  title,
+  description,
+  ogTitle: title,
+  ogDescription: description,
+})
 
 const leftSecRefs = shallowReactive<HTMLDivElement[]>([])
 const rightTopSecRefs = shallowReactive<HTMLDivElement[]>([])

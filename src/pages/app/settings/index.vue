@@ -40,6 +40,14 @@ meta:
 const router = useRouter()
 const i18n = useI18n()
 
+const title = () => i18n.t("cai-dat")
+useSeoMeta({
+  title,
+  description: title,
+  ogTitle: title,
+  ogDescription: title,
+})
+
 const buttons = computed(() => [
   {
     text: i18n.t("ngon-ngu"),

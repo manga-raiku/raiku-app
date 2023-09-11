@@ -1,4 +1,4 @@
-import { createHead } from "@vueuse/head"
+import { createHead } from "@unhead/vue"
 import { boot } from "quasar/wrappers"
 
 export default boot(({ app }) => {

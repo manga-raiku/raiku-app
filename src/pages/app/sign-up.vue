@@ -153,6 +153,15 @@ const router = useRouter()
 const authStore = useAuthStore()
 const i18n = useI18n()
 
+const title = () => i18n.t("dang-ky")
+const description = () => i18n.t("dang-ky-mot-tai-khoan-moi")
+useSeoMeta({
+  title,
+  description,
+  ogTitle: title,
+  ogDescription: description,
+})
+
 const qFormRef = ref<QForm>()
 
 const email = ref("")

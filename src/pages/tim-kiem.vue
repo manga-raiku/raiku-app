@@ -202,6 +202,15 @@ const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
 
+const title = `Tìm kiếm ${route.query.query ?? ""}`
+const description = title
+useSeoMeta({
+  title,
+  description,
+  ogTitle: title,
+  ogDescription: description,
+})
+
 const typesRank = computed(
   () =>
     [

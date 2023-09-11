@@ -54,6 +54,7 @@ const props = defineProps<{
 
 const route = useRoute()
 const router = useRouter()
+const i18n = useI18n()
 
 const page = computed<number>({
   get: () => parseInt(route.query.page?.toString() ?? "1") || 1,
@@ -100,5 +101,14 @@ watch(error, (error) => {
       query: route.query,
       hash: route.hash,
     })
+})
+
+const title = () => i18n.t("the-loai-name", [data.value?.name])
+const description = () => data.value?.description
+useSeoMeta({
+  title,
+  description,
+  ogTitle: title,
+  ogDescription: description,
 })
 </script>

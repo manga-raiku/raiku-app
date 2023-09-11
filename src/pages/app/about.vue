@@ -57,6 +57,14 @@ import { version } from "app/package.json"
 const router = useRouter()
 const i18n = useI18n()
 
+const title = () => i18n.t("ve-ung-dung")
+useSeoMeta({
+  title,
+  description: title,
+  ogTitle: title,
+  ogDescription: title,
+})
+
 const appInfo = computedAsync(async () => {
   try {
     return await App.getInfo()

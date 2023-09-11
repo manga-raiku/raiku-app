@@ -594,6 +594,19 @@ watch(error, (error) => {
       hash: route.hash,
     })
 })
+
+const title = () =>
+  data.value
+    ? `${data.value.name} Chương ${data.value.chapters[0].name}`
+    : "Raiku"
+const description = title
+useSeoMeta({
+  title,
+  description,
+  ogTitle: title,
+  ogDescription: description,
+})
+
 const statusEPDL = computedAsync<TaskDDEp | TaskDLEp | null | undefined>(
   async () => {
     if (!data.value) return

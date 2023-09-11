@@ -422,6 +422,22 @@ watch(error, (error) => {
     })
 })
 
+const title = () =>
+  data.value
+    ? i18n.t("title-page-meta-manga", [
+        data.value.name,
+        data.value.othername ? `(${data.value.othername})` : "",
+        data.value.chapters[0].name,
+      ])
+    : "Raiku"
+const description = () => data.value?.description
+useSeoMeta({
+  title,
+  description,
+  ogTitle: title,
+  ogDescription: description,
+})
+
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   if (!data.value) return
 
