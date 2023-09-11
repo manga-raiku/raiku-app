@@ -75,27 +75,29 @@
           Chương {{ data.last_chapters[0].name }}
         </div>
 
-        <div class="flex items-center mt-2">
-          <template v-if="data.comments">
-            <Icon
-              icon="fluent:comment-multiple-24-regular"
-              class="text-[#F5574B] mr-1"
-              width="1.3rem"
-              height="1.3rem"
-            />
-            {{ formatView(data.comments) }}
-            <span class="hr-vertical" />
-          </template>
-
-          <template v-if="data.likes">
-            <Icon
-              icon="fluent:heart-24-filled"
-              class="text-[#F5574B] mr-1"
-              width="1.3rem"
-              height="1.3rem"
-            />
-            {{ formatView(data.likes) }}
-          </template>
+        <div class="mt-1.5 mb-2 text-0.95em">
+          <div v-if="data.views">
+            {{ formatView(data.views) }} lượt xem
+            <q-separator v-if="data.comments" vertical class="mx-2" />
+          </div>
+          <div class="flex items-center">
+            <div v-if="data.likes" class="flex items-center">
+              <Icon icon="iconamoon:heart-thin" class="size-1.2em mr-1" />
+              {{ formatView(data.likes) }}
+              <q-separator
+                v-if="data.comments"
+                vertical
+                class="mx-2 h-10px my-auto"
+              />
+            </div>
+            <div v-if="data.comments" class="flex items-center">
+              <Icon
+                icon="iconamoon:comment-dots-light"
+                class="size-1.2em mr-1"
+              />
+              {{ formatView(data.comments) }}
+            </div>
+          </div>
         </div>
 
         <div v-if="data.author" class="">Tác giả {{ data.author }}</div>

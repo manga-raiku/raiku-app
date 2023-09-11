@@ -40,18 +40,22 @@
         data.othername
       }}</small>
 
-      <div class="flex my-2 text-0.95em">
-        <template v-if="data.views">
+      <div class="mt-1.5 mb-2 text-0.95em">
+        <div v-if="data.views">
           {{ formatView(data.views) }} lượt xem
           <q-separator v-if="data.comments" vertical class="mx-2" />
-        </template>
-        <template v-if="data.comments">
-          {{ formatView(data.comments) }} bình luận
-          <q-separator v-if="data.likes" vertical class="mx-2" />
-        </template>
-        <template v-if="data.likes">
-          {{ formatView(data.likes) }} theo dõi
-        </template>
+        </div>
+        <div class="flex items-center">
+          <div v-if="data.likes" class="flex items-center">
+            <Icon icon="iconamoon:heart-thin" class="size-1.2em mr-1" />
+            {{ formatView(data.likes) }}
+            <q-separator v-if="data.comments" vertical class="mx-2 h-10px my-auto" />
+          </div>
+          <div v-if="data.comments" class="flex items-center">
+            <Icon icon="iconamoon:comment-dots-light" class="size-1.2em mr-1" />
+            {{ formatView(data.comments) }}
+          </div>
+        </div>
       </div>
 
       <div v-if="data.visited" class="my-2">
