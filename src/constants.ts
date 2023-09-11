@@ -1,7 +1,7 @@
 export const SUPABASE_PROJECT_URL = process.env.SUPABASE_PROJECT_URL
 export const SUPABASE_PROJECT_KEY = process.env.SUPABASE_PROJECT_KEY
 
-export const Icons: Record<string, [string, string]> = {
+export const Icons: Readonly<Record<string, [string, string]>> = {
   home: ["solar:home-smile-broken", "solar:home-smile-bold-duotone"],
   search: ["iconamoon:search", "iconamoon:search-duotone"],
   box: ["solar:box-minimalistic-broken", "solar:box-minimalistic-bold-duotone"],
@@ -41,4 +41,9 @@ export const Icons: Record<string, [string, string]> = {
     "solar:notebook-bookmark-bold-duotone",
   ],
   translate: ["ph:translate-duotone", "ph:translate-duotone"],
+
+  user_circle: [
+    "solar:user-circle-line-duotone",
+    "solar:user-circle-bold-duotone",
+  ],
 }
