@@ -5,5 +5,5 @@
 <script setup lang="ts">
 import eruda2 from "eruda2"
 
-eruda2.init()
+if (import.meta.env.DEV) eruda2.init()
 </script>
