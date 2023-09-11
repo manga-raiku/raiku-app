@@ -562,7 +562,7 @@ const props = defineProps<{
   epId: string
 }>()
 
-const { MODE } = import.meta.env
+const MODE = import.meta.env.MODE
 const $q = useQuasar()
 const IDMStore = useIDMStore()
 const followStore = useFollowStore()

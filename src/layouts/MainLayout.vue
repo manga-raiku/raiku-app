@@ -272,7 +272,7 @@ import NotExistsExtension from "./NotExistsExtension.vue"
 const route = useRoute()
 const router = useRouter()
 const $q = useQuasar()
-const { MODE } = import.meta.env
+const MODE = import.meta.env.MODE
 
 const canvasRef = ref<HTMLCanvasElement>()
 const instance = getCurrentInstance()
