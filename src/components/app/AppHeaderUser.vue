@@ -9,7 +9,9 @@
         no-spinner
       />
     </q-avatar>
-    <Icon v-else icon="solar:settings-line-duotone" width="30" height="30" />
+    <Icon icon="solar:menu-dots-bold" class="size-1.5em" :rotate="1" />
+    <!-- <Icon v-else :icon="Icons.user_circle[1]" class="size-30px" /> -->
+    <!-- <Icon v-else :icon="Icons.settings[0]" width="30" height="30" /> -->
 
     <q-menu
       v-model="showMenuAccount"
@@ -44,6 +46,27 @@
               <q-item-label class="font-weight-medium text-subtitle1">{{
                 authStore.profile?.full_name
               }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-separator class="bg-[rgba(255,255,255,0.1)]" />
+        </div>
+        <div v-else>
+          <q-item
+            class="rounded-xl"
+            clickable
+            v-ripple
+            :to="`/app/sign-in?redirect=${route.fullPath}`"
+          >
+            <q-item-section avatar>
+              <q-avatar size="45px">
+                <Icon :icon="Icons.user_circle[1]" class="size-45px" />
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="font-weight-medium text-subtitle1"
+                >Đăng nhập</q-item-label
+              >
             </q-item-section>
           </q-item>
 
@@ -84,13 +107,6 @@
                 <q-item-section>
                   <q-item-label>Thoát</q-item-label>
                 </q-item-section>
-              </q-item>
-
-              <q-separator class="bg-[rgba(255,255,255,0.1)]" />
-            </template>
-            <template v-else>
-              <q-item class="rounded-xl">
-                <q-item-section>Cài đặt</q-item-section>
               </q-item>
 
               <q-separator class="bg-[rgba(255,255,255,0.1)]" />
@@ -198,9 +214,7 @@
     v-if="!authStore.session"
     v-bind="attrs"
     flat
-    stack
-    no-caps
-    rounded
+    round
     unelevated
     class="font-weight-normal"
     to="/app/sign-in"
@@ -220,6 +234,7 @@ defineOptions({
 })
 
 const authStore = useAuthStore()
+const route = useRoute()
 const settingsStore = useSettingsStore()
 const attrs = useAttrs()
 
