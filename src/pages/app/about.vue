@@ -14,7 +14,7 @@ meta:
           <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
-        <q-toolbar-title>Giới thiệu</q-toolbar-title>
+        <q-toolbar-title>{{ $t("gioi-thieu") }}</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -43,9 +43,9 @@ meta:
         </q-item>
       </q-list>
 
-      <small class="text-gray-400 mt-10 text-12px text-center display-block"
-        >Ứng dụng thuộc tổ chức phi lợi nhuận</small
-      >
+      <small class="text-gray-400 mt-10 text-12px text-center display-block">{{
+        $t("ung-dung-thuoc-to-chuc-phi-loi-nhuan")
+      }}</small>
     </q-page>
   </div>
 </template>
@@ -55,6 +55,7 @@ import { App } from "@capacitor/app"
 import { version } from "app/package.json"
 
 const router = useRouter()
+const i18n = useI18n()
 
 const appInfo = computedAsync(async () => {
   try {
@@ -64,20 +65,20 @@ const appInfo = computedAsync(async () => {
   }
 })
 
-const buttons = [
+const buttons = computed(() => [
   {
-    text: "Mã nguồn mở giấy phép GNU v3",
+    text: i18n.t("ma-nguon-mo-giay-phep-gnu-v3"),
     href: "https://github.com/manga-raiku/manga-raiku",
   },
   {
-    text: "Điều khoản dịch vụ",
+    text: i18n.t("dieu-khoan-dich-vu"),
     href: "https://manga-raiku.github.io/term-of-use",
   },
   {
-    text: "Chính sách bảo mật",
+    text: i18n.t("chinh-sach-bao-mat"),
     href: "https://manga-raiku.github.io/privacy-police",
   },
-]
+])
 </script>
 
 <style></style>

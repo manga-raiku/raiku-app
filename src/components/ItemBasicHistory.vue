@@ -24,7 +24,7 @@
           v-if="history"
           class="text-1em text-gray-300 line-clamp-2 mt-3 leading-snug"
         >
-          Đã đọc Chương {{ history.name }}
+          {{ $t("da-doc-chuong-history-name", [history.name]) }}
         </small>
 
         <small v-if="history" class="text-0.95em text-gray-300 mt-2">
@@ -43,7 +43,7 @@
           color="blue-400"
         >
           <i-fluent-play-multiple-16-regular class="size-1.5em mr-1" />
-          Đọc tiếp
+          {{ $t("doc-tiep") }}
         </q-btn>
 
         <q-btn
@@ -54,7 +54,7 @@
           class="text-12px"
           color="gray-700"
         >
-          Đọc từ đầu
+          {{ $t("doc-tu-dau") }}
         </q-btn>
       </div>
     </div>

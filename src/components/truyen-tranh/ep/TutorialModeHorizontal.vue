@@ -12,12 +12,12 @@
         }"
       />
       <div class="text-16px text-[hsla(0,0%,88.2%,.5)] text-center mx-auto">
-        Flip direction
+        {{ $t("huong-lat") }}
       </div>
       <div
         class="text-24px text-[hsla(0,0%,100%,.9)] text-center mx-auto mt-6px"
       >
-        {{ rightToLeft ? "Right to left" : "Left to right" }}
+        {{ rightToLeft ? $t("phai-sang-trai") : $t("trai-sang-phai") }}
       </div>
     </div>
   </transition>

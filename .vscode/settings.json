@@ -44,6 +44,22 @@
     "src/components/errors/cloudflare.vue": [")\n      "],
     "src/components/errors/domain-strange.vue": [
       "\n        {{ extensionVersion ?? \""
+    ],
+    "src/components/Card.vue": [
+      "&bull;\n            {{ $t('cap-nhat-ago', [dayjs(data.last_chapters[0].updated_at).fromNow()]) }}\n          "
+    ],
+    "src/components/library/_components/EpControl.vue": [
+      "< data.pages.length\n          ? downloading\n            ? $t(\"dang-tai\")\n            : $t(\"tam-dung\")\n          : $t(\"finished\")\n      }}"
+    ],
+    "src/components/app/AppHeaderSearch.vue": ["Slash"],
+    "src/pages/tim-kiem.vue": ["\nmeta:\n  hiddenHeader: $lt.md\n"],
+    "src/pages/index.vue": ["%"],
+    "src/pages/[...catchAll].vue": ["\nname: not_found\n"],
+    "src/pages/truyen-tranh/[zlug]/index.vue": [
+      "\nmeta:\n  hiddenFooter: true\n  hiddenDrawer: true\n  hiddenHeader: $lt.md\n"
+    ],
+    "src/pages/truyen-tranh/[zlug]/[epName]/[epId].vue": [
+      "\nmeta:\n  hiddenHeader: true\n  hiddenDrawer: true\n  hiddenFooter: true\n"
     ]
   },
   "scss.lint.unknownAtRules": "ignore",

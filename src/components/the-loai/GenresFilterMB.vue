@@ -31,7 +31,9 @@
       <q-card-section class="py-0 flex items-center justify-between">
         <div class="text-subtitle1 mx-1">{{ item.type }}</div>
 
-        <q-btn dense flat no-caps class="text-weight-normal">Đặt lại</q-btn>
+        <q-btn dense flat no-caps class="text-weight-normal">{{
+          $t("dat-lai")
+        }}</q-btn>
       </q-card-section>
 
       <q-card-section class="row">
@@ -106,7 +108,9 @@
         </div>
       </q-card-section>
 
-      <q-btn flat no-caps class="w-full py-2 mb-2" v-close-popup>Hủy</q-btn>
+      <q-btn flat no-caps class="w-full py-2 mb-2" v-close-popup>{{
+        $t("huy")
+      }}</q-btn>
     </q-card>
   </q-dialog>
 
@@ -124,7 +128,9 @@
         <q-card-section class="py-0 flex items-center justify-between">
           <div class="text-subtitle1 mx-1">{{ item.type }}</div>
 
-          <q-btn dense flat no-caps class="text-weight-normal">Đặt lại</q-btn>
+          <q-btn dense flat no-caps class="text-weight-normal">{{
+            $t("dat-lai")
+          }}</q-btn>
         </q-card-section>
 
         <q-card-section class="row">
@@ -195,7 +201,9 @@
           </div>
         </q-card-section>
       </template>
-      <q-btn flat no-caps class="w-full py-2 mb-2" v-close-popup>Hủy</q-btn>
+      <q-btn flat no-caps class="w-full py-2 mb-2" v-close-popup>{{
+        $t("huy")
+      }}</q-btn>
     </q-card>
   </q-dialog>
 </template>

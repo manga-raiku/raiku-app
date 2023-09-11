@@ -30,7 +30,7 @@ meta:
           <span
             v-if="!route.query.query"
             class="absolute top-1/2 left-23px translate-y--1/2 text-[#818181]"
-            >Tìm kiếm</span
+            >{{ $t("tim-kiem") }}</span
           >
           <span class="absolute top-1/2 left-23px translate-y--1/2">{{
             route.query.query
@@ -69,7 +69,7 @@ meta:
     </q-toolbar>
     <q-toolbar v-if="!route.query.query">
       <div class="flex flex-nowrap items-center mx-3">
-        <div class="text-gray-300 mr-2">Bảng xếp hạng</div>
+        <div class="text-gray-300 mr-2">{{ $t("bang-xep-hang") }}</div>
 
         <div class="overflow-x-auto text-[14px] text-grey">
           <div
@@ -88,10 +88,11 @@ meta:
     </q-toolbar>
     <q-toolbar v-if="route.query.query">
       <div class="py-2 px-4">
-        <span class="text-gray-400 mr-1">Tìm kiếm: </span>
+        <span class="text-gray-400 mr-1">{{ $t("tim-kiem-2dot") }} </span>
         <span class="font-bold truncate">{{ route.query.query }}</span>
         <span v-if="data" class="text-gray-300">
-          <span class="mx-2">&bull;</span>{{ data.maxPage }} trang kết quả
+          <span class="mx-2">&bull;</span
+          >{{ $t("size-trang-ket-qua", [data.maxPage]) }}
         </span>
       </div>
     </q-toolbar>
@@ -154,10 +155,11 @@ meta:
 
     <section v-else>
       <div v-if="!$q.screen.lt.md" class="py-2 px-4 text-16px text-left">
-        <span class="text-gray-400 mr-1">Tìm kiếm: </span>
+        <span class="text-gray-400 mr-1">{{ $t("tim-kiem-2dot") }} </span>
         <span class="font-bold truncate">{{ route.query.query }}</span>
         <span v-if="data" class="text-gray-300">
-          <span class="mx-2">&bull;</span>{{ data.maxPage }} trang kết quả
+          <span class="mx-2">&bull;</span
+          >{{ $t("size-trang-ket-qua", [data.maxPage]) }}
         </span>
       </div>
 
@@ -168,7 +170,9 @@ meta:
         <InfiniteScroll v-if="data.items.length > 0" @load="onLoad">
           <GridCard :items="data.items" />
         </InfiniteScroll>
-        <div v-else class="text-center text-20px py-10">Không có kết quả</div>
+        <div v-else class="text-center text-20px py-10">
+          {{ $t("khong-co-ket-qua") }}
+        </div>
 
         <!-- <div
         v-if="data.maxPage > 1 && $q.screen.gt.sm"
@@ -196,21 +200,25 @@ import "swiper/css/grid"
 
 const route = useRoute()
 const router = useRouter()
+const i18n = useI18n()
 
-const typesRank = [
-  {
-    name: "Ngày",
-    value: "/tim-truyen?status=-1&sort=11",
-  },
-  {
-    name: "Tuần",
-    value: "/tim-truyen?status=-1&sort=12",
-  },
-  {
-    name: "Tháng",
-    value: "/tim-truyen?status=-1&sort=13",
-  },
-] as const
+const typesRank = computed(
+  () =>
+    [
+      {
+        name: i18n.t("ngay"),
+        value: "/tim-truyen?status=-1&sort=11",
+      },
+      {
+        name: i18n.t("tuan"),
+        value: "/tim-truyen?status=-1&sort=12",
+      },
+      {
+        name: i18n.t("thang"),
+        value: "/tim-truyen?status=-1&sort=13",
+      },
+    ] as const,
+)
 
 const { data, loading, run } = useRequest(
   async () => {
@@ -283,7 +291,7 @@ const swiperRef = ref()
 const activeIndex = ref(0)
 watch(
   activeIndex,
-  (activeIndex) => fetchRankType(typesRank[activeIndex].value),
+  (activeIndex) => fetchRankType(typesRank.value[activeIndex].value),
   { immediate: true },
 )
 

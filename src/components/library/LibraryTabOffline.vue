@@ -12,7 +12,7 @@
         dense
         rounded
         no-caps
-        :label="editMode ? 'Done' : 'Edit'"
+        :label="editMode ? $t('xong') : $t('sua')"
         @click="editMode = !editMode"
       />
     </div>
@@ -47,14 +47,17 @@
 
         <div class="text-1em ellipsis">{{ item.manga_name }}</div>
         <div class="text-0.92em text-gray-300 text-opacity-90">
-          ({{ item.count_ep }}/{{
-            item.count_ep + (IDMStore.queue.get(item.manga_id)?.size ?? 0)
-          }})
+          {{
+            $t("a-slash-b", [
+              item.count_ep,
+              item.count_ep + (IDMStore.queue.get(item.manga_id)?.size ?? 0),
+            ])
+          }}
         </div>
       </q-card>
     </div>
     <div v-else class="text-center text-subtitle1 py-6 col-12">
-      Chưa có tải xuống nào
+      {{ $t("chua-co-tai-xuong-nao") }}
     </div>
   </div>
 
@@ -77,7 +80,7 @@
         >
           <i-solar-check-circle-linear class="size-1.5em mr-1" />
           <span class="whitespace-nowrap">{{
-            mangaSelected.size > 0 ? "Unselect all" : "Select all"
+            mangaSelected.size > 0 ? $t("bo-chon") : $t("chon-tat")
           }}</span>
         </q-btn>
         <q-btn
@@ -88,7 +91,7 @@
           @click="remove"
         >
           <i-solar-trash-bin-minimalistic-broken mr-1 class="size-1.5em" />
-          Delete
+          {{ $t("xoa") }}
         </q-btn>
       </q-toolbar>
     </q-page-sticky>

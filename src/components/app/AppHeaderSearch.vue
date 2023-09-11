@@ -102,7 +102,7 @@
           </router-link>
         </li>
         <li v-else class="px-4 py-5 text-center text-gray-400 w-full">
-          {{ query ? "Không tìm thấy" : "Nhập để tìm kiếm" }}
+          {{ query ? $t("khong-tim-thay") : $t("nhap-de-tim-kiem") }}
         </li>
       </ul>
     </transition>

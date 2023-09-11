@@ -21,7 +21,7 @@
           >
             <input
               class="min-w-0 w-full bg-transparent placeholder-[#818181] focus-visible:outline-none !pl-6"
-              placeholder="Tìm kiếm"
+              :placeholder="$t('tim-kiem')"
               v-model="query"
               autofocus
               @keyup="query = ($event.target as HTMLInputElement).value"

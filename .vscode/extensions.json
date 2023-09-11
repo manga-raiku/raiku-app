@@ -17,7 +17,8 @@
     "meganrogge.template-string-converter",
     "johnsoncodehk.vscode-typescript-vue-plugin",
     "aminer.codegeex",
-    "vue.volar"
+    "vue.volar",
+    "streetsidesoftware.code-spell-checker"
   ],
   "unwantedRecommendations": [
     "octref.vetur",

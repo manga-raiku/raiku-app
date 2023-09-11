@@ -11,13 +11,13 @@
         v-if="!modelValue.downloading"
         class="size-2em"
       />
-      <template v-else
-        >{{
+      <template v-else>{{
+        $t("val-per", [
           Math.round(
             (modelValue.ref.downloaded / modelValue.ref.pages.length) * 100,
-          )
-        }}%</template
-      >
+          ),
+        ])
+      }}</template>
     </q-circular-progress>
     <i-solar-download-minimalistic-broken
       v-else-if="!modelValue"
@@ -38,6 +38,7 @@ const props = defineProps<{
   canDownload: boolean
 }>()
 const $q = useQuasar()
+const { t } = useI18n()
 const emit = defineEmits<{
   (name: "update:model-value", value: undefined | TaskDDEp | TaskDDEp): void
   (name: "action:download"): void
@@ -62,16 +63,16 @@ function onClickDownload() {
   // confirm delete
   if (props.modelValue) {
     $q.dialog({
-      message: "Bạn muốn xóa chương này khỏi ngoại tuyến chứ?",
+      message: t("quest-confirm-delete-ch"),
       ok: {
-        label: "Xóa",
+        label: t("xoa"),
         color: "red",
         rounded: true,
         noCaps: true,
         flat: true,
       },
       cancel: {
-        label: "Hủy",
+        label: t("huy"),
         color: "white",
         rounded: true,
         noCaps: true,

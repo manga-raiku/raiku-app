@@ -9,7 +9,7 @@
             src="~/assets/trending_fire_1.png"
             class="display-inline-block w-1.2em h-1.2em"
           />
-          THỊNH HÀNH
+          {{ $t("thinh-hanh") }}
         </div>
 
         <ul class="mt-2 children:mx-24.5px flex items-center justify-center">
@@ -42,12 +42,12 @@
             <!-- #AD8009 #09AD6B -->
             <TrendingCardIconLeft class="text-main-4" />
             <!-- #8c6b1c #548c76 -->
-            <span class="text-main-2 text-16px mx-2 text-weight-medium"
-              >Bảng
-              {{
-                typesRank.find((item) => pathEqual(item.path, route.path))?.name
-              }}</span
-            >
+            <span class="text-main-2 text-16px mx-2 text-weight-medium">{{
+              $t("bang-type", [
+                typesRank.find((item) => pathEqual(item.path, route.path))
+                  ?.name,
+              ])
+            }}</span>
             <TrendingCardIconRight class="rotate-180deg text-main-4" />
           </div>
 
@@ -117,25 +117,26 @@ import { pathEqual } from "src/logic/path-equal"
 
 const route = useRoute()
 const router = useRouter()
+const i18n = useI18n()
 
 const props = defineProps<{
   type: string
 }>()
 
-const typesRank = [
+const typesRank = computed(() => [
   {
-    name: "Ngày",
+    name: i18n.t("ngay"),
     path: "/bang-xep-hang/ngay",
   },
   {
-    name: "Tuần",
+    name: i18n.t("tuan"),
     path: "/bang-xep-hang/tuan",
   },
   {
-    name: "Tháng",
+    name: i18n.t("thang"),
     path: "/bang-xep-hang/thang",
   },
-]
+])
 
 const valuesOf: Record<string, string> = {
   ngay: "/tim-truyen?status=-1&sort=13",

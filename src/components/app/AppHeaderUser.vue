@@ -64,9 +64,9 @@
               </q-avatar>
             </q-item-section>
             <q-item-section>
-              <q-item-label class="font-weight-medium text-subtitle1"
-                >Đăng nhập</q-item-label
-              >
+              <q-item-label class="font-weight-medium text-subtitle1">{{
+                $t("dang-nhap")
+              }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -91,7 +91,7 @@
                   />
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label>Trung tâm cá nhân</q-item-label>
+                  <q-item-label>{{ $t("trung-tam-ca-nhan") }}</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -105,7 +105,7 @@
                   <i-solar-logout-line-duotone width="20" height="20" />
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label>Thoát</q-item-label>
+                  <q-item-label>{{ $t("dang-xuat") }}</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -154,7 +154,7 @@
                   <i-fluent-ios-arrow-ltr-24-regular width="20" height="20" />
                 </q-btn>
               </q-item-section>
-              <q-item-section>Chọn ngôn ngữ của bạn</q-item-section>
+              <q-item-section>{{ $t("chon-ngon-ngu-cua-ban") }}</q-item-section>
             </q-item>
 
             <!-- <q-separator class="bg-[rgba(255,255,255,0.1)]" /> -->
@@ -191,7 +191,7 @@
                   <i-fluent-ios-arrow-ltr-24-regular width="20" height="20" />
                 </q-btn>
               </q-item-section>
-              <q-item-section>Cài đặt chung</q-item-section>
+              <q-item-section>{{ $t("cai-dat-chung") }}</q-item-section>
             </q-item>
 
             <!-- <q-separator class="bg-[rgba(255,255,255,0.1)]" /> -->
@@ -231,6 +231,7 @@ const authStore = useAuthStore()
 const route = useRoute()
 const settingsStore = useSettingsStore()
 const attrs = useAttrs()
+const i18n = useI18n()
 
 const showMenuAccount = ref(false)
 // account
@@ -253,44 +254,44 @@ const buttons: {
     // eslint-disable-next-line no-void
     onClick: () => void (tabMenuAccountActive.value = "locale"),
     icon: Icons.translate,
-    text: "Ngôn ngữ",
+    text: i18n.t("ngon-ngu"),
   },
   {
     to: "/app/settings",
     icon: Icons.settings,
-    text: "Cài đặt",
+    text: i18n.t("cai-dat"),
   },
   {
     divider: true,
     to: "/app/settings/check-network",
     icon: Icons.bug,
-    text: "Kiểm tra lỗi mạng",
+    text: i18n.t("kiem-tra-loi-mang"),
   },
   {
     divider: true,
     href: "mailto://contact@mangaraiku.eu.org?title=Feedback%20app%20git.shin.raiku",
     icon: Icons.info_circle,
-    text: "Phản hồi",
+    text: i18n.t("phan-hoi-hoac-bao-loi"),
   },
   {
     href: "https://ko-fi.com/tachib_shin",
     icon: Icons.user_heart,
-    text: "Tài trợ / Ủng hộ",
+    text: i18n.t("tai-tro-ung-ho"),
   },
   {
     href: "https://github.com/manga-raiku/manga-raiku",
     icon: Icons.code_bold,
-    text: "Mã nguồn mở",
+    text: i18n.t("ma-nguon-mo"),
   },
   {
     href: "https://mangaraiku.eu.org",
     icon: [antDesignAppleOutlined, antDesignAppleOutlined],
-    text: "PWA cho iOS và desktop",
+    text: i18n.t("pwa-cho-ios-va-desktop"),
   },
   {
     to: "/app/about",
     icon: Icons.notebook,
-    text: "Giới thiệu",
+    text: i18n.t("gioi-thieu"),
     side: computedAsync(async () => {
       try {
         return (await App.getInfo()).version

@@ -15,7 +15,7 @@ meta:
           <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
-        <q-toolbar-title>Đăng nhập</q-toolbar-title>
+        <q-toolbar-title>{{ $t("dang-nhap") }}</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -30,7 +30,7 @@ meta:
           />
 
           <div class="relative flex items-center justify-between <md:!hidden">
-            <div class="text-20px mx-2">Đăng nhập</div>
+            <div class="text-20px mx-2">{{ $t("dang-nhap") }}</div>
 
             <div class="card-bg-cyan top--20%"></div>
             <div class="card-bg-blue top--20%"></div>
@@ -40,28 +40,28 @@ meta:
             <q-card-section>
               <q-input
                 v-model="email"
-                placeholder="Email"
+                :placeholder="$t('email')"
                 class="login-input"
                 color="main-2"
                 dense
                 lazy-rules
                 :rules="[
-                  (email) => email.length > 1 || 'Please enter email',
+                  (email) => email.length > 1 || $t('vui-long-nhap-e-mail'),
                   (email) =>
                     /^[\w\d\.]+@[\w\d]*\.[\w\d]{2,}$/i.test(email) ||
-                    'Email invalid format',
+                    $t('vui-long-nhap-e-mail-hop-le'),
                 ]"
               />
               <q-input
                 v-model="password"
                 :type="showPassword ? 'text' : 'password'"
-                placeholder="Password"
+                :placeholder="$t('mat-khau')"
                 class="login-input mt-5"
                 color="main-2"
                 dense
                 lazy-rules
                 :rules="[
-                  (value) => value.length > 1 || 'Please enter password',
+                  (value) => value.length > 1 || $t('vui-long-nhap-mat-khau'),
                 ]"
               >
                 <template #append>
@@ -88,7 +88,7 @@ meta:
                 <router-link
                   to="/app/forgot-password"
                   class="text-gray-300 text-12px"
-                  >Forget Password?</router-link
+                  >{{ $t("quen-mat-khau-ques") }}</router-link
                 >
               </div>
             </q-card-section>
@@ -102,7 +102,7 @@ meta:
                   no-caps
                   :disable="!email || !password || !accept"
                   class="w-full max-w-420px mx-auto text-weight-normal"
-                  >Log in</q-btn
+                  >{{ $t("dang-nhap") }}</q-btn
                 >
               </div>
 
@@ -115,26 +115,28 @@ meta:
                   dense
                   class="mr-1"
                 />
-                I am at least 13 years old. I have read and agree to the
+                {{ $t("toi-it-nhat-13-tuoi-toi-da-doc-va-dong-y-voi") }}
                 <a
                   href="https://manga-raiku.github.io/tems-of-use"
                   target="_blank"
                   class="text-white"
-                  >Terms</a
+                  >{{ $t("dieu-khoan") }}</a
                 >
-                and
+                {{ $t("va") }}
                 <a
                   href="https://manga-raiku.github.io/privacy-police"
                   target="_blank"
                   class="text-white"
-                  >Privacy Policy</a
+                  >{{ $t("chinh-sach-bao-mat") }}</a
                 >
               </small>
             </q-card-section>
 
             <q-card-section class="mt-4">
               <div class="or mb-2">
-                <span class="px-4 text-gray-300 bg-dark-page">hoặc</span>
+                <span class="px-4 text-gray-300 bg-dark-page">{{
+                  $t("hoac")
+                }}</span>
               </div>
 
               <q-btn
@@ -149,7 +151,7 @@ meta:
                   <div
                     class="text-weight-normal text-white text-center min-w-0 w-full flex-1"
                   >
-                    Continue with Twitter
+                    {{ $t("tiep-tuc-voi-twitter") }}
                   </div>
                 </div>
               </q-btn>
@@ -165,7 +167,7 @@ meta:
                   <div
                     class="text-weight-normal text-white text-center min-w-0 w-full flex-1"
                   >
-                    Continue with Google
+                    {{ $t("tiep-tuc-voi-google") }}
                   </div>
                 </div>
               </q-btn>
@@ -184,7 +186,7 @@ meta:
                   <div
                     class="text-weight-normal text-white text-center min-w-0 w-full flex-1"
                   >
-                    Sign up with Email
+                    {{ $t("dang-ky-voi-e-mail") }}
                   </div>
                 </div>
               </q-btn>
@@ -204,6 +206,7 @@ const $q = useQuasar()
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
+const i18n = useI18n()
 
 const qFormRef = ref<QForm>()
 
@@ -226,7 +229,7 @@ async function login() {
   if (error) {
     $q.notify({
       message:
-        `Đăng nhập thất bại (code: ${error.status})` +
+        i18n.t("dang-nhap-that-bai-code-status", [error.status]) +
         (import.meta.env.DEV ? `(${error.message})` : ""),
     })
 
@@ -234,9 +237,9 @@ async function login() {
   }
 
   $q.notify({
-    message: `Đã đăng nhập với tư cách ${
-      data.user.user_metadata.name ?? data.user.email
-    }`,
+    message: i18n.t("da-dang-nhap-voi-tu-cach-_user", [
+      data.user.user_metadata.name ?? data.user.email,
+    ]),
   })
   router.push((route.query.redirectTo ?? "/") + "")
 }

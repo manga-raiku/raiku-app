@@ -7,7 +7,6 @@
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
   >
-    <title>title arrow</title>
     <defs>
       <linearGradient id="linear" x1="100%" y1="50%" x2="0%" y2="50%">
         <stop stop-color="currentColor" stop-opacity="0.2" offset="0%"></stop>

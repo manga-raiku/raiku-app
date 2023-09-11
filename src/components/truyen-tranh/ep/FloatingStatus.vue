@@ -32,11 +32,16 @@
 
     <div class="ml-2" data-cy="text">
       <div>
-        {{ pagesLength ?? "_" }}P ({{
-          Math.round(((absCurrentPage + 1) / sizePage) * 100)
-        }}%)
+        {{
+          $t("page-p-per", [
+            pagesLength ?? "_",
+            Math.round(((absCurrentPage + 1) / sizePage) * 100),
+          ])
+        }}
       </div>
-      <div>Ep. {{ metaEp ? normalizeChName(metaEp?.name) : "_" }}</div>
+      <div>
+        {{ $t("ep-name", [metaEp ? normalizeChName(metaEp?.name) : "_"]) }}
+      </div>
     </div>
   </div>
 </template>

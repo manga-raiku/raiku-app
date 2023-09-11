@@ -334,7 +334,7 @@ const drawersBottom = computed(() => [
   },
   {
     name: "Liên hệ chúng tôi",
-    href: "mailto:contact@mangaraiku.eu.org?subject=Phản hồi ứng dụng web Manga Raiku",
+    href: "mailto:contact@mangaraiku.eu.org?subject=Phản hồi ứng dụng web Raiku",
   },
   {
     name: "Tải ứng dụng",

@@ -85,31 +85,32 @@ const props = defineProps<{
   type?: string
 }>()
 const router = useRouter()
+const i18n = useI18n()
 
-const tabs = [
+const tabs = computed(() => [
   {
-    name: "Lịch sử",
+    name: i18n.t("lich-su"),
     value: "history",
     component: LibraryTabHistory,
   },
   {
-    name: "Theo dõi",
+    name: i18n.t("theo-doi"),
     value: "follow",
     component: LibraryTabFollows,
   },
   {
-    name: "Ngoại tuyến",
+    name: i18n.t("ngoai-tuyen"),
     value: "offline",
     component: LibraryTabOffline,
   },
-]
+])
 
 const swiperRef = ref<TSwiper>()
-const activeValue = ref(props.type || tabs[0].value)
+const activeValue = ref(props.type || tabs.value[0].value)
 const activeIndex = computed(() =>
   Math.max(
     0,
-    tabs.findIndex(
+    tabs.value.findIndex(
       (item) => item.value.toLowerCase() === props.type?.toLowerCase(),
     ),
   ),
@@ -117,11 +118,11 @@ const activeIndex = computed(() =>
 
 function onSwiper(swiper: TSwiper) {
   swiperRef.value = swiper
-  activeValue.value = tabs[swiper.activeIndex].value
+  activeValue.value = tabs.value[swiper.activeIndex].value
 }
 
 function onSlideChange(swiper: TSwiper) {
-  activeValue.value = tabs[swiper.activeIndex].value
+  activeValue.value = tabs.value[swiper.activeIndex].value
   router.push(`/library/${activeValue.value}`)
 }
 </script>

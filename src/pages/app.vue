@@ -8,7 +8,7 @@
     class="bg-dark-page overflow-visible column flex-nowrap"
   >
     <q-toolbar>
-      <q-toolbar-title>Cài đặt</q-toolbar-title>
+      <q-toolbar-title>{{ $t("cai-dat") }}</q-toolbar-title>
     </q-toolbar>
 
     <div class="h-full overflow-y-auto scrollbar-custom">
@@ -73,47 +73,51 @@ import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
 
 const router = useRouter()
 const route = useRoute()
-const buttons: {
-  href?: string
-  to?: string
-  icon: [Icon, Icon]
-  text: string
-  side?: Ref<string>
-}[] = [
+const i18n = useI18n()
+
+const buttons: ComputedRef<
+  {
+    href?: string
+    to?: string
+    icon: [Icon, Icon]
+    text: string
+    side?: Ref<string>
+  }[]
+> = computed(() => [
   {
     to: "/app/settings",
     icon: Icons.settings,
-    text: "Cài đặt",
+    text: i18n.t("cai-dat"),
   },
   {
     href: "https://ko-fi.com/tachib_shin",
     icon: Icons.user_heart,
-    text: "Tài trợ / Ủng hộ",
+    text: i18n.t("tai-tro-ung-ho"),
   },
   {
     href: "mailto://contact@mangaraiku.eu.org?title=Feedback%20app%20git.shin.raiku",
     icon: Icons.info_circle,
-    text: "Phản hồi",
+    text: i18n.t("phan-hoi"),
   },
   {
     href: "https://github.com/manga-raiku/manga-raiku",
     icon: Icons.code_bold,
-    text: "Mã nguồn mở",
+    text: i18n.t("ma-nguon-mo"),
   },
   {
     href: "https://mangaraiku.eu.org",
     icon: [antDesignAppleOutlined, antDesignAppleOutlined],
-    text: "PWA cho iOS và desktop",
+    text: i18n.t("pwa-cho-ios-va-desktop"),
   },
   {
     to: "/app/settings/check-network",
     icon: Icons.bug,
-    text: "Kiểm tra lỗi mạng",
+    text: i18n.t("kiem-tra-loi-mang"),
   },
   {
     to: "/app/about",
     icon: Icons.notebook,
-    text: "Giới thiệu",
+    text: i18n.t("gioi-thieu"),
     side: computedAsync(async () => {
       try {
         return (await App.getInfo()).version
@@ -122,5 +126,5 @@ const buttons: {
       }
     }),
   },
-]
+])
 </script>

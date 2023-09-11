@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-nowrap items-center justify-between">
-    <div class="ellipsis min-w-0">Chương {{ data.ep_name }}</div>
+    <div class="ellipsis min-w-0">{{ $t("chuong-name", [data.ep_name]) }}</div>
 
     <div
       class="text-gray-100 text-opacity-70 text-0.95em text-weight-normal flex items-center"
@@ -10,11 +10,10 @@
       <span class="display-inline-block min-w-70px text-right">{{
         data.downloaded < data.pages.length
           ? downloading
-            ? "Downloading"
-            : "Paused"
-          : "Finished"
+            ? $t("dang-tai")
+            : $t("tam-dung")
+          : $t("finished")
       }}</span>
-
       <q-btn
         v-if="data.downloaded < data.pages.length"
         round

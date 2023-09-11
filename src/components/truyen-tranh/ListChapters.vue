@@ -11,7 +11,7 @@
         v-for="({ from, to }, index) in segments"
         :key="`${from}-${to}`"
         :name="index"
-        :label="`Ch. ${from} - ${to}`"
+        :label="$t('ch-from-to', [from, to])"
         class="rounded-30px text-[rgba(255,255,255,0.86)] bg-[#fbe0ef] bg-opacity-8 text-weight-light font-family-poppins !min-h-32px mx-2"
         :class="{
           '!text-main-3 segment': tabActive === index,
@@ -79,7 +79,9 @@
             }"
           >
             <div class="flex-1 min-w-0">
-              <h5 class="text-14px ellipsis">Ch. {{ item.name }}</h5>
+              <h5 class="text-14px ellipsis">
+                {{ $t("ch-name", [item.name]) }}
+              </h5>
               <span v-if="item.updated_at" class="text-gray-300">{{
                 dayjs(item.updated_at).fromNow()
               }}</span>
@@ -94,7 +96,7 @@
                   height="1.3em"
                   class="mr-1"
                 />
-                <span class="<sm:!hidden">Đã đọc</span>
+                <span class="<sm:!hidden">{{ $t("da-doc") }}</span>
               </span>
 
               <span @click.stop.prevent>

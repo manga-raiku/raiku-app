@@ -32,7 +32,7 @@ meta:
             </q-avatar>
           </q-item-section>
           <q-item-section class="text-16px">
-            <q-item-label>Đăng nhập</q-item-label>
+            <q-item-label>{{ $t("dang-nhap") }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item v-else clickable v-ripple to="/app/myaccount">
@@ -89,6 +89,7 @@ import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
 const authStore = useAuthStore()
 const $q = useQuasar()
 const router = useRouter()
+const i18n = useI18n()
 
 const buttons: {
   href?: string
@@ -100,37 +101,37 @@ const buttons: {
   {
     href: "https://ko-fi.com/tachib_shin",
     icon: Icons.user_heart,
-    text: "Tài trợ / Ủng hộ",
+    text: i18n.t("tai-tro-ung-ho"),
   },
   {
     to: "/app/settings",
     icon: Icons.settings,
-    text: "Cài đặt",
+    text: i18n.t("cai-dat"),
   },
   {
     href: "mailto://contact@mangaraiku.eu.org?title=Feedback%20app%20git.shin.raiku",
     icon: Icons.info_circle,
-    text: "Phản hồi",
+    text: i18n.t("phan-hoi"),
   },
   {
     href: "https://github.com/manga-raiku/manga-raiku",
     icon: Icons.code_bold,
-    text: "Mã nguồn mở",
+    text: i18n.t("ma-nguon-mo"),
   },
   {
     href: "https://mangaraiku.eu.org",
     icon: [antDesignAppleOutlined, antDesignAppleOutlined],
-    text: "Phiên bản PWA cho iPhone và máy tính",
+    text: i18n.t("phien-ban-pwa-cho-iphone-va-may-tinh"),
   },
   {
     to: "/app/settings/check-network",
     icon: Icons.bug,
-    text: "Kiểm tra lỗi mạng",
+    text: i18n.t("kiem-tra-loi-mang"),
   },
   {
     to: "/app/about",
     icon: Icons.notebook,
-    text: "Giới thiệu",
+    text: i18n.t("gioi-thieu"),
     side: computedAsync(async () => {
       try {
         return (await App.getInfo()).version

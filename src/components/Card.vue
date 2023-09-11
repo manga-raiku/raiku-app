@@ -18,7 +18,7 @@
         <BottomBlur>
           <!-- <div class="text-[30px]">#{{ trending }}</div> -->
           <div class="card-title line-clamp-2 font-family-poppins">
-            Chương {{ data.last_chapters[0].name }}
+            {{ $t("chuong-name", [data.last_chapters[0].name]) }}
             <small class="display-block">
               {{ dayjs(data.last_chapters[0].updated_at).fromNow() }}
             </small>
@@ -28,7 +28,7 @@
         <Quality
           v-if="data.hot"
           class="absolute top-2 right-0 backdrop-blur-13px !bg-rgba(0,0,0,0.85) !bg-none"
-          >Hot</Quality
+          >{{ $t("hot") }}</Quality
         >
 
         <slot name="inside-image" />
@@ -60,24 +60,28 @@
           {{ data.othername }}
         </h4>
         <h4 class="text-grey-5 text-[13px] leading-normal">
-          <template v-if="data.views"
-            >Lượt xem {{ formatView(data.views) }}</template
-          >
+          <template v-if="data.views">{{
+            $t("luot-xem-val", [formatView(data.views)])
+          }}</template>
           <template v-if="data.last_chapters[0].updated_at">
-            &bull; Cập nhật
-            {{ dayjs(data.last_chapters[0].updated_at).fromNow() }}
+            &bull;
+            {{
+              $t("cap-nhat-ago", [
+                dayjs(data.last_chapters[0].updated_at).fromNow(),
+              ])
+            }}
           </template>
         </h4>
 
         <div class="flex items-center mt-3">
           {{ data.status }}
           <span class="hr-vertical" />
-          Chương {{ data.last_chapters[0].name }}
+          {{ $t("chuong-name", [data.last_chapters[0].name]) }}
         </div>
 
         <div class="mt-1.5 mb-2 text-0.95em">
           <div v-if="data.views">
-            {{ formatView(data.views) }} lượt xem
+            {{ $t("val-luot-xem", [formatView(data.views)]) }}
             <q-separator v-if="data.comments" vertical class="mx-2" />
           </div>
           <div class="flex items-center">
@@ -97,13 +101,17 @@
           </div>
         </div>
 
-        <div v-if="data.author" class="">Tác giả {{ data.author }}</div>
+        <div v-if="data.author" class="">
+          {{ $t("tac-gia-name", [data.author]) }}
+        </div>
 
         <!-- <div class="text-gray-400 mt-2">{{ t("cap-nhat-toi-tap-_duration", [data.process]) }}</div> -->
 
-        <div class="mt-2 text-[#eee] font-weight-medium">Giới thiệu</div>
+        <div class="mt-2 text-[#eee] font-weight-medium">
+          {{ $t("gioi-thieu") }}
+        </div>
         <p class="text-gray-400 text-0.95em">
-          {{ data.description ?? "Không có mô tả" }}
+          {{ data.description ?? $t("khong-co-mo-ta") }}
         </p>
 
         <div class="tags mt-2">
@@ -112,7 +120,7 @@
             :key="data.path"
             class="text-gray-300"
           >
-            #{{ item }}
+            {{ $t("tag-_val", [item]) }}
           </span>
         </div>
       </q-card-section>

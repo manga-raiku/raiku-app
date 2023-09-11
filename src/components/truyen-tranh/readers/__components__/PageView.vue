@@ -18,8 +18,7 @@
     class="w-550px max-w-100% aspect-ratio-2 flex items-center justify-center"
   >
     <p>
-      Đã xảy ra lỗi khi tải hình ảnh (Code: {{ error + "" || -1 }}) (Try again
-      in 3s)
+      {{ $t("error-load-image", [error + "" || -1]) }}
     </p>
 
     <q-btn
@@ -27,7 +26,7 @@
       color="main-3"
       class="mt-2"
       @click="startLoad(src)"
-      label="Thử lại"
+      :label="$t('thu-lai')"
     />
   </div>
 </template>

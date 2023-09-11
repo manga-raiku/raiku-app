@@ -15,7 +15,7 @@ meta:
           <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
-        <q-toolbar-title>Quên mật khẩu</q-toolbar-title>
+        <q-toolbar-title>{{ $t("quen-mat-khau") }}</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -30,7 +30,7 @@ meta:
           />
 
           <div class="relative flex items-center justify-between <md:!hidden">
-            <div class="text-20px mx-2">Quên mật khẩu</div>
+            <div class="text-20px mx-2">{{ $t("quen-mat-khau") }}</div>
 
             <div class="card-bg-cyan top--20%"></div>
             <div class="card-bg-blue top--20%"></div>
@@ -39,8 +39,8 @@ meta:
           <div class="text-gray-400 text-13px text-center mb-5">
             {{
               sendedEmail
-                ? "Step 2/2: Set new password"
-                : "Step 1/2: Enter your email account"
+                ? $t("buoc-2-2-dat-mat-khau-moi")
+                : $t("buoc-1-2-nhap-e-mail-cua-ban")
             }}
           </div>
 
@@ -51,20 +51,20 @@ meta:
             <template v-if="!sendedEmail">
               <q-card-section>
                 <p class="text-gray-400">
-                  Please enter the email address of your account:
+                  {{ $t("vui-long-nhap-dia-chi-email-tai-khoan-cua-ban") }}
                 </p>
                 <q-input
                   v-model="email"
-                  placeholder="Email"
+                  :placeholder="$t('email')"
                   class="login-input"
                   color="main-2"
                   dense
                   lazy-rules
                   :rules="[
-                    (email) => email.length > 1 || 'Please enter email',
+                    (email) => email.length > 1 || $t('vui-long-nhap-e-mail'),
                     (email) =>
                       /^[\w\d\.]+@[\w\d]*\.[\w\d]{2,}$/i.test(email) ||
-                      'Email invalid format',
+                      $t('vui-long-nhap-e-mail-hop-le'),
                   ]"
                 />
               </q-card-section>
@@ -78,7 +78,7 @@ meta:
                     no-caps
                     :disable="!email"
                     class="w-full max-w-420px mx-auto text-weight-normal"
-                    >Verify</q-btn
+                    >{{ $t("gui-lien-ket-xac-minh") }}</q-btn
                   >
                 </div>
               </q-card-section>
@@ -88,13 +88,13 @@ meta:
                 <q-input
                   v-model="password"
                   :type="showPassword ? 'text' : 'password'"
-                  placeholder="Password"
+                  :placeholder="$t('mat-khau')"
                   class="login-input mt-5"
                   color="main-2"
                   dense
                   lazy-rules
                   :rules="[
-                    (value) => value.length > 1 || 'Please enter password',
+                    (value) => value.length > 1 || $t('vui-long-nhap-mat-khau'),
                   ]"
                 >
                   <template #append>
@@ -128,7 +128,7 @@ meta:
                     no-caps
                     :disable="!password"
                     class="w-full max-w-420px mx-auto text-weight-normal"
-                    >Update password</q-btn
+                    >{{ $t("cap-nhat-mat-khau") }}</q-btn
                   >
                 </div>
               </q-card-section>
@@ -147,6 +147,7 @@ import { QForm } from "quasar"
 const $q = useQuasar()
 const router = useRouter()
 const authStore = useAuthStore()
+const i18n = useI18n()
 
 const qFormRef = ref<QForm>()
 
@@ -170,7 +171,7 @@ async function resetPassword() {
     $q.notify({
       position: "bottom",
       message:
-        "Khôi phục tài khoản thất bại " +
+        i18n.t("khoi-phuc-tai-khoan-that-bai") +
         (import.meta.env.DEV ? `(${error.message})` : ""),
     })
 
@@ -179,7 +180,7 @@ async function resetPassword() {
 
   $q.notify({
     position: "bottom",
-    message: "Đã gửi liên kết đặt lại mật khẩu tới email",
+    message: i18n.t("da-gui-lien-ket-dat-lai-mat-khau-toi-email"),
   })
   sendedEmail.value = true
 }
@@ -197,7 +198,7 @@ async function updatePassword() {
     $q.notify({
       position: "bottom",
       message:
-        "Không thể cập nhật mật khẩu " +
+        i18n.t("khong-the-cap-nhat-mat-khau") +
         (import.meta.env.DEV ? `(${error.message})` : ""),
     })
 
@@ -206,7 +207,7 @@ async function updatePassword() {
 
   $q.notify({
     position: "bottom",
-    message: "Đã cập nhật mật khẩu",
+    message: i18n.t("da-cap-nhat-mat-khau"),
   })
 
   router.back()

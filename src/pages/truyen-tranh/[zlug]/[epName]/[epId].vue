@@ -36,7 +36,7 @@ meta:
 
         <small
           class="text-gray-300 md:text-14px md:text-white text-12px whitespace-nowrap"
-          >Chương {{ currentEpisode?.value.name ?? "__" }}</small
+          >{{ $t("chuong-name", [currentEpisode?.value.name ?? "__"]) }}</small
         >
       </div>
 
@@ -154,7 +154,7 @@ meta:
         </button>
         <span
           class="display-inline-block w-48px leading-36px text-12px color-[hsla(0,0%,100%,.5)] text-center"
-          >{{ zoom }}%</span
+          >{{ $t("val-per", [zoom]) }}</span
         >
         <button class="size-36px relative" v-ripple @click="zoom += 5">
           <i-iconamoon-sign-plus class="size-1.3em mx-auto" />
@@ -191,7 +191,7 @@ meta:
           v-if="$q.screen.lt.md && scrollingMode"
           class="size-1.8em"
         />
-        <template v-else>Previous</template>
+        <template v-else>{{ $t("truoc") }}</template>
 
         <q-tooltip
           anchor="bottom middle"
@@ -199,7 +199,9 @@ meta:
           class="bg-dark text-14px text-weight-medium"
           transition-show="jump-up"
           transition-hide="jump-down"
-          >Chương trước: Chương {{ previousEpisode?.value.name }}</q-tooltip
+          >{{
+            $t("chuong-truoc-name", [previousEpisode?.value.name])
+          }}</q-tooltip
         >
       </q-btn>
       <q-btn
@@ -214,7 +216,7 @@ meta:
           v-if="$q.screen.lt.md && scrollingMode"
           class="size-1.8em"
         />
-        <template v-else>Next</template>
+        <template v-else>{{ $t("sau") }}</template>
 
         <q-tooltip
           anchor="bottom middle"
@@ -222,7 +224,7 @@ meta:
           class="bg-dark text-14px text-weight-medium"
           transition-show="jump-up"
           transition-hide="jump-down"
-          >Chương sau: Chương {{ nextEpisode?.value.name }}</q-tooltip
+          >{{ $t("chuong-sau-name", [nextEpisode?.value.name]) }}</q-tooltip
         >
       </q-btn>
 
@@ -240,7 +242,7 @@ meta:
           v-if="$q.screen.lt.md"
           class="size-1.8rem mr-1"
         />
-        Episodes
+        {{ $t("cac-chuong") }}
 
         <q-dialog-menu
           v-model="showMenuEpisodes"
@@ -265,7 +267,9 @@ meta:
             <q-card-section
               class="h-full flex column flex-nowrap min-h-0 children:flex-shrink-0 max-w-full"
             >
-              <div class="text-subtitle1 mb-1">Episodes</div>
+              <div class="text-subtitle1 mb-1">
+                {{ $t("danh-sach-chuong") }}
+              </div>
 
               <div v-if="!data" class="py-4 text-center">
                 <q-spinner color="main-3" size="40px" class="mx-auto" />
@@ -302,7 +306,8 @@ meta:
         :stack="$q.screen.lt.md"
         @click="showMenuSettings = !showMenuSettings"
       >
-        <i-solar-settings-line-duotone class="size-1.8rem mr-1" /> Settings
+        <i-solar-settings-line-duotone class="size-1.8rem mr-1" />
+        {{ $t("cai-dat") }}
 
         <q-dialog-menu
           v-model="showMenuSettings"
@@ -326,7 +331,7 @@ meta:
             <q-card-section
               class="h-full flex column flex-nowrap min-h-0 children:flex-shrink-0 max-w-full"
             >
-              <div class="text-subtitle1 mb-1">Reader mode</div>
+              <div class="text-subtitle1 mb-1">{{ $t("che-do-doc") }}</div>
               <div>
                 <q-btn
                   unelevated
@@ -340,7 +345,7 @@ meta:
                   <i-solar-posts-carousel-horizontal-bold-duotone
                     class="size-1.5em mr-1"
                   />
-                  Flipping
+                  {{ $t("vuot-ngang") }}
                 </q-btn>
                 <q-btn
                   unelevated
@@ -354,11 +359,13 @@ meta:
                   <i-solar-posts-carousel-vertical-bold-duotone
                     class="size-1.5em mr-1"
                   />
-                  Scrolling
+                  {{ $t("vuot-doc") }}
                 </q-btn>
               </div>
 
-              <div class="text-subtitle1 mt-4 mb-1">Page mode</div>
+              <div class="text-subtitle1 mt-4 mb-1">
+                {{ $t("che-do-trang") }}
+              </div>
               <div>
                 <q-btn
                   unelevated
@@ -369,7 +376,7 @@ meta:
                   :color="!singlePage ? 'main-3' : undefined"
                   @click="singlePage = false"
                 >
-                  Double image
+                  {{ $t("song-anh") }}
                 </q-btn>
                 <q-btn
                   unelevated
@@ -380,11 +387,11 @@ meta:
                   :color="singlePage ? 'main-3' : undefined"
                   @click="singlePage = true"
                 >
-                  Single image
+                  {{ $t("don-anh") }}
                 </q-btn>
               </div>
 
-              <div class="text-subtitle1 mt-4 mb-1">Flip Direction</div>
+              <div class="text-subtitle1 mt-4 mb-1">{{ $t("huong-cuon") }}</div>
               <div>
                 <q-btn
                   unelevated
@@ -395,7 +402,7 @@ meta:
                   :color="!rightToLeft ? 'main-3' : undefined"
                   @click="rightToLeft = false"
                 >
-                  Left to right
+                  {{ $t("trai-sang-phai") }}
                 </q-btn>
                 <q-btn
                   unelevated
@@ -406,11 +413,11 @@ meta:
                   :color="rightToLeft ? 'main-3' : undefined"
                   @click="rightToLeft = true"
                 >
-                  Right to left
+                  {{ $t("phai-sang-trai") }}
                 </q-btn>
               </div>
 
-              <div class="text-subtitle1 mt-4 mb-1">Server</div>
+              <div class="text-subtitle1 mt-4 mb-1">{{ $t("may-chu") }}</div>
               <div>
                 <q-btn
                   v-for="({ name }, index) in serversReady"
@@ -440,7 +447,7 @@ meta:
         @click="showMenuComments = !showMenuComments"
       >
         <i-solar-chat-line-line-duotone class="size-1.8rem mr-1" />
-        Comments
+        {{ $t("binh-luan") }}
 
         <q-dialog-menu
           v-model="showMenuComments"
@@ -464,7 +471,7 @@ meta:
             <q-card-section
               class="h-full flex column flex-nowrap min-h-0 children:flex-shrink-0 max-w-full"
             >
-              <div class="text-subtitle1 mb-1">Comments</div>
+              <div class="text-subtitle1 mb-1">{{ $t("binh-luan") }}</div>
 
               <div v-if="!data" class="py-4 text-center">
                 <q-spinner color="main-3" size="40px" class="mx-auto" />
@@ -503,7 +510,7 @@ meta:
         <i-solar-heart-bold v-if="isFollow" class="size-1.8em mr-1" />
         <i-solar-heart-linear v-else class="size-1.8em mr-1" />
 
-        {{ isFollow ? "Unfollow" : "Follow" }}
+        {{ isFollow ? $t("bo-theo-doi") : $t("theo-doi") }}
       </q-btn>
 
       <q-btn
@@ -519,7 +526,7 @@ meta:
           class="size-1.8rem mr-1"
         />
         <i-solar-full-screen-line-duotone v-else class="size-1.8rem mr-1" />
-        Fullscreen
+        {{ $t("toan-man-hinh") }}
         <!-- ふふ -->
         <!-- fluent:full-screen-minimize-24-regular -->
       </q-btn>

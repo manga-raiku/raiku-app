@@ -14,7 +14,7 @@ meta:
           <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
-        <q-toolbar-title>Thông báo</q-toolbar-title>
+        <q-toolbar-title>{{ $t("thong-bao") }}</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-page> notification </q-page>

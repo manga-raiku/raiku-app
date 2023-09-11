@@ -15,7 +15,7 @@
             :to="data.last_chapters[0].path"
             class="card-title line-clamp-2 font-family-poppins"
           >
-            Chương {{ data.last_chapters[0].name }}
+            {{ $t("chuong-name", [data.last_chapters[0].name]) }}
             <small class="display-block text-12px">
               {{ dayjs(data.last_chapters[0].updated_at).fromNow() }}
             </small>
@@ -42,7 +42,7 @@
 
       <div class="mt-1.5 mb-2 text-0.95em">
         <div v-if="data.views">
-          {{ formatView(data.views) }} lượt xem
+          {{ $t("val-luot-xem", [formatView(data.views)]) }}
           <q-separator v-if="data.comments" vertical class="mx-2" />
         </div>
         <div class="flex items-center">
@@ -64,7 +64,7 @@
 
       <div v-if="data.visited" class="my-2">
         <router-link :to="data.visited.path">
-          Đọc tiếp chương {{ data.visited.name }}
+          {{ $t("doc-tiep-chuong-name", [data.visited.name]) }}
         </router-link>
       </div>
 

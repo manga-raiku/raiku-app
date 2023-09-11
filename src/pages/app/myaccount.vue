@@ -14,7 +14,7 @@ meta:
           <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
-        <q-toolbar-title>Profile</q-toolbar-title>
+        <q-toolbar-title>{{ $t("toi") }}</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -22,7 +22,7 @@ meta:
       <q-list>
         <q-item>
           <q-item-section>
-            <q-item-label>Avatar</q-item-label>
+            <q-item-label>{{ $t("anh-dai-dien") }}</q-item-label>
           </q-item-section>
           <q-item-section side>
             <div class="flex items-center">
@@ -42,7 +42,7 @@ meta:
 
         <q-item>
           <q-item-section>
-            <q-item-label>Full name</q-item-label>
+            <q-item-label>{{ $t("ho-va-ten") }}</q-item-label>
           </q-item-section>
           <q-item-section side>
             <div class="flex items-center">
@@ -56,15 +56,15 @@ meta:
 
         <q-item>
           <q-item-section>
-            <q-item-label>Gender</q-item-label>
+            <q-item-label>{{ $t("gioi-tinh") }}</q-item-label>
           </q-item-section>
           <q-item-section side>
             <div class="flex items-center">
               <span class="text-gray-300">{{
                 authStore.profile?.genre === true
-                  ? "Trai"
+                  ? $t("trai")
                   : authStore.profile?.genre === false
-                  ? "Gái"
+                  ? $t("gai")
                   : ""
               }}</span>
               <i-fluent-chevron-right-20-regular class="size-1.5em" />
@@ -74,7 +74,7 @@ meta:
 
         <q-item>
           <q-item-section>
-            <q-item-label>Date of birth</q-item-label>
+            <q-item-label>{{ $t("ngay-sinh") }}</q-item-label>
           </q-item-section>
           <q-item-section side>
             <div class="flex items-center">
@@ -94,7 +94,7 @@ meta:
         no-caps
         class="text-red-400 w-full mt-8"
         @click="signOut"
-        >Sign Out</q-btn
+        >{{ $t("dang-xuat") }}</q-btn
       >
     </q-page>
   </div>
@@ -104,6 +104,7 @@ meta:
 const router = useRouter()
 const authStore = useAuthStore()
 const $q = useQuasar()
+const i18n = useI18n()
 
 async function signOut() {
   const { error } = await authStore.signOut()
@@ -112,7 +113,7 @@ async function signOut() {
     $q.notify({
       position: "bottom",
       message:
-        `Không thể đăng xuất (code: ${error.status})` +
+        i18n.t("khong-the-dang-xuat-code-status", [error.status]) +
         (import.meta.env.DEV ? `(${error.message})` : ""),
     })
 
@@ -121,7 +122,7 @@ async function signOut() {
 
   $q.notify({
     position: "bottom",
-    message: "Đã đăng xuất",
+    message: i18n.t("da-dang-xuat"),
   })
   router.back()
 }

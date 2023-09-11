@@ -31,7 +31,7 @@
             class="text-weight-normal"
             @click="modeEdit = !modeEdit"
           >
-            {{ modeEdit ? "Done" : "Edit" }}
+            {{ modeEdit ? $t("xong") : $t("sua") }}
           </q-btn>
         </q-toolbar>
       </header>
@@ -42,7 +42,7 @@
         <!-- button more download -->
         <q-item @click="showDownloadMore = true" clickable>
           <q-item-section>
-            <q-item-label>Download more episodes</q-item-label>
+            <q-item-label>{{ $t("tai-them-chuong-khac") }}</q-item-label>
           </q-item-section>
           <q-item-section side>
             <i-fluent-chevron-right-24-regular class="size-1.5em" />
@@ -96,7 +96,7 @@
           >
             <i-solar-check-circle-linear class="size-1.5em mr-1" />
             <span class="whitespace-nowrap">{{
-              listEpRemove.length > 0 ? "Unselect all" : "Select all"
+              listEpRemove.length > 0 ? $t("bo-chon") : $t("chon-tat")
             }}</span>
           </q-btn>
           <q-btn
@@ -107,7 +107,7 @@
             @click="remove"
           >
             <i-solar-trash-bin-minimalistic-broken mr-1 class="size-1.5em" />
-            Delete
+            {{ $t("xoa") }}
           </q-btn>
         </q-toolbar>
       </footer>
@@ -125,7 +125,7 @@
       class="h-full <md:!max-h-80vh sm:!max-h-70vh min-w-310px flex flex-nowrap column min-h-0 rounded-xl"
     >
       <q-card-section class="text-16px">
-        {{ allEp.length }} episodes
+        {{ $t("count-chuong", [allEp.length]) }}
       </q-card-section>
       <q-card-section
         class="w-full h-full min-h-0 flex-1 flex flex-nowrap column !py-0"
@@ -165,7 +165,7 @@
       >
         <q-btn no-caps stack unelevated class="min-w-15% text-weight-regular">
           <i-solar-download-minimalistic-bold class="size-1.5em" />
-          Download
+          {{ $t("tai-xuong") }}
           <q-badge v-if="mapEp && mapEp.size > 0" floating>{{
             epsSelected.size
           }}</q-badge>
@@ -186,7 +186,7 @@
             class="size-1.5em"
           />
           <span class="whitespace-nowrap">{{
-            epsSelected.size > 0 ? "Unselect all" : "Select all"
+            epsSelected.size > 0 ? $t("bo-chon") : $t("chon-tat")
           }}</span>
         </q-btn>
 
@@ -198,7 +198,7 @@
           :disable="epsSelected.size === 0"
           @click="download"
           :loading="downloading"
-          >Download</q-btn
+          >{{ $t("tai-xuong") }}</q-btn
         >
       </q-card-section>
     </q-card>

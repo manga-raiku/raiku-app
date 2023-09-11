@@ -142,7 +142,7 @@ meta:
                       class="mr-2"
                       :to="item.last_chapters[0].path"
                     />
-                    Đọc ngay
+                    {{ $t("doc-ngay") }}
                   </q-btn>
                 </div>
               </div>
@@ -163,12 +163,12 @@ meta:
                   </div>
                   <div class="focus-item-info !display-block">
                     <div class="ellipsis flex items-center">
-                      <Quality v-if="item.hot">Hot</Quality>
+                      <Quality v-if="item.hot">{{ $t("hot") }}</Quality>
 
                       <q-separator vertical class="mx-2" />
 
                       <span class="focus-item-update">
-                        Chương {{ item.last_chapters[0].name }}
+                        {{ $t("chuong-name", [item.last_chapters[0].name]) }}
                       </span>
                     </div>
 
@@ -242,12 +242,18 @@ meta:
               }}</small>
             </div>
             <div class="focus-item-info">
-              <Quality v-if="data.sliders[sliderIndex].hot">Hot</Quality>
+              <Quality v-if="data.sliders[sliderIndex].hot">{{
+                $t("hot")
+              }}</Quality>
 
               <q-separator vertical class="mx-2" />
 
               <span class="focus-item-update">
-                Chương {{ data.sliders[sliderIndex].last_chapters[0].name }}
+                {{
+                  $t("chuong-name", [
+                    data.sliders[sliderIndex].last_chapters[0].name,
+                  ])
+                }}
               </span>
 
               <q-separator vertical class="mx-2" />
@@ -281,7 +287,7 @@ meta:
                 class="mr-2"
                 :to="data.sliders[sliderIndex].last_chapters[0].path"
               />
-              Đọc ngay
+              {{ $t("doc-ngay") }}
             </q-btn>
           </div>
         </transition>
@@ -299,7 +305,7 @@ meta:
 
       <div class="px-2 sm:px-4 md:px-8">
         <!-- test void swap -->
-        <h3 class="text-17px text-light-900">Hot trong ngày</h3>
+        <h3 class="text-17px text-light-900">{{ $t("hot-trong-ngay") }}</h3>
         <swiper
           :slides-per-view="1.1"
           :centered-slides="$q.screen.xs"
@@ -399,7 +405,7 @@ meta:
     </section> -->
         <!-- /show genres -->
 
-        <BannerTitle>Mới cập nhật</BannerTitle>
+        <BannerTitle>{{ $t("moi-cap-nhat") }}</BannerTitle>
         <GridCard :items="data.last_update" />
       </div>
     </template>

@@ -8,9 +8,9 @@
         >
           {{
             item.updated_at.isToday()
-              ? "Hôm nay"
+              ? $t("hom-nay")
               : item.updated_at.isYesterday()
-              ? "Hôm qua"
+              ? $t("hom-qua")
               : `${item.updated_at.get("d")} thg ${item.updated_at.get(
                   "months",
                 )}`
@@ -36,8 +36,12 @@
       </template>
     </q-infinite-scroll>
     <div v-else-if="error" class="text-center">
-      <div class="text-subtitle1 font-weight-medium">Lỗi không xác định</div>
-      <q-btn outline rounded color="main" @click="refreshAsync">Thử lại</q-btn>
+      <div class="text-subtitle1 font-weight-medium">
+        {{ $t("loi-khong-xac-dinh-error", [error]) }}
+      </div>
+      <q-btn outline rounded color="main" @click="refreshAsync">{{
+        $t("thu-lai")
+      }}</q-btn>
     </div>
     <div v-else class="row">
       <CardVerticalSKT

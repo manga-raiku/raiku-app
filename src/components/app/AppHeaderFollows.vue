@@ -12,7 +12,7 @@
           <i-line-md-arrow-left class="size-1.5em" />
         </q-btn>
 
-        <q-toolbar-title>Truyện đang theo dõi</q-toolbar-title>
+        <q-toolbar-title>{{ $t("truyen-dang-theo-doi") }}</q-toolbar-title>
       </q-toolbar>
 
       <q-card
@@ -52,18 +52,18 @@
           </q-infinite-scroll>
           <div v-else class="text-center">
             <div class="text-subtitle1 font-weight-medium">
-              Lỗi không xác định {{ error }}
+              {{ $t("loi-khong-xac-dinh-error", [error]) }}
             </div>
-            <q-btn outline rounded color="main" @click="runAsync"
-              >Thử lại</q-btn
-            >
+            <q-btn outline rounded color="main" @click="runAsync">{{
+              $t("thu-lai")
+            }}</q-btn>
           </div>
         </q-card-section>
       </q-card>
 
-      <router-link to="/library/follow" class="block py-2 text-center"
-        >Xem tất cả</router-link
-      >
+      <router-link to="/library/follow" class="block py-2 text-center">{{
+        $t("xem-tat-ca")
+      }}</router-link>
     </q-menu>
   </q-btn>
 </template>

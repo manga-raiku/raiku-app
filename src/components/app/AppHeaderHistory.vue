@@ -12,7 +12,7 @@
           <i-line-md-arrow-left class="size-1.5em" />
         </q-btn>
 
-        <q-toolbar-title>Lịch sử đọc</q-toolbar-title>
+        <q-toolbar-title>{{ $t("lich-su-doc") }}</q-toolbar-title>
       </q-toolbar>
 
       <q-card
@@ -41,9 +41,9 @@
               >
                 {{
                   item.updated_at.isToday()
-                    ? "Hôm nay"
+                    ? $t("hom-nay")
                     : item.updated_at.isYesterday()
-                    ? "Hôm qua"
+                    ? $t("hom-qua")
                     : `${item.updated_at.get("d")} thg ${item.updated_at.get(
                         "months",
                       )}`
@@ -70,18 +70,18 @@
           </q-infinite-scroll>
           <div v-else class="text-center">
             <div class="text-subtitle1 font-weight-medium">
-              Lỗi không xác định {{ error }}
+              {{ $t("loi-khong-xac-dinh-error", [error]) }}
             </div>
-            <q-btn outline rounded color="main" @click="runAsync"
-              >Thử lại</q-btn
-            >
+            <q-btn outline rounded color="main" @click="runAsync">{{
+              $t("thu-lai")
+            }}</q-btn>
           </div>
         </q-card-section>
       </q-card>
 
-      <router-link to="/library/history" class="block py-2 text-center"
-        >Xem tất cả</router-link
-      >
+      <router-link to="/library/history" class="block py-2 text-center">{{
+        $t("xem-tat-ca")
+      }}</router-link>
     </q-menu>
   </q-btn>
 </template>

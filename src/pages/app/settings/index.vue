@@ -14,7 +14,7 @@ meta:
           <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
-        <q-toolbar-title>Cài đặt</q-toolbar-title>
+        <q-toolbar-title>{{ $t("cai-dat") }}</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -38,30 +38,31 @@ meta:
 
 <script lang="ts" setup>
 const router = useRouter()
+const i18n = useI18n()
 
-const buttons = [
+const buttons = computed(() => [
   {
-    text: "Ngôn ngữ",
+    text: i18n.t("ngon-ngu"),
     to: "/app/settings/language",
   },
   {
-    text: "Thông báo",
+    text: i18n.t("thong-bao"),
     to: "/app/settings/notification",
   },
   // {
   //   text: "Clear Cache",
   // },
   {
-    text: "Điều khoản dịch vụ",
+    text: i18n.t("dieu-khoan-dich-vu"),
     href: "https://manga-raiku.github.io/term-of-use",
   },
   {
-    text: "Chính sách bảo mật",
+    text: i18n.t("chinh-sach-bao-mat"),
     href: "https://manga-raiku.github.io/privacy-policy",
   },
   {
-    text: "Kiểm tra lỗi mạng",
+    text: i18n.t("kiem-tra-loi-mang"),
     to: "/app/settings/check-network",
   },
-]
+])
 </script>

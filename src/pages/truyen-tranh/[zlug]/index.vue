@@ -54,9 +54,9 @@ meta:
           >
             {{ data.othername }}
           </h2>
-          <small class="text-14px text-gray-400 my-2"
-            >{{ formatView(data.views ?? 0) }} lượt xem</small
-          >
+          <small class="text-14px text-gray-400 my-2">{{
+            $t("val-luot-xem", [formatView(data.views ?? 0)])
+          }}</small>
 
           <div
             class="mt-3 flex children:my-1 text-gray-300 text-15px font-family-poppins"
@@ -84,8 +84,12 @@ meta:
               <i-iconamoon-like-duotone
                 class="text-yellow w-1.2em h-1.2em mr-1"
               />
-              {{ data.rate * 5 }} / 5 - {{ formatView(data.count_rate) }} đánh
-              giá
+              {{
+                $t("val-slash-max-count-rate", [
+                  data.rate * 5,
+                  formatView(data.count_rate),
+                ])
+              }}
             </div>
 
             <q-separator vertical class="mx-3 h-12px my-auto <md:!hidden" />
@@ -94,8 +98,7 @@ meta:
               <i-iconamoon-heart-duotone
                 class="text-[#F5574B] w-1.2em h-1.2em mr-1"
               />
-              {{ formatView(data.follows) }}
-              theo dõi
+              {{ $t("val-theo-doi", [formatView(data.follows)]) }}
             </div>
           </div>
 
@@ -127,7 +130,7 @@ meta:
         >
           <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
-          Bắt đầu xem Ch. {{ data.chapters.at(-1)!.name }}</q-btn
+          {{ $t("bat-dau-xem-ch-name", [data.chapters.at(-1)!.name]) }}}</q-btn
         >
 
         <q-btn
@@ -139,7 +142,7 @@ meta:
         >
           <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
-          Tiếp Ch. {{ lastEpRead.name }}
+          {{ $t("tiep-ch-name", [lastEpRead.name]) }}
         </q-btn>
 
         <q-btn
@@ -162,7 +165,7 @@ meta:
         >
           <i-iconamoon-heart-fill v-if="isFollow" class="size-1.3em mr-1" />
           <i-iconamoon-heart v-else class="size-1.3em mr-1" />
-          {{ isFollow ? "Bỏ theo dõi" : "Theo dõi" }}
+          {{ isFollow ? $t("bo-theo-doi") : $t("theo-doi") }}
         </q-btn>
 
         <q-btn
@@ -172,12 +175,14 @@ meta:
           @click="onClickShare"
         >
           <i-iconamoon-share-1-bold width="1.3em" height="1.3em" class="mr-2" />
-          Chia sẻ {{ data.uid }}
+          {{ $t("chia-se") }}
         </q-btn>
       </section>
 
       <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 mt-8">
-        <header class="text-28px font-weight-regular">Chapter List</header>
+        <header class="text-28px font-weight-regular">
+          {{ $t("danh-sach-chuong") }}
+        </header>
         <ListChapters
           :chapters="data.chapters"
           :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
@@ -192,7 +197,9 @@ meta:
       </section>
 
       <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 mt-8">
-        <header class="text-28px font-weight-regular">Comments</header>
+        <header class="text-28px font-weight-regular">
+          {{ $t("binh-luan") }}
+        </header>
         <Comments :comments="data.comments" />
       </section>
     </template>
@@ -349,7 +356,7 @@ meta:
       >
         <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
-        Xem Ch. {{ data?.chapters.at(-1)!.name ?? "__" }}
+        {{ $t("xem-ch-name", [data?.chapters.at(-1)!.name ?? "__"]) }}
       </q-btn>
 
       <q-btn
@@ -362,7 +369,7 @@ meta:
       >
         <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
-        Tiếp Ch. {{ lastEpRead.name }}
+        {{ $t("tiep-ch-name", [lastEpRead.name]) }}
       </q-btn>
     </q-toolbar>
   </q-footer>
@@ -386,6 +393,7 @@ const $q = useQuasar()
 const { share } = useShare()
 const router = useRouter()
 const route = useRoute()
+const i18n = useI18n()
 const followStore = useFollowStore()
 const historyStore = useHistoryStore()
 const IDMStore = useIDMStore()
@@ -456,12 +464,14 @@ const listEpRead = computedAsync(() => {
 function onClickShare() {
   if (!data.value) return
   share({
-    title: `Đọc ${data.value.name} ${
-      data.value.othername ? `(${data.value.othername})` : ""
-    }`,
-    text: `Đọc ${data.value.name} ${
-      data.value.othername ? `(${data.value.othername})` : ""
-    }`,
+    title: i18n.t("doc-name-ch", [
+      data.value.name,
+      data.value.othername ? `(${data.value.othername})` : "",
+    ]),
+    text: i18n.t("doc-name-ch", [
+      data.value.name,
+      data.value.othername ? `(${data.value.othername})` : "",
+    ]),
     url: location.href,
   })
 }

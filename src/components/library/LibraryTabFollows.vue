@@ -22,8 +22,12 @@
       </q-infinite-scroll>
     </div>
     <div v-else-if="error" class="text-center">
-      <div class="text-subtitle1 font-weight-medium">Lỗi không xác định</div>
-      <q-btn outline rounded color="main" @click="refreshAsync">Thử lại</q-btn>
+      <div class="text-subtitle1 font-weight-medium">
+        {{ $t("loi-khong-xac-dinh-error", [error]) }}
+      </div>
+      <q-btn outline rounded color="main" @click="refreshAsync">{{
+        $t("thu-lai")
+      }}</q-btn>
     </div>
     <div v-else class="row">
       <CardVerticalSKT

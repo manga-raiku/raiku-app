@@ -14,7 +14,7 @@ meta:
           <i-fluent-chevron-left-24-filled class="size-1.5em" />
         </q-btn>
 
-        <q-toolbar-title>Ngôn ngữ</q-toolbar-title>
+        <q-toolbar-title>{{ $t("ngon-ngu") }}</q-toolbar-title>
       </q-toolbar>
     </q-header>
 

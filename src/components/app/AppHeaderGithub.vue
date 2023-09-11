@@ -20,7 +20,9 @@
       <q-card class="transparent w-[280px] px-2 pb-3">
         <q-list>
           <q-item class="rounded-xl">
-            <q-item-section class="text-[15px]"> Về ứng dụng </q-item-section>
+            <q-item-section class="text-[15px]">
+              {{ $t("ve-ung-dung") }}
+            </q-item-section>
           </q-item>
 
           <!-- <q-separator class="bg-[rgba(255,255,255,0.1)]" /> -->
@@ -36,7 +38,7 @@
               <i-carbon-repo-source-code width="20" height="20" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Mã nguồn mở trên GitHub</q-item-label>
+              <q-item-label>{{ $t("nhan-thong-bao-that-bai") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item
@@ -50,7 +52,7 @@
               <i-fluent-person-feedback-24-regular width="20" height="20" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Phản hồi hoặc báo lỗi</q-item-label>
+              <q-item-label>{{ $t("phan-hoi-hoac-bao-loi") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item
@@ -64,7 +66,7 @@
               <i-fluent-plug-disconnected-24-regular width="20" height="20" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Thảo luân</q-item-label>
+              <q-item-label>{{ $t("thao-luan") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item
@@ -78,7 +80,7 @@
               <i-octicon-sponsor-tiers-24 width="20" height="20" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Tài trợ / Ủng hộ</q-item-label>
+              <q-item-label>{{ $t("tai-tro-ung-ho") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item clickable v-ripple class="rounded-xl">
@@ -86,7 +88,7 @@
               <i-charm-refresh width="20" height="20" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Kiểm tra cập nhật</q-item-label>
+              <q-item-label>{{ $t("kiem-tra-cap-nhat") }}</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
