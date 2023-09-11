@@ -433,7 +433,7 @@ import "swiper/css/grid"
 const router = useRouter()
 const i18n = useI18n()
 
-const title = "Manga Raiku"
+const title = "Raiku"
 const description = computed(() => i18n.t("app-des"))
 useSeoMeta({
   title,

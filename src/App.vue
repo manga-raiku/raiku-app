@@ -8,10 +8,10 @@ import eruda2 from "eruda2"
 const i18n = useI18n()
 
 useHead({
-  titleTemplate: (title) => (title && title !== "Manga Raiku" ? `${title} - Manga Raiku` : "Manga Raiku"),
+  titleTemplate: (title) => (title && title !== "Raiku" ? `${title} - Raiku` : "Raiku"),
 })
 
-const title = "Manga Raiku"
+const title = "Raiku"
 const description = computed(() => i18n.t("app-des"))
 useSeoMeta({
   title,
@@ -19,7 +19,7 @@ useSeoMeta({
   ogTitle: title,
   ogDescription: description,
   ogImage: "/favicon.png",
-  ogSiteName: "Manga Raiku",
+  ogSiteName: "Raiku",
 })
 
 if (import.meta.env.DEV) eruda2.init()

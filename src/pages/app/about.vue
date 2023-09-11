@@ -28,7 +28,7 @@ meta:
         <h1
           class="text-subtitle1 text-20px uppercase text-weight-medium text-gray-200"
         >
-          Manga Raiku
+          Raiku
         </h1>
         <small class="text-12px text-gray-400"
           >v{{ appInfo?.version ?? "__" }}-[{{ appInfo?.build }}]</small

@@ -3,7 +3,7 @@
   "packageName": "git.shin.raiku",
   "version": "0.0.11",
   "description": "App reading manga, comic safe, free, private and ad-free.",
-  "productName": "Manga Raiku",
+  "productName": "Raiku",
   "productDescription": "Ứng dụng đọc truyện tranh, truyện tranh an toàn, miễn phí, riêng tư và không có quảng cáo",
   "author": "Tachibana Shin <45375496+tachibana-shin@users.noreply.github.com>",
   "private": true,

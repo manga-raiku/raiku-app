@@ -1,6 +1,6 @@
 {
   "appId": "git.shin.raiku",
-  "appName": "Manga Raiku",
+  "appName": "Raiku",
   "bundledWebRuntime": false,
   "npmClient": "pnpm",
   "webDir": "www",
