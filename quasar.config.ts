@@ -214,10 +214,10 @@ export default configure((/* ctx */) => {
       // extendGenerateSWOptions (cfg) {}
       // useFilenameHashes: true,
       // extendGenerateSWOptions (cfg) {}
-      extendInjectManifestOptions (cfg) {
+      extendInjectManifestOptions(cfg) {
         cfg.globIgnores ??= []
         cfg.globIgnores.push("_redirects")
-      }
+      },
       // extendManifestJson (json) {}
       // extendPWACustomSWConf (esbuildConf) {}
     },

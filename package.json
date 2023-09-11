@@ -23,6 +23,7 @@
     "build:ios": "pnpm build -m capacitor -T ios",
     "typing": "vue-tsc --noEmit",
     "ci": "pnpm format && pnpm lint --fix && pnpm typing && pnpm test:unit:ci",
+    "nx": "nx run-many -t",
     "gen:icon:cap": "icongenie generate -m capacitor -i src/assets/app_icon.png -b src/assets/bg-blur.png --png-color 000 --splashscreen-color 000   --skip-trim",
     "gen:icon:pwa": "icongenie generate -m pwa -i src/assets/app_icon.png -b src/assets/bg-blur.png --png-color 000 --splashscreen-color 000   --skip-trim",
     "test:unit:ui": "vitest --ui",
@@ -154,7 +155,9 @@
     "workbox-expiration": "^6.5.0",
     "workbox-precaching": "^6.5.0",
     "workbox-routing": "^6.5.0",
-    "workbox-strategies": "^6.5.0"
+    "workbox-strategies": "^6.5.0",
+    "nx": "16.8.1",
+    "nx-cloud": "latest"
   },
   "overrides": {
     "vite": "^2.9.16",
@@ -164,5 +167,8 @@
     "node": "^19 || ^18 || ^16 || ^14.19",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
+  },
+  "nx": {
+    "targets": {}
   }
 }
