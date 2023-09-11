@@ -79,6 +79,9 @@ quasar build
 - [ ] Common API to support various sources
 - [x] Localize app
 - [ ] meta header
+- [ ] update UI screen error
+- [ ] add redirect to not found page
+- [ ] show error if throw error
 
 ### Customize the configuration
 
