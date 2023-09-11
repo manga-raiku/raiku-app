@@ -73,33 +73,11 @@ quasar build
 
 ### To be on
 
-- [x] add `OAuth2`
-- [ ] add verify `2MPA`
-- [ ] add `history`, `favorite` use `supabase`
-- [ ] `/app/sign-in`
-  - [x] native
-  - [x] mobile
-  - [x] desktop
-- [ ] `/app/myaccount`
-  - [ ] native
-  - [ ] mobile
-  - [ ] desktop
-- [ ] `/app/forgot-password`
-  - [ ] native
-  - [ ] mobile
-  - [ ] desktop
-- [x] `/app/sign-up`
-  - [x] native
-  - [ ] mobile
-  - [x] desktop
-- [ ] jump IDM APi
-  - [ ] native
-  - [ ] mobile
-  - [ ] desktop
+- [ ] Download manager for desktop
+- [ ] Offline ready interface
 - [ ] Infinite reader
 - [ ] Common API to support various sources
-- [ ] Localize app
-- [ ] Download manager
+- [x] Localize app
 - [ ] meta header
 
 ### Customize the configuration
