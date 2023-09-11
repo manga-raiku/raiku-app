@@ -15,8 +15,7 @@ import { configure } from "quasar/wrappers"
 
 import { vitePlugins } from "./vite-plugins"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const parsed = (dotenv.config().parsed ?? {}) as unknown as any
+dotenv.config()
 
 cleanEnv(process.env, {
   SUPABASE_PROJECT_URL: str(),
@@ -87,13 +86,8 @@ export default configure((/* ctx */) => {
 
       // publicPath: '/',
       // analyze: true,
-      env: {
-        GITPOD_WORKSPACE_URL: process.env.GITPOD_WORKSPACE_URL,
-        CODESPACE_NAME: process.env.CODESPACE_NAME,
-        GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:
-          process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN,
-        ...parsed,
-      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      env: process.env as unknown as any,
       // rawDefine: {},
       // ignorePublicFolder: true,
       // minify: false,
