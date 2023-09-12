@@ -99,7 +99,7 @@
                 <span class="<sm:!hidden">{{ $t("da-doc") }}</span>
               </span>
 
-              <span @click.stop.prevent>
+              <span v-if="!noDownload" @click.stop.prevent>
                 <BtnDownload
                   :model-value="mapOffline?.get(item.id)"
                   @update:model-value="mapOffline?.delete(item.id)"
@@ -152,6 +152,8 @@ const props = defineProps<{
     name: string
     updated_at: number | null
   }[]
+
+  noDownload?: boolean
 }>()
 const emit = defineEmits<{
   (name: "change-tab"): void
