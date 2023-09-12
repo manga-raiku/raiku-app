@@ -507,6 +507,7 @@ describe("ListChapters", () => {
     cy.mount(ListChapters, {
       props: {
         chapters,
+        noDownload: true
       },
     })
 
@@ -517,6 +518,7 @@ describe("ListChapters", () => {
     cy.mount(ListChapters, {
       props: {
         chapters: chapters_long,
+        noDownload: true
       },
     })
 
@@ -524,7 +526,7 @@ describe("ListChapters", () => {
     cy.get(".q-tab")
       .first()
       .should(($button) => {
-        expect($button[0].innerText).to.contain("Ch. 27 - 4")
+        expect($button[0].innerText).to.contain("ch-from-to:27,4")
       })
   })
 
@@ -532,6 +534,7 @@ describe("ListChapters", () => {
     cy.mount(ListChapters, {
       props: {
         chapters: chapters_long,
+        noDownload: true
       },
     })
 
