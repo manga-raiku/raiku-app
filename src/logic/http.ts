@@ -17,7 +17,7 @@ async function httpGet<
   ReturnType extends GetOption["responseType"] | undefined,
 >(
   options: Omit<GetOption, "responseType"> & {
-    responseType: ReturnType
+    responseType?: ReturnType
   },
 ): Promise<Response<ReturnType>> {
   console.log("GET: ", options)
@@ -41,7 +41,7 @@ async function httpPost<
   ReturnType extends GetOption["responseType"] | undefined,
 >(
   options: Omit<PostOption, "responseType"> & {
-    responseType: ReturnType
+    responseType?: ReturnType
   },
 ): Promise<Response<ReturnType>> {
   console.log("GET: ", options)
@@ -61,7 +61,7 @@ export function proxyGet<
   ReturnType extends GetOption["responseType"] | undefined,
 >(
   options: Omit<GetOption, "responseType"> & {
-    responseType: ReturnType
+    responseType?: ReturnType
   },
 ): Promise<Response<ReturnType>> {
   return fetch(
@@ -98,7 +98,7 @@ export function proxyPost<
   ReturnType extends GetOption["responseType"] | undefined,
 >(
   options: Omit<PostOption, "responseType"> & {
-    responseType: ReturnType
+    responseType?: ReturnType
   },
 ): Promise<Response<ReturnType>> {
   return fetch(

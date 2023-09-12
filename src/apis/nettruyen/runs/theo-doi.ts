@@ -11,9 +11,9 @@ export default async function (
   token: string,
   type: string,
 ) {
-  const { data } = await get(
-    `${API_CURL}/Comic/Services/ComicService.asmx/GetFollowedPageComics?page=${page}&userGuid=${user_uid}&loadType=${type}&token=${token}`,
-  )
+  const { data } = await get({
+    url: `${API_CURL}/Comic/Services/ComicService.asmx/GetFollowedPageComics?page=${page}&userGuid=${user_uid}&loadType=${type}&token=${token}`,
+  })
 
   return PostWorker<typeof Parse>(
     Worker,

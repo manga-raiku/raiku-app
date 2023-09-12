@@ -21,16 +21,16 @@ export default async function <Fast extends boolean>(
         }[]
       }
 > {
-  const { data, url } = await get(`${CURL}/truyen-tranh/${slug}`)
+  const { data, url } = await get({ url: `${CURL}/truyen-tranh/${slug}` })
 
   // eslint-disable-next-line functional/no-throw-statement
   if (pathIsHome(url)) throw new Error("not_found")
 
   const result = await PostWorker<typeof Parse>(Worker, data, Date.now())
   if (!fast) {
-    const { data } = await get(
-      `${CURL}/Comic/Services/ComicService.asmx/ProcessChapterList?comicId=${result.uid}`,
-    )
+    const { data } = await get({
+      url: `${CURL}/Comic/Services/ComicService.asmx/ProcessChapterList?comicId=${result.uid}`,
+    })
     return {
       ...result,
       chapters: JSON.parse(data).chapters.map(
