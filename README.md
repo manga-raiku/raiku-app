@@ -81,7 +81,7 @@ quasar build
 - [ ] meta header
 - [ ] update UI screen error
 - [ ] add redirect to not found page
-- [ ] show error if throw error
+- [x] show error if throw error
 - [ ] fix favicon small
 
 ### Customize the configuration

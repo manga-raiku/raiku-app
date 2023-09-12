@@ -81,7 +81,7 @@ meta:
     class="fixed top-0 w-full"
   >
     <!-- reader -->
-    <template v-if="pages && !loading">
+    <template v-if="pages">
       <ReaderHorizontal
         v-if="!scrollingMode"
         ref="readerHorizontalRef"
@@ -103,6 +103,7 @@ meta:
         @action:next-ch="nextCh"
       />
     </template>
+    <ErrorDisplay v-else-if="error" :error="error" :retry-async="runAsync" />
     <div v-else class="w-full h-full flex items-center justify-center">
       <div>
         <SpinnerSakura />
@@ -575,7 +576,7 @@ const GetWithCache = useWithCache(
   ),
 )
 // let disableReactiveParams = false
-const { data, loading, runAsync, error } = useRequest(GetWithCache, {
+const { data, runAsync, error } = useRequest(GetWithCache, {
   refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
   refreshDepsAction() {
     // if (!disableReactiveParams) runAsync()
@@ -596,9 +597,7 @@ watch(error, (error) => {
 })
 
 const title = () =>
-  data.value
-    ? `${data.value.name} Chương ${data.value.chapters[0].name}`
-    : ""
+  data.value ? `${data.value.name} Chương ${data.value.chapters[0].name}` : ""
 const description = title
 useSeoMeta({
   title,
