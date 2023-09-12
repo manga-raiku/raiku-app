@@ -41,7 +41,8 @@ const { config } = VueTestUtils
 // For example use the actual i18n instance or mock it
 // config.global.plugins.push(i18n);
 config.global.mocks = {
-  $t: () => "",
+  // eslint-disable-next-line functional/functional-parameters
+  $t: (...args: any[]) => args.join(":"),
 }
 
 // Overwrite the transition and transition-group stubs which are stubbed by test-utils by default.
