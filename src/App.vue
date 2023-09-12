@@ -1,4 +1,8 @@
 <template>
+  <span
+    class="fixed top-1 right-1 px-2 py-0.5 rounded-xl bg-blue-500 opacity-70 text-white z-9999 transition-opacity duration-200 hover:opacity-90 text-12px"
+    >Beta</span
+  >
   <router-view />
 </template>
 
@@ -8,7 +12,8 @@ import eruda2 from "eruda2"
 const i18n = useI18n()
 
 useHead({
-  titleTemplate: (title) => (title && title !== "Raiku" ? `${title} - Raiku` : "Raiku"),
+  titleTemplate: (title) =>
+    title && title !== "Raiku" ? `${title} - Raiku` : "Raiku",
 })
 
 const title = "Raiku"
