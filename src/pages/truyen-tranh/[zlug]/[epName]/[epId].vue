@@ -6,7 +6,10 @@ meta:
 </route>
 
 <template>
-  <q-header class="bg-[rgba(0,0,0,.9)]" :model-value="showToolbar">
+  <q-header
+    class="bg-#1a191c md:bg-opacity-90 md:bg-#000"
+    :model-value="showToolbar"
+  >
     <q-toolbar>
       <AppHeaderIconApp
         v-if="!$q.screen.lt.md"
@@ -142,7 +145,7 @@ meta:
   </q-page>
 
   <q-footer
-    class="bg-[rgba(0,0,0,0.9)] font-family-poppins"
+    class="bg-#1a191c md:bg-opacity-90 md:bg-#000 font-family-poppins"
     :model-value="showToolbar"
   >
     <q-toolbar class="sm:px-10 md:px-16 <md:flex-wrap">
@@ -182,6 +185,7 @@ meta:
 
       <q-btn
         no-caps
+        unelevated
         :rounded="!$q.screen.lt.md"
         :round="$q.screen.lt.md"
         :disable="!previousEpisode"
@@ -207,6 +211,7 @@ meta:
       </q-btn>
       <q-btn
         no-caps
+        unelevated
         :rounded="!$q.screen.lt.md"
         :round="$q.screen.lt.md"
         :disable="!nextEpisode"
@@ -233,6 +238,7 @@ meta:
 
       <q-btn
         no-caps
+        unelevated
         rounded
         no-wrap
         class="<md:order-8 <md:w-1/5 md:mx-5 <sm:text-12px"
@@ -241,9 +247,9 @@ meta:
       >
         <i-solar-document-line-duotone
           v-if="$q.screen.lt.md"
-          class="size-1.8rem mr-1"
+          class="size-1.8em mr-1"
         />
-        {{ $t("cac-chuong") }}
+        <span class="<sm:text-10px">{{ $t("chuong") }}</span>
 
         <q-dialog-menu
           v-model="showMenuEpisodes"
@@ -301,14 +307,15 @@ meta:
 
       <q-btn
         no-caps
+        unelevated
         rounded
         no-wrap
         class="<md:order-6 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
         @click="showMenuSettings = !showMenuSettings"
       >
-        <i-solar-settings-line-duotone class="size-1.8rem mr-1" />
-        {{ $t("cai-dat") }}
+        <i-solar-settings-line-duotone class="size-1.8em mr-1" />
+        <span class="<sm:text-10px">{{ $t("cai-dat") }}</span>
 
         <q-dialog-menu
           v-model="showMenuSettings"
@@ -441,14 +448,15 @@ meta:
 
       <q-btn
         no-caps
+        unelevated
         rounded
         no-wrap
         class="<md:order-7 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
         @click="showMenuComments = !showMenuComments"
       >
-        <i-solar-chat-line-line-duotone class="size-1.8rem mr-1" />
-        {{ $t("binh-luan") }}
+        <i-solar-chat-line-line-duotone class="size-1.8em mr-1" />
+        <span class="<sm:text-10px">{{ $t("binh-luan") }}</span>
 
         <q-dialog-menu
           v-model="showMenuComments"
@@ -490,6 +498,7 @@ meta:
 
       <q-btn
         no-caps
+        unelevated
         rounded
         no-wrap
         class="<md:order-5 <md:w-1/5 <sm:text-12px"
@@ -511,11 +520,14 @@ meta:
         <i-solar-heart-bold v-if="isFollow" class="size-1.8em mr-1" />
         <i-solar-heart-linear v-else class="size-1.8em mr-1" />
 
-        {{ isFollow ? $t("bo-theo-doi") : $t("theo-doi") }}
+        <span class="<sm:text-10px">{{
+          isFollow ? $t("bo-theo-doi") : $t("theo-doi")
+        }}</span>
       </q-btn>
 
       <q-btn
         no-caps
+        unelevated
         rounded
         no-wrap
         class="<md:order-8 <md:w-1/5 <sm:text-12px"
@@ -524,10 +536,10 @@ meta:
       >
         <i-solar-quit-full-screen-line-duotone
           v-if="isFullscreen"
-          class="size-1.8rem mr-1"
+          class="size-1.8em mr-1"
         />
-        <i-solar-full-screen-line-duotone v-else class="size-1.8rem mr-1" />
-        {{ $t("toan-man-hinh") }}
+        <i-solar-full-screen-line-duotone v-else class="size-1.8em mr-1" />
+        <span class="<sm:text-10px">{{ $t("phong-to") }}</span>
         <!-- ふふ -->
         <!-- fluent:full-screen-minimize-24-regular -->
       </q-btn>
@@ -562,6 +574,7 @@ const showSearchMB = ref(false)
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const route = useRoute()
 const router = useRouter()
+const i18n = useI18n()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 const GetWithCache = useWithCache(
   () => {
@@ -597,7 +610,12 @@ watch(error, (error) => {
 })
 
 const title = () =>
-  data.value ? `${data.value.name} Chương ${data.value.chapters[0].name}` : ""
+  data.value
+    ? i18n.t("name-chuong-ep-name", [
+        data.value.name,
+        data.value.chapters[0].name,
+      ])
+    : ""
 const description = title
 useSeoMeta({
   title,

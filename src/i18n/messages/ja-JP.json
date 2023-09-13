@@ -189,5 +189,8 @@
   "ve-ung-dung": "アプリケーションについて",
   "kiem-tra-cap-nhat": "アップデートを確認",
   "tat-ca": "全て",
-  "thao-luan": "話し合う"
+  "thao-luan": "話し合う",
+  "chuong": "章",
+  "name-chuong-ep-name": "{0} 章 {1}",
+  "phong-to": "拡大する"
 }

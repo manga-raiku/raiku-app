@@ -189,5 +189,8 @@
   "ve-ung-dung": "About the application",
   "kiem-tra-cap-nhat": "Check for updates",
   "tat-ca": "all",
-  "thao-luan": "Discuss"
+  "thao-luan": "Discuss",
+  "chuong": "Chapter",
+  "name-chuong-ep-name": "{0} Chapter {1}",
+  "phong-to": "Enlarge"
 }
