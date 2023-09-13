@@ -84,6 +84,8 @@ quasar build
 - [x] add redirect to not found page
 - [x] show error if throw error
 - [ ] fix favicon small
+- [ ] touch zoom in mobile
+- [ ] button next chap
 
 ### Customize the configuration
 

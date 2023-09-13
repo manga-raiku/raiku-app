@@ -316,6 +316,7 @@ function onMouseMove(event: MouseEvent) {
   console.log("log ", lastMouseDiff, diffX, diffY)
 }
 function onMouseUp(event: MouseEvent) {
+  onMouseUpCheckClick(event)
   mouseDowned = true
   // mouseZooming.value = false
   lastMouseOff = null
@@ -373,6 +374,7 @@ function onMouseMoveCheckClick(event: MouseEvent | TouchEvent) {
     mousezooming = true
 }
 function onMouseUpCheckClick(event: MouseEvent | TouchEvent) {
+  console.log({mousezooming})
   if (mousezooming) return
 
   const directionLeft = mouseDownClientX < pWidthH.value
@@ -389,6 +391,10 @@ function onMouseUpCheckClick(event: MouseEvent | TouchEvent) {
     else next()
   }
 }
+
+
+useEventListener(window, "mousemove", onMouseMove)
+useEventListener(window, "mouseup", onMouseUp)
 
 useEventListener(window, "keydown", (event) => {
   switch (event.key) {
