@@ -28,14 +28,15 @@
 
         <slot name="inside-image" />
       </q-img>
-      <span class="a line-clamp-2 min-h-10 mt-1 text-1.2em">{{ data.name }}</span
-      >
+      <span class="a line-clamp-2 min-h-10 mt-1 text-1.2em">{{
+        data.name
+      }}</span>
     </q-card>
 
     <q-card class="card-more">
       <q-card-section>
         <h3
-          class="text-15px text-weight-medium line-clamp-1 leading-normal text-white"
+          class="text-15px text-weight-medium line-clamp-1 leading-loose text-white"
         >
           {{ data.name }}
         </h3>
@@ -62,8 +63,8 @@
           {{ $t("chuong-name", [data.last_chapters[0].name]) }}
         </div> -->
 
-        <div class="mt-1.5 mb-2 text-0.95em">
-          <div v-if="data.views" class="flex items-center">
+        <div class="mb-2 text-0.95em">
+          <div v-if="data.views">
             {{ $t("val-luot-xem", [formatView(data.views)]) }}
           </div>
           <div class="flex items-center">
