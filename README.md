@@ -85,7 +85,7 @@ quasar build
 - [x] show error if throw error
 - [ ] fix favicon small
 - [ ] touch zoom in mobile
-- [ ] button next chap
+- [x] button next chap
 
 ### Customize the configuration
 

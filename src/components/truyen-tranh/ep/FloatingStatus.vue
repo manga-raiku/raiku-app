@@ -24,13 +24,19 @@
         <span class="absolute top-1/2 left-1/4 translate--1/2">
           {{
             indexed?.[absCurrentPage]?.[rightToLeft ? 1 : 0] ??
-            absCurrentPage * (singlePage ? 1 : 2) + 1 + (rightToLeft ? 1 : 0)
+            absCurrentPage * (singlePage ? 1 : 2) +
+              1 +
+              (rightToLeft ? 1 : 0) -
+              sizeOldPages
           }}
         </span>
         <span class="absolute top-1/2 left-3/4 translate--1/2">
           {{
             indexed?.[absCurrentPage]?.[rightToLeft ? 0 : 1] ??
-            absCurrentPage * (singlePage ? 1 : 2) + 1 + (rightToLeft ? 0 : 1)
+            absCurrentPage * (singlePage ? 1 : 2) +
+              1 +
+              (rightToLeft ? 0 : 1) -
+              sizeOldPages
           }}
         </span>
       </template>
@@ -64,6 +70,7 @@ const props = defineProps<{
   singlePage: boolean
   rightToLeft: boolean
   pagesLength?: number
+  sizeOldPages: number
 
   sizes?: Map<number, readonly [number, number]>
   currentPage: number

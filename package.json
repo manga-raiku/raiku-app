@@ -58,6 +58,7 @@
     "@supabase/supabase-js": "^2.33.1",
     "@tachibana-shin/capacitor-filesystem": "^5.0.2",
     "@unhead/vue": "^1.6.2",
+    "@vueuse/components": "^10.4.1",
     "@vueuse/core": "^10.2.1",
     "@vueuse/math": "^10.2.1",
     "@vueuse/shared": "^10.2.1",
