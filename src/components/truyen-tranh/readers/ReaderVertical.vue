@@ -12,34 +12,48 @@
       }"
       ref="overflowRef"
     >
-      <PageView
-        v-for="(item, index) in pagesRender"
-        :key="item"
-        :data-index="index"
-        class="object-cover display-block mx-auto"
-        :src="item"
-        @load="(img, intersection) => onLoadPageView(index, img, intersection)"
-        @change:visible="
-          $event ? pagesIsVisible.add(index) : pagesIsVisible.delete(index)
-        "
-        :style="{
-          width: sizes.has(index)
-            ? `${(sizes.get(index)?.[0]! * zoom) / 100}px`
-            : widthImageDefault,
-          height: sizes.has(index) ? undefined : heightImageDefault,
-        }"
-        :ref="
-          (ref) => (pageViewRefs[index] = ref as InstanceType<typeof PageView>)
-        "
-      >
-        <template #loading>
-          <div class="flex items-center flex-col justify-center">
-            <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
-            <q-spinner size="40px" color="main-3" />
-          </div>
-        </template>
-      </PageView>
-
+      <template v-for="(item, index) in pagesRender" :key="item">
+        <PageView
+          v-if="typeof item === 'string'"
+          class="object-cover display-block mx-auto"
+          :src="item"
+          @load="
+            (img, intersection) => onLoadPageView(index, img, intersection)
+          "
+          @change:visible="
+            $event ? pagesIsVisible.add(index) : pagesIsVisible.delete(index)
+          "
+          :style="{
+            width: sizes.has(index)
+              ? `${(sizes.get(index)?.[0]! * zoom) / 100}px`
+              : widthImageDefault,
+            height: sizes.has(index) ? undefined : heightImageDefault,
+          }"
+          :ref="
+            (ref) =>
+              (pageViewRefs[index] = ref as InstanceType<typeof PageView>)
+          "
+        >
+          <template #loading>
+            <div class="flex items-center flex-col justify-center">
+              <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
+              <q-spinner size="40px" color="main-3" />
+            </div>
+          </template>
+        </PageView>
+        <!--
+        <div
+          v-else-if="item.$r"
+          class="w-full py-20 text-center"
+          v-element-visibility="
+            () => {
+              emit('action:ch', item)
+            }
+          "
+        >
+          {{ $t("chuong-name", [item.$r.name]) }}
+        </div> -->
+      </template>
       <router-link
         v-if="nextEpisode"
         class="w-full h-120px flex items-center justify-center"
@@ -70,6 +84,7 @@
 </template>
 
 <script lang="ts" setup>
+// import { vElementVisibility } from "@vueuse/components"
 import {
   useElementSize,
   useElementVisibility,
@@ -95,10 +110,30 @@ const emit = defineEmits<{
   (name: "update:zoom", value: number): void
   (name: "update:current-page", value: number): void
   (name: "action:next-ch"): void
+  // (
+  //   name: "action:ch",
+  //   value: {
+  //     $l: {
+  //       id: number
+  //       name: string
+  //       path: string
+  //       updated_at: null
+  //     }
+  //     $r: {
+  //       id: number
+  //       name: string
+  //       path: string
+  //       updated_at: null
+  //     }
+  //   },
+  // ): void
   // (name: "prev"): void
   // (name: "next"): void
 }>()
 const attrs = useAttrs()
+defineExpose({
+  reset: () => parentRef.value?.scrollTo(0, 0),
+})
 
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(

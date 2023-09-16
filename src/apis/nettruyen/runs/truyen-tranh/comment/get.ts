@@ -12,11 +12,11 @@ export default async function GetComment(
   page: number,
   comicKey: string,
 ) {
-  const { data } = await get(
-    `https://www.nettruyenmax.com/Comic/Services/CommentService.asmx/List?comicId=${comicId}&orderBy=${
+  const { data } = await get({
+    url: `https://www.nettruyenmax.com/Comic/Services/CommentService.asmx/List?comicId=${comicId}&orderBy=${
       orderByNews ? 5 : 0
     }&chapterId=${chapterId}&parentId=${parentId}&pageNumber=${page}&token=${comicKey}`,
-  )
+  })
 
   const { commentCount: comments_count, pager, response } = JSON.parse(data)
 

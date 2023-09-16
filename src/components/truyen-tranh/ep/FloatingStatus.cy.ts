@@ -10,6 +10,7 @@ describe("FloatingStatus", () => {
         pagesLength: 3,
         sizePage: 3,
         currentPage: 0,
+        sizeOldPages: 0,
 
         metaEp: {
           name: "Chapter 1",
@@ -36,6 +37,7 @@ describe("FloatingStatus", () => {
         pagesLength: 3,
         sizePage: 3,
         currentPage: 0,
+        sizeOldPages: 0,
 
         metaEp: {
           name: "Chapter 1",
@@ -63,6 +65,7 @@ describe("FloatingStatus", () => {
           pagesLength: 3,
           sizePage: 3,
           currentPage: 0,
+          sizeOldPages: 0,
 
           metaEp: {
             name: "Chapter 1",
@@ -96,6 +99,7 @@ describe("FloatingStatus", () => {
         sizePage: 3,
         pagesLength: 2,
         currentPage: 0,
+        sizeOldPages: 0,
 
         metaEp: {
           name: "Chapter 1",

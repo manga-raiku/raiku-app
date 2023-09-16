@@ -26,7 +26,7 @@ meta:
         '--data-src': `url('${data?.image}')`,
       }"
     />
-    <template v-if="data && !loading">
+    <template v-if="data">
       <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 mb-4 flex">
         <div>
           <div
@@ -55,7 +55,7 @@ meta:
             {{ data.othername }}
           </h2>
           <small class="text-14px text-gray-400 my-2">{{
-            $t("val-luot-xem", [formatView(data.views ?? 0)])
+            $t("val-luot-xem", [data.views ? (data.views) : "N/A"])
           }}</small>
 
           <div
@@ -203,7 +203,8 @@ meta:
         <Comments :comments="data.comments" />
       </section>
     </template>
-    <template v-else-if="loading">
+    <ErrorDisplay v-else-if="error" :error="error" :retry-async="runAsync" />
+    <template v-else>
       <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 flex">
         <div>
           <div
@@ -402,7 +403,7 @@ const GetWithCache = useWithCache(
   computed(() => `${packageName}:///manga/${props.zlug}`),
 )
 
-const { data, loading, error, run } = useRequest(GetWithCache, {
+const { data, runAsync, error, run } = useRequest(GetWithCache, {
   refreshDeps: [() => props.zlug],
   refreshDepsAction() {
     // data.value = undefined

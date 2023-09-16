@@ -75,6 +75,25 @@
             </template>
           </ChapterPageModeDouble>
         </template>
+
+        <div
+          v-if="nextEpisode"
+          class="w-1/2 h-full display-inline-block overflow-hidden relative"
+          :class="{
+            'w-full': singlePage,
+          }"
+          @click.prevent.stop
+        >
+          <router-link
+            class="w-full h-120px flex items-center justify-center my-auto text-20px text-weight-medium absolute top-1/2 left-1/2 translate--1/2"
+            :to="nextEpisode"
+            @click.stop
+            @mousedown.stop.prevent
+            ref="btnNextEpRef"
+          >
+            Next Chapter
+          </router-link>
+        </div>
       </div>
     </section>
     <!--
@@ -92,6 +111,7 @@ import { isTouchEvent } from "src/logic/is-touch-event"
 const props = defineProps<{
   pages: string[]
   pagesNext?: string[]
+  nextEpisode?: string
 
   singlePage: boolean // 517px
   rightToLeft?: boolean
@@ -129,7 +149,7 @@ const sizePage = computed(() => {
       else prev += 0.5
 
       return prev
-    }, 0),
+    }, 0) + (props.nextEpisode ? 0.5 : 0),
   )
 })
 defineExpose({ sizes, sizePage })
@@ -175,7 +195,7 @@ function onTouchStart(event: TouchEvent) {
     props.rightToLeft && props.singlePage
       ? sizePage.value - 1 + props.currentPage
       : props.currentPage
-  canGo = canSwipes[index]
+  canGo = canSwipes[index] ?? index >= props.pages.length ? "A" : null // ok
 
   // if (canSwipe.value) {
   moving.value = true
@@ -316,6 +336,7 @@ function onMouseMove(event: MouseEvent) {
   console.log("log ", lastMouseDiff, diffX, diffY)
 }
 function onMouseUp(event: MouseEvent) {
+  onMouseUpCheckClick(event)
   mouseDowned = true
   // mouseZooming.value = false
   lastMouseOff = null
@@ -373,6 +394,7 @@ function onMouseMoveCheckClick(event: MouseEvent | TouchEvent) {
     mousezooming = true
 }
 function onMouseUpCheckClick(event: MouseEvent | TouchEvent) {
+  console.log({ mousezooming })
   if (mousezooming) return
 
   const directionLeft = mouseDownClientX < pWidthH.value
@@ -389,6 +411,9 @@ function onMouseUpCheckClick(event: MouseEvent | TouchEvent) {
     else next()
   }
 }
+
+useEventListener(window, "mousemove", onMouseMove)
+useEventListener(window, "mouseup", onMouseUp)
 
 useEventListener(window, "keydown", (event) => {
   switch (event.key) {

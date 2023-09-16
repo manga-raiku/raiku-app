@@ -123,7 +123,7 @@
           </template>
         </q-list>
 
-        <div v-if="hideDrawer ? false : !showDrawer" class="text-gray-500 mt-7">
+        <div v-if="hideDrawer ? true : !showDrawer" class="text-gray-500 mt-7">
           <a
             v-for="item in drawersBottom"
             :key="item.name"

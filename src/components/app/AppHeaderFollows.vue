@@ -19,15 +19,8 @@
         class="transparent h-full flex-1 min-h-0 shadow-none scrollbar-custom overflow-y-auto"
       >
         <q-card-section>
-          <div v-if="loading" class="row">
-            <CardVerticalSKT
-              v-for="i in 12"
-              :key="i"
-              class="col-12 col-sm-6 col-md-12 px-2 pb-4"
-            />
-          </div>
           <q-infinite-scroll
-            v-else-if="data"
+            v-if="data"
             @load="onLoad"
             :offset="250"
             class="row md:block"
@@ -50,13 +43,17 @@
               </div>
             </template>
           </q-infinite-scroll>
-          <div v-else class="text-center">
-            <div class="text-subtitle1 font-weight-medium">
-              {{ $t("loi-khong-xac-dinh-error", [error]) }}
-            </div>
-            <q-btn outline rounded color="main" @click="runAsync">{{
-              $t("thu-lai")
-            }}</q-btn>
+          <ErrorDisplay
+            v-else-if="error"
+            :error="error"
+            :retry-async="runAsync"
+          />
+          <div v-else class="row">
+            <CardVerticalSKT
+              v-for="i in 12"
+              :key="i"
+              class="col-12 col-sm-6 col-md-12 px-2 pb-4"
+            />
           </div>
         </q-card-section>
       </q-card>
@@ -77,7 +74,7 @@ const followStore = useFollowStore()
 
 const showMenuFollow = ref(false)
 
-const { data, loading, error, runAsync } = useRequest(() => followStore.get())
+const { data, error, runAsync } = useRequest(() => followStore.get())
 const onLoad = async (index: number, done: (stop?: boolean) => void) => {
   const more = await followStore.get(data.value?.length)
 

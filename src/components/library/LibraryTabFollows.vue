@@ -21,14 +21,11 @@
         </template>
       </q-infinite-scroll>
     </div>
-    <div v-else-if="error" class="text-center">
-      <div class="text-subtitle1 font-weight-medium">
-        {{ $t("loi-khong-xac-dinh-error", [error]) }}
-      </div>
-      <q-btn outline rounded color="main" @click="refreshAsync">{{
-        $t("thu-lai")
-      }}</q-btn>
-    </div>
+    <ErrorDisplay
+      v-else-if="error"
+      :error="error"
+      :retry-async="refreshAsync"
+    />
     <div v-else class="row">
       <CardVerticalSKT
         v-for="i in 12"

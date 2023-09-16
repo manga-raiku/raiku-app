@@ -15,77 +15,7 @@ meta:
       }
     "
   >
-    <div v-if="!data" class="absolute w-full h-full overflow-hidden loader">
-      <div class="swiper-hot">
-        <q-responsive :ratio="583 / 306" class="poster">
-          <q-skeleton type="rect" width="100%" height="100%" />
-        </q-responsive>
-        <div
-          class="mark-b w-full h-[30%] z-101 absolute bottom-0 pointer-events-none"
-          :style="{
-            'background-image': `linear-gradient(
-            rgba(17, 19, 25, 0) 2%,
-            rgb(17, 19, 25) 94%
-          )`,
-          }"
-        />
-      </div>
-
-      <div
-        class="mx-4 sm:mx-6 md:mx-13 relative whitespace-nowrap overflow-hidden"
-      >
-        <div
-          v-for="i in 3"
-          :key="i"
-          class="display-inline-block px-3 w-90% sm:w-49% md:w-31%"
-        >
-          <CardVerticalSKT v-for="j in 3" :key="j" class="my-2" />
-        </div>
-      </div>
-
-      <div class="mx-4 sm:mx-6 md:mx-8 relative">
-        <q-skeleton type="text" width="7rem" class="text-h6" />
-
-        <SkeletonGridCard :count="6" />
-      </div>
-
-      <div class="mx-4 sm:mx-6 md:mx-8 relative">
-        <q-skeleton type="text" width="7rem" class="text-h6" />
-
-        <div class="wpa-grid">
-          <div class="ctnr">
-            <SkeletonCard
-              v-for="item in 12"
-              :key="item"
-              class="card-wrap inline-block"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="mx-4 sm:mx-6 md:mx-8 relative">
-        <q-skeleton type="text" width="7rem" class="text-h6" />
-
-        <div class="wpa-grid">
-          <q-skeleton type="text" width="100%" />
-          <div class="ctnr">
-            <SkeletonCard
-              v-for="item in 12"
-              :key="item"
-              class="card-wrap inline-block"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="mx-4 sm:mx-6 md:mx-8 relative">
-        <q-skeleton type="text" width="7rem" class="text-h6" />
-
-        <SkeletonGridCard :count="6" />
-      </div>
-    </div>
-
-    <template v-else>
+    <template v-if="data">
       <swiper
         :space-between="10"
         :centered-slides="true"
@@ -409,6 +339,80 @@ meta:
         <GridCard :items="data.last_update" />
       </div>
     </template>
+    <ErrorDisplay
+      v-else-if="error"
+      :error="error"
+      :retry-async="refreshAsync"
+    />
+    <div v-else class="absolute w-full h-full overflow-hidden loader">
+      <div class="swiper-hot">
+        <q-responsive :ratio="583 / 306" class="poster">
+          <q-skeleton type="rect" width="100%" height="100%" />
+        </q-responsive>
+        <div
+          class="mark-b w-full h-[30%] z-101 absolute bottom-0 pointer-events-none"
+          :style="{
+            'background-image': `linear-gradient(
+            rgba(17, 19, 25, 0) 2%,
+            rgb(17, 19, 25) 94%
+          )`,
+          }"
+        />
+      </div>
+
+      <div
+        class="mx-4 sm:mx-6 md:mx-13 relative whitespace-nowrap overflow-hidden"
+      >
+        <div
+          v-for="i in 3"
+          :key="i"
+          class="display-inline-block px-3 w-90% sm:w-49% md:w-31%"
+        >
+          <CardVerticalSKT v-for="j in 3" :key="j" class="my-2" />
+        </div>
+      </div>
+
+      <div class="mx-4 sm:mx-6 md:mx-8 relative">
+        <q-skeleton type="text" width="7rem" class="text-h6" />
+
+        <SkeletonGridCard :count="6" />
+      </div>
+
+      <div class="mx-4 sm:mx-6 md:mx-8 relative">
+        <q-skeleton type="text" width="7rem" class="text-h6" />
+
+        <div class="wpa-grid">
+          <div class="ctnr">
+            <SkeletonCard
+              v-for="item in 12"
+              :key="item"
+              class="card-wrap inline-block"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="mx-4 sm:mx-6 md:mx-8 relative">
+        <q-skeleton type="text" width="7rem" class="text-h6" />
+
+        <div class="wpa-grid">
+          <q-skeleton type="text" width="100%" />
+          <div class="ctnr">
+            <SkeletonCard
+              v-for="item in 12"
+              :key="item"
+              class="card-wrap inline-block"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="mx-4 sm:mx-6 md:mx-8 relative">
+        <q-skeleton type="text" width="7rem" class="text-h6" />
+
+        <SkeletonGridCard :count="6" />
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -497,7 +501,7 @@ function Carousel({ swiper, on }: any) {
   })
 }
 
-const { data } = useRequest(() => Index())
+const { data, error, refreshAsync } = useRequest(() => Index())
 
 const sliderIndex = ref(0)
 </script>

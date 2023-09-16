@@ -28,10 +28,11 @@ meta:
         <Pagination :max="data.maxPage" v-model="page" />
       </div> -->
 
-      <SkeletonGridCard v-if="loading" :count="40" />
-      <InfiniteScroll v-else @load="onLoad">
+      <InfiniteScroll v-if="data" @load="onLoad">
         <GridCard :items="data.items" />
       </InfiniteScroll>
+      <ErrorDisplay v-else-if="error" :error="error" :retry-async="runAsync" />
+      <SkeletonGridCard v-else :count="40" />
 
       <!-- <div
         v-if="data.maxPage > 1 && $q.screen.gt.sm"
@@ -68,7 +69,7 @@ const page = computed<number>({
     }),
 })
 
-const { data, loading, runAsync, error } = useRequest(
+const { data, runAsync, error } = useRequest(
   async () => {
     const data = await General(
       `/tim-truyen/${props.slug}`,

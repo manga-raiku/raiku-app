@@ -8,10 +8,10 @@ import Worker from "../workers/index?worker"
 
 export default async function index() {
   const [index, topDay] = await Promise.all([
-    get(CURL).then((res) =>
+    get({ url: CURL }).then((res) =>
       PostWorker<typeof Parse>(Worker, res.data, Date.now()),
     ),
-    get(`${CURL}/tim-truyen?status=-1&sort=13`).then((res) =>
+    get({ url: `${CURL}/tim-truyen?status=-1&sort=13` }).then((res) =>
       PostWorker<typeof general>(WorkerGeneral, res.data, Date.now()),
     ),
   ])

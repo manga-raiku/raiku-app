@@ -163,10 +163,7 @@ meta:
         </span>
       </div>
 
-      <template v-if="loading">
-        <SkeletonGridCard :count="40" />
-      </template>
-      <template v-else-if="data">
+      <template v-if="data">
         <InfiniteScroll v-if="data.items.length > 0" @load="onLoad">
           <GridCard :items="data.items" />
         </InfiniteScroll>
@@ -180,6 +177,10 @@ meta:
       >
         <Pagination :max="data.maxPage" v-model="page" />
       </div> -->
+      </template>
+      <ErrorDisplay v-else-if="error" :error="error" :retry-async="runAsync" />
+      <template v-else>
+        <SkeletonGridCard :count="40" />
       </template>
     </section>
   </q-page>
@@ -229,7 +230,7 @@ const typesRank = computed(
     ] as const,
 )
 
-const { data, loading, run } = useRequest(
+const { data, run, error, runAsync } = useRequest(
   async () => {
     if (!route.query.query) return Promise.resolve(undefined)
 
