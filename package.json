@@ -40,7 +40,7 @@
     "db:stop": "supabase stop",
     "db:gen": "supabase gen",
     "db:migration": "supabase migration",
-    "release:pwa": "bumpp --commit '(chore): release PWA %s' --tag 'pwa@%s'",
+    "release:pwa": "bumpp --commit \"(chore): release PWA %\" --tag \"pwa@%s\"",
     "release:android": "tsx scripts/bumpp-android.ts",
     "release:ios": "tsx scripts/bumpp-ios.ts"
   },
