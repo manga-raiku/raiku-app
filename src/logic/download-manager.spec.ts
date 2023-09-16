@@ -47,7 +47,7 @@ function patchFetch() {
   // continue download
   ;(fetch as ReturnType<typeof vi.fn>).mockReset()
   ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(async (url) => {
-    await sleep(200)
+    await sleep(100)
     return Promise.resolve({
       async arrayBuffer() {
         return new TextEncoder().encode(url)
@@ -58,17 +58,16 @@ function patchFetch() {
     })
   })
 }
+;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(0)
+patchFetch()
 
 describe("download-manager", () => {
   beforeEach(async () => {
     await cleanup()
     await sleep(1000)
   })
-  ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(1690022500169)
 
   test("should download episode x for the first time", async () => {
-    patchFetch()
-
     const { ref, start, downloading } = createTaskDownloadEpisode(
       metaManga,
       metaEp,
@@ -121,7 +120,7 @@ describe("download-manager", () => {
     ).toEqual({
       ...metaManga,
       manga_image: "offline:///poster/1a96284b",
-      start_download_at: 1690022500169,
+      start_download_at: 0,
     })
 
     // valid meta episode
@@ -131,7 +130,7 @@ describe("download-manager", () => {
       ),
     ).toEqual({
       path: pathEp,
-      start_download_at: 1690022500169,
+      start_download_at: 0,
       downloaded: 8,
       ep_id,
       ep_name,
@@ -206,7 +205,7 @@ describe("download-manager", () => {
       ),
     ).toEqual({
       path: pathEp,
-      start_download_at: 1690022500169,
+      start_download_at: 0,
       downloaded: 5,
       ep_id,
       ep_name,
@@ -248,6 +247,7 @@ describe("download-manager", () => {
     expect(downloading.value).toBeFalsy()
 
     await start().catch(() => null)
+    patchFetch()
 
     // check hash file page
     expect(await readdir(`files/${hashIDManga}/${hashIDEp}`)).toEqual([
@@ -277,7 +277,7 @@ describe("download-manager", () => {
       path: pathEp,
       ep_id,
       ep_name,
-      start_download_at: 1690022500169,
+      start_download_at: 0,
       downloaded: 5,
       pages: [
         "offline://files/1a96284b/30089c30/1a96284a",
@@ -290,9 +290,6 @@ describe("download-manager", () => {
         "https://localhost/pages/8.png",
       ],
     })
-
-    patchFetch()
-    ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValueOnce(1690022500170)
 
     const {
       ref: ref2,
@@ -333,7 +330,7 @@ describe("download-manager", () => {
       ),
     ).toEqual({
       path: pathEp,
-      start_download_at: 1690022500169,
+      start_download_at: 0,
       downloaded: 8,
       ep_id,
       ep_name,
@@ -411,7 +408,7 @@ describe("download-manager", () => {
       ),
     ).toEqual({
       path: pathEp,
-      start_download_at: 1690022500169,
+      start_download_at: 0,
       downloaded: 8,
       ep_id,
       ep_name,
@@ -429,8 +426,6 @@ describe("download-manager", () => {
   })
 
   test("should get list manga downloaded", async () => {
-    patchFetch()
-
     await createTaskDownloadEpisode(metaManga, metaEp).start()
 
     // ok get list
@@ -441,7 +436,7 @@ describe("download-manager", () => {
         manga_id,
         manga_image: "offline:///poster/1a96284b",
         manga_name,
-        start_download_at: 1690022500169,
+        start_download_at: 0,
       },
     ])
 
@@ -449,7 +444,6 @@ describe("download-manager", () => {
       ...metaManga,
       manga_id: 2,
     }
-    ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(1690022500190)
 
     await createTaskDownloadEpisode(meta2, metaEp).start()
 
@@ -459,28 +453,26 @@ describe("download-manager", () => {
         manga_id,
         manga_image: "offline:///poster/1a96284b",
         manga_name,
-        start_download_at: 1690022500169,
+        start_download_at: 0,
       },
       {
         path,
         manga_id: 2,
         manga_image: "offline:///poster/1a96284c",
         manga_name,
-        start_download_at: 1690022500190,
+        start_download_at: 0,
       },
     ])
   })
 
   test("should get list episodes downloaded", async () => {
-    patchFetch()
-
     await createTaskDownloadEpisode(metaManga, metaEp).start()
 
     // ok get list
     expect(await getListEpisodes(manga_id)).toEqual([
       {
         path: pathEp,
-        start_download_at: 1690022500190,
+        start_download_at: 0,
         downloaded: 8,
         ep_id,
         ep_name,
@@ -496,7 +488,7 @@ describe("download-manager", () => {
         ],
       },
     ])
-    ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(1690022500190)
+    ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(1)
 
     await createTaskDownloadEpisode(metaManga, {
       ...metaEp,
@@ -506,7 +498,7 @@ describe("download-manager", () => {
     expect(await getListEpisodes(manga_id)).toEqual([
       {
         path: pathEp,
-        start_download_at: 1690022500190,
+        start_download_at: 1,
         downloaded: 8,
         ep_id: 1235,
         ep_name,
@@ -523,7 +515,7 @@ describe("download-manager", () => {
       },
       {
         path: pathEp,
-        start_download_at: 1690022500190,
+        start_download_at: 0,
         downloaded: 8,
         ep_id,
         ep_name,
@@ -539,11 +531,10 @@ describe("download-manager", () => {
         ],
       },
     ])
+    ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(0)
   })
 
   test("should delete manga", async () => {
-    patchFetch()
-
     await createTaskDownloadEpisode(metaManga, metaEp).start()
 
     await expect(exists(`meta/${hashIDManga}`)).resolves.toBeTruthy()
@@ -558,8 +549,6 @@ describe("download-manager", () => {
   })
 
   test("should delete episode", async () => {
-    patchFetch()
-
     await createTaskDownloadEpisode(metaManga, metaEp).start()
     await createTaskDownloadEpisode(metaManga, {
       ...metaEp,
