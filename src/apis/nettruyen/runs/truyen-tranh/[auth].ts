@@ -7,10 +7,10 @@ export default async function (
   user_uid: string,
   token: string,
 ) {
-  const { data } = await get(
+  const { data } = await get({
     // eslint-disable-next-line camelcase
-    `${API_CURL}/Comic/Services/ComicService.asmx/GetFollowedButtonComic?comicId=${comicId}&userGuid=${user_uid}&token=${token}`,
-  )
+    url: `${API_CURL}/Comic/Services/ComicService.asmx/GetFollowedButtonComic?comicId=${comicId}&userGuid=${user_uid}&token=${token}`,
+  })
 
   const { isFollowed, readChapters, readHtml, markAsReadHtml } =
     JSON.parse(data)

@@ -3,9 +3,14 @@ import { PostWorker } from "src/apis/wrap-worker"
 import type Parse from "../parsers/user"
 import Worker from "../workers/user?worker"
 
+import { CURL } from "./../const"
+
 export default async function (token: string) {
-  const { data, headers } = await get("/quan-ly-tai-khoan.html", {
-    cookie: `_qlg=${token}`,
+  const { data, headers } = await get({
+    url: `${CURL}/quan-ly-tai-khoan.html`,
+    headers: {
+      cookie: `_qlg=${token}`,
+    },
   })
 
   return {

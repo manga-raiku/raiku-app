@@ -1,8 +1,13 @@
+import { CURL } from "../../const"
+
 export default async function login(email: string, password: string) {
-  const { data, headers } = await post("/frontend/public/login", {
-    email,
-    password,
-    expire: "1",
+  const { data, headers } = await post({
+    url: `${CURL}/frontend/public/login`,
+    data: {
+      email,
+      password,
+      expire: "1",
+    },
   })
 
   const json = JSON.parse(data)

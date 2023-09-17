@@ -6,7 +6,10 @@ meta:
 </route>
 
 <template>
-  <q-header class="bg-[rgba(0,0,0,.9)]" :model-value="showToolbar">
+  <q-header
+    class="bg-#1a191c md:bg-opacity-90 md:bg-#000"
+    :model-value="showToolbar"
+  >
     <q-toolbar>
       <AppHeaderIconApp
         v-if="!$q.screen.lt.md"
@@ -81,7 +84,7 @@ meta:
     class="fixed top-0 w-full"
   >
     <!-- reader -->
-    <template v-if="pages && !loading">
+    <template v-if="pages">
       <ReaderHorizontal
         v-if="!scrollingMode"
         ref="readerHorizontalRef"
@@ -91,10 +94,12 @@ meta:
         :min-page="minPage"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
+        :next-episode="nextEpisode?.value.path"
         @click="onClickReader"
       />
       <ReaderVertical
         v-else
+        ref="readerVerticalRef"
         :pages="pages"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
@@ -103,6 +108,7 @@ meta:
         @action:next-ch="nextCh"
       />
     </template>
+    <ErrorDisplay v-else-if="error" :error="error" :retry-async="runAsync" />
     <div v-else class="w-full h-full flex items-center justify-center">
       <div>
         <SpinnerSakura />
@@ -117,6 +123,7 @@ meta:
       :single-page="singlePage || $q.screen.width <= 517"
       :right-to-left="rightToLeft"
       :pages-length="data?.pages.length"
+      :size-old-pages="data?.sizeOldPages ?? 0"
       :sizes="readerHorizontalRef?.sizes"
       :current-page="currentPage"
       :size-page="sizePage"
@@ -128,6 +135,7 @@ meta:
       :current-page="currentPage"
       :size-page="sizePage"
       :meta-ep="currentEpisode?.value"
+      :size-old-pages="data?.sizeOldPages ?? 0"
     />
 
     <FabShowToolbar v-if="$q.screen.gt.xs" @click="showToolbar = true" />
@@ -141,7 +149,7 @@ meta:
   </q-page>
 
   <q-footer
-    class="bg-[rgba(0,0,0,0.9)] font-family-poppins"
+    class="bg-#1a191c md:bg-opacity-90 md:bg-#000 font-family-poppins"
     :model-value="showToolbar"
   >
     <q-toolbar class="sm:px-10 md:px-16 <md:flex-wrap">
@@ -181,6 +189,7 @@ meta:
 
       <q-btn
         no-caps
+        unelevated
         :rounded="!$q.screen.lt.md"
         :round="$q.screen.lt.md"
         :disable="!previousEpisode"
@@ -206,6 +215,7 @@ meta:
       </q-btn>
       <q-btn
         no-caps
+        unelevated
         :rounded="!$q.screen.lt.md"
         :round="$q.screen.lt.md"
         :disable="!nextEpisode"
@@ -232,6 +242,7 @@ meta:
 
       <q-btn
         no-caps
+        unelevated
         rounded
         no-wrap
         class="<md:order-8 <md:w-1/5 md:mx-5 <sm:text-12px"
@@ -240,9 +251,9 @@ meta:
       >
         <i-solar-document-line-duotone
           v-if="$q.screen.lt.md"
-          class="size-1.8rem mr-1"
+          class="size-1.8em mr-1"
         />
-        {{ $t("cac-chuong") }}
+        <span class="<sm:text-10px">{{ $t("chuong") }}</span>
 
         <q-dialog-menu
           v-model="showMenuEpisodes"
@@ -300,14 +311,15 @@ meta:
 
       <q-btn
         no-caps
+        unelevated
         rounded
         no-wrap
         class="<md:order-6 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
         @click="showMenuSettings = !showMenuSettings"
       >
-        <i-solar-settings-line-duotone class="size-1.8rem mr-1" />
-        {{ $t("cai-dat") }}
+        <i-solar-settings-line-duotone class="size-1.8em mr-1" />
+        <span class="<sm:text-10px">{{ $t("cai-dat") }}</span>
 
         <q-dialog-menu
           v-model="showMenuSettings"
@@ -440,14 +452,15 @@ meta:
 
       <q-btn
         no-caps
+        unelevated
         rounded
         no-wrap
         class="<md:order-7 <md:w-1/5 <sm:text-12px"
         :stack="$q.screen.lt.md"
         @click="showMenuComments = !showMenuComments"
       >
-        <i-solar-chat-line-line-duotone class="size-1.8rem mr-1" />
-        {{ $t("binh-luan") }}
+        <i-solar-chat-line-line-duotone class="size-1.8em mr-1" />
+        <span class="<sm:text-10px">{{ $t("binh-luan") }}</span>
 
         <q-dialog-menu
           v-model="showMenuComments"
@@ -489,6 +502,7 @@ meta:
 
       <q-btn
         no-caps
+        unelevated
         rounded
         no-wrap
         class="<md:order-5 <md:w-1/5 <sm:text-12px"
@@ -510,11 +524,14 @@ meta:
         <i-solar-heart-bold v-if="isFollow" class="size-1.8em mr-1" />
         <i-solar-heart-linear v-else class="size-1.8em mr-1" />
 
-        {{ isFollow ? $t("bo-theo-doi") : $t("theo-doi") }}
+        <span class="<sm:text-10px">{{
+          isFollow ? $t("bo-theo-doi") : $t("theo-doi")
+        }}</span>
       </q-btn>
 
       <q-btn
         no-caps
+        unelevated
         rounded
         no-wrap
         class="<md:order-8 <md:w-1/5 <sm:text-12px"
@@ -523,10 +540,10 @@ meta:
       >
         <i-solar-quit-full-screen-line-duotone
           v-if="isFullscreen"
-          class="size-1.8rem mr-1"
+          class="size-1.8em mr-1"
         />
-        <i-solar-full-screen-line-duotone v-else class="size-1.8rem mr-1" />
-        {{ $t("toan-man-hinh") }}
+        <i-solar-full-screen-line-duotone v-else class="size-1.8em mr-1" />
+        <span class="<sm:text-10px">{{ $t("phong-to") }}</span>
         <!-- ふふ -->
         <!-- fluent:full-screen-minimize-24-regular -->
       </q-btn>
@@ -540,6 +557,7 @@ import { useFullscreen } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import { packageName } from "app/package.json"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
+import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
@@ -559,8 +577,10 @@ const followStore = useFollowStore()
 const historyStore = useHistoryStore()
 const showSearchMB = ref(false)
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
+const readerVerticalRef = ref<InstanceType<typeof ReaderVertical>>()
 const route = useRoute()
 const router = useRouter()
+const i18n = useI18n()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 const GetWithCache = useWithCache(
   () => {
@@ -575,13 +595,23 @@ const GetWithCache = useWithCache(
   ),
 )
 // let disableReactiveParams = false
-const { data, loading, runAsync, error } = useRequest(GetWithCache, {
-  refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
-  refreshDepsAction() {
-    // if (!disableReactiveParams) runAsync()
-    runAsync()
+const { data, runAsync, error } = useRequest(
+  GetWithCache as () => Promise<
+    Awaited<ReturnType<typeof GetWithCache>> & {
+      sizeOldPages?: number
+    }
+  >,
+  {
+    refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
+    async refreshDepsAction() {
+      if (route.query.no_restore_scroll) return
+
+      await runAsync()
+      currentPage.value = 0
+      readerVerticalRef.value?.reset()
+    },
   },
-})
+)
 watch(error, (error) => {
   if (error?.message === "not_found")
     router.replace({
@@ -597,7 +627,10 @@ watch(error, (error) => {
 
 const title = () =>
   data.value
-    ? `${data.value.name} Chương ${data.value.chapters[0].name}`
+    ? i18n.t("name-chuong-ep-name", [
+        data.value.name,
+        data.value.chapters[0].name,
+      ])
     : ""
 const description = title
 useSeoMeta({
@@ -719,7 +752,9 @@ const pageGetter = computed(
 const pages = computed(
   () =>
     data.value?.pages.map(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // (item) =>
+      //   item.$l ? item : pageGetter.value?.(item, data.value!) ?? item.src,
       (item) => pageGetter.value?.(item, data.value!) ?? item.src,
     ) as string[] | undefined,
 )
@@ -806,20 +841,49 @@ const fnNextCh = useWithCache(
   },
   computed(() => `${packageName}:///manga/${nextEpisode.value!.path}`),
 )
-
 async function nextCh() {
-  // console.log("start load next ch")
-  // const next = await fnNextCh()
-  // disableReactiveParams = true
-  // data.value = {
-  //   ...next,
-  //   pages: [...(data.value?.pages ?? []), ...next.pages],
-  // }
-  // router.push(nextEpisode.value!.value.path)
-  // await nextTick()
-  // disableReactiveParams = false
-  // console.log("data next", next)
+  //   console.log("start load next ch")
+  //   const next = await fnNextCh()
+  //   data.value = {
+  //     ...next,
+  //     sizeOldPages: data.value?.pages.length,
+  //     pages: [
+  //       ...(data.value?.pages ?? []),
+  //       { $l: currentEpisode.value.value, $r: nextEpisode.value.value },
+  //       ...next.pages,
+  //     ],
+  //   }
+  //   router.push({
+  //     path: nextEpisode.value!.value.path,
+  //     query: {
+  //       no_restore_scroll: "1",
+  //     },
+  //   })
+  //   console.log("data next", next)
 }
+// async function actionCh(data: {
+//   $l: {
+//     id: number
+//     name: string
+//     path: string
+//     updated_at: null
+//   }
+//   $r: {
+//     id: number
+//     name: string
+//     path: string
+//     updated_at: null
+//   }
+// }) {
+//   console.log("show ", data)
+
+//   // router.push({
+//   //   path: data.$l.path,
+//   //   query: {
+//   //     no_restore_scroll: "1",
+//   //   },
+//   // })
+// }
 
 // save to history
 let timeoutUpsertHistory: NodeJS.Timeout | number | null = null

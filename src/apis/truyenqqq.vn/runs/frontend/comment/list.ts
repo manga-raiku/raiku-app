@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { CURL } from "src/apis/truyenqqq.vn/const"
 import { PostWorker } from "src/apis/wrap-worker"
 
 import type Parse from "../../../parsers/comment/list"
@@ -9,10 +10,13 @@ export default async function commentList(
   parent_id: number,
   team_id: number,
 ) {
-  const { data } = await post("/frontend/comment/list", {
-    book_id,
-    parent_id,
-    team_id,
+  const { data } = await post({
+    url: `${CURL}/frontend/comment/list`,
+    data: {
+      book_id,
+      parent_id,
+      team_id,
+    },
   })
 
   return PostWorker<typeof Parse>(Worker, data, Date.now())

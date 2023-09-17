@@ -1,7 +1,7 @@
 {
   "name": "manga-raiku",
   "packageName": "git.shin.raiku",
-  "version": "0.0.16",
+  "version": "0.0.19",
   "description": "App reading manga, comic safe, free, private and ad-free.",
   "productName": "Raiku",
   "productDescription": "Ứng dụng đọc truyện tranh, truyện tranh an toàn, miễn phí, riêng tư và không có quảng cáo",
@@ -40,7 +40,7 @@
     "db:stop": "supabase stop",
     "db:gen": "supabase gen",
     "db:migration": "supabase migration",
-    "release:pwa": "bumpp --commit '(chore): release PWA %s' --tag 'pwa@%s'",
+    "release:pwa": "bumpp --commit \"(chore): release PWA %s\" --tag \"pwa@%s\"",
     "release:android": "tsx scripts/bumpp-android.ts",
     "release:ios": "tsx scripts/bumpp-ios.ts"
   },
@@ -58,6 +58,7 @@
     "@supabase/supabase-js": "^2.33.1",
     "@tachibana-shin/capacitor-filesystem": "^5.0.2",
     "@unhead/vue": "^1.6.2",
+    "@vueuse/components": "^10.4.1",
     "@vueuse/core": "^10.2.1",
     "@vueuse/math": "^10.2.1",
     "@vueuse/shared": "^10.2.1",

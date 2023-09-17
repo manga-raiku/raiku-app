@@ -27,7 +27,8 @@ export const vitePlugins: [
     },
   ],
   [ReWriteAll, {}],
-  [() => RemoveConsole, {}],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [RemoveConsole as unknown as any, {}],
   [
     Layouts,
     {
