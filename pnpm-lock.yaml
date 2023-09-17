@@ -302,8 +302,8 @@ devDependencies:
     specifier: ^4.0.2
     version: 4.0.2
   happy-dom:
-    specifier: ^9.20.3
-    version: 9.20.3
+    specifier: ^11.0.2
+    version: 11.0.2
   javascript-obfuscator:
     specifier: ^4.0.2
     version: 4.0.2
@@ -372,7 +372,7 @@ devDependencies:
     version: 0.8.0(vite@2.9.16)(vue-router@4.2.4)(vue@3.2.45)
   vitest:
     specifier: ^0.31.0
-    version: 0.31.0(@vitest/ui@0.31.0)(happy-dom@9.20.3)(jsdom@21.1.0)(sass@1.32.11)
+    version: 0.31.0(@vitest/ui@0.31.0)(happy-dom@11.0.2)(jsdom@21.1.0)(sass@1.32.11)
   vue-tsc:
     specifier: ^1.8.5
     version: 1.8.5(typescript@5.0.4)
@@ -3571,7 +3571,7 @@ packages:
       quasar: 2.12.2
       vite-jsconfig-paths: 2.0.1(vite@2.9.16)
       vite-tsconfig-paths: 3.6.0(vite@2.9.16)
-      vitest: 0.31.0(@vitest/ui@0.31.0)(happy-dom@9.20.3)(jsdom@21.1.0)(sass@1.32.11)
+      vitest: 0.31.0(@vitest/ui@0.31.0)(happy-dom@11.0.2)(jsdom@21.1.0)(sass@1.32.11)
       vue: 3.2.45
     transitivePeerDependencies:
       - encoding
@@ -4707,7 +4707,7 @@ packages:
       pathe: 1.1.1
       picocolors: 1.0.0
       sirv: 2.0.3
-      vitest: 0.31.0(@vitest/ui@0.31.0)(happy-dom@9.20.3)(jsdom@21.1.0)(sass@1.32.11)
+      vitest: 0.31.0(@vitest/ui@0.31.0)(happy-dom@11.0.2)(jsdom@21.1.0)(sass@1.32.11)
     dev: true
 
   /@vitest/utils@0.31.0:
@@ -4724,7 +4724,7 @@ packages:
       vitest: '*'
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
-      vitest: 0.31.0(@vitest/ui@0.31.0)(happy-dom@9.20.3)(jsdom@21.1.0)(sass@1.32.11)
+      vitest: 0.31.0(@vitest/ui@0.31.0)(happy-dom@11.0.2)(jsdom@21.1.0)(sass@1.32.11)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -9396,6 +9396,17 @@ packages:
       duplexer: 0.1.2
     dev: true
 
+  /happy-dom@11.0.2:
+    resolution: {integrity: sha512-0yyYIBCByZVgWNuM+/tXXaAR+YUjsoXmzDisQ/KPI7Dt9kXtsPUOU6JAc/isVxridmeSb9/icthsaAhUBKJa4g==}
+    dependencies:
+      css.escape: 1.5.1
+      entities: 4.5.0
+      iconv-lite: 0.6.3
+      webidl-conversions: 7.0.0
+      whatwg-encoding: 2.0.0
+      whatwg-mimetype: 3.0.0
+    dev: true
+
   /happy-dom@8.9.0:
     resolution: {integrity: sha512-JZwJuGdR7ko8L61136YzmrLv7LgTh5b8XaEM3P709mLjyQuXJ3zHTDXvUtBBahRjGlcYW0zGjIiEWizoTUGKfA==}
     dependencies:
@@ -9408,17 +9419,6 @@ packages:
       whatwg-mimetype: 3.0.0
     transitivePeerDependencies:
       - encoding
-    dev: true
-
-  /happy-dom@9.20.3:
-    resolution: {integrity: sha512-eBsgauT435fXFvQDNcmm5QbGtYzxEzOaX35Ia+h6yP/wwa4xSWZh1CfP+mGby8Hk6Xu59mTkpyf72rUXHNxY7A==}
-    dependencies:
-      css.escape: 1.5.1
-      entities: 4.5.0
-      iconv-lite: 0.6.3
-      webidl-conversions: 7.0.0
-      whatwg-encoding: 2.0.0
-      whatwg-mimetype: 3.0.0
     dev: true
 
   /has-bigints@1.0.2:
@@ -14593,7 +14593,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest@0.31.0(@vitest/ui@0.31.0)(happy-dom@9.20.3)(jsdom@21.1.0)(sass@1.32.11):
+  /vitest@0.31.0(@vitest/ui@0.31.0)(happy-dom@11.0.2)(jsdom@21.1.0)(sass@1.32.11):
     resolution: {integrity: sha512-JwWJS9p3GU9GxkG7eBSmr4Q4x4bvVBSswaCFf1PBNHiPx00obfhHRJfgHcnI0ffn+NMlIh9QGvG75FlaIBdKGA==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -14639,7 +14639,7 @@ packages:
       chai: 4.3.7
       concordance: 5.0.4
       debug: 4.3.4(supports-color@8.1.1)
-      happy-dom: 9.20.3
+      happy-dom: 11.0.2
       jsdom: 21.1.0
       local-pkg: 0.4.3
       magic-string: 0.30.0
