@@ -12,7 +12,7 @@ export function formatView(view: number): string {
   //   i++
   // }
 
-  return `${parseFloat(view.toFixed(2)).toString().replace(/\./, ",")}${
+  return `${parseFloat(view.toFixed(2)).toString().replace(/\./g, ",")}${
     levels[index]
   }`
 }

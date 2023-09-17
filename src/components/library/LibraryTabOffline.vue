@@ -90,7 +90,7 @@
           :loading="removing"
           @click="remove"
         >
-          <i-solar-trash-bin-minimalistic-broken mr-1 class="size-1.5em" />
+          <i-solar-trash-bin-minimalistic-broken class="size-1.5em mr-1" />
           {{ $t("xoa") }}
         </q-btn>
       </q-toolbar>

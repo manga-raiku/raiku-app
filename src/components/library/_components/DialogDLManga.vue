@@ -106,7 +106,7 @@
             :loading="removing"
             @click="remove"
           >
-            <i-solar-trash-bin-minimalistic-broken mr-1 class="size-1.5em" />
+            <i-solar-trash-bin-minimalistic-broken class="size-1.5em mr-1" />
             {{ $t("xoa") }}
           </q-btn>
         </q-toolbar>
@@ -140,7 +140,7 @@
                 no-caps
                 :outline="!mapEp?.has(data.id)"
                 :disable="mapEp?.has(data.id)"
-                class="bg-gray-400 bg-opacity-10 w-full text-light-200 text-opacity-90 text-weight-regular"
+                class="bg-gray-400 bg-opacity-10 w-full text-light-200 text-opacity-90 text-weight-regular class=before:text-#fff before:text-opacity-20 px-4"
                 :class="{
                   'text-blue': epsSelected.has(data),
                 }"

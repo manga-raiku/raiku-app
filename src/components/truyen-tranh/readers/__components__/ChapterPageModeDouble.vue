@@ -7,6 +7,7 @@
   >
     <PageView
       class="object-scale-down h-full"
+      loader-absolute
       :class="{
         'ml-auto': prime,
       }"

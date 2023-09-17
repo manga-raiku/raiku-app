@@ -9,13 +9,17 @@
   />
   <div
     v-if="!loaded"
-    class="text-center w-100% aspect-ratio-2 flex items-center justify-center"
+    v-bind="attrs"
+    class="text-center w-100% min-h-40vh aspect-ratio-2 flex items-center justify-center"
+    :class="loaderAbsolute ? 'absolute top-0 left-0 w-full h-full' : undefined"
   >
     <slot v-if="intersection?.isIntersecting" name="loading" />
   </div>
   <div
     v-else-if="error"
+    v-bind="attrs"
     class="w-550px max-w-100% aspect-ratio-2 flex items-center justify-center"
+    :class="loaderAbsolute ? 'absolute top-0 left-0 w-full h-full' : undefined"
   >
     <p>
       {{ $t("error-load-image", [error + "" || -1]) }}
@@ -40,6 +44,7 @@ defineOptions({
 
 const props = defineProps<{
   src: string
+  loaderAbsolute?: boolean
 }>()
 const emit = defineEmits<{
   (

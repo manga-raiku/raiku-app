@@ -187,5 +187,10 @@
   "bang-xep-hang-type": "Bảng xếp hạng {0}",
   "the-loai-name": "Thể loại {0}",
   "title-page-meta-manga": "{0} {1} [Chương mới {2}]",
-  "tat-ca": "tất cả"
+  "tat-ca": "tất cả",
+  "thao-luan": "Thảo luận",
+  "kiem-tra-cap-nhat": "Kiểm tra cập nhật",
+  "chuong": "Chương",
+  "phong-to": "Phóng to",
+  "name-chuong-ep-name": "{0} Chương {1}"
 }

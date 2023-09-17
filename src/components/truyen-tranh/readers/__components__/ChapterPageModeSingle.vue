@@ -5,7 +5,7 @@
     @mousedown.prevent="onMouseDown"
   >
     <div
-      class="relative transition-width,height duration-444ms"
+      class="relative transition-width,height duration-444ms flex items-center justify-center"
       ref="overflowRef"
       :style="{
         width: `${zoom}%`,
@@ -14,6 +14,7 @@
     >
       <PageView
         class="object-scale-down h-full mx-auto"
+        loader-absolute
         :src="src"
         @load="(image) => emit('load', image)"
       >

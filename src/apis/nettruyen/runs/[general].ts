@@ -19,7 +19,9 @@ export default async function (
     url.searchParams.set(key, query[key] + "")
   }
 
-  const { data } = await get(`${CURL}/${url.pathname}?${url.searchParams + ""}`)
+  const { data } = await get({
+    url: `${CURL}/${url.pathname}?${url.searchParams + ""}`,
+  })
 
   return PostWorker<typeof Parse>(Worker, data, Date.now())
 }

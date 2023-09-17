@@ -58,7 +58,7 @@
             :filter="data.filters"
             class="my-3"
           />
-          <template v-if="data && !loading">
+          <template v-if="data">
             <!-- <div
             v-if="data.maxPage > 1"
             class="flex items-center justify-center q-pa-md"
@@ -88,6 +88,11 @@
             <Pagination :max="data.maxPage" v-model="page" />
           </div> -->
           </template>
+          <ErrorDisplay
+            v-else-if="error"
+            :error="error"
+            :retry-async="runAsync"
+          />
           <template v-else>
             <section class="row mx--2 font-family-poppins">
               <div
@@ -169,7 +174,7 @@ const page = computed<number>({
     }),
 })
 
-const { data, loading, error } = useRequest(
+const { data, error, runAsync } = useRequest(
   async () => {
     const data = await BangXepHangType(
       valuesOf[props.type.toLowerCase()],

@@ -4,19 +4,21 @@ import type { LocationQuery } from "vue-router"
 import type Parse from "../../parsers/[general]"
 import Worker from "../../workers/[general]?worker"
 
+import { CURL } from "./../../const"
+
 export default async function (
   slug: string,
   page: number,
   query: LocationQuery,
 ) {
-  const { data, url } = await get(
-    `/the-loai/${slug.replace(
+  const { data, url } = await get({
+    url: `${CURL}/the-loai/${slug.replace(
       ".html",
       "",
     )}/trang-${page}.html?${new URLSearchParams(
       query as Record<string, string>,
     )}`,
-  )
+  })
 
   console.log(
     `/the-loai/${slug.replace(

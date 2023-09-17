@@ -1,13 +1,12 @@
 import { API_CURL } from "../../const"
 
 export default async function (token: string) {
-  const { data } = await post(
-    `${API_CURL}/Comic/Services/ComicService.asmx/CheckAuth`,
-    {},
-    {
+  const { data } = await post({
+    url: `${API_CURL}/Comic/Services/ComicService.asmx/CheckAuth`,
+    headers: {
       cookie: `.ASPXAUTH=${token}`,
     },
-  )
+  })
 
   const $data = JSON.parse(data) as {
     userGuid: string
