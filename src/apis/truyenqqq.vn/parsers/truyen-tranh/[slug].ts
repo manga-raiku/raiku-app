@@ -50,8 +50,7 @@ export default function manga(html: string, now: number) {
       const $item = $(item)
       const $time = $item.find(".time-chap")
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const data = parseAnchor($item.find("a"))!
-      data.name = normalizeChName(data.name)
+      const data = parseAnchor($item.find("a"), normalizeChName)!
 
       return {
         ...data,

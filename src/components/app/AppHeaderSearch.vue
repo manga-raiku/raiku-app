@@ -113,7 +113,7 @@
 import { useEventListener } from "@vueuse/core"
 import { debounce } from "perfect-debounce"
 import { QInput } from "quasar"
-import PreSearch from "src/apis/nettruyen/runs/pre-search"
+import { nettruyen } from "src/apis/nettruyen/runs/$"
 
 // key bind
 
@@ -126,7 +126,7 @@ const {
   data: searchResult,
   loading: searchLoading,
   runAsync,
-} = useRequest(() => PreSearch(query.value, 1), {
+} = useRequest(() => nettruyen.searchQuickly(query.value, 1), {
   manual: true,
 })
 watch(query, debounce(runAsync, 300))

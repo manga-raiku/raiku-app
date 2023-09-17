@@ -15,10 +15,13 @@
         </div>
 
         <ul class="mt-2 children:mx-24.5px flex items-center justify-center">
-          <li v-for="item in typesRank" :key="item.path">
+          <li v-for="item in typesRank" :key="item.value">
             <q-btn
               :to="{
-                path: item.path,
+                ...route,
+                params: {
+                  type: item.value,
+                },
                 query: route.query,
                 hash: route.hash,
               }"
@@ -27,10 +30,7 @@
               rounded
               unelevated
               :class="{
-                '!opacity-100': pathEqual(
-                  router.resolve(item.path).path,
-                  route.path,
-                ),
+                '!opacity-100': item.value === type,
               }"
               >{{ item.name }}</q-btn
             >
@@ -46,8 +46,7 @@
             <!-- #8c6b1c #548c76 -->
             <span class="text-main-2 text-16px mx-2 text-weight-medium">{{
               $t("bang-type", [
-                typesRank.find((item) => pathEqual(item.path, route.path))
-                  ?.name,
+                typesRank.find((item) => item.value === type)?.name,
               ])
             }}</span>
             <TrendingCardIconRight class="rotate-180deg text-main-4" />
@@ -119,8 +118,7 @@
 
 <script lang="ts" setup>
 // import data from "src/apis/parsers/__test__/assets/top-ngay.json"
-import BangXepHangType from "src/apis/nettruyen/runs/[general]"
-import { pathEqual } from "src/logic/path-equal"
+import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
 
 const route = useRoute()
 const router = useRouter()
@@ -130,24 +128,19 @@ const props = defineProps<{
   type: string
 }>()
 
-const typesRank = computed(() => [
-  {
-    name: i18n.t("ngay"),
-    path: "/bang-xep-hang/ngay",
-  },
-  {
-    name: i18n.t("tuan"),
-    path: "/bang-xep-hang/tuan",
-  },
-  {
-    name: i18n.t("thang"),
-    path: "/bang-xep-hang/thang",
-  },
-])
+const typesRank = computed(() =>
+  Nettruyen.Rankings.map((item) => {
+    return {
+      value: item.value,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      name: (item.name as unknown as any)[i18n.locale.value],
+    }
+  }),
+)
 
 const title = () =>
   i18n.t("bang-xep-hang-type", [
-    typesRank.value.find((item) => pathEqual(item.path, route.path))?.name,
+    typesRank.value.find((item) => item.value === props.type)?.name,
   ])
 useSeoMeta({
   title,
@@ -155,12 +148,6 @@ useSeoMeta({
   ogTitle: title,
   ogDescription: title,
 })
-
-const valuesOf: Record<string, string> = {
-  ngay: "/tim-truyen?status=-1&sort=13",
-  tuan: "/tim-truyen?status=-1&sort=12",
-  thang: "/tim-truyen?status=-1&sort=11",
-}
 
 const page = computed<number>({
   get: () => parseInt(route.query.page?.toString() ?? "1") || 1,
@@ -176,10 +163,10 @@ const page = computed<number>({
 
 const { data, error, runAsync } = useRequest(
   async () => {
-    const data = await BangXepHangType(
-      valuesOf[props.type.toLowerCase()],
+    const data = await nettruyen.getRanking(
+      props.type,
       page.value,
-      route.query,
+      route.query as Record<string, string>,
     )
     data.items = shallowReactive(data.items)
     return data
@@ -190,7 +177,11 @@ const { data, error, runAsync } = useRequest(
 )
 const onLoad = useLoadMorePage(
   (page) =>
-    BangXepHangType(valuesOf[props.type.toLowerCase()], page, route.query),
+    nettruyen.getRanking(
+      props.type,
+      page,
+      route.query as Record<string, string>,
+    ),
   data,
   page.value,
 )

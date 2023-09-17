@@ -1,6 +1,8 @@
 import type { Database } from "app/database"
 import { defineStore } from "pinia"
 
+import type { ID } from "./../apis/API"
+
 Object.assign(window, { supabase })
 
 export const useFollowStore = defineStore("follow", () => {
@@ -46,7 +48,7 @@ export const useFollowStore = defineStore("follow", () => {
   }
 
   // eslint-disable-next-line camelcase
-  async function check(manga_id: number) {
+  async function check(manga_id: ID) {
     const session = await authStore.assert()
 
     const { data, error } = await supabase

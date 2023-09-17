@@ -10,10 +10,10 @@ global.fetch = vi.fn()
 global.Date.now = vi.fn()
 
 const path = "/manga-1"
-const manga_id = 1
+const manga_id = "1"
 const manga_name = "Manga 1"
 const manga_image = "http://localhost/poster/manga-1.jpg"
-const ep_id = 1234
+const ep_id = "1234"
 const ep_name = "Chapter 1"
 const pages = [
   "https://localhost/pages/1.png",
@@ -119,7 +119,7 @@ describe("download-manager", () => {
       JSON.parse(await readFile(`meta/${hashIDManga}.mod`, Encoding.UTF8)),
     ).toEqual({
       ...metaManga,
-      manga_image: "offline:///poster/1a96284b",
+      manga_image: "offline:///poster/8daa1a0a",
       start_download_at: 0,
     })
 
@@ -135,14 +135,14 @@ describe("download-manager", () => {
       ep_id,
       ep_name,
       pages: [
-        "offline://files/1a96284b/30089c30/1a96284a",
-        "offline://files/1a96284b/30089c30/1a96284b",
-        "offline://files/1a96284b/30089c30/1a96284c",
-        "offline://files/1a96284b/30089c30/1a96284d",
-        "offline://files/1a96284b/30089c30/1a96284e",
-        "offline://files/1a96284b/30089c30/1a96284f",
-        "offline://files/1a96284b/30089c30/1a962850",
-        "offline://files/1a96284b/30089c30/1a962851",
+        "offline://files/8daa1a0a/2d0aa938/1a96284a",
+        "offline://files/8daa1a0a/2d0aa938/1a96284b",
+        "offline://files/8daa1a0a/2d0aa938/1a96284c",
+        "offline://files/8daa1a0a/2d0aa938/1a96284d",
+        "offline://files/8daa1a0a/2d0aa938/1a96284e",
+        "offline://files/8daa1a0a/2d0aa938/1a96284f",
+        "offline://files/8daa1a0a/2d0aa938/1a962850",
+        "offline://files/8daa1a0a/2d0aa938/1a962851",
       ],
     })
 
@@ -210,11 +210,11 @@ describe("download-manager", () => {
       ep_id,
       ep_name,
       pages: [
-        "offline://files/1a96284b/30089c30/1a96284a",
-        "offline://files/1a96284b/30089c30/1a96284b",
-        "offline://files/1a96284b/30089c30/1a96284c",
-        "offline://files/1a96284b/30089c30/1a96284d",
-        "offline://files/1a96284b/30089c30/1a96284e",
+        "offline://files/8daa1a0a/2d0aa938/1a96284a",
+        "offline://files/8daa1a0a/2d0aa938/1a96284b",
+        "offline://files/8daa1a0a/2d0aa938/1a96284c",
+        "offline://files/8daa1a0a/2d0aa938/1a96284d",
+        "offline://files/8daa1a0a/2d0aa938/1a96284e",
         "https://localhost/pages/6.png",
         "https://localhost/pages/7.png",
         "https://localhost/pages/8.png",
@@ -280,11 +280,11 @@ describe("download-manager", () => {
       start_download_at: 0,
       downloaded: 5,
       pages: [
-        "offline://files/1a96284b/30089c30/1a96284a",
-        "offline://files/1a96284b/30089c30/1a96284b",
-        "offline://files/1a96284b/30089c30/1a96284c",
-        "offline://files/1a96284b/30089c30/1a96284d",
-        "offline://files/1a96284b/30089c30/1a96284e",
+        "offline://files/8daa1a0a/2d0aa938/1a96284a",
+        "offline://files/8daa1a0a/2d0aa938/1a96284b",
+        "offline://files/8daa1a0a/2d0aa938/1a96284c",
+        "offline://files/8daa1a0a/2d0aa938/1a96284d",
+        "offline://files/8daa1a0a/2d0aa938/1a96284e",
         "https://localhost/pages/6.png",
         "https://localhost/pages/7.png",
         "https://localhost/pages/8.png",
@@ -335,14 +335,14 @@ describe("download-manager", () => {
       ep_id,
       ep_name,
       pages: [
-        "offline://files/1a96284b/30089c30/1a96284a",
-        "offline://files/1a96284b/30089c30/1a96284b",
-        "offline://files/1a96284b/30089c30/1a96284c",
-        "offline://files/1a96284b/30089c30/1a96284d",
-        "offline://files/1a96284b/30089c30/1a96284e",
-        "offline://files/1a96284b/30089c30/1a96284f",
-        "offline://files/1a96284b/30089c30/1a962850",
-        "offline://files/1a96284b/30089c30/1a962851",
+        "offline://files/8daa1a0a/2d0aa938/1a96284a",
+        "offline://files/8daa1a0a/2d0aa938/1a96284b",
+        "offline://files/8daa1a0a/2d0aa938/1a96284c",
+        "offline://files/8daa1a0a/2d0aa938/1a96284d",
+        "offline://files/8daa1a0a/2d0aa938/1a96284e",
+        "offline://files/8daa1a0a/2d0aa938/1a96284f",
+        "offline://files/8daa1a0a/2d0aa938/1a962850",
+        "offline://files/8daa1a0a/2d0aa938/1a962851",
       ],
     })
   })
@@ -413,14 +413,14 @@ describe("download-manager", () => {
       ep_id,
       ep_name,
       pages: [
-        "offline://files/1a96284b/30089c30/1a96284a",
-        "offline://files/1a96284b/30089c30/1a96284b",
-        "offline://files/1a96284b/30089c30/1a96284c",
-        "offline://files/1a96284b/30089c30/1a96284d",
-        "offline://files/1a96284b/30089c30/1a96284e",
-        "offline://files/1a96284b/30089c30/1a96284f",
-        "offline://files/1a96284b/30089c30/1a962850",
-        "offline://files/1a96284b/30089c30/1a962851",
+        "offline://files/8daa1a0a/2d0aa938/1a96284a",
+        "offline://files/8daa1a0a/2d0aa938/1a96284b",
+        "offline://files/8daa1a0a/2d0aa938/1a96284c",
+        "offline://files/8daa1a0a/2d0aa938/1a96284d",
+        "offline://files/8daa1a0a/2d0aa938/1a96284e",
+        "offline://files/8daa1a0a/2d0aa938/1a96284f",
+        "offline://files/8daa1a0a/2d0aa938/1a962850",
+        "offline://files/8daa1a0a/2d0aa938/1a962851",
       ],
     })
   })
@@ -434,7 +434,7 @@ describe("download-manager", () => {
       {
         path,
         manga_id,
-        manga_image: "offline:///poster/1a96284b",
+        manga_image: "offline:///poster/8daa1a0a",
         manga_name,
         start_download_at: 0,
       },
@@ -442,7 +442,7 @@ describe("download-manager", () => {
 
     const meta2 = {
       ...metaManga,
-      manga_id: 2,
+      manga_id: "2",
     }
 
     await createTaskDownloadEpisode(meta2, metaEp).start()
@@ -450,15 +450,15 @@ describe("download-manager", () => {
     expect(await getListManga()).toEqual([
       {
         path,
-        manga_id,
-        manga_image: "offline:///poster/1a96284b",
+        manga_id: "2",
+        manga_image: "offline:///poster/8daa1a08",
         manga_name,
         start_download_at: 0,
       },
       {
         path,
-        manga_id: 2,
-        manga_image: "offline:///poster/1a96284c",
+        manga_id,
+        manga_image: "offline:///poster/8daa1a0a",
         manga_name,
         start_download_at: 0,
       },
@@ -477,14 +477,14 @@ describe("download-manager", () => {
         ep_id,
         ep_name,
         pages: [
-          "offline://files/1a96284b/30089c30/1a96284a",
-          "offline://files/1a96284b/30089c30/1a96284b",
-          "offline://files/1a96284b/30089c30/1a96284c",
-          "offline://files/1a96284b/30089c30/1a96284d",
-          "offline://files/1a96284b/30089c30/1a96284e",
-          "offline://files/1a96284b/30089c30/1a96284f",
-          "offline://files/1a96284b/30089c30/1a962850",
-          "offline://files/1a96284b/30089c30/1a962851",
+          "offline://files/8daa1a0a/2d0aa938/1a96284a",
+          "offline://files/8daa1a0a/2d0aa938/1a96284b",
+          "offline://files/8daa1a0a/2d0aa938/1a96284c",
+          "offline://files/8daa1a0a/2d0aa938/1a96284d",
+          "offline://files/8daa1a0a/2d0aa938/1a96284e",
+          "offline://files/8daa1a0a/2d0aa938/1a96284f",
+          "offline://files/8daa1a0a/2d0aa938/1a962850",
+          "offline://files/8daa1a0a/2d0aa938/1a962851",
         ],
       },
     ])
@@ -498,37 +498,37 @@ describe("download-manager", () => {
     expect(await getListEpisodes(manga_id)).toEqual([
       {
         path: pathEp,
-        start_download_at: 1,
-        downloaded: 8,
-        ep_id: 1235,
-        ep_name,
-        pages: [
-          "offline://files/1a96284b/30089c2e/1a96284a",
-          "offline://files/1a96284b/30089c2e/1a96284b",
-          "offline://files/1a96284b/30089c2e/1a96284c",
-          "offline://files/1a96284b/30089c2e/1a96284d",
-          "offline://files/1a96284b/30089c2e/1a96284e",
-          "offline://files/1a96284b/30089c2e/1a96284f",
-          "offline://files/1a96284b/30089c2e/1a962850",
-          "offline://files/1a96284b/30089c2e/1a962851",
-        ],
-      },
-      {
-        path: pathEp,
         start_download_at: 0,
         downloaded: 8,
         ep_id,
         ep_name,
         pages: [
-          "offline://files/1a96284b/30089c30/1a96284a",
-          "offline://files/1a96284b/30089c30/1a96284b",
-          "offline://files/1a96284b/30089c30/1a96284c",
-          "offline://files/1a96284b/30089c30/1a96284d",
-          "offline://files/1a96284b/30089c30/1a96284e",
-          "offline://files/1a96284b/30089c30/1a96284f",
-          "offline://files/1a96284b/30089c30/1a962850",
-          "offline://files/1a96284b/30089c30/1a962851",
+          "offline://files/8daa1a0a/2d0aa938/1a96284a",
+          "offline://files/8daa1a0a/2d0aa938/1a96284b",
+          "offline://files/8daa1a0a/2d0aa938/1a96284c",
+          "offline://files/8daa1a0a/2d0aa938/1a96284d",
+          "offline://files/8daa1a0a/2d0aa938/1a96284e",
+          "offline://files/8daa1a0a/2d0aa938/1a96284f",
+          "offline://files/8daa1a0a/2d0aa938/1a962850",
+          "offline://files/8daa1a0a/2d0aa938/1a962851",
         ],
+      },
+      {
+        downloaded: 8,
+        ep_id: "12341",
+        ep_name: "Chapter 1",
+        pages: [
+          "offline://files/8daa1a0a/744a7df9/1a96284a",
+          "offline://files/8daa1a0a/744a7df9/1a96284b",
+          "offline://files/8daa1a0a/744a7df9/1a96284c",
+          "offline://files/8daa1a0a/744a7df9/1a96284d",
+          "offline://files/8daa1a0a/744a7df9/1a96284e",
+          "offline://files/8daa1a0a/744a7df9/1a96284f",
+          "offline://files/8daa1a0a/744a7df9/1a962850",
+          "offline://files/8daa1a0a/744a7df9/1a962851",
+        ],
+        path: "/manga-1/chap-1",
+        start_download_at: 1,
       },
     ])
     ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(0)

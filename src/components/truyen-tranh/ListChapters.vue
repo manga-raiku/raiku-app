@@ -130,8 +130,8 @@
 import "@fontsource/poppins"
 import type { QBtn } from "quasar"
 import { QTab, QTabs } from "quasar"
-import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
-import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
+import type { Chapter, ID } from "src/apis/API"
+import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
 import dayjs from "src/logic/dayjs"
 import type { MetaManga, TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
@@ -142,16 +142,11 @@ const props = defineProps<{
 
   focusTabActive?: boolean
 
-  readsChapter?: Set<number>
-  mapOffline?: Map<number, TaskDDEp | TaskDLEp>
+  readsChapter?: Set<ID>
+  mapOffline?: Map<ID, TaskDDEp | TaskDLEp>
   metaManga?: MetaManga
 
-  chapters: {
-    id: number
-    path: string
-    name: string
-    updated_at: number | null
-  }[]
+  chapters: readonly Chapter[]
 
   noDownload?: boolean
 }>()
@@ -219,18 +214,16 @@ function onWheelTabs(event: WheelEvent) {
     ?.scrollBy({ left: event.deltaY * 2, behavior: "smooth" })
 }
 
-async function downloadEp(item: { path: string; id: number; name: string }) {
-  const conf = await SlugChapChap(
-    item.path.split("/").slice(2).join("/"),
-    false,
-  )
+async function downloadEp(item: { path: string; id: ID; name: string }) {
+  const { mangaId, epId } = nettruyen.resolveUrlComicChapter(item.path)
+  const conf = await nettruyen.getComicChapter(mangaId, epId, false)
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   IDMStore.download(props.metaManga!, {
     path: item.path,
     ep_id: item.id,
     ep_name: item.name,
-    pages: conf.pages.map((item) => SERVERS[0].parse(item, conf)),
+    pages: conf.pages.map((item) => Nettruyen.Servers[0].parse(item, conf)),
   })
 }
 </script>

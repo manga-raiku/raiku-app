@@ -99,6 +99,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { ID } from "src/apis/API"
+
 const props = defineProps<{
   visible?: boolean
 }>()
@@ -114,7 +116,7 @@ watch(
 )
 
 const editMode = ref(false)
-const mangaSelected = shallowReactive<Set<number>>(new Set())
+const mangaSelected = shallowReactive<Set<ID>>(new Set())
 
 const metaMangaShowInfo = ref<(typeof IDMStore.listMangaSorted)[0] | null>(null)
 

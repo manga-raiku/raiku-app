@@ -1,5 +1,6 @@
 import type { Database } from "app/database"
 import { defineStore } from "pinia"
+import type { ID } from "src/apis/API"
 
 export const useHistoryStore = defineStore("history", () => {
   const authStore = useAuthStore()
@@ -40,7 +41,7 @@ export const useHistoryStore = defineStore("history", () => {
   }
 
   // eslint-disable-next-line camelcase
-  async function getListEpRead(manga_id: number) {
+  async function getListEpRead(manga_id: ID) {
     await authStore.assert()
 
     // eslint-disable-next-line camelcase
@@ -52,7 +53,7 @@ export const useHistoryStore = defineStore("history", () => {
   }
 
   // eslint-disable-next-line camelcase
-  async function getLastEpRead(manga_id: number) {
+  async function getLastEpRead(manga_id: ID) {
     const session = await authStore.assert()
 
     const { data, error } = await supabase

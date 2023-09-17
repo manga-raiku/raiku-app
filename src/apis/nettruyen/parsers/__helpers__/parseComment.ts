@@ -3,32 +3,14 @@ import type { Cheerio, CheerioAPI, Element } from "cheerio"
 import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
 import { normalizeChName } from "src/logic/normalize-ch-name"
 
+import type { Comment } from "./../../../API"
 import { getImage } from "./getImage"
-
-export interface RComment {
-  id: number
-  author: {
-    avatar: string
-    name: string
-    level: {
-      current: number
-      perNext: number
-    }
-    chapter: string
-  }
-  content: string | null
-  like: number
-  dislike: number
-  created_at: number
-  replies: RComment[]
-  chapter_name: string | null
-}
 
 export function parseComment(
   $: CheerioAPI,
   $item: Cheerio<Element>,
   now: number,
-): RComment {
+): Comment {
   const id = parseInt(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     $item.attr("id")!.match(/\d+/)![0],
@@ -61,7 +43,7 @@ export function parseComment(
   const dislike = parseInt($item.find(".vote-down-count").text())
   const created_at = parseTimeAgo($item.find("abbr:eq(0)").text(), now)
 
-  const repiles: RComment[] = $item
+  const repiles: Comment[] = $item
     .find(".item.child")
     .toArray()
     .map((item) => parseComment($, $item.find(item), now))

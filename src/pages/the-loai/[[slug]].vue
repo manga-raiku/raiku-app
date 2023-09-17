@@ -46,8 +46,8 @@ meta:
 
 <script lang="ts" setup>
 // import data from "src/apis/parsers/__test__/assets/the-loai/fantacy-30.json"
-import General from "src/apis/nettruyen/runs/[general]"
 import "@fontsource/poppins"
+import { nettruyen } from "src/apis/nettruyen/runs/$"
 
 const props = defineProps<{
   slug?: string
@@ -71,10 +71,10 @@ const page = computed<number>({
 
 const { data, runAsync, error } = useRequest(
   async () => {
-    const data = await General(
-      `/tim-truyen/${props.slug}`,
+    const data = await nettruyen.getCategory(
+      props.slug ?? "",
       page.value,
-      route.query,
+      route.query as Record<string, string>,
     )
     data.items = shallowReactive(data.items)
     return data
@@ -87,7 +87,12 @@ const { data, runAsync, error } = useRequest(
   },
 )
 const onLoad = useLoadMorePage(
-  (page) => General(`/tim-truyen/${props.slug}`, page, route.query),
+  (page) =>
+    nettruyen.getCategory(
+      props.slug ?? "",
+      page,
+      route.query as Record<string, string>,
+    ),
   data,
   page.value,
 )

@@ -8,12 +8,14 @@ import type {
 } from "src/logic/download-manager"
 import type { ShallowReactive } from "vue"
 
+import type { ID } from "./../apis/API"
+
 export const useIDMStore = defineStore("IDM", () => {
   const loadingDataInMemory = ref(false)
 
   const mapMetaManga = reactive<
     Map<
-      number,
+      ID,
       ShallowReactive<
         MetaMangaOnDisk & {
           count_ep: number
@@ -22,7 +24,7 @@ export const useIDMStore = defineStore("IDM", () => {
     >
   >(new Map())
   const queue = reactive<
-    Map<number, Map<number, ReturnType<typeof createTaskDownloadEpisode>>>
+    Map<ID, Map<ID, ReturnType<typeof createTaskDownloadEpisode>>>
   >(new Map())
   const listMangaSorted = reactive<
     (MetaMangaOnDisk & {

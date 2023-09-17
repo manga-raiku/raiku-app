@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { CardProps } from "./Card.types"
+import type { MetaManga } from "src/apis/API"
 
 defineProps<{
-  items: CardProps["data"][]
+  items: MetaManga[]
 }>()
 </script>

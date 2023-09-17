@@ -1,3 +1,4 @@
+import type { Chapter, ComicChapter } from "src/apis/API"
 import { parsePath } from "src/apis/__helpers__/parsePath"
 import { PostWorker } from "src/apis/wrap-worker"
 import { normalizeChName } from "src/logic/normalize-ch-name"
@@ -11,14 +12,9 @@ export default async function <Fast extends boolean>(
   fast: Fast,
 ): Promise<
   Fast extends true
-    ? Awaited<ReturnType<typeof Parse>>
-    : Awaited<ReturnType<typeof Parse>> & {
-        chapters: {
-          id: number
-          name: string
-          path: string
-          updated_at: null
-        }[]
+    ? ComicChapter
+    : ComicChapter & {
+        readonly chapters: Chapter[]
       }
 > {
   const { data, url } = await get({ url: `${CURL}/truyen-tranh/${slug}` })
@@ -29,7 +25,7 @@ export default async function <Fast extends boolean>(
   const result = await PostWorker<typeof Parse>(Worker, data, Date.now())
   if (!fast) {
     const { data } = await get({
-      url: `${CURL}/Comic/Services/ComicService.asmx/ProcessChapterList?comicId=${result.uid}`,
+      url: `${CURL}/Comic/Services/ComicService.asmx/ProcessChapterList?comicId=${result.manga_id}`,
     })
     return {
       ...result,

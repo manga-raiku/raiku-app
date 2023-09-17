@@ -7,7 +7,9 @@ import { normalizeChName } from "src/logic/normalize-ch-name"
 import { getImage } from "../__helpers__/getImage"
 import { parseComment } from "../__helpers__/parseComment"
 
-export default function slug(html: string, now: number) {
+import type { Chapter, Comic } from "./../../../API"
+
+export default function slug(html: string, now: number): Comic {
   const $ = parseDom(html)
 
   const $detail = $("#item-detail")
@@ -39,24 +41,24 @@ export default function slug(html: string, now: number) {
     .toArray()
     .map((item) => parseAnchor($(item)))
   const views = parseNumber(
-    $detail.find(".kind").next().find("p:not(.name)").text().replace(/\./g, "")
+    $detail.find(".kind").next().find("p:not(.name)").text().replace(/\./g, ""),
   )
   const $rate = $detail.find("span[itemprop=aggregateRating]")
-  const rate =
-    parseFloat($rate.find("[itemprop=ratingValue]").text()) /
-    parseFloat($rate.find("[itemprop=bestRating]").text())
-  // eslint-disable-next-line camelcase
-  const count_rate = parseInt($rate.find("[itemprop=ratingCount]").text())
+  const rate = {
+    cur: parseFloat($rate.find("[itemprop=ratingValue]").text()),
+    max: parseFloat($rate.find("[itemprop=bestRating]").text()),
+    count: parseInt($rate.find("[itemprop=ratingCount]").text()),
+  }
   const follows = parseNumber($(".follow b").text())
   const description = $(".detail-content p").text()
 
-  const chapters = $("#nt_listchapter .chapter")
+  const chapters: readonly Chapter[] = $("#nt_listchapter .chapter")
     .toArray()
     .map((item) => {
       const $item = $(item)
       const { path, name } = parseAnchor($item.find("a"))
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const id = parseInt($item.find("a").attr("data-id")!)
+      const id = parseInt($item.find("a").attr("data-id")!) + ""
       // eslint-disable-next-line camelcase
       const updated_at = parseTimeAgo($item.next().text(), now) || null
       const views = parseNumber($item.next().next().text().trim())
@@ -71,7 +73,7 @@ export default function slug(html: string, now: number) {
   // eslint-disable-next-line camelcase
   const comments_count = parseInt($(".comment-count").text())
   // eslint-disable-next-line camelcase
-  const comments_page_number =
+  const comments_pages =
     parseInt(
       $("#ctl00_mainContent_divPager > ul > li:nth-child(14) > a")
         .last()
@@ -82,8 +84,8 @@ export default function slug(html: string, now: number) {
   return {
     name,
     othername,
-    uid,
-    key,
+    manga_id: uid + "",
+    // key,
     // eslint-disable-next-line camelcase
     updated_at,
     image,
@@ -92,8 +94,6 @@ export default function slug(html: string, now: number) {
     genres,
     views,
     rate,
-    // eslint-disable-next-line camelcase
-    count_rate,
     follows,
     description,
     chapters,
@@ -102,6 +102,6 @@ export default function slug(html: string, now: number) {
     // eslint-disable-next-line camelcase
     comments_count,
     // eslint-disable-next-line camelcase
-    comments_page_number,
+    comments_pages,
   }
 }

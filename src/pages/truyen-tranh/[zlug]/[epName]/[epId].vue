@@ -26,7 +26,7 @@ meta:
         <i-fluent-arrow-left-24-regular class="size-1.5em" />
       </q-btn>
 
-      <q-btn v-else round unelevated :to="data?.manga" class="mr-1">
+      <q-btn v-else round unelevated :to="data?.path_manga" class="mr-1">
         <i-fluent-text-bullet-list-ltr-24-regular class="size-1.5em" />
       </q-btn>
 
@@ -64,7 +64,7 @@ meta:
 
       <BtnDownload
         v-model="statusEPDL"
-        :manga-id="data?.uid ?? null"
+        :manga-id="data?.manga_id ?? null"
         :ep-id="data?.ep_id ?? null"
         @action:delete="deleteEp"
         :can-download="!!(data && currentEpisode && pages)"
@@ -292,7 +292,7 @@ meta:
                 :map-offline="mapEp"
                 :meta-manga="{
                   path: `/truyen-tranh/${zlug}`,
-                  manga_id: data.uid,
+                  manga_id: data.manga_id,
                   manga_name: data.name,
                   manga_image: data.image,
                 }"
@@ -513,7 +513,7 @@ meta:
             followStore.set(
               {
                 image: data.image,
-                manga_id: data.uid,
+                manga_id: data.manga_id,
                 manga_name: data.name,
                 path: `/truyen-tranh/${zlug}`,
               },
@@ -559,9 +559,9 @@ import { packageName } from "app/package.json"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
+import type { ID } from "src/apis/API"
+import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
-import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
-import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
 const props = defineProps<{
@@ -583,10 +583,12 @@ const router = useRouter()
 const i18n = useI18n()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 const GetWithCache = useWithCache(
-  () => {
-    const path = props.zlug + "/" + props.epName + "/" + props.epId
-    return SlugChapChap(path, false)
-  },
+  () =>
+    nettruyen.getComicChapter(
+      props.zlug,
+      props.epName + "/" + props.epId,
+      false,
+    ),
   computed(
     () =>
       `${packageName}:///manga/${
@@ -644,12 +646,13 @@ const statusEPDL = computedAsync<TaskDDEp | TaskDLEp | null | undefined>(
   async () => {
     if (!data.value) return
 
-    const task = IDMStore.queue.get(data.value.uid)?.get(data.value.ep_id)
+    const task = IDMStore.queue.get(data.value.manga_id)?.get(data.value.ep_id)
     if (task) return task
 
-    const onDisk = await getEpisode(data.value.uid, data.value.ep_id).catch(
-      () => null,
-    )
+    const onDisk = await getEpisode(
+      data.value.manga_id,
+      data.value.ep_id,
+    ).catch(() => null)
 
     if (onDisk) return { ref: onDisk }
     return null
@@ -663,16 +666,16 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   if (!data.value) return
 
   return shallowReactive(
-    await getListEpisodes(data.value.uid).catch(() => []),
+    await getListEpisodes(data.value.manga_id).catch(() => []),
   ).map((ref) => ({ ref }))
 })
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
   if (!data.value) return
 
-  return [...(IDMStore.queue.get(data.value.uid)?.values() ?? [])]
+  return [...(IDMStore.queue.get(data.value.manga_id)?.values() ?? [])]
 })
 
-const mapEp = computed<Map<number, TaskDDEp | TaskDLEp> | undefined>(() => {
+const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   if (!lsEpDD.value || !lsEpDL.value) return
 
   return new Map(
@@ -688,7 +691,7 @@ async function downloadEp() {
   const meta = await IDMStore.download(
     {
       path: `/truyen-tranh/${props.zlug}`,
-      manga_id: data.value.uid,
+      manga_id: data.value.manga_id,
       manga_name: data.value.name,
       manga_image: data.value.image,
     },
@@ -710,7 +713,7 @@ async function downloadEp() {
     lsEpDL.value = [...(lsEpDL.value || [])]
   }
 }
-async function deleteEp(epId: number) {
+async function deleteEp(epId: ID) {
   lsEpDL.value?.splice(
     lsEpDL.value.findIndex((item) => item.ref.ep_id === epId) >>> 0,
     1,
@@ -721,23 +724,23 @@ async function deleteEp(epId: number) {
 const isFollow = computedAsync<boolean | undefined>(() => {
   if (!data.value) return
 
-  return followStore.check(data.value.uid)
+  return followStore.check(data.value.manga_id)
 }, undefined)
 const lastEpRead = computedAsync(() => {
   if (!data.value) return
 
-  return historyStore.getLastEpRead(data.value.uid)
+  return historyStore.getLastEpRead(data.value.manga_id)
 }, undefined)
 const listEpRead = computedAsync(() => {
   if (!data.value) return
 
-  return historyStore.getListEpRead(data.value.uid)
+  return historyStore.getListEpRead(data.value.manga_id)
 })
 
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)
 const serversReady = computed(() =>
-  SERVERS.filter(
+  Nettruyen.Servers.filter(
     (item) => !data.value || item.has(data.value.pages[0], data.value),
   ),
 )
@@ -836,8 +839,10 @@ function onChangeTabEpisodes() {
 
 const fnNextCh = useWithCache(
   async () => {
-    const path = nextEpisode.value!.path
-    return SlugChapChap(path, false)
+    const { mangaId, epId } = nettruyen.resolveUrlComicChapter(
+      nextEpisode.value!.path,
+    )
+    return nettruyen.getComicChapter(mangaId, epId, false)
   },
   computed(() => `${packageName}:///manga/${nextEpisode.value!.path}`),
 )
@@ -901,7 +906,7 @@ watch(
         last_ch_id: ep.id,
         last_ch_name: ep.name,
         last_ch_path: ep.path,
-        manga_id: data.uid,
+        manga_id: data.manga_id,
         manga_name: data.name,
         manga_path: `/truyen-tranh/${zlug}/${epName}/${epId}`,
       })

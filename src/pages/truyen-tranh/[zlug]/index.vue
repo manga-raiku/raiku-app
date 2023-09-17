@@ -55,7 +55,7 @@ meta:
             {{ data.othername }}
           </h2>
           <small class="text-14px text-gray-400 my-2">{{
-            $t("val-luot-xem", [data.views ? (data.views) : "N/A"])
+            $t("val-luot-xem", [data.views ? data.views : "N/A"])
           }}</small>
 
           <div
@@ -86,8 +86,9 @@ meta:
               />
               {{
                 $t("val-slash-max-count-rate", [
-                  data.rate * 5,
-                  formatView(data.count_rate),
+                  data.rate.cur,
+                  data.rate.max,
+                  formatView(data.rate.count),
                 ])
               }}
             </div>
@@ -155,7 +156,7 @@ meta:
               followStore.set(
                 {
                   image: data.image,
-                  manga_id: data.uid,
+                  manga_id: data.manga_id,
                   manga_name: data.name,
                   path: `/truyen-tranh/${zlug}`,
                 },
@@ -189,7 +190,7 @@ meta:
           :map-offline="mapEp"
           :meta-manga="{
             path: `/truyen-tranh/${zlug}`,
-            manga_id: data.uid,
+            manga_id: data.manga_id,
             manga_name: data.name,
             manga_image: data.image,
           }"
@@ -330,7 +331,7 @@ meta:
             followStore.set(
               {
                 image: data.image,
-                manga_id: data.uid,
+                manga_id: data.manga_id,
                 manga_name: data.name,
                 path: `/truyen-tranh/${zlug}`,
               },
@@ -382,7 +383,8 @@ import { useShare } from "@vueuse/core"
 // import Like from "src/apis/runs/frontend/regiter-like"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import { packageName } from "app/package.json"
-import Manga from "src/apis/nettruyen/runs/truyen-tranh/[slug]"
+import type { ID } from "src/apis/API"
+import { nettruyen } from "src/apis/nettruyen/runs/$"
 import dayjs from "src/logic/dayjs"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 import { formatView } from "src/logic/formatView"
@@ -399,7 +401,7 @@ const followStore = useFollowStore()
 const historyStore = useHistoryStore()
 const IDMStore = useIDMStore()
 const GetWithCache = useWithCache(
-  () => Manga(props.zlug),
+  () => nettruyen.getComic(props.zlug),
   computed(() => `${packageName}:///manga/${props.zlug}`),
 )
 
@@ -443,16 +445,16 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   if (!data.value) return
 
   return shallowReactive(
-    await getListEpisodes(data.value.uid).catch(() => []),
+    await getListEpisodes(data.value.manga_id).catch(() => []),
   ).map((ref) => ({ ref }))
 })
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
   if (!data.value) return
 
-  return [...(IDMStore.queue.get(data.value.uid)?.values() ?? [])]
+  return [...(IDMStore.queue.get(data.value.manga_id)?.values() ?? [])]
 })
 
-const mapEp = computed<Map<number, TaskDDEp | TaskDLEp> | undefined>(() => {
+const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   if (!lsEpDD.value || !lsEpDL.value) return
 
   return new Map(
@@ -465,17 +467,17 @@ const mapEp = computed<Map<number, TaskDDEp | TaskDLEp> | undefined>(() => {
 const isFollow = computedAsync<boolean | undefined>(() => {
   if (!data.value) return
 
-  return followStore.check(data.value.uid)
+  return followStore.check(data.value.manga_id)
 }, undefined)
 const lastEpRead = computedAsync(() => {
   if (!data.value) return
 
-  return historyStore.getLastEpRead(data.value.uid)
+  return historyStore.getLastEpRead(data.value.manga_id)
 }, undefined)
 const listEpRead = computedAsync(() => {
   if (!data.value) return
 
-  return historyStore.getListEpRead(data.value.uid)
+  return historyStore.getListEpRead(data.value.manga_id)
 })
 
 function onClickShare() {

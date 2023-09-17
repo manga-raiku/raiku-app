@@ -157,7 +157,7 @@
   "va": "and",
   "val-luot-xem": "{0} views",
   "val-per": "{0}%",
-  "val-slash-max-count-rate": "{0} / 5 - {1} reviews",
+  "val-slash-max-count-rate": "{0} / {1} - {2} reviews",
   "val-theo-doi": "{0} follow",
   "vui-long-nhap-dia-chi-email-tai-khoan-cua-ban": "Please enter your account email address:",
   "vui-long-nhap-e-mail": "Please enter your e-mail",

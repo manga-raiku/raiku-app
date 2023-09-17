@@ -1,22 +1,23 @@
 /* eslint-disable camelcase */
+import type { ComicChapter } from "src/apis/API"
 import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
 import { parseDom } from "src/apis/__helpers__/parseDom"
 import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
 
 import { parseComment } from "../../__helpers__/parseComment"
 
-export default function epId(html: string, now: number) {
+export default function epId(html: string, now: number): ComicChapter {
   const $ = parseDom(html)
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const image = $("#ctl00_Head1 > meta:nth-child(12)").attr("content")!
 
   const name = $("h1").text().split("-").slice(0, -1).join("-").trim()
-  const { path: manga } = parseAnchor(
+  const { path: path_manga } = parseAnchor(
     $("#ctl00_divCenter > div > div:nth-child(1) > div.top > h1 > a"),
   )
-  const uid = parseInt(html.match(/gOpts\.comicId=(\d+)/)?.[1] ?? "")
-  const ep_id = parseInt(html.match(/gOpts\.chapterId=(\d+)/)?.[1] ?? "")
+  const manga_id = parseInt(html.match(/gOpts\.comicId=(\d+)/)?.[1] ?? "") + ""
+  const ep_id = parseInt(html.match(/gOpts\.chapterId=(\d+)/)?.[1] ?? "") + ""
   const cdn = html.match(/gOpts\.cdn="([^"]+)"/)?.[1]
   const cdn2 = html.match(/gOpts\.cdn2="([^"]+)"/)?.[1]
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -38,7 +39,8 @@ export default function epId(html: string, now: number) {
       const cdn = $item.attr("data-cdn")
 
       return {
-        src: src.includes("/logos/logo-nettruyen.png") ? original : src,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        src: src.includes("/logos/logo-nettruyen.png") ? original! : src!,
         original,
         cdn,
       }
@@ -48,7 +50,7 @@ export default function epId(html: string, now: number) {
     .toArray()
     .map((item) => parseComment($, $(item), now))
   const comments_count = parseInt($(".comment-count").text())
-  const comments_page_number =
+  const comments_pages =
     parseInt(
       $("#ctl00_mainContent_divPager > ul > li:nth-child(14) > a")
         .last()
@@ -59,9 +61,9 @@ export default function epId(html: string, now: number) {
   return {
     name,
     image,
-    uid,
-    key,
-    manga,
+    manga_id,
+    // key,
+    path_manga,
     ep_id,
     updated_at,
     pages,
@@ -70,7 +72,7 @@ export default function epId(html: string, now: number) {
 
     comments,
     comments_count,
-    comments_page_number,
+    comments_pages,
   }
 }
 

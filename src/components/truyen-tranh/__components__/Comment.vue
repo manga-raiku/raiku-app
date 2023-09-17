@@ -78,11 +78,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { RComment } from "src/apis/nettruyen/parsers/__helpers__/parseComment"
+import type { Comment } from "src/apis/API"
 import dayjs from "src/logic/dayjs"
 
 defineProps<{
-  comment: RComment
+  comment: Comment
 }>()
 
 const NO_AVATAR =

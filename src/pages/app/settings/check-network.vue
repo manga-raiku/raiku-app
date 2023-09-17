@@ -84,7 +84,7 @@ meta:
 import { Device } from "@capacitor/device"
 import type { ConnectionType } from "@capacitor/network"
 import { Network } from "@capacitor/network"
-import index from "src/apis/nettruyen/runs"
+import { nettruyen } from "src/apis/nettruyen/runs/$"
 
 const i18n = useI18n()
 
@@ -120,7 +120,7 @@ const IP = computedAsync(() => {
 })
 const ping = computedAsync(async () => {
   const time = performance.now()
-  await index()
+  await nettruyen.index()
   return performance.now() - time
 })
 const device = computedAsync(async () => {

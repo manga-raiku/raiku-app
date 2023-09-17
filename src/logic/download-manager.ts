@@ -1,6 +1,8 @@
-/* eslint-disable functional/no-throw-statement */
 /* eslint-disable camelcase */
+/* eslint-disable functional/no-throw-statement */
 import hashSum from "hash-sum"
+
+import type { ID } from "./../apis/API"
 
 /*
 .
@@ -23,7 +25,7 @@ const PROTOCOL_OFFLINE = "offline://"
 export interface MetaManga {
   readonly path: string
 
-  readonly manga_id: number
+  readonly manga_id: ID
   readonly manga_name: string
   readonly manga_image: string
 }
@@ -33,7 +35,7 @@ export interface MetaMangaOnDisk extends MetaManga {
 export interface MetaEpisode {
   readonly path: string
 
-  readonly ep_id: number
+  readonly ep_id: ID
   readonly ep_name: string
 
   readonly pages: readonly string[]
@@ -267,7 +269,7 @@ export async function getListManga() {
   }
 }
 
-export async function getCountEpisodes(manga_id: number) {
+export async function getCountEpisodes(manga_id: ID) {
   const hashIDManga = hashSum(manga_id)
 
   try {
@@ -285,7 +287,7 @@ export async function getCountEpisodes(manga_id: number) {
   }
 }
 
-export async function getListEpisodes(manga_id: number) {
+export async function getListEpisodes(manga_id: ID) {
   const hashIDManga = hashSum(manga_id)
 
   const { files } = await Filesystem.readdir({
@@ -306,7 +308,7 @@ export async function getListEpisodes(manga_id: number) {
   ).then((list) => list.filter(Boolean) as MetaEpisodeOnDisk[])
 }
 
-export async function deleteManga(manga_id: number) {
+export async function deleteManga(manga_id: ID) {
   const hashIDManga = hashSum(manga_id)
 
   await Promise.all([
@@ -338,7 +340,7 @@ export async function deleteManga(manga_id: number) {
   ])
 }
 
-export async function deleteEpisode(manga_id: number, ep_id: number) {
+export async function deleteEpisode(manga_id: ID, ep_id: ID) {
   const hashIDManga = hashSum(manga_id)
   const hashIDEp = hashSum(ep_id)
 
@@ -406,7 +408,7 @@ export async function deleteEpisode(manga_id: number, ep_id: number) {
   ])
 }
 
-export async function getEpisode(manga_id: number, ep_id: number) {
+export async function getEpisode(manga_id: ID, ep_id: ID) {
   const hashIDManga = hashSum(manga_id)
   const hashIDEp = hashSum(ep_id)
 

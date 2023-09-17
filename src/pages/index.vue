@@ -93,7 +93,7 @@ meta:
                   </div>
                   <div class="focus-item-info !display-block">
                     <div class="ellipsis flex items-center">
-                      <Quality v-if="item.hot">{{ $t("hot") }}</Quality>
+                      <Quality v-if="item.label">{{ item.label }}</Quality>
 
                       <q-separator vertical class="mx-2" />
 
@@ -172,8 +172,8 @@ meta:
               }}</small>
             </div>
             <div class="focus-item-info">
-              <Quality v-if="data.sliders[sliderIndex].hot">{{
-                $t("hot")
+              <Quality v-if="data.sliders[sliderIndex].label">{{
+                data.sliders[sliderIndex].label
               }}</Quality>
 
               <q-separator vertical class="mx-2" />
@@ -418,7 +418,7 @@ meta:
 
 <script setup lang="ts">
 // import data from "src/apis/parsers/__test__/assets/index.json"
-import Index from "src/apis/nettruyen/runs/index"
+import { nettruyen } from "src/apis/nettruyen/runs/$"
 import { formatView } from "src/logic/formatView"
 import { unflat } from "src/logic/unflat"
 import { Autoplay } from "swiper"
@@ -501,7 +501,7 @@ function Carousel({ swiper, on }: any) {
   })
 }
 
-const { data, error, refreshAsync } = useRequest(() => Index())
+const { data, error, refreshAsync } = useRequest(() => nettruyen.index())
 
 const sliderIndex = ref(0)
 </script>

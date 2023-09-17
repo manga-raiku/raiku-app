@@ -16,10 +16,9 @@
 </template>
 
 <script lang="ts" setup>
+import type { Anchor } from "src/apis/API"
+
 defineProps<{
-  items: {
-    name: string
-    path: string
-  }[]
+  items: readonly Anchor[]
 }>()
 </script>

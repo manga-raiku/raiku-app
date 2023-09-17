@@ -28,13 +28,14 @@
 </template>
 
 <script lang="ts" setup>
+import type { ID } from "src/apis/API"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 import { isTaskDLEp } from "src/logic/download-manager"
 
 const props = defineProps<{
   modelValue?: TaskDDEp | TaskDLEp | null
-  mangaId: number | null
-  epId: number | null
+  mangaId: ID | null
+  epId: ID | null
   canDownload: boolean
 }>()
 const $q = useQuasar()
@@ -42,7 +43,7 @@ const { t } = useI18n()
 const emit = defineEmits<{
   (name: "update:model-value", value: undefined | TaskDDEp | TaskDDEp): void
   (name: "action:download"): void
-  (name: "action:delete", ep_id: number): void
+  (name: "action:delete", ep_id: ID): void
 }>()
 
 const disable = computed(() => {

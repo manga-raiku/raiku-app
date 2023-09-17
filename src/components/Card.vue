@@ -21,9 +21,9 @@
         </BottomBlur>
 
         <Quality
-          v-if="data.hot"
+          v-if="data.label"
           class="absolute top-2 right-0 backdrop-blur-13px !bg-rgba(0,0,0,0.85) !bg-none"
-          >{{ $t("hot") }}</Quality
+          >{{ data.label }}</Quality
         >
 
         <slot name="inside-image" />
@@ -113,15 +113,14 @@
 
 <script lang="ts" setup>
 import { QCard, QImg } from "quasar"
+import type { MetaManga } from "src/apis/API"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
-
-import type { CardProps } from "./Card.types"
 
 import "@fontsource/poppins"
 
 defineProps<{
-  data: CardProps["data"]
+  data: MetaManga
 }>()
 </script>
 

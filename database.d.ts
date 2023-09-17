@@ -39,7 +39,7 @@ export interface Database {
           created_at: string
           id: number
           image: string
-          manga_id: number
+          manga_id: string
           manga_name: string
           path: string
           user_id: string
@@ -48,7 +48,7 @@ export interface Database {
           created_at?: string
           id?: number
           image: string
-          manga_id: number
+          manga_id: string
           manga_name: string
           path: string
           user_id?: string
@@ -57,7 +57,7 @@ export interface Database {
           created_at?: string
           id?: number
           image?: string
-          manga_id?: number
+          manga_id?: string
           manga_name?: string
           path?: string
           user_id?: string
@@ -74,21 +74,21 @@ export interface Database {
       history_chapter: {
         Row: {
           created_at: string
-          ep_id: number
+          ep_id: string
           h_manga_id: number
           id: number
           updated_at: string
         }
         Insert: {
           created_at?: string
-          ep_id: number
+          ep_id: string
           h_manga_id: number
           id?: number
           updated_at?: string
         }
         Update: {
           created_at?: string
-          ep_id?: number
+          ep_id?: string
           h_manga_id?: number
           id?: number
           updated_at?: string
@@ -107,10 +107,10 @@ export interface Database {
           created_at: string
           id: number
           image: string
-          last_ch_id: number
+          last_ch_id: string
           last_ch_name: string
           last_ch_path: string
-          manga_id: number
+          manga_id: string
           manga_name: string
           manga_path: string
           updated_at: string
@@ -120,10 +120,10 @@ export interface Database {
           created_at?: string
           id?: number
           image: string
-          last_ch_id: number
+          last_ch_id: string
           last_ch_name: string
           last_ch_path: string
-          manga_id: number
+          manga_id: string
           manga_name: string
           manga_path: string
           updated_at?: string
@@ -133,10 +133,10 @@ export interface Database {
           created_at?: string
           id?: number
           image?: string
-          last_ch_id?: number
+          last_ch_id?: string
           last_ch_name?: string
           last_ch_path?: string
-          manga_id?: number
+          manga_id?: string
           manga_name?: string
           manga_path?: string
           updated_at?: string
@@ -192,10 +192,10 @@ export interface Database {
     Functions: {
       get_ls_ep_read: {
         Args: {
-          manga_id: number
+          manga_id: string
         }
         Returns: {
-          ep_id: number
+          ep_id: string
           updated_at: string
         }[]
       }

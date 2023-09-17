@@ -187,8 +187,8 @@ meta:
 </template>
 
 <script lang="ts" setup>
-import General from "src/apis/nettruyen/runs/[general]"
-import TimKiem from "src/apis/nettruyen/runs/tim-kiem"
+import type { API } from "src/apis/API"
+import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
 import type { Swiper as TSwiper } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 
@@ -212,29 +212,21 @@ useSeoMeta({
   ogDescription: description,
 })
 
-const typesRank = computed(
-  () =>
-    [
-      {
-        name: i18n.t("ngay"),
-        value: "/tim-truyen?status=-1&sort=11",
-      },
-      {
-        name: i18n.t("tuan"),
-        value: "/tim-truyen?status=-1&sort=12",
-      },
-      {
-        name: i18n.t("thang"),
-        value: "/tim-truyen?status=-1&sort=13",
-      },
-    ] as const,
+const typesRank = computed(() =>
+  Nettruyen.Rankings.map((item) => {
+    return {
+      value: item.value,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      name: (item.name as unknown as any)[i18n.locale.value],
+    }
+  }),
 )
 
 const { data, run, error, runAsync } = useRequest(
   async () => {
     if (!route.query.query) return Promise.resolve(undefined)
 
-    const data = await TimKiem(route.query.query + "", 1)
+    const data = await nettruyen.search(route.query.query + "", 1)
     data.items = shallowReactive(data.items)
     return data
   },
@@ -246,7 +238,7 @@ const { data, run, error, runAsync } = useRequest(
   },
 )
 const onLoad = useLoadMorePage(
-  (page) => TimKiem(route.query.query + "", page),
+  (page) => nettruyen.search(route.query.query + "", page),
   data,
 )
 
@@ -262,7 +254,7 @@ const dataStore = shallowReactive<
       }
     | {
         status: "success"
-        response: Awaited<ReturnType<typeof General>>
+        response: Awaited<ReturnType<API["getRanking"]>>
       }
   >
 >(new Map())
@@ -278,7 +270,7 @@ async function fetchRankType(type: string) {
     console.log("fetch %s", type)
     dataStore.set(type, {
       status: "success",
-      response: await General(`${type}`, 1, {}),
+      response: await nettruyen.getRanking(type, 1, {}),
     })
   } catch (err) {
     dataStore.set(type, {
@@ -291,7 +283,7 @@ async function fetchRankType(type: string) {
 async function refreshRank(done: () => void, type: string) {
   dataStore.set(type, {
     status: "success",
-    response: await General(`${type}`, 1, {}),
+    response: await nettruyen.getRanking(type, 1, {}),
   })
 
   done()

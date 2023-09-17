@@ -1,4 +1,5 @@
 import type { Cheerio, CheerioAPI, Element } from "cheerio"
+import type { MetaManga } from "src/apis/API"
 import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
 import { parseNumber } from "src/apis/__helpers__/parseNumber"
 import { parsePath } from "src/apis/__helpers__/parsePath"
@@ -28,7 +29,11 @@ function findWithFirstText(
     .trim()
 }
 
-export function parseItem($: CheerioAPI, $item: Cheerio<Element>, now: number) {
+export function parseItem(
+  $: CheerioAPI,
+  $item: Cheerio<Element>,
+  now: number,
+): MetaManga {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const image = getImage($item.find("img"))!
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -53,12 +58,15 @@ export function parseItem($: CheerioAPI, $item: Cheerio<Element>, now: number) {
       const time = $item.next()
 
       return {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        id: parseInt($item.attr("href")!.match(/(\d+)\/?$/)![1]) + "",
         ...data,
         name: normalizeChName(data.name),
         updated_at:
           time.is(".time") && time.text()
             ? parseTimeAgo(time.text(), now)
             : null,
+        views: null,
       }
     })
 
@@ -69,17 +77,17 @@ export function parseItem($: CheerioAPI, $item: Cheerio<Element>, now: number) {
     .split(" ")
     .filter(Boolean)
     .map((item) => parseNumber(item))
-  const hot = $(".icon.icon-hot").length > 0
+  const label = $(".icon.icon-hot").length > 0 ? "Hot" : null
 
   const visited =
     $item.find("div > div.view.viewed > a").length > 0
       ? parseAnchor($item.find("div > div.view.viewed > a"))
       : null
-  if (visited) visited.name = visited.name.replace("Đọc tiếp Chapter ", "")
-  // eslint-disable-next-line camelcase
-  const read_at = $item.find(".read-action .continue").text()
-    ? parseTimeAgo($item.find(".read-action .continue").text(), now)
-    : null
+  // if (visited) visited.name = visited.name.replace("Đọc tiếp Chapter ", "")
+  // // eslint-disable-next-line camelcase
+  // const read_at = $item.find(".read-action .continue").text()
+  //   ? parseTimeAgo($item.find(".read-action .continue").text(), now)
+  //   : null
 
   return {
     image,
@@ -95,9 +103,9 @@ export function parseItem($: CheerioAPI, $item: Cheerio<Element>, now: number) {
     views,
     comments,
     likes,
-    hot,
-    visited,
-    // eslint-disable-next-line camelcase
-    ...(read_at ? { read_at } : undefined),
+    label,
+    // visited,
+    // // eslint-disable-next-line camelcase
+    // ...(read_at ? { read_at } : undefined),
   }
 }

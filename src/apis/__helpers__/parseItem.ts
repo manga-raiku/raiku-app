@@ -13,11 +13,9 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
   const image = $li.find("img").attr("src")!
   const name = $li.find(".book_name").text().trim()
   // eslint-disable-next-line camelcase, @typescript-eslint/no-non-null-assertion
-  const last_chapter = parseAnchor($li.find(".last_chapter > a"))!
-  // eslint-disable-next-line camelcase
-  last_chapter.name = normalizeChName(last_chapter.name)
-    .replace("Đọc Tiếp", "")
-    .trim()
+  const last_chapter = parseAnchor($li.find(".last_chapter > a"), (name) =>
+    normalizeChName(name).replace("Đọc Tiếp", "").trim(),
+  )!
   const $updated = $li.find(".time-ago").text().trim()
   const updated = $updated ? parseTimeAgo($updated, now) : null
   const label = $li.find(".type-label").text().trim() // "Hot" // "Label"
@@ -59,9 +57,9 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
     })
   const description = $li.find(".excerpt").text().trim() || null
 
-  const visited =
-    $li.find(".visited").length > 0 ? parseAnchor($li.find(".visited")) : null
-  if (visited) visited.name = visited.name.replace("Đọc tiếp Chapter ", "")
+  // const visited =
+  //   $li.find(".visited").length > 0 ? parseAnchor($li.find(".visited")) : null
+  // if (visited) visited.name = visited.name.replace("Đọc tiếp Chapter ", "")
 
   return {
     path,
@@ -76,6 +74,6 @@ export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
     follows,
     tags,
     description,
-    visited,
+    // visited,
   }
 }

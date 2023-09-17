@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import type { Comment } from "src/apis/API"
 import { PostWorker } from "src/apis/wrap-worker"
 
 import type Parse from "../../../parsers/truyen-tranh/comment/get"
@@ -11,7 +12,11 @@ export default async function GetComment(
   parentId = 0,
   page: number,
   comicKey: string,
-) {
+): Promise<{
+  readonly comments: readonly Comment[]
+  readonly comments_count: number
+  readonly comments_pages: number
+}> {
   const { data } = await get({
     url: `https://www.nettruyenmax.com/Comic/Services/CommentService.asmx/List?comicId=${comicId}&orderBy=${
       orderByNews ? 5 : 0
@@ -22,9 +27,7 @@ export default async function GetComment(
 
   return {
     comments_count: parseInt(comments_count),
-    comments_page_number: parseInt(
-      pager.slice(pager.indexOf('a href="#') >>> 0, 2),
-    ),
+    comments_pages: parseInt(pager.slice(pager.indexOf('a href="#') >>> 0, 2)),
     comments: await PostWorker<typeof Parse>(Worker, response, Date.now()),
   }
 }

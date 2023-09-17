@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
 import { createPinia, setActivePinia } from "pinia"
+import type { Chapter } from "src/apis/API"
 
 import ListChapters from "./ListChapters.vue"
 
 setActivePinia(createPinia())
 
-const chapters_long = [
+const chapters_long: Chapter[] = [
   {
     path: "/truyen-tranh/kanojo-mo-kanojo-9164-chap-27.html",
     name: "Chương 27",
@@ -328,13 +329,14 @@ const chapters_long = [
   return {
     ...item,
     updated_at: item.update,
-    id: 0,
+    id: "0",
+    views: null,
   }
 })
 
 describe("ListChapters", () => {
   it("renders chapters", () => {
-    const chapters = [
+    const chapters: Chapter[] = [
       {
         path: "/truyen-tranh/kanojo-mo-kanojo-9164-chap-27.html",
         name: "Chương 27",
@@ -501,13 +503,14 @@ describe("ListChapters", () => {
       return {
         ...item,
         updated_at: item.update,
-        id: 0,
+        id: "0",
+        views: null,
       }
     })
     cy.mount(ListChapters, {
       props: {
         chapters,
-        noDownload: true
+        noDownload: true,
       },
     })
 
@@ -518,7 +521,7 @@ describe("ListChapters", () => {
     cy.mount(ListChapters, {
       props: {
         chapters: chapters_long,
-        noDownload: true
+        noDownload: true,
       },
     })
 
@@ -534,7 +537,7 @@ describe("ListChapters", () => {
     cy.mount(ListChapters, {
       props: {
         chapters: chapters_long,
-        noDownload: true
+        noDownload: true,
       },
     })
 

@@ -1,3 +1,4 @@
+import type { MetaManga } from "src/apis/API"
 import { PostWorker } from "src/apis/wrap-worker"
 
 import { CURL } from "../const"
@@ -6,7 +7,13 @@ import type Parse from "../parsers/index"
 import WorkerGeneral from "../workers/[general]?worker"
 import Worker from "../workers/index?worker"
 
-export default async function index() {
+export default async function index(): Promise<
+  Readonly<{
+    sliders: MetaManga[]
+    hot: MetaManga[]
+    last_update: MetaManga[]
+  }>
+> {
   const [index, topDay] = await Promise.all([
     get({ url: CURL }).then((res) =>
       PostWorker<typeof Parse>(Worker, res.data, Date.now()),
@@ -20,6 +27,5 @@ export default async function index() {
     sliders: topDay.items.slice(0, 7),
     hot: topDay.items.slice(7),
     last_update: index.last_update,
-    top: index.top,
   }
 }

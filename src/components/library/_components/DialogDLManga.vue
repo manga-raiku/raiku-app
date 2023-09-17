@@ -206,9 +206,8 @@
 </template>
 
 <script lang="ts" setup>
-import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
-import GetListChapters from "src/apis/nettruyen/runs/get-list-chapters"
-import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
+import type { API, ID } from "src/apis/API"
+import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
 const $q = useQuasar()
@@ -241,7 +240,7 @@ const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
   return [...(IDMStore.queue.get(meta.manga_id)?.values() ?? [])]
 })
 
-const mapEp = computed<Map<number, TaskDDEp | TaskDLEp> | undefined>(() => {
+const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   if (!lsEpDD.value || !lsEpDL.value) return
 
   return new Map(
@@ -273,7 +272,7 @@ async function resume(item: TaskDLEp | TaskDDEp) {
 }
 
 const modeEdit = ref(false)
-const listEpRemove = shallowRef<number[]>([])
+const listEpRemove = shallowRef<ID[]>([])
 const removing = ref(false)
 async function remove() {
   if (!metaMangaShowInfo.value) return
@@ -313,7 +312,7 @@ async function remove() {
 }
 
 // =========== show download more ==========
-type MetaEpOnline = Awaited<ReturnType<typeof GetListChapters>>[0]
+type MetaEpOnline = Awaited<ReturnType<API["getListChapters"]>>[0]
 const showDownloadMore = ref(false)
 const allEp = shallowRef<MetaEpOnline[]>()
 const epsSelected = shallowReactive<Set<MetaEpOnline>>(new Set())
@@ -334,7 +333,7 @@ watch(showDownloadMore, async (state) => {
   })
 
   // load episodes
-  const episodes = await GetListChapters(meta.manga_id)
+  const episodes = await nettruyen.getListChapters(meta.manga_id)
 
   loader()
 
@@ -357,16 +356,14 @@ async function download() {
   downloading.value = true
 
   for (const ep of epsSelected) {
-    const conf = await SlugChapChap(
-      ep.path.split("/").slice(2).join("/"),
-      false,
-    )
+    const { mangaId, epId } = nettruyen.resolveUrlComicChapter(ep.path)
+    const conf = await nettruyen.getComicChapter(mangaId, epId, false)
     // eslint-disable-next-line promise/catch-or-return
     IDMStore.download(metaMangaShowInfo.value, {
       path: ep.path,
       ep_id: ep.id,
       ep_name: ep.name,
-      pages: conf.pages.map((item) => SERVERS[0].parse(item, conf)),
+      pages: conf.pages.map((item) => Nettruyen.Servers[0].parse(item, conf)),
     }).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {
         lsEpDL.value.splice(

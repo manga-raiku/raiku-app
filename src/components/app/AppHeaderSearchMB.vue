@@ -106,7 +106,7 @@
 
 <script lang="ts" setup>
 import { debounce } from "perfect-debounce"
-import PreSearch from "src/apis/nettruyen/runs/pre-search"
+import { nettruyen } from "src/apis/nettruyen/runs/$"
 
 const props = defineProps<{
   searching: boolean
@@ -121,9 +121,12 @@ const route = useRoute()
 const keyword = ref("")
 
 const query = ref((route.query.query ?? "") + "")
-const { data, runAsync } = useRequest(() => PreSearch(query.value, 1), {
-  manual: true,
-})
+const { data, runAsync } = useRequest(
+  () => nettruyen.searchQuickly(query.value, 1),
+  {
+    manual: true,
+  },
+)
 watch(query, debounce(runAsync, 300))
 
 function onBack() {

@@ -61,12 +61,12 @@
           </div>
         </div>
       </div>
-
+      <!--
       <div v-if="data.visited" class="my-2">
         <router-link :to="data.visited.path">
           {{ $t("doc-tiep-chuong-name", [data.visited.name]) }}
         </router-link>
-      </div>
+      </div> -->
 
       <p
         v-if="data.description"
@@ -89,15 +89,14 @@
 </template>
 
 <script lang="ts" setup>
+import type { MetaManga } from "src/apis/API"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
-
-import type { CardVerticalProps } from "./CardVertical.types"
 
 import "@fontsource/poppins"
 
 defineProps<{
-  data: CardVerticalProps["data"]
+  data: MetaManga
   threeLine?: boolean
   readContinue?: boolean
   imgWidth?: string
