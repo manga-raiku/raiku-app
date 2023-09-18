@@ -61,6 +61,35 @@ export interface FilterQuery {
   }[]
 }
 
+export interface Server {
+  readonly name: string
+  // eslint-disable-next-line no-use-before-define
+  readonly has: (page: ComicChapter["pages"][0], conf: ComicChapter) => boolean
+  // eslint-disable-next-line no-use-before-define
+  readonly parse: (page: ComicChapter["pages"][0], conf: ComicChapter) => string
+}
+export interface Ranking {
+  readonly value: string
+  readonly match: string
+  readonly name: Record<string, string>
+}
+export interface Package {
+  readonly name: string
+  readonly favicon: string
+  readonly version: string
+  readonly description: string
+  readonly source: string
+
+  readonly author: string
+
+  readonly updatedAt: number
+
+  readonly homepage?: string
+  readonly repository?: string
+
+  readonly license?: string
+}
+
 // page fully
 export interface Comic {
   readonly name: string
@@ -119,6 +148,12 @@ export interface General {
 }
 
 export declare class API {
+  public readonly package: Package
+
+  public readonly Servers: readonly Server[]
+  public readonly Rankings: readonly Ranking[]
+  // static readonly repo
+
   index(): Promise<
     Readonly<{
       sliders: MetaManga[]

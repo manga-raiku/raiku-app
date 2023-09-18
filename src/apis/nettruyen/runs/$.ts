@@ -1,6 +1,7 @@
-import type { API, ComicChapter, ID } from "src/apis/API"
+import type { API, ID, Package, Ranking, Server } from "src/apis/API"
 
 import General from "./[general]"
+import favicon from "./favicon.png?base64"
 import getListChapters from "./get-list-chapters"
 import searchQuickly from "./pre-search"
 import search from "./tim-kiem"
@@ -10,7 +11,7 @@ import getComicComment from "./truyen-tranh/comment/get"
 
 import Index from "./index"
 
-const Rankings = [
+const Rankings: Ranking[] = [
   {
     value: "ngay",
     match: "/tim-truyen?status=-1&sort=13",
@@ -35,15 +36,11 @@ const Rankings = [
       "en-US": "Month",
     },
   },
-] as const
+]
 const headersNettruyen = {
   referer: "https://www.nettruyenmax.com",
 }
-const Servers: {
-  name: string
-  has: (page: ComicChapter["pages"][0], conf: ComicChapter) => boolean
-  parse: (page: ComicChapter["pages"][0], conf: ComicChapter) => string
-}[] = [
+const Servers: Server[] = [
   {
     name: "Server 1",
     has: () => true,
@@ -88,8 +85,18 @@ const Servers: {
 ]
 
 export class Nettruyen implements API {
-  static readonly Rankings = Rankings
-  static readonly Servers = Servers
+  public readonly package: Package = {
+    name: "Net Truyen",
+    favicon,
+    version: "0.0.1",
+    description: "Plugin nguồn Net Truyen",
+    author: "Tachibana Shin <tachibshin@duck.com>",
+    updatedAt: Date.now(),
+    source: "",
+  }
+
+  public readonly Rankings = Rankings
+  public readonly Servers = Servers
 
   index() {
     return Index()
