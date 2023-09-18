@@ -16,5 +16,7 @@ declare module "vue-router" {
     hiddenDrawerScope?: boolean
 
     auth?: boolean | "guest" | string
+
+    beforeEach?: string
   }
 }

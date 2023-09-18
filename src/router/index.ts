@@ -53,7 +53,7 @@ export default route(function (/* { store, ssrContext } */) {
 
   const Router = createRouter({
     scrollBehavior(to, from, savedPosition) {
-      if (to.query.no_restore_scroll) return 
+      if (to.query.no_restore_scroll) return
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(savedPosition || { left: 0, top: 0 })
@@ -69,6 +69,11 @@ export default route(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach(async (to) => {
+    if (to.meta.beforeEach === 'true if $lt.md else "/app/myaccount"') {
+      if (Screen.lt.md) return to
+      return "/app/myaccount"
+    }
+
     const authStore = useAuthStore()
 
     await authStore.setup
@@ -76,8 +81,8 @@ export default route(function (/* { store, ssrContext } */) {
     let auth = to.meta.auth
     if (auth === undefined || auth === "guest") return
 
-    if (auth === "null if $lt.md else true") {
-      if (Screen.lt.md) return
+    if (auth === "'guest' if $lt.md else true") {
+      if (Screen.lt.md) return to
       auth = true
     }
 

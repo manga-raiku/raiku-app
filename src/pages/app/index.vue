@@ -3,7 +3,7 @@ meta:
   hiddenHeader: $lt.md
   hiddenFooter: false
   hiddenDrawer: true
-  auth: null if $lt.md else $lt.md
+  beforeEach: true if $lt.md else "/app/myaccount"
 </route>
 
 <template>
