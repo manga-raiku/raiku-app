@@ -1,0 +1,35 @@
+{
+  "name": "raiku-pgs",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/main.cjs",
+  "module": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    "types": "./dist/main.d.ts",
+    "import": "./dist/main.js",
+    "require": "./dist/main.cjs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "prepublish": "pnpm build",
+    "release": "bumpp package.json && pnpm publish"
+  },
+  "devDependencies": {
+    "bumpp": "^9.2.0",
+    "typescript": "^5.1.3",
+    "vite": "^4.3.9",
+    "vitest": "^0.34.4"
+  },
+  "dependencies": {
+    "cheerio": "1.0.0-rc.12",
+    "client-ext-animevsub-helper": "^1.0.4",
+    "htmlparser2": "^9.0.0",
+    "uuid": "^9.0.1"
+  }
+}

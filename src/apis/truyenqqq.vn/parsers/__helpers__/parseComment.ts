@@ -1,6 +1,5 @@
 import type { Cheerio, Element } from "cheerio"
-
-import { parseTimeAgo } from "./parseTimeAgo"
+import { parseTimeAgo } from "raiku-pgs"
 
 export function parseComment($comment: Cheerio<Element>, now: number) {
   const author = {

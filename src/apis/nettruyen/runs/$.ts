@@ -1,4 +1,15 @@
-import type { API, ID, Package, Ranking, Server } from "src/apis/API"
+import type {
+  API,
+  Chapter,
+  ComicChapter,
+  FetchGet,
+  FetchPost,
+  ID,
+  MetaManga,
+  Package,
+  Ranking,
+  Server,
+} from "raiku-pgs"
 
 import General from "./[general]"
 import favicon from "./favicon.png?base64"
@@ -98,20 +109,40 @@ export class Nettruyen implements API {
   public readonly Rankings = Rankings
   public readonly Servers = Servers
 
-  index() {
-    return Index()
+  public readonly get: FetchGet<"text">
+  public readonly post: FetchPost<"text">
+
+  constructor(get: FetchGet<"text">, post: FetchPost<"text">) {
+    this.get = get
+    this.post = post
+  }
+
+  index(): Promise<
+    Readonly<{
+      sliders: MetaManga[]
+      hot: MetaManga[]
+      last_update: MetaManga[]
+    }>
+  > {
+    return Index(this)
   }
 
   getComic(zlug: string) {
-    return getComic(zlug)
+    return getComic(this, zlug)
   }
 
   async getComicChapter<Fast extends boolean>(
     mangaId: ID,
     epId: ID,
     fast: Fast,
-  ) {
-    return getComicChapter<Fast>(mangaId + "/" + epId, fast)
+  ): Promise<
+    Fast extends true
+      ? ComicChapter
+      : ComicChapter & {
+          readonly chapters: Chapter[]
+        }
+  > {
+    return getComicChapter<Fast>(this, mangaId + "/" + epId, fast)
   }
 
   getComicComments(
@@ -123,6 +154,7 @@ export class Nettruyen implements API {
     comicKey: string,
   ) {
     return getComicComment(
+      this,
       comicId,
       orderByNews,
       chapterId,
@@ -133,15 +165,15 @@ export class Nettruyen implements API {
   }
 
   getListChapters(mangaId: ID) {
-    return getListChapters(mangaId)
+    return getListChapters(this, mangaId)
   }
 
   searchQuickly(keyword: string, page: number) {
-    return searchQuickly(keyword, page)
+    return searchQuickly(this, keyword, page)
   }
 
   search(keyword: string, page: number) {
-    return search(keyword, page)
+    return search(this, keyword, page)
   }
 
   getRanking(type: string, page: number, filter: Record<string, string>) {
@@ -149,7 +181,7 @@ export class Nettruyen implements API {
     // eslint-disable-next-line functional/no-throw-statement
     if (!match) throw new Error("not_found")
 
-    return General(match, page, filter)
+    return General(this, match, page, filter)
   }
 
   getCategory(
@@ -157,7 +189,7 @@ export class Nettruyen implements API {
     page: number,
     filter: Record<string, string | string[]>,
   ) {
-    return General(`/tim-truyen/${type}`, page, filter)
+    return General(this, `/tim-truyen/${type}`, page, filter)
   }
 
   public resolveUrlComicChapter(url: string) {
@@ -175,5 +207,3 @@ export class Nettruyen implements API {
     }
   }
 }
-
-export const nettruyen = new Nettruyen()

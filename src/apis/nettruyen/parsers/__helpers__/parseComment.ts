@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import type { Cheerio, CheerioAPI, Element } from "cheerio"
-import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
+import { parseTimeAgo } from "raiku-pgs"
+import type { Comment } from "raiku-pgs"
 import { normalizeChName } from "src/logic/normalize-ch-name"
 
-import type { Comment } from "./../../../API"
 import { getImage } from "./getImage"
 
 export function parseComment(

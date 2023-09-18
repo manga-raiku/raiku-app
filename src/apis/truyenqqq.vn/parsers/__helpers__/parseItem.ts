@@ -1,10 +1,6 @@
 import type { Cheerio, CheerioAPI, Element } from "cheerio"
+import { parseAnchor, parseNumber, parsePath, parseTimeAgo } from "raiku-pgs"
 import { normalizeChName } from "src/logic/normalize-ch-name"
-
-import { parseAnchor } from "./parseAnchor"
-import { parseNumber } from "./parseNumber"
-import { parsePath } from "./parsePath"
-import { parseTimeAgo } from "./parseTimeAgo"
 
 export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

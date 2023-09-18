@@ -1,8 +1,6 @@
 /* eslint-disable camelcase */
-import type { ComicChapter } from "src/apis/API"
-import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
-import { parseDom } from "src/apis/__helpers__/parseDom"
-import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
+import { parseAnchor, parseDom, parseTimeAgo } from "raiku-pgs"
+import type { ComicChapter } from "raiku-pgs"
 
 import { parseComment } from "../../__helpers__/parseComment"
 

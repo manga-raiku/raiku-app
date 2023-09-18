@@ -1,3 +1,5 @@
+import type { GetOption, Http, PostOption } from "client-ext-animevsub-helper"
+
 export type ID = `${string}`
 
 export interface Anchor {
@@ -90,6 +92,37 @@ export interface Package {
   readonly license?: string
 }
 
+type Response<Type extends GetOption["responseType"]> = Omit<
+  Awaited<ReturnType<typeof Http.get>>,
+  "data"
+> & {
+  data: Type extends "json"
+    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      any
+    : Type extends "arraybuffer"
+    ? ArrayBuffer
+    : string
+}
+
+export interface FetchGet<
+  ReturnType extends GetOption["responseType"] | undefined,
+> {
+  (
+    options: Omit<GetOption, "responseType"> & {
+      responseType?: ReturnType
+    },
+  ): Promise<Response<ReturnType>>
+}
+export interface FetchPost<
+  ReturnType extends GetOption["responseType"] | undefined,
+> {
+  (
+    options: Omit<PostOption, "responseType"> & {
+      responseType?: ReturnType
+    },
+  ): Promise<Response<ReturnType>>
+}
+
 // page fully
 export interface Comic {
   readonly name: string
@@ -153,6 +186,10 @@ export declare class API {
   public readonly Servers: readonly Server[]
   public readonly Rankings: readonly Ranking[]
   // static readonly repo
+  public readonly get: FetchGet<"text">
+  public readonly post: FetchPost<"text">
+
+  constructor(get: FetchGet<"text">, post: FetchPost<"text">)
 
   index(): Promise<
     Readonly<{

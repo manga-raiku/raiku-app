@@ -1,4 +1,5 @@
-import { PostWorker } from "src/apis/wrap-worker"
+import type { API } from "raiku-pgs"
+import { PostWorker } from "raiku-pgs"
 import type { LocationQuery } from "vue-router"
 
 import { CURL } from "../const"
@@ -6,6 +7,7 @@ import type Parse from "../parsers/[general]"
 import Worker from "../workers/[general]?worker"
 
 export default async function (
+  { get }: API,
   path: string,
   page: number,
   query: LocationQuery | Record<string, string | number>,

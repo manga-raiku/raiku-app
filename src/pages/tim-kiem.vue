@@ -187,7 +187,7 @@ meta:
 </template>
 
 <script lang="ts" setup>
-import type { API } from "src/apis/API"
+import type { API } from "raiku-pgs"
 import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
 import type { Swiper as TSwiper } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
@@ -213,7 +213,7 @@ useSeoMeta({
 })
 
 const typesRank = computed(() =>
-  Nettruyen.Rankings.map((item) => {
+  nettruyen.Rankings.map((item) => {
     return {
       value: item.value,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

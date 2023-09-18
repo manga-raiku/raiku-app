@@ -1,4 +1,4 @@
-import { PostWorker } from "src/apis/wrap-worker"
+import { PostWorker } from "raiku-pgs"
 import type { LocationQuery } from "vue-router"
 
 import type Parse from "../../parsers/[general]"

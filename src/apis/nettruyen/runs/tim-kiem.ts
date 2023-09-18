@@ -1,10 +1,11 @@
-import { PostWorker } from "src/apis/wrap-worker"
+import type { API } from "raiku-pgs"
+import { PostWorker } from "raiku-pgs"
 
 import { CURL } from "../const"
 import type Parse from "../parsers/[general]"
 import Worker from "../workers/[general]?worker"
 
-export default async function (query: string, page: number) {
+export default async function ({ get }: API, query: string, page: number) {
   const { data } = await get({
     url: `${CURL}/tim-truyen?keyword=${encodeURIComponent(query)}&page=${page}`,
   })

@@ -1,10 +1,11 @@
-import { PostWorker } from "src/apis/wrap-worker"
+import type { API } from "raiku-pgs"
+import { PostWorker } from "raiku-pgs"
 
 import { CURL } from "../../const"
 import type Parse from "../../parsers/truyen-tranh/[slug]"
 import Worker from "../../workers/truyen-tranh/[slug]?worker"
 
-export default async function (slug: string) {
+export default async function ({ get }: API, slug: string) {
   const { data, url } = await get({ url: `${CURL}/truyen-tranh/${slug}` })
 
   // eslint-disable-next-line functional/no-throw-statement

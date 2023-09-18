@@ -1,11 +1,13 @@
 /* eslint-disable camelcase */
-import { PostWorker } from "src/apis/wrap-worker"
+import type { API } from "raiku-pgs"
+import { PostWorker } from "raiku-pgs"
 
 import { API_CURL } from "../const"
 import type Parse from "../parsers/[general]"
 import Worker from "../workers/[general].ts?worker"
 
 export default async function (
+  { get }: API,
   page: number,
   user_uid: string,
   token: string,

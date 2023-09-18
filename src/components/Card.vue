@@ -113,7 +113,7 @@
 
 <script lang="ts" setup>
 import { QCard, QImg } from "quasar"
-import type { MetaManga } from "src/apis/API"
+import type { MetaManga } from "raiku-pgs"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
 

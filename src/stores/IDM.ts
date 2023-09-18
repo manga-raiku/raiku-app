@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+import type { ID } from "raiku-pgs"
 import type {
   MetaEpisode,
   MetaManga,
@@ -7,8 +8,6 @@ import type {
   TaskDLEp,
 } from "src/logic/download-manager"
 import type { ShallowReactive } from "vue"
-
-import type { ID } from "./../apis/API"
 
 export const useIDMStore = defineStore("IDM", () => {
   const loadingDataInMemory = ref(false)

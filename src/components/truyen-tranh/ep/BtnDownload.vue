@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { ID } from "src/apis/API"
+import type { ID } from "raiku-pgs"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 import { isTaskDLEp } from "src/logic/download-manager"
 

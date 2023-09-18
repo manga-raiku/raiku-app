@@ -1,10 +1,13 @@
-import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
-import { parseComment } from "src/apis/__helpers__/parseComment"
-import { parseDate } from "src/apis/__helpers__/parseDate"
-import { parseDom } from "src/apis/__helpers__/parseDom"
-import { parseNumber } from "src/apis/__helpers__/parseNumber"
-import { parsePath } from "src/apis/__helpers__/parsePath"
+import {
+  parseAnchor,
+  parseDate,
+  parseDom,
+  parseNumber,
+  parsePath,
+} from "raiku-pgs"
 import { normalizeChName } from "src/logic/normalize-ch-name"
+
+import { parseComment } from "../__helpers__/parseComment"
 
 export default function manga(html: string, now: number) {
   const $ = parseDom(html)

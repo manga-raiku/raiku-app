@@ -1,5 +1,6 @@
-import { parseComment } from "src/apis/__helpers__/parseComment"
-import { parseDom } from "src/apis/__helpers__/parseDom"
+import { parseDom } from "raiku-pgs"
+
+import { parseComment } from "../__helpers__/parseComment"
 
 export default function (html: string, now: number) {
   const $ = parseDom(html)

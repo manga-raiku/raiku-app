@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { parseDom } from "src/apis/__helpers__/parseDom"
+import { parseDom } from "raiku-pgs"
 
 export default function user(html: string) {
   const $ = parseDom(html)

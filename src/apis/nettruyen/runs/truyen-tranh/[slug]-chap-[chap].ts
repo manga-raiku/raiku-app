@@ -1,6 +1,5 @@
-import type { Chapter, ComicChapter } from "src/apis/API"
-import { parsePath } from "src/apis/__helpers__/parsePath"
-import { PostWorker } from "src/apis/wrap-worker"
+import type { API, Chapter, ComicChapter } from "raiku-pgs"
+import { parsePath, PostWorker } from "raiku-pgs"
 import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { CURL } from "../../const"
@@ -8,6 +7,7 @@ import type Parse from "../../parsers/truyen-tranh/[slug]/[ep-id]"
 import Worker from "../../workers/truyen-tranh/[slug]-chap-[chap]?worker"
 
 export default async function <Fast extends boolean>(
+  { get }: API,
   slug: string,
   fast: Fast,
 ): Promise<

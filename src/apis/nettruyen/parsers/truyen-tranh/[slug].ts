@@ -1,13 +1,9 @@
-import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
-import { parseDom } from "src/apis/__helpers__/parseDom"
-import { parseNumber } from "src/apis/__helpers__/parseNumber"
-import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
+import { parseAnchor, parseDom, parseNumber, parseTimeAgo } from "raiku-pgs"
+import type { Chapter, Comic } from "raiku-pgs"
 import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { getImage } from "../__helpers__/getImage"
 import { parseComment } from "../__helpers__/parseComment"
-
-import type { Chapter, Comic } from "./../../../API"
 
 export default function slug(html: string, now: number): Comic {
   const $ = parseDom(html)

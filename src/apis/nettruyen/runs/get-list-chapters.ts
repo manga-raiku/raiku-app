@@ -1,12 +1,11 @@
-import { parsePath } from "src/apis/__helpers__/parsePath"
+import { parsePath } from "raiku-pgs"
+import type { API, Chapter, ID } from "raiku-pgs"
 import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { CURL } from "../const"
 
-import type { Chapter, ID } from "./../../API"
-
 // eslint-disable-next-line camelcase
-export default async function (manga_id: ID) {
+export default async function ({ get }: API, manga_id: ID) {
   const { data } = await get({
     // eslint-disable-next-line camelcase
     url: `${CURL}/Comic/Services/ComicService.asmx/ProcessChapterList?comicId=${manga_id}`,

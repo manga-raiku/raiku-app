@@ -1,9 +1,6 @@
 import type { Cheerio, CheerioAPI, Element } from "cheerio"
-import type { MetaManga } from "src/apis/API"
-import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
-import { parseNumber } from "src/apis/__helpers__/parseNumber"
-import { parsePath } from "src/apis/__helpers__/parsePath"
-import { parseTimeAgo } from "src/apis/__helpers__/parseTimeAgo"
+import type { MetaManga } from "raiku-pgs"
+import { parseAnchor, parseNumber, parsePath, parseTimeAgo } from "raiku-pgs"
 import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { getImage } from "./getImage"

@@ -4,399 +4,432 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  '@capacitor/device':
-    specifier: ^5.0.6
-    version: 5.0.6(@capacitor/core@5.2.2)
-  '@capacitor/network':
-    specifier: ^5.0.6
-    version: 5.0.6(@capacitor/core@5.2.2)
-  '@fontsource/caveat':
-    specifier: ^4.5.10
-    version: 4.5.10
-  '@fontsource/poppins':
-    specifier: ^5.0.8
-    version: 5.0.8
-  '@hannoeru/eslint-plugin':
-    specifier: ^0.9.5
-    version: 0.9.5(eslint@8.33.0)(typescript@5.0.4)
-  '@hcaptcha/vue3-hcaptcha':
-    specifier: ^1.3.0
-    version: 1.3.0(vue@3.2.45)
-  '@iconify-icons/logos':
-    specifier: ^1.2.35
-    version: 1.2.35
-  '@iconify-json/uim':
-    specifier: ^1.1.6
-    version: 1.1.6
-  '@iconify/vue':
-    specifier: ^4.1.1
-    version: 4.1.1(vue@3.2.45)
-  '@quasar/extras':
-    specifier: ^1.15.10
-    version: 1.15.10
-  '@supabase/supabase-js':
-    specifier: ^2.33.1
-    version: 2.33.1
-  '@tachibana-shin/capacitor-filesystem':
-    specifier: ^5.0.2
-    version: 5.0.2(@capacitor/core@5.2.2)
-  '@unhead/vue':
-    specifier: ^1.6.2
-    version: 1.6.2(vue@3.2.45)
-  '@vueuse/components':
-    specifier: ^10.4.1
-    version: 10.4.1(vue@3.2.45)
-  '@vueuse/core':
-    specifier: ^10.2.1
-    version: 10.2.1(vue@3.2.45)
-  '@vueuse/math':
-    specifier: ^10.2.1
-    version: 10.2.1(vue@3.2.45)
-  '@vueuse/shared':
-    specifier: ^10.2.1
-    version: 10.2.1(vue@3.2.45)
-  cheerio:
-    specifier: 1.0.0-rc.12
-    version: 1.0.0-rc.12
-  client-ext-animevsub-helper:
-    specifier: ^1.0.4
-    version: 1.0.4
-  dayjs:
-    specifier: ^1.11.9
-    version: 1.11.9
-  eruda2:
-    specifier: 0.0.2-b8
-    version: 0.0.2-b8
-  fetch-retry:
-    specifier: ^5.0.6
-    version: 5.0.6
-  hash-sum:
-    specifier: ^2.0.0
-    version: 2.0.0
-  htmlparser2:
-    specifier: ^8.0.1
-    version: 8.0.1
-  idb-keyval:
-    specifier: ^6.2.0
-    version: 6.2.0
-  iso-639-1:
-    specifier: ^2.1.15
-    version: 2.1.15
-  js-base64:
-    specifier: ^3.7.4
-    version: 3.7.4
-  js-cookie:
-    specifier: ^3.0.5
-    version: 3.0.5
-  modern-async:
-    specifier: ^1.1.3
-    version: 1.1.3
-  nypm:
-    specifier: ^0.3.3
-    version: 0.3.3
-  onu-ui:
-    specifier: 1.0.14-beta.2
-    version: 1.0.14-beta.2(vue@3.2.45)
-  perfect-debounce:
-    specifier: ^1.0.0
-    version: 1.0.0
-  pinia:
-    specifier: ^2.0.29
-    version: 2.0.29(typescript@5.0.4)(vue@3.2.45)
-  pinia-plugin-persistedstate:
-    specifier: ^3.2.0
-    version: 3.2.0(pinia@2.0.29)
-  quasar:
-    specifier: ^2.12.2
-    version: 2.12.2
-  register-service-worker:
-    specifier: ^1.7.2
-    version: 1.7.2
-  set-cookie-parser:
-    specifier: ^2.6.0
-    version: 2.6.0
-  swiper:
-    specifier: ^9.4.1
-    version: 9.4.1
-  ua-parser-js:
-    specifier: ^1.0.33
-    version: 1.0.33
-  unplugin-vue-router:
-    specifier: ^0.6.4
-    version: 0.6.4(rollup@2.77.3)(vue-router@4.2.4)(vue@3.2.45)
-  uuid:
-    specifier: ^9.0.0
-    version: 9.0.0
-  vue:
-    specifier: ^3.2.45
-    version: 3.2.45
-  vue-i18n:
-    specifier: ^9.2.2
-    version: 9.2.2(vue@3.2.45)
-  vue-request:
-    specifier: 2.0.3
-    version: 2.0.3(vue@3.2.45)
-  vue-router:
-    specifier: ^4.2.4
-    version: 4.2.4(vue@3.2.45)
+importers:
 
-devDependencies:
-  '@capacitor/app':
-    specifier: ^5.0.6
-    version: 5.0.6(@capacitor/core@5.2.2)
-  '@iconify-json/ant-design':
-    specifier: ^1.1.10
-    version: 1.1.10
-  '@iconify-json/carbon':
-    specifier: ^1.1.21
-    version: 1.1.21
-  '@iconify-json/ep':
-    specifier: ^1.1.12
-    version: 1.1.12
-  '@iconify-json/ic':
-    specifier: ^1.1.14
-    version: 1.1.14
-  '@iconify-json/iconamoon':
-    specifier: ^1.1.1
-    version: 1.1.1
-  '@iconify-json/iconoir':
-    specifier: ^1.1.32
-    version: 1.1.32
-  '@iconify-json/ion':
-    specifier: ^1.1.12
-    version: 1.1.12
-  '@iconify-json/line-md':
-    specifier: ^1.1.29
-    version: 1.1.29
-  '@iconify-json/logos':
-    specifier: ^1.1.36
-    version: 1.1.36
-  '@iconify-json/material-symbols':
-    specifier: ^1.1.58
-    version: 1.1.58
-  '@iconify-json/ph':
-    specifier: ^1.1.6
-    version: 1.1.6
-  '@iconify/json':
-    specifier: ^2.2.114
-    version: 2.2.114
-  '@intlify/vite-plugin-vue-i18n':
-    specifier: ^6.0.3
-    version: 6.0.3(vite@2.9.16)(vue-i18n@9.2.2)
-  '@pinia/testing':
-    specifier: ^0.1.3
-    version: 0.1.3(pinia@2.0.29)(vue@3.2.45)
-  '@quasar/app-vite':
-    specifier: ^1.4.3
-    version: 1.4.3(eslint@8.33.0)(pinia@2.0.29)(quasar@2.12.2)(rollup@2.77.3)(vue-router@4.2.4)(vue@3.2.45)(workbox-build@6.6.0)
-  '@quasar/cli':
-    specifier: ^2.2.3
-    version: 2.2.3
-  '@quasar/icongenie':
-    specifier: ^3.1.1
-    version: 3.1.1
-  '@quasar/quasar-app-extension-testing-e2e-cypress':
-    specifier: ^5.1.0
-    version: 5.1.0(@babel/core@7.22.5)(@babel/preset-env@7.22.5)(babel-loader@9.1.3)(cypress@12.17.0)(eslint-plugin-cypress@2.12.1)(webpack@5.88.1)
-  '@quasar/quasar-app-extension-testing-unit-vitest':
-    specifier: ^0.3.0
-    version: 0.3.0(@vitest/ui@0.31.0)(@vue/test-utils@2.4.0)(quasar@2.12.2)(vite@2.9.16)(vitest@0.31.0)(vue@3.2.45)
-  '@tachibana-shin/eslint-config':
-    specifier: ^1.0.7
-    version: 1.0.7(eslint@8.33.0)(typescript@5.0.4)
-  '@tachibana-shin/vite-plugin-pages':
-    specifier: 0.31.1-beta.1
-    version: 0.31.1-beta.1(@vue/compiler-sfc@3.3.4)(vite@2.9.16)
-  '@testing-library/vue':
-    specifier: ^7.0.0
-    version: 7.0.0(@vue/compiler-sfc@3.3.4)(vue@3.2.45)
-  '@types/group-array':
-    specifier: ^1.0.1
-    version: 1.0.1
-  '@types/hash-sum':
-    specifier: ^1.0.0
-    version: 1.0.0
-  '@types/js-cookie':
-    specifier: ^3.0.3
-    version: 3.0.3
-  '@types/lz-string':
-    specifier: ^1.3.34
-    version: 1.3.34
-  '@types/node':
-    specifier: 18.8.0
-    version: 18.8.0
-  '@types/prompts':
-    specifier: ^2.4.2
-    version: 2.4.2
-  '@types/semver':
-    specifier: ^7.3.13
-    version: 7.3.13
-  '@types/serviceworker':
-    specifier: ^0.0.67
-    version: 0.0.67
-  '@types/set-cookie-parser':
-    specifier: ^2.4.3
-    version: 2.4.3
-  '@types/ua-parser-js':
-    specifier: ^0.7.36
-    version: 0.7.36
-  '@types/uuid':
-    specifier: ^9.0.2
-    version: 9.0.2
-  '@typescript-eslint/eslint-plugin':
-    specifier: ^5.49.0
-    version: 5.49.0(@typescript-eslint/parser@5.49.0)(eslint@8.33.0)(typescript@5.0.4)
-  '@typescript-eslint/parser':
-    specifier: ^5.49.0
-    version: 5.49.0(eslint@8.33.0)(typescript@5.0.4)
-  '@unocss/transformer-directives':
-    specifier: ^0.55.2
-    version: 0.55.2
-  '@vitest/ui':
-    specifier: ^0.31.0
-    version: 0.31.0(vitest@0.31.0)
-  '@vitest/web-worker':
-    specifier: ^0.30.1
-    version: 0.30.1(vitest@0.31.0)
-  '@vue-macros/volar':
-    specifier: ^0.12.3
-    version: 0.12.3(@vue-macros/reactivity-transform@0.3.16)(rollup@2.77.3)(typescript@5.0.4)(vue-tsc@1.8.5)(vue@3.2.45)
-  '@vue/test-utils':
-    specifier: ^2.0.0
-    version: 2.4.0(vue@3.2.45)
-  autoprefixer:
-    specifier: ^10.4.15
-    version: 10.4.15(postcss@8.4.29)
-  bumpp:
-    specifier: ^8.2.1
-    version: 8.2.1
-  chalk:
-    specifier: ^5.2.0
-    version: 5.2.0
-  cypress:
-    specifier: ^12.17.0
-    version: 12.17.0
-  dotenv:
-    specifier: ^16.3.1
-    version: 16.3.1
-  envalid:
-    specifier: ^7.3.1
-    version: 7.3.1
-  esbuild:
-    specifier: ^0.19.2
-    version: 0.19.2
-  eslint:
-    specifier: ^8.33.0
-    version: 8.33.0
-  eslint-config-prettier:
-    specifier: ^9.0.0
-    version: 9.0.0(eslint@8.33.0)
-  eslint-plugin-cypress:
-    specifier: ^2.12.1
-    version: 2.12.1(eslint@8.33.0)
-  eslint-plugin-vue:
-    specifier: ^9.9.0
-    version: 9.9.0(eslint@8.33.0)
-  fake-indexeddb:
-    specifier: ^4.0.2
-    version: 4.0.2
-  happy-dom:
-    specifier: ^11.0.2
-    version: 11.0.2
-  javascript-obfuscator:
-    specifier: ^4.0.2
-    version: 4.0.2
-  jsdom:
-    specifier: ^21.1.0
-    version: 21.1.0
-  kleur:
-    specifier: ^4.1.5
-    version: 4.1.5
-  nx:
-    specifier: 16.8.1
-    version: 16.8.1
-  nx-cloud:
-    specifier: latest
-    version: 16.4.0
-  prettier:
-    specifier: ^3.0.1
-    version: 3.0.1
-  prompts:
-    specifier: ^2.4.2
-    version: 2.4.2
-  sass:
-    specifier: 1.32.11
-    version: 1.32.11
-  semver:
-    specifier: ^7.5.4
-    version: 7.5.4
-  supabase:
-    specifier: ^1.88.0
-    version: 1.88.0
-  tsx:
-    specifier: ^3.12.7
-    version: 3.12.7
-  typescript:
-    specifier: ^5.0.4
-    version: 5.0.4
-  unocss:
-    specifier: ^0.53.4
-    version: 0.53.4(postcss@8.4.29)(rollup@2.77.3)(vite@2.9.16)
-  unplugin-auto-import:
-    specifier: ^0.16.6
-    version: 0.16.6(@vueuse/core@10.2.1)(rollup@2.77.3)
-  unplugin-icons:
-    specifier: ^0.17.0
-    version: 0.17.0(@vue/compiler-sfc@3.3.4)
-  unplugin-vue-components:
-    specifier: ^0.25.1
-    version: 0.25.1(rollup@2.77.3)(vue@3.2.45)
-  unplugin-vue-define-options:
-    specifier: ^1.3.12
-    version: 1.3.12(rollup@2.77.3)(vue@3.2.45)
-  vite:
-    specifier: ^2.9.16
-    version: 2.9.16(sass@1.32.11)
-  vite-plugin-pages:
-    specifier: ^0.31.0
-    version: 0.31.0(@vue/compiler-sfc@3.3.4)(vite@2.9.16)
-  vite-plugin-remove-console:
-    specifier: ^2.1.1
-    version: 2.1.1
-  vite-plugin-rewrite-all:
-    specifier: ^1.0.1
-    version: 1.0.1(vite@2.9.16)
-  vite-plugin-vue-layouts:
-    specifier: ^0.8.0
-    version: 0.8.0(vite@2.9.16)(vue-router@4.2.4)(vue@3.2.45)
-  vitest:
-    specifier: ^0.31.0
-    version: 0.31.0(@vitest/ui@0.31.0)(happy-dom@11.0.2)(jsdom@21.1.0)(sass@1.32.11)
-  vue-tsc:
-    specifier: ^1.8.5
-    version: 1.8.5(typescript@5.0.4)
-  workbox-build:
-    specifier: ^6.5.0
-    version: 6.6.0
-  workbox-cacheable-response:
-    specifier: ^6.5.0
-    version: 6.5.4
-  workbox-core:
-    specifier: ^6.5.0
-    version: 6.6.0
-  workbox-expiration:
-    specifier: ^6.5.0
-    version: 6.6.0
-  workbox-precaching:
-    specifier: ^6.5.0
-    version: 6.6.0
-  workbox-routing:
-    specifier: ^6.5.0
-    version: 6.6.0
-  workbox-strategies:
-    specifier: ^6.5.0
-    version: 6.6.0
+  .:
+    dependencies:
+      '@capacitor/device':
+        specifier: ^5.0.6
+        version: 5.0.6(@capacitor/core@5.2.2)
+      '@capacitor/network':
+        specifier: ^5.0.6
+        version: 5.0.6(@capacitor/core@5.2.2)
+      '@fontsource/caveat':
+        specifier: ^4.5.10
+        version: 4.5.10
+      '@fontsource/poppins':
+        specifier: ^5.0.8
+        version: 5.0.8
+      '@hannoeru/eslint-plugin':
+        specifier: ^0.9.5
+        version: 0.9.5(eslint@8.33.0)(typescript@5.0.4)
+      '@hcaptcha/vue3-hcaptcha':
+        specifier: ^1.3.0
+        version: 1.3.0(vue@3.2.45)
+      '@iconify-icons/logos':
+        specifier: ^1.2.35
+        version: 1.2.35
+      '@iconify-json/uim':
+        specifier: ^1.1.6
+        version: 1.1.6
+      '@iconify/vue':
+        specifier: ^4.1.1
+        version: 4.1.1(vue@3.2.45)
+      '@quasar/extras':
+        specifier: ^1.15.10
+        version: 1.15.10
+      '@supabase/supabase-js':
+        specifier: ^2.33.1
+        version: 2.33.1
+      '@tachibana-shin/capacitor-filesystem':
+        specifier: ^5.0.2
+        version: 5.0.2(@capacitor/core@5.2.2)
+      '@unhead/vue':
+        specifier: ^1.6.2
+        version: 1.6.2(vue@3.2.45)
+      '@vueuse/components':
+        specifier: ^10.4.1
+        version: 10.4.1(vue@3.2.45)
+      '@vueuse/core':
+        specifier: ^10.2.1
+        version: 10.2.1(vue@3.2.45)
+      '@vueuse/math':
+        specifier: ^10.2.1
+        version: 10.2.1(vue@3.2.45)
+      '@vueuse/shared':
+        specifier: ^10.2.1
+        version: 10.2.1(vue@3.2.45)
+      cheerio:
+        specifier: 1.0.0-rc.12
+        version: 1.0.0-rc.12
+      client-ext-animevsub-helper:
+        specifier: ^1.0.4
+        version: 1.0.4
+      dayjs:
+        specifier: ^1.11.9
+        version: 1.11.9
+      eruda2:
+        specifier: 0.0.2-b8
+        version: 0.0.2-b8
+      fetch-retry:
+        specifier: ^5.0.6
+        version: 5.0.6
+      hash-sum:
+        specifier: ^2.0.0
+        version: 2.0.0
+      htmlparser2:
+        specifier: ^8.0.1
+        version: 8.0.1
+      idb-keyval:
+        specifier: ^6.2.0
+        version: 6.2.0
+      iso-639-1:
+        specifier: ^2.1.15
+        version: 2.1.15
+      js-base64:
+        specifier: ^3.7.4
+        version: 3.7.4
+      js-cookie:
+        specifier: ^3.0.5
+        version: 3.0.5
+      modern-async:
+        specifier: ^1.1.3
+        version: 1.1.3
+      nypm:
+        specifier: ^0.3.3
+        version: 0.3.3
+      onu-ui:
+        specifier: 1.0.14-beta.2
+        version: 1.0.14-beta.2(vue@3.2.45)
+      perfect-debounce:
+        specifier: ^1.0.0
+        version: 1.0.0
+      pinia:
+        specifier: ^2.0.29
+        version: 2.0.29(typescript@5.0.4)(vue@3.2.45)
+      pinia-plugin-persistedstate:
+        specifier: ^3.2.0
+        version: 3.2.0(pinia@2.0.29)
+      quasar:
+        specifier: ^2.12.2
+        version: 2.12.2
+      raiku-pgs:
+        specifier: workspace:^
+        version: link:npm/raiku-pgs
+      register-service-worker:
+        specifier: ^1.7.2
+        version: 1.7.2
+      set-cookie-parser:
+        specifier: ^2.6.0
+        version: 2.6.0
+      swiper:
+        specifier: ^9.4.1
+        version: 9.4.1
+      ua-parser-js:
+        specifier: ^1.0.33
+        version: 1.0.33
+      unplugin-vue-router:
+        specifier: ^0.6.4
+        version: 0.6.4(rollup@2.77.3)(vue-router@4.2.4)(vue@3.2.45)
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
+      vue:
+        specifier: ^3.2.45
+        version: 3.2.45
+      vue-i18n:
+        specifier: ^9.2.2
+        version: 9.2.2(vue@3.2.45)
+      vue-request:
+        specifier: 2.0.3
+        version: 2.0.3(vue@3.2.45)
+      vue-router:
+        specifier: ^4.2.4
+        version: 4.2.4(vue@3.2.45)
+    devDependencies:
+      '@capacitor/app':
+        specifier: ^5.0.6
+        version: 5.0.6(@capacitor/core@5.2.2)
+      '@iconify-json/ant-design':
+        specifier: ^1.1.10
+        version: 1.1.10
+      '@iconify-json/carbon':
+        specifier: ^1.1.21
+        version: 1.1.21
+      '@iconify-json/ep':
+        specifier: ^1.1.12
+        version: 1.1.12
+      '@iconify-json/ic':
+        specifier: ^1.1.14
+        version: 1.1.14
+      '@iconify-json/iconamoon':
+        specifier: ^1.1.1
+        version: 1.1.1
+      '@iconify-json/iconoir':
+        specifier: ^1.1.32
+        version: 1.1.32
+      '@iconify-json/ion':
+        specifier: ^1.1.12
+        version: 1.1.12
+      '@iconify-json/line-md':
+        specifier: ^1.1.29
+        version: 1.1.29
+      '@iconify-json/logos':
+        specifier: ^1.1.36
+        version: 1.1.36
+      '@iconify-json/material-symbols':
+        specifier: ^1.1.58
+        version: 1.1.58
+      '@iconify-json/ph':
+        specifier: ^1.1.6
+        version: 1.1.6
+      '@iconify/json':
+        specifier: ^2.2.114
+        version: 2.2.114
+      '@intlify/vite-plugin-vue-i18n':
+        specifier: ^6.0.3
+        version: 6.0.3(vite@2.9.16)(vue-i18n@9.2.2)
+      '@pinia/testing':
+        specifier: ^0.1.3
+        version: 0.1.3(pinia@2.0.29)(vue@3.2.45)
+      '@quasar/app-vite':
+        specifier: ^1.4.3
+        version: 1.4.3(eslint@8.33.0)(pinia@2.0.29)(quasar@2.12.2)(rollup@2.77.3)(vue-router@4.2.4)(vue@3.2.45)(workbox-build@6.6.0)
+      '@quasar/cli':
+        specifier: ^2.2.3
+        version: 2.2.3
+      '@quasar/icongenie':
+        specifier: ^3.1.1
+        version: 3.1.1
+      '@quasar/quasar-app-extension-testing-e2e-cypress':
+        specifier: ^5.1.0
+        version: 5.1.0(@babel/core@7.22.5)(@babel/preset-env@7.22.5)(babel-loader@9.1.3)(cypress@12.17.0)(eslint-plugin-cypress@2.12.1)(webpack@5.88.1)
+      '@quasar/quasar-app-extension-testing-unit-vitest':
+        specifier: ^0.3.0
+        version: 0.3.0(@vitest/ui@0.31.0)(@vue/test-utils@2.4.0)(quasar@2.12.2)(vite@2.9.16)(vitest@0.31.0)(vue@3.2.45)
+      '@tachibana-shin/eslint-config':
+        specifier: ^1.0.7
+        version: 1.0.7(eslint@8.33.0)(typescript@5.0.4)
+      '@tachibana-shin/vite-plugin-pages':
+        specifier: 0.31.1-beta.1
+        version: 0.31.1-beta.1(@vue/compiler-sfc@3.3.4)(vite@2.9.16)
+      '@testing-library/vue':
+        specifier: ^7.0.0
+        version: 7.0.0(@vue/compiler-sfc@3.3.4)(vue@3.2.45)
+      '@types/group-array':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@types/hash-sum':
+        specifier: ^1.0.0
+        version: 1.0.0
+      '@types/js-cookie':
+        specifier: ^3.0.3
+        version: 3.0.3
+      '@types/lz-string':
+        specifier: ^1.3.34
+        version: 1.3.34
+      '@types/node':
+        specifier: 18.8.0
+        version: 18.8.0
+      '@types/prompts':
+        specifier: ^2.4.2
+        version: 2.4.2
+      '@types/semver':
+        specifier: ^7.3.13
+        version: 7.3.13
+      '@types/serviceworker':
+        specifier: ^0.0.67
+        version: 0.0.67
+      '@types/set-cookie-parser':
+        specifier: ^2.4.3
+        version: 2.4.3
+      '@types/ua-parser-js':
+        specifier: ^0.7.36
+        version: 0.7.36
+      '@types/uuid':
+        specifier: ^9.0.2
+        version: 9.0.2
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.49.0
+        version: 5.49.0(@typescript-eslint/parser@5.49.0)(eslint@8.33.0)(typescript@5.0.4)
+      '@typescript-eslint/parser':
+        specifier: ^5.49.0
+        version: 5.49.0(eslint@8.33.0)(typescript@5.0.4)
+      '@unocss/transformer-directives':
+        specifier: ^0.55.2
+        version: 0.55.2
+      '@vitest/ui':
+        specifier: ^0.31.0
+        version: 0.31.0(vitest@0.31.0)
+      '@vitest/web-worker':
+        specifier: ^0.30.1
+        version: 0.30.1(vitest@0.31.0)
+      '@vue-macros/volar':
+        specifier: ^0.12.3
+        version: 0.12.3(@vue-macros/reactivity-transform@0.3.16)(rollup@2.77.3)(typescript@5.0.4)(vue-tsc@1.8.5)(vue@3.2.45)
+      '@vue/test-utils':
+        specifier: ^2.0.0
+        version: 2.4.0(vue@3.2.45)
+      autoprefixer:
+        specifier: ^10.4.15
+        version: 10.4.15(postcss@8.4.29)
+      bumpp:
+        specifier: ^8.2.1
+        version: 8.2.1
+      chalk:
+        specifier: ^5.2.0
+        version: 5.2.0
+      cypress:
+        specifier: ^12.17.0
+        version: 12.17.0
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
+      envalid:
+        specifier: ^7.3.1
+        version: 7.3.1
+      esbuild:
+        specifier: ^0.19.2
+        version: 0.19.2
+      eslint:
+        specifier: ^8.33.0
+        version: 8.33.0
+      eslint-config-prettier:
+        specifier: ^9.0.0
+        version: 9.0.0(eslint@8.33.0)
+      eslint-plugin-cypress:
+        specifier: ^2.12.1
+        version: 2.12.1(eslint@8.33.0)
+      eslint-plugin-vue:
+        specifier: ^9.9.0
+        version: 9.9.0(eslint@8.33.0)
+      fake-indexeddb:
+        specifier: ^4.0.2
+        version: 4.0.2
+      happy-dom:
+        specifier: ^11.0.2
+        version: 11.0.2
+      javascript-obfuscator:
+        specifier: ^4.0.2
+        version: 4.0.2
+      jsdom:
+        specifier: ^21.1.0
+        version: 21.1.0
+      kleur:
+        specifier: ^4.1.5
+        version: 4.1.5
+      nx:
+        specifier: 16.8.1
+        version: 16.8.1
+      nx-cloud:
+        specifier: latest
+        version: 16.4.0
+      prettier:
+        specifier: ^3.0.1
+        version: 3.0.1
+      prompts:
+        specifier: ^2.4.2
+        version: 2.4.2
+      sass:
+        specifier: 1.32.11
+        version: 1.32.11
+      semver:
+        specifier: ^7.5.4
+        version: 7.5.4
+      supabase:
+        specifier: ^1.88.0
+        version: 1.88.0
+      tsx:
+        specifier: ^3.12.7
+        version: 3.12.7
+      typescript:
+        specifier: ^5.0.4
+        version: 5.0.4
+      unocss:
+        specifier: ^0.53.4
+        version: 0.53.4(postcss@8.4.29)(rollup@2.77.3)(vite@2.9.16)
+      unplugin-auto-import:
+        specifier: ^0.16.6
+        version: 0.16.6(@vueuse/core@10.2.1)(rollup@2.77.3)
+      unplugin-icons:
+        specifier: ^0.17.0
+        version: 0.17.0(@vue/compiler-sfc@3.3.4)
+      unplugin-vue-components:
+        specifier: ^0.25.1
+        version: 0.25.1(rollup@2.77.3)(vue@3.2.45)
+      unplugin-vue-define-options:
+        specifier: ^1.3.12
+        version: 1.3.12(rollup@2.77.3)(vue@3.2.45)
+      vite:
+        specifier: ^2.9.16
+        version: 2.9.16(sass@1.32.11)
+      vite-plugin-pages:
+        specifier: ^0.31.0
+        version: 0.31.0(@vue/compiler-sfc@3.3.4)(vite@2.9.16)
+      vite-plugin-remove-console:
+        specifier: ^2.1.1
+        version: 2.1.1
+      vite-plugin-rewrite-all:
+        specifier: ^1.0.1
+        version: 1.0.1(vite@2.9.16)
+      vite-plugin-vue-layouts:
+        specifier: ^0.8.0
+        version: 0.8.0(vite@2.9.16)(vue-router@4.2.4)(vue@3.2.45)
+      vitest:
+        specifier: ^0.31.0
+        version: 0.31.0(@vitest/ui@0.31.0)(happy-dom@11.0.2)(jsdom@21.1.0)(sass@1.32.11)
+      vue-tsc:
+        specifier: ^1.8.5
+        version: 1.8.5(typescript@5.0.4)
+      workbox-build:
+        specifier: ^6.5.0
+        version: 6.6.0
+      workbox-cacheable-response:
+        specifier: ^6.5.0
+        version: 6.5.4
+      workbox-core:
+        specifier: ^6.5.0
+        version: 6.6.0
+      workbox-expiration:
+        specifier: ^6.5.0
+        version: 6.6.0
+      workbox-precaching:
+        specifier: ^6.5.0
+        version: 6.6.0
+      workbox-routing:
+        specifier: ^6.5.0
+        version: 6.6.0
+      workbox-strategies:
+        specifier: ^6.5.0
+        version: 6.6.0
+
+  npm/raiku-pgs:
+    dependencies:
+      cheerio:
+        specifier: 1.0.0-rc.12
+        version: 1.0.0-rc.12
+      client-ext-animevsub-helper:
+        specifier: ^1.0.4
+        version: 1.0.4
+      htmlparser2:
+        specifier: ^9.0.0
+        version: 9.0.0
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+    devDependencies:
+      bumpp:
+        specifier: ^9.2.0
+        version: 9.2.0
+      typescript:
+        specifier: ^5.1.3
+        version: 5.2.2
+      vite:
+        specifier: ^4.3.9
+        version: 4.4.9(@types/node@18.8.0)(sass@1.32.11)
+      vitest:
+        specifier: ^0.34.4
+        version: 0.34.4(@vitest/ui@0.31.0)(happy-dom@11.0.2)(jsdom@21.1.0)(sass@1.32.11)
 
 packages:
 
@@ -2644,8 +2677,8 @@ packages:
       vue-i18n:
         optional: true
     dependencies:
-      '@intlify/message-compiler': 9.4.0
-      '@intlify/shared': 9.4.0
+      '@intlify/message-compiler': 9.4.1
+      '@intlify/shared': 9.4.1
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       vue-i18n: 9.2.2(vue@3.2.45)
@@ -2674,11 +2707,11 @@ packages:
       '@intlify/shared': 9.2.2
       source-map: 0.6.1
 
-  /@intlify/message-compiler@9.4.0:
-    resolution: {integrity: sha512-EdjqOH3bQqEjZcUOwo90wuW4ZuFr41FDxVni6WNKS0V0myKgwz9EuvLDcnEbjJMIX8vKAWPjWfnSTt5fMwKHLA==}
+  /@intlify/message-compiler@9.4.1:
+    resolution: {integrity: sha512-aN2N+dUx320108QhH51Ycd2LEpZ+NKbzyQ2kjjhqMcxhHdxtOnkgdx+MDBhOy/CObwBmhC3Nygzc6hNlfKvPNw==}
     engines: {node: '>= 16'}
     dependencies:
-      '@intlify/shared': 9.4.0
+      '@intlify/shared': 9.4.1
       source-map-js: 1.0.2
     dev: true
 
@@ -2686,8 +2719,8 @@ packages:
     resolution: {integrity: sha512-wRwTpsslgZS5HNyM7uDQYZtxnbI12aGiBZURX3BTR9RFIKKRWpllTsgzHWvj3HKm3Y2Sh5LPC1r0PDCKEhVn9Q==}
     engines: {node: '>= 14'}
 
-  /@intlify/shared@9.4.0:
-    resolution: {integrity: sha512-AFqymip2kToqA0B6KZPg5jSrdcVHoli9t/VhGKE2iiMq9utFuMoGdDC/JOCIZgwxo6aXAk86QyU2XtzEoMuZ6A==}
+  /@intlify/shared@9.4.1:
+    resolution: {integrity: sha512-A51elBmZWf1FS80inf/32diO9DeXoqg9GR9aUDHFcfHoNDuT46Q+fpPOdj8jiJnSHSBh8E1E+6qWRhAZXdK3Ng==}
     engines: {node: '>= 16'}
     dev: true
 
@@ -2707,7 +2740,7 @@ packages:
         optional: true
     dependencies:
       '@intlify/bundle-utils': 3.4.0(vue-i18n@9.2.2)
-      '@intlify/shared': 9.4.0
+      '@intlify/shared': 9.4.1
       '@rollup/pluginutils': 4.2.1
       debug: 4.3.4(supports-color@8.1.1)
       fast-glob: 3.3.0
@@ -2756,6 +2789,13 @@ packages:
   /@javascript-obfuscator/estraverse@5.4.0:
     resolution: {integrity: sha512-CZFX7UZVN9VopGbjTx4UXaXsi9ewoM1buL0kY7j1ftYdSs7p2spv9opxFjHlQ/QGTgh4UqufYqJJ0WKLml7b6w==}
     engines: {node: '>=4.0'}
+    dev: true
+
+  /@jest/schemas@29.6.3:
+    resolution: {integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@sinclair/typebox': 0.27.8
     dev: true
 
   /@jimp/bmp@0.14.0(@jimp/custom@0.14.0):
@@ -3697,6 +3737,10 @@ packages:
 
   /@sideway/pinpoint@2.0.0:
     resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==}
+    dev: true
+
+  /@sinclair/typebox@0.27.8:
+    resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
     dev: true
 
   /@sindresorhus/is@0.7.0:
@@ -4672,11 +4716,27 @@ packages:
       chai: 4.3.7
     dev: true
 
+  /@vitest/expect@0.34.4:
+    resolution: {integrity: sha512-XlMKX8HyYUqB8dsY8Xxrc64J2Qs9pKMt2Z8vFTL4mBWXJsg4yoALHzJfDWi8h5nkO4Zua4zjqtapQ/IluVkSnA==}
+    dependencies:
+      '@vitest/spy': 0.34.4
+      '@vitest/utils': 0.34.4
+      chai: 4.3.7
+    dev: true
+
   /@vitest/runner@0.31.0:
     resolution: {integrity: sha512-H1OE+Ly7JFeBwnpHTrKyCNm/oZgr+16N4qIlzzqSG/YRQDATBYmJb/KUn3GrZaiQQyL7GwpNHVZxSQd6juLCgw==}
     dependencies:
       '@vitest/utils': 0.31.0
       concordance: 5.0.4
+      p-limit: 4.0.0
+      pathe: 1.1.1
+    dev: true
+
+  /@vitest/runner@0.34.4:
+    resolution: {integrity: sha512-hwwdB1StERqUls8oV8YcpmTIpVeJMe4WgYuDongVzixl5hlYLT2G8afhcdADeDeqCaAmZcSgLTLtqkjPQF7x+w==}
+    dependencies:
+      '@vitest/utils': 0.34.4
       p-limit: 4.0.0
       pathe: 1.1.1
     dev: true
@@ -4689,8 +4749,22 @@ packages:
       pretty-format: 27.5.1
     dev: true
 
+  /@vitest/snapshot@0.34.4:
+    resolution: {integrity: sha512-GCsh4coc3YUSL/o+BPUo7lHQbzpdttTxL6f4q0jRx2qVGoYz/cyTRDJHbnwks6TILi6560bVWoBpYC10PuTLHw==}
+    dependencies:
+      magic-string: 0.30.2
+      pathe: 1.1.1
+      pretty-format: 29.7.0
+    dev: true
+
   /@vitest/spy@0.31.0:
     resolution: {integrity: sha512-IzCEQ85RN26GqjQNkYahgVLLkULOxOm5H/t364LG0JYb3Apg0PsYCHLBYGA006+SVRMWhQvHlBBCyuByAMFmkg==}
+    dependencies:
+      tinyspy: 2.1.1
+    dev: true
+
+  /@vitest/spy@0.34.4:
+    resolution: {integrity: sha512-PNU+fd7DUPgA3Ya924b1qKuQkonAW6hL7YUjkON3wmBwSTIlhOSpy04SJ0NrRsEbrXgMMj6Morh04BMf8k+w0g==}
     dependencies:
       tinyspy: 2.1.1
     dev: true
@@ -4716,6 +4790,14 @@ packages:
       concordance: 5.0.4
       loupe: 2.3.6
       pretty-format: 27.5.1
+    dev: true
+
+  /@vitest/utils@0.34.4:
+    resolution: {integrity: sha512-yR2+5CHhp/K4ySY0Qtd+CAL9f5Yh1aXrKfAT42bq6CtlGPh92jIDDDSg7ydlRow1CP+dys4TrOrbELOyNInHSg==}
+    dependencies:
+      diff-sequences: 29.6.3
+      loupe: 2.3.6
+      pretty-format: 29.7.0
     dev: true
 
   /@vitest/web-worker@0.30.1(vitest@0.31.0):
@@ -6078,6 +6160,21 @@ packages:
       semver: 7.5.4
     dev: true
 
+  /bumpp@9.2.0:
+    resolution: {integrity: sha512-pgp7y3jp33QTaXFVDrE0IKuZF5Y8EsIz+ywZXFALW2nD+ZD+4crxJe/GypBQBoJuZrr5dc6TGrR3wl7fk3+C6w==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      '@jsdevtools/ez-spawn': 3.0.4
+      c12: 1.4.2
+      cac: 6.7.14
+      fast-glob: 3.3.1
+      prompts: 2.4.2
+      semver: 7.5.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /bundle-name@3.0.0:
     resolution: {integrity: sha512-PKA4BeSvBpQKQ8iPOGCSiell+N8P+Tf1DlwqmYhpe2gAhKPHn8EYOxVT+ShuGmhg8lN8XiSlS80yiExKXrURlw==}
     engines: {node: '>=12'}
@@ -6092,6 +6189,24 @@ packages:
   /bytes@3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
     engines: {node: '>= 0.8'}
+    dev: true
+
+  /c12@1.4.2:
+    resolution: {integrity: sha512-3IP/MuamSVRVw8W8+CHWAz9gKN4gd+voF2zm/Ln6D25C2RhytEZ1ABbC8MjKr4BR9rhoV1JQ7jJA158LDiTkLg==}
+    dependencies:
+      chokidar: 3.5.3
+      defu: 6.1.2
+      dotenv: 16.3.1
+      giget: 1.1.2
+      jiti: 1.18.2
+      mlly: 1.4.0
+      ohash: 1.1.3
+      pathe: 1.1.1
+      perfect-debounce: 1.0.0
+      pkg-types: 1.0.3
+      rc9: 2.1.1
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /cac@6.7.14:
@@ -7161,6 +7276,11 @@ packages:
   /detect-libc@2.0.2:
     resolution: {integrity: sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw==}
     engines: {node: '>=8'}
+    dev: true
+
+  /diff-sequences@29.6.3:
+    resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dev: true
 
   /dir-glob@3.0.1:
@@ -9147,6 +9267,21 @@ packages:
       omggif: 1.0.10
     dev: true
 
+  /giget@1.1.2:
+    resolution: {integrity: sha512-HsLoS07HiQ5oqvObOI+Qb2tyZH4Gj5nYGfF9qQcZNrPw+uEFhdXtgJr01aO2pWadGHucajYDLxxbtQkm97ON2A==}
+    hasBin: true
+    dependencies:
+      colorette: 2.0.20
+      defu: 6.1.2
+      https-proxy-agent: 5.0.1
+      mri: 1.2.0
+      node-fetch-native: 1.2.0
+      pathe: 1.1.1
+      tar: 6.1.15
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /github-from-package@0.0.0:
     resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
     dev: true
@@ -9524,6 +9659,15 @@ packages:
 
   /htmlparser2@8.0.1:
     resolution: {integrity: sha512-4lVbmc1diZC7GUJQtRQ5yBAeUCL1exyMwmForWkRLnwyzWBFxN633SALPMGYaWZvKe9j1pRZJpauvmxENSp/EA==}
+    dependencies:
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      domutils: 3.1.0
+      entities: 4.5.0
+    dev: false
+
+  /htmlparser2@9.0.0:
+    resolution: {integrity: sha512-uxbSI98wmFT/G4P2zXx4OVx04qWUmyFPrD2/CNepa2Zo3GPNaCaaxElDgwUrwYWkK1nr9fft0Ya8dws8coDLLQ==}
     dependencies:
       domelementtype: 2.3.0
       domhandler: 5.0.3
@@ -11096,6 +11240,11 @@ packages:
       nanoassert: 2.0.0
     dev: false
 
+  /mri@1.2.0:
+    resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
+    engines: {node: '>=4'}
+    dev: true
+
   /mrmime@1.0.1:
     resolution: {integrity: sha512-hzzEagAgDyoU1Q6yg5uI+AorQgdvMCur3FcKf7NhMKWsaYg+RnbTyHRa/9IlLF9rf455MOCtcqqrQQ83pPP7Uw==}
     engines: {node: '>=10'}
@@ -11536,7 +11685,11 @@ packages:
     dependencies:
       destr: 2.0.0
       node-fetch-native: 1.2.0
-      ufo: 1.1.2
+      ufo: 1.3.0
+    dev: true
+
+  /ohash@1.1.3:
+    resolution: {integrity: sha512-zuHHiGTYTA1sYJ/wZN+t5HKZaH23i4yI1HMwbuXm24Nid7Dv0KcuRlKoNKS9UNfAVSBlnGLcuQrnOKWOZoEGaw==}
     dev: true
 
   /omggif@1.0.10:
@@ -12165,6 +12318,15 @@ packages:
       react-is: 17.0.2
     dev: true
 
+  /pretty-format@29.7.0:
+    resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/schemas': 29.6.3
+      ansi-styles: 5.2.0
+      react-is: 18.2.0
+    dev: true
+
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
     dev: true
@@ -12315,6 +12477,14 @@ packages:
       unpipe: 1.0.0
     dev: true
 
+  /rc9@2.1.1:
+    resolution: {integrity: sha512-lNeOl38Ws0eNxpO3+wD1I9rkHGQyj1NU1jlzv4go2CtEnEQEUfqnIvZG7W+bC/aXdJ27n5x/yUjb6RoT9tko+Q==}
+    dependencies:
+      defu: 6.1.2
+      destr: 2.0.0
+      flat: 5.0.2
+    dev: true
+
   /rc@1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
     hasBin: true
@@ -12331,6 +12501,10 @@ packages:
 
   /react-is@17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
+    dev: true
+
+  /react-is@18.2.0:
+    resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: true
 
   /read-chunk@4.0.3:
@@ -13663,6 +13837,11 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: true
 
+  /tinypool@0.7.0:
+    resolution: {integrity: sha512-zSYNUlYSMhJ6Zdou4cJwo/p7w5nmAH17GRfU/ui3ctvjXFErXXkruT4MWW6poDeXgCaIBlGLrfU6TbTXxyGMww==}
+    engines: {node: '>=14.0.0'}
+    dev: true
+
   /tinyspy@2.1.1:
     resolution: {integrity: sha512-XPJL2uSzcOyBMky6OFrusqWlzfFrXtE0hPuMgW8A2HmaqrPo4ZQHRN/V0QXN3FSjKxpsbRrFc5LI7KOwBsT1/w==}
     engines: {node: '>=14.0.0'}
@@ -13920,6 +14099,12 @@ packages:
     engines: {node: '>=12.20'}
     hasBin: true
 
+  /typescript@5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: true
+
   /typeson-registry@1.0.0-alpha.39:
     resolution: {integrity: sha512-NeGDEquhw+yfwNhguLPcZ9Oj0fzbADiX4R0WxvoY8nGhy98IbzQy1sezjoEFWOywOboj/DWehI+/aUlRVrJnnw==}
     engines: {node: '>=10.0.0'}
@@ -13943,7 +14128,6 @@ packages:
 
   /ufo@1.3.0:
     resolution: {integrity: sha512-bRn3CsoojyNStCZe0BG0Mt4Nr/4KF+rhFlnNXybgqt5pXHNFRlqinSoQaTrGyzE4X8aHplSb+TorH+COin9Yxw==}
-    dev: false
 
   /uglify-js@3.17.4:
     resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
@@ -14360,6 +14544,11 @@ packages:
     hasBin: true
     dev: false
 
+  /uuid@9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
+    hasBin: true
+    dev: false
+
   /v8-compile-cache@2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
     dev: true
@@ -14406,6 +14595,28 @@ packages:
 
   /vite-node@0.31.0(@types/node@18.8.0)(sass@1.32.11):
     resolution: {integrity: sha512-8x1x1LNuPvE2vIvkSB7c1mApX5oqlgsxzHQesYF7l5n1gKrEmrClIiZuOFbFDQcjLsmcWSwwmrWrcGWm9Fxc/g==}
+    engines: {node: '>=v14.18.0'}
+    hasBin: true
+    dependencies:
+      cac: 6.7.14
+      debug: 4.3.4(supports-color@8.1.1)
+      mlly: 1.4.0
+      pathe: 1.1.1
+      picocolors: 1.0.0
+      vite: 4.4.9(@types/node@18.8.0)(sass@1.32.11)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+    dev: true
+
+  /vite-node@0.34.4(@types/node@18.8.0)(sass@1.32.11):
+    resolution: {integrity: sha512-ho8HtiLc+nsmbwZMw8SlghESEE3KxJNp04F/jPUCLVvaURwt0d+r9LxEqCX5hvrrOQ0GSyxbYr5ZfRYhQ0yVKQ==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
     dependencies:
@@ -14651,6 +14862,74 @@ packages:
       tinypool: 0.5.0
       vite: 4.4.9(@types/node@18.8.0)(sass@1.32.11)
       vite-node: 0.31.0(@types/node@18.8.0)(sass@1.32.11)
+      why-is-node-running: 2.2.2
+    transitivePeerDependencies:
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+    dev: true
+
+  /vitest@0.34.4(@vitest/ui@0.31.0)(happy-dom@11.0.2)(jsdom@21.1.0)(sass@1.32.11):
+    resolution: {integrity: sha512-SE/laOsB6995QlbSE6BtkpXDeVNLJc1u2LHRG/OpnN4RsRzM3GQm4nm3PQCK5OBtrsUqnhzLdnT7se3aeNGdlw==}
+    engines: {node: '>=v14.18.0'}
+    hasBin: true
+    peerDependencies:
+      '@edge-runtime/vm': '*'
+      '@vitest/browser': '*'
+      '@vitest/ui': '*'
+      happy-dom: '*'
+      jsdom: '*'
+      playwright: '*'
+      safaridriver: '*'
+      webdriverio: '*'
+    peerDependenciesMeta:
+      '@edge-runtime/vm':
+        optional: true
+      '@vitest/browser':
+        optional: true
+      '@vitest/ui':
+        optional: true
+      happy-dom:
+        optional: true
+      jsdom:
+        optional: true
+      playwright:
+        optional: true
+      safaridriver:
+        optional: true
+      webdriverio:
+        optional: true
+    dependencies:
+      '@types/chai': 4.3.5
+      '@types/chai-subset': 1.3.3
+      '@types/node': 18.8.0
+      '@vitest/expect': 0.34.4
+      '@vitest/runner': 0.34.4
+      '@vitest/snapshot': 0.34.4
+      '@vitest/spy': 0.34.4
+      '@vitest/ui': 0.31.0(vitest@0.31.0)
+      '@vitest/utils': 0.34.4
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      cac: 6.7.14
+      chai: 4.3.7
+      debug: 4.3.4(supports-color@8.1.1)
+      happy-dom: 11.0.2
+      jsdom: 21.1.0
+      local-pkg: 0.4.3
+      magic-string: 0.30.2
+      pathe: 1.1.1
+      picocolors: 1.0.0
+      std-env: 3.3.3
+      strip-literal: 1.3.0
+      tinybench: 2.5.0
+      tinypool: 0.7.0
+      vite: 4.4.9(@types/node@18.8.0)(sass@1.32.11)
+      vite-node: 0.34.4(@types/node@18.8.0)(sass@1.32.11)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less

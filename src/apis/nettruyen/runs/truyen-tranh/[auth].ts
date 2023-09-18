@@ -1,7 +1,9 @@
-import { parsePath } from "src/apis/__helpers__/parsePath"
+import type { API } from "raiku-pgs"
+import { parsePath } from "raiku-pgs"
 import { API_CURL } from "src/apis/nettruyen/const"
 
 export default async function (
+  { get }: API,
   comicId: number,
   // eslint-disable-next-line camelcase
   user_uid: string,

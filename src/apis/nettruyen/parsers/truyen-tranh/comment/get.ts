@@ -1,5 +1,5 @@
-import type { Comment } from "src/apis/API"
-import { parseDom } from "src/apis/__helpers__/parseDom"
+import { parseDom } from "raiku-pgs"
+import type { Comment } from "raiku-pgs"
 
 import { parseComment } from "../../__helpers__/parseComment"
 

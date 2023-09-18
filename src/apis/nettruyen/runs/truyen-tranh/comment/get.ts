@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
-import type { Comment } from "src/apis/API"
-import { PostWorker } from "src/apis/wrap-worker"
+import type { API, Comment } from "raiku-pgs"
+import { PostWorker } from "raiku-pgs"
 
 import type Parse from "../../../parsers/truyen-tranh/comment/get"
 import Worker from "../../../workers/truyen-tranh/comment/get?worker"
 
 export default async function GetComment(
+  { get }: API,
   comicId: number,
   orderByNews: boolean,
   chapterId = -1,

@@ -206,7 +206,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { API, ID } from "src/apis/API"
+import type { API, ID } from "raiku-pgs"
 import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
@@ -363,7 +363,7 @@ async function download() {
       path: ep.path,
       ep_id: ep.id,
       ep_name: ep.name,
-      pages: conf.pages.map((item) => Nettruyen.Servers[0].parse(item, conf)),
+      pages: conf.pages.map((item) => nettruyen.Servers[0].parse(item, conf)),
     }).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {
         lsEpDL.value.splice(

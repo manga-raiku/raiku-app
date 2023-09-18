@@ -1,5 +1,5 @@
-import type { MetaManga } from "src/apis/API"
-import { PostWorker } from "src/apis/wrap-worker"
+import type { API, MetaManga } from "raiku-pgs"
+import { PostWorker } from "raiku-pgs"
 
 import { CURL } from "../const"
 import type general from "../parsers/[general]"
@@ -7,7 +7,7 @@ import type Parse from "../parsers/index"
 import WorkerGeneral from "../workers/[general]?worker"
 import Worker from "../workers/index?worker"
 
-export default async function index(): Promise<
+export default async function index({ get }: API): Promise<
   Readonly<{
     sliders: MetaManga[]
     hot: MetaManga[]

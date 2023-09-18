@@ -1,5 +1,4 @@
-import { parseDom } from "src/apis/__helpers__/parseDom"
-import { parsePath } from "src/apis/__helpers__/parsePath"
+import { parseDom, parsePath } from "raiku-pgs"
 import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { getImage } from "./__helpers__/getImage"

@@ -1,4 +1,4 @@
-import { PostWorker } from "src/apis/wrap-worker"
+import { PostWorker } from "raiku-pgs"
 
 import type Parse from "../parsers/user"
 import Worker from "../workers/user?worker"

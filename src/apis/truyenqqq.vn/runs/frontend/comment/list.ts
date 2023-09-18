@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
+import { PostWorker } from "raiku-pgs"
 import { CURL } from "src/apis/truyenqqq.vn/const"
-import { PostWorker } from "src/apis/wrap-worker"
 
 import type Parse from "../../../parsers/comment/list"
 import Worker from "../../../workers/comment/list?worker"

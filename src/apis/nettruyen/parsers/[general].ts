@@ -1,6 +1,4 @@
-import { parseAnchor } from "src/apis/__helpers__/parseAnchor"
-import { parseDom } from "src/apis/__helpers__/parseDom"
-import { parsePath } from "src/apis/__helpers__/parsePath"
+import { parseAnchor, parseDom, parsePath } from "raiku-pgs"
 
 import { parseItem } from "./__helpers__/parseItem"
 

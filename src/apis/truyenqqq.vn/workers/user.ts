@@ -1,4 +1,4 @@
-import { WrapWorker } from "src/apis/wrap-worker"
+import { WrapWorker } from "raiku-pgs"
 
 import Parse from "../parsers/user"
 

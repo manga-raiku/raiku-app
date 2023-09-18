@@ -559,7 +559,7 @@ import { packageName } from "app/package.json"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
-import type { ID } from "src/apis/API"
+import type { ID } from "raiku-pgs"
 import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
@@ -740,7 +740,7 @@ const listEpRead = computedAsync(() => {
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)
 const serversReady = computed(() =>
-  Nettruyen.Servers.filter(
+  nettruyen.Servers.filter(
     (item) => !data.value || item.has(data.value.pages[0], data.value),
   ),
 )

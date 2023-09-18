@@ -1,8 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable functional/no-throw-statement */
 import hashSum from "hash-sum"
-
-import type { ID } from "./../apis/API"
+import type { ID } from "raiku-pgs"
 
 /*
 .

@@ -130,7 +130,7 @@
 import "@fontsource/poppins"
 import type { QBtn } from "quasar"
 import { QTab, QTabs } from "quasar"
-import type { Chapter, ID } from "src/apis/API"
+import type { Chapter, ID } from "raiku-pgs"
 import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
 import dayjs from "src/logic/dayjs"
 import type { MetaManga, TaskDDEp, TaskDLEp } from "src/logic/download-manager"
@@ -223,7 +223,7 @@ async function downloadEp(item: { path: string; id: ID; name: string }) {
     path: item.path,
     ep_id: item.id,
     ep_name: item.name,
-    pages: conf.pages.map((item) => Nettruyen.Servers[0].parse(item, conf)),
+    pages: conf.pages.map((item) => nettruyen.Servers[0].parse(item, conf)),
   })
 }
 </script>
