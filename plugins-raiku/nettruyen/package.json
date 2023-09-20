@@ -1,0 +1,26 @@
+{
+  "name": "nettruyen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest",
+    "dev": "pnpm build && vite serve ./dist",
+    "build": "vite build && esr build-meta.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "LGPL-3.0-or-later",
+  "dependencies": {
+    "cheerio": "1.0.0-rc.12",
+    "raiku-pgs": "workspace:^",
+    "rollup-plugin-web-worker-loader": "^1.6.1",
+    "vite-plugin-singlefile": "^0.13.5"
+  },
+  "devDependencies": {
+    "esbuild-runner": "^2.2.2",
+    "happy-dom": "^11.0.2",
+    "vite": "^4.4.9",
+    "vitest": "^0.34.4"
+  }
+}

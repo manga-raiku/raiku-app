@@ -77,10 +77,12 @@ export interface Ranking {
 }
 export interface Package {
   readonly name: string
+  readonly id: string
   readonly favicon: string
   readonly version: string
   readonly description: string
-  readonly source: string
+
+  readonly filename: string
 
   readonly author: string
 
@@ -179,9 +181,14 @@ export interface General {
   readonly items: readonly MetaManga[]
   readonly filters: readonly (FilterURI | FilterQuery)[]
 }
+export interface Comments {
+  readonly comments: readonly Comment[]
+  readonly comments_count: number
+  readonly comments_pages: number
+}
 
 export declare class API {
-  public readonly package: Package
+  // public readonly package: Package
 
   public readonly Servers: readonly Server[]
   public readonly Rankings: readonly Ranking[]
@@ -224,11 +231,7 @@ export declare class API {
     parentId: number,
     page: number,
     comicKey: string,
-  ): Promise<{
-    readonly comments: readonly Comment[]
-    readonly comments_count: number
-    readonly comments_pages: number
-  }>
+  ): Promise<Comments>
   getListChapters(mangaId: ID): Promise<Chapter[]>
   searchQuickly(
     keyword: string,

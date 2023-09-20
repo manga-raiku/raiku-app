@@ -1,5 +1,4 @@
-import { parseDate, parseDom, parsePath } from "raiku-pgs"
-import { normalizeChName } from "src/logic/normalize-ch-name"
+import { normalizeChName, parseDate, parseDom, parsePath } from "raiku-pgs"
 
 import { parseItem } from "./__helpers__/parseItem"
 

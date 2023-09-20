@@ -1,7 +1,7 @@
 import { PostWorker } from "raiku-pgs"
 
 import type Parse from "../parsers/[general]"
-import Worker from "../workers/[general]?worker"
+import Worker from "../workers/[general]?worker&inline"
 
 import { CURL } from "./../const"
 

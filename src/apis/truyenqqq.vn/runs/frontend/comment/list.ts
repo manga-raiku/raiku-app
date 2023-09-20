@@ -3,7 +3,7 @@ import { PostWorker } from "raiku-pgs"
 import { CURL } from "src/apis/truyenqqq.vn/const"
 
 import type Parse from "../../../parsers/comment/list"
-import Worker from "../../../workers/comment/list?worker"
+import Worker from "../../../workers/comment/list?worker&inline"
 
 export default async function commentList(
   book_id: number,

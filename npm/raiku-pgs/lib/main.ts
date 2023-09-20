@@ -6,3 +6,6 @@ export { parseDom } from "./__helpers__/parseDom"
 export { parseNumber } from "./__helpers__/parseNumber"
 export { parsePath } from "./__helpers__/parsePath"
 export { parseTimeAgo } from "./__helpers__/parseTimeAgo"
+
+export { normalizeChName } from "./logic/normalize-ch-name"
+export { pathIsHome } from "./logic/path-is-home"

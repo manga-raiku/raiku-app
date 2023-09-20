@@ -1,11 +1,11 @@
 import {
+  normalizeChName,
   parseAnchor,
   parseDate,
   parseDom,
   parseNumber,
   parsePath,
 } from "raiku-pgs"
-import { normalizeChName } from "src/logic/normalize-ch-name"
 
 import { parseComment } from "../__helpers__/parseComment"
 

@@ -2,7 +2,7 @@ import { PostWorker } from "raiku-pgs"
 
 import { CURL } from "../../const"
 import type Parse from "../../parsers/pre-search"
-import Worker from "../../workers/pre-search?worker"
+import Worker from "../../workers/pre-search?worker&inline"
 
 export default async function presearch(keyword: string) {
   const { data } = await post({

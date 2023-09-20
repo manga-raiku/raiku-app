@@ -3,7 +3,7 @@ import type { LocationQuery } from "vue-router"
 
 import { CURL } from "../../const"
 import type Parse from "../../parsers/[general]"
-import Worker from "../../workers/[general]?worker"
+import Worker from "../../workers/[general]?worker&inline"
 
 export default async function (
   slug: string,

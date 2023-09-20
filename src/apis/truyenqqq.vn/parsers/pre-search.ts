@@ -1,5 +1,4 @@
-import { parseDom, parsePath } from "raiku-pgs"
-import { normalizeChName } from "src/logic/normalize-ch-name"
+import { normalizeChName, parseDom, parsePath } from "raiku-pgs"
 
 export default function presearch(html: string) {
   const $ = parseDom(html)
