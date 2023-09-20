@@ -26,18 +26,27 @@
           @click="retry"
           >{{ $t("thu-lai") }}</q-btn
         >
+
+        <q-btn
+          v-if="error === STATUS_PLUGIN_INSTALL.ADDED_BUT_NEED_DOWNLOAD"
+          @click="stateStore.showPluginManagerDialog = true"
+          >Show Plugin Manager</q-btn
+        >
       </q-card-actions>
     </q-card>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { STATUS_PLUGIN_INSTALL } from "src/constants"
+
 const props = defineProps<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   retryAsync: () => Promise<any>
 }>()
+const stateStore = useStateStore()
 
 const retrying = ref(false)
 async function retry() {

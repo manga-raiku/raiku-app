@@ -1,6 +1,6 @@
 export function useLoadMorePage<T>(
   fn: (page: number) => Promise<{
-    items: T[]
+    items: T[] | readonly T[]
     curPage: number
     maxPage: number
   }>,

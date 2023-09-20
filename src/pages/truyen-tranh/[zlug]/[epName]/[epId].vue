@@ -123,7 +123,7 @@ meta:
       :single-page="singlePage || $q.screen.width <= 517"
       :right-to-left="rightToLeft"
       :pages-length="data?.pages.length"
-      :size-old-pages="data?.sizeOldPages ?? 0"
+      :size-old-pages="0"
       :sizes="readerHorizontalRef?.sizes"
       :current-page="currentPage"
       :size-page="sizePage"
@@ -135,7 +135,7 @@ meta:
       :current-page="currentPage"
       :size-page="sizePage"
       :meta-ep="currentEpisode?.value"
-      :size-old-pages="data?.sizeOldPages ?? 0"
+      :size-old-pages="0"
     />
 
     <FabShowToolbar v-if="$q.screen.gt.xs" @click="showToolbar = true" />
@@ -295,7 +295,9 @@ meta:
                   manga_id: data.manga_id,
                   manga_name: data.name,
                   manga_image: data.image,
+                  source_id: sourceId,
                 }"
+                :source-id="sourceId"
                 focus-tab-active
                 @change-tab="onChangeTabEpisodes"
                 class-item="col-6 col-sm-4 col-md-4"
@@ -560,11 +562,11 @@ import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.v
 import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
 import type { ID } from "raiku-pgs"
-import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
 const props = defineProps<{
+  sourceId: string
   zlug: string
   epName: string
   epId: string
@@ -575,6 +577,7 @@ const $q = useQuasar()
 const IDMStore = useIDMStore()
 const followStore = useFollowStore()
 const historyStore = useHistoryStore()
+const pluginStore = usePluginStore()
 const showSearchMB = ref(false)
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const readerVerticalRef = ref<InstanceType<typeof ReaderVertical>>()
@@ -584,11 +587,15 @@ const i18n = useI18n()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 const GetWithCache = useWithCache(
   () =>
-    nettruyen.getComicChapter(
-      props.zlug,
-      props.epName + "/" + props.epId,
-      false,
-    ),
+    pluginStore
+      .get(props.sourceId)
+      .then((res) =>
+        res.plugin.getComicChapter(
+          props.zlug,
+          props.epName + "/" + props.epId,
+          false,
+        ),
+      ),
   computed(
     () =>
       `${packageName}:///manga/${
@@ -597,23 +604,16 @@ const GetWithCache = useWithCache(
   ),
 )
 // let disableReactiveParams = false
-const { data, runAsync, error } = useRequest(
-  GetWithCache as () => Promise<
-    Awaited<ReturnType<typeof GetWithCache>> & {
-      sizeOldPages?: number
-    }
-  >,
-  {
-    refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
-    async refreshDepsAction() {
-      if (route.query.no_restore_scroll) return
+const { data, runAsync, error } = useRequest(GetWithCache, {
+  refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
+  async refreshDepsAction() {
+    if (route.query.no_restore_scroll) return
 
-      await runAsync()
-      currentPage.value = 0
-      readerVerticalRef.value?.reset()
-    },
+    await runAsync()
+    currentPage.value = 0
+    readerVerticalRef.value?.reset()
   },
-)
+})
 watch(error, (error) => {
   if (error?.message === "not_found")
     router.replace({
@@ -694,6 +694,7 @@ async function downloadEp() {
       manga_id: data.value.manga_id,
       manga_name: data.value.name,
       manga_image: data.value.image,
+      source_id: props.sourceId,
     },
     {
       path: `/truyen-tranh/${props.zlug}/${props.epName}/${props.epId}`,
@@ -739,10 +740,14 @@ const listEpRead = computedAsync(() => {
 
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)
-const serversReady = computed(() =>
-  nettruyen.Servers.filter(
-    (item) => !data.value || item.has(data.value.pages[0], data.value),
-  ),
+const serversReady = computedAsync(() =>
+  pluginStore
+    .get(props.sourceId)
+    .then((res) =>
+      res.plugin.Servers.filter(
+        (item) => !data.value || item.has(data.value.pages[0], data.value),
+      ),
+    ),
 )
 // eslint-disable-next-line no-void
 watch(serversReady, () => void (server.value = 0))
@@ -839,10 +844,12 @@ function onChangeTabEpisodes() {
 
 const fnNextCh = useWithCache(
   async () => {
-    const { mangaId, epId } = nettruyen.resolveUrlComicChapter(
-      nextEpisode.value!.path,
-    )
-    return nettruyen.getComicChapter(mangaId, epId, false)
+    const { mangaId, epId } = (
+      await pluginStore.get(props.sourceId)
+    ).plugin.resolveUrlComicChapter(nextEpisode.value!.path)
+    return await (
+      await pluginStore.get(props.sourceId)
+    ).plugin.getComicChapter(mangaId, epId, false)
   },
   computed(() => `${packageName}:///manga/${nextEpisode.value!.path}`),
 )

@@ -65,12 +65,12 @@ meta:
                     rounded
                     class="bg-main mt-2 xs:mt-4 pointer-events-all mx-auto"
                     no-caps
+                      :to="item.last_chapters[0].path"
                   >
                     <i-fluent-play-24-filled
                       width="1.3em"
                       height="1.3em"
                       class="mr-2"
-                      :to="item.last_chapters[0].path"
                     />
                     {{ $t("doc-ngay") }}
                   </q-btn>
@@ -210,12 +210,12 @@ meta:
               rounded
               class="bg-main mt-2 sm:mt-4 pointer-events-all"
               no-caps
+                :to=" data.sliders[sliderIndex].last_chapters[0].path"
             >
               <i-fluent-play-24-filled
                 width="1.3em"
                 height="1.3em"
                 class="mr-2"
-                :to="data.sliders[sliderIndex].last_chapters[0].path"
               />
               {{ $t("doc-ngay") }}
             </q-btn>
@@ -418,7 +418,6 @@ meta:
 
 <script setup lang="ts">
 // import data from "src/apis/parsers/__test__/assets/index.json"
-import { nettruyen } from "src/apis/nettruyen/runs/$"
 import { formatView } from "src/logic/formatView"
 import { unflat } from "src/logic/unflat"
 import { Autoplay } from "swiper"
@@ -501,7 +500,10 @@ function Carousel({ swiper, on }: any) {
   })
 }
 
-const { data, error, refreshAsync } = useRequest(() => nettruyen.index())
+const pluginStore = usePluginStore()
+const { data, error, refreshAsync } = useRequest(() =>
+  pluginStore.get("nettruyen").then((res) => res.plugin.index()),
+)
 
 const sliderIndex = ref(0)
 </script>

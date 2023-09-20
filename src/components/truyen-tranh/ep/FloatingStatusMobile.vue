@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { normalizeChName } from "src/logic/normalize-ch-name"
+import { normalizeChName } from "raiku-pgs"
 
 defineProps<{
   currentPage: number

@@ -106,6 +106,7 @@
                   :manga-id="metaManga?.manga_id ?? null"
                   :ep-id="item.id"
                   :can-download="true"
+                  :disable="!sourceId"
                   @action:download="downloadEp(item)"
                 />
               </span>
@@ -131,7 +132,7 @@ import "@fontsource/poppins"
 import type { QBtn } from "quasar"
 import { QTab, QTabs } from "quasar"
 import type { Chapter, ID } from "raiku-pgs"
-import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
+import { normalizeChName } from "raiku-pgs"
 import dayjs from "src/logic/dayjs"
 import type { MetaManga, TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
@@ -149,6 +150,7 @@ const props = defineProps<{
   chapters: readonly Chapter[]
 
   noDownload?: boolean
+  sourceId?: string
 }>()
 const emit = defineEmits<{
   (name: "change-tab"): void
@@ -157,6 +159,7 @@ const slots = useSlots()
 
 const route = useRoute()
 const IDMStore = useIDMStore()
+const pluginStore = usePluginStore()
 
 const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
@@ -215,15 +218,19 @@ function onWheelTabs(event: WheelEvent) {
 }
 
 async function downloadEp(item: { path: string; id: ID; name: string }) {
-  const { mangaId, epId } = nettruyen.resolveUrlComicChapter(item.path)
-  const conf = await nettruyen.getComicChapter(mangaId, epId, false)
+  if (!props.sourceId) return
+
+  const { plugin } = await pluginStore.get(props.sourceId)
+
+  const { mangaId, epId } = plugin.resolveUrlComicChapter(item.path)
+  const conf = await plugin.getComicChapter(mangaId, epId, false)
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   IDMStore.download(props.metaManga!, {
     path: item.path,
     ep_id: item.id,
     ep_name: item.name,
-    pages: conf.pages.map((item) => nettruyen.Servers[0].parse(item, conf)),
+    pages: conf.pages.map((item) => plugin.Servers[0].parse(item, conf)),
   })
 }
 </script>

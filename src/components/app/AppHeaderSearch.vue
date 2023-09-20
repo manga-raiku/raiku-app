@@ -78,6 +78,7 @@
           class="relative"
           v-ripple
         >
+        <!-- !TODO: need fix -->
           <router-link :to="item.path" class="flex flex-nowrap mt-5 mx-4">
             <div>
               <q-img
@@ -113,22 +114,30 @@
 import { useEventListener } from "@vueuse/core"
 import { debounce } from "perfect-debounce"
 import { QInput } from "quasar"
-import { nettruyen } from "src/apis/nettruyen/runs/$"
+import type { API } from "raiku-pgs"
 
 // key bind
 
 const { t } = useI18n()
 
 const router = useRouter()
+const pluginStore = usePluginStore()
 
 const query = ref("")
 const {
   data: searchResult,
   loading: searchLoading,
   runAsync,
-} = useRequest(() => nettruyen.searchQuickly(query.value, 1), {
-  manual: true,
-})
+} = useRequest(
+  () => {
+    return (
+      pluginStore.plugins.values().return?.().value.plugin as API
+    )?.searchQuickly(query.value, 1)
+  },
+  {
+    manual: true,
+  },
+)
 watch(query, debounce(runAsync, 300))
 
 const focusing = ref(false)

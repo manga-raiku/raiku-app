@@ -106,7 +106,7 @@
 
 <script lang="ts" setup>
 import { debounce } from "perfect-debounce"
-import { nettruyen } from "src/apis/nettruyen/runs/$"
+import type { API } from "raiku-pgs"
 
 const props = defineProps<{
   searching: boolean
@@ -117,12 +117,18 @@ const emit = defineEmits<{
 
 const router = useRouter()
 const route = useRoute()
+const pluginStore = usePluginStore()
 
 const keyword = ref("")
 
 const query = ref((route.query.query ?? "") + "")
 const { data, runAsync } = useRequest(
-  () => nettruyen.searchQuickly(query.value, 1),
+  () =>
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    (pluginStore.plugins.values().return!()?.value.plugin as API).searchQuickly(
+      query.value,
+      1,
+    ),
   {
     manual: true,
   },

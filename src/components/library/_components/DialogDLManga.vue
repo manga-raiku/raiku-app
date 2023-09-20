@@ -132,6 +132,7 @@
       >
         <ListChapters
           :chapters="allEp"
+          :source-id="metaMangaShowInfo?.source_id"
           class-panels="px-1 overflow-y-auto scrollbar-custom"
         >
           <template #item="{ data }">
@@ -177,14 +178,10 @@
           class="min-w-15% text-weight-regular"
           @click="epsSelected.size > 0 ? unSelectAll() : selectAll()"
         >
-          <component
-            :is="
-              epsSelected.size > 0
-                ? 'solar:close-circle-linear'
-                : 'solar:check-circle-linear'
-            "
-            class="size-1.5em"
-          />
+        <i-solar-close-circle-linear v-if="epsSelected.size > 0"
+            class="size-1.5em" />
+            <i-solar-check-circle-linear v-else 
+            class="size-1.5em" />
           <span class="whitespace-nowrap">{{
             epsSelected.size > 0 ? $t("bo-chon") : $t("chon-tat")
           }}</span>
@@ -207,11 +204,11 @@
 
 <script lang="ts" setup>
 import type { API, ID } from "raiku-pgs"
-import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
 const $q = useQuasar()
 const IDMStore = useIDMStore()
+const pluginStore = usePluginStore()
 
 const props = defineProps<{
   modelValue: (typeof IDMStore.listMangaSorted)[0] | null
@@ -332,12 +329,18 @@ watch(showDownloadMore, async (state) => {
     spinnerColor: "white",
   })
 
-  // load episodes
-  const episodes = await nettruyen.getListChapters(meta.manga_id)
-
+  try {
+    // load episodes
+    const episodes = await (
+      await pluginStore.get(meta.source_id)
+    ).plugin.getListChapters(meta.manga_id)
+    allEp.value = episodes
+  } catch (err) {
+    $q.notify({
+      message: err + "",
+    })
+  }
   loader()
-
-  allEp.value = episodes
 })
 
 function selectAll() {
@@ -355,15 +358,17 @@ async function download() {
 
   downloading.value = true
 
+  const { plugin } = await pluginStore.get(metaMangaShowInfo.value.source_id)
+
   for (const ep of epsSelected) {
-    const { mangaId, epId } = nettruyen.resolveUrlComicChapter(ep.path)
-    const conf = await nettruyen.getComicChapter(mangaId, epId, false)
+    const { mangaId, epId } = plugin.resolveUrlComicChapter(ep.path)
+    const conf = await plugin.getComicChapter(mangaId, epId, false)
     // eslint-disable-next-line promise/catch-or-return
     IDMStore.download(metaMangaShowInfo.value, {
       path: ep.path,
       ep_id: ep.id,
       ep_name: ep.name,
-      pages: conf.pages.map((item) => nettruyen.Servers[0].parse(item, conf)),
+      pages: conf.pages.map((item) => plugin.Servers[0].parse(item, conf)),
     }).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {
         lsEpDL.value.splice(

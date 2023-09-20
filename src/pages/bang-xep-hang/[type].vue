@@ -117,19 +117,22 @@
 </template>
 
 <script lang="ts" setup>
+import type { MetaManga } from "raiku-pgs/dist/API"
+
 // import data from "src/apis/parsers/__test__/assets/top-ngay.json"
-import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
 
 const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
+const pluginStore = usePluginStore()
 
 const props = defineProps<{
   type: string
+  sourceId: string
 }>()
 
-const typesRank = computed(() =>
-  nettruyen.Rankings.map((item) => {
+const typesRank = computedAsync(async () =>
+  (await pluginStore.get(props.sourceId)).plugin.Rankings.map((item) => {
     return {
       value: item.value,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -140,7 +143,7 @@ const typesRank = computed(() =>
 
 const title = () =>
   i18n.t("bang-xep-hang-type", [
-    typesRank.value.find((item) => item.value === props.type)?.name,
+    typesRank.value?.find((item) => item.value === props.type)?.name,
   ])
 useSeoMeta({
   title,
@@ -163,13 +166,19 @@ const page = computed<number>({
 
 const { data, error, runAsync } = useRequest(
   async () => {
-    const data = await nettruyen.getRanking(
+    const data = await (
+      await pluginStore.get(props.sourceId)
+    ).plugin.getRanking(
       props.type,
       page.value,
       route.query as Record<string, string>,
     )
-    data.items = shallowReactive(data.items)
-    return data
+    return {
+      ...data,
+      items: shallowReactive(data.items) as typeof data.items,
+    } as Omit<typeof data, "items"> & {
+      items: MetaManga[]
+    }
   },
   {
     refreshDeps: [() => props.type, page, () => route.query],
@@ -177,11 +186,15 @@ const { data, error, runAsync } = useRequest(
 )
 const onLoad = useLoadMorePage(
   (page) =>
-    nettruyen.getRanking(
-      props.type,
-      page,
-      route.query as Record<string, string>,
-    ),
+    pluginStore
+      .get(props.sourceId)
+      .then((res) =>
+        res.plugin.getRanking(
+          props.type,
+          page,
+          route.query as Record<string, string>,
+        ),
+      ),
   data,
   page.value,
 )

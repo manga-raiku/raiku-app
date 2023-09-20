@@ -74,5 +74,8 @@
   "MutableAI.upsell": false,
   "[ruby]": {
     "editor.defaultFormatter": "mbessey.vscode-rufo"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
   }
 }

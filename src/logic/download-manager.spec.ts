@@ -13,6 +13,7 @@ const path = "/manga-1"
 const manga_id = "1"
 const manga_name = "Manga 1"
 const manga_image = "http://localhost/poster/manga-1.jpg"
+const source_id = "nettruyen"
 const ep_id = "1234"
 const ep_name = "Chapter 1"
 const pages = [
@@ -32,6 +33,7 @@ const metaManga: MetaManga = {
   manga_id,
   manga_image,
   manga_name,
+  source_id,
 }
 const metaEp: MetaEpisode = {
   path: pathEp,
@@ -436,6 +438,7 @@ describe("download-manager", () => {
         manga_id,
         manga_image: "offline:///poster/8daa1a0a",
         manga_name,
+        source_id,
         start_download_at: 0,
       },
     ])
@@ -453,6 +456,7 @@ describe("download-manager", () => {
         manga_id: "2",
         manga_image: "offline:///poster/8daa1a08",
         manga_name,
+        source_id,
         start_download_at: 0,
       },
       {
@@ -460,6 +464,7 @@ describe("download-manager", () => {
         manga_id,
         manga_image: "offline:///poster/8daa1a0a",
         manga_name,
+        source_id,
         start_download_at: 0,
       },
     ])

@@ -14,6 +14,6 @@
 import type { MetaManga } from "raiku-pgs"
 
 defineProps<{
-  items: MetaManga[]
+  items: readonly MetaManga[]
 }>()
 </script>

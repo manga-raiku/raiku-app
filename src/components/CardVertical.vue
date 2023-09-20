@@ -97,6 +97,7 @@ import "@fontsource/poppins"
 
 defineProps<{
   data: MetaManga
+
   threeLine?: boolean
   readContinue?: boolean
   imgWidth?: string

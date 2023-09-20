@@ -1,2 +1,3 @@
 packages:
   - "npm/*"
+  - "plugins-raiku/*"

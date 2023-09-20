@@ -59,11 +59,11 @@
 </template>
 
 <script lang="ts" setup>
+import { normalizeChName } from "raiku-pgs"
 // eslint-disable-next-line camelcase
 import img_double from "src/assets/img_double.png?url"
 // eslint-disable-next-line camelcase
 import img_single from "src/assets/img_single.png?url"
-import { normalizeChName } from "src/logic/normalize-ch-name"
 
 const props = defineProps<{
   scrollingMode: boolean

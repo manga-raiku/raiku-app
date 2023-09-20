@@ -27,6 +27,8 @@ export interface MetaManga {
   readonly manga_id: ID
   readonly manga_name: string
   readonly manga_image: string
+
+  readonly source_id: string
 }
 export interface MetaMangaOnDisk extends MetaManga {
   readonly start_download_at: number

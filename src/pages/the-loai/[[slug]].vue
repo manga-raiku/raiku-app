@@ -47,15 +47,17 @@ meta:
 <script lang="ts" setup>
 // import data from "src/apis/parsers/__test__/assets/the-loai/fantacy-30.json"
 import "@fontsource/poppins"
-import { nettruyen } from "src/apis/nettruyen/runs/$"
+import type { MetaManga } from "raiku-pgs"
 
 const props = defineProps<{
+  sourceId: string
   slug?: string
 }>()
 
 const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
+const pluginStore = usePluginStore()
 
 const page = computed<number>({
   get: () => parseInt(route.query.page?.toString() ?? "1") || 1,
@@ -71,13 +73,19 @@ const page = computed<number>({
 
 const { data, runAsync, error } = useRequest(
   async () => {
-    const data = await nettruyen.getCategory(
+    const data = await (
+      await pluginStore.get(props.sourceId)
+    ).plugin.getCategory(
       props.slug ?? "",
       page.value,
       route.query as Record<string, string>,
     )
-    data.items = shallowReactive(data.items)
-    return data
+    return {
+      ...data,
+      items: shallowReactive(data.items),
+    } as Omit<typeof data, "items"> & {
+      items: MetaManga[]
+    }
   },
   {
     refreshDeps: [() => props.slug, () => route.query],
@@ -88,11 +96,15 @@ const { data, runAsync, error } = useRequest(
 )
 const onLoad = useLoadMorePage(
   (page) =>
-    nettruyen.getCategory(
-      props.slug ?? "",
-      page,
-      route.query as Record<string, string>,
-    ),
+    pluginStore
+      .get(props.sourceId)
+      .then((res) =>
+        res.plugin.getCategory(
+          props.slug ?? "",
+          page,
+          route.query as Record<string, string>,
+        ),
+      ),
   data,
   page.value,
 )

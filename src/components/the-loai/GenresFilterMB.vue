@@ -155,7 +155,7 @@
                     page: undefined,
                   },
                   name: undefined,
-                  path,
+                  path
                 }"
                 class="py-2 bg-[#292929] text-weight-normal w-full ease-bg ellipsis"
                 :class="{

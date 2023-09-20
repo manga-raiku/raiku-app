@@ -187,8 +187,7 @@ meta:
 </template>
 
 <script lang="ts" setup>
-import type { API } from "raiku-pgs"
-import { Nettruyen, nettruyen } from "src/apis/nettruyen/runs/$"
+import type { API, MetaManga } from "raiku-pgs"
 import type { Swiper as TSwiper } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 
@@ -199,9 +198,15 @@ import "swiper/css/navigation"
 import "swiper/css/autoplay"
 import "swiper/css/grid"
 
+const props = defineProps<{
+  sourceId: string
+}>()
+
 const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
+const $q =useQuasar()
+const pluginStore = usePluginStore()
 
 const title = `Tìm kiếm ${route.query.query ?? ""}`
 const description = title
@@ -212,8 +217,8 @@ useSeoMeta({
   ogDescription: description,
 })
 
-const typesRank = computed(() =>
-  nettruyen.Rankings.map((item) => {
+const typesRank = computedAsync(async () =>
+  (await pluginStore.get(props.sourceId)).plugin.Rankings.map((item) => {
     return {
       value: item.value,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -226,9 +231,15 @@ const { data, run, error, runAsync } = useRequest(
   async () => {
     if (!route.query.query) return Promise.resolve(undefined)
 
-    const data = await nettruyen.search(route.query.query + "", 1)
-    data.items = shallowReactive(data.items)
-    return data
+    const data = await (
+      await pluginStore.get(props.sourceId)
+    ).plugin.search(route.query.query + "", 1)
+    return {
+      ...data,
+      items: shallowReactive(data.items),
+    } as Omit<typeof data, "items"> & {
+      items: MetaManga[]
+    }
   },
   {
     refreshDeps: [() => route.query.query],
@@ -238,7 +249,10 @@ const { data, run, error, runAsync } = useRequest(
   },
 )
 const onLoad = useLoadMorePage(
-  (page) => nettruyen.search(route.query.query + "", page),
+  (page) =>
+    pluginStore
+      .get(props.sourceId)
+      .then((res) => res.plugin.search(route.query.query + "", page)),
   data,
 )
 
@@ -270,7 +284,9 @@ async function fetchRankType(type: string) {
     console.log("fetch %s", type)
     dataStore.set(type, {
       status: "success",
-      response: await nettruyen.getRanking(type, 1, {}),
+      response: await (
+        await pluginStore.get(props.sourceId)
+      ).plugin.getRanking(type, 1, {}),
     })
   } catch (err) {
     dataStore.set(type, {
@@ -278,22 +294,34 @@ async function fetchRankType(type: string) {
       response: err,
     })
     console.error(err)
+    $q.notify({
+      message: err + "",
+    })
   }
 }
 async function refreshRank(done: () => void, type: string) {
-  dataStore.set(type, {
-    status: "success",
-    response: await nettruyen.getRanking(type, 1, {}),
-  })
-
+  try {
+    dataStore.set(type, {
+      status: "success",
+      response: await (
+        await pluginStore.get(props.sourceId)
+      ).plugin.getRanking(type, 1, {}),
+    })
+  } catch (err) {
+    $q.notify({
+      message: err + "",
+    })
+    // eslint-disable-next-line functional/no-throw-statement
+    throw err
+  }
   done()
 }
 
 const swiperRef = ref()
 const activeIndex = ref(0)
 watch(
-  activeIndex,
-  (activeIndex) => fetchRankType(typesRank.value[activeIndex].value),
+  [activeIndex, typesRank],
+  ([activeIndex, typesRank]) => fetchRankType(typesRank[activeIndex].value),
   { immediate: true },
 )
 

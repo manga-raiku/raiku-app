@@ -245,6 +245,8 @@
         </q-route-tab>
       </q-tabs>
     </q-footer>
+
+    <PluginManagerDialog v-model="stateStore.showPluginManagerDialog" />
   </q-layout>
 
   <canvas
@@ -353,6 +355,9 @@ const drawersBottom = computed(() => [
     href: "https://manga-raiku.github.io/disclaimer",
   },
 ])
+
+// ========= plugin manager ========
+const stateStore = useStateStore()
 </script>
 
 <style lang="scss">

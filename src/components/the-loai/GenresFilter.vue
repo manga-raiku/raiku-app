@@ -21,7 +21,7 @@
               page: undefined,
             },
             name: undefined,
-            path,
+            path
           }"
           class="text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
           :class="{
@@ -57,41 +57,20 @@
 </template>
 
 <script lang="ts" setup>
+import type { FilterQuery, FilterURI } from "raiku-pgs"
 import { pathEqual } from "src/logic/path-equal"
 
 import "@fontsource/poppins"
 
-interface FilterURI {
-  type: string
-  select: {
-    path: string
-    name: string
-  }[]
-}
-interface FilterQuery {
-  type: string
-  key: string
-  items: {
-    value: string
-    name: string
-  }[]
-}
-
 defineProps<{
-  filter: (FilterQuery | FilterURI)[]
+  filter: readonly (FilterQuery | FilterURI)[]
 }>()
 
 const route = useRoute()
 const router = useRouter()
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isSelectMode(val: any): val is {
-  type: string
-  select: {
-    path: string
-    name: string
-  }[]
-} {
+function isSelectMode(val: any): val is FilterURI {
   return val.select !== undefined
 }
 </script>

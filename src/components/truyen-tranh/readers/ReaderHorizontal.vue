@@ -86,7 +86,7 @@
         >
           <router-link
             class="w-full h-120px flex items-center justify-center my-auto text-20px text-weight-medium absolute top-1/2 left-1/2 translate--1/2"
-            :to="nextEpisode"
+            :to=" nextEpisode"
             @click.stop
             @mousedown.stop.prevent
             ref="btnNextEpRef"

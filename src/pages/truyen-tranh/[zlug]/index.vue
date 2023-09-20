@@ -124,7 +124,7 @@ meta:
         class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 children:my-2"
       >
         <q-btn
-          :to="data.chapters.at(-1)!.path"
+          :to=" data.chapters.at(-1)!.path"
           rounded
           no-caps
           class="mr-3 text-weight-normal text-15px bg-#fff bg-opacity-10 btn-action"
@@ -193,6 +193,7 @@ meta:
             manga_id: data.manga_id,
             manga_name: data.name,
             manga_image: data.image,
+            source_id: sourceId,
           }"
         />
       </section>
@@ -384,12 +385,12 @@ import { useShare } from "@vueuse/core"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import { packageName } from "app/package.json"
 import type { ID } from "raiku-pgs"
-import { nettruyen } from "src/apis/nettruyen/runs/$"
 import dayjs from "src/logic/dayjs"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 import { formatView } from "src/logic/formatView"
 
 const props = defineProps<{
+  sourceId: string
   zlug: string
 }>()
 const $q = useQuasar()
@@ -400,8 +401,13 @@ const i18n = useI18n()
 const followStore = useFollowStore()
 const historyStore = useHistoryStore()
 const IDMStore = useIDMStore()
+const pluginStore = usePluginStore()
+
 const GetWithCache = useWithCache(
-  () => nettruyen.getComic(props.zlug),
+  () =>
+    pluginStore
+      .get(props.sourceId)
+      .then(({ plugin }) => plugin.getComic(props.zlug)),
   computed(() => `${packageName}:///manga/${props.zlug}`),
 )
 
