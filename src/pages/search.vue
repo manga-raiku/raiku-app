@@ -1,6 +1,9 @@
 <route lang="yaml">
+name: search
+alias: ["/:sourceId/search"]
 meta:
   hiddenHeader: $lt.md
+  needSelectPlugin: true
 </route>
 
 <template>
@@ -198,10 +201,6 @@ import "swiper/css/navigation"
 import "swiper/css/autoplay"
 import "swiper/css/grid"
 
-const props = defineProps<{
-  sourceId: string
-}>()
-
 const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
@@ -217,12 +216,18 @@ useSeoMeta({
   ogDescription: description,
 })
 
-const typesRank = computedAsync(async () =>
-  (await pluginStore.get(props.sourceId)).plugin.Rankings.map((item) => {
+const typesRank = computedAsync<
+  | {
+      value: string
+      name: string
+    }[]
+  | undefined
+>(async () =>
+  (await pluginStore.get("nettruyen")).plugin.Rankings.map((item) => {
     return {
       value: item.value,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      name: (item.name as unknown as any)[i18n.locale.value],
+      name: (item.name as unknown as any)[i18n.locale.value] as string,
     }
   }),
 )
@@ -232,7 +237,7 @@ const { data, run, error, runAsync } = useRequest(
     if (!route.query.query) return Promise.resolve(undefined)
 
     const data = await (
-      await pluginStore.get(props.sourceId)
+      await pluginStore.get("nettruyen")
     ).plugin.search(route.query.query + "", 1)
     return {
       ...data,
@@ -251,7 +256,7 @@ const { data, run, error, runAsync } = useRequest(
 const onLoad = useLoadMorePage(
   (page) =>
     pluginStore
-      .get(props.sourceId)
+      .get("nettruyen")
       .then((res) => res.plugin.search(route.query.query + "", page)),
   data,
 )
@@ -285,7 +290,7 @@ async function fetchRankType(type: string) {
     dataStore.set(type, {
       status: "success",
       response: await (
-        await pluginStore.get(props.sourceId)
+        await pluginStore.get("nettruyen")
       ).plugin.getRanking(type, 1, {}),
     })
   } catch (err) {
@@ -304,7 +309,7 @@ async function refreshRank(done: () => void, type: string) {
     dataStore.set(type, {
       status: "success",
       response: await (
-        await pluginStore.get(props.sourceId)
+        await pluginStore.get("nettruyen")
       ).plugin.getRanking(type, 1, {}),
     })
   } catch (err) {
@@ -321,7 +326,8 @@ const swiperRef = ref()
 const activeIndex = ref(0)
 watch(
   [activeIndex, typesRank],
-  ([activeIndex, typesRank]) => fetchRankType(typesRank[activeIndex].value),
+  ([activeIndex, typesRank]) =>
+    typesRank && fetchRankType(typesRank[activeIndex].value),
   { immediate: true },
 )
 

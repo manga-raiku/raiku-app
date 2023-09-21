@@ -3,6 +3,7 @@ meta:
   transparentHeader: true
   hiddenDrawer: true
   noSpaceHeader: true
+  needSelectPlugin: true
 </route>
 
 <template>

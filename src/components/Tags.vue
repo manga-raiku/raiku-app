@@ -1,7 +1,6 @@
 <template>
   <div class="flex items-center font-family-poppins">
     <i-fluent-tag-24-regular :rotate="3" width="20" height="20" class="mr-1" />
-
     <q-btn
       v-for="item in items"
       :key="item.name"

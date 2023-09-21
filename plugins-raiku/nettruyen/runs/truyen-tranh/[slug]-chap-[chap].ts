@@ -1,8 +1,10 @@
 import type { API, Chapter, ComicChapter } from "raiku-pgs"
-import { normalizeChName, parsePath, pathIsHome, PostWorker } from "raiku-pgs"
+import { normalizeChName, pathIsHome, PostWorker } from "raiku-pgs"
 
 import { CURL } from "../../const"
+import { getParamComicAndChap } from "../../parsers/__helpers__/getParamComicAndChap"
 import type Parse from "../../parsers/truyen-tranh/[slug]/[ep-id]"
+import { meta } from "../../runs/package"
 import Worker from "../../workers/truyen-tranh/[slug]-chap-[chap]?worker&inline"
 
 export default async function <Fast extends boolean>(
@@ -30,18 +32,32 @@ export default async function <Fast extends boolean>(
       ...result,
       chapters: JSON.parse(data).chapters.map(
         (item: { chapterId: number; name: string; url: string }) => {
+          const route = {
+            name: "comic chap",
+            params: {
+              sourceId: meta.id,
+              ...getParamComicAndChap(item.url),
+            },
+          } as const
+
           return {
             id: item.chapterId,
             name: normalizeChName(item.name),
-            path: parsePath(item.url),
+            route,
             updated_at: null,
           }
         },
       ),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any
+    } as Fast extends true
+      ? ComicChapter
+      : ComicChapter & {
+          readonly chapters: Chapter[]
+        }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return result as any
+  return result as Fast extends true
+    ? ComicChapter
+    : ComicChapter & {
+        readonly chapters: Chapter[]
+      }
 }

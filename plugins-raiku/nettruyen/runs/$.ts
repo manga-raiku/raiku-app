@@ -137,7 +137,13 @@ export default class Nettruyen implements API {
           readonly chapters: Chapter[]
         }
   > {
-    return getComicChapter<Fast>(this, mangaId + "/" + epId, fast)
+    const lastI = epId.lastIndexOf("-i") >>> 0
+
+    return getComicChapter<Fast>(
+      this,
+      mangaId + "/" + epId.slice(0, lastI) + "/" + epId.slice(lastI + 2),
+      fast,
+    )
   }
 
   getComicComments(

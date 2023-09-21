@@ -132,7 +132,7 @@
       >
         <ListChapters
           :chapters="allEp"
-          :source-id="metaMangaShowInfo?.source_id"
+          :source-id="metaMangaShowInfo?.source_id ?? null"
           class-panels="px-1 overflow-y-auto scrollbar-custom"
         >
           <template #item="{ data }">

@@ -20,7 +20,8 @@
     "vue.volar",
     "streetsidesoftware.code-spell-checker",
     "voorjaar.windicss-intellisense",
-    "antfu.unocss"
+    "antfu.unocss",
+    "zixuanchen.vitest-explorer"
   ],
   "unwantedRecommendations": [
     "octref.vetur",

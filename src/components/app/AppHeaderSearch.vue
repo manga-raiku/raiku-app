@@ -1,6 +1,6 @@
 <template>
   <form
-    @submit.prevent="router.push(`/tim-kiem?query=${query}`)"
+    @submit.prevent="router.push(`/search?query=${query}`)"
     class="relative md:min-w-[164px] md:w-full max-w-370px"
   >
     <q-input
@@ -22,7 +22,10 @@
         <button
           type="submit"
           class="flex items-center"
-          @click.stop.prevent="router.push(`/tim-kiem?query=${query}`)"
+          @click.stop.prevent="router.push({
+            name: 'search',
+            query: {query}
+          })"
           @mousedown.stop.prevent
         >
           <q-icon name="search" class="pl-6 pr-4 cursor-pointer" />

@@ -1,4 +1,8 @@
-<route lang="yaml"></route>
+<route lang="yaml">
+alias: ["/sourceId?/trending/type?"]
+meta:
+  needSelectPlugin: true
+</route>
 
 <template>
   <q-page>
@@ -127,19 +131,23 @@ const i18n = useI18n()
 const pluginStore = usePluginStore()
 
 const props = defineProps<{
-  type: string
-  sourceId: string
+  type?: string
+  sourceId?: string
 }>()
 
-const typesRank = computedAsync(async () =>
-  (await pluginStore.get(props.sourceId)).plugin.Rankings.map((item) => {
+const typesRank = computedAsync(async () => {
+  const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
+  // eslint-disable-next-line functional/no-throw-statement
+  if (!pluginId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
+
+  return (await pluginStore.get(pluginId)).plugin.Rankings.map((item) => {
     return {
       value: item.value,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       name: (item.name as unknown as any)[i18n.locale.value],
     }
-  }),
-)
+  })
+})
 
 const title = () =>
   i18n.t("bang-xep-hang-type", [
@@ -166,10 +174,14 @@ const page = computed<number>({
 
 const { data, error, runAsync } = useRequest(
   async () => {
+    const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
+    // eslint-disable-next-line functional/no-throw-statement
+    if (!pluginId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
+
     const data = await (
-      await pluginStore.get(props.sourceId)
+      await pluginStore.get(pluginId)
     ).plugin.getRanking(
-      props.type,
+      props.type ?? "",
       page.value,
       route.query as Record<string, string>,
     )
@@ -185,16 +197,21 @@ const { data, error, runAsync } = useRequest(
   },
 )
 const onLoad = useLoadMorePage(
-  (page) =>
-    pluginStore
-      .get(props.sourceId)
+  async (page) => {
+    const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
+    // eslint-disable-next-line functional/no-throw-statement
+    if (!pluginId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
+
+    return pluginStore
+      .get(pluginId)
       .then((res) =>
         res.plugin.getRanking(
-          props.type,
+          props.type ?? "",
           page,
           route.query as Record<string, string>,
         ),
-      ),
+      )
+  },
   data,
   page.value,
 )

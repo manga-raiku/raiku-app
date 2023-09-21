@@ -21,6 +21,7 @@ export const usePluginStore = defineStore("plugin", () => {
       }
     >
   >(new Map())
+  const pluginMain = ref<string | null>()
 
   async function getAllPlugins() {
     const files = await Filesystem.readdir({
@@ -211,7 +212,7 @@ export const usePluginStore = defineStore("plugin", () => {
     }
   }
 
-  async function get(sourceId: string) {
+  async function _get(sourceId: string) {
     const onCache = pluginsInstalled.get(sourceId)
     if (onCache) return onCache
 
@@ -256,7 +257,38 @@ export const usePluginStore = defineStore("plugin", () => {
     return pluginLinked
   }
 
+  const storeTaskGet = new Map<string, ReturnType<typeof _get>>()
+  async function get(sourceId: string) {
+    const task = storeTaskGet.get(sourceId)
+
+    if (task) return task
+
+    const newTask = _get(sourceId)
+    storeTaskGet.set(sourceId, newTask)
+
+    return newTask
+  }
+
+  const pluginMainPromise = computed(() => {
+    return pluginMain.value ||  Filesystem.readdir({
+      path: "plugins",
+      directory: Directory.External,
+    })
+      .then((res) => res.files.find((item) => item.name.endsWith(".meta"))?.name.replace(/\.meta$/, ""))
+      .catch(() => null)
+  })
+
+  const getPluginMain = computedAsync(async () => {
+    const pluginMain = await pluginMainPromise.value
+
+    return pluginMain ? get(pluginMain) : undefined
+  })
+
   return {
+    pluginMain,
+    pluginMainPromise,
+    getPluginMain,
+
     get,
 
     getAllPlugins,

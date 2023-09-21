@@ -29,7 +29,7 @@
             >Trang chủ</router-link
           >
           <router-link
-            to="/the-loai"
+            to="/genre"
             class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
             exact-active-class="!text-main-3 text-weight-medium"
             >Thể loại</router-link
@@ -172,17 +172,13 @@
         <q-route-tab
           replace
           class="pt-1"
-          to="/tim-kiem"
+          to="/search"
           :class="{
-            'q-router-link--exact-active': route.path.startsWith('/tim-kiem'),
+            'q-router-link--exact-active': route.name === 'search',
           }"
         >
           <component
-            :is="
-              route.path.startsWith('/tim-kiem')
-                ? Icons.search[1]
-                : Icons.search[0]
-            "
+            :is="route.name === 'search' ? Icons.search[1] : Icons.search[0]"
             width="24"
             height="24"
             class="mb-1"
@@ -192,15 +188,13 @@
         <q-route-tab
           replace
           class="pt-1"
-          to="/the-loai"
+          to="/genre"
           :class="{
-            'q-router-link--exact-active': route.path.startsWith('/the-loai'),
+            'q-router-link--exact-active': route.name === 'genre',
           }"
         >
           <component
-            :is="
-              route.path.startsWith('/the-loai') ? Icons.box[1] : Icons.box[0]
-            "
+            :is="route.name === 'genre' ? Icons.box[1] : Icons.box[0]"
             width="24"
             height="24"
             class="mb-1"
@@ -247,6 +241,20 @@
     </q-footer>
 
     <PluginManagerDialog v-model="stateStore.showPluginManagerDialog" />
+    <PluginAddDialog v-model="stateStore.showPluginAddDialog" />
+    <PluginSelectDialog v-model="stateStore.showPluginSelectDialog" />
+
+    <q-page-sticky v-if=route.meta.needSelectPlugin position="bottom-right" :offset="[18, 18]" class="z-20">
+      <q-btn
+        rounded
+        no-caps
+        color="black"
+        @click="stateStore.showPluginSelectDialog = true"
+      >
+        <i-mingcute-plugin-2-line class="size-1.5em mr-1" />
+        {{ currentPlugin?.meta.name }}
+      </q-btn>
+    </q-page-sticky>
   </q-layout>
 
   <canvas
@@ -270,6 +278,7 @@ import NotExistsExtension from "./NotExistsExtension.vue"
 const route = useRoute()
 const router = useRouter()
 const $q = useQuasar()
+const pluginStore = usePluginStore()
 const MODE = import.meta.env.MODE
 
 const canvasRef = ref<HTMLCanvasElement>()
@@ -299,13 +308,13 @@ const drawers = computed(() => [
     icon: Icons.box[0],
     active: Icons.box[1],
     name: "Thể loại",
-    path: "/the-loai",
+    path: "/genre",
   },
   {
     icon: Icons.fire[0],
     active: Icons.fire[1],
     name: "Truyện hot",
-    path: "/bang-xep-hang/ngay",
+    path: "/trending",
   },
 
   { divider: true },
@@ -358,6 +367,16 @@ const drawersBottom = computed(() => [
 
 // ========= plugin manager ========
 const stateStore = useStateStore()
+const currentPlugin = computedAsync(() => {
+  const sourceId = route.params.sourceId as string
+
+  if (sourceId) {
+    // search
+    return pluginStore.get(sourceId)
+  }
+
+  return pluginStore.getPluginMain
+})
 </script>
 
 <style lang="scss">

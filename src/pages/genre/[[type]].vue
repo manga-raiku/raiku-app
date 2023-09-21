@@ -1,8 +1,10 @@
 <route lang="yaml">
-alias: ["/tim-truyen/:slug?"]
+name: genre
+alias: ["/:sourceId/tim-truyen/:type?", "/:sourceId/genre/:type?"]
 meta:
   hiddenHeader: isNative or ($lt.md and isPWA)
   revealHeader: true
+  needSelectPlugin: true
 </route>
 
 <template>
@@ -50,8 +52,8 @@ import "@fontsource/poppins"
 import type { MetaManga } from "raiku-pgs"
 
 const props = defineProps<{
-  sourceId: string
-  slug?: string
+  sourceId?: string
+  type?: string
 }>()
 
 const route = useRoute()
@@ -73,10 +75,15 @@ const page = computed<number>({
 
 const { data, runAsync, error } = useRequest(
   async () => {
+    const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
+
+    // eslint-disable-next-line functional/no-throw-statement
+    if (!pluginId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
+
     const data = await (
-      await pluginStore.get(props.sourceId)
+      await pluginStore.get(pluginId)
     ).plugin.getCategory(
-      props.slug ?? "",
+      props.type ?? "",
       page.value,
       route.query as Record<string, string>,
     )
@@ -88,23 +95,29 @@ const { data, runAsync, error } = useRequest(
     }
   },
   {
-    refreshDeps: [() => props.slug, () => route.query],
+    refreshDeps: [() => props.type, () => route.query],
     refreshDepsAction() {
       runAsync()
     },
   },
 )
 const onLoad = useLoadMorePage(
-  (page) =>
-    pluginStore
-      .get(props.sourceId)
+ async (page) => {
+    const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
+
+    // eslint-disable-next-line functional/no-throw-statement
+    if (!pluginId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
+
+    return pluginStore
+      .get(pluginId)
       .then((res) =>
         res.plugin.getCategory(
-          props.slug ?? "",
+          props.type ?? "",
           page,
           route.query as Record<string, string>,
         ),
-      ),
+      )
+  },
   data,
   page.value,
 )

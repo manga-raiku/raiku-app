@@ -9,7 +9,7 @@
       class="h-full min-w-310px flex flex-nowrap column min-h-0 rounded-xl"
     >
       <q-card-section class="text-16px flex items-center justify-between pl-7">
-        Plugins Manager
+        Chọn Plugin chính
 
         <q-btn unelevated round v-close-popup>
           <i-ep-close-bold class="size-1.5em" />
@@ -42,6 +42,15 @@
             :href="item.homepage ?? item.source"
             class="rounded-xl"
           >
+            <q-item-section side class="min-w-0 pl-0">
+              <q-radio
+                v-model="pluginStore.pluginMain"
+                checked-icon="task_alt"
+                unchecked-icon="panorama_fish_eye"
+                color="orange"
+                :val="item.id"
+              />
+            </q-item-section>
             <q-item-section avatar class="min-w-0">
               <img :src="`data:image/png;base64,${item.favicon}`" />
             </q-item-section>
@@ -63,18 +72,11 @@
           <q-spinner size="40px" color="main-3" />
         </div>
       </q-card-section>
-      <q-card-section
-        class="flex flex-nowrap items-center justify-between !py-0"
-      >
-        footer
-      </q-card-section>
     </q-card>
   </q-dialog>
 </template>
 
 <script lang="ts" setup>
-import { QInput } from "quasar"
-
 defineProps<{
   modelValue: boolean
 }>()

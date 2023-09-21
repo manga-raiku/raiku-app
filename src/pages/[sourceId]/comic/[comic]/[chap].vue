@@ -1,5 +1,5 @@
 <route lang="yaml">
-name: 'comic chap'
+name: "comic chap"
 meta:
   hiddenHeader: true
   hiddenDrawer: true
@@ -563,7 +563,7 @@ import { packageName } from "app/package.json"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
-import type { ID } from "raiku-pgs"
+import type { ID, Server } from "raiku-pgs"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
@@ -732,7 +732,7 @@ const listEpRead = computedAsync(() => {
 
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)
-const serversReady = computedAsync(() =>
+const serversReady = computedAsync<Server[] | undefined>(() =>
   pluginStore
     .get(props.sourceId)
     .then((res) =>
@@ -745,8 +745,9 @@ const serversReady = computedAsync(() =>
 watch(serversReady, () => void (server.value = 0))
 const pageGetter = computed(
   () =>
-    serversReady.value.find(
-      (item) => item.name === serversReady.value[server.value].name,
+    serversReady.value?.find(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      (item) => item.name === serversReady.value![server.value].name,
     )?.parse,
 )
 const pages = computed(

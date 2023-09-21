@@ -28,21 +28,12 @@ routes.unshift({
   },
 })
 routes.push({
-  path: "/tim-truyen/:slug",
-  redirect(to) {
-    return {
-      path: `/the-loai/${to.params.slug}`,
-      hash: to.hash,
-      query: to.query,
-    }
-  },
-})
-routes.push({
   path: "/:catchAll(.*)*.html",
   redirect(to) {
     return `/${(to.params.catchAll as string[]).join("/")}`
   },
 })
+console.log(routes)
 
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER

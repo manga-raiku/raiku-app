@@ -9,9 +9,9 @@ import {
 
 import { meta } from "../../runs/package"
 import { getImage } from "../__helpers__/getImage"
-import { getParamComic } from "../__helpers__/getParamComic"
 import { getParamComicAndChap } from "../__helpers__/getParamComicAndChap"
 import { getQuery } from "../__helpers__/getQuery"
+import { getTypeGenre } from "../__helpers__/getTypeGenre"
 import { parseComment } from "../__helpers__/parseComment"
 
 export default function slug(html: string, now: number): Comic {
@@ -62,7 +62,7 @@ export default function slug(html: string, now: number): Comic {
         name: "genre",
         params: {
           sourceId: meta.id,
-          type: getParamComic(path),
+          type: getTypeGenre(path),
         },
         query: getQuery(path),
       } as const

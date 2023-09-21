@@ -28,7 +28,7 @@
               @keypress.enter="
                 () => {
                   router.push({
-                    path: '/tim-kiem',
+                    name: 'search',
                     query: { query },
                   })
                   emit('update:searching', false)
@@ -51,7 +51,7 @@
               @click="
                 () => {
                   router.push({
-                    path: '/tim-kiem',
+                    name: 'search',
                     query: { query },
                   })
                   emit('update:searching', false)

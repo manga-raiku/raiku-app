@@ -204,6 +204,7 @@ meta:
             manga_param: comic,
             source_id: sourceId,
           }"
+          :source-id="sourceId"
         />
       </section>
 

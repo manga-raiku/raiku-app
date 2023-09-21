@@ -150,7 +150,7 @@ const props = defineProps<{
   chapters: readonly Chapter[]
 
   noDownload?: boolean
-  sourceId?: string
+  sourceId: string|null
 }>()
 const emit = defineEmits<{
   (name: "change-tab"): void
