@@ -4,7 +4,7 @@ export function getParamComicAndChap(url: string): {
   readonly comic: string
   readonly chap: string
 } {
-  const tt = url.indexOf("/truyen-tranh/") + 13
+  const tt = url.indexOf("/truyen-tranh/") + 14
 
   const comic = url.slice(tt, url.indexOf("/", tt))
   const chap = url

@@ -57,7 +57,7 @@
       <router-link
         v-if="nextEpisode"
         class="w-full h-120px flex items-center justify-center"
-        :to=" nextEpisode"
+        :to="nextEpisode"
         @click.stop
         ref="btnNextEpRef"
       >

@@ -7,6 +7,7 @@ import {
   parseTimeAgo,
 } from "raiku-pgs"
 
+import { meta } from "../../runs/package"
 import { getImage } from "../__helpers__/getImage"
 import { getParamComic } from "../__helpers__/getParamComic"
 import { getParamComicAndChap } from "../__helpers__/getParamComicAndChap"
@@ -42,6 +43,7 @@ export default function slug(html: string, now: number): Comic {
       const route = {
         name: "genre",
         params: {
+          sourceId: meta.id,
           type: "",
         },
         query: getQuery(path),
@@ -59,6 +61,7 @@ export default function slug(html: string, now: number): Comic {
       const route = {
         name: "genre",
         params: {
+          sourceId: meta.id,
           type: getParamComic(path),
         },
         query: getQuery(path),
@@ -86,7 +89,10 @@ export default function slug(html: string, now: number): Comic {
 
       const route = {
         name: "comic chap",
-        params: getParamComicAndChap(path),
+        params: {
+          sourceId: meta.id,
+          ...getParamComicAndChap(path),
+        },
       } as const
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

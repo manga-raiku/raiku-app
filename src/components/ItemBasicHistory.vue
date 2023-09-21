@@ -1,5 +1,12 @@
 <template>
-  <router-link :to="path" v-ripple class="relative flex flex-nowrap mb-4">
+  <router-link
+    :to="{
+      name: 'comic',
+      params: { comic },
+    }"
+    v-ripple
+    class="relative flex flex-nowrap mb-4"
+  >
     <div class="relative">
       <q-img
         no-spinner
@@ -38,7 +45,14 @@
           rounded
           no-caps
           no-wrap
-          :to="history.path"
+          :to="{
+            name: 'comic chap',
+            params: {
+              sourceId,
+              comic,
+              chap: history.param,
+            },
+          }"
           class="text-12px mr-2"
           color="blue-400"
         >
@@ -50,7 +64,10 @@
           rounded
           no-caps
           no-wrap
-          :to="path"
+          :to="{
+            name: 'comic',
+            params: { comic, sourceId },
+          }"
           class="text-12px"
           color="gray-700"
         >
@@ -65,13 +82,14 @@
 import dayjs from "src/logic/dayjs"
 
 defineProps<{
-  path: string
+  comic: string
   name: string
   image: string
+  sourceId: string
 
   history?: {
     name: string
-    path: string
+    param: string
     updated_at: string
   }
 }>()

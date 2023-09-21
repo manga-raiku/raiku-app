@@ -41,7 +41,8 @@ export interface Database {
           image: string
           manga_id: string
           manga_name: string
-          path: string
+          manga_param: string
+          source_id: string
           user_id: string
         }
         Insert: {
@@ -50,7 +51,8 @@ export interface Database {
           image: string
           manga_id: string
           manga_name: string
-          path: string
+          manga_param: string
+          source_id?: string
           user_id?: string
         }
         Update: {
@@ -59,7 +61,8 @@ export interface Database {
           image?: string
           manga_id?: string
           manga_name?: string
-          path?: string
+          manga_param?: string
+          source_id?: string
           user_id?: string
         }
         Relationships: [
@@ -109,10 +112,11 @@ export interface Database {
           image: string
           last_ch_id: string
           last_ch_name: string
-          last_ch_path: string
+          last_ch_param: string
           manga_id: string
           manga_name: string
-          manga_path: string
+          manga_param: string
+          source_id: string
           updated_at: string
           user_id: string
         }
@@ -122,10 +126,11 @@ export interface Database {
           image: string
           last_ch_id: string
           last_ch_name: string
-          last_ch_path: string
+          last_ch_param: string
           manga_id: string
           manga_name: string
-          manga_path: string
+          manga_param: string
+          source_id?: string
           updated_at?: string
           user_id?: string
         }
@@ -135,10 +140,11 @@ export interface Database {
           image?: string
           last_ch_id?: string
           last_ch_name?: string
-          last_ch_path?: string
+          last_ch_param?: string
           manga_id?: string
           manga_name?: string
-          manga_path?: string
+          manga_param?: string
+          source_id?: string
           updated_at?: string
           user_id?: string
         }

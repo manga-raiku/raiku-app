@@ -230,6 +230,7 @@ defineOptions({
 const authStore = useAuthStore()
 const route = useRoute()
 const settingsStore = useSettingsStore()
+const stateStore = useStateStore()
 const attrs = useAttrs()
 const i18n = useI18n()
 
@@ -266,6 +267,12 @@ const buttons: {
     to: "/app/settings/check-network",
     icon: Icons.bug,
     text: i18n.t("kiem-tra-loi-mang"),
+  },
+  {
+    // to: "/app/settings/plugins",
+    onClick: () => (stateStore.showPluginManagerDialog = true),
+    icon: Icons.mingcute,
+    text: "Quản lý Plugin",
   },
   {
     divider: true,

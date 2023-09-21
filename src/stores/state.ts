@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia"
 
-export const useStateStore = defineStore('state', () => {
+export const useStateStore = defineStore("state", () => {
   const showPluginManagerDialog = ref(false)
 
   return { showPluginManagerDialog }

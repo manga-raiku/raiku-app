@@ -41,11 +41,11 @@
                       ...route2.query,
                       page: undefined,
                     },
-                    name: undefined
+                    name: undefined,
                   }"
                   class="font-size-inherit text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
                   :class="{
-                    '!text-main-3': route2.params.type === route.params.type
+                    '!text-main-3': route2.params.type === route.params.type,
                   }"
                   >{{ name }}</q-btn
                 >

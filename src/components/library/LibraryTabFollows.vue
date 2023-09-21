@@ -4,11 +4,11 @@
       <q-infinite-scroll @load="onLoad" :offset="250" class="row">
         <div
           v-for="item in data"
-          :key="item.path"
+          :key="item.manga_id"
           class="col-12 col-sm-6 px-2 pb-4"
         >
           <ItemBasicHistory
-            :path="item.path"
+            :comic="item.manga_param"
             :name="item.manga_name"
             :image="item.image"
             :history="item.history"

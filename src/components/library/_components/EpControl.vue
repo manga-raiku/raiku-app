@@ -19,8 +19,8 @@
         round
         @click="downloading ? emit('stop') : emit('resume')"
       >
-      <i-solar-pause-bold v-if="downloading" class=size-1.2em />
-      <i-solar-play-bold v-else class=size-1.2em />
+        <i-solar-pause-bold v-if="downloading" class="size-1.2em" />
+        <i-solar-play-bold v-else class="size-1.2em" />
       </q-btn>
       <div v-else class="size-42px flex items-center justify-center">
         <i-uim-check class="size-30px text-green-500" />

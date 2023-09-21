@@ -1,4 +1,5 @@
 <route lang="yaml">
+name: 'comic chap'
 meta:
   hiddenHeader: true
   hiddenDrawer: true
@@ -291,15 +292,10 @@ meta:
                 :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
                 :map-offline="mapEp"
                 :meta-manga="{
-                  route: {
-                    name: 'comic',
-                    params: {
-                      comic,
-                    },
-                  },
                   manga_id: data.manga_id,
                   manga_name: data.name,
                   manga_image: data.image,
+                  manga_param: comic,
                   source_id: sourceId,
                 }"
                 :source-id="sourceId"
@@ -522,7 +518,8 @@ meta:
                 image: data.image,
                 manga_id: data.manga_id,
                 manga_name: data.name,
-                path: `/truyen-tranh/${comic}`,
+                manga_param: comic,
+                source_id: sourceId,
               },
               (isFollow = !isFollow),
             )
@@ -685,25 +682,14 @@ async function downloadEp() {
 
   const meta = await IDMStore.download(
     {
-      route: {
-        name: "comic",
-        params: {
-          comic: props.comic,
-        },
-      },
       manga_id: data.value.manga_id,
       manga_name: data.value.name,
       manga_image: data.value.image,
+      manga_param: props.comic,
       source_id: props.sourceId,
     },
     {
-      route: {
-        name: "comic chap",
-        params: {
-          comic: props.comic,
-          chap: props.chap,
-        },
-      },
+      ep_param: props.chap,
       ep_id: data.value.ep_id,
       ep_name: currentEpisode.value.value.name,
       pages: pages.value.slice(0),
@@ -908,11 +894,12 @@ async function nextCh() {
 let timeoutUpsertHistory: NodeJS.Timeout | number | null = null
 watch(
   [() => props.comic, () => props.chap, data],
-  ([comic,chap, data]) => {
+  ([comic, chap, data]) => {
     if (timeoutUpsertHistory) clearTimeout(timeoutUpsertHistory)
 
     const ep = currentEpisode.value?.value
     if (!data || !ep) return
+    const { sourceId } = props
 
     timeoutUpsertHistory = setTimeout(() => {
       historyStore.upsert({
@@ -922,7 +909,8 @@ watch(
         last_ch_param: chap,
         manga_id: data.manga_id,
         manga_name: data.name,
-        manga_param: comic
+        manga_param: comic,
+        source_id: sourceId,
       })
       timeoutUpsertHistory = null
     }, 1_000)

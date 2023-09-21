@@ -27,7 +27,7 @@ export const useFollowStore = defineStore("follow", () => {
 
     const { data: data2, error: error2 } = await supabase
       .from("history_manga")
-      .select("name:last_ch_name, path:last_ch_path, manga_id, updated_at")
+      .select("name:last_ch_name, param:last_ch_param, manga_id, updated_at")
       .in(
         "manga_id",
         data.map((item) => item.manga_id),

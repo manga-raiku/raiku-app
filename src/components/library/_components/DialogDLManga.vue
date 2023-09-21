@@ -178,10 +178,11 @@
           class="min-w-15% text-weight-regular"
           @click="epsSelected.size > 0 ? unSelectAll() : selectAll()"
         >
-        <i-solar-close-circle-linear v-if="epsSelected.size > 0"
-            class="size-1.5em" />
-            <i-solar-check-circle-linear v-else
-            class="size-1.5em" />
+          <i-solar-close-circle-linear
+            v-if="epsSelected.size > 0"
+            class="size-1.5em"
+          />
+          <i-solar-check-circle-linear v-else class="size-1.5em" />
           <span class="whitespace-nowrap">{{
             epsSelected.size > 0 ? $t("bo-chon") : $t("chon-tat")
           }}</span>
@@ -365,9 +366,9 @@ async function download() {
     const conf = await plugin.getComicChapter(comic, chap, false)
     // eslint-disable-next-line promise/catch-or-return
     IDMStore.download(metaMangaShowInfo.value, {
-      route: ep.route,
       ep_id: ep.id,
       ep_name: ep.name,
+      ep_param: chap,
       pages: conf.pages.map((item) => plugin.Servers[0].parse(item, conf)),
     }).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {

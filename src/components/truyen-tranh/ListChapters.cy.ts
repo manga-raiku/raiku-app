@@ -9,6 +9,7 @@ setActivePinia(createPinia())
 const route = {
   name: "comic chap" as const,
   params: {
+    sourceId: "nettruyen",
     comic: "",
     chap: "",
   },

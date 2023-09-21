@@ -65,7 +65,7 @@ meta:
                     rounded
                     class="bg-main mt-2 xs:mt-4 pointer-events-all mx-auto"
                     no-caps
-                      :to="item.last_chapters[0].route"
+                    :to="item.last_chapters[0].route"
                   >
                     <i-fluent-play-24-filled
                       width="1.3em"
@@ -210,7 +210,7 @@ meta:
               rounded
               class="bg-main mt-2 sm:mt-4 pointer-events-all"
               no-caps
-                :to=" data.sliders[sliderIndex].last_chapters[0].route"
+              :to="data.sliders[sliderIndex].last_chapters[0].route"
             >
               <i-fluent-play-24-filled
                 width="1.3em"

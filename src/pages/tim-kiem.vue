@@ -205,7 +205,7 @@ const props = defineProps<{
 const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
-const $q =useQuasar()
+const $q = useQuasar()
 const pluginStore = usePluginStore()
 
 const title = `Tìm kiếm ${route.query.query ?? ""}`

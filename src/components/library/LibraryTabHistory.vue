@@ -18,12 +18,12 @@
         </div>
         <div class="col-12 col-sm-6 px-2 pb-4">
           <ItemBasicHistory
-            :path="item.manga_path"
+            :comic="item.manga_param"
             :name="item.manga_name"
             :image="item.image"
             :history="{
               name: item.last_ch_name,
-              path: item.last_ch_path,
+              param: item.last_ch_param,
               updated_at: item.$updated_at,
             }"
           />

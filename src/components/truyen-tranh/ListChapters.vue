@@ -234,9 +234,9 @@ async function downloadEp(item: Chapter) {
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   IDMStore.download(props.metaManga!, {
-    route: item.route,
     ep_id: item.id,
     ep_name: item.name,
+    ep_param: item.route.params.chap,
     pages: conf.pages.map((item) => plugin.Servers[0].parse(item, conf)),
   })
 }

@@ -10,8 +10,9 @@ export interface Anchor {
 
 export interface Chapter extends Pick<Anchor, "name"> {
   readonly route: {
-    name: "comic chap",
+    name: "comic chap"
     params: {
+      sourceId: string
       comic: string
       chap: string
     }
@@ -24,6 +25,7 @@ export interface MetaManga {
   readonly route: {
     name: "comic"
     params: {
+      sourceId: string
       comic: string
     }
   }
@@ -66,6 +68,7 @@ export interface FilterURI {
     readonly route: {
       name: "genre"
       params: {
+        sourceId: string
         type: string
       }
       query: LocationQueryRaw
@@ -156,6 +159,7 @@ export interface Comic {
     route: {
       name: string
       params: {
+        sourceId: string
         type: string
       }
       query: LocationQueryRaw
@@ -167,6 +171,7 @@ export interface Comic {
     route: {
       name: string
       params: {
+        sourceId: string
         type: string
       }
       query: LocationQueryRaw
@@ -278,6 +283,7 @@ export declare class API {
       readonly route: {
         name: "comic"
         params: {
+          sourceId: string
           comic: string
         }
       }

@@ -58,7 +58,9 @@ export const useHistoryStore = defineStore("history", () => {
 
     const { data, error } = await supabase
       .from("history_manga")
-      .select("id:last_ch_id, name:last_ch_name, path:last_ch_path, updated_at")
+      .select(
+        "id:last_ch_id, name:last_ch_name, param:last_ch_param, updated_at",
+      )
       .eq("manga_id", manga_id)
       .eq("user_id", session.user.id)
       .limit(1)

@@ -1,4 +1,5 @@
 <route lang="yaml">
+name: comic
 meta:
   hiddenFooter: true
   hiddenDrawer: true
@@ -124,7 +125,7 @@ meta:
         class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 children:my-2"
       >
         <q-btn
-          :to=" data.chapters.at(-1)!.route"
+          :to="data.chapters.at(-1)!.route"
           rounded
           no-caps
           class="mr-3 text-weight-normal text-15px bg-#fff bg-opacity-10 btn-action"
@@ -136,7 +137,14 @@ meta:
 
         <q-btn
           v-if="lastEpRead"
-          :to="lastEpRead.route"
+          :to="{
+            name: 'comic chap',
+            params: {
+              sourceId,
+              comic,
+              chap: lastEpRead.param,
+            },
+          }"
           rounded
           no-caps
           class="mr-3 text-weight-normal text-15px bg-#fff bg-opacity-10"
@@ -158,7 +166,8 @@ meta:
                   image: data.image,
                   manga_id: data.manga_id,
                   manga_name: data.name,
-                  manga_param: comic
+                  manga_param: comic,
+                  source_id: sourceId,
                 },
                 (isFollow = !isFollow),
               )
@@ -334,7 +343,8 @@ meta:
                 image: data.image,
                 manga_id: data.manga_id,
                 manga_name: data.name,
-                manga_param: comic
+                manga_param: comic,
+                source_id: sourceId,
               },
               (isFollow = !isFollow),
             )
@@ -364,7 +374,14 @@ meta:
 
       <q-btn
         v-if="lastEpRead"
-        :to="lastEpRead.route"
+        :to="{
+          name: 'comic chap',
+          params: {
+            sourceId,
+            comic,
+            chap: lastEpRead.param,
+          },
+        }"
         rounded
         no-caps
         no-wrap

@@ -8,6 +8,8 @@ import {
   parseTimeAgo,
 } from "raiku-pgs"
 
+import { meta } from "../../runs/package"
+
 import { getImage } from "./getImage"
 import { getParamComic } from "./getParamComic"
 import { getParamComicAndChap } from "./getParamComicAndChap"
@@ -43,6 +45,7 @@ export function parseItem(
   const route = {
     name: "comic",
     params: {
+      sourceId: meta.id,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       comic: getParamComic(parsePath($item.find("a").attr("href")!)),
     },
@@ -68,7 +71,10 @@ export function parseItem(
 
       const route = {
         name: "comic chap",
-        params: getParamComicAndChap(data.path)
+        params: {
+          sourceId: meta.id,
+          ...getParamComicAndChap(data.path),
+        },
       } as const
 
       return {

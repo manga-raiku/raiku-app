@@ -76,12 +76,12 @@ export const usePluginStore = defineStore("plugin", () => {
     })
 
     // try parsing the XSS source code and getting the package information
-    const plugin: API = (
-      await evalModule(javascript).catch((err: any) => {
+    const plugin: API = await evalModule(javascript)
+      .catch((err: any) => {
         // eslint-disable-next-line functional/no-throw-statement
         throw new Error(`[Error]: during plugin compile failure. (${err})`)
       })
-    ).then((Class: typeof API) => new Class(httpGet, httpPost))
+      .then((Class: typeof API) => new Class(httpGet, httpPost))
 
     const updatedAt = Date.now()
     const installedAt = await Filesystem.readFile({
@@ -142,7 +142,7 @@ export const usePluginStore = defineStore("plugin", () => {
     }).then((res) => JSON.parse(res.data) as PackageDisk)
 
     const metaOnline = await fetch(`${meta.source}/plugin.meta`).then(
-      (res) => res.json() as Promise<Package>,
+      (res) => res.json() as Promise<PackageDisk>,
     )
 
     if (!semverGt(metaOnline.version, meta.version)) {

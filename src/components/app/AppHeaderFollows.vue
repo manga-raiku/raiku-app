@@ -27,11 +27,11 @@
           >
             <div
               v-for="item in data"
-              :key="item.path"
+              :key="item.manga_param"
               class="col-12 col-sm-6 col-md-12 px-2 pb-4"
             >
               <ItemBasicHistory
-                :path="item.path"
+                :comic="item.manga_param"
                 :name="item.manga_name"
                 :image="item.image"
                 :history="item.history"

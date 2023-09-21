@@ -6,6 +6,8 @@ import {
   parsePath,
 } from "raiku-pgs"
 
+import { meta } from "../runs/package"
+
 import { getImage } from "./__helpers__/getImage"
 import { getParamComicAndChap } from "./__helpers__/getParamComicAndChap"
 import { parseItem } from "./__helpers__/parseItem"
@@ -30,6 +32,7 @@ export default function index(html: string, now: number) {
       const route = {
         name: "comic",
         params: {
+          sourceId: meta.id,
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           comic: parsePath($item.find("a").attr("href")!),
         },
@@ -41,7 +44,10 @@ export default function index(html: string, now: number) {
       const last_chapter = {
         route: {
           name: "comic chap",
-          params: getParamComicAndChap(path),
+          params: {
+            sourceId: meta.id,
+            ...getParamComicAndChap(path),
+          },
         },
         name: normalizeChName(chapName),
         updated_at: parseNumber($item.find(".chapter .view").text().trim()),

@@ -1,6 +1,8 @@
 import { normalizeChName, parseDom, parsePath } from "raiku-pgs"
 import type { RouteLocationNamedRaw } from "vue-router"
 
+import { meta } from "../runs/package"
+
 import { getImage } from "./__helpers__/getImage"
 import { getParamComic } from "./__helpers__/getParamComic"
 
@@ -8,6 +10,7 @@ export default function (html: string): readonly {
   readonly route: {
     name: "comic"
     params: {
+      sourceId: string
       comic: string
     }
   }
@@ -27,11 +30,13 @@ export default function (html: string): readonly {
       const route: {
         name: "comic"
         params: {
+          sourceId: string
           comic: string
         }
       } = {
         name: "comic",
         params: {
+          sourceId: meta.id,
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           comic: getParamComic(parsePath($item.find("a").attr("href")!)),
         },

@@ -2,6 +2,7 @@ import type { FunctionalComponent, SVGAttributes } from "vue"
 
 import iconamoonSearch from "~icons/iconamoon/search"
 import iconamoonSearchDuotone from "~icons/iconamoon/search-duotone"
+import mingcutePlugin2Line from "~icons/mingcute/plugin-2-line"
 import phTranslateDuotone from "~icons/ph/translate-duotone"
 import solarBoxMinimalisticBoldDuotone from "~icons/solar/box-minimalistic-bold-duotone"
 import solarBoxMinimalisticBroken from "~icons/solar/box-minimalistic-broken"
@@ -101,6 +102,7 @@ const iconUserCircle = [
   solarUserCircleLineDuotone,
   solarUserCircleBoldDuotone,
 ] as [Icon, Icon]
+const iconMingcute = [mingcutePlugin2Line, mingcutePlugin2Line] as [Icon, Icon]
 
 export const Icons: Record<string, [Icon, Icon]> = {
   home: iconHome,
@@ -121,6 +123,7 @@ export const Icons: Record<string, [Icon, Icon]> = {
   notebook: iconNotebook,
   translate: iconTranslate,
   user_circle: iconUserCircle,
+  mingcute: iconMingcute,
 }
 
 export enum STATUS_PLUGIN_INSTALL {
@@ -128,5 +131,5 @@ export enum STATUS_PLUGIN_INSTALL {
   ADDED_BUT_NEED_DOWNLOAD = "plugin_added_but_need_download",
   INSTALLED = "plugin_installed",
   NOT_FOUND = "plugin_not_found",
-  NOT_FOUND2 = "plugin_not_found2"
+  NOT_FOUND2 = "plugin_not_found2",
 }

@@ -2,6 +2,8 @@
 import type { FilterQuery, FilterURI } from "raiku-pgs"
 import { parseAnchor, parseDom, parsePath } from "raiku-pgs"
 
+import {  meta } from "../runs/package"
+
 import { getQuery } from "./__helpers__/getQuery"
 import { getTypeGenre } from "./__helpers__/getTypeGenre"
 import { parseItem } from "./__helpers__/parseItem"
@@ -26,6 +28,7 @@ export default function general(html: string, now: number) {
         const route = {
           name: "genre",
           params: {
+            sourceId: meta.id,
             type: getTypeGenre(path),
           },
           query: getQuery(path),
