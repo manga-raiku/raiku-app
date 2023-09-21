@@ -7,6 +7,7 @@ import {
 } from "raiku-pgs"
 
 import { getImage } from "./__helpers__/getImage"
+import { getParamComicAndChap } from "./__helpers__/getParamComicAndChap"
 import { parseItem } from "./__helpers__/parseItem"
 
 export default function index(html: string, now: number) {
@@ -26,23 +27,28 @@ export default function index(html: string, now: number) {
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const image = getImage($item.find("img"))!
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const path = parsePath($item.find("a").attr("href")!)
+      const route = {
+        name: "comic",
+        params: {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          comic: parsePath($item.find("a").attr("href")!),
+        },
+      }
       const name = $item.find("h3").text().trim()
 
-      // eslint-disable-next-line camelcase
-      const $last_chapter = parseAnchor($item.find(".chapter a"))
+      const { path, name: chapName } = parseAnchor($item.find(".chapter a"))
       // eslint-disable-next-line camelcase
       const last_chapter = {
-        // eslint-disable-next-line camelcase
-        ...$last_chapter,
-        // eslint-disable-next-line camelcase
-        name: normalizeChName($last_chapter.name),
+        route: {
+          name: "comic chap",
+          params: getParamComicAndChap(path),
+        },
+        name: normalizeChName(chapName),
         updated_at: parseNumber($item.find(".chapter .view").text().trim()),
       }
 
       // eslint-disable-next-line camelcase
-      return { image, path, name, last_chapter }
+      return { image, route, name, last_chapter }
     })
 
   // eslint-disable-next-line camelcase

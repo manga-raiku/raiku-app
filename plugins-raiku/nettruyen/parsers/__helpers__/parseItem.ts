@@ -9,6 +9,8 @@ import {
 } from "raiku-pgs"
 
 import { getImage } from "./getImage"
+import { getParamComic } from "./getParamComic"
+import { getParamComicAndChap } from "./getParamComicAndChap"
 
 function findWithFirstText(
   $: CheerioAPI,
@@ -38,8 +40,13 @@ export function parseItem(
 ): MetaManga {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const image = getImage($item.find("img"))!
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const path = parsePath($item.find("a").attr("href")!)
+  const route = {
+    name: "comic",
+    params: {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      comic: getParamComic(parsePath($item.find("a").attr("href")!)),
+    },
+  } as const
   const name = $item.find("h3").text().trim()
   const $ps = $item.find(".message_main p")
   const othername = findWithFirstText($, $ps, "Tên khác:")
@@ -59,10 +66,15 @@ export function parseItem(
       const data = parseAnchor($item)
       const time = $item.next()
 
+      const route = {
+        name: "comic chap",
+        params: getParamComicAndChap(data.path)
+      } as const
+
       return {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         id: parseInt($item.attr("href")!.match(/(\d+)\/?$/)![1]) + "",
-        ...data,
+        route,
         name: normalizeChName(data.name),
         updated_at:
           time.is(".time") && time.text()
@@ -81,10 +93,10 @@ export function parseItem(
     .map((item) => parseNumber(item))
   const label = $(".icon.icon-hot").length > 0 ? "Hot" : null
 
-  const visited =
-    $item.find("div > div.view.viewed > a").length > 0
-      ? parseAnchor($item.find("div > div.view.viewed > a"))
-      : null
+  // const visited =
+  //   $item.find("div > div.view.viewed > a").length > 0
+  //     ? parseAnchor($item.find("div > div.view.viewed > a"))
+  //     : null
   // if (visited) visited.name = visited.name.replace("Đọc tiếp Chapter ", "")
   // // eslint-disable-next-line camelcase
   // const read_at = $item.find(".read-action .continue").text()
@@ -93,7 +105,7 @@ export function parseItem(
 
   return {
     image,
-    path,
+    route,
     name,
     othername,
     tags,

@@ -2,6 +2,7 @@ import type { API, Chapter, ID } from "raiku-pgs"
 import { normalizeChName, parsePath } from "raiku-pgs"
 
 import { CURL } from "../const"
+import { getParamComicAndChap } from "../parsers/__helpers__/getParamComicAndChap"
 
 // eslint-disable-next-line camelcase
 export default async function ({ get }: Pick<API, "get">, manga_id: ID) {
@@ -12,10 +13,15 @@ export default async function ({ get }: Pick<API, "get">, manga_id: ID) {
 
   return JSON.parse(data).chapters.map(
     (item: { chapterId: number; name: string; url: string }): Chapter => {
+      const route = {
+        name: "comic chap",
+        params: getParamComicAndChap(parsePath(item.url))
+      } as const
+
       return {
         id: item.chapterId + "",
         name: normalizeChName(item.name),
-        path: parsePath(item.url),
+        route,
         updated_at: null,
         views: null,
       }

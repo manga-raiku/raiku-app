@@ -6,7 +6,8 @@
   "scripts": {
     "test": "vitest",
     "dev": "pnpm build && vite serve ./dist",
-    "build": "vite build && esr build-meta.ts"
+    "build": "vite build && esr build-meta.ts",
+    "typing": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "esbuild-runner": "^2.2.2",
     "happy-dom": "^11.0.2",
     "vite": "^4.4.9",
-    "vitest": "^0.34.4"
+    "vitest": "^0.34.4",
+    "vue-router": "^4.2.4"
   }
 }

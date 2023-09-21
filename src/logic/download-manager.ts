@@ -2,7 +2,7 @@
 /* eslint-disable functional/no-throw-statement */
 import hashSum from "hash-sum"
 import type { ID } from "raiku-pgs"
-
+import type { RouteLocationNamedRaw } from "vue-router"
 /*
 .
 ├── meta/
@@ -22,7 +22,12 @@ const DIR_FILES = "files"
 const PROTOCOL_OFFLINE = "offline://"
 
 export interface MetaManga {
-  readonly path: string
+  readonly route: {
+    name: "comic",
+    params: {
+      comic: string
+    }
+  }
 
   readonly manga_id: ID
   readonly manga_name: string
@@ -34,7 +39,13 @@ export interface MetaMangaOnDisk extends MetaManga {
   readonly start_download_at: number
 }
 export interface MetaEpisode {
-  readonly path: string
+  readonly route: {
+    name: "comic chap",
+    params: {
+      comic: string
+      chap: string
+    }
+  }
 
   readonly ep_id: ID
   readonly ep_name: string

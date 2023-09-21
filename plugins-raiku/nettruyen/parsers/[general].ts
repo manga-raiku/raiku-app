@@ -1,23 +1,10 @@
 /* eslint-disable n/no-unsupported-features/node-builtins */
+import type { FilterQuery, FilterURI } from "raiku-pgs"
 import { parseAnchor, parseDom, parsePath } from "raiku-pgs"
 
+import { getQuery } from "./__helpers__/getQuery"
+import { getTypeGenre } from "./__helpers__/getTypeGenre"
 import { parseItem } from "./__helpers__/parseItem"
-
-export interface FilterURI {
-  type: string
-  select: {
-    path: string
-    name: string
-  }[]
-}
-export interface FilterQuery {
-  type: string
-  key: string
-  items: {
-    value: string
-    name: string
-  }[]
-}
 
 export default function general(html: string, now: number) {
   const $ = parseDom(html)
@@ -35,13 +22,17 @@ export default function general(html: string, now: number) {
         const $item = $(item)
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const path = parsePath($item.attr("href")!).replace(
-          /\/tim-truyen(\/[^?]|$)/,
-          "/the-loai$1",
-        )
+        const path = parsePath($item.attr("href")!)
+        const route = {
+          name: "genre",
+          params: {
+            type: getTypeGenre(path),
+          },
+          query: getQuery(path),
+        } as const
         const name = $item.text()
 
-        return { path, name }
+        return { route, name }
       }),
   }
   const status: FilterQuery = {

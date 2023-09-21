@@ -124,7 +124,7 @@ meta:
         class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 my-4 children:my-2"
       >
         <q-btn
-          :to=" data.chapters.at(-1)!.path"
+          :to=" data.chapters.at(-1)!.route"
           rounded
           no-caps
           class="mr-3 text-weight-normal text-15px bg-#fff bg-opacity-10 btn-action"
@@ -136,7 +136,7 @@ meta:
 
         <q-btn
           v-if="lastEpRead"
-          :to="lastEpRead.path"
+          :to="lastEpRead.route"
           rounded
           no-caps
           class="mr-3 text-weight-normal text-15px bg-#fff bg-opacity-10"
@@ -158,7 +158,7 @@ meta:
                   image: data.image,
                   manga_id: data.manga_id,
                   manga_name: data.name,
-                  path: `/truyen-tranh/${zlug}`,
+                  manga_param: comic
                 },
                 (isFollow = !isFollow),
               )
@@ -189,10 +189,10 @@ meta:
           :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
           :map-offline="mapEp"
           :meta-manga="{
-            path: `/truyen-tranh/${zlug}`,
             manga_id: data.manga_id,
             manga_name: data.name,
             manga_image: data.image,
+            manga_param: comic,
             source_id: sourceId,
           }"
         />
@@ -334,7 +334,7 @@ meta:
                 image: data.image,
                 manga_id: data.manga_id,
                 manga_name: data.name,
-                path: `/truyen-tranh/${zlug}`,
+                manga_param: comic
               },
               (isFollow = !isFollow),
             )
@@ -345,7 +345,7 @@ meta:
       </q-btn>
 
       <q-btn
-        :to="data?.chapters.at(-1)!.path"
+        :to="data?.chapters.at(-1)!.route"
         rounded
         no-caps
         no-wrap
@@ -364,7 +364,7 @@ meta:
 
       <q-btn
         v-if="lastEpRead"
-        :to="lastEpRead.path"
+        :to="lastEpRead.route"
         rounded
         no-caps
         no-wrap
@@ -391,7 +391,7 @@ import { formatView } from "src/logic/formatView"
 
 const props = defineProps<{
   sourceId: string
-  zlug: string
+  comic: string
 }>()
 const $q = useQuasar()
 const { share } = useShare()
@@ -407,12 +407,12 @@ const GetWithCache = useWithCache(
   () =>
     pluginStore
       .get(props.sourceId)
-      .then(({ plugin }) => plugin.getComic(props.zlug)),
-  computed(() => `${packageName}:///manga/${props.zlug}`),
+      .then(({ plugin }) => plugin.getComic(props.comic)),
+  computed(() => `${packageName}:///manga/${props.comic}`),
 )
 
 const { data, runAsync, error, run } = useRequest(GetWithCache, {
-  refreshDeps: [() => props.zlug],
+  refreshDeps: [() => props.comic],
   refreshDepsAction() {
     // data.value = undefined
     run()

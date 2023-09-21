@@ -32,7 +32,7 @@ export function parseComment(
     chapter: normalizeChName($item.find(".cmchapter").text().trim()),
   }
   // patch content
-  $item.find(".comment-content img").each((i, item) => {
+  $item.find(".comment-content img").each((_i, item) => {
     const $item2 = $(item)
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     $item2.attr("src", getImage($item2)!)

@@ -94,7 +94,7 @@ meta:
         :min-page="minPage"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
-        :next-episode="nextEpisode?.value.path"
+        :next-episode="nextEpisode?.value.route"
         @click="onClickReader"
       />
       <ReaderVertical
@@ -103,7 +103,7 @@ meta:
         :pages="pages"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
-        :next-episode="nextEpisode?.value.path"
+        :next-episode="nextEpisode?.value.route"
         @click="onClickReader"
         @action:next-ch="nextCh"
       />
@@ -194,7 +194,7 @@ meta:
         :round="$q.screen.lt.md"
         :disable="!previousEpisode"
         class="<md:order-1"
-        :to="previousEpisode?.value.path"
+        :to="previousEpisode?.value.route"
       >
         <i-solar-alt-arrow-left-line-duotone
           v-if="$q.screen.lt.md && scrollingMode"
@@ -220,7 +220,7 @@ meta:
         :round="$q.screen.lt.md"
         :disable="!nextEpisode"
         class="<md:order-3"
-        :to="nextEpisode?.value.path"
+        :to="nextEpisode?.value.route"
       >
         <i-solar-alt-arrow-right-line-duotone
           v-if="$q.screen.lt.md && scrollingMode"
@@ -291,7 +291,12 @@ meta:
                 :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
                 :map-offline="mapEp"
                 :meta-manga="{
-                  path: `/truyen-tranh/${zlug}`,
+                  route: {
+                    name: 'comic',
+                    params: {
+                      comic,
+                    },
+                  },
                   manga_id: data.manga_id,
                   manga_name: data.name,
                   manga_image: data.image,
@@ -517,7 +522,7 @@ meta:
                 image: data.image,
                 manga_id: data.manga_id,
                 manga_name: data.name,
-                path: `/truyen-tranh/${zlug}`,
+                path: `/truyen-tranh/${comic}`,
               },
               (isFollow = !isFollow),
             )
@@ -567,9 +572,8 @@ import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
 const props = defineProps<{
   sourceId: string
-  zlug: string
-  epName: string
-  epId: string
+  comic: string
+  chap: string
 }>()
 
 const MODE = import.meta.env.MODE
@@ -590,22 +594,13 @@ const GetWithCache = useWithCache(
     pluginStore
       .get(props.sourceId)
       .then((res) =>
-        res.plugin.getComicChapter(
-          props.zlug,
-          props.epName + "/" + props.epId,
-          false,
-        ),
+        res.plugin.getComicChapter(props.comic, props.chap, false),
       ),
-  computed(
-    () =>
-      `${packageName}:///manga/${
-        props.zlug + "/" + props.epName + "/" + props.epId
-      }`,
-  ),
+  computed(() => `${packageName}:///manga/${props.comic + "/" + props.chap}`),
 )
 // let disableReactiveParams = false
 const { data, runAsync, error } = useRequest(GetWithCache, {
-  refreshDeps: [() => props.zlug, () => props.epName, () => props.epId],
+  refreshDeps: [() => props.comic, () => props.chap],
   async refreshDepsAction() {
     if (route.query.no_restore_scroll) return
 
@@ -690,14 +685,25 @@ async function downloadEp() {
 
   const meta = await IDMStore.download(
     {
-      path: `/truyen-tranh/${props.zlug}`,
+      route: {
+        name: "comic",
+        params: {
+          comic: props.comic,
+        },
+      },
       manga_id: data.value.manga_id,
       manga_name: data.value.name,
       manga_image: data.value.image,
       source_id: props.sourceId,
     },
     {
-      path: `/truyen-tranh/${props.zlug}/${props.epName}/${props.epId}`,
+      route: {
+        name: "comic chap",
+        params: {
+          comic: props.comic,
+          chap: props.chap,
+        },
+      },
       ep_id: data.value.ep_id,
       ep_name: currentEpisode.value.value.name,
       pages: pages.value.slice(0),
@@ -796,7 +802,10 @@ function onClickReader() {
 const currentEpisode = computed(() => {
   let index = -1
   const value = data.value?.chapters.find((item, i) => {
-    if (pathEqual(item.path, route.path)) {
+    if (
+      item.route.params.comic === route.params.comic &&
+      item.route.params.chap === route.params.chap
+    ) {
       index = i
       return true
     }
@@ -828,9 +837,7 @@ const nextEpisode = computed(() => {
 
   if (!value) return
 
-  const { zlug, epName, epId } = router.resolve(value.path).params
-
-  return { index, value, path: `${zlug}/${epName}/${epId}` as string } as const
+  return { index, value } as const
 })
 
 const showMenuEpisodes = ref(false)
@@ -842,17 +849,17 @@ function onChangeTabEpisodes() {
   setTimeout(() => (menuEpisodesRef.value as QMenu)?.updatePosition?.(), 70)
 }
 
-const fnNextCh = useWithCache(
-  async () => {
-    const { mangaId, epId } = (
-      await pluginStore.get(props.sourceId)
-    ).plugin.resolveUrlComicChapter(nextEpisode.value!.path)
-    return await (
-      await pluginStore.get(props.sourceId)
-    ).plugin.getComicChapter(mangaId, epId, false)
-  },
-  computed(() => `${packageName}:///manga/${nextEpisode.value!.path}`),
-)
+// const fnNextCh = useWithCache(
+//   async () => {
+//     const { mangaId, epId } = (
+//       await pluginStore.get(props.sourceId)
+//     ).plugin.resolveUrlComicChapter(nextEpisode.value!.path)
+//     return await (
+//       await pluginStore.get(props.sourceId)
+//     ).plugin.getComicChapter(mangaId, epId, false)
+//   },
+//   computed(() => `${packageName}:///manga/${nextEpisode.value!.path}`),
+// )
 async function nextCh() {
   //   console.log("start load next ch")
   //   const next = await fnNextCh()
@@ -900,8 +907,8 @@ async function nextCh() {
 // save to history
 let timeoutUpsertHistory: NodeJS.Timeout | number | null = null
 watch(
-  [() => props.zlug, () => props.epName, () => props.epId, data],
-  ([zlug, epName, epId, data]) => {
+  [() => props.comic, () => props.chap, data],
+  ([comic,chap, data]) => {
     if (timeoutUpsertHistory) clearTimeout(timeoutUpsertHistory)
 
     const ep = currentEpisode.value?.value
@@ -912,10 +919,10 @@ watch(
         image: data.image,
         last_ch_id: ep.id,
         last_ch_name: ep.name,
-        last_ch_path: ep.path,
+        last_ch_param: chap,
         manga_id: data.manga_id,
         manga_name: data.name,
-        manga_path: `/truyen-tranh/${zlug}/${epName}/${epId}`,
+        manga_param: comic
       })
       timeoutUpsertHistory = null
     }, 1_000)

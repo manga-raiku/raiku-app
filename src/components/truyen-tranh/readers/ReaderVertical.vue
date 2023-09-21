@@ -92,6 +92,7 @@ import {
   useScroll,
 } from "@vueuse/core"
 import { type DomOffset } from "quasar"
+import type { Chapter } from "raiku-pgs"
 import { RouterLink } from "vue-router"
 
 import PageView from "./__components__/PageView.vue"
@@ -104,7 +105,7 @@ const props = defineProps<{
   pages: string[]
   currentPage: number
   zoom: number
-  nextEpisode?: string
+  nextEpisode?: Chapter["route"]
 }>()
 const emit = defineEmits<{
   (name: "update:zoom", value: number): void

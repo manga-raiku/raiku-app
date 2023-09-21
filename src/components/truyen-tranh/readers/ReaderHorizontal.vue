@@ -106,12 +106,13 @@
 <script lang="ts" setup>
 import { useElementSize, useEventListener } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
+import type { Chapter } from "raiku-pgs"
 import { isTouchEvent } from "src/logic/is-touch-event"
 
 const props = defineProps<{
   pages: string[]
   pagesNext?: string[]
-  nextEpisode?: string
+  nextEpisode?: Chapter["route"]
 
   singlePage: boolean // 517px
   rightToLeft?: boolean

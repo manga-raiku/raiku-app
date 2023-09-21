@@ -8,7 +8,6 @@ import type {
   FetchPost,
   ID,
   MetaManga,
-  Package,
   Ranking,
   Server,
 } from "raiku-pgs"

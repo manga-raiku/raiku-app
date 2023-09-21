@@ -9,7 +9,12 @@ import { createTaskDownloadEpisode, getListManga } from "./download-manager"
 global.fetch = vi.fn()
 global.Date.now = vi.fn()
 
-const path = "/manga-1"
+const route = {
+  name: "comic" as const,
+  params: {
+    comic: "manga-1"
+  }
+}
 const manga_id = "1"
 const manga_name = "Manga 1"
 const manga_image = "http://localhost/poster/manga-1.jpg"
@@ -26,17 +31,23 @@ const pages = [
   "https://localhost/pages/7.png",
   "https://localhost/pages/8.png",
 ]
-const pathEp = path + "/chap-1"
+const routeEp = {
+  name: "comic chap" as const,
+  params: {
+    comic: route.params.comic,
+    chap: '2'
+  }
+}
 
 const metaManga: MetaManga = {
-  path,
+  route,
   manga_id,
   manga_image,
   manga_name,
   source_id,
 }
 const metaEp: MetaEpisode = {
-  path: pathEp,
+  route: routeEp,
   ep_id,
   ep_name,
   pages,
@@ -131,7 +142,7 @@ describe("download-manager", () => {
         await readFile(`meta/${hashIDManga}/${hashIDEp}.mod`, Encoding.UTF8),
       ),
     ).toEqual({
-      path: pathEp,
+      path: routeEp,
       start_download_at: 0,
       downloaded: 8,
       ep_id,
@@ -206,7 +217,7 @@ describe("download-manager", () => {
         ),
       ),
     ).toEqual({
-      path: pathEp,
+      path: routeEp,
       start_download_at: 0,
       downloaded: 5,
       ep_id,
@@ -276,7 +287,7 @@ describe("download-manager", () => {
         ),
       ),
     ).toEqual({
-      path: pathEp,
+      path: routeEp,
       ep_id,
       ep_name,
       start_download_at: 0,
@@ -331,7 +342,7 @@ describe("download-manager", () => {
         ),
       ),
     ).toEqual({
-      path: pathEp,
+      path: routeEp,
       start_download_at: 0,
       downloaded: 8,
       ep_id,
@@ -409,7 +420,7 @@ describe("download-manager", () => {
         ),
       ),
     ).toEqual({
-      path: pathEp,
+      path: routeEp,
       start_download_at: 0,
       downloaded: 8,
       ep_id,
@@ -434,7 +445,7 @@ describe("download-manager", () => {
 
     expect(await getListManga()).toEqual([
       {
-        path,
+        route,
         manga_id,
         manga_image: "offline:///poster/8daa1a0a",
         manga_name,
@@ -452,7 +463,7 @@ describe("download-manager", () => {
 
     expect(await getListManga()).toEqual([
       {
-        path,
+        route,
         manga_id: "2",
         manga_image: "offline:///poster/8daa1a08",
         manga_name,
@@ -460,7 +471,7 @@ describe("download-manager", () => {
         start_download_at: 0,
       },
       {
-        path,
+        route,
         manga_id,
         manga_image: "offline:///poster/8daa1a0a",
         manga_name,
@@ -476,7 +487,7 @@ describe("download-manager", () => {
     // ok get list
     expect(await getListEpisodes(manga_id)).toEqual([
       {
-        path: pathEp,
+        path: routeEp,
         start_download_at: 0,
         downloaded: 8,
         ep_id,
@@ -502,7 +513,7 @@ describe("download-manager", () => {
 
     expect(await getListEpisodes(manga_id)).toEqual([
       {
-        path: pathEp,
+        path: routeEp,
         start_download_at: 0,
         downloaded: 8,
         ep_id,

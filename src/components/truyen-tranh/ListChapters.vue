@@ -67,11 +67,11 @@
           v-if="!slots.item"
           v-for="item in items"
           class="px-2 py-1"
-          :key="item.path"
+          :key="item.name"
           :class="[classItem ?? 'col-6 col-sm-4 col-md-3']"
         >
           <router-link
-            :to="item.path"
+            :to="item.route"
             class="flex flex-nowrap bg-#f8f8f8 bg-opacity-7.5 hover:bg-opacity-12 transition-background-color duration-200 rounded-md py-1 px-4 relative cursor-pointer"
             exact-active-class="!text-main reading text-weight-medium"
             :class="{
@@ -177,7 +177,11 @@ const tabActive = ref(
   props.focusTabActive
     ? Math.max(
         segments.value.findIndex(({ items }) => {
-          return items.some((item) => pathEqual(item.path, route.path))
+          return items.some(
+            (item) =>
+              item.route.params.chap === route.params.chap &&
+              item.route.params.comic === route.params.comic,
+          )
         }),
         0,
       )
@@ -217,17 +221,20 @@ function onWheelTabs(event: WheelEvent) {
     ?.scrollBy({ left: event.deltaY * 2, behavior: "smooth" })
 }
 
-async function downloadEp(item: { path: string; id: ID; name: string }) {
+async function downloadEp(item: Chapter) {
   if (!props.sourceId) return
 
   const { plugin } = await pluginStore.get(props.sourceId)
 
-  const { mangaId, epId } = plugin.resolveUrlComicChapter(item.path)
-  const conf = await plugin.getComicChapter(mangaId, epId, false)
+  const conf = await plugin.getComicChapter(
+    item.route.params.comic,
+    item.route.params.chap,
+    false,
+  )
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   IDMStore.download(props.metaManga!, {
-    path: item.path,
+    route: item.route,
     ep_id: item.id,
     ep_name: item.name,
     pages: conf.pages.map((item) => plugin.Servers[0].parse(item, conf)),

@@ -8,6 +8,9 @@ import {
 } from "raiku-pgs"
 
 import { getImage } from "../__helpers__/getImage"
+import { getParamComic } from "../__helpers__/getParamComic"
+import { getParamComicAndChap } from "../__helpers__/getParamComicAndChap"
+import { getQuery } from "../__helpers__/getQuery"
 import { parseComment } from "../__helpers__/parseComment"
 
 export default function slug(html: string, now: number): Comic {
@@ -17,8 +20,8 @@ export default function slug(html: string, now: number): Comic {
 
   const name = $detail.find("h1").text().trim()
   const uid = parseInt(html.match(/gOpts\.comicId=(\d+)/)?.[1] ?? "")
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const key = html.match(/gOpts\.key=('|")([^"']+)\1/)![2]!
+  // // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // const key = html.match(/gOpts\.key=('|")([^"']+)\1/)![2]!
   // eslint-disable-next-line camelcase
   const updated_at = parseTimeAgo(
     $detail.find("time").text().trim().slice(16, -1),
@@ -34,13 +37,35 @@ export default function slug(html: string, now: number): Comic {
     .find(".author p:not(.name)")
     .find("a")
     .toArray()
-    .map((item) => parseAnchor($(item)))
+    .map((item) => {
+      const { name, path } = parseAnchor($(item))
+      const route = {
+        name: "genre",
+        params: {
+          type: "",
+        },
+        query: getQuery(path),
+      } as const
+
+      return { name, route }
+    })
   const status = $detail.find(".status p:not(.name)").text().trim()
   const genres = $detail
     .find(".kind p:not(.name)")
     .find("a")
     .toArray()
-    .map((item) => parseAnchor($(item)))
+    .map((item) => {
+      const { name, path } = parseAnchor($(item))
+      const route = {
+        name: "genre",
+        params: {
+          type: getParamComic(path),
+        },
+        query: getQuery(path),
+      } as const
+
+      return { name, route }
+    })
   const views = parseNumber(
     $detail.find(".kind").next().find("p:not(.name)").text().replace(/\./g, ""),
   )
@@ -58,6 +83,12 @@ export default function slug(html: string, now: number): Comic {
     .map((item) => {
       const $item = $(item)
       const { path, name } = parseAnchor($item.find("a"))
+
+      const route = {
+        name: "comic chap",
+        params: getParamComicAndChap(path),
+      } as const
+
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const id = parseInt($item.find("a").attr("data-id")!) + ""
       // eslint-disable-next-line camelcase
@@ -65,7 +96,7 @@ export default function slug(html: string, now: number): Comic {
       const views = parseNumber($item.next().next().text().trim())
 
       // eslint-disable-next-line camelcase
-      return { id, path, name: normalizeChName(name), updated_at, views }
+      return { id, route, name: normalizeChName(name), updated_at, views }
     })
 
   const comments = $("#nt_comments .comment-list .item")

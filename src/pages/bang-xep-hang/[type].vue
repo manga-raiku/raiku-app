@@ -68,7 +68,7 @@
               <InfiniteScroll @load="onLoad">
                 <div
                   v-for="(item, index) in data.items"
-                  :key="item.path"
+                  :key="item.name"
                   class="my-4 col-12 col-sm-6 px-2"
                 >
                   <CardVertical :data="item">

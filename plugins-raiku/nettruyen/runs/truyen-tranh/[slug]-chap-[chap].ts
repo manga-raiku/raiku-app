@@ -1,5 +1,5 @@
 import type { API, Chapter, ComicChapter } from "raiku-pgs"
-import { normalizeChName, parsePath, PostWorker } from "raiku-pgs"
+import { normalizeChName, parsePath, pathIsHome, PostWorker } from "raiku-pgs"
 
 import { CURL } from "../../const"
 import type Parse from "../../parsers/truyen-tranh/[slug]/[ep-id]"

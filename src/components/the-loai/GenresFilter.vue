@@ -8,24 +8,23 @@
 
       <div v-if="isSelectMode(item)" class="display-table-cell">
         <q-btn
-          v-for="{ path, name } in item.select"
-          :key="path"
+          v-for="{ route: route2, name } in item.select"
+          :key="name"
           no-caps
           rounded
           unelevated
           outline
           :to="{
-            ...route,
+            ...route2,
             query: {
-              ...route.query,
+              ...route2.query,
               page: undefined,
             },
             name: undefined,
-            path
           }"
           class="text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
           :class="{
-            '!text-main-3': pathEqual(router.resolve(path).path, route.path),
+            '!text-main-3': route2.params.type === route.params.type
           }"
           >{{ name }}</q-btn
         >

@@ -74,12 +74,12 @@
         <li
           v-else-if="searchResult?.length"
           v-for="item in searchResult"
-          :key="item.path"
+          :key="item.name"
           class="relative"
           v-ripple
         >
-        <!-- !TODO: need fix -->
-          <router-link :to="item.path" class="flex flex-nowrap mt-5 mx-4">
+          <!-- !TODO: need fix -->
+          <router-link :to="item.route" class="flex flex-nowrap mt-5 mx-4">
             <div>
               <q-img
                 no-spinner
@@ -130,9 +130,9 @@ const {
   runAsync,
 } = useRequest(
   () => {
-    return (
-      pluginStore.plugins.values().return?.().value.plugin as API
-    )?.searchQuickly(query.value, 1)
+    return pluginStore
+      .get("nettruyen")
+      .then((res) => res.plugin.searchQuickly(query.value, 1))
   },
   {
     manual: true,

@@ -33,7 +33,7 @@ meta:
           :key="index"
           v-ripple
           class="!flex flex-col items-center slide"
-          @click="router.push(item.path)"
+          @click="router.push(item.route)"
         >
           <div
             class="flex-1 flex items-center justify-center w-full h-full backdrop-bg <sm:pt-50px"
@@ -65,7 +65,7 @@ meta:
                     rounded
                     class="bg-main mt-2 xs:mt-4 pointer-events-all mx-auto"
                     no-caps
-                      :to="item.last_chapters[0].path"
+                      :to="item.last_chapters[0].route"
                   >
                     <i-fluent-play-24-filled
                       width="1.3em"
@@ -210,7 +210,7 @@ meta:
               rounded
               class="bg-main mt-2 sm:mt-4 pointer-events-all"
               no-caps
-                :to=" data.sliders[sliderIndex].last_chapters[0].path"
+                :to=" data.sliders[sliderIndex].last_chapters[0].route"
             >
               <i-fluent-play-24-filled
                 width="1.3em"
@@ -263,7 +263,7 @@ meta:
           >
             <CardVertical
               v-for="item in items"
-              :key="item.path"
+              :key="item.name"
               :data="item"
               img-width="100px"
               class="my-2 text-13px"

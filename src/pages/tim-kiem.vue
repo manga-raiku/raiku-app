@@ -138,7 +138,7 @@ meta:
             >
               <div
                 v-for="(item, index) in _dataInStoreTmp.response.items"
-                :key="item.path"
+                :key="item.name"
                 class="my-4 px-2"
               >
                 <CardVertical :data="item">

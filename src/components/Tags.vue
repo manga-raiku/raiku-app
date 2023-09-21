@@ -4,8 +4,8 @@
 
     <q-btn
       v-for="item in items"
-      :key="item.path"
-      :to="item.path"
+      :key="item.name"
+      :to="item.route"
       no-caps
       rounded
       unelevated

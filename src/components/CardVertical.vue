@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="data.path" v-ripple class="relative flex flex-nowrap">
+  <router-link :to="data.route" v-ripple class="relative flex flex-nowrap">
     <div class="relative">
       <q-img
         no-spinner
@@ -12,7 +12,7 @@
         <BottomBlur>
           <!-- <div class="text-[30px]">#{{ trending }}</div> -->
           <router-link
-            :to="data.last_chapters[0].path"
+            :to="data.last_chapters[0].route"
             class="card-title line-clamp-2 font-family-poppins"
           >
             {{ $t("chuong-name", [data.last_chapters[0].name]) }}

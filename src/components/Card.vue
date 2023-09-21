@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="data.path"
+    :to="data.route"
     v-ripple
     class="relative card-wrap"
   >
@@ -104,7 +104,7 @@
         <div class="tags mt-2 text-12px line-clamp-2">
           <span
             v-for="item in data.tags"
-            :key="data.path"
+            :key="data.name"
             class="text-gray-300"
           >
             {{ $t("tag-_val", [item]) }}

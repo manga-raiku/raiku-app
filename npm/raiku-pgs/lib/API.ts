@@ -1,19 +1,32 @@
 import type { GetOption, Http, PostOption } from "client-ext-animevsub-helper"
+import type { LocationQueryRaw, RouteLocationNamedRaw } from "vue-router"
 
 export type ID = `${string}`
 
 export interface Anchor {
-  readonly path: string
+  readonly route: RouteLocationNamedRaw
   readonly name: string
 }
 
-export interface Chapter extends Anchor {
+export interface Chapter extends Pick<Anchor, "name"> {
+  readonly route: {
+    name: "comic chap",
+    params: {
+      comic: string
+      chap: string
+    }
+  }
   readonly id: ID
   readonly updated_at: number | null
   readonly views: number | null
 }
 export interface MetaManga {
-  readonly path: string
+  readonly route: {
+    name: "comic"
+    params: {
+      comic: string
+    }
+  }
   readonly image: string
   readonly name: string
   readonly othername: string
@@ -50,7 +63,13 @@ export interface Comment {
 export interface FilterURI {
   readonly type: string
   readonly select: {
-    readonly path: string
+    readonly route: {
+      name: "genre"
+      params: {
+        type: string
+      }
+      query: LocationQueryRaw
+    }
     readonly name: string
   }[]
 }
@@ -132,9 +151,27 @@ export interface Comic {
   readonly manga_id: ID
   readonly updated_at: number
   readonly image: string
-  readonly author: Anchor[]
+  readonly author: {
+    name: string
+    route: {
+      name: string
+      params: {
+        type: string
+      }
+      query: LocationQueryRaw
+    }
+  }[]
   readonly status: string
-  readonly genres: readonly Anchor[]
+  readonly genres: readonly {
+    name: string
+    route: {
+      name: string
+      params: {
+        type: string
+      }
+      query: LocationQueryRaw
+    }
+  }[]
   readonly views: number | null
   readonly rate: {
     readonly cur: number
@@ -238,7 +275,12 @@ export declare class API {
     page: number,
   ): Promise<
     readonly {
-      readonly path: string
+      readonly route: {
+        name: "comic"
+        params: {
+          comic: string
+        }
+      }
       readonly name: string
       readonly image: string
       readonly last_chapter: string

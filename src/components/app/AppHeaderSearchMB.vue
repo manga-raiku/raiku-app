@@ -71,7 +71,7 @@
         <q-list dense>
           <q-item
             v-for="item in data"
-            :key="item.path"
+            :key="item.name"
             clickable
             v-ripple
             @click="onClickItemPreLoad(item)"
@@ -124,11 +124,9 @@ const keyword = ref("")
 const query = ref((route.query.query ?? "") + "")
 const { data, runAsync } = useRequest(
   () =>
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    (pluginStore.plugins.values().return!()?.value.plugin as API).searchQuickly(
-      query.value,
-      1,
-    ),
+    pluginStore
+      .get("nettruyen")
+      .then((res) => res.plugin.searchQuickly(query.value, 1)),
   {
     manual: true,
   },
@@ -146,7 +144,7 @@ function onClickItemPreLoad(
   if (load) {
     query.value = item.name
   } else {
-    router.push(item.path)
+    router.push(item.route)
   }
 }
 

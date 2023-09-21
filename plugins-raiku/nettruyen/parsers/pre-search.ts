@@ -1,8 +1,22 @@
 import { normalizeChName, parseDom, parsePath } from "raiku-pgs"
+import type { RouteLocationNamedRaw } from "vue-router"
 
 import { getImage } from "./__helpers__/getImage"
+import { getParamComic } from "./__helpers__/getParamComic"
 
-export default function (html: string) {
+export default function (html: string): readonly {
+  readonly route: {
+    name: "comic"
+    params: {
+      comic: string
+    }
+  }
+  readonly name: string
+  readonly image: string
+  readonly last_chapter: string
+  readonly othername: string
+  readonly tags: string[]
+}[] {
   const $ = parseDom(html)
 
   return $("li")
@@ -10,8 +24,19 @@ export default function (html: string) {
     .map((item) => {
       const $item = $(item)
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const path = parsePath($item.find("a").attr("href")!)
+      const route: {
+        name: "comic"
+        params: {
+          comic: string
+        }
+      } = {
+        name: "comic",
+        params: {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          comic: getParamComic(parsePath($item.find("a").attr("href")!)),
+        },
+      }
+
       const name = $item.find("h3").text().trim()
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const image = getImage($item.find("img"))!
@@ -27,6 +52,6 @@ export default function (html: string) {
         .filter(Boolean)
 
       // eslint-disable-next-line camelcase
-      return { path, name, image, last_chapter, othername, tags }
+      return { route, name, image, last_chapter, othername, tags }
     })
 }

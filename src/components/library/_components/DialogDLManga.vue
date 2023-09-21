@@ -180,7 +180,7 @@
         >
         <i-solar-close-circle-linear v-if="epsSelected.size > 0"
             class="size-1.5em" />
-            <i-solar-check-circle-linear v-else 
+            <i-solar-check-circle-linear v-else
             class="size-1.5em" />
           <span class="whitespace-nowrap">{{
             epsSelected.size > 0 ? $t("bo-chon") : $t("chon-tat")
@@ -361,11 +361,11 @@ async function download() {
   const { plugin } = await pluginStore.get(metaMangaShowInfo.value.source_id)
 
   for (const ep of epsSelected) {
-    const { mangaId, epId } = plugin.resolveUrlComicChapter(ep.path)
-    const conf = await plugin.getComicChapter(mangaId, epId, false)
+    const { comic, chap } = ep.route.params
+    const conf = await plugin.getComicChapter(comic, chap, false)
     // eslint-disable-next-line promise/catch-or-return
     IDMStore.download(metaMangaShowInfo.value, {
-      path: ep.path,
+      route: ep.route,
       ep_id: ep.id,
       ep_name: ep.name,
       pages: conf.pages.map((item) => plugin.Servers[0].parse(item, conf)),

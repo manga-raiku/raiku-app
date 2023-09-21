@@ -18,8 +18,8 @@ export default function epId(html: string, now: number): ComicChapter {
   const ep_id = parseInt(html.match(/gOpts\.chapterId=(\d+)/)?.[1] ?? "") + ""
   const cdn = html.match(/gOpts\.cdn="([^"]+)"/)?.[1]
   const cdn2 = html.match(/gOpts\.cdn2="([^"]+)"/)?.[1]
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const key = html.match(/gOpts\.key=('|")([^"']+)\1/)![2]!
+  // // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // const key = html.match(/gOpts\.key=('|")([^"']+)\1/)![2]!
   const updated_at = parseTimeAgo(
     $("#ctl00_divCenter > div > div:nth-child(1) > div.top > i")
       .text()
@@ -73,57 +73,3 @@ export default function epId(html: string, now: number): ComicChapter {
     comments_pages,
   }
 }
-
-type Page = ReturnType<typeof epId>["pages"][0]
-
-const headersNettruyen = {
-  referer: "https://www.nettruyenmax.com",
-}
-
-export const SERVERS: {
-  name: string
-  has: (page: Page, conf: ReturnType<typeof epId>) => boolean
-  parse: (page: Page, conf: ReturnType<typeof epId>) => string
-}[] = [
-  {
-    name: "Server 1",
-    has: () => true,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    parse: (item: Page) => withProxyImage(item.src!, headersNettruyen),
-  },
-  {
-    name: "Server 2",
-    has: (item: Page) => item.original !== null && item.original !== item.src,
-    parse(item) {
-      if (item.original?.indexOf("focus-opensocial.googleusercontent") !== -1) {
-        return withProxyImage(
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          decodeURIComponent(item.original!.split("&url", 2)[1]),
-          headersNettruyen,
-        )
-      }
-
-      return withProxyImage(
-        `https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&resize_h=0&rewriteMime=image%2F*&url=${encodeURIComponent(
-          item.original,
-        )}`,
-        headersNettruyen,
-      )
-    },
-  },
-  {
-    name: "Server 3",
-    has: (item: ReturnType<typeof epId>["pages"][0]) => item.cdn !== null,
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    parse: (item) => withProxyImage(item.cdn!, headersNettruyen),
-  },
-  {
-    name: "Server 4",
-    has: (item, { cdn, cdn2 }) => item.cdn !== null && !!cdn && !!cdn2,
-    parse: (item, { cdn, cdn2 }) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return withProxyImage(item.cdn!.replace(cdn!, cdn2!), headersNettruyen)
-    },
-  },
-]

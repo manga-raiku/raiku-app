@@ -11,5 +11,4 @@ export const meta: Package = {
   author: "Tachibana Shin <tachibshin@duck.com>",
   updatedAt: Date.now(),
   filename: "./plugin.mjs",
-  source: "",
 }
