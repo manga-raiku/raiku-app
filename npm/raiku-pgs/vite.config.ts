@@ -11,13 +11,14 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ["cheerio"],
+      external: ["cheerio", "htmlparser2"],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
-        globals: {
-          vue: "cheerio",
-        },
+        // globals: {
+        //   cheerio: "cheerio",
+        //   htmlparser2: "htmlparser2",
+        // },
       },
     },
   },

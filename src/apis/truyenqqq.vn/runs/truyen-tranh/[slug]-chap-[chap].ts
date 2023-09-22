@@ -2,8 +2,8 @@ import { PostWorker } from "raiku-pgs"
 
 import type ParseMangaList from "../../parsers/frontend/manga-list"
 import type Parse from "../../parsers/truyen-tranh/[slug]-chap-[chap]"
-import WorkerMangaList from "../../workers/frontend/manga-list?worker&inline"
-import Worker from "../../workers/truyen-tranh/[slug]-chap-[chap]?worker&inline"
+import WorkerMangaList from "../../workers/frontend/manga-list?worker"
+import Worker from "../../workers/truyen-tranh/[slug]-chap-[chap]?worker"
 
 import { CURL } from "./../../const"
 

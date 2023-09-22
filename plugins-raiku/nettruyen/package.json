@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest",
-    "dev": "pnpm build && vite serve ./dist",
-    "build": "vite build && esr build-meta.ts",
+    "dev": "vite",
+    "build": "vite build",
     "typing": "tsc --noEmit"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "vite-plugin-singlefile": "^0.13.5"
   },
   "devDependencies": {
+    "esbuild": "^0.19.2",
     "esbuild-runner": "^2.2.2",
     "happy-dom": "^11.0.2",
     "vite": "^4.4.9",

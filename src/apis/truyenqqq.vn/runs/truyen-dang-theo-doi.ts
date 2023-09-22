@@ -2,7 +2,7 @@ import { PostWorker } from "raiku-pgs"
 
 import { CURL } from "../const"
 import type Parse from "../parsers/[general]"
-import Worker from "../workers/[general].ts?worker&inline"
+import Worker from "../workers/[general].ts?worker"
 
 export default async function (page: number) {
   const { data } = await get({

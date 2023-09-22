@@ -458,6 +458,9 @@ importers:
         specifier: ^0.13.5
         version: 0.13.5(rollup@2.79.1)(vite@4.4.9)
     devDependencies:
+      esbuild:
+        specifier: ^0.19.2
+        version: 0.19.2
       esbuild-runner:
         specifier: ^2.2.2
         version: 2.2.2(esbuild@0.19.2)

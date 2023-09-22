@@ -14,6 +14,7 @@
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "pnpm test:unit:ci && pnpm test:component:ci",
     "test:watch": "pnpm test:unit",
+    "test:all": "pnpm test -r",
     "dev": "quasar dev",
     "dev:pwa": "pnpm dev -m pwa",
     "dev:android": "pnpm dev -m capacitor -T android",

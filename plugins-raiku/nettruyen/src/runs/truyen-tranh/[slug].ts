@@ -1,11 +1,11 @@
-import { PostWorker } from "raiku-pgs"
+import type { API } from "raiku-pgs"
+import { pathIsHome, PostWorker } from "raiku-pgs"
 
+import { CURL } from "../../const"
 import type Parse from "../../parsers/truyen-tranh/[slug]"
 import Worker from "../../workers/truyen-tranh/[slug]?worker"
 
-import { CURL } from "./../../const"
-
-export default async function (slug: string) {
+export default async function ({ get }: Pick<API, "get">, slug: string) {
   const { data, url } = await get({ url: `${CURL}/truyen-tranh/${slug}` })
 
   // eslint-disable-next-line functional/no-throw-statement
