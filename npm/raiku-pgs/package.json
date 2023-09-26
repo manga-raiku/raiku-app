@@ -1,7 +1,7 @@
 {
   "name": "raiku-pgs",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "files": [
     "dist"
@@ -36,7 +36,7 @@
     "test": "vitest",
     "build": "vite build && tsc --emitDeclarationOnly",
     "prepublish": "pnpm build",
-    "release": "bumpp package.json && pnpm publish"
+    "release": "bumpp package.json --commit 'chore: release npm `raiku-pgs` `%s`' && pnpm publish"
   },
   "devDependencies": {
     "bumpp": "^9.2.0",
