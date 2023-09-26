@@ -204,7 +204,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { API, ID } from "raiku-pgs"
+import type { API, ID } from "raiku-pgs/plugin"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
 const $q = useQuasar()

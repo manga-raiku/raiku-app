@@ -1,5 +1,5 @@
 <route lang="yaml">
-alias: ["/sourceId?/trending/type?"]
+alias: ["/:sourceId?/trending/:type"]
 meta:
   needSelectPlugin: true
 </route>

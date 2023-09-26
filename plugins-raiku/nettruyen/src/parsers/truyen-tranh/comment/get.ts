@@ -1,5 +1,4 @@
-import { parseDom } from "raiku-pgs"
-import type { Comment } from "raiku-pgs"
+import type { Comment } from "raiku-pgs/plugin"
 
 import { parseComment } from "../../__helpers__/parseComment"
 

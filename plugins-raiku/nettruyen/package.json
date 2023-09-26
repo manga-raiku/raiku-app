@@ -6,7 +6,7 @@
   "scripts": {
     "test": "vitest",
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsx ./scripts/build.ts",
     "typing": "tsc --noEmit"
   },
   "keywords": [],
@@ -14,6 +14,7 @@
   "license": "LGPL-3.0-or-later",
   "dependencies": {
     "cheerio": "1.0.0-rc.12",
+    "client-ext-animevsub-helper": "^1.0.4",
     "raiku-pgs": "workspace:^",
     "rollup-plugin-web-worker-loader": "^1.6.1",
     "vite-plugin-singlefile": "^0.13.5"
@@ -22,6 +23,7 @@
     "esbuild": "^0.19.2",
     "esbuild-runner": "^2.2.2",
     "happy-dom": "^11.0.2",
+    "tsx": "^3.12.7",
     "vite": "^4.4.9",
     "vitest": "^0.34.4",
     "vue-router": "^4.2.4"

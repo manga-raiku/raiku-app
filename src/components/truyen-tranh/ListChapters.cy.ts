@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { createPinia, setActivePinia } from "pinia"
-import type { Chapter } from "raiku-pgs"
+import type { Chapter } from "raiku-pgs/plugin"
 
 import ListChapters from "./ListChapters.vue"
 

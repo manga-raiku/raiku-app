@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
-import type { API, Comment } from "raiku-pgs"
-import { PostWorker } from "raiku-pgs"
+import type { API, Comment } from "raiku-pgs/plugin"
+import { PostWorker } from "raiku-pgs/plugin"
 
-import type Parse from "../../../parsers/truyen-tranh/comment/get"
-import Worker from "../../../workers/truyen-tranh/comment/get?worker"
+import Parse from "../../../parsers/truyen-tranh/comment/get"
 
 export default async function GetComment(
   { get }: Pick<API, "get">,
@@ -29,6 +28,6 @@ export default async function GetComment(
   return {
     comments_count: parseInt(comments_count),
     comments_pages: parseInt(pager.slice(pager.indexOf('a href="#') >>> 0, 2)),
-    comments: await PostWorker<typeof Parse>(Worker, response, Date.now()),
+    comments: await Parse(response, Date.now()),
   }
 }

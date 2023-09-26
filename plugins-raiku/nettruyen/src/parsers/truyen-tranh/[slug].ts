@@ -1,13 +1,12 @@
-import type { Chapter, Comic } from "raiku-pgs"
+import type { Chapter, Comic } from "raiku-pgs/plugin"
 import {
   normalizeChName,
   parseAnchor,
-  parseDom,
   parseNumber,
   parseTimeAgo,
-} from "raiku-pgs"
+} from "raiku-pgs/plugin"
 
-import { meta } from "../../../package"
+import { meta } from "../../../config"
 import { getImage } from "../__helpers__/getImage"
 import { getParamComicAndChap } from "../__helpers__/getParamComicAndChap"
 import { getQuery } from "../__helpers__/getQuery"

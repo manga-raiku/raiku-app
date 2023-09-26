@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "types": ["vitest/globals"]
   },
-  "include": ["lib/main.ts"]
+  "include": ["lib/plugin.ts", "lib/thread.ts", "shims-braw.d.ts", "lib/global.d.ts"]
 }

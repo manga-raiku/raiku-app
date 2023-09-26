@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable functional/no-throw-statement */
 import hashSum from "hash-sum"
-import type { ID } from "raiku-pgs"
+import type { ID } from "raiku-pgs/plugin"
 /*
 .
 ├── meta/

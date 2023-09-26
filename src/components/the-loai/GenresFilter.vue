@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { FilterQuery, FilterURI } from "raiku-pgs"
+import type { FilterQuery, FilterURI } from "raiku-pgs/plugin"
 import { pathEqual } from "src/logic/path-equal"
 
 import "@fontsource/poppins"

@@ -1,9 +1,8 @@
-import type { API } from "raiku-pgs"
-import { PostWorker } from "raiku-pgs"
+import type { API } from "raiku-pgs/plugin"
+import { PostWorker } from "raiku-pgs/plugin"
 
 import { API_CURL } from "../const"
-import type Parse from "../parsers/[general]"
-import Worker from "../workers/[general]?worker"
+import Parse from "../parsers/[general]"
 
 export default async function (
   { get }: Pick<API, "get">,
@@ -14,9 +13,5 @@ export default async function (
     url: `${API_CURL}/Comic/Services/ComicService.asmx/GetReadComics?token=${token}&page=${page}`,
   })
 
-  return PostWorker<typeof Parse>(
-    Worker,
-    decodeURIComponent(JSON.parse(data).listHtml),
-    Date.now(),
-  )
+  return Parse(decodeURIComponent(JSON.parse(data).listHtml), Date.now())
 }

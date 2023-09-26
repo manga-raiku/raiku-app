@@ -402,7 +402,7 @@ import { useShare } from "@vueuse/core"
 // import Like from "src/apis/runs/frontend/regiter-like"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import { packageName } from "app/package.json"
-import type { ID } from "raiku-pgs"
+import type { ID } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 import { formatView } from "src/logic/formatView"

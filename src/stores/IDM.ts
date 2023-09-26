@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import type { ID } from "raiku-pgs"
+import type { ID } from "raiku-pgs/plugin"
 import type {
   MetaEpisode,
   MetaManga,

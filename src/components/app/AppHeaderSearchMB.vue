@@ -106,7 +106,7 @@
 
 <script lang="ts" setup>
 import { debounce } from "perfect-debounce"
-import type { API } from "raiku-pgs"
+import type { API } from "raiku-pgs/plugin"
 
 const props = defineProps<{
   searching: boolean

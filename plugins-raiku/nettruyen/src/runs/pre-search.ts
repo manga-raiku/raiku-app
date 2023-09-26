@@ -1,9 +1,8 @@
-import type { API } from "raiku-pgs"
-import { PostWorker } from "raiku-pgs"
+import type { API } from "raiku-pgs/plugin"
+import { PostWorker } from "raiku-pgs/plugin"
 
 import { CURL } from "../const"
-import type Parse from "../parsers/pre-search"
-import Worker from "../workers/pre-search?worker"
+import Parse from "../parsers/pre-search"
 
 export default async function presearch(
   { get }: Pick<API, "get">,
@@ -16,5 +15,5 @@ export default async function presearch(
     )}&page=${page}`,
   })
 
-  return PostWorker<typeof Parse>(Worker, data)
+  return Parse(data)
 }

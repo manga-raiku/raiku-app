@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { MetaManga } from "raiku-pgs"
+import type { MetaManga } from "raiku-pgs/plugin"
 
 defineProps<{
   items: readonly MetaManga[]

@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts" setup>
-import { normalizeChName } from "raiku-pgs"
+import { normalizeChName } from "raiku-pgs/plugin"
 // eslint-disable-next-line camelcase
 import img_double from "src/assets/img_double.png?url"
 // eslint-disable-next-line camelcase

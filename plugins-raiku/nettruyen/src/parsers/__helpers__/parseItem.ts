@@ -1,14 +1,14 @@
 import type { Cheerio, CheerioAPI, Element } from "cheerio"
-import type { MetaManga } from "raiku-pgs"
+import type { MetaManga } from "raiku-pgs/plugin"
 import {
   normalizeChName,
   parseAnchor,
   parseNumber,
   parsePath,
   parseTimeAgo,
-} from "raiku-pgs"
+} from "raiku-pgs/plugin"
 
-import { meta } from "../../../package"
+import { meta } from "../../../config"
 
 import { getImage } from "./getImage"
 import { getParamComic } from "./getParamComic"

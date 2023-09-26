@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Comment } from "raiku-pgs"
+import type { Comment } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
 
 defineProps<{

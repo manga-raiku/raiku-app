@@ -104,8 +104,6 @@ export interface Package {
   readonly version: string
   readonly description: string
 
-  readonly filename: string
-
   readonly author: string
 
   readonly updatedAt: number
@@ -235,10 +233,13 @@ export declare class API {
   public readonly Servers: readonly Server[]
   public readonly Rankings: readonly Ranking[]
   // static readonly repo
-  public readonly get: FetchGet<"text">
-  public readonly post: FetchPost<"text">
+  public readonly get: FetchGet<GetOption["responseType"]>
+  public readonly post: FetchPost<GetOption["responseType"]>
 
-  constructor(get: FetchGet<"text">, post: FetchPost<"text">)
+  constructor(
+    get: FetchGet<GetOption["responseType"]>,
+    post: FetchPost<GetOption["responseType"]>,
+  )
 
   index(): Promise<
     Readonly<{
@@ -247,12 +248,6 @@ export declare class API {
       last_update: MetaManga[]
     }>
   >
-
-  /** @category - helper */
-  public resolveUrlComicChapter(url: string): {
-    readonly mangaId: ID
-    readonly epId: ID
-  }
 
   getComic(mangaId: ID): Promise<Comic>
   getComicChapter<Fast extends boolean>(

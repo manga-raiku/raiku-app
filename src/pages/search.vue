@@ -1,6 +1,6 @@
 <route lang="yaml">
 name: search
-alias: ["/:sourceId/search"]
+alias: ["/:sourceId?/search"]
 meta:
   hiddenHeader: $lt.md
   needSelectPlugin: true
@@ -190,7 +190,7 @@ meta:
 </template>
 
 <script lang="ts" setup>
-import type { API, MetaManga } from "raiku-pgs"
+import type { API, MetaManga } from "raiku-pgs/plugin"
 import type { Swiper as TSwiper } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 

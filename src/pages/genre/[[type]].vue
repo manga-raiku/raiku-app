@@ -1,6 +1,6 @@
 <route lang="yaml">
 name: genre
-alias: ["/:sourceId/tim-truyen/:type?", "/:sourceId/genre/:type?"]
+alias: ["/:sourceId?/tim-truyen/:type?", "/:sourceId?/genre/:type?"]
 meta:
   hiddenHeader: isNative or ($lt.md and isPWA)
   revealHeader: true
@@ -49,7 +49,7 @@ meta:
 <script lang="ts" setup>
 // import data from "src/apis/parsers/__test__/assets/the-loai/fantacy-30.json"
 import "@fontsource/poppins"
-import type { MetaManga } from "raiku-pgs"
+import type { MetaManga } from "raiku-pgs/plugin"
 
 const props = defineProps<{
   sourceId?: string
@@ -102,7 +102,7 @@ const { data, runAsync, error } = useRequest(
   },
 )
 const onLoad = useLoadMorePage(
- async (page) => {
+  async (page) => {
     const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
 
     // eslint-disable-next-line functional/no-throw-statement

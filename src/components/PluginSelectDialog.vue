@@ -52,7 +52,7 @@
               />
             </q-item-section>
             <q-item-section avatar class="min-w-0">
-              <img :src="`data:image/png;base64,${item.favicon}`" />
+              <img :src="item.favicon" />
             </q-item-section>
             <q-item-section>
               <q-item-label lines="1">{{ item.name }}</q-item-label>

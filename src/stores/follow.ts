@@ -1,6 +1,6 @@
 import type { Database } from "app/database"
 import { defineStore } from "pinia"
-import type { ID } from "raiku-pgs"
+import type { ID } from "raiku-pgs/plugin"
 
 Object.assign(window, { supabase })
 

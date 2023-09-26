@@ -1,6 +1,6 @@
 import type { Database } from "app/database"
 import { defineStore } from "pinia"
-import type { ID } from "raiku-pgs"
+import type { ID } from "raiku-pgs/plugin"
 
 export const useHistoryStore = defineStore("history", () => {
   const authStore = useAuthStore()

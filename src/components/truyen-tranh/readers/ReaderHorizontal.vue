@@ -106,7 +106,7 @@
 <script lang="ts" setup>
 import { useElementSize, useEventListener } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
-import type { Chapter } from "raiku-pgs"
+import type { Chapter } from "raiku-pgs/plugin"
 import { isTouchEvent } from "src/logic/is-touch-event"
 
 const props = defineProps<{

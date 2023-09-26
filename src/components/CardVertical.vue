@@ -89,7 +89,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { MetaManga } from "raiku-pgs"
+import type { MetaManga } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
 

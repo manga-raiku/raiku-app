@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Anchor } from "raiku-pgs"
+import type { Anchor } from "raiku-pgs/plugin"
 
 defineProps<{
   items: readonly Anchor[]

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import type { Cheerio, CheerioAPI, Element } from "cheerio"
-import type { Comment } from "raiku-pgs"
-import { normalizeChName, parseTimeAgo } from "raiku-pgs"
+import type { Comment } from "raiku-pgs/plugin"
+import { normalizeChName, parseTimeAgo } from "raiku-pgs/plugin"
 
 import { getImage } from "./getImage"
 

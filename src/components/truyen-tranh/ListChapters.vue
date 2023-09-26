@@ -131,8 +131,8 @@
 import "@fontsource/poppins"
 import type { QBtn } from "quasar"
 import { QTab, QTabs } from "quasar"
-import type { Chapter, ID } from "raiku-pgs"
-import { normalizeChName } from "raiku-pgs"
+import type { Chapter, ID } from "raiku-pgs/plugin"
+import { normalizeChName } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
 import type { MetaManga, TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
@@ -150,7 +150,7 @@ const props = defineProps<{
   chapters: readonly Chapter[]
 
   noDownload?: boolean
-  sourceId: string|null
+  sourceId: string | null
 }>()
 const emit = defineEmits<{
   (name: "change-tab"): void

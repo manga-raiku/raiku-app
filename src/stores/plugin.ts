@@ -1,11 +1,21 @@
 import { defineStore } from "pinia"
-import type { API, Package } from "raiku-pgs"
+import type { API, Package } from "raiku-pgs/plugin"
+import { createWorkerPlugin, execPackageMjs } from "raiku-pgs/thread"
 import semverGt from "semver/functions/gt"
+
+/**
+ * Repo plugin need has 4 files:
+ * - package.mjs ~ file contains compiled code to initialize Workers for the plugin
+ * - plugin.mjs ~ file contains introductory configurations for the plugin it `exports` a `meta` object of type `Package`
+ *
+ * !important: The reason we don't build file address configuration is because we want to minimize plugin load time
+ */
 
 interface PackageDisk extends Package {
   readonly source: string
   readonly installedAt: number
   readonly updatedAt: number
+  readonly plugin: string
 }
 
 const httpGet = get
@@ -13,13 +23,7 @@ const httpPost = post
 
 export const usePluginStore = defineStore("plugin", () => {
   const pluginsInstalled = shallowReactive<
-    Map<
-      string,
-      {
-        readonly plugin: API
-        readonly meta: Package
-      }
-    >
+    Map<string, { readonly meta: PackageDisk; readonly plugin: API }>
   >(new Map())
   const pluginMain = ref<string | null>()
 
@@ -33,7 +37,6 @@ export const usePluginStore = defineStore("plugin", () => {
 
     return Promise.all(
       files.map(async (file) => {
-        if (!file.name.endsWith(".meta")) return
         const meta = await Filesystem.readFile({
           path: `plugins/${file.name}`,
           directory: Directory.External,
@@ -46,112 +49,79 @@ export const usePluginStore = defineStore("plugin", () => {
   }
 
   async function installPlugin(source: string) {
-    // 🍀🍁🍂 The url representing the plugin must satisfy 2 requirements:
-    // - It contains the file `plugin.sha256` (https://<url>/plugin.sha256) which is the `SHA-256` hash of the plugin.
-    // - It contains the file `plugin.meta` (https//<url>/plugin.meta) which is the information of the plugin.
-    // - It contains the file `<plugin>.js` identified by the `filename` attribute in the `plugin.meta` file.
-
-    // download 2file
-    const meta = await fetch(
-      `https://proxy.mangaraiku.eu.org/?url=${source}/plugin.meta`,
-    ).then((res) => {
-      // eslint-disable-next-line functional/no-throw-statement
-      if (res.status === 404) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
-      if (res.ok) return res.json() as Promise<Package>
-
-      // eslint-disable-next-line functional/no-throw-statement
-      throw res
-    })
-    const javascript = await fetch(
-      `https://proxy.mangaraiku.eu.org/?url=${new URL(
-        meta.filename,
-        source,
-      ).toString()}`,
-    ).then((res) => {
-      // eslint-disable-next-line functional/no-throw-statement
-      if (res.status === 404) throw STATUS_PLUGIN_INSTALL.NOT_FOUND2
-      if (res.ok) return res.text()
-
-      // eslint-disable-next-line functional/no-throw-statement
-      throw res
-    })
-
-    // try parsing the XSS source code and getting the package information
-    const plugin: API = await evalModule(javascript)
-      .catch((err: any) => {
+    const [packageMjs, pluginMjs] = await Promise.all([
+      fetch(new URL("package.mjs", source)).then((res) => {
+        if (res.ok) return res.text()
         // eslint-disable-next-line functional/no-throw-statement
-        throw new Error(`[Error]: during plugin compile failure. (${err})`)
-      })
-      .then((Class: typeof API) => new Class(httpGet, httpPost))
+        throw res
+      }),
+      fetch(new URL("plugin.mjs", source)).then((res) => {
+        if (res.ok) return res.text()
+        // eslint-disable-next-line functional/no-throw-statement
+        throw res
+      }),
+    ])
+    // run init package.mjs
+    const meta = await execPackageMjs(packageMjs)
 
     const updatedAt = Date.now()
     const installedAt = await Filesystem.readFile({
-      path: `plugins/${meta.id}.meta`,
+      path: `plugins/${meta.id}`,
       directory: Directory.External,
       encoding: Encoding.UTF8,
     })
       .then((res) => JSON.parse(res.data).installedAt)
       .catch(() => updatedAt)
 
+    const plugin = createWorkerPlugin(pluginMjs, httpGet, httpPost)
+
     Object.assign(meta, {
       source,
       installedAt,
       updatedAt,
+      plugin: pluginMjs,
     })
 
-    await Promise.all([
-      Filesystem.writeFile({
-        path: `plugins/${meta.id}.meta`,
-        directory: Directory.External,
-        encoding: Encoding.UTF8,
-        data: JSON.stringify(meta),
-        recursive: true,
-      }),
-      Filesystem.writeFile({
-        path: `plugins/${meta.id}.mjs`,
-        directory: Directory.External,
-        encoding: Encoding.UTF8,
-        data: javascript,
-        recursive: true,
-      }),
-    ])
+    await Filesystem.writeFile({
+      path: `plugins/${meta.id}`,
+      directory: Directory.External,
+      encoding: Encoding.UTF8,
+      data: JSON.stringify(meta),
+      recursive: true,
+    })
 
-    pluginsInstalled.set(meta.id, { meta, plugin })
+    pluginsInstalled.set(meta.id, {
+      meta: meta as PackageDisk,
+      plugin,
+    })
 
     return meta
   }
   async function removePlugin(id: string) {
-    await Promise.all([
-      Filesystem.deleteFile({
-        path: `plugins/${id}.meta`,
-        directory: Directory.External,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-      }).catch(() => {}),
-      Filesystem.deleteFile({
-        path: `plugins/${id}.mjs`,
-        directory: Directory.External,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-      }).catch(() => {}),
-    ])
+    await Filesystem.deleteFile({
+      path: `plugins/${id}`,
+      directory: Directory.External,
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+    }).catch(() => {})
     pluginsInstalled.delete(id)
   }
   async function updatePlugin(id: string) {
     const meta = await Filesystem.readFile({
-      path: `plugins/${id}.meta`,
+      path: `plugins/${id}`,
       directory: Directory.External,
       encoding: Encoding.UTF8,
     }).then((res) => JSON.parse(res.data) as PackageDisk)
 
-    const metaOnline = await fetch(`${meta.source}/plugin.meta`).then(
-      (res) => res.json() as Promise<PackageDisk>,
-    )
+    const metaOnline = await fetch(`${meta.source}/plugin.mjs`)
+      .then((res) => res.text())
+      .then((text) => execPackageMjs(text))
 
     if (!semverGt(metaOnline.version, meta.version)) {
       // don't need update
       return false
     }
 
-    await installPlugin(metaOnline.source)
+    await installPlugin(meta.source)
 
     return true
   }
@@ -164,8 +134,6 @@ export const usePluginStore = defineStore("plugin", () => {
 
     const pluginsCanUpdate = new Map<string, Package>()
     const tasks = files.map(async ({ name }) => {
-      if (!name.endsWith(".meta")) return
-
       const { id, source, version } = JSON.parse(
         await Filesystem.readFile({
           path: `plugins/${name}`,
@@ -173,9 +141,9 @@ export const usePluginStore = defineStore("plugin", () => {
           encoding: Encoding.UTF8,
         }).then((res) => res.data),
       )
-      const metaOnline = await fetch(
-        new URL("plugin.meta", source).toString(),
-      ).then((res) => res.json())
+      const metaOnline = await fetch(new URL("plugin.mjs", source).toString())
+        .then((res) => res.text())
+        .then((code) => execPackageMjs(code))
       // check for updated
       if (!semverGt(metaOnline.version, version)) {
         // don't need update
@@ -193,20 +161,11 @@ export const usePluginStore = defineStore("plugin", () => {
   async function checkPluginInstalled(sourceId: string) {
     try {
       await Filesystem.stat({
-        path: `plugins/${sourceId}.meta`,
+        path: `plugins/${sourceId}`,
         directory: Directory.External,
       })
 
-      try {
-        await Filesystem.stat({
-          path: `plugins/${sourceId}.mjs`,
-          directory: Directory.External,
-        })
-
-        return STATUS_PLUGIN_INSTALL.INSTALLED
-      } catch {
-        return STATUS_PLUGIN_INSTALL.ADDED_BUT_NEED_DOWNLOAD
-      }
+      return STATUS_PLUGIN_INSTALL.INSTALLED
     } catch {
       return STATUS_PLUGIN_INSTALL.NOT_INSTALL
     }
@@ -218,14 +177,19 @@ export const usePluginStore = defineStore("plugin", () => {
 
     console.time(`Time load plugin "${sourceId}"`)
 
-    let meta: PackageDisk, plugin: API
-
     try {
-      meta = await Filesystem.readFile({
-        path: `plugins/${sourceId}.meta`,
+      const meta = await Filesystem.readFile({
+        path: `plugins/${sourceId}`,
         directory: Directory.External,
         encoding: Encoding.UTF8,
       }).then(({ data }) => JSON.parse(data) as PackageDisk)
+      const plugin = createWorkerPlugin(meta.plugin, httpGet, httpPost)
+
+      const v = { meta, plugin }
+      pluginsInstalled.set(meta.id, v)
+      console.timeEnd(`Time load plugin "${sourceId}"`)
+
+      return v
     } catch (err) {
       if (import.meta.env.DEV) console.error(err)
       console.timeEnd(`Time load plugin "${sourceId}"`)
@@ -233,28 +197,6 @@ export const usePluginStore = defineStore("plugin", () => {
       // eslint-disable-next-line functional/no-throw-statement
       throw STATUS_PLUGIN_INSTALL.NOT_INSTALL
     }
-    try {
-      plugin = await Filesystem.readFile({
-        path: `plugins/${meta.id}.mjs`,
-        directory: Directory.External,
-        encoding: Encoding.UTF8,
-      })
-        .then(({ data }) => evalModule(data))
-        .then((Class: typeof API) => new Class(httpGet, httpPost))
-    } catch (err) {
-      if (import.meta.env.DEV) console.error(err)
-      console.timeEnd(`Time load plugin "${sourceId}"`)
-
-      // eslint-disable-next-line functional/no-throw-statement
-      throw STATUS_PLUGIN_INSTALL.ADDED_BUT_NEED_DOWNLOAD
-    }
-
-    const pluginLinked = { meta, plugin } as const
-    pluginsInstalled.set(meta.id, pluginLinked)
-
-    console.timeEnd(`Time load plugin "${sourceId}"`)
-
-    return pluginLinked
   }
 
   const storeTaskGet = new Map<string, ReturnType<typeof _get>>()
@@ -270,12 +212,15 @@ export const usePluginStore = defineStore("plugin", () => {
   }
 
   const pluginMainPromise = computed(() => {
-    return pluginMain.value ||  Filesystem.readdir({
-      path: "plugins",
-      directory: Directory.External,
-    })
-      .then((res) => res.files.find((item) => item.name.endsWith(".meta"))?.name.replace(/\.meta$/, ""))
-      .catch(() => null)
+    return (
+      pluginMain.value ||
+      Filesystem.readdir({
+        path: "plugins",
+        directory: Directory.External,
+      })
+        .then((res) => res.files[0].name)
+        .catch(() => null)
+    )
   })
 
   const getPluginMain = computedAsync(async () => {

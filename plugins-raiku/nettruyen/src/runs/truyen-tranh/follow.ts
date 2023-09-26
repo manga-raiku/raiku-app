@@ -1,5 +1,5 @@
 /* eslint-disable n/no-unsupported-features/node-builtins */
-import type { API } from "raiku-pgs"
+import type { API } from "raiku-pgs/plugin"
 
 import { API_CURL } from "../../const"
 

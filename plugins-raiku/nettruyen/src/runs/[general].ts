@@ -1,9 +1,7 @@
-import type { API } from "raiku-pgs"
-import { PostWorker } from "raiku-pgs"
+import type { API } from "raiku-pgs/plugin"
 
 import { CURL } from "../const"
-import type Parse from "../parsers/[general]"
-import Worker from "../workers/[general]?worker"
+import Parse from "../parsers/[general]"
 
 export default async function (
   { get }: Pick<API, "get">,
@@ -25,5 +23,5 @@ export default async function (
     url: `${CURL}/${url.pathname}?${url.searchParams + ""}`,
   })
 
-  return PostWorker<typeof Parse>(Worker, data, Date.now())
+  return Parse(data, Date.now())
 }

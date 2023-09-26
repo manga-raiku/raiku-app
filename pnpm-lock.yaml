@@ -405,6 +405,9 @@ importers:
 
   npm/raiku-pgs:
     dependencies:
+      '@fcanvas/communicate':
+        specifier: ^1.1.4
+        version: 1.1.4
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
@@ -427,6 +430,9 @@ importers:
       client-ext-animevsub-helper:
         specifier: ^1.0.4
         version: 1.0.4
+      esbuild:
+        specifier: ^0.19.2
+        version: 0.19.2
       happy-dom:
         specifier: ^11.0.2
         version: 11.0.2
@@ -436,6 +442,9 @@ importers:
       vite:
         specifier: ^4.3.9
         version: 4.4.9(@types/node@18.8.0)(sass@1.32.11)
+      vite-plugin-replace:
+        specifier: ^0.1.1
+        version: 0.1.1(vite@4.4.9)
       vitest:
         specifier: ^0.34.4
         version: 0.34.4(@vitest/ui@0.31.0)(happy-dom@11.0.2)(jsdom@21.1.0)(sass@1.32.11)
@@ -448,6 +457,9 @@ importers:
       cheerio:
         specifier: 1.0.0-rc.12
         version: 1.0.0-rc.12
+      client-ext-animevsub-helper:
+        specifier: ^1.0.4
+        version: 1.0.4
       raiku-pgs:
         specifier: workspace:^
         version: link:../../npm/raiku-pgs
@@ -467,6 +479,9 @@ importers:
       happy-dom:
         specifier: ^11.0.2
         version: 11.0.2
+      tsx:
+        specifier: ^3.12.7
+        version: 3.12.7
       vite:
         specifier: ^4.4.9
         version: 4.4.9(@types/node@18.8.0)(sass@1.32.11)
@@ -2459,6 +2474,11 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+
+  /@fcanvas/communicate@1.1.4:
+    resolution: {integrity: sha512-PLvDC9514TO7ALA4L4hNGaP+qsA/p77G6j0RRUSXD4Dvkv0DB3xkQbcwr85V7k88tjRypL7L79mjE4cTBD5rOA==}
+    engines: {node: '>=10'}
+    dev: false
 
   /@fontsource/caveat@4.5.10:
     resolution: {integrity: sha512-uTg0I4hBXfOzjpUQlGwdmdlcLUlwSNXlux52IwFq7TCHlyHMAHPEqP1zDyg8lWKD86L7wOyv9jmIK/Iy5erndg==}
@@ -14722,6 +14742,14 @@ packages:
 
   /vite-plugin-remove-console@2.1.1:
     resolution: {integrity: sha512-AQOsKl9+1YO82otwSchf+P8SRo4RhMvPjOvjm9DXOnkff0SBwBPAzazEn06IUjhsm/zX4miMgicCQH1hPdktrw==}
+    dev: true
+
+  /vite-plugin-replace@0.1.1(vite@4.4.9):
+    resolution: {integrity: sha512-v+okl3JNt2pf1jDYijw+WPVt6h9FWa/atTi+qnSFBqmKThLTDhlesx0r3bh+oFPmxRJmis5tNx9HtN6lGFoqWg==}
+    peerDependencies:
+      vite: ^2
+    dependencies:
+      vite: 4.4.9(@types/node@18.8.0)(sass@1.32.11)
     dev: true
 
   /vite-plugin-rewrite-all@1.0.1(vite@2.9.16):

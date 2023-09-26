@@ -1,11 +1,10 @@
-import type { API, Chapter, ComicChapter } from "raiku-pgs"
-import { normalizeChName, pathIsHome, PostWorker } from "raiku-pgs"
+import type { API, Chapter, ComicChapter } from "raiku-pgs/plugin"
+import { normalizeChName, pathIsHome, PostWorker } from "raiku-pgs/plugin"
 
-import { meta } from "../../../package"
+import { meta } from "../../../config"
 import { CURL } from "../../const"
 import { getParamComicAndChap } from "../../parsers/__helpers__/getParamComicAndChap"
-import type Parse from "../../parsers/truyen-tranh/[slug]/[ep-id]"
-import Worker from "../../workers/truyen-tranh/[slug]-chap-[chap]?worker"
+import Parse from "../../parsers/truyen-tranh/[slug]/[ep-id]"
 
 export default async function <Fast extends boolean>(
   { get }: Pick<API, "get">,
@@ -23,7 +22,7 @@ export default async function <Fast extends boolean>(
   // eslint-disable-next-line functional/no-throw-statement
   if (pathIsHome(url)) throw new Error("not_found")
 
-  const result = await PostWorker<typeof Parse>(Worker, data, Date.now())
+  const result = await Parse(data, Date.now())
   if (!fast) {
     const { data } = await get({
       url: `${CURL}/Comic/Services/ComicService.asmx/ProcessChapterList?comicId=${result.manga_id}`,

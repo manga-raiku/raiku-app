@@ -1,5 +1,5 @@
-import type { API } from "raiku-pgs"
-import { parsePath } from "raiku-pgs"
+import type { API } from "raiku-pgs/plugin"
+import { parsePath } from "raiku-pgs/plugin"
 
 import { API_CURL } from "../../const"
 

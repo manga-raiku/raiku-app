@@ -92,7 +92,7 @@ import {
   useScroll,
 } from "@vueuse/core"
 import { type DomOffset } from "quasar"
-import type { Chapter } from "raiku-pgs"
+import type { Chapter } from "raiku-pgs/plugin"
 import { RouterLink } from "vue-router"
 
 import PageView from "./__components__/PageView.vue"

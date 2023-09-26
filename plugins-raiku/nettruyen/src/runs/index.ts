@@ -1,11 +1,8 @@
-import type { API, MetaManga } from "raiku-pgs"
-import { PostWorker } from "raiku-pgs"
+import type { API, MetaManga } from "raiku-pgs/plugin"
 
 import { CURL } from "../const"
-import type general from "../parsers/[general]"
-import type Parse from "../parsers/index"
-import WorkerGeneral from "../workers/[general]?worker"
-import Worker from "../workers/index?worker"
+import general from "../parsers/[general]"
+import Parse from "../parsers/index"
 
 export default async function index({ get }: Pick<API, "get">): Promise<
   Readonly<{
@@ -15,11 +12,9 @@ export default async function index({ get }: Pick<API, "get">): Promise<
   }>
 > {
   const [index, topDay] = await Promise.all([
-    get({ url: CURL }).then((res) =>
-      PostWorker<typeof Parse>(Worker, res.data, Date.now()),
-    ),
+    get({ url: CURL }).then((res) => Parse(res.data, Date.now())),
     get({ url: `${CURL}/tim-truyen?status=-1&sort=13` }).then((res) =>
-      PostWorker<typeof general>(WorkerGeneral, res.data, Date.now()),
+      general(res.data, Date.now()),
     ),
   ])
 

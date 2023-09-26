@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { ID } from "raiku-pgs"
+import type { ID } from "raiku-pgs/plugin"
 
 const props = defineProps<{
   visible?: boolean

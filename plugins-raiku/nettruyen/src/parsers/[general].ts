@@ -1,8 +1,8 @@
 /* eslint-disable n/no-unsupported-features/node-builtins */
-import type { FilterQuery, FilterURI } from "raiku-pgs"
-import { parseAnchor, parseDom, parsePath } from "raiku-pgs"
+import type { FilterQuery, FilterURI } from "raiku-pgs/plugin"
+import { parseAnchor, parsePath } from "raiku-pgs/plugin"
 
-import { meta } from "../../package"
+import { meta } from "../../config"
 
 import { getQuery } from "./__helpers__/getQuery"
 import { getTypeGenre } from "./__helpers__/getTypeGenre"

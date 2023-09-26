@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Comment as CommentT } from "raiku-pgs"
+import type { Comment as CommentT } from "raiku-pgs/plugin"
 
 import Comment from "./__components__/Comment.vue"
 

@@ -1,17 +1,23 @@
-import type { API, FetchGet, FetchPost, ID, Ranking, Server } from "raiku-pgs"
+import type { GetOption } from "client-ext-animevsub-helper"
+import {
+  type API,
+  defineApi,
+  type FetchGet,
+  type FetchPost,
+  type ID,
+  type Ranking,
+  type Server,
+} from "raiku-pgs/plugin"
 
-import { meta } from "./package"
 import { withProxyImage } from "./src/logic/with-proxy-image"
-
-const General = () => import("./src/runs/[general]")
-const getListChapters = () => import("./src/runs/get-list-chapters")
-const Index = () => import("./src/runs/index")
-const searchQuickly = () => import("./src/runs/pre-search")
-const search = () => import("./src/runs/tim-kiem")
-const getComic = () => import("./src/runs/truyen-tranh/[slug]")
-const getComicChapter = () =>
-  import("./src/runs/truyen-tranh/[slug]-chap-[chap]")
-const getComicComment = () => import("./src/runs/truyen-tranh/comment/get")
+import General from "./src/runs/[general]"
+import getListChapters from "./src/runs/get-list-chapters"
+import Index from "./src/runs/index"
+import searchQuickly from "./src/runs/pre-search"
+import search from "./src/runs/tim-kiem"
+import getComic from "./src/runs/truyen-tranh/[slug]"
+import getComicChapter from "./src/runs/truyen-tranh/[slug]-chap-[chap]"
+import getComicComment from "./src/runs/truyen-tranh/comment/get"
 
 const Rankings: Ranking[] = [
   {
@@ -86,28 +92,27 @@ const Servers: Server[] = [
   },
 ]
 
-export default class Nettruyen implements API {
-  public readonly package = meta
-
+class Nettruyen implements API {
   public readonly Rankings = Rankings
   public readonly Servers = Servers
 
-  public readonly get: FetchGet<"text">
-  public readonly post: FetchPost<"text">
+  public readonly get: FetchGet<GetOption["responseType"]>
+  public readonly post: FetchPost<GetOption["responseType"]>
 
-  constructor(get: FetchGet<"text">, post: FetchPost<"text">) {
+  constructor(
+    get: FetchGet<GetOption["responseType"]>,
+    post: FetchPost<GetOption["responseType"]>,
+  ) {
     this.get = get
     this.post = post
   }
 
   async index() {
-    const IndexModule = await Index()
-    return IndexModule.default(this)
+    return Index(this)
   }
 
   async getComic(zlug: string) {
-    const getComicModule = await getComic()
-    return getComicModule.default(this, zlug)
+    return getComic(this, zlug)
   }
 
   async getComicChapter<Fast extends boolean>(
@@ -116,9 +121,8 @@ export default class Nettruyen implements API {
     fast: Fast,
   ) {
     const lastI = epId.lastIndexOf("-i") >>> 0
-    const getComicChapterModule = await getComicChapter()
 
-    return getComicChapterModule.default<Fast>(
+    return getComicChapter(
       this,
       mangaId + "/" + epId.slice(0, lastI) + "/" + epId.slice(lastI + 2),
       fast,
@@ -133,9 +137,7 @@ export default class Nettruyen implements API {
     page: number,
     comicKey: string,
   ) {
-    const getComicCommentModule = await getComicComment()
-
-    return getComicCommentModule.default(
+    return getComicComment(
       this,
       comicId,
       orderByNews,
@@ -147,21 +149,15 @@ export default class Nettruyen implements API {
   }
 
   async getListChapters(mangaId: ID) {
-    const getListChaptersModule = await getListChapters()
-
-    return getListChaptersModule.default(this, mangaId)
+    return getListChapters(this, mangaId)
   }
 
   async searchQuickly(keyword: string, page: number) {
-    const searchQuicklyModule = await searchQuickly()
-
-    return searchQuicklyModule.default(this, keyword, page)
+    return searchQuickly(this, keyword, page)
   }
 
   async search(keyword: string, page: number) {
-    const searchModule = await search()
-
-    return searchModule.default(this, keyword, page)
+    return search(this, keyword, page)
   }
 
   async getRanking(type: string, page: number, filter: Record<string, string>) {
@@ -169,9 +165,7 @@ export default class Nettruyen implements API {
     // eslint-disable-next-line functional/no-throw-statement
     if (!match) throw new Error("not_found")
 
-    const GeneralModule = await General()
-
-    return GeneralModule.default(this, match, page, filter)
+    return General(this, match, page, filter)
   }
 
   async getCategory(
@@ -179,24 +173,8 @@ export default class Nettruyen implements API {
     page: number,
     filter: Record<string, string | string[]>,
   ) {
-    const GeneralModule = await General()
-
-    return GeneralModule.default(this, `/tim-truyen/${type}`, page, filter)
-  }
-
-  public resolveUrlComicChapter(url: string) {
-    // eslint-disable-next-line n/no-unsupported-features/node-builtins
-    const { pathname } = new URL(url)
-
-    if (!pathname.includes("/truyen-tranh/"))
-      // eslint-disable-next-line functional/no-throw-statement
-      throw new Error(`Url invalid format comic chapter. ('${url}')`)
-
-    const [, mangaId, ...epId] = pathname.split("/")
-
-    return {
-      mangaId,
-      epId: epId.join("/"),
-    }
+    return General(this, `/tim-truyen/${type}`, page, filter)
   }
 }
+
+defineApi(Nettruyen)

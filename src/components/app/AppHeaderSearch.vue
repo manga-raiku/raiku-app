@@ -22,10 +22,12 @@
         <button
           type="submit"
           class="flex items-center"
-          @click.stop.prevent="router.push({
-            name: 'search',
-            query: {query}
-          })"
+          @click.stop.prevent="
+            router.push({
+              name: 'search',
+              query: { query },
+            })
+          "
           @mousedown.stop.prevent
         >
           <q-icon name="search" class="pl-6 pr-4 cursor-pointer" />
@@ -117,7 +119,7 @@
 import { useEventListener } from "@vueuse/core"
 import { debounce } from "perfect-debounce"
 import { QInput } from "quasar"
-import type { API } from "raiku-pgs"
+import type { API } from "raiku-pgs/plugin"
 
 // key bind
 

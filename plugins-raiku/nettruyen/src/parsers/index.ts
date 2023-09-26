@@ -1,12 +1,11 @@
 import {
   normalizeChName,
   parseAnchor,
-  parseDom,
   parseNumber,
   parsePath,
-} from "raiku-pgs"
+} from "raiku-pgs/plugin"
 
-import { meta } from "../../package"
+import { meta } from "../../config"
 
 import { getImage } from "./__helpers__/getImage"
 import { getParamComicAndChap } from "./__helpers__/getParamComicAndChap"
