@@ -1,4 +1,3 @@
-import { PostWorker } from "raiku-pgs"
 import type { LocationQuery } from "vue-router"
 
 import { CURL } from "../../const"

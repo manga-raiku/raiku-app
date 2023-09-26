@@ -5,5 +5,9 @@ export const useStateStore = defineStore("state", () => {
   const showPluginAddDialog = ref(false)
   const showPluginSelectDialog = ref(false)
 
-  return { showPluginManagerDialog, showPluginAddDialog, showPluginSelectDialog }
+  return {
+    showPluginManagerDialog,
+    showPluginAddDialog,
+    showPluginSelectDialog,
+  }
 })

@@ -1,5 +1,3 @@
-import { parseDom, parsePath } from "raiku-pgs"
-
 import { parseItem } from "./__helpers__/parseItem"
 
 export default function general(html: string, now: number) {

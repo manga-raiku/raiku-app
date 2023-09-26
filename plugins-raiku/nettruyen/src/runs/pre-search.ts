@@ -1,5 +1,4 @@
 import type { API } from "raiku-pgs/plugin"
-import { PostWorker } from "raiku-pgs/plugin"
 
 import { CURL } from "../const"
 import Parse from "../parsers/pre-search"

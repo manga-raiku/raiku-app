@@ -1,5 +1,3 @@
-import { PostWorker } from "raiku-pgs"
-
 import type ParseMangaList from "../../parsers/frontend/manga-list"
 import type Parse from "../../parsers/truyen-tranh/[slug]-chap-[chap]"
 import WorkerMangaList from "../../workers/frontend/manga-list?worker"

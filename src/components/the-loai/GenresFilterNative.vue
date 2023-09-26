@@ -109,7 +109,6 @@
 <script lang="ts" setup>
 import { useEventListener } from "@vueuse/core"
 import type { FilterQuery, FilterURI } from "raiku-pgs/plugin"
-import { pathEqual } from "src/logic/path-equal"
 
 import "@fontsource/poppins"
 
@@ -122,7 +121,6 @@ function isSelectMode(val: any): val is FilterURI {
   return val.select !== undefined
 }
 
-const router = useRouter()
 const route = useRoute()
 
 const showFullGenres = ref(false)

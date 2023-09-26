@@ -119,7 +119,6 @@
 import { useEventListener } from "@vueuse/core"
 import { debounce } from "perfect-debounce"
 import { QInput } from "quasar"
-import type { API } from "raiku-pgs/plugin"
 
 // key bind
 

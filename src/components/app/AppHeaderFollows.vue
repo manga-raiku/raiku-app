@@ -35,6 +35,7 @@
                 :name="item.manga_name"
                 :image="item.image"
                 :history="item.history"
+                :source-id="item.source_id"
               />
             </div>
             <template #loading>

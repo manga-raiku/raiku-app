@@ -519,6 +519,7 @@ describe("ListChapters", () => {
       props: {
         chapters,
         noDownload: true,
+        sourceId: null,
       },
     })
 
@@ -530,6 +531,7 @@ describe("ListChapters", () => {
       props: {
         chapters: chapters_long,
         noDownload: true,
+        sourceId: null,
       },
     })
 
@@ -546,6 +548,7 @@ describe("ListChapters", () => {
       props: {
         chapters: chapters_long,
         noDownload: true,
+        sourceId: null,
       },
     })
 

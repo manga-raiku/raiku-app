@@ -1,4 +1,4 @@
-import type { CheerioAPI } from "cheerio";
+import type { CheerioAPI } from "cheerio"
 
 declare global {
   // eslint-disable-next-line no-var

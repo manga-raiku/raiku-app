@@ -1,4 +1,9 @@
-import { normalizeChName, parseAnchor, parseDom, parsePath } from "raiku-pgs"
+import {
+  normalizeChName,
+  parseAnchor,
+  parseDom,
+  parsePath,
+} from "raiku-pgs/plugin"
 
 import { parseComment } from "../__helpers__/parseComment"
 

@@ -21,7 +21,8 @@
     "streetsidesoftware.code-spell-checker",
     "voorjaar.windicss-intellisense",
     "antfu.unocss",
-    "zixuanchen.vitest-explorer"
+    "zixuanchen.vitest-explorer",
+    "eamodio.gitlens"
   ],
   "unwantedRecommendations": [
     "octref.vetur",

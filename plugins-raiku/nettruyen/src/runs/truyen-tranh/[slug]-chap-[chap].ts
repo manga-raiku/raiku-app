@@ -1,5 +1,5 @@
 import type { API, Chapter, ComicChapter } from "raiku-pgs/plugin"
-import { normalizeChName, pathIsHome, PostWorker } from "raiku-pgs/plugin"
+import { normalizeChName, pathIsHome } from "raiku-pgs/plugin"
 
 import { meta } from "../../../config"
 import { CURL } from "../../const"

@@ -5,7 +5,7 @@ import {
   parseNumber,
   parsePath,
   parseTimeAgo,
-} from "raiku-pgs"
+} from "raiku-pgs/plugin"
 
 export function parseItem($: CheerioAPI, $li: Cheerio<Element>, now: number) {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

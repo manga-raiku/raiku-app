@@ -73,8 +73,6 @@
 </template>
 
 <script lang="ts" setup>
-import { QInput } from "quasar"
-
 defineProps<{
   modelValue: boolean
 }>()

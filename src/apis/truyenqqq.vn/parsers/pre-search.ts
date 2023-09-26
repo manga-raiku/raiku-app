@@ -1,4 +1,4 @@
-import { normalizeChName, parseDom, parsePath } from "raiku-pgs"
+import { normalizeChName, parseDom, parsePath } from "raiku-pgs/plugin"
 
 export default function presearch(html: string) {
   const $ = parseDom(html)

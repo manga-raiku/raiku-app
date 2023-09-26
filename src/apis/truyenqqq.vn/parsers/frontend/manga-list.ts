@@ -1,4 +1,4 @@
-import { parseAnchor, parseDom } from "raiku-pgs"
+import { parseAnchor, parseDom } from "raiku-pgs/plugin"
 
 export default function (html: string) {
   const $ = parseDom(html)

@@ -244,7 +244,12 @@
     <PluginAddDialog v-model="stateStore.showPluginAddDialog" />
     <PluginSelectDialog v-model="stateStore.showPluginSelectDialog" />
 
-    <q-page-sticky v-if=route.meta.needSelectPlugin position="bottom-right" :offset="[18, 18]" class="z-20">
+    <q-page-sticky
+      v-if="route.meta.needSelectPlugin"
+      position="bottom-right"
+      :offset="[18, 18]"
+      class="z-20"
+    >
       <q-btn
         rounded
         no-caps

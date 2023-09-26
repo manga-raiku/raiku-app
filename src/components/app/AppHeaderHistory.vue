@@ -52,6 +52,7 @@
                     param: item.last_ch_param,
                     updated_at: item.$updated_at,
                   }"
+                  :source-id="item.source_id"
                 />
               </div>
             </template>

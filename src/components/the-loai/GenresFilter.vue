@@ -57,7 +57,6 @@
 
 <script lang="ts" setup>
 import type { FilterQuery, FilterURI } from "raiku-pgs/plugin"
-import { pathEqual } from "src/logic/path-equal"
 
 import "@fontsource/poppins"
 
@@ -66,7 +65,6 @@ defineProps<{
 }>()
 
 const route = useRoute()
-const router = useRouter()
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isSelectMode(val: any): val is FilterURI {

@@ -5,7 +5,7 @@ import {
   parseDom,
   parseNumber,
   parsePath,
-} from "raiku-pgs"
+} from "raiku-pgs/plugin"
 
 import { parseComment } from "../__helpers__/parseComment"
 

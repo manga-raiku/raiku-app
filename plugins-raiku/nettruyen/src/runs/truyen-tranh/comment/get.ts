@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import type { API, Comment } from "raiku-pgs/plugin"
-import { PostWorker } from "raiku-pgs/plugin"
 
 import Parse from "../../../parsers/truyen-tranh/comment/get"
 
