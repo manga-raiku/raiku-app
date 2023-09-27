@@ -50,12 +50,12 @@ export const usePluginStore = defineStore("plugin", () => {
 
   async function installPlugin(source: string) {
     const [packageMjs, pluginMjs] = await Promise.all([
-      fetch(new URL("package.mjs", source)).then((res) => {
+      fetch(join(source, "package.mjs")).then((res) => {
         if (res.ok) return res.text()
         // eslint-disable-next-line functional/no-throw-statement
         throw res
       }),
-      fetch(new URL("plugin.mjs", source)).then((res) => {
+      fetch(join(source, "plugin.mjs")).then((res) => {
         if (res.ok) return res.text()
         // eslint-disable-next-line functional/no-throw-statement
         throw res
@@ -141,7 +141,7 @@ export const usePluginStore = defineStore("plugin", () => {
           encoding: Encoding.UTF8,
         }).then((res) => res.data),
       )
-      const metaOnline = await fetch(new URL("plugin.mjs", source).toString())
+      const metaOnline = await fetch(join(source, "plugin.mjs"))
         .then((res) => res.text())
         .then((code) => execPackageMjs(code))
       // check for updated
