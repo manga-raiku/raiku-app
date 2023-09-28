@@ -108,6 +108,7 @@
 import { debounce } from "perfect-debounce"
 
 const props = defineProps<{
+  sourceId: string
   searching: boolean
 }>()
 const emit = defineEmits<{
@@ -124,7 +125,7 @@ const query = ref((route.query.query ?? "") + "")
 const { data, runAsync } = useRequest(
   () =>
     pluginStore
-      .get("nettruyen")
+      .get(props.sourceId)
       .then((res) => res.plugin.searchQuickly(query.value, 1)),
   {
     manual: true,

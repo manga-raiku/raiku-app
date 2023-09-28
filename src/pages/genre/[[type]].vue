@@ -1,6 +1,6 @@
 <route lang="yaml">
 name: genre
-alias: ["/:sourceId?/tim-truyen/:type?", "/:sourceId?/genre/:type?"]
+alias: ["/~:sourceId?/tim-truyen/:type?", "/~:sourceId?/genre/:type?"]
 meta:
   hiddenHeader: isNative or ($lt.md and isPWA)
   revealHeader: true
@@ -44,6 +44,8 @@ meta:
       </div> -->
     </template>
   </q-page>
+
+  <FABPluginSelect v-model="paramSourceId" />
 </template>
 
 <script lang="ts" setup>
@@ -61,6 +63,10 @@ const router = useRouter()
 const i18n = useI18n()
 const pluginStore = usePluginStore()
 
+const paramSourceId = useRouteParams<string | null>("sourceId", undefined, {
+  transform: (value) => (value ? value + "" : value ?? null),
+})
+
 const page = computed<number>({
   get: () => parseInt(route.query.page?.toString() ?? "1") || 1,
   set: (page) =>
@@ -75,13 +81,8 @@ const page = computed<number>({
 
 const { data, runAsync, error } = useRequest(
   async () => {
-    const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
-
-    // eslint-disable-next-line functional/no-throw-statement
-    if (!pluginId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
-
     const data = await (
-      await pluginStore.get(pluginId)
+      await pluginStore.getPluginOrDefault(props.sourceId)
     ).plugin.getCategory(
       props.type ?? "",
       page.value,
@@ -103,13 +104,9 @@ const { data, runAsync, error } = useRequest(
 )
 const onLoad = useLoadMorePage(
   async (page) => {
-    const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
-
-    // eslint-disable-next-line functional/no-throw-statement
-    if (!pluginId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
 
     return pluginStore
-      .get(pluginId)
+      .getPluginOrDefault(props.sourceId)
       .then((res) =>
         res.plugin.getCategory(
           props.type ?? "",

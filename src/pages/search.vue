@@ -1,6 +1,6 @@
 <route lang="yaml">
 name: search
-alias: ["/:sourceId?/search"]
+alias: ["/~:sourceId?/search"]
 meta:
   hiddenHeader: $lt.md
   needSelectPlugin: true
@@ -201,13 +201,17 @@ import "swiper/css/navigation"
 import "swiper/css/autoplay"
 import "swiper/css/grid"
 
+const props = defineProps<{
+  sourceId?: string
+}>()
+
 const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
 const $q = useQuasar()
 const pluginStore = usePluginStore()
 
-const title = `Tìm kiếm ${route.query.query ?? ""}`
+const title = () => `Tìm kiếm ${route.query.query ?? ""}`
 const description = title
 useSeoMeta({
   title,
@@ -223,13 +227,15 @@ const typesRank = computedAsync<
     }[]
   | undefined
 >(async () =>
-  (await pluginStore.get("nettruyen")).plugin.Rankings.map((item) => {
-    return {
-      value: item.value,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      name: (item.name as unknown as any)[i18n.locale.value] as string,
-    }
-  }),
+  (await pluginStore.getPluginOrDefault(props.sourceId)).plugin.Rankings.map(
+    (item) => {
+      return {
+        value: item.value,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        name: (item.name as unknown as any)[i18n.locale.value] as string,
+      }
+    },
+  ),
 )
 
 const { data, run, error, runAsync } = useRequest(
@@ -237,7 +243,7 @@ const { data, run, error, runAsync } = useRequest(
     if (!route.query.query) return Promise.resolve(undefined)
 
     const data = await (
-      await pluginStore.get("nettruyen")
+      await pluginStore.get(props.sourceId)
     ).plugin.search(route.query.query + "", 1)
     return {
       ...data,

@@ -120,6 +120,9 @@ import { useEventListener } from "@vueuse/core"
 import { debounce } from "perfect-debounce"
 import { QInput } from "quasar"
 
+const props = defineProps<{
+  sourceId: string
+}>()
 // key bind
 
 const { t } = useI18n()
@@ -135,7 +138,7 @@ const {
 } = useRequest(
   () => {
     return pluginStore
-      .get("nettruyen")
+      .get(props.sourceId)
       .then((res) => res.plugin.searchQuickly(query.value, 1))
   },
   {

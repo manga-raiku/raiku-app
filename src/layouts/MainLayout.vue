@@ -45,14 +45,19 @@
         <q-space />
 
         <template v-if="$q.screen.md || $q.screen.gt.md">
-          <AppHeaderSearch />
+          <AppHeaderSearch
+            :source-id="(route.params.sourceId as string | undefined) ?? null"
+          />
           <AppHeaderGithub />
         </template>
         <template v-else>
           <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
             <q-icon name="search" />
           </q-btn>
-          <AppHeaderSearchMB v-model:searching="showSearchMB" />
+          <AppHeaderSearchMB
+            v-model:searching="showSearchMB"
+            :source-id="(route.params.sourceId as string | undefined) ?? null"
+          />
         </template>
 
         <AppHeaderFollows v-if="MODE !== 'capacitor'" />
@@ -242,24 +247,6 @@
 
     <PluginManagerDialog v-model="stateStore.showPluginManagerDialog" />
     <PluginAddDialog v-model="stateStore.showPluginAddDialog" />
-    <PluginSelectDialog v-model="stateStore.showPluginSelectDialog" />
-
-    <q-page-sticky
-      v-if="route.meta.needSelectPlugin"
-      position="bottom-right"
-      :offset="[18, 18]"
-      class="z-20"
-    >
-      <q-btn
-        rounded
-        no-caps
-        color="black"
-        @click="stateStore.showPluginSelectDialog = true"
-      >
-        <i-mingcute-plugin-2-line class="size-1.5em mr-1" />
-        {{ currentPlugin?.meta.name }}
-      </q-btn>
-    </q-page-sticky>
   </q-layout>
 
   <canvas
@@ -372,16 +359,6 @@ const drawersBottom = computed(() => [
 
 // ========= plugin manager ========
 const stateStore = useStateStore()
-const currentPlugin = computedAsync(() => {
-  const sourceId = route.params.sourceId as string
-
-  if (sourceId) {
-    // search
-    return pluginStore.get(sourceId)
-  }
-
-  return pluginStore.getPluginMain
-})
 </script>
 
 <style lang="scss">

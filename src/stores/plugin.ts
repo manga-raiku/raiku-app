@@ -25,7 +25,13 @@ export const usePluginStore = defineStore("plugin", () => {
   const pluginsInstalled = shallowReactive<
     Map<string, { readonly meta: PackageDisk; readonly plugin: API }>
   >(new Map())
-  const pluginMain = ref<string | null>()
+  const pluginsCanUpdate = shallowReactive<Map<string, Package>>(new Map())
+  const pluginMain = ref<string | null>(null)
+
+  const busses = new EventBus<{
+    "install plugin": [PackageDisk]
+    "remove plugin": [string]
+  }>()
 
   async function getAllPlugins() {
     const files = await Filesystem.readdir({
@@ -94,6 +100,7 @@ export const usePluginStore = defineStore("plugin", () => {
       meta: meta as PackageDisk,
       plugin,
     })
+    busses.emit("install plugin", meta as PackageDisk)
 
     return meta
   }
@@ -104,6 +111,7 @@ export const usePluginStore = defineStore("plugin", () => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
     }).catch(() => {})
     pluginsInstalled.delete(id)
+    busses.emit("remove plugin", id)
   }
   async function updatePlugin(id: string) {
     const meta = await Filesystem.readFile({
@@ -132,15 +140,8 @@ export const usePluginStore = defineStore("plugin", () => {
       directory: Directory.External,
     })
 
-    const pluginsCanUpdate = new Map<string, Package>()
     const tasks = files.map(async ({ name }) => {
-      const { id, source, version } = JSON.parse(
-        await Filesystem.readFile({
-          path: `plugins/${name}`,
-          directory: Directory.External,
-          encoding: Encoding.UTF8,
-        }).then((res) => res.data),
-      )
+      const { id, source, version } = (await get(name)).meta
       const metaOnline = await fetch(join(source, "plugin.mjs"))
         .then((res) => res.text())
         .then((code) => execPackageMjs(code))
@@ -154,8 +155,6 @@ export const usePluginStore = defineStore("plugin", () => {
     })
 
     await Promise.all(tasks)
-
-    return pluginsCanUpdate
   }
 
   async function checkPluginInstalled(sourceId: string) {
@@ -229,6 +228,15 @@ export const usePluginStore = defineStore("plugin", () => {
     return pluginMain ? get(pluginMain) : undefined
   })
 
+  async function getPluginOrDefault(sourceId?: string | null) {
+    if (!sourceId) sourceId =  (await pluginMainPromise.value)
+
+    // eslint-disable-next-line functional/no-throw-statement
+    if (!sourceId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
+
+    return get(sourceId)
+  }
+
   return {
     pluginMain,
     pluginMainPromise,
@@ -236,10 +244,16 @@ export const usePluginStore = defineStore("plugin", () => {
 
     get,
 
+    checkPluginInstalled,
+
+    busses,
+
     getAllPlugins,
     installPlugin,
     removePlugin,
     updatePlugin,
     checkForUpdate,
+
+    getPluginOrDefault
   }
 })

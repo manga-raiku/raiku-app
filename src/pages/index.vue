@@ -1,4 +1,6 @@
 <route lang="yaml">
+name: "index"
+alias: ["/~:sourceId?"]
 meta:
   transparentHeader: true
   hiddenDrawer: true
@@ -415,6 +417,8 @@ meta:
       </div>
     </div>
   </q-page>
+
+  <FABPluginSelect v-model="paramSourceId" />
 </template>
 
 <script setup lang="ts">
@@ -434,8 +438,31 @@ import "swiper/css/autoplay"
 import "swiper/css/grid"
 // Import Swiper Vue.js components
 
+const props = defineProps<{
+  sourceId?: string
+}>()
+
 const router = useRouter()
+const route = useRoute()
 const i18n = useI18n()
+const pluginStore = usePluginStore()
+
+const paramSourceId = useRouteParams<string | null>("sourceId", undefined, {
+  transform: (value) => (value ? value + "" : value ?? null),
+})
+
+const sourceId = computed(() => {
+  return props.sourceId ?? pluginStore.pluginMain
+})
+watchImmediate(paramSourceId, async (sourceId) => {
+  if (!sourceId) {
+    const id =
+      pluginStore.pluginMain ??
+      (await pluginStore.pluginMainPromise) ??
+      undefined
+    if (id && route.name === "index") router.replace("/~" + id)
+  }
+})
 
 const title = "Raiku"
 const description = computed(() => i18n.t("app-des"))
@@ -501,9 +528,10 @@ function Carousel({ swiper, on }: any) {
   })
 }
 
-const pluginStore = usePluginStore()
 const { data, error, refreshAsync } = useRequest(() =>
-  pluginStore.get("nettruyen").then((res) => res.plugin.index()),
+  pluginStore
+    .getPluginOrDefault(sourceId.value)
+    .then((res) => res.plugin.index()),
 )
 
 const sliderIndex = ref(0)
