@@ -22,7 +22,8 @@
     "voorjaar.windicss-intellisense",
     "antfu.unocss",
     "zixuanchen.vitest-explorer",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "sourcegraph.cody-ai"
   ],
   "unwantedRecommendations": [
     "octref.vetur",

@@ -6,8 +6,8 @@ import IconsResolver from "unplugin-icons/resolver"
 import Icons from "unplugin-icons/vite"
 import Components from "unplugin-vue-components/vite"
 import DefineOptions from "unplugin-vue-define-options/vite"
-import { VueRouterAutoImports } from "unplugin-vue-router"
-import VueRouter from "unplugin-vue-router/vite"
+// import { VueRouterAutoImports } from "unplugin-vue-router"
+// import VueRouter from "unplugin-vue-router/vite"
 import type { Plugin } from "vite"
 import RemoveConsole from "vite-plugin-remove-console"
 import ReWriteAll from "vite-plugin-rewrite-all"
@@ -20,7 +20,7 @@ export const vitePlugins: [
   (conf: object | undefined) => Plugin | Plugin[],
   object | undefined,
 ][] = [
-  [VueRouter, {}],
+  // [VueRouter, {}],
   [vitePluginI18nLangs, {}],
   [
     Pages,
@@ -51,8 +51,8 @@ export const vitePlugins: [
       include: [/\.tsx?$/, /\.vue$/, /\.vue\?vue/],
       imports: [
         "vue",
-        // "vue-router",
-        VueRouterAutoImports,
+        "vue-router",
+        // VueRouterAutoImports,
         {
           "@iconify/vue": ["Icon"],
           "@vueuse/core": ["computedAsync", "watchImmediate"],

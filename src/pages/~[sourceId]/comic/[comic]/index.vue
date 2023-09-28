@@ -56,7 +56,7 @@ meta:
             {{ data.othername }}
           </h2>
           <small class="text-14px text-gray-400 my-2">{{
-            $t("val-luot-xem", [data.views ? data.views : "N/A"])
+            $t("val-luot-xem", [data.views ? (data.views) : "N/A"])
           }}</small>
 
           <div

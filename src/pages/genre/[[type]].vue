@@ -1,6 +1,6 @@
 <route lang="yaml">
 name: genre
-alias: ["/genre/:type?"]
+alias: ["/~:sourceId/genre/:type?"]
 meta:
   hiddenHeader: isNative or ($lt.md and isPWA)
   revealHeader: true

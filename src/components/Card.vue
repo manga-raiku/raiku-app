@@ -33,7 +33,7 @@
       }}</span>
     </q-card>
 
-    <q-card class="card-more">
+    <q-card v-if="!noHover" class="card-more">
       <q-card-section>
         <h3
           class="text-15px text-weight-medium line-clamp-1 leading-loose text-white"
@@ -121,6 +121,7 @@ import "@fontsource/poppins"
 
 defineProps<{
   data: MetaManga
+  noHover?: boolean
 }>()
 </script>
 
