@@ -1,6 +1,6 @@
 <route lang="yaml">
 name: search
-alias: ["/~:sourceId?/search"]
+alias: ["/search"]
 meta:
   hiddenHeader: $lt.md
   needSelectPlugin: true
@@ -66,7 +66,10 @@ meta:
         </q-btn>
       </div>
 
-      <AppHeaderSearchMB v-model:searching="mobileSearching" />
+      <AppHeaderSearchMB
+        v-model:searching="mobileSearching"
+        :source-id="sourceId"
+      />
 
       <AppHeaderUser v-if="!route.query.query" />
     </q-toolbar>
@@ -219,37 +222,45 @@ useSeoMeta({
   ogTitle: title,
   ogDescription: description,
 })
-
 const typesRank = computedAsync<
   | {
       value: string
       name: string
     }[]
   | undefined
->(async () =>
-  (await pluginStore.getPluginOrDefault(props.sourceId)).plugin.Rankings.map(
-    (item) => {
+>(
+  async () =>
+    (
+      await (
+        await pluginStore.getPluginOrDefault(props.sourceId)
+      ).plugin.Rankings
+    ).map((item) => {
       return {
         value: item.value,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         name: (item.name as unknown as any)[i18n.locale.value] as string,
       }
-    },
-  ),
+    }),
+  undefined,
+  {
+    onError: (err) => console.error(err),
+  },
 )
 
 const { data, run, error, runAsync } = useRequest(
   async () => {
     if (!route.query.query) return Promise.resolve(undefined)
 
-    const data = await (
-      await pluginStore.get(props.sourceId)
-    ).plugin.search(route.query.query + "", 1)
-    return {
-      ...data,
-      items: shallowReactive(data.items),
-    } as Omit<typeof data, "items"> & {
-      items: MetaManga[]
+    if (props.sourceId) {
+      const data = await (
+        await pluginStore.get(props.sourceId)
+      ).plugin.search(route.query.query + "", 1)
+      return {
+        ...data,
+        items: shallowReactive(data.items),
+      } as Omit<typeof data, "items"> & {
+        items: MetaManga[]
+      }
     }
   },
   {
@@ -286,6 +297,7 @@ const dataStore = shallowReactive<
 let _dataInStoreTmp: ReturnType<typeof dataStore.get>
 
 async function fetchRankType(type: string) {
+  console.log("heap log %s", type)
   if (dataStore.get(type)?.status === "success") return
 
   try {

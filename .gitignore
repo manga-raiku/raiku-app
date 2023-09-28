@@ -36,6 +36,7 @@ yarn-error.log*
 
 /auto-imports.d.ts
 /components.d.ts
+/typed-router.d.ts
 /.eslintrc-auto-import.json
 /*.sqlite
 

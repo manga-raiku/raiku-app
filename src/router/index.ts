@@ -1,14 +1,15 @@
 import { Screen } from "quasar"
 import { route } from "quasar/wrappers"
 import { setupLayouts } from "virtual:generated-layouts"
-import generatedRoutes from "virtual:generated-pages"
+// import generatedRoutes from "virtual:generated-pages"
 import {
   createMemoryHistory,
   createRouter,
   createWebHashHistory,
   createWebHistory,
-} from "vue-router"
-// import { routes as autoRoutes } from 'vue-router/auto/routes'
+} from "vue-router/auto"
+import type { RouteRecordRaw } from "vue-router/auto"
+import { routes as autoRoutes } from "vue-router/auto/routes"
 
 /*
  * If not building with SSR mode, you can
@@ -18,7 +19,7 @@ import {
  * async/await or return a Promise which resolves
  * with the Router instance.
  */
-const routes = setupLayouts(generatedRoutes)
+const routes = setupLayouts(autoRoutes)
 routes.unshift({
   path: "/:mainPath(.*)*/trang-:page(\\d+)",
   redirect(to) {
@@ -33,7 +34,18 @@ routes.push({
     return `/${(to.params.catchAll as string[]).join("/")}`
   },
 })
-console.log(routes)
+
+function recursiveLayouts(route: RouteRecordRaw): RouteRecordRaw {
+  if (route.children) {
+    for (let i = 0; i < route.children.length; i++) {
+      route.children[i] = recursiveLayouts(route.children[i])
+    }
+
+    return route
+  }
+
+  return setupLayouts([route])[0]
+}
 
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
@@ -51,7 +63,10 @@ export default route(function (/* { store, ssrContext } */) {
         }, 500)
       })
     },
-    routes,
+    // routes,
+    extendRoutes(routes) {
+      return routes.map((route) => recursiveLayouts(route))
+    },
 
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode

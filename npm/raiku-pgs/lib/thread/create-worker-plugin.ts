@@ -12,11 +12,16 @@ export type ListenerThread = {
   post: FetchPost<PostOption["responseType"]>
 }
 
+type AsyncRecord<T extends API> = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [K in keyof T]: T[K] extends (...args: any[]) => any ? T[K] : Promise<T[K]>;
+};
+
 export function createWorkerPlugin(
   code: string,
   get: FetchGet<GetOption["responseType"]>,
   post: FetchPost<PostOption["responseType"]>,
-): API {
+): AsyncRecord<API> {
   // setup port
   const codeWorker = `${code};${appendWorkerPluginMjs.replace(
     /process\.env\.DEV/g,
@@ -67,8 +72,10 @@ export function createWorkerPlugin(
     { debug: !!process.env.DEV },
   )
 
-  const proxy = new Proxy({} as API, {
+  const proxy = new Proxy({} as AsyncRecord<API>, {
     get(_target, p) {
+      if (p === "Rankings")
+        return put<ListenerWorker, "get">(worker, "get", p.toString())
       // eslint-disable-next-line functional/functional-parameters, @typescript-eslint/no-explicit-any
       return (...args: any[]) =>
         put<ListenerWorker, "api">(worker, "api", p.toString(), args)

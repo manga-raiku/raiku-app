@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import type { API, Package } from "raiku-pgs/plugin"
+import type { Package } from "raiku-pgs/plugin"
 import { createWorkerPlugin, execPackageMjs } from "raiku-pgs/thread"
 import semverGt from "semver/functions/gt"
 
@@ -23,7 +23,13 @@ const httpPost = post
 
 export const usePluginStore = defineStore("plugin", () => {
   const pluginsInstalled = shallowReactive<
-    Map<string, { readonly meta: PackageDisk; readonly plugin: API }>
+    Map<
+      string,
+      {
+        readonly meta: PackageDisk
+        readonly plugin: ReturnType<typeof createWorkerPlugin>
+      }
+    >
   >(new Map())
   const pluginsCanUpdate = shallowReactive<Map<string, Package>>(new Map())
   const pluginMain = ref<string | null>(null)
@@ -229,7 +235,7 @@ export const usePluginStore = defineStore("plugin", () => {
   })
 
   async function getPluginOrDefault(sourceId?: string | null) {
-    if (!sourceId) sourceId =  (await pluginMainPromise.value)
+    if (!sourceId) sourceId = await pluginMainPromise.value
 
     // eslint-disable-next-line functional/no-throw-statement
     if (!sourceId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
@@ -254,6 +260,6 @@ export const usePluginStore = defineStore("plugin", () => {
     updatePlugin,
     checkForUpdate,
 
-    getPluginOrDefault
+    getPluginOrDefault,
   }
 })

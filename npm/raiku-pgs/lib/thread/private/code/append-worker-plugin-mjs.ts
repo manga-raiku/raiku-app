@@ -15,6 +15,8 @@ ping(self, "load")
 export type ListenerWorker = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   api: (type: string, args: any[]) => any[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  get: (type: string) => any
 }
 
 Object.assign(self, { parseDom })
@@ -55,4 +57,8 @@ if (!(self as unknown as any).__DEFINE_API__) {
     },
     { debug: !!process.env.DEV },
   )
+  listen<ListenerWorker, "get">(self, "get", (type) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (api as unknown as any)[type] // no limit function
+  })
 }

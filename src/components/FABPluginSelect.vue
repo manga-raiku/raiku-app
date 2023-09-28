@@ -1,21 +1,12 @@
 <template>
   <q-page-sticky position="bottom-right" :offset="[18, 18]" class="z-20">
-    <q-btn
-      rounded
-      no-caps
-      color="black"
-      @click="showDialog = true"
-    >
+    <q-btn rounded no-caps color="black" @click="showDialog = true">
       <i-mingcute-plugin-2-line class="size-1.5em mr-1" />
       {{ currentPlugin?.meta.name ?? modelValue }}
     </q-btn>
   </q-page-sticky>
 
-  <q-dialog
-  v-model=showDialog
-    full-width
-    full-height
-  >
+  <q-dialog v-model="showDialog" full-width full-height>
     <q-card
       class="h-full min-w-310px flex flex-nowrap column min-h-0 rounded-xl"
     >

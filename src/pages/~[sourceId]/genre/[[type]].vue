@@ -1,6 +1,6 @@
 <route lang="yaml">
 name: genre
-alias: ["/~:sourceId?/tim-truyen/:type?", "/~:sourceId?/genre/:type?"]
+alias: ["/genre/:type?"]
 meta:
   hiddenHeader: isNative or ($lt.md and isPWA)
   revealHeader: true
@@ -23,12 +23,12 @@ meta:
       <!-- /filter native -->
 
       <!--
-      <div
-        v-if="data.maxPage > 1 && $q.screen.gt.sm"
-        class="flex items-center justify-center q-pa-md"
-      >
-        <Pagination :max="data.maxPage" v-model="page" />
-      </div> -->
+        <div
+          v-if="data.maxPage > 1 && $q.screen.gt.sm"
+          class="flex items-center justify-center q-pa-md"
+        >
+          <Pagination :max="data.maxPage" v-model="page" />
+        </div> -->
 
       <InfiniteScroll v-if="data" @load="onLoad">
         <GridCard :items="data.items" />
@@ -37,11 +37,11 @@ meta:
       <SkeletonGridCard v-else :count="40" />
 
       <!-- <div
-        v-if="data.maxPage > 1 && $q.screen.gt.sm"
-        class="flex items-center justify-center q-pa-md"
-      >
-        <Pagination :max="data.maxPage" v-model="page" />
-      </div> -->
+          v-if="data.maxPage > 1 && $q.screen.gt.sm"
+          class="flex items-center justify-center q-pa-md"
+        >
+          <Pagination :max="data.maxPage" v-model="page" />
+        </div> -->
     </template>
   </q-page>
 
@@ -104,7 +104,6 @@ const { data, runAsync, error } = useRequest(
 )
 const onLoad = useLoadMorePage(
   async (page) => {
-
     return pluginStore
       .getPluginOrDefault(props.sourceId)
       .then((res) =>
