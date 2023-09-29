@@ -33,10 +33,12 @@ function vitePluginBuildRaw(): Plugin {
 
 export default defineConfig({
   build: {
+    sourcemap: "inline",
     lib: {
       entry: ["./lib/plugin.ts", "./lib/thread.ts"],
       name: "RaikuPgs",
       formats: ["es", "cjs"],
+
       // fileName: (format, entry) => (entry + format === "es" ? ".js" : ".cjs"),
     },
     rollupOptions: {

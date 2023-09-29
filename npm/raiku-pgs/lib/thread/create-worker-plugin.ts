@@ -1,7 +1,7 @@
 import { listen, put } from "@fcanvas/communicate"
 import type { GetOption, PostOption } from "client-ext-animevsub-helper"
 
-import type { API, FetchGet, FetchPost } from "../API"
+import type { API, ComicChapter, FetchGet, FetchPost } from "../API"
 
 import type { ListenerWorker } from "./private/code/append-worker-plugin-mjs"
 import appendWorkerPluginMjs from "./private/code/append-worker-plugin-mjs?braw"
@@ -14,14 +14,26 @@ export type ListenerThread = {
 
 type AsyncRecord<T extends API> = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [K in keyof T]: T[K] extends (...args: any[]) => any ? T[K] : Promise<T[K]>;
-};
+  [K in keyof T]: T[K] extends (...args: any[]) => any ? T[K] : Promise<T[K]>
+}
+
+interface APIPorted extends Omit<AsyncRecord<API>, "Servers"> {
+  "servers:has": (
+    page: ComicChapter["pages"][0],
+    conf: ComicChapter,
+  ) => Readonly<{ id: number; name: string }[]>
+  "servers:parse": (
+    id: number,
+    page: ComicChapter["pages"][0],
+    conf: ComicChapter,
+  ) => string
+}
 
 export function createWorkerPlugin(
   code: string,
   get: FetchGet<GetOption["responseType"]>,
   post: FetchPost<PostOption["responseType"]>,
-): AsyncRecord<API> {
+): APIPorted {
   // setup port
   const codeWorker = `${code};${appendWorkerPluginMjs.replace(
     /process\.env\.DEV/g,
@@ -72,10 +84,30 @@ export function createWorkerPlugin(
     { debug: !!process.env.DEV },
   )
 
-  const proxy = new Proxy({} as AsyncRecord<API>, {
+  const proxy = new Proxy({} as APIPorted, {
     get(_target, p) {
       if (p === "Rankings")
         return put<ListenerWorker, "get">(worker, "get", p.toString())
+      if (p === "servers:has") {
+        return (page: ComicChapter["pages"][0], conf: ComicChapter) =>
+          put<ListenerWorker, "servers:has">(worker, "servers:has", page, conf)
+      }
+      if (p === "servers:parse") {
+        return (
+          id: number,
+          page: ComicChapter["pages"][0],
+          conf: ComicChapter,
+        ) =>
+          put<ListenerWorker, "servers:parse">(
+            worker,
+            "servers:parse",
+            id,
+            page,
+            conf,
+          )
+      }
+      if (p === "catch" || p === "then" || p === "finally") return undefined
+
       // eslint-disable-next-line functional/functional-parameters, @typescript-eslint/no-explicit-any
       return (...args: any[]) =>
         put<ListenerWorker, "api">(worker, "api", p.toString(), args)

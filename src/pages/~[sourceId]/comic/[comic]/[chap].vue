@@ -563,7 +563,7 @@ import { packageName } from "app/package.json"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
-import type { ID, Server } from "raiku-pgs/plugin"
+import type { ComicChapter, ID } from "raiku-pgs/plugin"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
@@ -578,23 +578,27 @@ const $q = useQuasar()
 const IDMStore = useIDMStore()
 const followStore = useFollowStore()
 const historyStore = useHistoryStore()
-const pluginStore = usePluginStore()
-const showSearchMB = ref(false)
-const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
-const readerVerticalRef = ref<InstanceType<typeof ReaderVertical>>()
 const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
+const pluginStore = usePluginStore()
+
+const api = computed(() =>
+  pluginStore.get(props.sourceId).then(({ plugin }) => plugin),
+)
+
+const showSearchMB = ref(false)
+const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
+const readerVerticalRef = ref<InstanceType<typeof ReaderVertical>>()
 const GetWithCache = useWithCache(
   () =>
-    pluginStore
-      .get(props.sourceId)
-      .then((res) =>
-        res.plugin.getComicChapter(props.comic, props.chap, false),
-      ),
+    api.value.then((res) =>
+      res.getComicChapter(props.comic, props.chap, false),
+    ),
   computed(() => `${packageName}:///manga/${props.comic + "/" + props.chap}`),
 )
+console.log(api.value, props)
 // let disableReactiveParams = false
 const { data, runAsync, error } = useRequest(GetWithCache, {
   refreshDeps: [() => props.comic, () => props.chap],
@@ -692,7 +696,7 @@ async function downloadEp() {
       ep_param: props.chap,
       ep_id: data.value.ep_id,
       ep_name: currentEpisode.value.value.name,
-      pages: pages.value.slice(0),
+      pages: await Promise.all( pages.value.slice(0)),
     },
   )
 
@@ -732,33 +736,50 @@ const listEpRead = computedAsync(() => {
 
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)
-const serversReady = computedAsync<Server[] | undefined>(() =>
-  pluginStore
-    .get(props.sourceId)
-    .then((res) =>
-      res.plugin.Servers.filter(
-        (item) => !data.value || item.has(data.value.pages[0], data.value),
+const serversReady = computedAsync(
+  () =>
+    pluginStore
+      .get(props.sourceId)
+      .then((res) =>
+        data.value
+          ? res.plugin["servers:has"](
+              toRaw(data.value.pages[0]),
+              toRaw(data.value),
+            )
+          : undefined,
       ),
-    ),
+  undefined,
+  {
+    onError: console.error.bind(console),
+  },
 )
 // eslint-disable-next-line no-void
 watch(serversReady, () => void (server.value = 0))
-const pageGetter = computed(
-  () =>
-    serversReady.value?.find(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      (item) => item.name === serversReady.value![server.value].name,
-    )?.parse,
+const pageGetter = computed(() =>
+  data.value
+    ? async (page: ComicChapter["pages"][0]) =>
+        (await api.value)["servers:parse"](
+          server.value,
+          toRaw(page),
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          toRaw(data.value!),
+        )
+    : undefined,
 )
-const pages = computed(
+const pages = computedAsync(
   () =>
-    data.value?.pages.map(
+    (data.value?.pages.map(
       // // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       // (item) =>
       //   item.$l ? item : pageGetter.value?.(item, data.value!) ?? item.src,
-      (item) => pageGetter.value?.(item, data.value!) ?? item.src,
-    ) as string[] | undefined,
+      (item) => pageGetter.value?.(item) ?? item.src,
+    ) as Promise<string>[]),
+      undefined,
+      {
+        onError: console.error.bind(console)
+      }
 )
+console.log(pages)
 const singlePage = ref(false)
 const rightToLeft = ref(false)
 const scrollingMode = ref(true)

@@ -43,7 +43,7 @@ defineOptions({
 })
 
 const props = defineProps<{
-  src: string
+  src: string | Promise<string>
   loaderAbsolute?: boolean
 }>()
 const emit = defineEmits<{
@@ -96,9 +96,11 @@ defineExpose({ intersection, imgRef })
 // ===========================
 
 let srcLoaded: string | null = null
-async function startLoad(src: string) {
+async function startLoad(src: string | Promise<string>) {
+  const rawSrc = typeof src === "string" ? src : await src
+
   if (!intersection.value?.isIntersecting) return
-  if (src === srcLoaded) return
+  if (rawSrc === srcLoaded) return
   srcLoaded = null
 
   loaded.value = false
@@ -107,7 +109,7 @@ async function startLoad(src: string) {
   try {
     for (let i = 0; i < 5; i++) {
       try {
-        await loadImage(src)
+        await loadImage(rawSrc)
         break
       } catch {
         await sleep(300)
@@ -124,14 +126,14 @@ async function startLoad(src: string) {
     // srcImage.value = URL.createObjectURL(
     //   new Blob([await response.arrayBuffer()]),
     // )
-    srcImage.value = src
-    srcLoaded = src
+    srcImage.value = rawSrc
+    srcLoaded = rawSrc
   } catch (err) {
     error.value = err
 
     await sleep(3_000)
     // eslint-disable-next-line no-void
-    void startLoad(src)
+    void startLoad(rawSrc)
   } finally {
     loaded.value = true
   }

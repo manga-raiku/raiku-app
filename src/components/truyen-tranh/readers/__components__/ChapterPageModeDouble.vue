@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 defineProps<{
   prime: boolean
-  src: string
+  src: string | Promise<string>
   singlePage: boolean
 }>()
 const emit = defineEmits<{

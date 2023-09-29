@@ -5,7 +5,7 @@
 import { listen, ping, put } from "@fcanvas/communicate"
 import type { GetOption } from "client-ext-animevsub-helper"
 
-import type { API, FetchGet, FetchPost } from "../../../API"
+import type { API, ComicChapter, FetchGet, FetchPost } from "../../../API"
 import type { ListenerThread } from "../../create-worker-plugin"
 import { parseDom } from "../../parseDom"
 
@@ -17,6 +17,18 @@ export type ListenerWorker = {
   api: (type: string, args: any[]) => any[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   get: (type: string) => any
+  "servers:has": (
+    page: ComicChapter["pages"][0],
+    conf: ComicChapter,
+  ) => readonly {
+    readonly id: number
+    readonly name: string
+  }[]
+  "servers:parse": (
+    id: number,
+    page: ComicChapter["pages"][0],
+    conf: ComicChapter,
+  ) => string
 }
 
 Object.assign(self, { parseDom })
@@ -61,4 +73,14 @@ if (!(self as unknown as any).__DEFINE_API__) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (api as unknown as any)[type] // no limit function
   })
+  listen<ListenerWorker, "servers:has">(self, "servers:has", (page, conf) => {
+    return api.Servers.filter((server) => server.has(page, conf)).map(
+      ({ name }, id) => ({ id, name }),
+    )
+  })
+  listen<ListenerWorker, "servers:parse">(
+    self,
+    "servers:parse",
+    (id: number, page, conf) => api.Servers[id].parse(page, conf),
+  )
 }

@@ -31,7 +31,7 @@ import { useEventListener, useScroll } from "@vueuse/core"
 import type { DomOffset } from "quasar"
 
 defineProps<{
-  src: string
+  src: string | Promise<string>
 }>()
 const emit = defineEmits<{
   (name: "load", image: HTMLImageElement): void

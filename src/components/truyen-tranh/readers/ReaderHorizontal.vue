@@ -110,7 +110,7 @@ import type { Chapter } from "raiku-pgs/plugin"
 import { isTouchEvent } from "src/logic/is-touch-event"
 
 const props = defineProps<{
-  pages: string[]
+  pages: (Promise<string> | string)[]
   pagesNext?: string[]
   nextEpisode?: Chapter["route"]
 
