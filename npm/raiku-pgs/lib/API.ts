@@ -196,7 +196,13 @@ export interface ComicChapter {
   readonly updated_at: number
   readonly image: string
 
-  readonly path_manga: string
+  readonly path_manga: {
+    name: "comic"
+    params: {
+      sourceId: string
+      comic: string
+    }
+  }
 
   readonly pages: Readonly<
     {
