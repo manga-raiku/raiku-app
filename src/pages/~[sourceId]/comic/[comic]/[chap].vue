@@ -301,6 +301,7 @@ meta:
                 :source-id="sourceId"
                 focus-tab-active
                 @change-tab="onChangeTabEpisodes"
+                @downloaded="lsEpDL?.push($event)"
                 class-item="col-6 col-sm-4 col-md-4"
                 class-panels="flex-shrink-1 mt-2 flex column children:min-h-0 children:h-100% children:flex children:flex-col"
                 class-panel="h-full overflow-x-hidden overflow-y-scroll scrollbar-custom"
@@ -662,8 +663,10 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   if (!data.value) return
 
   return shallowReactive(
-    await getListEpisodes(data.value.manga_id).catch(() => []),
-  ).map((ref) => ({ ref }))
+    (await getListEpisodes(data.value.manga_id).catch(() => [])).map((ref) => ({
+      ref,
+    })),
+  )
 })
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
   if (!data.value) return
@@ -696,12 +699,16 @@ async function downloadEp() {
       ep_param: props.chap,
       ep_id: data.value.ep_id,
       ep_name: currentEpisode.value.value.name,
-      pages: await Promise.all( pages.value.slice(0)),
+      pages: await Promise.all(pages.value.slice(0)),
     },
-  )
+  ).catch((err) => {
+    if (err?.message === "user_paused") return
+    // eslint-disable-next-line functional/no-throw-statement
+    throw err
+  })
 
   console.log(lsEpDL, meta)
-  if (!isTaskDLEp(meta)) {
+  if (meta && !isTaskDLEp(meta)) {
     lsEpDL.value?.splice(
       lsEpDL.value.findIndex((item) => item.ref.ep_id === meta.ref.ep_id) >>> 0,
       1,
@@ -768,16 +775,16 @@ const pageGetter = computed(() =>
 )
 const pages = computedAsync(
   () =>
-    (data.value?.pages.map(
+    data.value?.pages.map(
       // // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       // (item) =>
       //   item.$l ? item : pageGetter.value?.(item, data.value!) ?? item.src,
       (item) => pageGetter.value?.(item) ?? item.src,
-    ) as Promise<string>[]),
-      undefined,
-      {
-        onError: console.error.bind(console)
-      }
+    ) as Promise<string>[],
+  undefined,
+  {
+    onError: console.error.bind(console),
+  },
 )
 console.log(pages)
 const singlePage = ref(false)

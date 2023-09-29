@@ -154,6 +154,7 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{
   (name: "change-tab"): void
+  (name: "downloaded", value: TaskDDEp): void
 }>()
 const slots = useSlots()
 
@@ -233,12 +234,20 @@ async function downloadEp(item: Chapter) {
   )
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  IDMStore.download(props.metaManga!, {
+  const task = await IDMStore.download(props.metaManga!, {
     ep_id: item.id,
     ep_name: item.name,
     ep_param: item.route.params.chap,
-    pages: conf.pages.map((item) => plugin.Servers[0].parse(item, conf)),
+    pages: await Promise.all(
+      conf.pages.map((item) => plugin["servers:parse"](0, item, conf)),
+    ),
+  }).catch((err) => {
+    if (err?.message === "user_paused") return
+    // eslint-disable-next-line functional/no-throw-statement
+    throw err
   })
+
+  if (task && !isTaskDLEp(task)) emit("downloaded", task)
 }
 </script>
 

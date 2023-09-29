@@ -206,20 +206,18 @@
 <script lang="ts" setup>
 import type { API, ID } from "raiku-pgs/plugin"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import type { MetaMangaAndCountOnDisk } from "stores/IDM"
 
 const $q = useQuasar()
 const IDMStore = useIDMStore()
 const pluginStore = usePluginStore()
 
 const props = defineProps<{
-  modelValue: (typeof IDMStore.listMangaSorted)[0] | null
+  modelValue: MetaMangaAndCountOnDisk | null
 }>()
 const metaMangaShowInfo = toRef(props, "modelValue")
 const emit = defineEmits<{
-  (
-    name: "update:model-value",
-    value: (typeof IDMStore.listMangaSorted)[0] | null,
-  ): void
+  (name: "update:model-value", value: MetaMangaAndCountOnDisk | null): void
 }>()
 
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
@@ -300,10 +298,7 @@ async function remove() {
     })
 
   if (mapEp.value?.size === 0) {
-    IDMStore.listMangaSorted.splice(
-      IDMStore.listMangaSorted.indexOf(meta) >>> 0,
-      1,
-    )
+    IDMStore.listComicOnDisk.delete(manga_id)
   }
 
   removing.value = false
@@ -369,7 +364,9 @@ async function download() {
       ep_id: ep.id,
       ep_name: ep.name,
       ep_param: chap,
-      pages: conf.pages.map((item) => plugin.Servers[0].parse(item, conf)),
+      pages: await Promise.all(
+        conf.pages.map((item) => plugin["servers:parse"](0, item, conf)),
+      ),
     }).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {
         lsEpDL.value.splice(

@@ -11,7 +11,7 @@ import semverGt from "semver/functions/gt"
  * !important: The reason we don't build file address configuration is because we want to minimize plugin load time
  */
 
-interface PackageDisk extends Package {
+export interface PackageDisk extends Package {
   readonly source: string
   readonly installedAt: number
   readonly updatedAt: number

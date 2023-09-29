@@ -4,7 +4,17 @@
     <q-btn
       v-for="item in items"
       :key="item.name"
-      :to="item.route"
+      :to="
+        item.route.name === 'genre'
+          ? {
+              ...item.route,
+              name: undefined,
+              path: `/~${item.route.params!.sourceId}/genre/${
+                item.route.params!.type ?? ''
+              }`,
+            }
+          : item.route
+      "
       no-caps
       rounded
       unelevated

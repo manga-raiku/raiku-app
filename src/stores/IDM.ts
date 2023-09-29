@@ -9,32 +9,23 @@ import type {
 } from "src/logic/download-manager"
 import type { ShallowReactive } from "vue"
 
-export const useIDMStore = defineStore("IDM", () => {
-  const loadingDataInMemory = ref(false)
+export interface MetaMangaAndCountOnDisk extends MetaMangaOnDisk {
+  count_ep: number
+}
 
-  const mapMetaManga = reactive<
-    Map<
-      ID,
-      ShallowReactive<
-        MetaMangaOnDisk & {
-          count_ep: number
-        }
-      >
-    >
-  >(new Map())
+export const useIDMStore = defineStore("IDM", () => {
   const queue = reactive<
     Map<ID, Map<ID, ReturnType<typeof createTaskDownloadEpisode>>>
   >(new Map())
-  const listMangaSorted = reactive<
-    (MetaMangaOnDisk & {
-      count_ep: number
-    })[]
-  >([])
+  const lsingComicOnDisk = ref(false)
+  const listComicOnDisk = reactive<
+    Map<ID, ShallowReactive<MetaMangaAndCountOnDisk>>
+  >(new Map())
 
+  let gettedList = false
   async function runLoadInMemory() {
-    let gettedList = false
     if (!gettedList) {
-      loadingDataInMemory.value = true
+      lsingComicOnDisk.value = true
       // eslint-disable-next-line promise/catch-or-return, promise/always-return
       getListManga().then(async (list) => {
         await Promise.all(
@@ -47,16 +38,10 @@ export const useIDMStore = defineStore("IDM", () => {
               ...item,
               count_ep: await getCountEpisodes(item.manga_id),
             })
-            mapMetaManga.set(item.manga_id, itemReactive)
-            if (
-              listMangaSorted.findIndex(
-                (item) => item.manga_id === itemReactive.manga_id,
-              ) === -1
-            )
-              listMangaSorted.push(itemReactive)
+            listComicOnDisk.set(item.manga_id, itemReactive)
           }),
         )
-        loadingDataInMemory.value = false
+        lsingComicOnDisk.value = false
       })
       gettedList = true
     }
@@ -69,18 +54,12 @@ export const useIDMStore = defineStore("IDM", () => {
     console.log("start download: ", metaEp)
     const task = createTaskDownloadEpisode(metaManga, metaEp)
 
-    if (!mapMetaManga.has(metaManga.manga_id)) {
+    if (!listComicOnDisk.has(metaManga.manga_id)) {
       const manga = {
         ...(await task.startSaveMetaManga()),
         count_ep: 0,
       }
-      mapMetaManga.set(manga.manga_id, manga)
-      if (
-        listMangaSorted.findIndex(
-          (item) => item.manga_id === manga.manga_id,
-        ) === -1
-      )
-        listMangaSorted.unshift(manga)
+      listComicOnDisk.set(manga.manga_id, manga)
     }
 
     let store = queue.get(metaManga.manga_id)
@@ -97,7 +76,7 @@ export const useIDMStore = defineStore("IDM", () => {
     const meta = await task.start()
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    mapMetaManga.get(metaManga.manga_id)!.count_ep++
+    listComicOnDisk.get(metaManga.manga_id)!.count_ep++
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     store!.delete(metaEp.ep_id)
 
@@ -124,9 +103,8 @@ export const useIDMStore = defineStore("IDM", () => {
   }
 
   return {
-    loadingDataInMemory,
-    mapMetaManga,
-    listMangaSorted,
+    lsingComicOnDisk,
+    listComicOnDisk,
     queue,
     runLoadInMemory,
     download,

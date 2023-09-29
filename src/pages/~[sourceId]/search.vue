@@ -1,4 +1,5 @@
 <route lang="yaml">
+name: "search in source"
 meta:
   hiddenHeader: $lt.md
   needSelectPlugin: true

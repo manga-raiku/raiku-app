@@ -9,16 +9,7 @@ meta:
   <q-header v-if="$q.screen.lt.md" class="bg-dark-page">
     <q-toolbar>
       <AppHeaderIconApp v-if="!route.query.query" no-name class="pr-2" />
-      <q-btn
-        v-else
-        flat
-        dense
-        round
-        class="mr-2"
-        @click="
-          router.back()
-        "
-      >
+      <q-btn v-else flat dense round class="mr-2" @click="router.back()">
         <i-fluent-chevron-left-24-regular width="25" height="25" />
       </q-btn>
 
@@ -65,10 +56,7 @@ meta:
         </q-btn>
       </div>
 
-      <AppHeaderSearchMB
-        v-model:searching="mobileSearching"
-        :source-id="sourceId"
-      />
+      <AppHeaderSearchMB v-model:searching="mobileSearching" />
 
       <AppHeaderUser v-if="!route.query.query" />
     </q-toolbar>
@@ -91,7 +79,7 @@ meta:
         </div>
       </div>
     </q-toolbar>
-    <q-toolbar v-if="route.query.query">
+    <q-toolbar v-if="route.query.query && isSingleData(data)">
       <div class="py-2 px-4">
         <span class="text-gray-400 mr-1">{{ $t("tim-kiem-2dot") }} </span>
         <span class="font-bold truncate">{{ route.query.query }}</span>
@@ -159,7 +147,10 @@ meta:
     </template>
 
     <section v-else>
-      <div v-if="!$q.screen.lt.md" class="py-2 px-4 text-16px text-left">
+      <div
+        v-if="!$q.screen.lt.md && isSingleData(data)"
+        class="py-2 px-4 text-16px text-left"
+      >
         <span class="text-gray-400 mr-1">{{ $t("tim-kiem-2dot") }} </span>
         <span class="font-bold truncate">{{ route.query.query }}</span>
         <span v-if="data" class="text-gray-300">
@@ -179,7 +170,7 @@ meta:
         </template>
         <template v-else>
           <section
-            v-for="{ value: { meta, result } } in data"
+            v-for="{ meta, promise } in data"
             :key="meta.id"
             class="px-2 sm:px-4 md:px-8"
           >
@@ -187,19 +178,22 @@ meta:
               class="text-17px text-light-900 leading-normal flex items-center justify-between relative cursor-pointer py-1 px-2 mx--2 rounded-xl transition-bg duration-200ms hover:bg-#fff hover:bg-opacity-10"
               v-ripple
               :to="{
-                path: `/~${meta.id}/search`,
+                name: 'search in source',
                 params: {
                   ...route.params,
                   sourceId: meta.id,
                 },
                 query: route.query,
-                hash: route.hash
+                hash: route.hash,
               }"
             >
               <div>
                 {{ meta.name }}
                 <span class="text-12px"
-                  >( {{ $t("size-trang-ket-qua", [result.maxPage]) }})</span
+                  >(
+                  {{
+                    $t("size-trang-ket-qua", [promise.value?.maxPage ?? "__"])
+                  }})</span
                 >
               </div>
 
@@ -208,8 +202,18 @@ meta:
             <div
               class="py-10px overflow-x-scroll flex flex-nowrap scrollbar-custom mx--10px mt--5px"
             >
+              <div v-if="!promise.value">
+                <q-spinner size="1.5em" class="my-6 mx-10" />
+              </div>
               <div
-                v-for="item in result.items"
+                v-else-if="promise.value.items.length === 0"
+                class="text-gray-300 py-6 px-10"
+              >
+                Không có kết quả
+              </div>
+              <div
+                v-else
+                v-for="item in promise.value.items"
                 :key="item.name"
                 class="w-28.57% sm:w-23.25% md:15.62% flex-none px-[10px] py-2"
               >
@@ -235,7 +239,7 @@ meta:
 </template>
 
 <script lang="ts" setup>
-import type { API, MetaManga } from "raiku-pgs/plugin"
+import type { API, General, MetaManga } from "raiku-pgs/plugin"
 import type { Swiper as TSwiper } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 
@@ -255,6 +259,9 @@ const router = useRouter()
 const i18n = useI18n()
 const $q = useQuasar()
 const pluginStore = usePluginStore()
+const api = computed(() =>
+  pluginStore.getPluginOrDefault(props.sourceId).then(({ plugin }) => plugin),
+)
 
 const title = () => `Tìm kiếm ${route.query.query ?? ""}`
 const description = title
@@ -272,11 +279,7 @@ const typesRank = computedAsync<
   | undefined
 >(
   async () =>
-    (
-      await (
-        await pluginStore.getPluginOrDefault(props.sourceId)
-      ).plugin.Rankings
-    ).map((item) => {
+    (await (await api.value).Rankings).map((item) => {
       return {
         value: item.value,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -289,6 +292,7 @@ const typesRank = computedAsync<
   },
 )
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isSingleData(data: any): data is Omit<typeof data, "items"> & {
   items: MetaManga[]
 } {
@@ -300,9 +304,7 @@ const { data, run, error, runAsync } = useRequest(
     if (!route.query.query) return Promise.resolve(undefined)
 
     if (props.sourceId) {
-      const data = await (
-        await pluginStore.get(props.sourceId)
-      ).plugin.search(route.query.query + "", 1)
+      const data = await (await api.value).search(route.query.query + "", 1)
       return {
         ...data,
         items: shallowReactive(data.items),
@@ -315,12 +317,12 @@ const { data, run, error, runAsync } = useRequest(
       Promise.all(
         plugins.map(async ({ id }) => {
           const { meta, plugin } = await pluginStore.get(id)
-          return computedAsync(async () => {
-            return {
-              meta,
-              result: await plugin.search(route.query.query + "", 1),
-            }
-          })
+          return {
+            meta,
+            promise: computedAsync<General | undefined>(() =>
+              plugin.search(route.query.query + "", 1),
+            ),
+          }
         }),
       ),
     )
@@ -333,11 +335,9 @@ const { data, run, error, runAsync } = useRequest(
   },
 )
 const onLoad = useLoadMorePage(
-  (page) =>
-    pluginStore
-      .get("nettruyen")
-      .then((res) => res.plugin.search(route.query.query + "", page)),
-  data,
+  (page) => api.value.then((res) => res.search(route.query.query + "", page)),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data as unknown as any,
 )
 
 const mobileSearching = ref(false)
@@ -369,9 +369,7 @@ async function fetchRankType(type: string) {
     console.log("fetch %s", type)
     dataStore.set(type, {
       status: "success",
-      response: await (
-        await pluginStore.get("nettruyen")
-      ).plugin.getRanking(type, 1, {}),
+      response: await (await api.value).getRanking(type, 1, {}),
     })
   } catch (err) {
     dataStore.set(type, {
@@ -388,9 +386,7 @@ async function refreshRank(done: () => void, type: string) {
   try {
     dataStore.set(type, {
       status: "success",
-      response: await (
-        await pluginStore.get("nettruyen")
-      ).plugin.getRanking(type, 1, {}),
+      response: await (await api.value).getRanking(type, 1, {}),
     })
   } catch (err) {
     $q.notify({

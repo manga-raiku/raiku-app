@@ -56,7 +56,7 @@ meta:
             {{ data.othername }}
           </h2>
           <small class="text-14px text-gray-400 my-2">{{
-            $t("val-luot-xem", [data.views ? (data.views) : "N/A"])
+            $t("val-luot-xem", [data.views ? data.views : "N/A"])
           }}</small>
 
           <div
@@ -205,6 +205,7 @@ meta:
             source_id: sourceId,
           }"
           :source-id="sourceId"
+          @downloaded="lsEpDL?.push($event)"
         />
       </section>
 
@@ -469,8 +470,10 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   if (!data.value) return
 
   return shallowReactive(
-    await getListEpisodes(data.value.manga_id).catch(() => []),
-  ).map((ref) => ({ ref }))
+    (await getListEpisodes(data.value.manga_id).catch(() => [])).map((ref) => ({
+      ref,
+    })),
+  )
 })
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
   if (!data.value) return

@@ -69,35 +69,38 @@
         class="fixed h-full w-full overflow-y-auto px-2 bg-dark-page scrollbar-custom"
       >
         <q-list dense>
-          <q-item
-            v-for="item in data"
-            :key="item.name"
-            clickable
-            v-ripple
-            @click="onClickItemPreLoad(item)"
-          >
-            <q-item-section avatar class="min-w-0">
-              <i-fluent-search-24-regular v-if="typeof item === 'object'" />
-              <i-fluent-history-24-regular v-else />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label class="flex items-center">
-                <div class="max-w-full line-clamp-1">
-                  {{ typeof item === "object" ? item.name : item }}
-                </div>
-                <div v-if="typeof item === 'object'" class="text-grey pl-2">
-                  - {{ item.last_chapter }}
-                </div>
-              </q-item-label>
-            </q-item-section>
-            <q-item-section
-              avatar
-              class="min-w-0"
-              @click.stop.prevent="onClickItemPreLoad(item, true)"
+          <template v-for="{ meta, promise } in searchResult" :key="meta.id">
+            <div class="relative text-gray-400 text-12px">{{ meta.name }}</div>
+            <q-item
+              v-for="item in promise.value"
+              :key="item.name"
+              clickable
+              v-ripple
+              @click="onClickItemPreLoad(item)"
             >
-              <i-fluent-arrow-up-left-24-regular />
-            </q-item-section>
-          </q-item>
+              <q-item-section avatar class="min-w-0">
+                <i-fluent-search-24-regular v-if="typeof item === 'object'" />
+                <i-fluent-history-24-regular v-else />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class="flex items-center">
+                  <div class="max-w-full line-clamp-1">
+                    {{ typeof item === "object" ? item.name : item }}
+                  </div>
+                  <div v-if="typeof item === 'object'" class="text-grey pl-2">
+                    - {{ item.last_chapter }}
+                  </div>
+                </q-item-label>
+              </q-item-section>
+              <q-item-section
+                avatar
+                class="min-w-0"
+                @click.stop.prevent="onClickItemPreLoad(item, true)"
+              >
+                <i-fluent-arrow-up-left-24-regular />
+              </q-item-section>
+            </q-item>
+          </template>
         </q-list>
       </div>
     </header>
@@ -106,9 +109,9 @@
 
 <script lang="ts" setup>
 import { debounce } from "perfect-debounce"
+import type { API } from "raiku-pgs/plugin"
 
 const props = defineProps<{
-  sourceId: string
   searching: boolean
 }>()
 const emit = defineEmits<{
@@ -119,14 +122,32 @@ const router = useRouter()
 const route = useRoute()
 const pluginStore = usePluginStore()
 
+const allPlugins = computed(() =>
+  pluginStore
+    .getAllPlugins()
+    .then((plugins) => plugins.map(({ id }) => pluginStore.get(id))),
+)
+
 const keyword = ref("")
 
 const query = ref((route.query.query ?? "") + "")
-const { data, runAsync } = useRequest(
-  () =>
-    pluginStore
-      .get(props.sourceId)
-      .then((res) => res.plugin.searchQuickly(query.value, 1)),
+const { data: searchResult, runAsync } = useRequest(
+  () => {
+    return allPlugins.value
+      .then((plugins) => Promise.all(plugins))
+      .then((plugins) =>
+        Promise.all(
+          plugins.map(async ({ meta, plugin }) => {
+            return {
+              meta,
+              promise: computedAsync<
+                Awaited<ReturnType<typeof plugin.searchQuickly>> | undefined
+              >(() => plugin.searchQuickly(query.value, 1)),
+            }
+          }),
+        ),
+      )
+  },
   {
     manual: true,
   },
@@ -138,7 +159,7 @@ function onBack() {
   else router.back()
 }
 function onClickItemPreLoad(
-  item: Exclude<typeof data.value, undefined>[0],
+  item: Awaited<ReturnType<API["searchQuickly"]>>[0],
   load?: boolean,
 ) {
   if (load) {

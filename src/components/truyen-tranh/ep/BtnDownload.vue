@@ -55,9 +55,10 @@ const disable = computed(() => {
 })
 
 function onClickDownload() {
-  if (props.modelValue && isTaskDLEp(props.modelValue)) {
-    if (props.modelValue.downloading.value) props.modelValue.stop()
-    else props.modelValue.resume()
+  const value = props.modelValue
+  if (value && isTaskDLEp(value)) {
+    if (value.downloading) value.stop()
+    else (value as TaskDLEp).resume()
 
     return
   }

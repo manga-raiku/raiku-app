@@ -29,25 +29,19 @@
                 }"
               >
                 <q-btn
-                  v-for="{ route: route2, name } in item.select"
-                  :key="name"
+                  v-for="item2 in item.select"
+                  :key="item2.name"
                   no-caps
                   rounded
                   unelevated
                   outline
-                  :to="{
-                    ...route2,
-                    query: {
-                      ...route2.query,
-                      page: undefined,
-                    },
-                    name: undefined,
-                  }"
+                  :to="parseRouteURI(item2)"
                   class="font-size-inherit text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
                   :class="{
-                    '!text-main-3': route2.params.type === route.params.type,
+                    '!text-main-3':
+                      item2.route.params.type === route.params.type,
                   }"
-                  >{{ name }}</q-btn
+                  >{{ item2.name }}</q-btn
                 >
               </div>
               <q-btn
@@ -63,24 +57,18 @@
           </div>
           <div v-else class="display-table-cell whitespace-normal">
             <q-btn
-              v-for="{ value, name } in item.items"
-              :key="value"
+              v-for="item2 in item.items"
+              :key="item2.value"
               no-caps
               rounded
               unelevated
               outline
-              :to="{
-                ...route,
-                query: {
-                  ...route.query,
-                  [item.key]: value,
-                },
-              }"
+              :to="parseRouteQuery(item.key, item2)"
               class="font-size-inherit text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
               :class="{
-                '!text-main-3': route.query[item.key] === value,
+                '!text-main-3': route.query[item.key] === item2.value,
               }"
-              >{{ name }}</q-btn
+              >{{ item2.name }}</q-btn
             >
           </div>
         </div>
@@ -98,7 +86,15 @@
           class="font-size-inherit text-[rgba(255,255,255,0.86)] text-weight-normal my-1 !py-1 !px-3 min-h-0 mx-1"
           @click="showOnlyFirst = false"
         >
-          {{ item.type }}
+          {{
+            (isSelectMode(item)
+              ? item.select.find(
+                  (item) => item.route.params.type === route.params.type,
+                )?.name
+              : item.items.find(
+                  (item2) => item2.value === route.query[item.key],
+                )?.name) ?? item.type
+          }}
           <i-fluent-chevron-down-24-regular class="size-1.5em ml-1" />
         </q-btn>
       </div>
@@ -119,6 +115,30 @@ defineProps<{
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isSelectMode(val: any): val is FilterURI {
   return val.select !== undefined
+}
+
+function parseRouteURI(filterItem: FilterURI["select"][0]) {
+  return {
+    ...filterItem.route,
+    query: {
+      ...filterItem.route.query,
+      page: undefined,
+    },
+    name: undefined,
+    path: `/~${filterItem.route.params.sourceId}/genre/${
+      filterItem.route.params.type ?? ""
+    }`,
+  }
+}
+function parseRouteQuery(key: string, filterItem: FilterQuery["items"][0]) {
+  return {
+    ...route,
+    query: {
+      ...route.query,
+      [key]: filterItem.value,
+    },
+    name: undefined,
+  }
 }
 
 const route = useRoute()

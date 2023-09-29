@@ -54,10 +54,7 @@
           <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
             <q-icon name="search" />
           </q-btn>
-          <AppHeaderSearchMB
-            v-model:searching="showSearchMB"
-            :source-id="(route.params.sourceId as string | undefined) ?? null"
-          />
+          <AppHeaderSearchMB v-model:searching="showSearchMB" />
         </template>
 
         <AppHeaderFollows v-if="MODE !== 'capacitor'" />

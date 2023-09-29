@@ -13,7 +13,7 @@
       ref="overflowRef"
     >
       <template v-for="(item, index) in pagesRender" :key="item">
-          <!-- v-if="typeof item === 'string'" -->
+        <!-- v-if="typeof item === 'string'" -->
         <PageView
           class="object-cover display-block mx-auto"
           :src="item"
@@ -102,7 +102,7 @@ defineOptions({
 })
 
 const props = defineProps<{
-  pages: (Promise<string> |string)[]
+  pages: (Promise<string> | string)[]
   currentPage: number
   zoom: number
   nextEpisode?: Chapter["route"]

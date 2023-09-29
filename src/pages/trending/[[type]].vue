@@ -61,7 +61,7 @@ meta:
             :filter="data.filters"
             class="my-3"
           />
-          <template v-if="data">
+          <template v-if="data && !loading">
             <!-- <div
             v-if="data.maxPage > 1"
             class="flex items-center justify-center q-pa-md"
@@ -140,13 +140,15 @@ const typesRank = computedAsync(async () => {
   // eslint-disable-next-line functional/no-throw-statement
   if (!pluginId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
 
-  return (await pluginStore.get(pluginId)).plugin.Rankings.map((item) => {
-    return {
-      value: item.value,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      name: (item.name as unknown as any)[i18n.locale.value],
-    }
-  })
+  return (await (await pluginStore.get(pluginId)).plugin.Rankings).map(
+    (item) => {
+      return {
+        value: item.value,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        name: (item.name as unknown as any)[i18n.locale.value],
+      }
+    },
+  )
 })
 
 const title = () =>
@@ -172,7 +174,7 @@ const page = computed<number>({
     }),
 })
 
-const { data, error, runAsync } = useRequest(
+const { data, error, loading, runAsync } = useRequest(
   async () => {
     const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
     // eslint-disable-next-line functional/no-throw-statement

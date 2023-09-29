@@ -27,5 +27,5 @@ useSeoMeta({
   ogSiteName: "Raiku",
 })
 
-if (import.meta.env.DEV) eruda2.init()
+// if (import.meta.env.DEV) eruda2.init()
 </script>
