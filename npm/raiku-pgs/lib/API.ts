@@ -175,7 +175,7 @@ export interface Comic {
       query: LocationQueryRaw
     }
   }[]
-  readonly status: string
+  readonly status: string | null
   readonly genres: readonly {
     name: string
     route: {
