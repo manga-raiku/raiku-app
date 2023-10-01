@@ -1,7 +1,7 @@
 import type { CheerioAPI } from "cheerio"
 import type { GetOption, PostOption } from "client-ext-animevsub-helper"
 
-import type {  FetchGet, FetchPost } from "./API"
+import type { FetchGet, FetchPost } from "./API"
 
 declare global {
   // eslint-disable-next-line no-var

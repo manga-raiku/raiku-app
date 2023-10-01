@@ -8,27 +8,30 @@ export interface Anchor {
   readonly name: string
 }
 
-export interface Chapter extends Pick<Anchor, "name"> {
-  readonly route: {
-    name: "comic chap"
-    params: {
-      sourceId: string
-      comic: string
-      chap: string
-    }
+export interface RouteComicChap {
+  name: "comic chap"
+  params: {
+    sourceId: string
+    comic: string
+    chap: string
   }
+}
+export interface RouteComic {
+  name: "comic"
+  params: {
+    sourceId: string
+    comic: string
+  }
+}
+
+export interface Chapter extends Pick<Anchor, "name"> {
+  readonly route: RouteComicChap | RouteComic
   readonly id: ID
   readonly updated_at: number | null
   readonly views: number | null
 }
 export interface MetaManga {
-  readonly route: {
-    name: "comic"
-    params: {
-      sourceId: string
-      comic: string
-    }
-  }
+  readonly route: RouteComic | RouteComicChap
   readonly image: string
   readonly name: string
   readonly othername: string
@@ -60,6 +63,15 @@ export interface Comment {
   readonly created_at: number
   readonly replies: Comment[]
   readonly chapter_name: string | null
+}
+
+export interface QuicklyItem {
+  readonly route: RouteComic | RouteComicChap
+  readonly name: string
+  readonly image: string
+  readonly last_chapter: string
+  readonly othername: string
+  readonly tags: string[]
 }
 
 export interface FilterURI {
@@ -196,13 +208,7 @@ export interface ComicChapter {
   readonly updated_at: number
   readonly image: string
 
-  readonly path_manga: {
-    name: "comic"
-    params: {
-      sourceId: string
-      comic: string
-    }
-  }
+  readonly path_manga: RouteComic
 
   readonly pages: Readonly<
     {
@@ -276,25 +282,7 @@ export declare class API {
     comicKey: string,
   ): Promise<Comments>
   getListChapters(mangaId: ID): Promise<Chapter[]>
-  searchQuickly(
-    keyword: string,
-    page: number,
-  ): Promise<
-    readonly {
-      readonly route: {
-        name: "comic"
-        params: {
-          sourceId: string
-          comic: string
-        }
-      }
-      readonly name: string
-      readonly image: string
-      readonly last_chapter: string
-      readonly othername: string
-      readonly tags: string[]
-    }[]
-  >
+  searchQuickly(keyword: string, page: number): Promise<readonly QuicklyItem[]>
   search(keyword: string, page: number): Promise<General>
   getRanking(
     type: string,
