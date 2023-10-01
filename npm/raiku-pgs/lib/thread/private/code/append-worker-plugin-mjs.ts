@@ -40,6 +40,8 @@ const post: FetchPost<GetOption["responseType"]> = (options) => {
   return put<ListenerThread, "post">(self, "post", options)
 }
 
+Object.assign(self, { get, post })
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 if (!(self as unknown as any).__DEFINE_API__) {
   listen<ListenerWorker, "api">(

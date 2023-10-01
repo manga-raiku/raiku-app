@@ -1,4 +1,4 @@
-import "./parseDom"
+import "./global-plugin"
 
 export * from "./API"
 export * from "./wrap-worker"
