@@ -171,12 +171,15 @@ export interface Comic {
   readonly manga_id: ID
   readonly updated_at: number
   readonly image: string
-  readonly author: {
-    name: string
-    route: RouteAuthor
+  readonly author: readonly {
+    readonly name: string
+    readonly route: RouteAuthor
   }[]
   readonly status: string | null
-  readonly genres: RouteGenre[]
+  readonly genres: {
+    readonly name: string
+    readonly route: RouteGenre
+  }[]
   readonly views: number | null
   readonly rate: {
     readonly cur: number
