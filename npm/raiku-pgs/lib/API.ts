@@ -23,6 +23,21 @@ export interface RouteComic {
     comic: string
   }
 }
+export interface RouteGenre {
+  name: "genre"
+  params: {
+    sourceId: string
+    type: string
+  }
+  query: LocationQueryRaw
+}
+export interface RouteAuthor {
+  name: "author"
+  params: {
+    sourceId: string
+    type: string
+  }
+}
 
 export interface Chapter extends Pick<Anchor, "name"> {
   readonly route: RouteComicChap | RouteComic
@@ -54,7 +69,7 @@ export interface Comment {
     level: {
       current: number
       perNext: number
-    }
+    } | null
     chapter: string
   }>
   readonly content: string | null
@@ -77,14 +92,7 @@ export interface QuicklyItem {
 export interface FilterURI {
   readonly type: string
   readonly select: {
-    readonly route: {
-      name: "genre"
-      params: {
-        sourceId: string
-        type: string
-      }
-      query: LocationQueryRaw
-    }
+    readonly route: RouteGenre
     readonly name: string
   }[]
 }
@@ -166,27 +174,10 @@ export interface Comic {
   readonly image: string
   readonly author: {
     name: string
-    route: {
-      name: string
-      params: {
-        sourceId: string
-        type: string
-      }
-      query: LocationQueryRaw
-    }
+    route: RouteAuthor
   }[]
   readonly status: string | null
-  readonly genres: readonly {
-    name: string
-    route: {
-      name: string
-      params: {
-        sourceId: string
-        type: string
-      }
-      query: LocationQueryRaw
-    }
-  }[]
+  readonly genres: RouteGenre[]
   readonly views: number | null
   readonly rate: {
     readonly cur: number
