@@ -1,12 +1,7 @@
 import type { GetOption, Http, PostOption } from "client-ext-animevsub-helper"
-import type { LocationQueryRaw, RouteLocationNamedRaw } from "vue-router"
+import type { LocationQueryRaw } from "vue-router"
 
 export type ID = `${string}`
-
-export interface Anchor {
-  readonly route: RouteLocationNamedRaw
-  readonly name: string
-}
 
 export interface RouteComicChap {
   name: "comic chap"
@@ -15,6 +10,7 @@ export interface RouteComicChap {
     comic: string
     chap: string
   }
+  query?: LocationQueryRaw
 }
 export interface RouteComic {
   name: "comic"
@@ -22,6 +18,7 @@ export interface RouteComic {
     sourceId: string
     comic: string
   }
+  query?: LocationQueryRaw
 }
 export interface RouteGenre {
   name: "genre"
@@ -29,7 +26,7 @@ export interface RouteGenre {
     sourceId: string
     type: string
   }
-  query: LocationQueryRaw
+  query?: LocationQueryRaw
 }
 export interface RouteAuthor {
   name: "author"
@@ -37,9 +34,11 @@ export interface RouteAuthor {
     sourceId: string
     type: string
   }
+  query?: LocationQueryRaw
 }
 
-export interface Chapter extends Pick<Anchor, "name"> {
+export interface Chapter {
+  readonly name: string
   readonly route: RouteComicChap | RouteComic
   readonly id: ID
   readonly updated_at: number | null
