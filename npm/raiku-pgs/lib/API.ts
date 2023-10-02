@@ -34,11 +34,11 @@ export interface MetaManga {
   readonly route: RouteComic | RouteComicChap
   readonly image: string
   readonly name: string
-  readonly othername: string
+  readonly othername: string | null
   readonly tags: string[]
-  readonly status: string
-  readonly author: string
-  readonly description: string
+  readonly status: string | null
+  readonly author: string | null
+  readonly description: string | null
   readonly last_chapters: Chapter[]
   readonly views: number | null
   readonly comments: number | null
