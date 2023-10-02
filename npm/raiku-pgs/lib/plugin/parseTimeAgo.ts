@@ -33,7 +33,7 @@ export function parseTimeAgo(ago: string, now: number): number {
       ),
     ).getTime() ||
     new Date(
-      ago.replace(/^(\d{1,2})\/(\d{1,2})\/(\d{1,2})$/, "$2/$1/$3"),
+      ago.replace(/^(\d{1,2})\/(\d{1,2})\/(\d{1,})$/, "$2/$1/$3"),
     ).getTime()
   )
 }
