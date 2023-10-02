@@ -49,10 +49,10 @@ export interface MetaManga {
   readonly route: RouteComic | RouteComicChap
   readonly image: string
   readonly name: string
-  readonly othername: string
+  readonly othername: string | null
   readonly tags: string[]
-  readonly status: string
-  readonly author: string
+  readonly status: string | null
+  readonly author: string | null
   readonly description: string
   readonly last_chapters: Chapter[]
   readonly views: number | null
@@ -76,7 +76,7 @@ export interface Comment {
   readonly like: number
   readonly dislike: number
   readonly created_at: number
-  readonly replies: Comment[]
+  readonly replies: Comment[] | number
   readonly chapter_name: string | null
 }
 
