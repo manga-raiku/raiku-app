@@ -187,6 +187,7 @@ export interface Comic {
     readonly count: number
   }
   readonly follows: number | null
+  readonly likes: number | null
   readonly description: string
   readonly chapters: readonly Chapter[]
 
