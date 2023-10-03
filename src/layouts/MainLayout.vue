@@ -243,7 +243,7 @@
     </q-footer>
 
     <PluginManagerDialog v-model="stateStore.showPluginManagerDialog" />
-    <PluginAddDialog v-model="stateStore.showPluginAddDialog" />
+    <PluginAddDialog v-model="stateStore.showPluginAddDialog" @installed="stateStore.showPluginAddDialog = false" />
   </q-layout>
 
   <canvas

@@ -152,7 +152,7 @@ const { data: searchResult, runAsync } = useRequest(
     manual: true,
   },
 )
-watch(query, debounce(runAsync, 300))
+watch(query, debounce(runAsync, 1000))
 
 function onBack() {
   if (props.searching) emit("update:searching", false)

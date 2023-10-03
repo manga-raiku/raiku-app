@@ -50,6 +50,7 @@ defineProps<{
 }>()
 const emit = defineEmits<{
   (name: "update:modelValue", value: boolean): void
+  (name: "installed"): void
 }>()
 
 const pluginStore = usePluginStore()
@@ -68,6 +69,7 @@ async function addPlugin() {
     $q.notify({
       message: `Đã thêm plugin ${name}`,
     })
+    emit("installed")
   } catch (err) {
     console.error(err)
     let message: string

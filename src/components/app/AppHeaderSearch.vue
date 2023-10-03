@@ -130,7 +130,6 @@
 import { useEventListener } from "@vueuse/core"
 import { debounce } from "perfect-debounce"
 import { QInput } from "quasar"
-import { General } from "raiku-pgs/plugin"
 
 // const props = defineProps<{
 //   sourceId: string
@@ -174,7 +173,7 @@ const {
     manual: true,
   },
 )
-watch(query, debounce(runAsync, 300))
+watch(query, debounce(runAsync, 1000))
 
 const focusing = ref(false)
 

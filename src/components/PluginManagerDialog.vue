@@ -83,15 +83,17 @@ const emit = defineEmits<{
 const pluginStore = usePluginStore()
 const stateStore = useStateStore()
 
-const { data, error } = useRequest(() => pluginStore.getAllPlugins())
-pluginStore.busses.on("install plugin", (meta) => data.value?.push(meta))
+const { data, error } = useRequest(() =>
+  pluginStore.getAllPlugins().then((list) => shallowReactive(list)),
+)
+pluginStore.busses.on("install plugin", (meta) => {
+  data.value?.splice(
+    data.value.findIndex((item) => item.id === meta.id) >>> 0,
+    1,
+  )
+  data.value?.unshift(meta)
+})
 pluginStore.busses.on("remove plugin", (id) => {
-  if (!data.value) return
-
-  const index = data.value.findIndex((item) => item.id === id) >>> 0
-
-  data.value.splice(index, 1)
-
-  data.value = [...data.value]
+  data.value?.splice(data.value.findIndex((item) => item.id === id) >>> 0, 1)
 })
 </script>
