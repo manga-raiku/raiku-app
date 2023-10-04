@@ -18,5 +18,7 @@ declare module "vue-router" {
     needSelectPlugin?: boolean
 
     auth?: boolean | "guest" | string
+
+    beforeEach?: string
   }
 }

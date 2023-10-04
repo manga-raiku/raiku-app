@@ -76,6 +76,11 @@ export default route(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach(async (to) => {
+    if (to.meta.beforeEach === 'true if $lt.md else "/app/myaccount"') {
+      if (Screen.lt.md) return to
+      return "/app/myaccount"
+    }
+
     const authStore = useAuthStore()
 
     await authStore.setup
@@ -83,8 +88,8 @@ export default route(function (/* { store, ssrContext } */) {
     let auth = to.meta.auth
     if (auth === undefined || auth === "guest") return
 
-    if (auth === "null if $lt.md else true") {
-      if (Screen.lt.md) return
+    if (auth === "'guest' if $lt.md else true") {
+      if (Screen.lt.md) return to
       auth = true
     }
 
