@@ -23,6 +23,7 @@
     "build:pwa": "pnpm build -m pwa",
     "build:android": "pnpm build -m capacitor -T android",
     "build:ios": "pnpm build -m capacitor -T ios",
+    "build:raiku-pgs": "cd npm/raiku-pgs && pnpm build",
     "typing": "vue-tsc --noEmit",
     "ci": "pnpm format && pnpm lint --fix && pnpm typing && pnpm test:unit:ci",
     "nx": "nx run-many -t",

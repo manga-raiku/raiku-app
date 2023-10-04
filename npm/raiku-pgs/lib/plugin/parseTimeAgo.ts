@@ -29,11 +29,11 @@ export function parseTimeAgo(ago: string, now: number): number {
             "/" +
             ($5?.slice(1) ?? new Date(now).getFullYear())
           )
-        },
-      ),
+        }
+      )
     ).getTime() ||
     new Date(
-      ago.replace(/^(\d{1,2})\/(\d{1,2})\/(\d{1,})$/, "$2/$1/$3"),
+      ago.replace(/^(\d{1,2})\/(\d{1,2})\/(\d{1,})$/, "$2/$1/$3")
     ).getTime()
   )
 }

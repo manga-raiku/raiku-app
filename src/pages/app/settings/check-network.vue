@@ -92,7 +92,7 @@ useSeoMeta({
   title,
   description: title,
   ogTitle: title,
-  ogDescription: title,
+  ogDescription: title
 })
 
 const router = useRouter()
@@ -104,7 +104,7 @@ Network.getStatus().then(
   (status) =>
     (connectionType.value = status.connected
       ? status.connectionType
-      : "offline"),
+      : "offline")
 )
 Network.addListener("networkStatusChange", (status) => {
   connectionType.value = status.connected ? status.connectionType : "offline"

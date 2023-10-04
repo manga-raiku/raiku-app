@@ -24,17 +24,17 @@ meta:
               :to="{
                 ...route,
                 params: {
-                  type: item.value,
+                  type: item.value
                 },
                 query: route.query,
-                hash: route.hash,
+                hash: route.hash
               }"
               class="text-18px text-weight-bold text-currentColor opacity-50"
               no-caps
               rounded
               unelevated
               :class="{
-                '!opacity-100': item.value === type,
+                '!opacity-100': item.value === type
               }"
               >{{ item.name }}</q-btn
             >
@@ -50,7 +50,7 @@ meta:
             <!-- #8c6b1c #548c76 -->
             <span class="text-main-2 text-16px mx-2 text-weight-medium">{{
               $t("bang-type", [
-                typesRank.find((item) => item.value === type)?.name,
+                typesRank.find((item) => item.value === type)?.name
               ])
             }}</span>
             <TrendingCardIconRight class="rotate-180deg text-main-4" />
@@ -145,21 +145,21 @@ const typesRank = computedAsync(async () => {
       return {
         value: item.value,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        name: (item.name as unknown as any)[i18n.locale.value],
+        name: (item.name as unknown as any)[i18n.locale.value]
       }
-    },
+    }
   )
 })
 
 const title = () =>
   i18n.t("bang-xep-hang-type", [
-    typesRank.value?.find((item) => item.value === props.type)?.name,
+    typesRank.value?.find((item) => item.value === props.type)?.name
   ])
 useSeoMeta({
   title,
   description: title,
   ogTitle: title,
-  ogDescription: title,
+  ogDescription: title
 })
 
 const page = computed<number>({
@@ -169,9 +169,9 @@ const page = computed<number>({
       ...route,
       query: {
         ...route.query,
-        page,
-      },
-    }),
+        page
+      }
+    })
 })
 
 const { data, error, loading, runAsync } = useRequest(
@@ -185,18 +185,18 @@ const { data, error, loading, runAsync } = useRequest(
     ).plugin.getRanking(
       props.type ?? "",
       page.value,
-      route.query as Record<string, string>,
+      route.query as Record<string, string>
     )
     return {
       ...data,
-      items: shallowReactive(data.items) as typeof data.items,
+      items: shallowReactive(data.items) as typeof data.items
     } as Omit<typeof data, "items"> & {
       items: MetaManga[]
     }
   },
   {
-    refreshDeps: [() => props.type, page, () => route.query],
-  },
+    refreshDeps: [() => props.type, page, () => route.query]
+  }
 )
 const onLoad = useLoadMorePage(
   async (page) => {
@@ -210,12 +210,12 @@ const onLoad = useLoadMorePage(
         res.plugin.getRanking(
           props.type ?? "",
           page,
-          route.query as Record<string, string>,
-        ),
+          route.query as Record<string, string>
+        )
       )
   },
   data,
-  page.value,
+  page.value
 )
 watch(error, (error) => {
   if (error?.message === "not_found")
@@ -223,10 +223,10 @@ watch(error, (error) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       name: "not_found" as any,
       params: {
-        catchAll: route.path.split("/").slice(1),
+        catchAll: route.path.split("/").slice(1)
       },
       query: route.query,
-      hash: route.hash,
+      hash: route.hash
     })
 })
 </script>

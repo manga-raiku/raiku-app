@@ -5,7 +5,7 @@ import type {
   MetaManga,
   MetaMangaOnDisk,
   TaskDDEp,
-  TaskDLEp,
+  TaskDLEp
 } from "src/logic/download-manager"
 import type { ShallowReactive } from "vue"
 
@@ -36,10 +36,10 @@ export const useIDMStore = defineStore("IDM", () => {
               }
             >({
               ...item,
-              count_ep: await getCountEpisodes(item.manga_id),
+              count_ep: await getCountEpisodes(item.manga_id)
             })
             listComicOnDisk.set(item.manga_id, itemReactive)
-          }),
+          })
         )
         lsingComicOnDisk.value = false
       })
@@ -49,7 +49,7 @@ export const useIDMStore = defineStore("IDM", () => {
 
   async function download(
     metaManga: MetaManga,
-    metaEp: MetaEpisode,
+    metaEp: MetaEpisode
   ): Promise<TaskDLEp | TaskDDEp> {
     console.log("start download: ", metaEp)
     const task = createTaskDownloadEpisode(metaManga, metaEp)
@@ -57,7 +57,7 @@ export const useIDMStore = defineStore("IDM", () => {
     if (!listComicOnDisk.has(metaManga.manga_id)) {
       const manga = {
         ...(await task.startSaveMetaManga()),
-        count_ep: 0,
+        count_ep: 0
       }
       listComicOnDisk.set(manga.manga_id, manga)
     }
@@ -85,7 +85,7 @@ export const useIDMStore = defineStore("IDM", () => {
 
   async function resumeDownload(
     metaManga: MetaManga,
-    task: Awaited<ReturnType<typeof download>>,
+    task: Awaited<ReturnType<typeof download>>
   ): ReturnType<typeof download> {
     if (
       typeof (task as Awaited<ReturnType<typeof createTaskDownloadEpisode>>)
@@ -109,6 +109,6 @@ export const useIDMStore = defineStore("IDM", () => {
     runLoadInMemory,
     download,
     resumeDownload,
-    deleteEpisode,
+    deleteEpisode
   }
 })

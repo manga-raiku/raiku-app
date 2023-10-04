@@ -30,7 +30,7 @@
         class="text-1.2em text-[#eee] leading-snug ellipsis"
         :class="{
           'line-clamp-3': threeLine,
-          'line-clamp-2': !threeLine,
+          'line-clamp-2': !threeLine
         }"
       >
         {{ data.name }}

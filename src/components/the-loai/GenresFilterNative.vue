@@ -25,7 +25,7 @@
                 class="min-w-0 max-w-full overflow-x-auto scrollbar-hide max-h-[max(220px,50vh)]"
                 :class="{
                   'whitespace-nowrap': !showFullGenres,
-                  'overflow-y-scroll': showFullGenres,
+                  'overflow-y-scroll': showFullGenres
                 }"
               >
                 <q-btn
@@ -39,7 +39,7 @@
                   class="font-size-inherit text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
                   :class="{
                     '!text-main-3':
-                      item2.route.params.type === route.params.type,
+                      item2.route.params.type === route.params.type
                   }"
                   >{{ item2.name }}</q-btn
                 >
@@ -66,7 +66,7 @@
               :to="parseRouteQuery(item.key, item2)"
               class="font-size-inherit text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
               :class="{
-                '!text-main-3': route.query[item.key] === item2.value,
+                '!text-main-3': route.query[item.key] === item2.value
               }"
               >{{ item2.name }}</q-btn
             >
@@ -89,10 +89,10 @@
           {{
             (isSelectMode(item)
               ? item.select.find(
-                  (item) => item.route.params.type === route.params.type,
+                  (item) => item.route.params.type === route.params.type
                 )?.name
               : item.items.find(
-                  (item2) => item2.value === route.query[item.key],
+                  (item2) => item2.value === route.query[item.key]
                 )?.name) ?? item.type
           }}
           <i-fluent-chevron-down-24-regular class="size-1.5em ml-1" />
@@ -122,12 +122,12 @@ function parseRouteURI(filterItem: FilterURI["select"][0]) {
     ...filterItem.route,
     query: {
       ...filterItem.route.query,
-      page: undefined,
+      page: undefined
     },
     name: undefined,
     path: `/~${filterItem.route.params.sourceId}/genre/${
       filterItem.route.params.type ?? ""
-    }`,
+    }`
   }
 }
 function parseRouteQuery(key: string, filterItem: FilterQuery["items"][0]) {
@@ -135,9 +135,9 @@ function parseRouteQuery(key: string, filterItem: FilterQuery["items"][0]) {
     ...route,
     query: {
       ...route.query,
-      [key]: filterItem.value,
+      [key]: filterItem.value
     },
-    name: undefined,
+    name: undefined
   }
 }
 

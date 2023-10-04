@@ -1,8 +1,8 @@
 export async function evalModule(code: string) {
   const url = URL.createObjectURL(
     new Blob([code], {
-      type: "text/javascript",
-    }),
+      type: "text/javascript"
+    })
   )
   /* @vite-ignore */
   return import(url)

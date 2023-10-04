@@ -8,6 +8,6 @@ export const useStateStore = defineStore("state", () => {
   return {
     showPluginManagerDialog,
     showPluginAddDialog,
-    showPluginSelectDialog,
+    showPluginSelectDialog
   }
 })

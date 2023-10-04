@@ -24,7 +24,7 @@ const pages = [
   "https://localhost/pages/5.png",
   "https://localhost/pages/6.png",
   "https://localhost/pages/7.png",
-  "https://localhost/pages/8.png",
+  "https://localhost/pages/8.png"
 ]
 const ep_param = "2"
 
@@ -33,13 +33,13 @@ const metaManga: MetaManga = {
   manga_id,
   manga_image,
   manga_name,
-  source_id,
+  source_id
 }
 const metaEp: MetaEpisode = {
   ep_param,
   ep_id,
   ep_name,
-  pages,
+  pages
 }
 
 const hashIDManga = hashSum(manga_id)
@@ -56,7 +56,7 @@ function patchFetch() {
       },
       async text() {
         return url
-      },
+      }
     })
   })
 }
@@ -72,7 +72,7 @@ describe("download-manager", () => {
   test("should download episode x for the first time", async () => {
     const { ref, start, downloading } = createTaskDownloadEpisode(
       metaManga,
-      metaEp,
+      metaEp
     )
     expect(ref.downloaded).toBe(0)
     expect(downloading.value).toBeFalsy()
@@ -90,10 +90,10 @@ describe("download-manager", () => {
 
     await expect(readdir("meta")).resolves.toEqual([
       hashIDManga,
-      hashIDManga + ".mod",
+      hashIDManga + ".mod"
     ])
     await expect(readdir("meta/" + hashIDManga)).resolves.toEqual([
-      hashIDEp + ".mod",
+      hashIDEp + ".mod"
     ])
 
     await expect(readdir("poster")).resolves.toEqual([hashIDManga])
@@ -106,7 +106,7 @@ describe("download-manager", () => {
       "1a96284e",
       "1a96284f",
       "1a962850",
-      "1a962851",
+      "1a962851"
     ])
 
     // valid image pages
@@ -118,18 +118,18 @@ describe("download-manager", () => {
 
     // valid meta manga
     expect(
-      JSON.parse(await readFile(`meta/${hashIDManga}.mod`, Encoding.UTF8)),
+      JSON.parse(await readFile(`meta/${hashIDManga}.mod`, Encoding.UTF8))
     ).toEqual({
       ...metaManga,
       manga_image: "offline:///poster/8daa1a0a",
-      start_download_at: 0,
+      start_download_at: 0
     })
 
     // valid meta episode
     expect(
       JSON.parse(
-        await readFile(`meta/${hashIDManga}/${hashIDEp}.mod`, Encoding.UTF8),
-      ),
+        await readFile(`meta/${hashIDManga}/${hashIDEp}.mod`, Encoding.UTF8)
+      )
     ).toEqual({
       ep_param,
       start_download_at: 0,
@@ -144,13 +144,13 @@ describe("download-manager", () => {
         "offline://files/8daa1a0a/2d0aa938/1a96284e",
         "offline://files/8daa1a0a/2d0aa938/1a96284f",
         "offline://files/8daa1a0a/2d0aa938/1a962850",
-        "offline://files/8daa1a0a/2d0aa938/1a962851",
-      ],
+        "offline://files/8daa1a0a/2d0aa938/1a962851"
+      ]
     })
 
     // valid meta image
     expect(await readFile("poster/" + hashIDManga, Encoding.UTF8)).toBe(
-      manga_image,
+      manga_image
     )
     expect(watcher.mock.calls.length).toBe(8)
   })
@@ -168,13 +168,13 @@ describe("download-manager", () => {
         },
         async text() {
           return url
-        },
+        }
       })
     })
 
     const { ref, start, downloading } = createTaskDownloadEpisode(
       metaManga,
-      metaEp,
+      metaEp
     )
     expect(ref.downloaded).toBe(0)
     expect(downloading.value).toBeFalsy()
@@ -187,7 +187,7 @@ describe("download-manager", () => {
       "1a96284b",
       "1a96284c",
       "1a96284d",
-      "1a96284e",
+      "1a96284e"
     ])
 
     // valid image page
@@ -202,9 +202,9 @@ describe("download-manager", () => {
       JSON.parse(
         await readFile(
           "meta/" + hashIDManga + "/" + hashIDEp + ".mod",
-          Encoding.UTF8,
-        ),
-      ),
+          Encoding.UTF8
+        )
+      )
     ).toEqual({
       ep_param,
       start_download_at: 0,
@@ -219,8 +219,8 @@ describe("download-manager", () => {
         "offline://files/8daa1a0a/2d0aa938/1a96284e",
         "https://localhost/pages/6.png",
         "https://localhost/pages/7.png",
-        "https://localhost/pages/8.png",
-      ],
+        "https://localhost/pages/8.png"
+      ]
     })
   })
 
@@ -237,13 +237,13 @@ describe("download-manager", () => {
         },
         async text() {
           return url
-        },
+        }
       })
     })
 
     const { ref, start, downloading } = createTaskDownloadEpisode(
       metaManga,
-      metaEp,
+      metaEp
     )
     expect(ref.downloaded).toBe(0)
     expect(downloading.value).toBeFalsy()
@@ -257,7 +257,7 @@ describe("download-manager", () => {
       "1a96284b",
       "1a96284c",
       "1a96284d",
-      "1a96284e",
+      "1a96284e"
     ])
 
     // valid image page
@@ -272,9 +272,9 @@ describe("download-manager", () => {
       JSON.parse(
         await readFile(
           "meta/" + hashIDManga + "/" + hashIDEp + ".mod",
-          Encoding.UTF8,
-        ),
-      ),
+          Encoding.UTF8
+        )
+      )
     ).toEqual({
       ep_param,
       ep_id,
@@ -289,14 +289,14 @@ describe("download-manager", () => {
         "offline://files/8daa1a0a/2d0aa938/1a96284e",
         "https://localhost/pages/6.png",
         "https://localhost/pages/7.png",
-        "https://localhost/pages/8.png",
-      ],
+        "https://localhost/pages/8.png"
+      ]
     })
 
     const {
       ref: ref2,
       start: start2,
-      downloading: dl2,
+      downloading: dl2
     } = createTaskDownloadEpisode(metaManga, metaEp)
     expect(ref2.downloaded).toBe(0)
     expect(dl2.value).toBeFalsy()
@@ -312,7 +312,7 @@ describe("download-manager", () => {
       "1a96284e",
       "1a96284f",
       "1a962850",
-      "1a962851",
+      "1a962851"
     ])
 
     // valid image pages
@@ -327,9 +327,9 @@ describe("download-manager", () => {
       JSON.parse(
         await readFile(
           "meta/" + hashIDManga + "/" + hashIDEp + ".mod",
-          Encoding.UTF8,
-        ),
-      ),
+          Encoding.UTF8
+        )
+      )
     ).toEqual({
       ep_param,
       start_download_at: 0,
@@ -344,8 +344,8 @@ describe("download-manager", () => {
         "offline://files/8daa1a0a/2d0aa938/1a96284e",
         "offline://files/8daa1a0a/2d0aa938/1a96284f",
         "offline://files/8daa1a0a/2d0aa938/1a962850",
-        "offline://files/8daa1a0a/2d0aa938/1a962851",
-      ],
+        "offline://files/8daa1a0a/2d0aa938/1a962851"
+      ]
     })
   })
 
@@ -356,7 +356,7 @@ describe("download-manager", () => {
 
     const { ref, downloading, start, stop, resume } = createTaskDownloadEpisode(
       metaManga,
-      metaEp,
+      metaEp
     )
     expect(downloading.value).toBe(false)
     expect(ref.downloaded).toBe(0)
@@ -390,7 +390,7 @@ describe("download-manager", () => {
       "1a96284e",
       "1a96284f",
       "1a962850",
-      "1a962851",
+      "1a962851"
     ])
 
     // valid image pages
@@ -405,9 +405,9 @@ describe("download-manager", () => {
       JSON.parse(
         await readFile(
           "meta/" + hashIDManga + "/" + hashIDEp + ".mod",
-          Encoding.UTF8,
-        ),
-      ),
+          Encoding.UTF8
+        )
+      )
     ).toEqual({
       ep_param,
       start_download_at: 0,
@@ -422,8 +422,8 @@ describe("download-manager", () => {
         "offline://files/8daa1a0a/2d0aa938/1a96284e",
         "offline://files/8daa1a0a/2d0aa938/1a96284f",
         "offline://files/8daa1a0a/2d0aa938/1a962850",
-        "offline://files/8daa1a0a/2d0aa938/1a962851",
-      ],
+        "offline://files/8daa1a0a/2d0aa938/1a962851"
+      ]
     })
   })
 
@@ -439,13 +439,13 @@ describe("download-manager", () => {
         manga_image: "offline:///poster/8daa1a0a",
         manga_name,
         source_id,
-        start_download_at: 0,
-      },
+        start_download_at: 0
+      }
     ])
 
     const meta2 = {
       ...metaManga,
-      manga_id: "2",
+      manga_id: "2"
     }
 
     await createTaskDownloadEpisode(meta2, metaEp).start()
@@ -457,7 +457,7 @@ describe("download-manager", () => {
         manga_image: "offline:///poster/8daa1a08",
         manga_name,
         source_id,
-        start_download_at: 0,
+        start_download_at: 0
       },
       {
         manga_param,
@@ -465,8 +465,8 @@ describe("download-manager", () => {
         manga_image: "offline:///poster/8daa1a0a",
         manga_name,
         source_id,
-        start_download_at: 0,
-      },
+        start_download_at: 0
+      }
     ])
   })
 
@@ -489,15 +489,15 @@ describe("download-manager", () => {
           "offline://files/8daa1a0a/2d0aa938/1a96284e",
           "offline://files/8daa1a0a/2d0aa938/1a96284f",
           "offline://files/8daa1a0a/2d0aa938/1a962850",
-          "offline://files/8daa1a0a/2d0aa938/1a962851",
-        ],
-      },
+          "offline://files/8daa1a0a/2d0aa938/1a962851"
+        ]
+      }
     ])
     ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(1)
 
     await createTaskDownloadEpisode(metaManga, {
       ...metaEp,
-      ep_id: metaEp.ep_id + 1,
+      ep_id: metaEp.ep_id + 1
     }).start()
 
     expect(await getListEpisodes(manga_id)).toEqual([
@@ -515,8 +515,8 @@ describe("download-manager", () => {
           "offline://files/8daa1a0a/2d0aa938/1a96284e",
           "offline://files/8daa1a0a/2d0aa938/1a96284f",
           "offline://files/8daa1a0a/2d0aa938/1a962850",
-          "offline://files/8daa1a0a/2d0aa938/1a962851",
-        ],
+          "offline://files/8daa1a0a/2d0aa938/1a962851"
+        ]
       },
       {
         downloaded: 8,
@@ -531,10 +531,10 @@ describe("download-manager", () => {
           "offline://files/8daa1a0a/744a7df9/1a96284e",
           "offline://files/8daa1a0a/744a7df9/1a96284f",
           "offline://files/8daa1a0a/744a7df9/1a962850",
-          "offline://files/8daa1a0a/744a7df9/1a962851",
+          "offline://files/8daa1a0a/744a7df9/1a962851"
         ],
-        start_download_at: 1,
-      },
+        start_download_at: 1
+      }
     ])
     ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(0)
   })
@@ -557,7 +557,7 @@ describe("download-manager", () => {
     await createTaskDownloadEpisode(metaManga, metaEp).start()
     await createTaskDownloadEpisode(metaManga, {
       ...metaEp,
-      ep_id: metaEp.ep_id + 1,
+      ep_id: metaEp.ep_id + 1
     }).start()
 
     await expect(exists(`meta/${hashIDManga}`)).resolves.toBeTruthy()
@@ -565,33 +565,33 @@ describe("download-manager", () => {
     await expect(exists(`files/${hashIDManga}`)).resolves.toBeTruthy()
 
     await expect(
-      exists(`meta/${hashIDManga}/${hashIDEp}.mod`),
+      exists(`meta/${hashIDManga}/${hashIDEp}.mod`)
     ).resolves.toBeTruthy()
     await expect(
-      exists(`files/${hashIDManga}/${hashIDEp}`),
+      exists(`files/${hashIDManga}/${hashIDEp}`)
     ).resolves.toBeTruthy()
 
     const hashIDEp2 = hashSum(metaEp.ep_id + 1)
     await expect(
-      exists(`meta/${hashIDManga}/${hashIDEp2}.mod`),
+      exists(`meta/${hashIDManga}/${hashIDEp2}.mod`)
     ).resolves.toBeTruthy()
     await expect(
-      exists(`files/${hashIDManga}/${hashIDEp2}`),
+      exists(`files/${hashIDManga}/${hashIDEp2}`)
     ).resolves.toBeTruthy()
 
     await deleteEpisode(manga_id, ep_id)
 
     await expect(
-      exists(`meta/${hashIDManga}/${hashIDEp}.mod`),
+      exists(`meta/${hashIDManga}/${hashIDEp}.mod`)
     ).resolves.toBeFalsy()
     await expect(
-      exists(`files/${hashIDManga}/${hashIDEp}`),
+      exists(`files/${hashIDManga}/${hashIDEp}`)
     ).resolves.toBeFalsy()
     await expect(
-      exists(`meta/${hashIDManga}/${hashIDEp2}.mod`),
+      exists(`meta/${hashIDManga}/${hashIDEp2}.mod`)
     ).resolves.toBeTruthy()
     await expect(
-      exists(`files/${hashIDManga}/${hashIDEp2}`),
+      exists(`files/${hashIDManga}/${hashIDEp2}`)
     ).resolves.toBeTruthy()
 
     await deleteEpisode(manga_id, ep_id + 1)

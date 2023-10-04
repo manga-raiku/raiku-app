@@ -2,7 +2,7 @@
   <router-link
     :to="{
       name: 'comic',
-      params: { comic },
+      params: { comic }
     }"
     v-ripple
     class="relative flex flex-nowrap mb-4"
@@ -50,8 +50,8 @@
             params: {
               sourceId,
               comic,
-              chap: history.param,
-            },
+              chap: history.param
+            }
           }"
           class="text-12px mr-2"
           color="blue-400"
@@ -66,7 +66,7 @@
           no-wrap
           :to="{
             name: 'comic',
-            params: { comic, sourceId },
+            params: { comic, sourceId }
           }"
           class="text-12px"
           color="gray-700"

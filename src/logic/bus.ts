@@ -7,7 +7,7 @@ export class EventBus<Events extends Record<string, unknown[]>> {
   public on<Name extends keyof Events>(
     name: Name,
     cb: (...args: Events[Name]) => void,
-    instance = getCurrentInstance(),
+    instance = getCurrentInstance()
   ) {
     if (!(name in this.events))
       this.events[name] = new Set<(...args: unknown[]) => void>()
@@ -20,7 +20,7 @@ export class EventBus<Events extends Record<string, unknown[]>> {
 
   public off<Name extends keyof Events>(
     name: Name,
-    cb: (...args: Events[Name]) => void,
+    cb: (...args: Events[Name]) => void
   ) {
     this.events[name]?.delete(cb)
   }

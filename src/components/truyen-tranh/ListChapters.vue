@@ -14,7 +14,7 @@
         :label="$t('ch-from-to', [from, to])"
         class="rounded-30px text-[rgba(255,255,255,0.86)] bg-[#fbe0ef] bg-opacity-8 text-weight-light font-family-poppins !min-h-32px mx-2"
         :class="{
-          '!text-main-3 segment': tabActive === index,
+          '!text-main-3 segment': tabActive === index
         }"
         :ref="
           ($el: QTab) => {
@@ -75,7 +75,7 @@
             class="flex flex-nowrap bg-#f8f8f8 bg-opacity-7.5 hover:bg-opacity-12 transition-background-color duration-200 rounded-md py-1 px-4 relative cursor-pointer"
             exact-active-class="!text-main reading text-weight-medium"
             :class="{
-              'text-#eee text-opacity-70': readsChapter?.has(item.id),
+              'text-#eee text-opacity-70': readsChapter?.has(item.id)
             }"
           >
             <div class="flex-1 min-w-0">
@@ -167,7 +167,7 @@ const segments = computed(() => {
     const [from, to] = [
       parseFloat(normalizeChName(items[0].name)),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      parseFloat(normalizeChName(items.at(-1)!.name)),
+      parseFloat(normalizeChName(items.at(-1)!.name))
     ]
 
     return { from, to, items }
@@ -181,12 +181,12 @@ const tabActive = ref(
           return items.some(
             (item) =>
               item.route.params.chap === route.params.chap &&
-              item.route.params.comic === route.params.comic,
+              item.route.params.comic === route.params.comic
           )
         }),
-        0,
+        0
       )
-    : 0,
+    : 0
 )
 watch(tabActive, () => emit("change-tab"))
 
@@ -199,7 +199,7 @@ watch(
     setTimeout(() => {
       if (segment) scrollXIntoView(segment)
     }, 70)
-  },
+  }
 )
 
 const ulPanelRef = ref<HTMLUListElement>()
@@ -230,7 +230,7 @@ async function downloadEp(item: Chapter) {
   const conf = await plugin.getComicChapter(
     item.route.params.comic,
     item.route.params.chap,
-    false,
+    false
   )
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -239,8 +239,8 @@ async function downloadEp(item: Chapter) {
     ep_name: item.name,
     ep_param: item.route.params.chap,
     pages: await Promise.all(
-      conf.pages.map((item) => plugin["servers:parse"](0, item, conf)),
-    ),
+      conf.pages.map((item) => plugin["servers:parse"](0, item, conf))
+    )
   }).catch((err) => {
     if (err?.message === "user_paused") return
     // eslint-disable-next-line functional/no-throw-statement

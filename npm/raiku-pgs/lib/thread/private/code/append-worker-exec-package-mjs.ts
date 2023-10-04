@@ -10,13 +10,13 @@ if ((self as unknown as any).__DEFINE_PACKAGE__) {
   self.postMessage({
     ok: true,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data: (self as unknown as any).__DEFINE_PACKAGE__,
+    data: (self as unknown as any).__DEFINE_PACKAGE__
   })
 } else {
   // not exists emit error
   self.postMessage({
     ok: false,
-    data: 'The code may not contain "definePackage" or something has broken this data structure.',
+    data: 'The code may not contain "definePackage" or something has broken this data structure.'
   })
 }
 

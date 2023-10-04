@@ -29,7 +29,7 @@
                 () => {
                   router.push({
                     name: 'search',
-                    query: { query },
+                    query: { query }
                   })
                   emit('update:searching', false)
                 }
@@ -52,7 +52,7 @@
                 () => {
                   router.push({
                     name: 'search',
-                    query: { query },
+                    query: { query }
                   })
                   emit('update:searching', false)
                 }
@@ -125,7 +125,7 @@ const pluginStore = usePluginStore()
 const allPlugins = computed(() =>
   pluginStore
     .getAllPlugins()
-    .then((plugins) => plugins.map(({ id }) => pluginStore.get(id))),
+    .then((plugins) => plugins.map(({ id }) => pluginStore.get(id)))
 )
 
 const keyword = ref("")
@@ -142,15 +142,15 @@ const { data: searchResult, runAsync } = useRequest(
               meta,
               promise: computedAsync<
                 Awaited<ReturnType<typeof plugin.searchQuickly>> | undefined
-              >(() => plugin.searchQuickly(query.value, 1)),
+              >(() => plugin.searchQuickly(query.value, 1))
             }
-          }),
-        ),
+          })
+        )
       )
   },
   {
-    manual: true,
-  },
+    manual: true
+  }
 )
 watch(query, debounce(runAsync, 1000))
 
@@ -160,7 +160,7 @@ function onBack() {
 }
 function onClickItemPreLoad(
   item: Awaited<ReturnType<API["searchQuickly"]>>[0],
-  load?: boolean,
+  load?: boolean
 ) {
   if (load) {
     query.value = item.name

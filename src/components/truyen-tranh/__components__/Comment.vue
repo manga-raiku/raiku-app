@@ -6,7 +6,7 @@
         :srcs="
           [
             comment.author.avatar,
-            `https://ui-avatars.com/api/?name=${comment.author.name}`,
+            `https://ui-avatars.com/api/?name=${comment.author.name}`
           ].filter((item) => item !== NO_AVATAR)
         "
       />
@@ -17,7 +17,7 @@
           {{ comment.author.name }}
         </h5>
         <div class="flex flex-nowrap text-13px items-center text-gray-200">
-          <h6 class="leading-normal">
+          <h6 v-if="comment.author.level" class="leading-normal">
             Cấp {{ comment.author.level.current }} -
             {{ comment.author.level.perNext }}%
           </h6>
@@ -71,7 +71,10 @@
       </div>
 
       <template v-if="comment.replies">
-        <Comments :comments="comment.replies" />
+        <span v-if="typeof comment.replies === 'number'" class="text-gray-300"
+          >{{ comment.replies }} trả lời</span
+        >
+        <Comments v-else :comments="comment.replies" />
       </template>
     </div>
   </div>

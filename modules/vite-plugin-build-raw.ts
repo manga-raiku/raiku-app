@@ -23,10 +23,10 @@ export default function vitePluginBuildRaw(): Plugin {
             [["CRYPTO_PASSWORD", ""], ...Object.entries(process.env)].map(
               ([name, value]) => [
                 `process.env.${name.replace(/[^\w\d_$]/g, "_")}`,
-                JSON.stringify(value),
-              ],
-            ),
-          ),
+                JSON.stringify(value)
+              ]
+            )
+          )
         })
         const { text } = code.outputFiles[0]
 
@@ -42,22 +42,22 @@ export default function vitePluginBuildRaw(): Plugin {
                     simplify: true,
                     stringArrayShuffle: true,
                     splitStrings: true,
-                    stringArrayThreshold: 1,
+                    stringArrayThreshold: 1
                     // transformObjectKeys: true
                   }).getObfuscatedCode(),
                   {
                     minify:
                       id.includes("&minify") ||
                       process.env.NODE_ENV === "production",
-                    treeShaking: true,
-                  },
+                    treeShaking: true
+                  }
                 ).code
-              : text,
+              : text
           )}`,
 
-          map: null,
+          map: null
         }
       }
-    },
+    }
   }
 }

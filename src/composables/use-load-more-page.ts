@@ -10,7 +10,7 @@ export function useLoadMorePage<T>(
       }
     | undefined
   >,
-  page = 1,
+  page = 1
 ) {
   return async function onLoad(index: number, done: (end?: boolean) => void) {
     try {

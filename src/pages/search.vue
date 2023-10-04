@@ -39,8 +39,8 @@ meta:
               ...route,
               query: {
                 ...route.query,
-                query: undefined,
-              },
+                query: undefined
+              }
             })
           "
         >
@@ -70,7 +70,7 @@ meta:
             :key="value"
             class="inline-block px-2 py-2"
             :class="{
-              'text-white text-weight-medium': activeIndex === index,
+              'text-white text-weight-medium': activeIndex === index
             }"
             @click="swiperRef?.slideTo(index)"
           >
@@ -95,7 +95,7 @@ meta:
     padding
     :style-fn="
       (offset, height) => ({
-        height: height - offset + 'px',
+        height: height - offset + 'px'
       })
     "
   >
@@ -181,10 +181,10 @@ meta:
                 name: 'search in source',
                 params: {
                   ...route.params,
-                  sourceId: meta.id,
+                  sourceId: meta.id
                 },
                 query: route.query,
-                hash: route.hash,
+                hash: route.hash
               }"
             >
               <div>
@@ -263,12 +263,12 @@ const $q = useQuasar()
 const pluginStore = usePluginStore()
 
 const paramSourceId = ref(props.sourceId ?? null)
-watch(paramSourceId, sourceId => {
+watch(paramSourceId, (sourceId) => {
   if (sourceId) {
     router.push({
       ...route,
-      name:undefined,
-      path:`/~${sourceId}/search`,
+      name: undefined,
+      path: `/~${sourceId}/search`,
       params: {
         sourceId,
         ...route.params
@@ -277,9 +277,8 @@ watch(paramSourceId, sourceId => {
   }
 })
 
-
 const api = computed(() =>
-  pluginStore.getPluginOrDefault(props.sourceId).then(({ plugin }) => plugin),
+  pluginStore.getPluginOrDefault(props.sourceId).then(({ plugin }) => plugin)
 )
 
 const title = () => `Tìm kiếm ${route.query.query ?? ""}`
@@ -288,7 +287,7 @@ useSeoMeta({
   title,
   description,
   ogTitle: title,
-  ogDescription: description,
+  ogDescription: description
 })
 const typesRank = computedAsync<
   | {
@@ -302,13 +301,13 @@ const typesRank = computedAsync<
       return {
         value: item.value,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        name: (item.name as unknown as any)[i18n.locale.value] as string,
+        name: (item.name as unknown as any)[i18n.locale.value] as string
       }
     }),
   undefined,
   {
-    onError: (err) => console.error(err),
-  },
+    onError: (err) => console.error(err)
+  }
 )
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -326,7 +325,7 @@ const { data, run, error, loading, runAsync } = useRequest(
       const data = await (await api.value).search(route.query.query + "", 1)
       return {
         ...data,
-        items: shallowReactive(data.items),
+        items: shallowReactive(data.items)
       } as Omit<typeof data, "items"> & {
         items: MetaManga[]
       }
@@ -339,24 +338,24 @@ const { data, run, error, loading, runAsync } = useRequest(
           return {
             meta,
             promise: computedAsync<General | undefined>(() =>
-              plugin.search(route.query.query + "", 1),
-            ),
+              plugin.search(route.query.query + "", 1)
+            )
           }
-        }),
-      ),
+        })
+      )
     )
   },
   {
     refreshDeps: [() => route.query.query],
     refreshDepsAction() {
       run()
-    },
-  },
+    }
+  }
 )
 const onLoad = useLoadMorePage(
   (page) => api.value.then((res) => res.search(route.query.query + "", page)),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data as unknown as any,
+  data as unknown as any
 )
 
 const mobileSearching = ref(false)
@@ -383,21 +382,21 @@ async function fetchRankType(type: string) {
 
   try {
     dataStore.set(type, {
-      status: "pending",
+      status: "pending"
     })
     console.log("fetch %s", type)
     dataStore.set(type, {
       status: "success",
-      response: await (await api.value).getRanking(type, 1, {}),
+      response: await (await api.value).getRanking(type, 1, {})
     })
   } catch (err) {
     dataStore.set(type, {
       status: "error",
-      response: err,
+      response: err
     })
     console.error(err)
     $q.notify({
-      message: err + "",
+      message: err + ""
     })
   }
 }
@@ -405,11 +404,11 @@ async function refreshRank(done: () => void, type: string) {
   try {
     dataStore.set(type, {
       status: "success",
-      response: await (await api.value).getRanking(type, 1, {}),
+      response: await (await api.value).getRanking(type, 1, {})
     })
   } catch (err) {
     $q.notify({
-      message: err + "",
+      message: err + ""
     })
     // eslint-disable-next-line functional/no-throw-statement
     throw err
@@ -426,7 +425,7 @@ watch(
 
     console.log({ activeIndex, typesRank })
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 function onSwiper(swiper: TSwiper) {

@@ -14,7 +14,7 @@ export const useFollowStore = defineStore("follow", () => {
       .from("follow")
       .select("*")
       .order("created_at", {
-        ascending: false,
+        ascending: false
       })
       .limit(30)
 
@@ -30,7 +30,7 @@ export const useFollowStore = defineStore("follow", () => {
       .select("name:last_ch_name, param:last_ch_param, manga_id, updated_at")
       .in(
         "manga_id",
-        data.map((item) => item.manga_id),
+        data.map((item) => item.manga_id)
       )
 
     // eslint-disable-next-line functional/no-throw-statement
@@ -41,7 +41,7 @@ export const useFollowStore = defineStore("follow", () => {
     return data.map((item) => {
       return {
         ...item,
-        history: storeRead.get(item.manga_id),
+        history: storeRead.get(item.manga_id)
       }
     })
   }
@@ -68,14 +68,14 @@ export const useFollowStore = defineStore("follow", () => {
       Database["public"]["Tables"]["follow"]["Row"],
       "created_at" | "user_id" | "id"
     >,
-    follow: boolean,
+    follow: boolean
   ) {
     const session = await authStore.assert()
 
     if (follow) {
       const { error } = await supabase.from("follow").upsert(row, {
         ignoreDuplicates: true,
-        onConflict: "manga_id, user_id",
+        onConflict: "manga_id, user_id"
       })
 
       // eslint-disable-next-line functional/no-throw-statement

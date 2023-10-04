@@ -5,7 +5,7 @@
       :reveal="route.meta.revealHeader"
       class="bg-dark-page py-1 px-2 header-blur"
       :class="{
-        '!bg-transparent': route.meta?.transparentHeader,
+        '!bg-transparent': route.meta?.transparentHeader
       }"
     >
       <q-toolbar>
@@ -140,7 +140,7 @@
 
     <q-page-container
       :class="{
-        '!pt-0': route.meta.noSpaceHeader,
+        '!pt-0': route.meta.noSpaceHeader
       }"
     >
       <router-view v-if="true" v-slot="{ Component }">
@@ -176,7 +176,7 @@
           class="pt-1"
           to="/search"
           :class="{
-            'q-router-link--exact-active': route.name === 'search',
+            'q-router-link--exact-active': route.name === 'search'
           }"
         >
           <component
@@ -192,7 +192,7 @@
           class="pt-1"
           to="/genre"
           :class="{
-            'q-router-link--exact-active': route.name === 'genre',
+            'q-router-link--exact-active': route.name === 'genre'
           }"
         >
           <component
@@ -208,7 +208,7 @@
           class="pt-1"
           to="/library"
           :class="{
-            'q-router-link--exact-active': route.path.startsWith('/library'),
+            'q-router-link--exact-active': route.path.startsWith('/library')
           }"
         >
           <component
@@ -228,7 +228,7 @@
           class="pt-1"
           to="/app"
           :class="{
-            'q-router-link--exact-active': route.path.startsWith('/app'),
+            'q-router-link--exact-active': route.path.startsWith('/app')
           }"
         >
           <component
@@ -294,19 +294,19 @@ const drawers = computed(() => [
     icon: Icons.home[0],
     active: Icons.home[1],
     name: "Trang chủ",
-    path: "/",
+    path: "/"
   },
   {
     icon: Icons.box[0],
     active: Icons.box[1],
     name: "Thể loại",
-    path: "/genre",
+    path: "/genre"
   },
   {
     icon: Icons.fire[0],
     active: Icons.fire[1],
     name: "Truyện hot",
-    path: "/trending",
+    path: "/trending"
   },
 
   { divider: true },
@@ -315,46 +315,46 @@ const drawers = computed(() => [
     icon: Icons.history[0],
     active: Icons.history[1],
     name: "Lịch sử",
-    path: "/library/history",
+    path: "/library/history"
   },
   {
     icon: Icons.favorite[0],
     active: Icons.favorite[1],
     name: "Yêu thích",
-    path: "/library/follow",
+    path: "/library/follow"
   },
   {
     icon: Icons.download[0],
     active: Icons.download[1],
     name: "Nội dung tải xuống",
-    path: "/library/offline",
-  },
+    path: "/library/offline"
+  }
 ])
 const drawersBottom = computed(() => [
   {
     name: "Về chúng tôi",
-    href: "https://github.com/manga-raiku",
+    href: "https://github.com/manga-raiku"
   },
   {
     name: "Liên hệ chúng tôi",
-    href: "mailto:contact@mangaraiku.eu.org?subject=Phản hồi ứng dụng web Raiku",
+    href: "mailto:contact@mangaraiku.eu.org?subject=Phản hồi ứng dụng web Raiku"
   },
   {
     name: "Tải ứng dụng",
-    href: "https://manga-raiku.github.io",
+    href: "https://manga-raiku.github.io"
   },
   {
     name: "Điều khoản sử dụng",
-    href: "https://manga-raiku.github.io/tems-of-use",
+    href: "https://manga-raiku.github.io/tems-of-use"
   },
   {
     name: "Chính sách riêng tư",
-    href: "https://manga-raiku.github.io/privacy-police",
+    href: "https://manga-raiku.github.io/privacy-police"
   },
   {
     name: "Khiếu nại vi phạm",
-    href: "https://manga-raiku.github.io/disclaimer",
-  },
+    href: "https://manga-raiku.github.io/disclaimer"
+  }
 ])
 
 // ========= plugin manager ========

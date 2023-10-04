@@ -30,7 +30,7 @@ meta:
           <Pagination :max="data.maxPage" v-model="page" />
         </div> -->
 
-      <InfiniteScroll v-if="data &&!loading" @load="onLoad">
+      <InfiniteScroll v-if="data && !loading" @load="onLoad">
         <GridCard :items="data.items" />
       </InfiniteScroll>
       <ErrorDisplay v-else-if="error" :error="error" :retry-async="runAsync" />
@@ -64,7 +64,7 @@ const i18n = useI18n()
 const pluginStore = usePluginStore()
 
 const paramSourceId = useRouteParams<string | null>("sourceId", undefined, {
-  transform: (value) => (value ? value + "" : value ?? null),
+  transform: (value) => (value ? value + "" : value ?? null)
 })
 
 const page = computed<number>({
@@ -74,9 +74,9 @@ const page = computed<number>({
       ...route,
       query: {
         ...route.query,
-        page,
-      },
-    }),
+        page
+      }
+    })
 })
 
 const { data, runAsync, loading, error } = useRequest(
@@ -86,11 +86,11 @@ const { data, runAsync, loading, error } = useRequest(
     ).plugin.getCategory(
       props.type ?? "",
       page.value,
-      route.query as Record<string, string>,
+      route.query as Record<string, string>
     )
     return {
       ...data,
-      items: shallowReactive(data.items),
+      items: shallowReactive(data.items)
     } as Omit<typeof data, "items"> & {
       items: MetaManga[]
     }
@@ -99,8 +99,8 @@ const { data, runAsync, loading, error } = useRequest(
     refreshDeps: [() => props.type, () => route.query],
     refreshDepsAction() {
       runAsync()
-    },
-  },
+    }
+  }
 )
 const onLoad = useLoadMorePage(
   async (page) => {
@@ -110,12 +110,12 @@ const onLoad = useLoadMorePage(
         res.plugin.getCategory(
           props.type ?? "",
           page,
-          route.query as Record<string, string>,
-        ),
+          route.query as Record<string, string>
+        )
       )
   },
   data,
-  page.value,
+  page.value
 )
 watch(error, (error) => {
   if (error?.message === "not_found")
@@ -123,22 +123,22 @@ watch(error, (error) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       name: "not_found" as any,
       params: {
-        catchAll: route.path.split("/").slice(1),
+        catchAll: route.path.split("/").slice(1)
       },
       query: route.query,
-      hash: route.hash,
+      hash: route.hash
     })
 })
 
 const title = () =>
   i18n.t("the-loai-name", [
-    data.value ? data.value.name ?? i18n.t("tat-ca") : "",
+    data.value ? data.value.name ?? i18n.t("tat-ca") : ""
   ])
 const description = () => data.value?.description
 useSeoMeta({
   title,
   description,
   ogTitle: title,
-  ogDescription: description,
+  ogDescription: description
 })
 </script>

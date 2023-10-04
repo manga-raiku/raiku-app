@@ -3,7 +3,7 @@ import type { ShallowReactive } from "vue"
 
 export async function withCache<T extends object>(
   fn: () => Promise<T>,
-  { value: uniKey }: Ref<string>,
+  { value: uniKey }: Ref<string>
 ): Promise<ShallowReactive<Awaited<T>>> {
   let result: ShallowReactive<Awaited<T>>
 
@@ -25,7 +25,7 @@ export async function withCache<T extends object>(
         }
         set(uniKey, JSON.stringify(data))
       })
-      .catch((err) => console.error(err)),
+      .catch((err) => console.error(err))
   ])
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

@@ -13,13 +13,13 @@ export function WrapWorker<Fn extends (...args: any) => any>(fn: Fn) {
       event: MessageEvent<{
         id: string
         args: unknown[]
-      }>,
+      }>
     ) => {
       postMessage({
         id: event.data.id,
-        result: fn(...event.data.args),
+        result: fn(...event.data.args)
       })
-    },
+    }
   )
 }
 export function PostWorker<Fn extends (...args: any) => any>(

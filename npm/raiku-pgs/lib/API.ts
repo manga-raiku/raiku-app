@@ -39,7 +39,7 @@ export interface RouteAuthor {
 
 export interface Chapter {
   readonly name: string
-  readonly route: RouteComicChap | RouteComic
+  readonly route: RouteComicChap
   readonly id: ID
   readonly updated_at: number | null
   readonly views: number | null
@@ -146,21 +146,21 @@ type Response<Type extends GetOption["responseType"]> = Omit<
 }
 
 export interface FetchGet<
-  ReturnType extends GetOption["responseType"] | undefined,
+  ReturnType extends GetOption["responseType"] | undefined
 > {
   (
     options: Omit<GetOption, "responseType"> & {
       responseType?: ReturnType
-    },
+    }
   ): Promise<Response<ReturnType>>
 }
 export interface FetchPost<
-  ReturnType extends GetOption["responseType"] | undefined,
+  ReturnType extends GetOption["responseType"] | undefined
 > {
   (
     options: Omit<PostOption, "responseType"> & {
       responseType?: ReturnType
-    },
+    }
   ): Promise<Response<ReturnType>>
 }
 
@@ -244,7 +244,7 @@ export declare class API {
 
   constructor(
     get: FetchGet<GetOption["responseType"]>,
-    post: FetchPost<GetOption["responseType"]>,
+    post: FetchPost<GetOption["responseType"]>
   )
 
   index(): Promise<
@@ -259,7 +259,7 @@ export declare class API {
   getComicChapter<Fast extends boolean>(
     mangaId: ID,
     chapId: ID,
-    fast: Fast,
+    fast: Fast
   ): Promise<
     Fast extends true
       ? ComicChapter
@@ -273,7 +273,7 @@ export declare class API {
     chapterId: number,
     parentId: number,
     page: number,
-    comicKey: string,
+    comicKey: string
   ): Promise<Comments>
   getListChapters(mangaId: ID): Promise<Chapter[]>
   searchQuickly(keyword: string, page: number): Promise<readonly QuicklyItem[]>
@@ -281,11 +281,11 @@ export declare class API {
   getRanking(
     type: string,
     page: number,
-    filter: Record<string, string>,
+    filter: Record<string, string>
   ): Promise<General>
   getCategory(
     type: string,
     page: number,
-    filter: Record<string, string>,
+    filter: Record<string, string>
   ): Promise<General>
 }

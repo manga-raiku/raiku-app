@@ -21,10 +21,10 @@ meta:
       v-if="$q.screen.lt.md"
       class="fixed top-0 left-0 w-full h-full z--1"
       :class="{
-        'before-filter-blur': data?.image,
+        'before-filter-blur': data?.image
       }"
       :style="{
-        '--data-src': `url('${data?.image}')`,
+        '--data-src': `url('${data?.image}')`
       }"
     />
     <template v-if="data && !loading">
@@ -33,7 +33,7 @@ meta:
           <div
             class="before-filter-blur before-filter-blur--no-after relative py-4 flex items-center justify-center"
             :style="{
-              '--data-src': `url('${data.image}')`,
+              '--data-src': `url('${data.image}')`
             }"
           >
             <q-img
@@ -89,7 +89,7 @@ meta:
                 $t("val-slash-max-count-rate", [
                   data.rate.cur,
                   data.rate.max,
-                  formatView(data.rate.count),
+                  formatView(data.rate.count)
                 ])
               }}
             </div>
@@ -142,8 +142,8 @@ meta:
             params: {
               sourceId,
               comic,
-              chap: lastEpRead.param,
-            },
+              chap: lastEpRead.param
+            }
           }"
           rounded
           no-caps
@@ -167,9 +167,9 @@ meta:
                   manga_id: data.manga_id,
                   manga_name: data.name,
                   manga_param: comic,
-                  source_id: sourceId,
+                  source_id: sourceId
                 },
-                (isFollow = !isFollow),
+                (isFollow = !isFollow)
               )
           "
         >
@@ -202,7 +202,7 @@ meta:
             manga_name: data.name,
             manga_image: data.image,
             manga_param: comic,
-            source_id: sourceId,
+            source_id: sourceId
           }"
           :source-id="sourceId"
           @downloaded="lsEpDL?.push($event)"
@@ -223,7 +223,7 @@ meta:
           <div
             class="before-filter-blur before-filter-blur--no-after relative py-4 flex items-center justify-center"
             :style="{
-              '--data-src': `url()`,
+              '--data-src': `url()`
             }"
           >
             <q-responsive
@@ -346,9 +346,9 @@ meta:
                 manga_id: data.manga_id,
                 manga_name: data.name,
                 manga_param: comic,
-                source_id: sourceId,
+                source_id: sourceId
               },
-              (isFollow = !isFollow),
+              (isFollow = !isFollow)
             )
         "
       >
@@ -366,7 +366,7 @@ meta:
         :class="{
           'btn-action': !lastEpRead,
           'text-#f15a79': !!lastEpRead,
-          'max-w-60%': !lastEpRead,
+          'max-w-60%': !lastEpRead
         }"
       >
         <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
@@ -381,8 +381,8 @@ meta:
           params: {
             sourceId,
             comic,
-            chap: lastEpRead.param,
-          },
+            chap: lastEpRead.param
+          }
         }"
         rounded
         no-caps
@@ -427,7 +427,7 @@ const GetWithCache = useWithCache(
     pluginStore
       .get(props.sourceId)
       .then(({ plugin }) => plugin.getComic(props.comic)),
-  computed(() => `${packageName}:///manga/${props.comic}`),
+  computed(() => `${packageName}:///manga/${props.comic}`)
 )
 
 const { data, runAsync, error, run, loading } = useRequest(GetWithCache, {
@@ -435,7 +435,7 @@ const { data, runAsync, error, run, loading } = useRequest(GetWithCache, {
   refreshDepsAction() {
     // data.value = undefined
     run()
-  },
+  }
 })
 watch(error, (error) => {
   if (error?.message === "not_found")
@@ -443,10 +443,10 @@ watch(error, (error) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       name: "not_found" as any,
       params: {
-        catchAll: route.path.split("/").slice(1),
+        catchAll: route.path.split("/").slice(1)
       },
       query: route.query,
-      hash: route.hash,
+      hash: route.hash
     })
 })
 
@@ -455,7 +455,7 @@ const title = () =>
     ? i18n.t("title-page-meta-manga", [
         data.value.name,
         data.value.othername ? `(${data.value.othername})` : "",
-        data.value.chapters[0].name,
+        data.value.chapters[0].name
       ])
     : ""
 const description = () => data.value?.description
@@ -463,7 +463,7 @@ useSeoMeta({
   title,
   description,
   ogTitle: title,
-  ogDescription: description,
+  ogDescription: description
 })
 
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
@@ -471,8 +471,8 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
 
   return shallowReactive(
     (await getListEpisodes(data.value.manga_id).catch(() => [])).map((ref) => ({
-      ref,
-    })),
+      ref
+    }))
   )
 })
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
@@ -487,7 +487,7 @@ const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   return new Map(
     [...(lsEpDL.value ?? []), ...lsEpDD.value]
       .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
-      .map((item) => [item.ref.ep_id, item]),
+      .map((item) => [item.ref.ep_id, item])
   )
 })
 
@@ -512,13 +512,13 @@ function onClickShare() {
   share({
     title: i18n.t("doc-name-ch", [
       data.value.name,
-      data.value.othername ? `(${data.value.othername})` : "",
+      data.value.othername ? `(${data.value.othername})` : ""
     ]),
     text: i18n.t("doc-name-ch", [
       data.value.name,
-      data.value.othername ? `(${data.value.othername})` : "",
+      data.value.othername ? `(${data.value.othername})` : ""
     ]),
-    url: location.href,
+    url: location.href
   })
 }
 </script>

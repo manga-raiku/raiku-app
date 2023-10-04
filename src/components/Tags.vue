@@ -11,7 +11,7 @@
               name: undefined,
               path: `/~${item.route.params!.sourceId}/genre/${
                 item.route.params!.type ?? ''
-              }`,
+              }`
             }
           : item.route
       "
@@ -25,9 +25,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { Anchor } from "raiku-pgs/plugin"
+import type { RouteGenre } from "raiku-pgs/plugin"
 
 defineProps<{
-  items: readonly Anchor[]
+  items: readonly { name: string; route: RouteGenre }[]
 }>()
 </script>

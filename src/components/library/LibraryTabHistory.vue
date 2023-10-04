@@ -1,6 +1,11 @@
 <template>
   <q-card class="transparent min-h-0 shadow-none overflow-y-auto">
-    <q-infinite-scroll v-if="data && !loading" @load="onLoad" :offset="250" class="row">
+    <q-infinite-scroll
+      v-if="data && !loading"
+      @load="onLoad"
+      :offset="250"
+      class="row"
+    >
       <template v-for="(item, index) in data" :key="item.path">
         <div
           v-if="!data[index - 1]?.updated_at.isSame(item.updated_at, 'day')"
@@ -12,7 +17,7 @@
               : item.updated_at.isYesterday()
               ? $t("hom-qua")
               : `${item.updated_at.get("d")} thg ${item.updated_at.get(
-                  "months",
+                  "months"
                 )}`
           }}
         </div>
@@ -24,7 +29,7 @@
             :history="{
               name: item.last_ch_name,
               param: item.last_ch_param,
-              updated_at: item.$updated_at,
+              updated_at: item.$updated_at
             }"
             :source-id="item.source_id"
           />
@@ -63,9 +68,9 @@ const { error, data, loading, refreshAsync } = useRequest(() =>
     res.map((item) => ({
       ...item,
       $updated_at: item.updated_at,
-      updated_at: dayjs(item.updated_at),
-    })),
-  ),
+      updated_at: dayjs(item.updated_at)
+    }))
+  )
 )
 watch(
   () => props.visible,
@@ -74,15 +79,15 @@ watch(
 
     if (visible && !data.value) refreshAsync()
   },
-  { immediate: true },
+  { immediate: true }
 )
 const onLoad = async (index: number, done: (stop?: boolean) => void) => {
   const more = await historyStore.get(data.value?.length).then((res) =>
     res.map((item) => ({
       ...item,
       $updated_at: item.updated_at,
-      updated_at: dayjs(item.updated_at),
-    })),
+      updated_at: dayjs(item.updated_at)
+    }))
   )
 
   data.value?.push(...more)

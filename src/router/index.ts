@@ -6,7 +6,7 @@ import {
   createMemoryHistory,
   createRouter,
   createWebHashHistory,
-  createWebHistory,
+  createWebHistory
 } from "vue-router"
 // import type { RouteRecordRaw } from "vue-router"
 // import { routes as autoRoutes } from "vue-router/auto/routes"
@@ -26,13 +26,13 @@ routes.unshift({
     return `/${(to.params.mainPath as string[]).join("/")}?page=${
       to.params.page
     }`
-  },
+  }
 })
 routes.push({
   path: "/:catchAll(.*)*.html",
   redirect(to) {
     return `/${(to.params.catchAll as string[]).join("/")}`
-  },
+  }
 })
 
 // function recursiveLayouts(route: RouteRecordRaw): RouteRecordRaw {
@@ -72,7 +72,7 @@ export default route(function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.VUE_ROUTER_BASE),
+    history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
   Router.beforeEach(async (to) => {

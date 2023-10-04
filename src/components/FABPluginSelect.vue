@@ -109,12 +109,12 @@ const stateStore = useStateStore()
 const showDialog = ref(false)
 
 const { data, error } = useRequest(() =>
-  pluginStore.getAllPlugins().then((list) => shallowReactive(list)),
+  pluginStore.getAllPlugins().then((list) => shallowReactive(list))
 )
 pluginStore.busses.on("install plugin", (meta) => {
   data.value?.splice(
     data.value.findIndex((item) => item.id === meta.id) >>> 0,
-    1,
+    1
   )
   data.value?.unshift(meta)
 })
@@ -123,6 +123,6 @@ pluginStore.busses.on("remove plugin", (id) => {
 })
 
 const currentPlugin = computedAsync(() =>
-  pluginStore.getPluginOrDefault(props.modelValue),
+  pluginStore.getPluginOrDefault(props.modelValue)
 )
 </script>

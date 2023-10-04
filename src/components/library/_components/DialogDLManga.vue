@@ -143,7 +143,7 @@
                 :disable="mapEp?.has(data.id)"
                 class="bg-gray-400 bg-opacity-10 w-full text-light-200 text-opacity-90 text-weight-regular class=before:text-#fff before:text-opacity-20 px-4"
                 :class="{
-                  'text-blue': epsSelected.has(data),
+                  'text-blue': epsSelected.has(data)
                 }"
                 @click="
                   epsSelected.has(data)
@@ -225,7 +225,7 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
 
   if (meta) {
     return shallowReactive(
-      await getListEpisodes(meta.manga_id).catch(() => []),
+      await getListEpisodes(meta.manga_id).catch(() => [])
     ).map((ref) => ({ ref }))
   }
 })
@@ -242,7 +242,7 @@ const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   return new Map(
     [...(lsEpDL.value ?? []), ...lsEpDD.value]
       .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
-      .map((item) => [item.ref.ep_id, item]),
+      .map((item) => [item.ref.ep_id, item])
   )
 })
 
@@ -255,10 +255,10 @@ async function resume(item: TaskDLEp | TaskDDEp) {
     if (!isTaskDLEp(result))
       lsEpDL.value.splice(
         lsEpDL.value.findIndex(
-          (item) => item.ref.ep_id === result.ref.ep_id,
+          (item) => item.ref.ep_id === result.ref.ep_id
         ) >>> 0,
         1,
-        result,
+        result
       )
   } catch (err) {
     if ((err as Error | undefined)?.message === "user_paused") return
@@ -282,7 +282,7 @@ async function remove() {
     // eslint-disable-next-line camelcase
     listEpRemove.value.map(async (ep_id) => {
       await IDMStore.deleteEpisode(manga_id, ep_id)
-    }),
+    })
   )
 
   const storeTask = IDMStore.queue.get(manga_id)
@@ -322,7 +322,7 @@ watch(showDownloadMore, async (state) => {
   // get port
 
   const loader = $q.loading.show({
-    spinnerColor: "white",
+    spinnerColor: "white"
   })
 
   try {
@@ -333,7 +333,7 @@ watch(showDownloadMore, async (state) => {
     allEp.value = episodes
   } catch (err) {
     $q.notify({
-      message: err + "",
+      message: err + ""
     })
   }
   loader()
@@ -365,16 +365,16 @@ async function download() {
       ep_name: ep.name,
       ep_param: chap,
       pages: await Promise.all(
-        conf.pages.map((item) => plugin["servers:parse"](0, item, conf)),
-      ),
+        conf.pages.map((item) => plugin["servers:parse"](0, item, conf))
+      )
     }).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {
         lsEpDL.value.splice(
           lsEpDL.value.findIndex(
-            (item) => item.ref.ep_id === result.ref.ep_id,
+            (item) => item.ref.ep_id === result.ref.ep_id
           ) >>> 0,
           1,
-          result,
+          result
         )
       }
 

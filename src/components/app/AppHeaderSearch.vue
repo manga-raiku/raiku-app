@@ -3,7 +3,7 @@
     @submit.prevent="
       router.push({
         name: 'search',
-        query: { query },
+        query: { query }
       })
     "
     class="relative md:min-w-[164px] md:w-full max-w-370px"
@@ -30,7 +30,7 @@
           @click.stop.prevent="
             router.push({
               name: 'search',
-              query: { query },
+              query: { query }
             })
           "
           @mousedown.stop.prevent
@@ -128,7 +128,7 @@
 
 <script lang="ts" setup>
 import { useEventListener } from "@vueuse/core"
-import {debounce,  QInput } from "quasar"
+import { debounce, QInput } from "quasar"
 
 // const props = defineProps<{
 //   sourceId: string
@@ -143,14 +143,14 @@ const pluginStore = usePluginStore()
 const allPlugins = computed(() =>
   pluginStore
     .getAllPlugins()
-    .then((plugins) => plugins.map(({ id }) => pluginStore.get(id))),
+    .then((plugins) => plugins.map(({ id }) => pluginStore.get(id)))
 )
 
 const query = ref("")
 const {
   data: searchResult,
   loading: searchLoading,
-  runAsync,
+  runAsync
 } = useRequest(
   () => {
     return allPlugins.value
@@ -162,15 +162,15 @@ const {
               meta,
               promise: computedAsync<
                 Awaited<ReturnType<typeof plugin.searchQuickly>> | undefined
-              >(() => plugin.searchQuickly(query.value, 1)),
+              >(() => plugin.searchQuickly(query.value, 1))
             }
-          }),
-        ),
+          })
+        )
       )
   },
   {
-    manual: true,
-  },
+    manual: true
+  }
 )
 watch(query, debounce(runAsync, 1000))
 

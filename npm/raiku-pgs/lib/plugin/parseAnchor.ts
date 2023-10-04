@@ -4,7 +4,7 @@ import { parsePath } from "./parsePath"
 
 export function parseAnchor(
   anchor: Cheerio<Element>,
-  fnName?: (name: string) => string,
+  fnName?: (name: string) => string
 ): {
   readonly path: string
   readonly name: string

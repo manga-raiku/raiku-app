@@ -50,7 +50,7 @@
           {{
             $t("a-slash-b", [
               item.count_ep,
-              item.count_ep + (IDMStore.queue.get(item.manga_id)?.size ?? 0),
+              item.count_ep + (IDMStore.queue.get(item.manga_id)?.size ?? 0)
             ])
           }}
         </div>
@@ -113,7 +113,7 @@ watch(
   (visible) => {
     if (visible !== false) IDMStore.runLoadInMemory()
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 const editMode = ref(false)

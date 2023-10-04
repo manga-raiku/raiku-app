@@ -4,23 +4,23 @@ export async function cleanup() {
   return Promise.all(
     await Filesystem.readdir({
       path: "",
-      directory: Directory.External,
+      directory: Directory.External
     }).then((res) => {
       return res.files.map(({ name }) =>
         Filesystem.rmdir({
           path: name,
           directory: Directory.External,
-          recursive: true,
-        }),
+          recursive: true
+        })
       )
-    }),
+    })
   )
 }
 
 export function readdir(path: string) {
   return Filesystem.readdir({
     path,
-    directory: Directory.External,
+    directory: Directory.External
   }).then((res) => res.files.map((item) => item.name))
 }
 
@@ -28,7 +28,7 @@ export function readFile(path: string, encoding?: Encoding) {
   return Filesystem.readFile({
     path,
     directory: Directory.External,
-    encoding,
+    encoding
   }).then((res) => res.data)
 }
 

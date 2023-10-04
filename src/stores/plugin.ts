@@ -41,7 +41,7 @@ export const usePluginStore = defineStore("plugin", () => {
   async function getAllPlugins() {
     const files = await Filesystem.readdir({
       path: "plugins",
-      directory: Directory.External,
+      directory: Directory.External
     })
       .then(({ files }) => files)
       .catch(() => [])
@@ -51,11 +51,11 @@ export const usePluginStore = defineStore("plugin", () => {
         const meta = await Filesystem.readFile({
           path: `plugins/${file.name}`,
           directory: Directory.External,
-          encoding: Encoding.UTF8,
+          encoding: Encoding.UTF8
         }).then(({ data }) => JSON.parse(data) as PackageDisk)
 
         return meta
-      }),
+      })
     ).then((res) => res.filter(Boolean) as PackageDisk[])
   }
 
@@ -70,7 +70,7 @@ export const usePluginStore = defineStore("plugin", () => {
         if (res.ok) return res.text()
         // eslint-disable-next-line functional/no-throw-statement
         throw res
-      }),
+      })
     ])
     // run init package.mjs
     const meta = await execPackageMjs(packageMjs)
@@ -79,7 +79,7 @@ export const usePluginStore = defineStore("plugin", () => {
     const installedAt = await Filesystem.readFile({
       path: `plugins/${meta.id}`,
       directory: Directory.External,
-      encoding: Encoding.UTF8,
+      encoding: Encoding.UTF8
     })
       .then((res) => JSON.parse(res.data).installedAt)
       .catch(() => updatedAt)
@@ -90,7 +90,7 @@ export const usePluginStore = defineStore("plugin", () => {
       source,
       installedAt,
       updatedAt,
-      plugin: pluginMjs,
+      plugin: pluginMjs
     })
 
     await Filesystem.writeFile({
@@ -98,12 +98,12 @@ export const usePluginStore = defineStore("plugin", () => {
       directory: Directory.External,
       encoding: Encoding.UTF8,
       data: JSON.stringify(meta),
-      recursive: true,
+      recursive: true
     })
     ;(await pluginsInstalled.get(meta.id))?.plugin.destroy()
     pluginsInstalled.set(meta.id, {
       meta: meta as PackageDisk,
-      plugin,
+      plugin
     })
     busses.emit("install plugin", meta as PackageDisk)
 
@@ -112,7 +112,7 @@ export const usePluginStore = defineStore("plugin", () => {
   async function removePlugin(id: string) {
     await Filesystem.deleteFile({
       path: `plugins/${id}`,
-      directory: Directory.External,
+      directory: Directory.External
       // eslint-disable-next-line @typescript-eslint/no-empty-function
     }).catch(() => {})
     ;(await pluginsInstalled.get(id))?.plugin.destroy()
@@ -123,7 +123,7 @@ export const usePluginStore = defineStore("plugin", () => {
     const meta = await Filesystem.readFile({
       path: `plugins/${id}`,
       directory: Directory.External,
-      encoding: Encoding.UTF8,
+      encoding: Encoding.UTF8
     }).then((res) => JSON.parse(res.data) as PackageDisk)
 
     const metaOnline = await fetch(`${meta.source}/plugin.mjs`)
@@ -158,7 +158,7 @@ export const usePluginStore = defineStore("plugin", () => {
     try {
       await Filesystem.stat({
         path: `plugins/${sourceId}`,
-        directory: Directory.External,
+        directory: Directory.External
       })
 
       return STATUS_PLUGIN_INSTALL.INSTALLED
@@ -178,7 +178,7 @@ export const usePluginStore = defineStore("plugin", () => {
         const meta = await Filesystem.readFile({
           path: `plugins/${sourceId}`,
           directory: Directory.External,
-          encoding: Encoding.UTF8,
+          encoding: Encoding.UTF8
         }).then(({ data }) => JSON.parse(data) as PackageDisk)
         const plugin = createWorkerPlugin(meta.plugin, httpGet, httpPost)
 
@@ -215,7 +215,7 @@ export const usePluginStore = defineStore("plugin", () => {
       pluginMain.value ||
       Filesystem.readdir({
         path: "plugins",
-        directory: Directory.External,
+        directory: Directory.External
       })
         .then((res) => res.files[0].name)
         .catch(() => null)
@@ -254,6 +254,6 @@ export const usePluginStore = defineStore("plugin", () => {
     updatePlugin,
     checkForUpdate,
 
-    getPluginOrDefault,
+    getPluginOrDefault
   }
 })

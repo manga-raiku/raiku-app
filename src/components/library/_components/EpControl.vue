@@ -42,7 +42,7 @@
 <script lang="ts" setup>
 import type {
   MetaEpisodeOnDisk,
-  MetaEpisodeRunning,
+  MetaEpisodeRunning
 } from "src/logic/download-manager"
 
 defineProps<{

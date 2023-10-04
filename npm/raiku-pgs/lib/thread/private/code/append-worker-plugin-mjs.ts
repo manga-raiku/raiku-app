@@ -19,7 +19,7 @@ export type ListenerWorker = {
   get: (type: string) => any
   "servers:has": (
     page: ComicChapter["pages"][0],
-    conf: ComicChapter,
+    conf: ComicChapter
   ) => readonly {
     readonly id: number
     readonly name: string
@@ -27,7 +27,7 @@ export type ListenerWorker = {
   "servers:parse": (
     id: number,
     page: ComicChapter["pages"][0],
-    conf: ComicChapter,
+    conf: ComicChapter
   ) => string
 }
 
@@ -50,16 +50,16 @@ if (!(self as unknown as any).__DEFINE_API__) {
     () => {
       // eslint-disable-next-line functional/no-throw-statement
       throw new Error(
-        'The code may not contain "defineApi" or something has broken this data structure.',
+        'The code may not contain "defineApi" or something has broken this data structure.'
       )
     },
-    { debug: !!process.env.DEV },
+    { debug: !!process.env.DEV }
   )
 } else {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const api = new ((self as unknown as any).__DEFINE_API__ as typeof API)(
     get,
-    post,
+    post
   )
 
   listen<ListenerWorker, "api">(
@@ -69,7 +69,7 @@ if (!(self as unknown as any).__DEFINE_API__) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (api as unknown as any)[type].apply(api, args)
     },
-    { debug: !!process.env.DEV },
+    { debug: !!process.env.DEV }
   )
   listen<ListenerWorker, "get">(self, "get", (type) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -77,12 +77,12 @@ if (!(self as unknown as any).__DEFINE_API__) {
   })
   listen<ListenerWorker, "servers:has">(self, "servers:has", (page, conf) => {
     return api.Servers.filter((server) => server.has(page, conf)).map(
-      ({ name }, id) => ({ id, name }),
+      ({ name }, id) => ({ id, name })
     )
   })
   listen<ListenerWorker, "servers:parse">(
     self,
     "servers:parse",
-    (id: number, page, conf) => api.Servers[id].parse(page, conf),
+    (id: number, page, conf) => api.Servers[id].parse(page, conf)
   )
 }

@@ -11,7 +11,7 @@
         class="h-32px my-auto"
         :class="{
           'rotate-90': scrollingMode,
-          'rotate-180': rightToLeft,
+          'rotate-180': rightToLeft
         }"
       />
 
@@ -47,7 +47,7 @@
         {{
           $t("page-p-per", [
             pagesLength ?? "_",
-            Math.round(((absCurrentPage + 1) / sizePage) * 100),
+            Math.round(((absCurrentPage + 1) / sizePage) * 100)
           ])
         }}
       </div>

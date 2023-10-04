@@ -8,11 +8,11 @@ export async function execPackageMjs(code: string) {
     // setup port
     const codeWorker = `${code};${appendWorkerExecPackageMjs.replace(
       /process\.env\.DEV/g,
-      process.env.DEV + "",
+      process.env.DEV + ""
     )}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(
-      new Blob([codeWorker], { type: "text/javascript" }),
+      new Blob([codeWorker], { type: "text/javascript" })
     )
     const worker = new Worker(url, __DEV__ ? { type: "module" } : undefined)
 
@@ -23,7 +23,7 @@ export async function execPackageMjs(code: string) {
             data: string | Package
           }
         | "load"
-      >,
+      >
     ) => {
       if (event.data === "load") {
         // eslint-disable-next-line n/no-unsupported-features/node-builtins

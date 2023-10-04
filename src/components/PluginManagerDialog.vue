@@ -79,13 +79,15 @@
                   <i-ic-outline-update
                     class="mx-auto icon"
                     :class="{
-                      rotating: updatingMap.has(item.id),
+                      rotating: updatingMap.has(item.id)
                     }"
                   />
                   <div class="text-0.8em">
                     Cập nhật v{{
-                      (updateMap.get(item.id)?.status.value?.data as unknown as any)
-                        ?.version
+                      (
+                        updateMap.get(item.id)?.status.value
+                          ?.data as unknown as any
+                      )?.version
                     }}
                   </div>
                 </q-btn>
@@ -126,12 +128,12 @@ const pluginStore = usePluginStore()
 const stateStore = useStateStore()
 
 const { data, error } = useRequest(() =>
-  pluginStore.getAllPlugins().then((list) => shallowReactive(list)),
+  pluginStore.getAllPlugins().then((list) => shallowReactive(list))
 )
 pluginStore.busses.on("install plugin", (meta) => {
   data.value?.splice(
     data.value.findIndex((item) => item.id === meta.id) >>> 0,
-    1,
+    1
   )
   data.value?.unshift(meta)
 })
@@ -153,7 +155,7 @@ const updateMap = computed(() => {
           data: Package | Error
         } | null>
       }
-    >(),
+    >()
   )
   data.value?.forEach(({ id }) => {
     const status = shallowRef<{
@@ -170,14 +172,14 @@ const updateMap = computed(() => {
         if (meta)
           status.value = {
             ok: true,
-            data: meta,
+            data: meta
           }
         else status.value = null
       })
       .catch((err) => {
         status.value = {
           ok: false,
-          data: err as Error,
+          data: err as Error
         }
       })
 

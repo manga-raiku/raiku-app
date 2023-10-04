@@ -4,7 +4,7 @@ import {
   presetAttributify,
   presetTypography,
   presetUno,
-  presetWind,
+  presetWind
 } from "unocss"
 
 export default defineConfig({
@@ -13,14 +13,14 @@ export default defineConfig({
     presetUno(),
     presetAttributify({
       prefix: "un-",
-      prefixedOnly: true, // <--
+      prefixedOnly: true // <--
     }),
-    presetTypography(),
+    presetTypography()
   ],
   rules: [
     [/^size-\[?([^[\]]+)\]?/, ([, value]) => ({ width: value, height: value })],
     [/^font-family-(.+)/, ([, value]) => ({ "font-family": value })],
-    [/^font-size-(.+)/, ([, value]) => ({ "font-size": value })],
+    [/^font-size-(.+)/, ([, value]) => ({ "font-size": value })]
   ],
   transformers: [transformerDirectives()],
   theme: {
@@ -28,12 +28,12 @@ export default defineConfig({
       sm: "600px",
       md: "1024px",
       lg: "1440px",
-      xl: "1920px",
-    },
+      xl: "1920px"
+    }
   },
   safelist: [
     ..."overflow-y-scroll flex-shrink-1 mt-2 text-#eee text-opacity-70".split(
-      " ",
+      " "
     ),
     "text-weight-medium",
     "max-w-60%",
@@ -43,6 +43,6 @@ export default defineConfig({
     "text-blue-400",
     "bg-blue-400",
     "bg-gray-700",
-    "rounded-30px",
-  ],
+    "rounded-30px"
+  ]
 })

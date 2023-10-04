@@ -44,7 +44,7 @@
             class="px-1 py-1"
             :class="{
               col: item.select.length < 4,
-              'col-4 col-sm-3 col-md-4': item.select.length >= 4,
+              'col-4 col-sm-3 col-md-4': item.select.length >= 4
             }"
           >
             <q-btn
@@ -57,17 +57,14 @@
                 ...route,
                 query: {
                   ...route.query,
-                  page: undefined,
+                  page: undefined
                 },
                 name: undefined,
-                path,
+                path
               }"
               class="py-2 bg-[#292929] text-weight-normal w-full ease-bg ellipsis"
               :class="{
-                '!text-main-3': pathEqual(
-                  router.resolve(path).path,
-                  route.path,
-                ),
+                '!text-main-3': pathEqual(router.resolve(path).path, route.path)
               }"
             >
               <div class="ellipsis">{{ name }}</div>
@@ -81,7 +78,7 @@
             class="px-1 py-1"
             :class="{
               col: item.items.length < 4,
-              'col-4 col-sm-3 col-md-4': item.items.length >= 4,
+              'col-4 col-sm-3 col-md-4': item.items.length >= 4
             }"
           >
             <q-btn
@@ -94,12 +91,12 @@
                 ...route,
                 query: {
                   ...route.query,
-                  [item.key]: value,
-                },
+                  [item.key]: value
+                }
               }"
               class="py-2 bg-[#292929] text-weight-normal w-full ease-bg"
               :class="{
-                '!text-main-3': route.query[item.key] === value,
+                '!text-main-3': route.query[item.key] === value
               }"
             >
               <div class="ellipsis">{{ name }}</div>
@@ -141,7 +138,7 @@
               class="px-1 py-1"
               :class="{
                 col: item.select.length < 4,
-                'col-4 col-sm-3 col-md-4': item.select.length >= 4,
+                'col-4 col-sm-3 col-md-4': item.select.length >= 4
               }"
             >
               <q-btn
@@ -152,17 +149,14 @@
                   ...route,
                   query: {
                     ...route.query,
-                    page: undefined,
+                    page: undefined
                   },
                   name: undefined,
-                  path,
+                  path
                 }"
                 class="py-2 bg-[#292929] text-weight-normal w-full ease-bg ellipsis"
                 :class="{
-                  '!text-main': pathEqual(
-                    router.resolve(path).path,
-                    route.path,
-                  ),
+                  '!text-main': pathEqual(router.resolve(path).path, route.path)
                 }"
               >
                 <div class="ellipsis">{{ name }}</div>
@@ -176,7 +170,7 @@
               class="px-1 py-1"
               :class="{
                 col: item.items.length < 4,
-                'col-4 col-sm-3 col-md-4': item.items.length >= 4,
+                'col-4 col-sm-3 col-md-4': item.items.length >= 4
               }"
             >
               <q-btn
@@ -187,12 +181,12 @@
                   ...route,
                   query: {
                     ...route.query,
-                    [item.key]: value,
-                  },
+                    [item.key]: value
+                  }
                 }"
                 class="py-2 bg-[#292929] text-weight-normal w-full ease-bg"
                 :class="{
-                  '!text-main': route.query[item.key] === value,
+                  '!text-main': route.query[item.key] === value
                 }"
               >
                 <div class="ellipsis">{{ name }}</div>

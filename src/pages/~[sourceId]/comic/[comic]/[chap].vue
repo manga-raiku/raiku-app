@@ -78,7 +78,7 @@ meta:
     :style-fn="
       (offset, height) => {
         return {
-          height: height + 'px',
+          height: height + 'px'
         }
       }
     "
@@ -264,11 +264,11 @@ meta:
             self: 'bottom middle',
             offset: [0, 10],
             maxWidth: '560px',
-            maxHeight: '80%',
+            maxHeight: '80%'
           }"
           :dialog-props="{
             position: 'bottom',
-            fullWidth: true,
+            fullWidth: true
           }"
           class="rounded-xl overflow-visible flex column flex-nowrap <md:children:!px-0"
           ref="menuEpisodesRef"
@@ -296,7 +296,7 @@ meta:
                   manga_name: data.name,
                   manga_image: data.image,
                   manga_param: comic,
-                  source_id: sourceId,
+                  source_id: sourceId
                 }"
                 :source-id="sourceId"
                 focus-tab-active
@@ -333,11 +333,11 @@ meta:
             self: 'bottom middle',
             offset: [0, 10],
             maxWidth: '560px',
-            maxHeight: '80%',
+            maxHeight: '80%'
           }"
           :dialog-props="{
             position: 'bottom',
-            fullWidth: true,
+            fullWidth: true
           }"
           class="rounded-xl overflow-visible flex column flex-nowrap <md:children:!px-0"
         >
@@ -474,11 +474,11 @@ meta:
             self: 'bottom middle',
             offset: [0, 10],
             maxWidth: '560px',
-            maxHeight: '80%',
+            maxHeight: '80%'
           }"
           :dialog-props="{
             position: 'bottom',
-            fullWidth: true,
+            fullWidth: true
           }"
           class="rounded-xl overflow-visible flex column flex-nowrap <md:children:!px-0"
         >
@@ -520,9 +520,9 @@ meta:
                 manga_id: data.manga_id,
                 manga_name: data.name,
                 manga_param: comic,
-                source_id: sourceId,
+                source_id: sourceId
               },
-              (isFollow = !isFollow),
+              (isFollow = !isFollow)
             )
         "
       >
@@ -586,7 +586,7 @@ const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 const pluginStore = usePluginStore()
 
 const api = computed(() =>
-  pluginStore.get(props.sourceId).then(({ plugin }) => plugin),
+  pluginStore.get(props.sourceId).then(({ plugin }) => plugin)
 )
 
 const showSearchMB = ref(false)
@@ -595,9 +595,9 @@ const readerVerticalRef = ref<InstanceType<typeof ReaderVertical>>()
 const GetWithCache = useWithCache(
   () =>
     api.value.then((res) =>
-      res.getComicChapter(props.comic, props.chap, false),
+      res.getComicChapter(props.comic, props.chap, false)
     ),
-  computed(() => `${packageName}:///manga/${props.comic + "/" + props.chap}`),
+  computed(() => `${packageName}:///manga/${props.comic + "/" + props.chap}`)
 )
 console.log(api.value, props)
 // let disableReactiveParams = false
@@ -609,7 +609,7 @@ const { data, runAsync, error } = useRequest(GetWithCache, {
     await runAsync()
     currentPage.value = 0
     readerVerticalRef.value?.reset()
-  },
+  }
 })
 watch(error, (error) => {
   if (error?.message === "not_found")
@@ -617,10 +617,10 @@ watch(error, (error) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       name: "not_found" as any,
       params: {
-        catchAll: route.path.split("/").slice(1),
+        catchAll: route.path.split("/").slice(1)
       },
       query: route.query,
-      hash: route.hash,
+      hash: route.hash
     })
 })
 
@@ -628,7 +628,7 @@ const title = () =>
   data.value
     ? i18n.t("name-chuong-ep-name", [
         data.value.name,
-        data.value.chapters[0].name,
+        data.value.chapters[0].name
       ])
     : ""
 const description = title
@@ -636,7 +636,7 @@ useSeoMeta({
   title,
   description,
   ogTitle: title,
-  ogDescription: description,
+  ogDescription: description
 })
 
 const statusEPDL = computedAsync<TaskDDEp | TaskDLEp | null | undefined>(
@@ -648,7 +648,7 @@ const statusEPDL = computedAsync<TaskDDEp | TaskDLEp | null | undefined>(
 
     const onDisk = await getEpisode(
       data.value.manga_id,
-      data.value.ep_id,
+      data.value.ep_id
     ).catch(() => null)
 
     if (onDisk) return { ref: onDisk }
@@ -656,16 +656,16 @@ const statusEPDL = computedAsync<TaskDDEp | TaskDLEp | null | undefined>(
   },
   undefined,
   {
-    onError: console.error.bind(console),
-  },
+    onError: console.error.bind(console)
+  }
 )
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   if (!data.value) return
 
   return shallowReactive(
     (await getListEpisodes(data.value.manga_id).catch(() => [])).map((ref) => ({
-      ref,
-    })),
+      ref
+    }))
   )
 })
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
@@ -680,7 +680,7 @@ const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   return new Map(
     [...(lsEpDL.value ?? []), ...lsEpDD.value]
       .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
-      .map((item) => [item.ref.ep_id, item]),
+      .map((item) => [item.ref.ep_id, item])
   )
 })
 
@@ -693,14 +693,14 @@ async function downloadEp() {
       manga_name: data.value.name,
       manga_image: data.value.image,
       manga_param: props.comic,
-      source_id: props.sourceId,
+      source_id: props.sourceId
     },
     {
       ep_param: props.chap,
       ep_id: data.value.ep_id,
       ep_name: currentEpisode.value.value.name,
-      pages: await Promise.all(pages.value.slice(0)),
-    },
+      pages: await Promise.all(pages.value.slice(0))
+    }
   ).catch((err) => {
     if (err?.message === "user_paused") return
     // eslint-disable-next-line functional/no-throw-statement
@@ -712,7 +712,7 @@ async function downloadEp() {
     lsEpDL.value?.splice(
       lsEpDL.value.findIndex((item) => item.ref.ep_id === meta.ref.ep_id) >>> 0,
       1,
-      meta,
+      meta
     )
     lsEpDL.value = [...(lsEpDL.value || [])]
   }
@@ -720,7 +720,7 @@ async function downloadEp() {
 async function deleteEp(epId: ID) {
   lsEpDL.value?.splice(
     lsEpDL.value.findIndex((item) => item.ref.ep_id === epId) >>> 0,
-    1,
+    1
   )
   lsEpDL.value = [...(lsEpDL.value || [])]
 }
@@ -751,14 +751,14 @@ const serversReady = computedAsync(
         data.value
           ? res.plugin["servers:has"](
               toRaw(data.value.pages[0]),
-              toRaw(data.value),
+              toRaw(data.value)
             )
-          : undefined,
+          : undefined
       ),
   undefined,
   {
-    onError: console.error.bind(console),
-  },
+    onError: console.error.bind(console)
+  }
 )
 // eslint-disable-next-line no-void
 watch(serversReady, () => void (server.value = 0))
@@ -769,9 +769,9 @@ const pageGetter = computed(() =>
           server.value,
           toRaw(page),
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          toRaw(data.value!),
+          toRaw(data.value!)
         )
-    : undefined,
+    : undefined
 )
 const pages = computedAsync(
   () =>
@@ -779,12 +779,12 @@ const pages = computedAsync(
       // // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       // (item) =>
       //   item.$l ? item : pageGetter.value?.(item, data.value!) ?? item.src,
-      (item) => pageGetter.value?.(item) ?? item.src,
+      (item) => pageGetter.value?.(item) ?? item.src
     ) as Promise<string>[],
   undefined,
   {
-    onError: console.error.bind(console),
-  },
+    onError: console.error.bind(console)
+  }
 )
 console.log(pages)
 const singlePage = ref(false)
@@ -792,7 +792,7 @@ const rightToLeft = ref(false)
 const scrollingMode = ref(true)
 
 const sizePage = computed(
-  () => readerHorizontalRef.value?.sizePage ?? pages.value?.length ?? 0,
+  () => readerHorizontalRef.value?.sizePage ?? pages.value?.length ?? 0
 )
 const minPage = computed(() => (rightToLeft.value ? -(sizePage.value - 1) : 0))
 const maxPage = computed(() => (rightToLeft.value ? 0 : sizePage.value - 1))
@@ -939,12 +939,12 @@ watch(
         manga_id: data.manga_id,
         manga_name: data.name,
         manga_param: comic,
-        source_id: sourceId,
+        source_id: sourceId
       })
       timeoutUpsertHistory = null
     }, 1_000)
   },
-  { immediate: true },
+  { immediate: true }
 )
 </script>
 

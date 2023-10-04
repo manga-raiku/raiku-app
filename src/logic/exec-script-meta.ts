@@ -7,7 +7,7 @@ const map: Record<string, ($q: QVueGlobals) => boolean> = {
   "isNative or ($lt.md and isPWA)": ($q) =>
     import.meta.env.MODE === "capacitor" ||
     ($q.screen.lt.md && import.meta.env.MODE === "pwa"),
-  "$lt.md": ($q) => $q.screen.lt.md,
+  "$lt.md": ($q) => $q.screen.lt.md
 }
 
 export function execScriptMeta($q: QVueGlobals, src?: string | boolean) {

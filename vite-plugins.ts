@@ -18,7 +18,7 @@ import vitePluginI18nLangs from "./modules/vite-plugin-i18n-langs"
 
 export const vitePlugins: [
   (conf: object | undefined) => Plugin | Plugin[],
-  object | undefined,
+  object | undefined
 ][] = [
   // [VueRouter, {}],
   [vitePluginI18nLangs, {}],
@@ -26,8 +26,8 @@ export const vitePlugins: [
     Pages,
     {
       routeStyle: "nuxt3",
-      importMode: () => "async",
-    },
+      importMode: () => "async"
+    }
   ],
   [ReWriteAll, {}],
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,14 +35,14 @@ export const vitePlugins: [
   [
     Layouts,
     {
-      defaultLayout: "MainLayout",
-    },
+      defaultLayout: "MainLayout"
+    }
   ],
   [
     UnoCSS,
     {
-      configFile: "./uno.config.ts",
-    },
+      configFile: "./uno.config.ts"
+    }
   ],
   [
     AutoImport,
@@ -63,10 +63,10 @@ export const vitePlugins: [
           "@tachibana-shin/capacitor-filesystem": [
             "Filesystem",
             "Directory",
-            "Encoding",
-          ],
+            "Encoding"
+          ]
         },
-        unheadVueComposablesImports,
+        unheadVueComposablesImports
       ],
       dirs: [
         "src/logic/**/*.ts",
@@ -74,14 +74,14 @@ export const vitePlugins: [
         "src/stores/**/*.ts",
         "src/composables/*.ts",
         "src/boot/*.ts",
-        "src/*.ts",
+        "src/*.ts"
       ],
       eslintrc: {
         enabled: true,
         filepath: "./.eslintrc-auto-import.json",
-        globalsPropValue: true,
-      },
-    },
+        globalsPropValue: true
+      }
+    }
   ],
   [
     Components,
@@ -92,13 +92,13 @@ export const vitePlugins: [
           if (componentName.toLowerCase() === "icon")
             return {
               name: componentName,
-              from: "@iconify/vue",
+              from: "@iconify/vue"
             }
-        },
-      ],
-    },
+        }
+      ]
+    }
   ],
   [DefineOptions, {}],
   [vitePluginBuildRaw, {}],
-  [Icons, {}],
+  [Icons, {}]
 ]

@@ -44,63 +44,63 @@ export type Icon = FunctionalComponent<SVGAttributes, {}>
 
 const iconHome = [solarHomeSmileBroken, solarHomeSmileBoldDuotone] as [
   Icon,
-  Icon,
+  Icon
 ]
 const iconSearch = [iconamoonSearch, iconamoonSearchDuotone] as [Icon, Icon]
 const iconBox = [
   solarBoxMinimalisticBroken,
-  solarBoxMinimalisticBoldDuotone,
+  solarBoxMinimalisticBoldDuotone
 ] as [Icon, Icon]
 const iconLibrary = [solarLibraryLineDuotone, solarLibraryBoldDuotone] as [
   Icon,
-  Icon,
+  Icon
 ]
 const iconUser = [solarUserLineDuotone, solarUserRoundedBoldDuotone] as [
   Icon,
-  Icon,
+  Icon
 ]
 const iconFire = [solarFireLineDuotone, solarFireBoldDuotone] as [Icon, Icon]
 const iconHistory = [solarHistoryLineDuotone, solarHistoryBoldDuotone] as [
   Icon,
-  Icon,
+  Icon
 ]
 const iconFavorite = [
   solarFolderFavouriteStarLineDuotone,
-  solarFolderFavouriteStarBoldDuotone,
+  solarFolderFavouriteStarBoldDuotone
 ] as [Icon, Icon]
 const iconDownload = [
   solarDownloadMinimalisticLineDuotone,
-  solarDownloadMinimalisticBoldDuotone,
+  solarDownloadMinimalisticBoldDuotone
 ] as [Icon, Icon]
 const iconDocument = [
   solarDocumentTextLineDuotone,
-  solarDocumentTextBoldDuotone,
+  solarDocumentTextBoldDuotone
 ] as [Icon, Icon]
 const iconUserHeart = [
   solarUserHeartLineDuotone,
-  solarUserHeartBoldDuotone,
+  solarUserHeartBoldDuotone
 ] as [Icon, Icon]
 const iconSettings = [solarSettingsLineDuotone, solarSettingsBoldDuotone] as [
   Icon,
-  Icon,
+  Icon
 ]
 const iconInfoCircle = [
   solarInfoCircleLineDuotone,
-  solarInfoCircleBoldDuotone,
+  solarInfoCircleBoldDuotone
 ] as [Icon, Icon]
 const iconCodeBold = [solarCodeBoldDuotone, solarCodeBoldDuotone] as [
   Icon,
-  Icon,
+  Icon
 ]
 const iconBug = [solarBugLineDuotone, solarBugBoldDuotone] as [Icon, Icon]
 const iconNotebook = [
   solarNotebookBookmarkLineDuotone,
-  solarNotebookBookmarkBoldDuotone,
+  solarNotebookBookmarkBoldDuotone
 ] as [Icon, Icon]
 const iconTranslate = [phTranslateDuotone, phTranslateDuotone] as [Icon, Icon]
 const iconUserCircle = [
   solarUserCircleLineDuotone,
-  solarUserCircleBoldDuotone,
+  solarUserCircleBoldDuotone
 ] as [Icon, Icon]
 const iconMingcute = [mingcutePlugin2Line, mingcutePlugin2Line] as [Icon, Icon]
 
@@ -123,7 +123,7 @@ export const Icons: Record<string, [Icon, Icon]> = {
   notebook: iconNotebook,
   translate: iconTranslate,
   user_circle: iconUserCircle,
-  mingcute: iconMingcute,
+  mingcute: iconMingcute
 }
 
 export enum STATUS_PLUGIN_INSTALL {
@@ -131,5 +131,5 @@ export enum STATUS_PLUGIN_INSTALL {
   ADDED_BUT_NEED_DOWNLOAD = "plugin_added_but_need_download",
   INSTALLED = "plugin_installed",
   NOT_FOUND = "plugin_not_found",
-  NOT_FOUND2 = "plugin_not_found2",
+  NOT_FOUND2 = "plugin_not_found2"
 }

@@ -22,7 +22,7 @@
             (v) => !!v || 'Vui lòng nhập địa chỉ plugin',
             (v) =>
               v.match(/^https?:\/\/[^.]+\.[^.]{2,}/) ||
-              'Địa chỉ plugin không hợp lệ',
+              'Địa chỉ plugin không hợp lệ'
           ]"
         />
       </q-card-section>
@@ -67,7 +67,7 @@ async function addPlugin() {
     const { name } = await pluginStore.installPlugin(plugin)
 
     $q.notify({
-      message: `Đã thêm plugin ${name}`,
+      message: `Đã thêm plugin ${name}`
     })
     emit("installed")
   } catch (err) {
@@ -85,7 +85,7 @@ async function addPlugin() {
     }
 
     $q.notify({
-      message,
+      message
     })
   } finally {
     addingPlugin.value = false

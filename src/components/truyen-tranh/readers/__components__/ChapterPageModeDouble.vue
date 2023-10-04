@@ -2,14 +2,14 @@
   <div
     class="w-1/2 h-full display-inline-block overflow-hidden relative"
     :class="{
-      'w-full': singlePage,
+      'w-full': singlePage
     }"
   >
     <PageView
       class="object-scale-down h-full"
       loader-absolute
       :class="{
-        'ml-auto': prime,
+        'ml-auto': prime
       }"
       :src="src"
       @load="(image) => emit('load', image)"

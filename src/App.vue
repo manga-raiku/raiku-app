@@ -13,7 +13,7 @@ const i18n = useI18n()
 
 useHead({
   titleTemplate: (title) =>
-    title && title !== "Raiku" ? `${title} - Raiku` : "Raiku",
+    title && title !== "Raiku" ? `${title} - Raiku` : "Raiku"
 })
 
 const title = "Raiku"
@@ -24,7 +24,7 @@ useSeoMeta({
   ogTitle: title,
   ogDescription: description,
   ogImage: "/favicon.png",
-  ogSiteName: "Raiku",
+  ogSiteName: "Raiku"
 })
 
 // if (import.meta.env.DEV) eruda2.init()

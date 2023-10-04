@@ -22,12 +22,12 @@ type AsyncRecord<T extends API> = {
 interface APIPorted extends Omit<AsyncRecord<API>, "Servers"> {
   "servers:has": (
     page: ComicChapter["pages"][0],
-    conf: ComicChapter,
+    conf: ComicChapter
   ) => Readonly<{ id: number; name: string }[]>
   "servers:parse": (
     id: number,
     page: ComicChapter["pages"][0],
-    conf: ComicChapter,
+    conf: ComicChapter
   ) => string
   destroy: () => void
 }
@@ -40,7 +40,7 @@ class WorkerSession {
   constructor(
     private readonly code: string,
     private readonly get: FetchGet<GetOption["responseType"]>,
-    private readonly post: FetchPost<PostOption["responseType"]>,
+    private readonly post: FetchPost<PostOption["responseType"]>
   ) {}
 
   public createWorker() {
@@ -51,11 +51,11 @@ class WorkerSession {
     // setup port
     const codeWorker = `${this.code};${appendWorkerPluginMjs.replace(
       /process\.env\.DEV/g,
-      process.env.DEV + "",
+      process.env.DEV + ""
     )}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(
-      new Blob([codeWorker], { type: "text/javascript" }),
+      new Blob([codeWorker], { type: "text/javascript" })
     )
 
     this.worker = new Worker(url, __DEV__ ? { type: "module" } : undefined)
@@ -81,13 +81,13 @@ class WorkerSession {
           // transfer
           return {
             return: response,
-            transfer: [response.data],
+            transfer: [response.data]
           }
         }
 
         return response
       },
-      { debug: !!process.env.DEV },
+      { debug: !!process.env.DEV }
     )
     listen<ListenerThread, "post">(
       this.worker,
@@ -99,13 +99,13 @@ class WorkerSession {
           // transfer
           return {
             return: response,
-            transfer: [response.data],
+            transfer: [response.data]
           }
         }
 
         return response
       },
-      { debug: !!process.env.DEV },
+      { debug: !!process.env.DEV }
     )
 
     return this.worker
@@ -136,7 +136,7 @@ class WorkerSession {
 export function createWorkerPlugin(
   code: string,
   get: FetchGet<GetOption["responseType"]>,
-  post: FetchPost<PostOption["responseType"]>,
+  post: FetchPost<PostOption["responseType"]>
 ): APIPorted {
   const workerSession = new WorkerSession(code, get, post)
 
@@ -153,14 +153,14 @@ export function createWorkerPlugin(
         return (
           id: number,
           page: ComicChapter["pages"][0],
-          conf: ComicChapter,
+          conf: ComicChapter
         ) =>
           put<ListenerWorker, "servers:parse">(
             worker,
             "servers:parse",
             id,
             page,
-            conf,
+            conf
           )
       }
       if (p === "catch" || p === "then" || p === "finally") return undefined
@@ -169,7 +169,7 @@ export function createWorkerPlugin(
       // eslint-disable-next-line functional/functional-parameters, @typescript-eslint/no-explicit-any
       return (...args: any[]) =>
         put<ListenerWorker, "api">(worker, "api", p.toString(), args)
-    },
+    }
   })
 
   return proxy

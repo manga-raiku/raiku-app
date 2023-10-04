@@ -39,7 +39,7 @@
 import { useIntersectionObserver } from "@vueuse/core"
 
 defineOptions({
-  inheritAttrs: true,
+  inheritAttrs: true
 })
 
 const props = defineProps<{
@@ -50,7 +50,7 @@ const emit = defineEmits<{
   (
     name: "load",
     img: HTMLImageElement,
-    intersection: IntersectionObserverEntry,
+    intersection: IntersectionObserverEntry
   ): void
   (name: "change:visible", value: boolean): void
 }>()
@@ -79,8 +79,8 @@ useIntersectionObserver(
     intersection.value = inter
   },
   {
-    threshold: 0,
-  },
+    threshold: 0
+  }
 )
 
 watch(
@@ -89,7 +89,7 @@ watch(
     emit("change:visible", visible)
     if (visible) startLoad(props.src)
   },
-  { immediate: true },
+  { immediate: true }
 )
 defineExpose({ intersection, imgRef })
 

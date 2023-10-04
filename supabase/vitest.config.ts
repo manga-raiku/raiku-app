@@ -7,9 +7,7 @@ export default defineConfig({
     globals: true,
     setupFiles: "test/setup-file.ts",
     testTimeout: 60_000,
-    include: [
-      "test/__tests__/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}",
-    ],
+    include: ["test/__tests__/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"]
   },
-  plugins: [tsconfigPaths()],
+  plugins: [tsconfigPaths()]
 })

@@ -51,7 +51,7 @@ export interface MetaEpisodeRunning extends MetaEpisodeOnDisk {
 async function downloadFile(
   src: string,
   path: string,
-  downloading: Ref<boolean>,
+  downloading: Ref<boolean>
 ): Promise<void> {
   const buffer = await fetch(src).then((res) => res.arrayBuffer())
 
@@ -60,7 +60,7 @@ async function downloadFile(
     path,
     data: uint8ToBase64(new Uint8Array(buffer)),
     directory: Directory.External,
-    recursive: true,
+    recursive: true
   })
 }
 
@@ -69,7 +69,7 @@ async function downloadFiles(
   hashIDManga: string,
   hashIDEp: string,
   downloading: Ref<boolean>,
-  onprogress: (cur: number, total: number, path: string) => void,
+  onprogress: (cur: number, total: number, path: string) => void
 ): Promise<void> {
   await someLimit(
     sources,
@@ -86,7 +86,7 @@ async function downloadFiles(
 
       return false
     },
-    5,
+    5
   )
 }
 
@@ -101,8 +101,8 @@ async function saveMetaManga(metaManga: MetaManga): Promise<MetaMangaOnDisk> {
       await Filesystem.readFile({
         path,
         directory: Directory.External,
-        encoding: Encoding.UTF8,
-      }).then((res) => res.data),
+        encoding: Encoding.UTF8
+      }).then((res) => res.data)
     )
 
     if (val) return val as MetaMangaOnDisk
@@ -110,19 +110,19 @@ async function saveMetaManga(metaManga: MetaManga): Promise<MetaMangaOnDisk> {
 
   const pathPoster = `${DIR_POSTER}/${hash_id}`
   await downloadFile(metaManga.manga_image, pathPoster, {
-    value: true,
+    value: true
   } as Ref<boolean>)
 
   const metaOnDisk: MetaMangaOnDisk = {
     ...metaManga,
     manga_image: `${PROTOCOL_OFFLINE}/${pathPoster}`,
-    start_download_at: Date.now(),
+    start_download_at: Date.now()
   }
   await Filesystem.writeFile({
     path,
     directory: Directory.External,
     encoding: Encoding.UTF8,
-    data: JSON.stringify(metaOnDisk),
+    data: JSON.stringify(metaOnDisk)
   })
 
   return metaOnDisk
@@ -130,7 +130,7 @@ async function saveMetaManga(metaManga: MetaManga): Promise<MetaMangaOnDisk> {
 
 export function createTaskDownloadEpisode(
   metaManga: MetaManga,
-  metaEp: MetaEpisode,
+  metaEp: MetaEpisode
 ): {
   ref: MetaEpisodeRunning
   startSaveMetaManga: () => Promise<MetaMangaOnDisk>
@@ -147,7 +147,7 @@ export function createTaskDownloadEpisode(
     start_download_at: Date.now(),
     downloaded: 0,
     ...metaEp,
-    pages: metaEp.pages.slice(0),
+    pages: metaEp.pages.slice(0)
   })
 
   const startSaveMetaManga = () => saveMetaManga(metaManga)
@@ -165,7 +165,7 @@ export function createTaskDownloadEpisode(
             path: `${DIR_META}/${hashIDManga}/${hashIDEp}.mod`,
             data: JSON.stringify(metaCloned),
             directory: Directory.External,
-            encoding: Encoding.UTF8,
+            encoding: Encoding.UTF8
           })
           resolve(metaCloned)
         } catch (err) {
@@ -189,13 +189,13 @@ export function createTaskDownloadEpisode(
     const metaInDisk = await Filesystem.readFile({
       path: `${DIR_META}/${hashIDManga}/${hashIDEp}.mod`,
       directory: Directory.External,
-      encoding: Encoding.UTF8,
+      encoding: Encoding.UTF8
     })
       .then(
         (res) =>
           JSON.parse(res.data) as MetaEpisodeOnDisk & {
             downloaded: number
-          },
+          }
       )
       .catch(() => undefined)
 
@@ -214,7 +214,7 @@ export function createTaskDownloadEpisode(
         refValue.pages[cur] = path
         refValue.downloaded++
         saveMeta(refValue)
-      },
+      }
     ).catch(async (err) => {
       await saveMeta(refValue)
       downloading.value = false
@@ -239,7 +239,7 @@ export async function getListManga() {
     // return
     const { files } = await Filesystem.readdir({
       path: DIR_META,
-      directory: Directory.External,
+      directory: Directory.External
     })
 
     const list = (
@@ -250,10 +250,10 @@ export async function getListManga() {
             return Filesystem.readFile({
               path: `${DIR_META}/${item.name}`,
               directory: Directory.External,
-              encoding: Encoding.UTF8,
+              encoding: Encoding.UTF8
             }).then((res) => JSON.parse(res.data) as MetaMangaOnDisk)
           // .catch(() => null)
-        }),
+        })
       )
     ).filter(Boolean) as MetaMangaOnDisk[]
 
@@ -274,7 +274,7 @@ export async function getCountEpisodes(manga_id: ID) {
   try {
     const { files } = await Filesystem.readdir({
       path: `${DIR_META}/${hashIDManga}`,
-      directory: Directory.External,
+      directory: Directory.External
     })
 
     return files.length
@@ -291,7 +291,7 @@ export async function getListEpisodes(manga_id: ID) {
 
   const { files } = await Filesystem.readdir({
     path: `${DIR_META}/${hashIDManga}`,
-    directory: Directory.External,
+    directory: Directory.External
   })
 
   return Promise.all(
@@ -301,9 +301,9 @@ export async function getListEpisodes(manga_id: ID) {
         Filesystem.readFile({
           path: `${DIR_META}/${hashIDManga}/${item.name}`,
           directory: Directory.External,
-          encoding: Encoding.UTF8,
-        }).then((res) => JSON.parse(res.data) as MetaEpisodeOnDisk),
-    ),
+          encoding: Encoding.UTF8
+        }).then((res) => JSON.parse(res.data) as MetaEpisodeOnDisk)
+    )
   ).then((list) => list.filter(Boolean) as MetaEpisodeOnDisk[])
 }
 
@@ -315,27 +315,27 @@ export async function deleteManga(manga_id: ID) {
     Filesystem.rmdir({
       path: `${DIR_META}/${hashIDManga}`,
       directory: Directory.External,
-      recursive: true,
+      recursive: true
     }).catch(() => null),
 
     // remove meta manga
     Filesystem.deleteFile({
       path: `${DIR_META}/${hashIDManga}.mod`,
-      directory: Directory.External,
+      directory: Directory.External
     }).catch(() => null),
 
     // remove poster
     Filesystem.deleteFile({
       path: `${DIR_POSTER}/${hashIDManga}`,
-      directory: Directory.External,
+      directory: Directory.External
     }).catch(() => null),
 
     // remove pages of manga
     Filesystem.rmdir({
       path: `${DIR_FILES}/${hashIDManga}`,
       directory: Directory.External,
-      recursive: true,
-    }).catch(() => null),
+      recursive: true
+    }).catch(() => null)
   ])
 }
 
@@ -347,13 +347,13 @@ export async function deleteEpisode(manga_id: ID, ep_id: ID) {
     // remove meta
     Filesystem.deleteFile({
       path: `${DIR_META}/${hashIDManga}/${hashIDEp}.mod`,
-      directory: Directory.External,
+      directory: Directory.External
     })
       .then(async () => {
         // check removed all episode
         const { files } = await Filesystem.readdir({
           path: `${DIR_META}/${hashIDManga}`,
-          directory: Directory.External,
+          directory: Directory.External
         })
 
         if (files.length === 0) {
@@ -362,15 +362,15 @@ export async function deleteEpisode(manga_id: ID, ep_id: ID) {
             // remove poster
             Filesystem.deleteFile({
               path: `${DIR_POSTER}/${hashIDManga}`,
-              directory: Directory.External,
+              directory: Directory.External
               // eslint-disable-next-line promise/no-nesting
             }).catch(() => null),
             // remove meta manga
             Filesystem.deleteFile({
               path: `${DIR_META}/${hashIDManga}.mod`,
-              directory: Directory.External,
+              directory: Directory.External
               // eslint-disable-next-line promise/no-nesting
-            }).catch(() => null),
+            }).catch(() => null)
           ])
         }
 
@@ -383,27 +383,27 @@ export async function deleteEpisode(manga_id: ID, ep_id: ID) {
     Filesystem.rmdir({
       path: `${DIR_FILES}/${hashIDManga}/${hashIDEp}`,
       directory: Directory.External,
-      recursive: true,
+      recursive: true
     })
       .then(async () => {
         // check removed all episode
         const { files } = await Filesystem.readdir({
           path: `${DIR_FILES}/${hashIDManga}`,
-          directory: Directory.External,
+          directory: Directory.External
         })
 
         if (files.length === 0) {
           await Filesystem.rmdir({
             path: `${DIR_FILES}/${hashIDManga}`,
             directory: Directory.External,
-            recursive: true,
+            recursive: true
           })
         }
 
         // eslint-disable-next-line no-useless-return
         return
       })
-      .catch(() => null),
+      .catch(() => null)
   ])
 }
 
@@ -415,8 +415,8 @@ export async function getEpisode(manga_id: ID, ep_id: ID) {
     await Filesystem.readFile({
       path: `${DIR_META}/${hashIDManga}/${hashIDEp}.mod`,
       directory: Directory.External,
-      encoding: Encoding.UTF8,
-    }).then((res) => res.data),
+      encoding: Encoding.UTF8
+    }).then((res) => res.data)
   ) as MetaEpisodeOnDisk
 }
 

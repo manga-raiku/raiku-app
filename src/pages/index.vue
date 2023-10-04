@@ -13,7 +13,7 @@ meta:
     :style-fn="
       (offset, height) => {
         return {
-          height: height + 'px',
+          height: height + 'px'
         }
       }
     "
@@ -26,7 +26,7 @@ meta:
         loop
         :autoplay="{
           delay: 5000,
-          disableOnInteraction: false,
+          disableOnInteraction: false
         }"
         @real-index-change="sliderIndex = $event.realIndex"
         class="swiper-hot"
@@ -41,7 +41,7 @@ meta:
           <div
             class="flex-1 flex items-center justify-center w-full h-full backdrop-bg <sm:pt-50px"
             :style="{
-              '--data-src': `url(${item.image})`,
+              '--data-src': `url(${item.image})`
             }"
           >
             <img
@@ -141,17 +141,17 @@ meta:
                     '-webkit-line-clamp': Math.round(
                       (leftSecRefs[index]?.offsetHeight -
                         rightTopSecRefs[index]?.offsetHeight) /
-                        25,
+                        25
                     ),
                     'line-clamp': Math.round(
                       (leftSecRefs[index]?.offsetHeight -
                         rightTopSecRefs[index]?.offsetHeight) /
-                        25,
+                        25
                     ),
                     height:
                       leftSecRefs[index] && rightTopSecRefs[index]
                         ? 'auto !important'
-                        : undefined,
+                        : undefined
                   }"
                 >
                   {{ item.description }}
@@ -184,7 +184,7 @@ meta:
               <span class="focus-item-update">
                 {{
                   $t("chuong-name", [
-                    data.sliders[sliderIndex].last_chapters[0].name,
+                    data.sliders[sliderIndex].last_chapters[0].name
                   ])
                 }}
               </span>
@@ -231,7 +231,7 @@ meta:
             'background-image': `linear-gradient(
                 rgba(17, 19, 25, 0) 2%,
                 rgb(17, 19, 25) 94%
-              )`,
+              )`
           }"
         />
       </swiper>
@@ -247,12 +247,12 @@ meta:
           :breakpoints="{
             [$q.screen.sizes.sm]: {
               slidesPerView: 2.1,
-              centeredSlides: false,
+              centeredSlides: false
             },
             [$q.screen.sizes.md]: {
               slidesPerView: 3.2,
-              centeredSlides: false,
-            },
+              centeredSlides: false
+            }
           }"
           class="<sm:!ml--4"
         >
@@ -261,7 +261,7 @@ meta:
             :key="i"
             class="px-1"
             :class="{
-              'pl-0': i === 0,
+              'pl-0': i === 0
             }"
           >
             <CardVertical
@@ -358,7 +358,7 @@ meta:
             'background-image': `linear-gradient(
             rgba(17, 19, 25, 0) 2%,
             rgb(17, 19, 25) 94%
-          )`,
+          )`
           }"
         />
       </div>
@@ -471,7 +471,7 @@ useSeoMeta({
   title,
   description,
   ogTitle: title,
-  ogDescription: description,
+  ogDescription: description
 })
 
 const leftSecRefs = shallowReactive<HTMLDivElement[]>([])
@@ -484,7 +484,7 @@ function Carousel({ swiper, on }: any) {
     swiper.classNames.push(`${swiper.params.containerModifierClass}carousel`)
     const newParams = {
       watchSlidesProgress: true,
-      centeredSlides: true,
+      centeredSlides: true
     }
     Object.assign(swiper.params, newParams)
     Object.assign(swiper.originalParams, newParams)
@@ -499,7 +499,7 @@ function Carousel({ swiper, on }: any) {
       let scale = 1
       if (absProgress > 1) scale = 0.3 * (absProgress - 1) + 1
       const opacityEls = slide.querySelectorAll(
-        ".swiper-carousel-animate-opacity",
+        ".swiper-carousel-animate-opacity"
       )
       const translateX =
         progress * scale * 50 * (swiper.rtlTranslate ? -1 : 1) + "%"
@@ -518,7 +518,7 @@ function Carousel({ swiper, on }: any) {
       for (let i = 0; i < swiper.slides.length; i++) {
         const slide = swiper.slides[i]
         const opacityEls = slide.querySelectorAll(
-          ".swiper-carousel-animate-opacity",
+          ".swiper-carousel-animate-opacity"
         )
         slide.style.transitionDuration = `${speed}ms`
         opacityEls.forEach((el: HTMLDivElement) => {
@@ -535,8 +535,8 @@ const { data, error, loading, refreshAsync } = useRequest(
       .getPluginOrDefault(sourceId.value)
       .then((res) => res.plugin.index()),
   {
-    refreshDeps: [sourceId],
-  },
+    refreshDeps: [sourceId]
+  }
 )
 
 const sliderIndex = ref(0)

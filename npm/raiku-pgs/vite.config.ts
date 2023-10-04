@@ -17,17 +17,17 @@ function vitePluginBuildRaw(): Plugin {
           minify:
             id.includes("&minify") || process.env.NODE_ENV === "production",
           treeShaking: true,
-          write: false,
+          write: false
         })
         const { text } = code.outputFiles[0]
 
         return {
           code: `export default ${JSON.stringify(text)}`,
 
-          map: null,
+          map: null
         }
       }
-    },
+    }
   }
 }
 
@@ -37,7 +37,7 @@ export default defineConfig({
     lib: {
       entry: ["./lib/plugin.ts", "./lib/thread.ts"],
       name: "RaikuPgs",
-      formats: ["es", "cjs"],
+      formats: ["es", "cjs"]
 
       // fileName: (format, entry) => (entry + format === "es" ? ".js" : ".cjs"),
     },
@@ -52,8 +52,8 @@ export default defineConfig({
         //   cheerio: "cheerio",
         //   htmlparser2: "htmlparser2",
         // },
-      },
-    },
+      }
+    }
   },
   plugins: [
     vitePluginBuildRaw(),
@@ -61,9 +61,9 @@ export default defineConfig({
       replacements: [
         {
           from: "__DEV__",
-          to: "process.env.NODE_ENV === 'development'",
-        },
-      ],
-    }),
-  ],
+          to: "process.env.NODE_ENV === 'development'"
+        }
+      ]
+    })
+  ]
 })

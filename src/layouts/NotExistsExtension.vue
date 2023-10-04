@@ -13,20 +13,20 @@
       <p class="text-[14px] mt-3 text-gray-400 leading-normal">
         {{
           t(
-            "ung-dung-nay-khong-the-hoat-dong-ma-khong-co-extension-animevsub-helper",
+            "ung-dung-nay-khong-the-hoat-dong-ma-khong-co-extension-animevsub-helper"
           )
         }}
         <br />
         {{
           t(
-            "extension-animevsub-helper-la-cau-noi-quan-trong-de-ung-dung-gui-cac-yeu-cau-toi-may-chu",
+            "extension-animevsub-helper-la-cau-noi-quan-trong-de-ung-dung-gui-cac-yeu-cau-toi-may-chu"
           )
         }}
         <span class="text-blue-400 mt-2 mx-4 block leading-normal text-[16px]"
           >{{ t("ung-dung-hien-tai-yeu-cau-extension") }} <b>v1.0.1</b>
           {{
             t(
-              "tro-len-neu-ban-da-cai-dat-extension-vui-long-cap-nhat-no-toi-phien-ban",
+              "tro-len-neu-ban-da-cai-dat-extension-vui-long-cap-nhat-no-toi-phien-ban"
             )
           }}
           <b>v1.0.1</b> {{ t("tro-len") }}</span
@@ -36,7 +36,7 @@
           class="text-orange-400 mt-2 mx-4 block leading-normal text-[16px]"
           >{{
             t(
-              "microsoft-edge-co-the-cap-nhat-cham-hon-github-khi-do-ban-can-cap-nhat-thu-cong",
+              "microsoft-edge-co-the-cap-nhat-cham-hon-github-khi-do-ban-can-cap-nhat-thu-cong"
             )
           }}</span
         >
@@ -90,7 +90,7 @@ const { t } = useI18n()
 
 const title = computed(() => t("loi-can-cai-dat-extension-tro-giup"))
 const description = computed(() =>
-  t("ung-dung-nay-can-cai-dat-extension-tro-giup-de-hoat-dong-binh-thuong"),
+  t("ung-dung-nay-can-cai-dat-extension-tro-giup-de-hoat-dong-binh-thuong")
 )
 useHead(
   computed(() => ({
@@ -100,15 +100,15 @@ useHead(
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       {
-        property: "og:url",
-      },
+        property: "og:url"
+      }
     ],
     link: [
       {
-        rel: "canonical",
-      },
-    ],
-  })),
+        rel: "canonical"
+      }
+    ]
+  }))
 )
 
 const browsers = [
@@ -116,26 +116,26 @@ const browsers = [
     icon: "logos:chrome",
     text: "Chrome",
     name: "Chrome",
-    href: "https://github.com/anime-vsub/extension-animevsub-helper/blob/main/install-on-chrome.md",
+    href: "https://github.com/anime-vsub/extension-animevsub-helper/blob/main/install-on-chrome.md"
   },
   {
     icon: "logos:firefox",
     text: "Firefox",
     name: "Firefox",
-    href: "https://addons.mozilla.org/vi/firefox/addon/animevsub-helper/",
+    href: "https://addons.mozilla.org/vi/firefox/addon/animevsub-helper/"
   },
   {
     icon: "logos:opera",
     text: "Opera",
     name: "Opera",
-    href: "https://github.com/anime-vsub/extension-animevsub-helper/blob/main/install-on-chrome.md",
+    href: "https://github.com/anime-vsub/extension-animevsub-helper/blob/main/install-on-chrome.md"
   },
   {
     icon: "logos:microsoft-edge",
     text: "Edge",
     name: "Edge",
-    href: "https://microsoftedge.microsoft.com/addons/detail/endghpbficnpbadbdalhbpecpgdcojig",
-  },
+    href: "https://microsoftedge.microsoft.com/addons/detail/endghpbficnpbadbdalhbpecpgdcojig"
+  }
 ]
 const currentBrowser = computed(() => {
   const currentBrowserName = new UAParser().getBrowser().name

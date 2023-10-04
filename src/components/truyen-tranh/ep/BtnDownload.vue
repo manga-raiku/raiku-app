@@ -14,8 +14,8 @@
       <template v-else>{{
         $t("val-per", [
           Math.round(
-            (modelValue.ref.downloaded / modelValue.ref.pages.length) * 100,
-          ),
+            (modelValue.ref.downloaded / modelValue.ref.pages.length) * 100
+          )
         ])
       }}</template>
     </q-circular-progress>
@@ -71,15 +71,15 @@ function onClickDownload() {
         color: "red",
         rounded: true,
         noCaps: true,
-        flat: true,
+        flat: true
       },
       cancel: {
         label: t("huy"),
         color: "white",
         rounded: true,
         noCaps: true,
-        flat: true,
-      },
+        flat: true
+      }
     }).onOk(async () => {
       if (props.mangaId !== null && props.epId !== null)
         await deleteEpisode(props.mangaId, props.epId)
