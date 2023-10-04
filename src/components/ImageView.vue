@@ -30,7 +30,7 @@ watch(
       // load arrayBuffer
       const { buffer } = await Filesystem.readFile({
         path: src.slice(11),
-        directory: Directory.External,
+        directory: Directory.External
       }).then((res) => base64ToUint8(res.data))
 
       srcImage.value = URL.createObjectURL(new Blob([buffer]))
@@ -38,7 +38,7 @@ watch(
       srcImage.value = src
     }
   },
-  { immediate: true },
+  { immediate: true }
 )
 </script>
 

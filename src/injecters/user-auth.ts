@@ -10,11 +10,11 @@ import { encryptText } from "src/logic/cryper"
     if (!user_auth)
       // eslint-disable-next-line functional/no-throw-statement
       throw new Error(
-        "Auth not exists. Please goto nettruyen and login first run script!",
+        "Auth not exists. Please goto nettruyen and login first run script!"
       )
 
     const text = JSON.stringify(
-      await encryptText(user_auth, process.env.CRYPTO_PASSWORD as string),
+      await encryptText(user_auth, process.env.CRYPTO_PASSWORD as string)
     )
     await copyToClipboard(text)
     alert("Copied binary auth! Please go back app.")

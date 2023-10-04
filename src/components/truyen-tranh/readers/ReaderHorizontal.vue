@@ -21,7 +21,7 @@
           : 'width,height,transform',
         'transition-duration': mouseZooming
           ? '444ms,444ms,0ms'
-          : '444ms,444ms,170ms',
+          : '444ms,444ms,170ms'
       }"
       ref="overflowRef"
     >
@@ -31,7 +31,7 @@
           transform: `translateX(${`calc(${
             (minPage - currentPage) * 100
           }% + ${diffX}px)`})`,
-          'transition-duration': `${moving ? 0 : 200}ms`,
+          'transition-duration': `${moving ? 0 : 200}ms`
         }"
       >
         <template v-if="singlePage">
@@ -80,7 +80,7 @@
           v-if="nextEpisode"
           class="w-1/2 h-full display-inline-block overflow-hidden relative"
           :class="{
-            'w-full': singlePage,
+            'w-full': singlePage
           }"
           @click.prevent.stop
         >
@@ -106,12 +106,13 @@
 <script lang="ts" setup>
 import { useElementSize, useEventListener } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
+import type { Chapter } from "raiku-pgs/plugin"
 import { isTouchEvent } from "src/logic/is-touch-event"
 
 const props = defineProps<{
-  pages: string[]
+  pages: (Promise<string> | string)[]
   pagesNext?: string[]
-  nextEpisode?: string
+  nextEpisode?: Chapter["route"]
 
   singlePage: boolean // 517px
   rightToLeft?: boolean
@@ -133,7 +134,7 @@ const pagesRender = computed(() => {
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(
   () => props.pages,
-  () => sizes.clear(),
+  () => sizes.clear()
 )
 
 const sizePage = computed(() => {
@@ -149,7 +150,7 @@ const sizePage = computed(() => {
       else prev += 0.5
 
       return prev
-    }, 0) + (props.nextEpisode ? 0.5 : 0),
+    }, 0) + (props.nextEpisode ? 0.5 : 0)
   )
 })
 defineExpose({ sizes, sizePage })
@@ -235,7 +236,7 @@ function onTouchMove(event: TouchEvent) {
   } else {
     const [diffX, diffY] = [
       touch.clientX - lastStartTouch.clientX,
-      touch.clientY - lastStartTouch.clientY,
+      touch.clientY - lastStartTouch.clientY
     ]
     console.log(diffX, diffY)
     mouseZooming.value = true
@@ -297,7 +298,7 @@ function onTouchEnd(event: TouchEvent) {
 
 const minDiffX = computed(() => Math.max(0, (pWidth.value - oWidth.value) / 2))
 const minDiffY = computed(() =>
-  Math.max(0, (pHeight.value - oHeight.value) / 2),
+  Math.max(0, (pHeight.value - oHeight.value) / 2)
 )
 const maxDiffX = computed(() => -minDiffX.value)
 const maxDiffY = computed(() => -minDiffY.value)
@@ -321,7 +322,7 @@ function onMouseMove(event: MouseEvent) {
   if (!mouseDowned || !lastMouseOff) return
   const [diffX, diffY] = [
     event.clientX - lastMouseOff.x,
-    event.clientY - lastMouseOff.y,
+    event.clientY - lastMouseOff.y
   ]
 
   mouseZooming.value = true
@@ -402,7 +403,7 @@ function onMouseUpCheckClick(event: MouseEvent | TouchEvent) {
     !xor(
       directionLeft,
       (isTouchEvent(event) ? event.changedTouches[0].clientX : event.clientX) <
-        pWidthH.value,
+        pWidthH.value
     )
   ) {
     console.log("click %s", directionLeft ? "L" : "R")

@@ -1,6 +1,7 @@
 # Raiku (git.shin.raiku)
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmanga-raiku%2Fmanga-raiku.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmanga-raiku%2Fmanga-raiku?ref=badge_shield)
+[![built with Codeium](https://codeium.com/badges/main)](https://codeium.com)
 
 「無邪気な笑顔の下の、日付は遥かなメモリー」
 
@@ -86,6 +87,9 @@ quasar build
 - [ ] fix favicon small
 - [ ] touch zoom in mobile
 - [x] button next chap
+
+- [x] multiple pre search
+- [ ] control plugin separate
 
 ### Customize the configuration
 

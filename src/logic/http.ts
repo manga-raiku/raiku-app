@@ -14,11 +14,11 @@ type Response<Type extends GetOption["responseType"]> = Omit<
 }
 
 async function httpGet<
-  ReturnType extends GetOption["responseType"] | undefined,
+  ReturnType extends GetOption["responseType"] | undefined
 >(
   options: Omit<GetOption, "responseType"> & {
     responseType?: ReturnType
-  },
+  }
 ): Promise<Response<ReturnType>> {
   console.log("GET: ", options)
 
@@ -38,11 +38,11 @@ async function httpGet<
 }
 
 async function httpPost<
-  ReturnType extends GetOption["responseType"] | undefined,
+  ReturnType extends GetOption["responseType"] | undefined
 >(
   options: Omit<PostOption, "responseType"> & {
     responseType?: ReturnType
-  },
+  }
 ): Promise<Response<ReturnType>> {
   console.log("GET: ", options)
 
@@ -58,17 +58,17 @@ async function httpPost<
 // Proxy: https://corsproxy.io/
 
 export function proxyGet<
-  ReturnType extends GetOption["responseType"] | undefined,
+  ReturnType extends GetOption["responseType"] | undefined
 >(
   options: Omit<GetOption, "responseType"> & {
     responseType?: ReturnType
-  },
+  }
 ): Promise<Response<ReturnType>> {
   return fetch(
     `https://api.allorigins.win/raw?url=${encodeURIComponent(options.url)}`,
     {
-      headers: options.headers,
-    },
+      headers: options.headers
+    }
   ).then(async (res) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let data: any
@@ -87,26 +87,26 @@ export function proxyGet<
       status: res.status,
       headers: Object.fromEntries([
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ...(res.headers as unknown as any).entries(),
+        ...(res.headers as unknown as any).entries()
       ]),
-      url: res.url,
+      url: res.url
     }
   })
 }
 
 export function proxyPost<
-  ReturnType extends GetOption["responseType"] | undefined,
+  ReturnType extends GetOption["responseType"] | undefined
 >(
   options: Omit<PostOption, "responseType"> & {
     responseType?: ReturnType
-  },
+  }
 ): Promise<Response<ReturnType>> {
   return fetch(
     `https://api.allorigins.win/raw?url=${encodeURIComponent(options.url)}`,
     {
       method: "post",
-      headers: options.headers,
-    },
+      headers: options.headers
+    }
   ).then(async (res) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let data: any
@@ -125,9 +125,9 @@ export function proxyPost<
       status: res.status,
       headers: Object.fromEntries([
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ...(res.headers as unknown as any).entries(),
+        ...(res.headers as unknown as any).entries()
       ]),
-      url: res.url,
+      url: res.url
     }
   })
 }

@@ -1,6 +1,11 @@
 <template>
   <form
-    @submit.prevent="router.push(`/tim-kiem?query=${query}`)"
+    @submit.prevent="
+      router.push({
+        name: 'search',
+        query: { query }
+      })
+    "
     class="relative md:min-w-[164px] md:w-full max-w-370px"
   >
     <q-input
@@ -22,7 +27,12 @@
         <button
           type="submit"
           class="flex items-center"
-          @click.stop.prevent="router.push(`/tim-kiem?query=${query}`)"
+          @click.stop.prevent="
+            router.push({
+              name: 'search',
+              query: { query }
+            })
+          "
           @mousedown.stop.prevent
         >
           <q-icon name="search" class="pl-6 pr-4 cursor-pointer" />
@@ -71,36 +81,43 @@
             <q-skeleton type="text" width="100px" height="15px" />
           </div>
         </li>
-        <li
+        <template
           v-else-if="searchResult?.length"
-          v-for="item in searchResult"
-          :key="item.path"
-          class="relative"
-          v-ripple
+          v-for="{ meta, promise } in searchResult"
+          :key="meta.id"
         >
-          <router-link :to="item.path" class="flex flex-nowrap mt-5 mx-4">
-            <div>
-              <q-img
-                no-spinner
-                :ratio="267 / 400"
-                :src="item.image"
-                referrerpolicy="no-referrer"
-                width="90px"
-                class="rounded"
-              />
-            </div>
+          <li class="relative text-gray-400 text-12px">{{ meta.name }}</li>
+          <li
+            v-for="item in promise.value"
+            :key="item.name"
+            class="relative"
+            v-ripple
+          >
+            <!-- !TODO: need fix -->
+            <router-link :to="item.route" class="flex flex-nowrap mt-5 mx-4">
+              <div>
+                <q-img
+                  no-spinner
+                  :ratio="267 / 400"
+                  :src="item.image"
+                  referrerpolicy="no-referrer"
+                  width="90px"
+                  class="rounded"
+                />
+              </div>
 
-            <div class="ml-2">
-              <div class="text-subtitle1 text-weight-medium">
-                {{ item.name }}
+              <div class="ml-2">
+                <div class="text-subtitle1 text-weight-medium">
+                  {{ item.name }}
+                </div>
+                <div v-if="item.othername" class="text-12px">
+                  {{ item.othername }}
+                </div>
+                <div class="text-gray-500">{{ item.last_chapter }}</div>
               </div>
-              <div v-if="item.othername" class="text-12px">
-                {{ item.othername }}
-              </div>
-              <div class="text-gray-500">{{ item.last_chapter }}</div>
-            </div>
-          </router-link>
-        </li>
+            </router-link>
+          </li>
+        </template>
         <li v-else class="px-4 py-5 text-center text-gray-400 w-full">
           {{ query ? $t("khong-tim-thay") : $t("nhap-de-tim-kiem") }}
         </li>
@@ -111,25 +128,51 @@
 
 <script lang="ts" setup>
 import { useEventListener } from "@vueuse/core"
-import { debounce } from "perfect-debounce"
-import { QInput } from "quasar"
-import PreSearch from "src/apis/nettruyen/runs/pre-search"
+import { debounce, QInput } from "quasar"
 
+// const props = defineProps<{
+//   sourceId: string
+// }>()
 // key bind
 
 const { t } = useI18n()
 
 const router = useRouter()
+const pluginStore = usePluginStore()
+
+const allPlugins = computed(() =>
+  pluginStore
+    .getAllPlugins()
+    .then((plugins) => plugins.map(({ id }) => pluginStore.get(id)))
+)
 
 const query = ref("")
 const {
   data: searchResult,
   loading: searchLoading,
-  runAsync,
-} = useRequest(() => PreSearch(query.value, 1), {
-  manual: true,
-})
-watch(query, debounce(runAsync, 300))
+  runAsync
+} = useRequest(
+  () => {
+    return allPlugins.value
+      .then((plugins) => Promise.all(plugins))
+      .then((plugins) =>
+        Promise.all(
+          plugins.map(async ({ meta, plugin }) => {
+            return {
+              meta,
+              promise: computedAsync<
+                Awaited<ReturnType<typeof plugin.searchQuickly>> | undefined
+              >(() => plugin.searchQuickly(query.value, 1))
+            }
+          })
+        )
+      )
+  },
+  {
+    manual: true
+  }
+)
+watch(query, debounce(runAsync, 1000))
 
 const focusing = ref(false)
 

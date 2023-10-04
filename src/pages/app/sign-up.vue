@@ -49,7 +49,7 @@ meta:
                   (email) => email.length > 1 || $t('vui-long-nhap-e-mail'),
                   (email) =>
                     /^[\w\d\.]+@[\w\d]*\.[\w\d]{2,}$/i.test(email) ||
-                    $t('vui-long-nhap-e-mail-hop-le'),
+                    $t('vui-long-nhap-e-mail-hop-le')
                 ]"
               />
               <q-input
@@ -61,7 +61,7 @@ meta:
                 dense
                 lazy-rules
                 :rules="[
-                  (value) => value.length > 1 || $t('vui-long-nhap-mat-khau'),
+                  (value) => value.length > 1 || $t('vui-long-nhap-mat-khau')
                 ]"
               >
                 <template #append>
@@ -159,7 +159,7 @@ useSeoMeta({
   title,
   description,
   ogTitle: title,
-  ogDescription: description,
+  ogDescription: description
 })
 
 const qFormRef = ref<QForm>()
@@ -173,7 +173,7 @@ const showPassword = ref(false)
 async function signUp() {
   const loader = $q.loading.show({
     spinnerColor: "main-3",
-    spinnerSize: 40,
+    spinnerSize: 40
   })
 
   const { error } = await authStore.signUp(email.value, password.value)
@@ -184,14 +184,14 @@ async function signUp() {
     $q.notify({
       message:
         i18n.t("dang-ky-tai-khoan-that-bai") +
-        (import.meta.env.DEV ? `(${error.message})` : ""),
+        (import.meta.env.DEV ? `(${error.message})` : "")
     })
 
     return
   }
 
   $q.notify({
-    message: i18n.t("da-dang-ky-hay-kiem-tra-email"),
+    message: i18n.t("da-dang-ky-hay-kiem-tra-email")
   })
   router.back()
 }

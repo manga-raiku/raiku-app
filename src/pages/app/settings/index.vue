@@ -45,32 +45,32 @@ useSeoMeta({
   title,
   description: title,
   ogTitle: title,
-  ogDescription: title,
+  ogDescription: title
 })
 
 const buttons = computed(() => [
   {
     text: i18n.t("ngon-ngu"),
-    to: "/app/settings/language",
+    to: "/app/settings/language"
   },
   {
     text: i18n.t("thong-bao"),
-    to: "/app/settings/notification",
+    to: "/app/settings/notification"
   },
   // {
   //   text: "Clear Cache",
   // },
   {
     text: i18n.t("dieu-khoan-dich-vu"),
-    href: "https://manga-raiku.github.io/term-of-use",
+    href: "https://manga-raiku.github.io/term-of-use"
   },
   {
     text: i18n.t("chinh-sach-bao-mat"),
-    href: "https://manga-raiku.github.io/privacy-policy",
+    href: "https://manga-raiku.github.io/privacy-policy"
   },
   {
     text: i18n.t("kiem-tra-loi-mang"),
-    to: "/app/settings/check-network",
-  },
+    to: "/app/settings/check-network"
+  }
 ])
 </script>

@@ -24,15 +24,15 @@ export default function vitePluginI18nLangs(): Plugin {
         const languages = langs.map((code) => {
           return {
             code,
-            name: ISO6391.getNativeName(code?.slice(0, 2) ?? "en"),
+            name: ISO6391.getNativeName(code?.slice(0, 2) ?? "en")
           }
         })
 
         return {
           code: `export default ${JSON.stringify(languages)}`,
-          map: null,
+          map: null
         }
       }
-    },
+    }
   }
 }

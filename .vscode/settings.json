@@ -6,7 +6,16 @@
   "editor.codeActionsOnSave": ["source.fixAll.eslint"],
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["Chương", "othername", "phút", "sakura"],
+  "cSpell.words": [
+    "Chương",
+    "hambur",
+    "lsing",
+    "nettruyen",
+    "Noncomliant",
+    "othername",
+    "phút",
+    "sakura"
+  ],
   "ionic.previewInEditor": true,
   "vue-i18n.i18nPaths": "src/i18n",
   "i18n-ally.keystyle": "flat",
@@ -74,5 +83,12 @@
   "MutableAI.upsell": false,
   "[ruby]": {
     "editor.defaultFormatter": "mbessey.vscode-rufo"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "sonarlint.connectedMode.project": {
+    "connectionId": "manga-raiku",
+    "projectKey": "manga-raiku_manga-raiku"
   }
 }

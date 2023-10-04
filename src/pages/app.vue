@@ -18,9 +18,9 @@
             {
               icon: Icons.document,
               text: 'Tài khoản',
-              to: '/app/myaccount',
+              to: '/app/myaccount'
             },
-            ...buttons,
+            ...buttons
           ]"
           :key="text"
         >
@@ -81,7 +81,7 @@ useSeoMeta({
   title,
   description,
   ogTitle: title,
-  ogDescription: description,
+  ogDescription: description
 })
 
 const buttons: ComputedRef<
@@ -96,32 +96,32 @@ const buttons: ComputedRef<
   {
     to: "/app/settings",
     icon: Icons.settings,
-    text: i18n.t("cai-dat"),
+    text: i18n.t("cai-dat")
   },
   {
     href: "https://ko-fi.com/tachib_shin",
     icon: Icons.user_heart,
-    text: i18n.t("tai-tro-ung-ho"),
+    text: i18n.t("tai-tro-ung-ho")
   },
   {
     href: "mailto://contact@mangaraiku.eu.org?title=Feedback%20app%20git.shin.raiku",
     icon: Icons.info_circle,
-    text: i18n.t("phan-hoi"),
+    text: i18n.t("phan-hoi")
   },
   {
     href: "https://github.com/manga-raiku/manga-raiku",
     icon: Icons.code_bold,
-    text: i18n.t("ma-nguon-mo"),
+    text: i18n.t("ma-nguon-mo")
   },
   {
     href: "https://mangaraiku.eu.org",
     icon: [antDesignAppleOutlined, antDesignAppleOutlined],
-    text: i18n.t("pwa-cho-ios-va-desktop"),
+    text: i18n.t("pwa-cho-ios-va-desktop")
   },
   {
     to: "/app/settings/check-network",
     icon: Icons.bug,
-    text: i18n.t("kiem-tra-loi-mang"),
+    text: i18n.t("kiem-tra-loi-mang")
   },
   {
     to: "/app/about",
@@ -133,7 +133,7 @@ const buttons: ComputedRef<
       } catch {
         return version
       }
-    }),
-  },
+    })
+  }
 ])
 </script>

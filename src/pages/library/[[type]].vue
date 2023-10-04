@@ -12,7 +12,7 @@ meta:
           :key="value"
           class="inline-block px-2 py-2 transition-color duration-200"
           :class="{
-            'text-white': activeValue === value,
+            'text-white': activeValue === value
           }"
           @click="swiperRef?.slideTo(index)"
         >
@@ -28,7 +28,7 @@ meta:
     :style-fn="
       (offset, height) => {
         return {
-          height: height - offset + 'px',
+          height: height - offset + 'px'
         }
       }
     "
@@ -91,18 +91,18 @@ const tabs = computed(() => [
   {
     name: i18n.t("lich-su"),
     value: "history",
-    component: LibraryTabHistory,
+    component: LibraryTabHistory
   },
   {
     name: i18n.t("theo-doi"),
     value: "follow",
-    component: LibraryTabFollows,
+    component: LibraryTabFollows
   },
   {
     name: i18n.t("ngoai-tuyen"),
     value: "offline",
-    component: LibraryTabOffline,
-  },
+    component: LibraryTabOffline
+  }
 ])
 
 const swiperRef = ref<TSwiper>()
@@ -111,9 +111,9 @@ const activeIndex = computed(() =>
   Math.max(
     0,
     tabs.value.findIndex(
-      (item) => item.value.toLowerCase() === props.type?.toLowerCase(),
-    ),
-  ),
+      (item) => item.value.toLowerCase() === props.type?.toLowerCase()
+    )
+  )
 )
 
 const title = () => (tabs.value[activeIndex.value] ?? tabs.value[0]).name
@@ -121,7 +121,7 @@ useSeoMeta({
   title,
   description: title,
   ogTitle: title,
-  ogDescription: title,
+  ogDescription: title
 })
 
 function onSwiper(swiper: TSwiper) {

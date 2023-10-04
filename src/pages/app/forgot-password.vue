@@ -64,7 +64,7 @@ meta:
                     (email) => email.length > 1 || $t('vui-long-nhap-e-mail'),
                     (email) =>
                       /^[\w\d\.]+@[\w\d]*\.[\w\d]{2,}$/i.test(email) ||
-                      $t('vui-long-nhap-e-mail-hop-le'),
+                      $t('vui-long-nhap-e-mail-hop-le')
                   ]"
                 />
               </q-card-section>
@@ -94,7 +94,7 @@ meta:
                   dense
                   lazy-rules
                   :rules="[
-                    (value) => value.length > 1 || $t('vui-long-nhap-mat-khau'),
+                    (value) => value.length > 1 || $t('vui-long-nhap-mat-khau')
                   ]"
                 >
                   <template #append>
@@ -154,7 +154,7 @@ useSeoMeta({
   title,
   description: title,
   ogTitle: title,
-  ogDescription: title,
+  ogDescription: title
 })
 
 const qFormRef = ref<QForm>()
@@ -168,7 +168,7 @@ const sendedEmail = ref(false)
 async function resetPassword() {
   const loader = $q.loading.show({
     spinnerColor: "main-3",
-    spinnerSize: 40,
+    spinnerSize: 40
   })
 
   const { error } = await authStore.resetPassword(email.value)
@@ -180,7 +180,7 @@ async function resetPassword() {
       position: "bottom",
       message:
         i18n.t("khoi-phuc-tai-khoan-that-bai") +
-        (import.meta.env.DEV ? `(${error.message})` : ""),
+        (import.meta.env.DEV ? `(${error.message})` : "")
     })
 
     return
@@ -188,14 +188,14 @@ async function resetPassword() {
 
   $q.notify({
     position: "bottom",
-    message: i18n.t("da-gui-lien-ket-dat-lai-mat-khau-toi-email"),
+    message: i18n.t("da-gui-lien-ket-dat-lai-mat-khau-toi-email")
   })
   sendedEmail.value = true
 }
 async function updatePassword() {
   const loader = $q.loading.show({
     spinnerColor: "main-3",
-    spinnerSize: 40,
+    spinnerSize: 40
   })
 
   const { error } = await authStore.updatePassword(password.value)
@@ -207,7 +207,7 @@ async function updatePassword() {
       position: "bottom",
       message:
         i18n.t("khong-the-cap-nhat-mat-khau") +
-        (import.meta.env.DEV ? `(${error.message})` : ""),
+        (import.meta.env.DEV ? `(${error.message})` : "")
     })
 
     return
@@ -215,7 +215,7 @@ async function updatePassword() {
 
   $q.notify({
     position: "bottom",
-    message: i18n.t("da-cap-nhat-mat-khau"),
+    message: i18n.t("da-cap-nhat-mat-khau")
   })
 
   router.back()

@@ -15,7 +15,7 @@ export default defineConfig({
     },
     baseUrl: "http://localhost:9000/",
     supportFile: "test/cypress/support/e2e.ts",
-    specPattern: "test/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",
+    specPattern: "test/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}"
   },
   component: {
     setupNodeEvents(on, config) {
@@ -25,6 +25,6 @@ export default defineConfig({
     supportFile: "test/cypress/support/component.ts",
     specPattern: "src/**/*.cy.{js,jsx,ts,tsx}",
     indexHtmlFile: "test/cypress/support/component-index.html",
-    devServer: injectQuasarDevServerConfig(),
-  },
+    devServer: injectQuasarDevServerConfig()
+  }
 })

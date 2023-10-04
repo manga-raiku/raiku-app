@@ -14,8 +14,8 @@
       <template v-else>{{
         $t("val-per", [
           Math.round(
-            (modelValue.ref.downloaded / modelValue.ref.pages.length) * 100,
-          ),
+            (modelValue.ref.downloaded / modelValue.ref.pages.length) * 100
+          )
         ])
       }}</template>
     </q-circular-progress>
@@ -28,13 +28,14 @@
 </template>
 
 <script lang="ts" setup>
+import type { ID } from "raiku-pgs/plugin"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 import { isTaskDLEp } from "src/logic/download-manager"
 
 const props = defineProps<{
   modelValue?: TaskDDEp | TaskDLEp | null
-  mangaId: number | null
-  epId: number | null
+  mangaId: ID | null
+  epId: ID | null
   canDownload: boolean
 }>()
 const $q = useQuasar()
@@ -42,7 +43,7 @@ const { t } = useI18n()
 const emit = defineEmits<{
   (name: "update:model-value", value: undefined | TaskDDEp | TaskDDEp): void
   (name: "action:download"): void
-  (name: "action:delete", ep_id: number): void
+  (name: "action:delete", ep_id: ID): void
 }>()
 
 const disable = computed(() => {
@@ -54,9 +55,10 @@ const disable = computed(() => {
 })
 
 function onClickDownload() {
-  if (props.modelValue && isTaskDLEp(props.modelValue)) {
-    if (props.modelValue.downloading.value) props.modelValue.stop()
-    else props.modelValue.resume()
+  const value = props.modelValue
+  if (value && isTaskDLEp(value)) {
+    if (value.downloading) value.stop()
+    else (value as TaskDLEp).resume()
 
     return
   }
@@ -69,15 +71,15 @@ function onClickDownload() {
         color: "red",
         rounded: true,
         noCaps: true,
-        flat: true,
+        flat: true
       },
       cancel: {
         label: t("huy"),
         color: "white",
         rounded: true,
         noCaps: true,
-        flat: true,
-      },
+        flat: true
+      }
     }).onOk(async () => {
       if (props.mangaId !== null && props.epId !== null)
         await deleteEpisode(props.mangaId, props.epId)

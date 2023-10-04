@@ -8,13 +8,13 @@
     <section
       class="transition-width duration-444ms mx-auto"
       :style="{
-        width: `${zoom}%`,
+        width: `${zoom}%`
       }"
       ref="overflowRef"
     >
       <template v-for="(item, index) in pagesRender" :key="item">
+        <!-- v-if="typeof item === 'string'" -->
         <PageView
-          v-if="typeof item === 'string'"
           class="object-cover display-block mx-auto"
           :src="item"
           @load="
@@ -27,7 +27,7 @@
             width: sizes.has(index)
               ? `${(sizes.get(index)?.[0]! * zoom) / 100}px`
               : widthImageDefault,
-            height: sizes.has(index) ? undefined : heightImageDefault,
+            height: sizes.has(index) ? undefined : heightImageDefault
           }"
           :ref="
             (ref) =>
@@ -89,22 +89,23 @@ import {
   useElementSize,
   useElementVisibility,
   useEventListener,
-  useScroll,
+  useScroll
 } from "@vueuse/core"
 import { type DomOffset } from "quasar"
+import type { Chapter } from "raiku-pgs/plugin"
 import { RouterLink } from "vue-router"
 
 import PageView from "./__components__/PageView.vue"
 
 defineOptions({
-  inheritAttrs: false,
+  inheritAttrs: false
 })
 
 const props = defineProps<{
-  pages: string[]
+  pages: (Promise<string> | string)[]
   currentPage: number
   zoom: number
-  nextEpisode?: string
+  nextEpisode?: Chapter["route"]
 }>()
 const emit = defineEmits<{
   (name: "update:zoom", value: number): void
@@ -132,13 +133,13 @@ const emit = defineEmits<{
 }>()
 const attrs = useAttrs()
 defineExpose({
-  reset: () => parentRef.value?.scrollTo(0, 0),
+  reset: () => parentRef.value?.scrollTo(0, 0)
 })
 
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(
   () => props.pages,
-  () => sizes.clear(),
+  () => sizes.clear()
 )
 
 const pagesRender = computed(() => {
@@ -154,14 +155,14 @@ watch(
       emit("action:next-ch")
     }
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 watch(
   () => props.currentPage >= props.pages.length,
   () => {
     console.warn("Next chapter")
-  },
+  }
 )
 
 const btnNextEpRef = ref<InstanceType<typeof RouterLink>>()
@@ -180,10 +181,10 @@ const behavior = ref<ScrollBehavior>("smooth")
 const scroller = useScroll(parentRef, { behavior })
 
 const widthImageDefault = computed(
-  () => sizes.get(0)?.[0] ?? pWidth.value * 0.8,
+  () => sizes.get(0)?.[0] ?? pWidth.value * 0.8
 )
 const heightImageDefault = computed(
-  () => sizes.get(0)?.[1] ?? pHeight.value * 0.8,
+  () => sizes.get(0)?.[1] ?? pHeight.value * 0.8
 )
 
 const minDiffX = computed(() => 0)
@@ -210,12 +211,12 @@ function onMouseMove(event: MouseEvent) {
 
   const [diffX, diffY] = [
     event.clientX - mouseStart.clientX,
-    event.clientY - mouseStart.clientY,
+    event.clientY - mouseStart.clientY
   ]
   parentRef.value?.scrollTo({
     top: scrollStart.top - diffY,
     left: scrollStart.left - diffX,
-    behavior: "auto",
+    behavior: "auto"
   })
   // diffXZoom.value = scrollStart.left - diffX
   // console.log({ diffXZoom }, scrollStart.left - diffX)
@@ -252,7 +253,7 @@ watch(
     await nextTick()
     disableReactiveCurrentPage = false
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 // // create sort map offset?
@@ -306,15 +307,15 @@ watch(
     parentRef.value?.scrollTo({
       top: (pageViewRefs[currentPage].imgRef ?? pageViewRefs[currentPage].$el)
         .offsetTop,
-      behavior: "smooth",
+      behavior: "smooth"
     })
-  },
+  }
 )
 
 function onLoadPageView(
   index: number,
   image: HTMLImageElement,
-  intersection: IntersectionObserverEntry,
+  intersection: IntersectionObserverEntry
 ) {
   sizes.set(index, [image.naturalWidth, image.naturalHeight])
 
@@ -327,7 +328,7 @@ function onLoadPageView(
     parentRef.value?.scrollBy({
       top:
         (image.naturalHeight / image.naturalWidth) * oWidth.value -
-        heightImageDefault.value,
+        heightImageDefault.value
     })
   }
 }

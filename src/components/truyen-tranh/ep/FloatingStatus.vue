@@ -11,7 +11,7 @@
         class="h-32px my-auto"
         :class="{
           'rotate-90': scrollingMode,
-          'rotate-180': rightToLeft,
+          'rotate-180': rightToLeft
         }"
       />
 
@@ -47,7 +47,7 @@
         {{
           $t("page-p-per", [
             pagesLength ?? "_",
-            Math.round(((absCurrentPage + 1) / sizePage) * 100),
+            Math.round(((absCurrentPage + 1) / sizePage) * 100)
           ])
         }}
       </div>
@@ -59,11 +59,11 @@
 </template>
 
 <script lang="ts" setup>
+import { normalizeChName } from "raiku-pgs/plugin"
 // eslint-disable-next-line camelcase
 import img_double from "src/assets/img_double.png?url"
 // eslint-disable-next-line camelcase
 import img_single from "src/assets/img_single.png?url"
-import { normalizeChName } from "src/logic/normalize-ch-name"
 
 const props = defineProps<{
   scrollingMode: boolean

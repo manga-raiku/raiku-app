@@ -5,6 +5,7 @@ node_modules
 # Quasar core related directories
 .quasar
 /dist
+/npm/*/dist
 
 # Cordova related directories and files
 /src-cordova/node_modules
@@ -35,6 +36,7 @@ yarn-error.log*
 
 /auto-imports.d.ts
 /components.d.ts
+/typed-router.d.ts
 /.eslintrc-auto-import.json
 /*.sqlite
 
