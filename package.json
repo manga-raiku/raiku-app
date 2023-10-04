@@ -117,7 +117,7 @@
     "@quasar/icongenie": "^3.1.1",
     "@quasar/quasar-app-extension-testing-e2e-cypress": "^5.1.1",
     "@quasar/quasar-app-extension-testing-unit-vitest": "^0.4.0",
-    "@tachibana-shin/eslint-config": "^1.1.1",
+    "@tachibana-shin/eslint-config": "1.0.7",
     "@tachibana-shin/vite-plugin-pages": "0.31.1-beta.1",
     "@testing-library/vue": "^7.0.0",
     "@types/group-array": "^1.0.1",
