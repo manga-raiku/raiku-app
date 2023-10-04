@@ -181,7 +181,7 @@
     "workbox-expiration": "^6.5.0",
     "workbox-precaching": "^6.5.0",
     "workbox-routing": "^6.5.0",
-    "workbox-strategies": "^6.5.0"
+    "workbox-strategies": "^7.0.0"
   },
   "overrides": {
     "vite": "^2.9.16",
