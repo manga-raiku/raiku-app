@@ -1,6 +1,6 @@
 <template>
   <q-card class="transparent min-h-0 shadow-none overflow-y-auto">
-    <q-infinite-scroll v-if="data" @load="onLoad" :offset="250" class="row">
+    <q-infinite-scroll v-if="data && !loading" @load="onLoad" :offset="250" class="row">
       <template v-for="(item, index) in data" :key="item.path">
         <div
           v-if="!data[index - 1]?.updated_at.isSame(item.updated_at, 'day')"
@@ -58,7 +58,7 @@ const props = defineProps<{
 
 const historyStore = useHistoryStore()
 
-const { error, data, refreshAsync } = useRequest(() =>
+const { error, data, loading, refreshAsync } = useRequest(() =>
   historyStore.get().then((res) =>
     res.map((item) => ({
       ...item,

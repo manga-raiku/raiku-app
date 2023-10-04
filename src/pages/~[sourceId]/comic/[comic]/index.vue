@@ -27,7 +27,7 @@ meta:
         '--data-src': `url('${data?.image}')`,
       }"
     />
-    <template v-if="data">
+    <template v-if="data && !loading">
       <section class="mx-10 md:mx-7 sm:mx-5 <sm:mx-4 mb-4 flex">
         <div>
           <div
@@ -430,7 +430,7 @@ const GetWithCache = useWithCache(
   computed(() => `${packageName}:///manga/${props.comic}`),
 )
 
-const { data, runAsync, error, run } = useRequest(GetWithCache, {
+const { data, runAsync, error, run, loading } = useRequest(GetWithCache, {
   refreshDeps: [() => props.comic],
   refreshDepsAction() {
     // data.value = undefined

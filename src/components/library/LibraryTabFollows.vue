@@ -1,6 +1,6 @@
 <template>
   <q-card class="transparent min-h-0 shadow-none overflow-y-auto">
-    <div v-if="data">
+    <div v-if="data &&!loading">
       <q-infinite-scroll @load="onLoad" :offset="250" class="row">
         <div
           v-for="item in data"
@@ -44,7 +44,7 @@ const props = defineProps<{
 
 const followStore = useFollowStore()
 
-const { data, error, refreshAsync } = useRequest(() => followStore.get(), {
+const { data, error, loading, refreshAsync } = useRequest(() => followStore.get(), {
   manual: props.visible !== undefined,
 })
 watch(

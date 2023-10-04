@@ -30,7 +30,7 @@ meta:
           <Pagination :max="data.maxPage" v-model="page" />
         </div> -->
 
-      <InfiniteScroll v-if="data" @load="onLoad">
+      <InfiniteScroll v-if="data &&!loading" @load="onLoad">
         <GridCard :items="data.items" />
       </InfiniteScroll>
       <ErrorDisplay v-else-if="error" :error="error" :retry-async="runAsync" />
@@ -79,7 +79,7 @@ const page = computed<number>({
     }),
 })
 
-const { data, runAsync, error } = useRequest(
+const { data, runAsync, loading, error } = useRequest(
   async () => {
     const data = await (
       await pluginStore.getPluginOrDefault(props.sourceId)

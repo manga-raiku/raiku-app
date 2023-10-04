@@ -83,7 +83,7 @@ meta:
       <div class="py-2 px-4">
         <span class="text-gray-400 mr-1">{{ $t("tim-kiem-2dot") }} </span>
         <span class="font-bold truncate">{{ route.query.query }}</span>
-        <span v-if="data" class="text-gray-300">
+        <span v-if="data && !loading" class="text-gray-300">
           <span class="mx-2">&bull;</span
           >{{ $t("size-trang-ket-qua", [data.maxPage]) }}
         </span>
@@ -153,13 +153,13 @@ meta:
       >
         <span class="text-gray-400 mr-1">{{ $t("tim-kiem-2dot") }} </span>
         <span class="font-bold truncate">{{ route.query.query }}</span>
-        <span v-if="data" class="text-gray-300">
+        <span v-if="data && !loading" class="text-gray-300">
           <span class="mx-2">&bull;</span
           >{{ $t("size-trang-ket-qua", [data.maxPage]) }}
         </span>
       </div>
 
-      <template v-if="data">
+      <template v-if="data &&!loading">
         <template v-if="isSingleData(data)">
           <InfiniteScroll v-if="data.items.length > 0" @load="onLoad">
             <GridCard :items="data.items" />
@@ -299,7 +299,7 @@ function isSingleData(data: any): data is Omit<typeof data, "items"> & {
   return !Array.isArray(data)
 }
 
-const { data, run, error, runAsync } = useRequest(
+const { data, run, error, loading, runAsync } = useRequest(
   async () => {
     if (!route.query.query) return Promise.resolve(undefined)
 

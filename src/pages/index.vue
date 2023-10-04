@@ -18,7 +18,7 @@ meta:
       }
     "
   >
-    <template v-if="data">
+    <template v-if="data && !loading">
       <swiper
         :space-between="10"
         :centered-slides="true"
@@ -447,12 +447,13 @@ const route = useRoute()
 const i18n = useI18n()
 const pluginStore = usePluginStore()
 
-const paramSourceId = useRouteParams<string | null>("sourceId", undefined, {
-  transform: (value) => (value ? value + "" : value ?? null),
+const paramSourceId = ref(props.sourceId ?? null)
+watch(paramSourceId, (sourceId) => {
+  if (sourceId) router.push(`/~${sourceId}`)
 })
 
 const sourceId = computed(() => {
-  return props.sourceId ?? pluginStore.pluginMain
+  return paramSourceId.value ?? pluginStore.pluginMain
 })
 watchImmediate(paramSourceId, async (sourceId) => {
   if (!sourceId) {
@@ -528,10 +529,14 @@ function Carousel({ swiper, on }: any) {
   })
 }
 
-const { data, error, refreshAsync } = useRequest(() =>
-  pluginStore
-    .getPluginOrDefault(sourceId.value)
-    .then((res) => res.plugin.index()),
+const { data, error, loading, refreshAsync } = useRequest(
+  () =>
+    pluginStore
+      .getPluginOrDefault(sourceId.value)
+      .then((res) => res.plugin.index()),
+  {
+    refreshDeps: [sourceId],
+  },
 )
 
 const sliderIndex = ref(0)

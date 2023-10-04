@@ -20,7 +20,7 @@
       >
         <q-card-section>
           <q-infinite-scroll
-            v-if="data"
+            v-if="data &&!loading"
             @load="onLoad"
             :offset="250"
             class="row md:block"
@@ -91,7 +91,7 @@ const historyStore = useHistoryStore()
 
 const showMenuHistory = ref(false)
 
-const { data, error, runAsync } = useRequest(() =>
+const { data, error, loading,runAsync } = useRequest(() =>
   historyStore.get().then((res) =>
     res.map((item) => ({
       ...item,

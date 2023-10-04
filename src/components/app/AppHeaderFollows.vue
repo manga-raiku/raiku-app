@@ -20,7 +20,7 @@
       >
         <q-card-section>
           <q-infinite-scroll
-            v-if="data"
+            v-if="data && !loading"
             @load="onLoad"
             :offset="250"
             class="row md:block"
@@ -75,7 +75,7 @@ const followStore = useFollowStore()
 
 const showMenuFollow = ref(false)
 
-const { data, error, runAsync } = useRequest(() => followStore.get())
+const { data, error, loading, runAsync } = useRequest(() => followStore.get())
 const onLoad = async (index: number, done: (stop?: boolean) => void) => {
   const more = await followStore.get(data.value?.length)
 
