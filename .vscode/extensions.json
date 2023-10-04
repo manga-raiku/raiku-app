@@ -25,7 +25,9 @@
     "eamodio.gitlens",
     "sourcegraph.cody-ai",
     "codeandstuff.package-json-upgrade",
-    "manuth.eslint-language-service"
+    "manuth.eslint-language-service",
+    "sonarsource.sonarlint-vscode",
+    "snyk-security.snyk-vulnerability-scanner"
   ],
   "unwantedRecommendations": [
     "octref.vetur",
