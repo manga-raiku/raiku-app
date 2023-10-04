@@ -128,8 +128,7 @@
 
 <script lang="ts" setup>
 import { useEventListener } from "@vueuse/core"
-import { debounce } from "perfect-debounce"
-import { QInput } from "quasar"
+import {debounce,  QInput } from "quasar"
 
 // const props = defineProps<{
 //   sourceId: string

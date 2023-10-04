@@ -108,7 +108,7 @@
 </template>
 
 <script lang="ts" setup>
-import { debounce } from "perfect-debounce"
+import { debounce } from "quasar"
 import type { API } from "raiku-pgs/plugin"
 
 const props = defineProps<{
