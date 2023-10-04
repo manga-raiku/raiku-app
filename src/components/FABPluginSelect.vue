@@ -70,7 +70,7 @@
                 />
               </q-item-section>
               <q-item-section v-if="item.favicon" avatar class="min-w-0">
-                <img :src="item.favicon" />
+                <img :src="item.favicon" :alt="item.name" />
               </q-item-section>
               <q-item-section>
                 <q-item-label lines="1">{{ item.name }}</q-item-label>
@@ -99,9 +99,8 @@
 const props = defineProps<{
   modelValue: string | null
 }>()
-const emit = defineEmits<{
-  (name: "update:modelValue", value: string | null): void
-}>()
+const emit =
+  defineEmits<(name: "update:modelValue", value: string | null) => void>()
 
 const pluginStore = usePluginStore()
 const stateStore = useStateStore()
