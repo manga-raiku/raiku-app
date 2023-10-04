@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import type { Package } from "raiku-pgs/plugin"
+import type { ID, Package } from "raiku-pgs/plugin"
 import { createWorkerPlugin, execPackageMjs } from "raiku-pgs/thread"
 import semverGt from "semver/functions/gt"
 
@@ -18,18 +18,17 @@ export interface PackageDisk extends Package {
   readonly plugin: string
 }
 
+export interface PluginOnMemory {
+  readonly meta: PackageDisk
+  readonly plugin: ReturnType<typeof createWorkerPlugin>
+}
+
 const httpGet = get
 const httpPost = post
 
 export const usePluginStore = defineStore("plugin", () => {
   const pluginsInstalled = shallowReactive<
-    Map<
-      string,
-      {
-        readonly meta: PackageDisk
-        readonly plugin: ReturnType<typeof createWorkerPlugin>
-      }
-    >
+    Map<string, PluginOnMemory | Promise<PluginOnMemory>>
   >(new Map())
   const pluginsCanUpdate = shallowReactive<Map<string, Package>>(new Map())
   const pluginMain = ref<string | null>(null)
@@ -101,7 +100,7 @@ export const usePluginStore = defineStore("plugin", () => {
       data: JSON.stringify(meta),
       recursive: true,
     })
-
+    ;(await pluginsInstalled.get(meta.id))?.plugin.destroy()
     pluginsInstalled.set(meta.id, {
       meta: meta as PackageDisk,
       plugin,
@@ -116,6 +115,7 @@ export const usePluginStore = defineStore("plugin", () => {
       directory: Directory.External,
       // eslint-disable-next-line @typescript-eslint/no-empty-function
     }).catch(() => {})
+    ;(await pluginsInstalled.get(id))?.plugin.destroy()
     pluginsInstalled.delete(id)
     busses.emit("remove plugin", id)
   }
@@ -140,27 +140,18 @@ export const usePluginStore = defineStore("plugin", () => {
     return true
   }
 
-  async function checkForUpdate() {
-    const { files } = await Filesystem.readdir({
-      path: "plugins",
-      directory: Directory.External,
-    })
+  async function checkForUpdate(sourceId: ID) {
+    const { source, version } = (await get(sourceId)).meta
+    const metaOnline = await fetch(join(source, "plugin.mjs"))
+      .then((res) => res.text())
+      .then((code) => execPackageMjs(code))
+    // check for updated
+    if (!semverGt(metaOnline.version, version)) {
+      // don't need update
+      return
+    }
 
-    const tasks = files.map(async ({ name }) => {
-      const { id, source, version } = (await get(name)).meta
-      const metaOnline = await fetch(join(source, "plugin.mjs"))
-        .then((res) => res.text())
-        .then((code) => execPackageMjs(code))
-      // check for updated
-      if (!semverGt(metaOnline.version, version)) {
-        // don't need update
-        return
-      }
-
-      pluginsCanUpdate.set(id, metaOnline)
-    })
-
-    await Promise.all(tasks)
+    return metaOnline
   }
 
   async function checkPluginInstalled(sourceId: string) {
@@ -183,18 +174,21 @@ export const usePluginStore = defineStore("plugin", () => {
     console.time(`Time load plugin "${sourceId}"`)
 
     try {
-      const meta = await Filesystem.readFile({
-        path: `plugins/${sourceId}`,
-        directory: Directory.External,
-        encoding: Encoding.UTF8,
-      }).then(({ data }) => JSON.parse(data) as PackageDisk)
-      const plugin = createWorkerPlugin(meta.plugin, httpGet, httpPost)
+      const promise = (async () => {
+        const meta = await Filesystem.readFile({
+          path: `plugins/${sourceId}`,
+          directory: Directory.External,
+          encoding: Encoding.UTF8,
+        }).then(({ data }) => JSON.parse(data) as PackageDisk)
+        const plugin = createWorkerPlugin(meta.plugin, httpGet, httpPost)
 
-      const v = { meta, plugin }
-      pluginsInstalled.set(meta.id, v)
-      console.timeEnd(`Time load plugin "${sourceId}"`)
+        const v = { meta, plugin }
+        console.timeEnd(`Time load plugin "${sourceId}"`)
 
-      return v
+        return v
+      })()
+      pluginsInstalled.set(sourceId, promise)
+      return promise
     } catch (err) {
       if (import.meta.env.DEV) console.error(err)
       console.timeEnd(`Time load plugin "${sourceId}"`)
