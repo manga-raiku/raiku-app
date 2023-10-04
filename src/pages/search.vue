@@ -159,7 +159,7 @@ meta:
         </span>
       </div>
 
-      <template v-if="data &&!loading">
+      <template v-if="data && !loading">
         <template v-if="isSingleData(data)">
           <InfiniteScroll v-if="data.items.length > 0" @load="onLoad">
             <GridCard :items="data.items" />
@@ -236,6 +236,8 @@ meta:
       </template>
     </section>
   </q-page>
+
+  <FABPluginSelect v-model="paramSourceId" />
 </template>
 
 <script lang="ts" setup>
@@ -259,6 +261,23 @@ const router = useRouter()
 const i18n = useI18n()
 const $q = useQuasar()
 const pluginStore = usePluginStore()
+
+const paramSourceId = ref(props.sourceId ?? null)
+watch(paramSourceId, sourceId => {
+  if (sourceId) {
+    router.push({
+      ...route,
+      name:undefined,
+      path:`/~${sourceId}/search`,
+      params: {
+        sourceId,
+        ...route.params
+      }
+    })
+  }
+})
+
+
 const api = computed(() =>
   pluginStore.getPluginOrDefault(props.sourceId).then(({ plugin }) => plugin),
 )
@@ -402,8 +421,11 @@ const swiperRef = ref()
 const activeIndex = ref(0)
 watch(
   [activeIndex, typesRank],
-  ([activeIndex, typesRank]) =>
-    typesRank && fetchRankType(typesRank[activeIndex].value),
+  ([activeIndex, typesRank]) => {
+    typesRank?.[activeIndex] && fetchRankType(typesRank[activeIndex].value)
+
+    console.log({ activeIndex, typesRank })
+  },
   { immediate: true },
 )
 

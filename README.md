@@ -88,7 +88,8 @@ quasar build
 - [ ] touch zoom in mobile
 - [x] button next chap
 
-- [ ] multiple pre search
+- [x] multiple pre search
+- [ ] control plugin separate
 
 ### Customize the configuration
 
