@@ -13,6 +13,7 @@ meta:
         >
           <img
             src="~/assets/trending_fire_1.png"
+            alt="trending_fire_1"
             class="display-inline-block w-1.2em h-1.2em"
           />
           {{ $t("thinh-hanh") }}
@@ -62,12 +63,6 @@ meta:
             class="my-3"
           />
           <template v-if="data && !loading">
-            <!-- <div
-            v-if="data.maxPage > 1"
-            class="flex items-center justify-center q-pa-md"
-          >
-            <Pagination :max="data.maxPage" v-model="page" />
-          </div> -->
             <section class="row mx--2 font-family-poppins">
               <InfiniteScroll @load="onLoad">
                 <div
@@ -83,13 +78,6 @@ meta:
                 </div>
               </InfiniteScroll>
             </section>
-
-            <!-- <div
-            v-if="data.maxPage > 1"
-            class="flex items-center justify-center q-pa-md"
-          >
-            <Pagination :max="data.maxPage" v-model="page" />
-          </div> -->
           </template>
           <ErrorDisplay
             v-else-if="error"
@@ -110,13 +98,6 @@ meta:
         </div>
       </section>
     </section>
-    <!--
-  <BannerTitle>{{ data.name }}</BannerTitle>
-
-<GenresFilter :filter="data.filter" class="my-3" />
-
-<CardVertical v-for="item in data.items" :key="item.path" :data="item" class="my-4" />
-<p class="whitespace-pre-wrap">{{ data }}</p> -->
   </q-page>
 </template>
 
@@ -165,7 +146,8 @@ useSeoMeta({
 const page = computed<number>({
   get: () => parseInt(route.query.page?.toString() ?? "1") || 1,
   set: (page) =>
-    router.push({
+    // eslint-disable-next-line no-void
+    void router.push({
       ...route,
       query: {
         ...route.query,
@@ -306,23 +288,21 @@ watch(error, (error) => {
       padding-right: 24px;
     }
   }
-  &.dark {
-    .trending-card__container {
-      background:
-        top right / 320px 320px no-repeat url(assets/anime-ranking-icon.png),
-        linear-gradient(
-          -213deg,
-          rgb(10, 10, 10) 0%,
-          rgb(25, 25, 25) 19%,
-          rgba(250, 250, 250, 0) 41%
-        ),
-        linear-gradient(
-          -206deg,
-          rgb(10, 22, 40) 0%,
-          rgb(25, 25, 25) 43%,
-          rgb(25, 25, 25) 95%
-        );
-    }
+  &.dark.trending-card__container {
+    background:
+      top right / 320px 320px no-repeat url(assets/anime-ranking-icon.png),
+      linear-gradient(
+        -213deg,
+        rgb(10, 10, 10) 0%,
+        rgb(25, 25, 25) 19%,
+        rgba(250, 250, 250, 0) 41%
+      ),
+      linear-gradient(
+        -206deg,
+        rgb(10, 22, 40) 0%,
+        rgb(25, 25, 25) 43%,
+        rgb(25, 25, 25) 95%
+      );
   }
 }
 </style>

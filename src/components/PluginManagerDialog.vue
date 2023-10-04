@@ -48,7 +48,7 @@
             class="rounded-xl"
           >
             <q-item-section avatar class="min-w-0">
-              <img :src="item.favicon" />
+              <img :src="item.favicon" :alt="item.name" />
             </q-item-section>
             <q-item-section>
               <q-item-label lines="1">
@@ -100,6 +100,7 @@
               </template>
             </q-item-section>
           </q-item>
+          <!-- Noncomliant -->
         </q-list>
         <div v-else-if="error" class="px-6 py-5">
           {{ error }}
@@ -120,9 +121,7 @@ import type { ShallowRef } from "vue"
 defineProps<{
   modelValue: boolean
 }>()
-const emit = defineEmits<{
-  (name: "update:modelValue", value: boolean): void
-}>()
+const emit = defineEmits<(name: "update:modelValue", value: boolean) => void>()
 
 const pluginStore = usePluginStore()
 const stateStore = useStateStore()
@@ -143,8 +142,8 @@ pluginStore.busses.on("remove plugin", (id) => {
 
 const counter = ref(0)
 const updateMap = computed(() => {
-  // eslint-disable-next-line no-unused-expressions
-  counter.value
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _ = counter.value
   const map = shallowReactive(
     new Map<
       string,
