@@ -24,7 +24,8 @@
     "zixuanchen.vitest-explorer",
     "eamodio.gitlens",
     "sourcegraph.cody-ai",
-    "codeandstuff.package-json-upgrade"
+    "codeandstuff.package-json-upgrade",
+    "manuth.eslint-language-service"
   ],
   "unwantedRecommendations": [
     "octref.vetur",
