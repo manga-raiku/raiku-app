@@ -23,7 +23,8 @@
     "antfu.unocss",
     "zixuanchen.vitest-explorer",
     "eamodio.gitlens",
-    "sourcegraph.cody-ai"
+    "sourcegraph.cody-ai",
+    "codeandstuff.package-json-upgrade"
   ],
   "unwantedRecommendations": [
     "octref.vetur",

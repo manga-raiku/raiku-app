@@ -79,7 +79,7 @@ jobs:
           run_install: false
 
       - name: Install depends
-        run: pnpm i
+        run: sh install.sh
 
       - name: Fretit
         run: pnpm pretit
@@ -201,7 +201,7 @@ jobs:
           run_install: false
 
       - name: Install depends
-        run: pnpm i
+        run: sh install.sh
 
       - name: Build
         run: cp .env.example .env && pnpm build
