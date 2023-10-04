@@ -1,2 +1,4 @@
 packages:
   - "npm/*"
+  - src-capacitor
+  - src-pwa
