@@ -69,7 +69,8 @@
     ],
     "src/pages/truyen-tranh/[zlug]/[epName]/[epId].vue": [
       "\nmeta:\n  hiddenHeader: true\n  hiddenDrawer: true\n  hiddenFooter: true\n"
-    ]
+    ],
+    "src/components/PluginManagerDialog.vue": ["install plugin"]
   },
   "scss.lint.unknownAtRules": "ignore",
   "i18n-ally.sourceLanguage": "vi-VN",

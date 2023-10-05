@@ -119,7 +119,7 @@ const props = defineProps<{
 const typesRank = computedAsync(async () => {
   const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
   // eslint-disable-next-line functional/no-throw-statement
-  if (!pluginId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
+  if (!pluginId) throw new PluginsNotAvailable()
 
   return (await (await pluginStore.get(pluginId)).plugin.Rankings).map(
     (item) => {
@@ -160,7 +160,7 @@ const { data, error, loading, runAsync } = useRequest(
   async () => {
     const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
     // eslint-disable-next-line functional/no-throw-statement
-    if (!pluginId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
+    if (!pluginId) throw new PluginsNotAvailable()
 
     const data = await (
       await pluginStore.get(pluginId)
@@ -184,7 +184,7 @@ const onLoad = useLoadMorePage(
   async (page) => {
     const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
     // eslint-disable-next-line functional/no-throw-statement
-    if (!pluginId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
+    if (!pluginId) throw new PluginsNotAvailable()
 
     return pluginStore
       .get(pluginId)

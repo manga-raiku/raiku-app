@@ -30,7 +30,6 @@ export const usePluginStore = defineStore("plugin", () => {
   const pluginsInstalled = shallowReactive<
     Map<string, PluginOnMemory | Promise<PluginOnMemory>>
   >(new Map())
-  const pluginsCanUpdate = shallowReactive<Map<string, Package>>(new Map())
   const pluginMain = ref<string | null>(null)
 
   const busses = new EventBus<{
@@ -101,6 +100,7 @@ export const usePluginStore = defineStore("plugin", () => {
       recursive: true
     })
     ;(await pluginsInstalled.get(meta.id))?.plugin.destroy()
+    storeTaskGet.delete(meta.id)
     pluginsInstalled.set(meta.id, {
       meta: meta as PackageDisk,
       plugin
@@ -154,19 +154,6 @@ export const usePluginStore = defineStore("plugin", () => {
     return metaOnline
   }
 
-  async function checkPluginInstalled(sourceId: string) {
-    try {
-      await Filesystem.stat({
-        path: `plugins/${sourceId}`,
-        directory: Directory.External
-      })
-
-      return STATUS_PLUGIN_INSTALL.INSTALLED
-    } catch {
-      return STATUS_PLUGIN_INSTALL.NOT_INSTALL
-    }
-  }
-
   async function _get(sourceId: string) {
     const onCache = pluginsInstalled.get(sourceId)
     if (onCache) return onCache
@@ -188,13 +175,14 @@ export const usePluginStore = defineStore("plugin", () => {
         return v
       })()
       pluginsInstalled.set(sourceId, promise)
-      return promise
+      return await promise
     } catch (err) {
+      pluginsInstalled.delete(sourceId)
       if (import.meta.env.DEV) console.error(err)
       console.timeEnd(`Time load plugin "${sourceId}"`)
 
       // eslint-disable-next-line functional/no-throw-statement
-      throw STATUS_PLUGIN_INSTALL.NOT_INSTALL
+      throw new PluginError(sourceId, STATUS_PLUGIN_INSTALL.NOT_FOUND)
     }
   }
 
@@ -231,8 +219,11 @@ export const usePluginStore = defineStore("plugin", () => {
   async function getPluginOrDefault(sourceId?: string | null) {
     if (!sourceId) sourceId = await pluginMainPromise.value
 
-    // eslint-disable-next-line functional/no-throw-statement
-    if (!sourceId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
+    if (!sourceId)
+      // eslint-disable-next-line functional/no-throw-statement
+      throw sourceId
+        ? new PluginError(sourceId, STATUS_PLUGIN_INSTALL.NOT_FOUND)
+        : new PluginsNotAvailable()
 
     return get(sourceId)
   }
@@ -243,8 +234,6 @@ export const usePluginStore = defineStore("plugin", () => {
     getPluginMain,
 
     get,
-
-    checkPluginInstalled,
 
     busses,
 

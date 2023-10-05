@@ -5,9 +5,9 @@
   >
     <q-card class="w-full mx-6 max-w-560px">
       <q-card-section>
-        <h2 class="text-h6">Thêm plugin</h2>
+        <h2 class="text-h6">{{ $t("them-plugin") }}</h2>
         <div class="text-subtitle2 text-weight-normal mt-4">
-          Nhập địa chỉ plugin
+          {{ $t("nhap-dia-chi-plugin") }}
         </div>
 
         <q-input
@@ -16,7 +16,7 @@
           bottom-slots
           clearable
           autofocus
-          placeholder="e.x: https://repo.github.io/plugins/manga"
+          :placeholder="$t('placeholder-input-url-plugin')"
           color="main-2"
           :rules="[
             (v) => !!v || 'Vui lòng nhập địa chỉ plugin',
@@ -24,11 +24,28 @@
               v.match(/^https?:\/\/[^.]+\.[^.]{2,}/) ||
               'Địa chỉ plugin không hợp lệ'
           ]"
+          @keydown.enter="addPlugin"
         />
+
+        <div class="mt-4 text-gray-300">
+          Đây là 2 plugin cho phiên bản Raiku beta:
+          <ul>
+            <li
+              v-for="item in plugins"
+              :key="item"
+              class="flex flex-nowrap text-blue-400 items-center justify-between"
+            >
+              {{ item.slice(item.lastIndexOf("/") + 1) }}
+              <q-btn flat rounded no-caps @click="pluginUrl = item">{{
+                $t("cai-dat")
+              }}</q-btn>
+            </li>
+          </ul>
+        </div>
       </q-card-section>
 
       <q-card-section align="right">
-        <q-btn flat no-caps rounded v-close-popup>Hủy</q-btn>
+        <q-btn flat no-caps rounded v-close-popup>{{ $t("huy") }}</q-btn>
         <q-btn
           flat
           no-caps
@@ -37,7 +54,7 @@
           :disable="!pluginUrl"
           :loading="addingPlugin"
           @click="addPlugin"
-          >Thêm plugin</q-btn
+          >{{ $t("them-plugin") }}</q-btn
         >
       </q-card-section>
     </q-card>
@@ -55,6 +72,7 @@ const emit = defineEmits<{
 
 const pluginStore = usePluginStore()
 const $q = useQuasar()
+const { t } = useI18n()
 
 const pluginUrl = ref("")
 
@@ -67,21 +85,20 @@ async function addPlugin() {
     const { name } = await pluginStore.installPlugin(plugin)
 
     $q.notify({
-      message: `Đã thêm plugin ${name}`
+      message: t("da-them-plugin-name", [name])
     })
     emit("installed")
   } catch (err) {
     console.error(err)
     let message: string
-    switch (err) {
-      case STATUS_PLUGIN_INSTALL.NOT_FOUND:
-        message = "Plugin không tồn tại"
-        break
-      case STATUS_PLUGIN_INSTALL.NOT_FOUND2:
-        message = "Plugin tồn tại nhưng dường như cấu hình bị hỏng"
+    switch ((err as Response)?.status) {
+      case 404:
+        message = t("khong-co-plugin-nao-duoc-tim-thay")
         break
       default:
-        message = `Lỗi khi thêm plugin${import.meta.env.DEV ? ` (${err})` : ""}`
+        message = t("loi-khi-them-plugin", [
+          import.meta.env.DEV ? ` (${err})` : ""
+        ])
     }
 
     $q.notify({
@@ -93,4 +110,9 @@ async function addPlugin() {
 
   addingPlugin.value = false
 }
+
+const plugins = [
+  "https://manga-raiku.github.io/raiku-plugin-nettruyen",
+  "https://manga-raiku.github.io/raiku-plugin-truyenqq"
+]
 </script>

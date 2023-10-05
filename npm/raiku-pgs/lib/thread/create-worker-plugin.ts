@@ -164,7 +164,7 @@ export function createWorkerPlugin(
           )
       }
       if (p === "catch" || p === "then" || p === "finally") return undefined
-      if (p === "destroy") return workerSession.destroy
+      if (p === "destroy") return workerSession.destroy.bind(workerSession)
 
       // eslint-disable-next-line functional/functional-parameters, @typescript-eslint/no-explicit-any
       return (...args: any[]) =>

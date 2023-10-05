@@ -127,9 +127,22 @@ export const Icons: Record<string, [Icon, Icon]> = {
 }
 
 export enum STATUS_PLUGIN_INSTALL {
-  NOT_INSTALL = "plugin_not_install",
-  ADDED_BUT_NEED_DOWNLOAD = "plugin_added_but_need_download",
   INSTALLED = "plugin_installed",
   NOT_FOUND = "plugin_not_found",
-  NOT_FOUND2 = "plugin_not_found2"
+  NOT_AVAILABLE = "plugins_not_available"
+}
+export class PluginError extends Error {
+  name = "PluginError"
+  constructor(
+    public readonly sourceId: string,
+    code: string
+  ) {
+    super(code)
+  }
+}
+export class PluginsNotAvailable extends Error {
+  name = "PluginNotAvailable"
+  constructor() {
+    super(STATUS_PLUGIN_INSTALL.NOT_AVAILABLE)
+  }
 }
