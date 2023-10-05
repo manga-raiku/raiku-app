@@ -23,7 +23,7 @@ useSeoMeta({
   description,
   ogTitle: title,
   ogDescription: description,
-  ogImage: "/favicon.png",
+  ogImage: "/icons/icon-512x512.png",
   ogSiteName: "Raiku"
 })
 

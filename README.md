@@ -77,14 +77,14 @@ quasar build
 - [ ] Download manager for desktop
 - [ ] Offline ready interface
 - [ ] Infinite reader
-- [ ] Common API to support various sources
+- [x] Common API to support various sources
 - [x] Localize app
 - [ ] meta header
 - [x] update UI screen error
 - [ ] show error network offline
 - [x] add redirect to not found page
 - [x] show error if throw error
-- [ ] fix favicon small
+- [x] fix favicon small
 - [ ] touch zoom in mobile
 - [x] button next chap
 
