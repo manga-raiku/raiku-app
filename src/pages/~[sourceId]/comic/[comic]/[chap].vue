@@ -585,9 +585,7 @@ const i18n = useI18n()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 const pluginStore = usePluginStore()
 
-const api = computed(() =>
-  pluginStore.get(props.sourceId).then(({ plugin }) => plugin)
-)
+const api = pluginStore.useApi(toGetter(props, "sourceId"), false)
 
 const showSearchMB = ref(false)
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
@@ -602,7 +600,7 @@ const GetWithCache = useWithCache(
 console.log(api.value, props)
 // let disableReactiveParams = false
 const { data, runAsync, error } = useRequest(GetWithCache, {
-  refreshDeps: [() => props.comic, () => props.chap],
+  refreshDeps: [api, () => props.comic, () => props.chap],
   async refreshDepsAction() {
     if (route.query.no_restore_scroll) return
 
@@ -745,16 +743,11 @@ const zoom = useClamp(100, 50, 200)
 const server = ref(0)
 const serversReady = computedAsync(
   () =>
-    pluginStore
-      .get(props.sourceId)
-      .then((res) =>
-        data.value
-          ? res.plugin["servers:has"](
-              toRaw(data.value.pages[0]),
-              toRaw(data.value)
-            )
-          : undefined
-      ),
+    api.value.then((plugin) =>
+      data.value
+        ? plugin["servers:has"](toRaw(data.value.pages[0]), toRaw(data.value))
+        : undefined
+    ),
   undefined,
   {
     onError: console.error.bind(console)

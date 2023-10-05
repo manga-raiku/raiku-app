@@ -100,6 +100,7 @@ export const usePluginStore = defineStore("plugin", () => {
       recursive: true
     })
     ;(await pluginsInstalled.get(meta.id))?.plugin.destroy()
+    refreshPluginMain.value++
     storeTaskGet.delete(meta.id)
     pluginsInstalled.set(meta.id, {
       meta: meta as PackageDisk,
@@ -198,15 +199,17 @@ export const usePluginStore = defineStore("plugin", () => {
     return newTask
   }
 
+  const refreshPluginMain = ref(0)
   const pluginMainPromise = computed(() => {
     return (
       pluginMain.value ||
+      (refreshPluginMain.value,
       Filesystem.readdir({
         path: "plugins",
         directory: Directory.External
       })
         .then((res) => res.files[0].name)
-        .catch(() => null)
+        .catch(() => null))
     )
   })
 
@@ -228,6 +231,20 @@ export const usePluginStore = defineStore("plugin", () => {
     return get(sourceId)
   }
 
+  // composition api
+  function useApi<OrDefault extends boolean>(
+    sourceId: OrDefault extends true
+      ? ComputedRef<string | null | undefined>
+      : ComputedRef<string>,
+    orDefault: OrDefault
+  ) {
+    return orDefault
+      ? computed(() =>
+          getPluginOrDefault(sourceId.value).then(({ plugin }) => plugin)
+        )
+      : computed(() => get(sourceId.value!).then(({ plugin }) => plugin))
+  }
+
   return {
     pluginMain,
     pluginMainPromise,
@@ -243,6 +260,8 @@ export const usePluginStore = defineStore("plugin", () => {
     updatePlugin,
     checkForUpdate,
 
-    getPluginOrDefault
+    getPluginOrDefault,
+
+    useApi
   }
 })

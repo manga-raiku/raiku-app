@@ -79,11 +79,12 @@ const page = computed<number>({
     })
 })
 
+const api = pluginStore.useApi(toGetter(props, "sourceId"), true)
 const { data, runAsync, loading, error } = useRequest(
   async () => {
     const data = await (
-      await pluginStore.getPluginOrDefault(props.sourceId)
-    ).plugin.getCategory(
+      await api.value
+    ).getCategory(
       props.type ?? "",
       page.value,
       route.query as Record<string, string>
@@ -96,7 +97,7 @@ const { data, runAsync, loading, error } = useRequest(
     }
   },
   {
-    refreshDeps: [() => props.type, () => route.query],
+    refreshDeps: [api, () => props.type, () => route.query],
     refreshDepsAction() {
       runAsync()
     }
@@ -104,15 +105,13 @@ const { data, runAsync, loading, error } = useRequest(
 )
 const onLoad = useLoadMorePage(
   async (page) => {
-    return pluginStore
-      .getPluginOrDefault(props.sourceId)
-      .then((res) =>
-        res.plugin.getCategory(
-          props.type ?? "",
-          page,
-          route.query as Record<string, string>
-        )
+    return api.value.then((res) =>
+      res.getCategory(
+        props.type ?? "",
+        page,
+        route.query as Record<string, string>
       )
+    )
   },
   data,
   page.value

@@ -422,20 +422,15 @@ const historyStore = useHistoryStore()
 const IDMStore = useIDMStore()
 const pluginStore = usePluginStore()
 
+const api = pluginStore.useApi(toGetter(props, "sourceId"), false)
+
 const GetWithCache = useWithCache(
-  () =>
-    pluginStore
-      .get(props.sourceId)
-      .then(({ plugin }) => plugin.getComic(props.comic)),
+  () => api.value.then((plugin) => plugin.getComic(props.comic)),
   computed(() => `${packageName}:///manga/${props.comic}`)
 )
 
-const { data, runAsync, error, run, loading } = useRequest(GetWithCache, {
-  refreshDeps: [() => props.comic],
-  refreshDepsAction() {
-    // data.value = undefined
-    run()
-  }
+const { data, runAsync, error, loading } = useRequest(GetWithCache, {
+  refreshDeps: [api, () => props.comic],
 })
 watch(error, (error) => {
   if (error?.message === "not_found")

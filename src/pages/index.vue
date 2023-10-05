@@ -529,13 +529,11 @@ function Carousel({ swiper, on }: any) {
   })
 }
 
+const api = pluginStore.useApi(sourceId, true)
 const { data, error, loading, refreshAsync } = useRequest(
-  () =>
-    pluginStore
-      .getPluginOrDefault(sourceId.value)
-      .then((res) => res.plugin.index()),
+  () => api.value.then((res) => res.index()),
   {
-    refreshDeps: [sourceId]
+    refreshDeps: [api]
   }
 )
 

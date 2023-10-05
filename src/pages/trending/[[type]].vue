@@ -116,20 +116,15 @@ const props = defineProps<{
   sourceId?: string
 }>()
 
+const api = pluginStore.useApi(toGetter(props, "sourceId"), true)
 const typesRank = computedAsync(async () => {
-  const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
-  // eslint-disable-next-line functional/no-throw-statement
-  if (!pluginId) throw new PluginsNotAvailable()
-
-  return (await (await pluginStore.get(pluginId)).plugin.Rankings).map(
-    (item) => {
-      return {
-        value: item.value,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        name: (item.name as unknown as any)[i18n.locale.value]
-      }
+  return (await (await api.value).Rankings).map((item) => {
+    return {
+      value: item.value,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      name: (item.name as unknown as any)[i18n.locale.value]
     }
-  )
+  })
 })
 
 const title = () =>
@@ -158,13 +153,9 @@ const page = computed<number>({
 
 const { data, error, loading, runAsync } = useRequest(
   async () => {
-    const pluginId = props.sourceId ?? (await pluginStore.pluginMainPromise)
-    // eslint-disable-next-line functional/no-throw-statement
-    if (!pluginId) throw new PluginsNotAvailable()
-
     const data = await (
-      await pluginStore.get(pluginId)
-    ).plugin.getRanking(
+      await api.value
+    ).getRanking(
       props.type ?? "",
       page.value,
       route.query as Record<string, string>
@@ -177,7 +168,7 @@ const { data, error, loading, runAsync } = useRequest(
     }
   },
   {
-    refreshDeps: [() => props.type, page, () => route.query]
+    refreshDeps: [api, () => props.type, page, () => route.query]
   }
 )
 const onLoad = useLoadMorePage(
@@ -186,15 +177,13 @@ const onLoad = useLoadMorePage(
     // eslint-disable-next-line functional/no-throw-statement
     if (!pluginId) throw new PluginsNotAvailable()
 
-    return pluginStore
-      .get(pluginId)
-      .then((res) =>
-        res.plugin.getRanking(
-          props.type ?? "",
-          page,
-          route.query as Record<string, string>
-        )
+    return api.value.then((plugin) =>
+      plugin.getRanking(
+        props.type ?? "",
+        page,
+        route.query as Record<string, string>
       )
+    )
   },
   data,
   page.value

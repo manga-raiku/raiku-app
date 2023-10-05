@@ -277,9 +277,7 @@ watch(paramSourceId, (sourceId) => {
   }
 })
 
-const api = computed(() =>
-  pluginStore.getPluginOrDefault(props.sourceId).then(({ plugin }) => plugin)
-)
+const api = pluginStore.useApi(toGetter(props, "sourceId"), true)
 
 const title = () => `Tìm kiếm ${route.query.query ?? ""}`
 const description = title
@@ -346,7 +344,7 @@ const { data, run, error, loading, runAsync } = useRequest(
     )
   },
   {
-    refreshDeps: [() => route.query.query],
+    refreshDeps: [api, () => route.query.query],
     refreshDepsAction() {
       run()
     }
