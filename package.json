@@ -69,7 +69,7 @@
     "cheerio": "1.0.0-rc.12",
     "client-ext-animevsub-helper": "^1.0.4",
     "dayjs": "^1.11.9",
-    "eruda2": "0.0.2-b8",
+    "eruda2": "0.0.2",
     "fetch-retry": "^5.0.6",
     "hash-sum": "^2.0.0",
     "htmlparser2": "^8.0.1",
