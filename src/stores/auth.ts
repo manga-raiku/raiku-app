@@ -93,7 +93,7 @@ export const useAuthStore = defineStore("auth-spb", () => {
   async function assert() {
     await setup.value
     // eslint-disable-next-line functional/no-throw-statement
-    if (!session.value) throw new Error("need_login")
+    if (!session.value) throw new AuthError(AuthError.Code.REQUIRED_LOGIN)
 
     return session.value
   }

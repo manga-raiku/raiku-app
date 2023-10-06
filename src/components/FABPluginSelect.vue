@@ -36,21 +36,6 @@
 
           <div v-if="!data.length" class="text-center py-6">Không có gì cả</div>
           <template v-else>
-            <q-item clickable target="_blank" class="rounded-xl">
-              <q-item-section side class="min-w-0 pl-0">
-                <q-radio
-                  :model-value="modelValue === null ? '' : modelValue"
-                  @update:model-value="emit('update:modelValue', null)"
-                  checked-icon="task_alt"
-                  unchecked-icon="panorama_fish_eye"
-                  color="orange"
-                  val=""
-                />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label lines="1">Tất cả</q-item-label>
-              </q-item-section>
-            </q-item>
             <q-item
               v-for="item in data"
               :key="item.id"
@@ -70,10 +55,15 @@
                 />
               </q-item-section>
               <q-item-section v-if="item.favicon" avatar class="min-w-0">
-                <img :src="item.favicon" :alt="item.name" />
+                <img :src="item.favicon" :alt="item.name" class="size-1.2em" />
               </q-item-section>
               <q-item-section>
-                <q-item-label lines="1">{{ item.name }}</q-item-label>
+                <q-item-label lines="1">
+                  {{ item.name }}
+                  <q-badge v-if="item.devMode" rounded color="blue" class="ml-1"
+                    >dev</q-badge
+                  >
+                </q-item-label>
                 <q-item-label v-if="item.description" lines="2" caption>{{
                   item.description
                 }}</q-item-label>

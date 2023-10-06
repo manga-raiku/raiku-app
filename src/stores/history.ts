@@ -6,9 +6,12 @@ export const useHistoryStore = defineStore("history", () => {
   const authStore = useAuthStore()
 
   async function get(lastIndex?: number) {
+    const session = await authStore.assert()
+
     const res = supabase
       .from("history_manga")
       .select("*")
+      .eq("user_id", session.user.id)
       .order("updated_at", {
         ascending: false
       })
@@ -30,6 +33,8 @@ export const useHistoryStore = defineStore("history", () => {
       "id" | "created_at" | "updated_at" | "user_id"
     >
   ) {
+    await authStore.assert()
+
     const { data, error } = await supabase.from("history_manga").upsert(row, {
       ignoreDuplicates: false,
       onConflict: "manga_id, user_id"

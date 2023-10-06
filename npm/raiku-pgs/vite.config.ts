@@ -1,7 +1,8 @@
+import replace from "@rollup/plugin-replace"
 import esbuild from "esbuild"
 import { defineConfig } from "vite"
 import type { Plugin } from "vite"
-import { replaceCodePlugin } from "vite-plugin-replace"
+
 
 function vitePluginBuildRaw(): Plugin {
   return {
@@ -57,13 +58,8 @@ export default defineConfig({
   },
   plugins: [
     vitePluginBuildRaw(),
-    replaceCodePlugin({
-      replacements: [
-        {
-          from: "__DEV__",
-          to: "process.env.NODE_ENV === 'development'"
-        }
-      ]
-    })
+    replace({
+      __DEV__: "process.env.NODE_ENV === 'development'"
+    }) as unknown as Plugin
   ]
 })

@@ -9,7 +9,7 @@
         no-spinner
       />
     </q-avatar>
-    <i-solar-menu-dots-bold class="size-1.5em rotate-90deg" />
+    <i-solar-menu-dots-bold v-else class="size-1.5em rotate-90deg" />
     <!-- <component v-else :is="Icons.user_circle[1]" class="size-30px" /> -->
     <!-- <component v-else :is="Icons.settings[0]" width="30" height="30" /> -->
 

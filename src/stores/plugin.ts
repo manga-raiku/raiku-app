@@ -16,6 +16,7 @@ export interface PackageDisk extends Package {
   readonly installedAt: number
   readonly updatedAt: number
   readonly plugin: string
+  readonly devMode: boolean
 }
 
 export interface PluginOnMemory {
@@ -30,7 +31,6 @@ export const usePluginStore = defineStore("plugin", () => {
   const pluginsInstalled = shallowReactive<
     Map<string, PluginOnMemory | Promise<PluginOnMemory>>
   >(new Map())
-  const pluginsCanUpdate = shallowReactive<Map<string, Package>>(new Map())
   const pluginMain = ref<string | null>(null)
 
   const busses = new EventBus<{
@@ -59,7 +59,7 @@ export const usePluginStore = defineStore("plugin", () => {
     ).then((res) => res.filter(Boolean) as PackageDisk[])
   }
 
-  async function installPlugin(source: string) {
+  async function installPlugin(source: string, devMode:boolean) {
     const [packageMjs, pluginMjs] = await Promise.all([
       fetch(join(source, "package.mjs")).then((res) => {
         if (res.ok) return res.text()
@@ -73,7 +73,7 @@ export const usePluginStore = defineStore("plugin", () => {
       })
     ])
     // run init package.mjs
-    const meta = await execPackageMjs(packageMjs)
+    const meta = await execPackageMjs(packageMjs, devMode)
 
     const updatedAt = Date.now()
     const installedAt = await Filesystem.readFile({
@@ -84,7 +84,7 @@ export const usePluginStore = defineStore("plugin", () => {
       .then((res) => JSON.parse(res.data).installedAt)
       .catch(() => updatedAt)
 
-    const plugin = createWorkerPlugin(pluginMjs, httpGet, httpPost)
+    const plugin = createWorkerPlugin(pluginMjs, httpGet, httpPost, devMode)
 
     Object.assign(meta, {
       source,
@@ -101,6 +101,8 @@ export const usePluginStore = defineStore("plugin", () => {
       recursive: true
     })
     ;(await pluginsInstalled.get(meta.id))?.plugin.destroy()
+    refreshPluginMain.value++
+    storeTaskGet.delete(meta.id)
     pluginsInstalled.set(meta.id, {
       meta: meta as PackageDisk,
       plugin
@@ -128,14 +130,14 @@ export const usePluginStore = defineStore("plugin", () => {
 
     const metaOnline = await fetch(`${meta.source}/plugin.mjs`)
       .then((res) => res.text())
-      .then((text) => execPackageMjs(text))
+      .then((text) => execPackageMjs(text, meta.devMode))
 
     if (!semverGt(metaOnline.version, meta.version)) {
       // don't need update
       return false
     }
 
-    await installPlugin(meta.source)
+    await installPlugin(meta.source, meta.devMode)
 
     return true
   }
@@ -144,7 +146,7 @@ export const usePluginStore = defineStore("plugin", () => {
     const { source, version } = (await get(sourceId)).meta
     const metaOnline = await fetch(join(source, "plugin.mjs"))
       .then((res) => res.text())
-      .then((code) => execPackageMjs(code))
+      .then((code) => execPackageMjs(code, false))
     // check for updated
     if (!semverGt(metaOnline.version, version)) {
       // don't need update
@@ -152,19 +154,6 @@ export const usePluginStore = defineStore("plugin", () => {
     }
 
     return metaOnline
-  }
-
-  async function checkPluginInstalled(sourceId: string) {
-    try {
-      await Filesystem.stat({
-        path: `plugins/${sourceId}`,
-        directory: Directory.External
-      })
-
-      return STATUS_PLUGIN_INSTALL.INSTALLED
-    } catch {
-      return STATUS_PLUGIN_INSTALL.NOT_INSTALL
-    }
   }
 
   async function _get(sourceId: string) {
@@ -180,7 +169,7 @@ export const usePluginStore = defineStore("plugin", () => {
           directory: Directory.External,
           encoding: Encoding.UTF8
         }).then(({ data }) => JSON.parse(data) as PackageDisk)
-        const plugin = createWorkerPlugin(meta.plugin, httpGet, httpPost)
+        const plugin = createWorkerPlugin(meta.plugin, httpGet, httpPost, meta.devMode)
 
         const v = { meta, plugin }
         console.timeEnd(`Time load plugin "${sourceId}"`)
@@ -188,13 +177,14 @@ export const usePluginStore = defineStore("plugin", () => {
         return v
       })()
       pluginsInstalled.set(sourceId, promise)
-      return promise
+      return await promise
     } catch (err) {
+      pluginsInstalled.delete(sourceId)
       if (import.meta.env.DEV) console.error(err)
       console.timeEnd(`Time load plugin "${sourceId}"`)
 
       // eslint-disable-next-line functional/no-throw-statement
-      throw STATUS_PLUGIN_INSTALL.NOT_INSTALL
+      throw new PluginError(sourceId, STATUS_PLUGIN_INSTALL.NOT_FOUND)
     }
   }
 
@@ -210,15 +200,17 @@ export const usePluginStore = defineStore("plugin", () => {
     return newTask
   }
 
+  const refreshPluginMain = ref(0)
   const pluginMainPromise = computed(() => {
     return (
       pluginMain.value ||
+      (refreshPluginMain.value,
       Filesystem.readdir({
         path: "plugins",
         directory: Directory.External
       })
         .then((res) => res.files[0].name)
-        .catch(() => null)
+        .catch(() => null))
     )
   })
 
@@ -231,10 +223,27 @@ export const usePluginStore = defineStore("plugin", () => {
   async function getPluginOrDefault(sourceId?: string | null) {
     if (!sourceId) sourceId = await pluginMainPromise.value
 
-    // eslint-disable-next-line functional/no-throw-statement
-    if (!sourceId) throw STATUS_PLUGIN_INSTALL.NOT_FOUND
+    if (!sourceId)
+      // eslint-disable-next-line functional/no-throw-statement
+      throw sourceId
+        ? new PluginError(sourceId, STATUS_PLUGIN_INSTALL.NOT_FOUND)
+        : new PluginsNotAvailable()
 
     return get(sourceId)
+  }
+
+  // composition api
+  function useApi<OrDefault extends boolean>(
+    sourceId: OrDefault extends true
+      ? ComputedRef<string | null | undefined>
+      : ComputedRef<string>,
+    orDefault: OrDefault
+  ) {
+    return orDefault
+      ? computed(() =>
+          getPluginOrDefault(sourceId.value).then(({ plugin }) => plugin)
+        )
+      : computed(() => get(sourceId.value!).then(({ plugin }) => plugin))
   }
 
   return {
@@ -244,8 +253,6 @@ export const usePluginStore = defineStore("plugin", () => {
 
     get,
 
-    checkPluginInstalled,
-
     busses,
 
     getAllPlugins,
@@ -254,6 +261,8 @@ export const usePluginStore = defineStore("plugin", () => {
     updatePlugin,
     checkForUpdate,
 
-    getPluginOrDefault
+    getPluginOrDefault,
+
+    useApi
   }
 })

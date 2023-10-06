@@ -77,14 +77,14 @@ quasar build
 - [ ] Download manager for desktop
 - [ ] Offline ready interface
 - [ ] Infinite reader
-- [ ] Common API to support various sources
+- [x] Common API to support various sources
 - [x] Localize app
-- [ ] meta header
+- [x] meta header
 - [x] update UI screen error
 - [ ] show error network offline
 - [x] add redirect to not found page
 - [x] show error if throw error
-- [ ] fix favicon small
+- [x] fix favicon small
 - [ ] touch zoom in mobile
 - [x] button next chap
 
@@ -93,7 +93,26 @@ quasar build
 
 ### Customize the configuration
 
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+See [Configuring quasar.config.ts](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+
+### Thanks for
+
+This project couldn't exist without other great open source (or free) projects. We (`Manga Raiku Team`) sincerely thank the open source developers and organizations that keep their amazing tools free.
+| | |
+| ---- | ---- |
+| ![capacitorjs](https://capacitorjs.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo-light.6f15363c.png&w=256&q=75) | Core technology allows the app to run on Android and iOS |
+| ![quasarjs](https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg) | Material UI Lite UI framework based on Vue 3 |
+| ![codecov](https://about.codecov.io/wp-content/themes/codecov/assets/brand/sentry-cobranding/logos/codecov-by-sentry-logo.svg) | Code error scanner |
+| ![CodeSee](https://assets-global.website-files.com/61d5fe8761f6e57c29b38c10/61fb09acbc7d710af9f03cf5_Logo.svg) | Free code mapping service |
+| ![Snyk](https://res.cloudinary.com/snyk/image/upload/snyk-mktg-brandui/brand-logos/wordmark-logo-color.svg) | Find and automatically fix vulnerabilities in your code, open source dependencies, containers, and IaC — powered by Snyk’s industry-leading security intelligence and DeepCode AI. |
+| ![sonar](https://sonarcloud.io/apple-touch-icon-180x180.png) | Free cloud error scanner |
+| ![socket](https://socket.dev/images/logo-280x80.png) | Socket fights vulnerabilities and provides visibility, defense-in-depth, and proactive supply chain protection for JavaScript, Python, and Go dependencies. |
+| ![codeium](https://codeium.com/favicon.svg) | A Free AI-Powered Toolkit for Developers. |
+| ![netlify](https://www.netlify.com/favicon/icon.svg) | Netlify is the modern web development platform for Enterprises to realize the full potential of a scalable, customizable web architecture. |
+
+---
+
+and other free and open source services.
 
 ## License
 

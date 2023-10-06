@@ -2,14 +2,13 @@
   <q-dialog
     :model-value="modelValue"
     @update:model-value="emit('update:modelValue', $event)"
-    full-width
     full-height
   >
     <q-card
-      class="h-full min-w-310px flex flex-nowrap column min-h-0 rounded-xl"
+      class="h-full min-w-[min(500px,100%)] max-w-100% flex flex-nowrap column min-h-0 rounded-xl"
     >
       <q-card-section class="text-16px flex items-center justify-between pl-7">
-        Plugins Manager
+        {{ $t("trinh-quan-ly-plugin") }}
 
         <div>
           <q-btn unelevated round @click="triggerCheckUpdate">
@@ -24,20 +23,29 @@
         class="w-full h-full min-h-0 flex-1 flex flex-nowrap column !py-0"
       >
         <q-list v-if="!error && data">
-          <q-item
-            clickable
-            class="rounded-xl"
-            @click="stateStore.showPluginAddDialog = true"
-          >
-            <q-item-section avatar class="min-w-0">
-              <i-iconamoon-sign-plus-fill class="size-1.5em" />
+          <div class="flex items-center justify-between">
+            <q-item
+              clickable
+              class="rounded-xl"
+              @click="stateStore.showPluginAddDialog = true"
+            >
+              <q-item-section avatar class="min-w-0">
+                <i-iconamoon-sign-plus-fill class="size-1.5em" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ $t("them-plugin") }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item-section side class="mr--2" @click="showEdit = !showEdit">
+              <q-btn rounded no-caps flat class="text-main-3">{{
+                showEdit ? "Hủy" : "Sửa"
+              }}</q-btn>
             </q-item-section>
-            <q-item-section>
-              <q-item-label>Thêm plugin</q-item-label>
-            </q-item-section>
-          </q-item>
+          </div>
 
-          <div v-if="!data.length" class="text-center py-6">Không có gì cả</div>
+          <div v-if="!data.length" class="text-center py-6">
+            {{ $t("khong-co-gi-ca") }}
+          </div>
           <q-item
             v-else
             v-for="item in data"
@@ -48,13 +56,16 @@
             class="rounded-xl"
           >
             <q-item-section avatar class="min-w-0">
-              <img :src="item.favicon" :alt="item.name" />
+              <img :src="item.favicon" :alt="item.name" class="size-1.2em" />
             </q-item-section>
             <q-item-section>
               <q-item-label lines="1">
                 {{ item.name }}
-                <span class="text-0.8em text-gray-300"
-                  >(v{{ item.version }})</span
+                <span class="text-0.8em text-gray-300">{{
+                  $t("v-item-version", [item.version])
+                }}</span>
+                <q-badge v-if="item.devMode" rounded color="blue" class="ml-1"
+                  >dev</q-badge
                 >
               </q-item-label>
               <q-item-label lines="2" caption>{{
@@ -83,11 +94,13 @@
                     }"
                   />
                   <div class="text-0.8em">
-                    Cập nhật v{{
-                      (
-                        updateMap.get(item.id)?.status.value
-                          ?.data as unknown as any
-                      )?.version
+                    {{
+                      $t("cap-nhat-v", [
+                        (
+                          updateMap.get(item.id)?.status.value
+                            ?.data as unknown as any
+                        )?.version
+                      ])
                     }}
                   </div>
                 </q-btn>
@@ -98,6 +111,17 @@
                   }}</q-tooltip>
                 </div>
               </template>
+
+              <q-btn
+                v-if="showEdit"
+                round
+                @click.stop.prevent="removePlugin(item)"
+                @mousedown.stop
+              >
+                <i-iconamoon-sign-minus-circle-light
+                  class="text-red-300 text-1.5em"
+                />
+              </q-btn>
             </q-item-section>
           </q-item>
           <!-- Noncomliant -->
@@ -125,6 +149,8 @@ const emit = defineEmits<(name: "update:modelValue", value: boolean) => void>()
 
 const pluginStore = usePluginStore()
 const stateStore = useStateStore()
+const $q = useQuasar()
+const { t } = useI18n()
 
 const { data, error } = useRequest(() =>
   pluginStore.getAllPlugins().then((list) => shallowReactive(list))
@@ -196,6 +222,29 @@ async function onClickUpdate(item: PackageDisk) {
   updateMap.value.delete(item.id)
   updatingMap.delete(item.id)
 }
+
+async function removePlugin(item: PackageDisk) {
+  $q.dialog({
+    title: t("xoa-plugin"),
+    message: t("ban-chac-chan-muon-xoa-plugin-item-name-chu", [item.name]),
+    cancel: { label: t("huy"), flat: true, noCaps: true, rounded: true },
+    ok: {
+      label: t("xoa"),
+      color: "red",
+      flat: true,
+      noCaps: true,
+      rounded: true
+    },
+    persistent: true
+  }).onOk(async () => {
+    await pluginStore.removePlugin(item.id)
+    $q.notify({
+      message: t("da-xoa-plugin", [item.name])
+    })
+  })
+}
+// ===== edit ====
+const showEdit = ref(false)
 </script>
 
 <style lang="scss" scoped>
