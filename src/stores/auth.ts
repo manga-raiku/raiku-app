@@ -33,7 +33,7 @@ export const useAuthStore = defineStore("auth-spb", () => {
       return null
     },
     null,
-    { lazy: true, onError: (err) => console.warn(err) },
+    { lazy: true, onError: (err) => console.warn(err) }
   )
 
   const setup = ref<Promise<void>>()
@@ -51,15 +51,15 @@ export const useAuthStore = defineStore("auth-spb", () => {
   async function signIn(email: string, password: string) {
     return supabase.auth.signInWithPassword({
       email,
-      password,
+      password
     })
   }
   async function signInOAuth2(provider: "google" | "twitter") {
     return supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: location.href,
-      },
+        redirectTo: location.href
+      }
     })
   }
   async function signOut() {
@@ -70,12 +70,12 @@ export const useAuthStore = defineStore("auth-spb", () => {
   }
   async function resetPassword(email: string) {
     return await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${location.protocol}://${location.pathname}/update-password`,
+      redirectTo: `${location.protocol}://${location.pathname}/update-password`
     })
   }
   async function setNewPassword(password: string) {
     return await supabase.auth.updateUser({
-      password,
+      password
     })
   }
   async function sendNOnce() {
@@ -83,7 +83,7 @@ export const useAuthStore = defineStore("auth-spb", () => {
   }
   async function updatePassword(password: string) {
     return await supabase.auth.updateUser({
-      password,
+      password
     })
   }
   async function updateUser(row: Omit<UserAttributes, "password">) {
@@ -93,7 +93,7 @@ export const useAuthStore = defineStore("auth-spb", () => {
   async function assert() {
     await setup.value
     // eslint-disable-next-line functional/no-throw-statement
-    if (!session.value) throw new Error("need_login")
+    if (!session.value) throw new AuthError(AuthError.Code.REQUIRED_LOGIN)
 
     return session.value
   }
@@ -113,6 +113,6 @@ export const useAuthStore = defineStore("auth-spb", () => {
     updatePassword,
     updateUser,
 
-    assert,
+    assert
   }
 })

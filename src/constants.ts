@@ -2,6 +2,7 @@ import type { FunctionalComponent, SVGAttributes } from "vue"
 
 import iconamoonSearch from "~icons/iconamoon/search"
 import iconamoonSearchDuotone from "~icons/iconamoon/search-duotone"
+import mingcutePlugin2Line from "~icons/mingcute/plugin-2-line"
 import phTranslateDuotone from "~icons/ph/translate-duotone"
 import solarBoxMinimalisticBoldDuotone from "~icons/solar/box-minimalistic-bold-duotone"
 import solarBoxMinimalisticBroken from "~icons/solar/box-minimalistic-broken"
@@ -43,64 +44,65 @@ export type Icon = FunctionalComponent<SVGAttributes, {}>
 
 const iconHome = [solarHomeSmileBroken, solarHomeSmileBoldDuotone] as [
   Icon,
-  Icon,
+  Icon
 ]
 const iconSearch = [iconamoonSearch, iconamoonSearchDuotone] as [Icon, Icon]
 const iconBox = [
   solarBoxMinimalisticBroken,
-  solarBoxMinimalisticBoldDuotone,
+  solarBoxMinimalisticBoldDuotone
 ] as [Icon, Icon]
 const iconLibrary = [solarLibraryLineDuotone, solarLibraryBoldDuotone] as [
   Icon,
-  Icon,
+  Icon
 ]
 const iconUser = [solarUserLineDuotone, solarUserRoundedBoldDuotone] as [
   Icon,
-  Icon,
+  Icon
 ]
 const iconFire = [solarFireLineDuotone, solarFireBoldDuotone] as [Icon, Icon]
 const iconHistory = [solarHistoryLineDuotone, solarHistoryBoldDuotone] as [
   Icon,
-  Icon,
+  Icon
 ]
 const iconFavorite = [
   solarFolderFavouriteStarLineDuotone,
-  solarFolderFavouriteStarBoldDuotone,
+  solarFolderFavouriteStarBoldDuotone
 ] as [Icon, Icon]
 const iconDownload = [
   solarDownloadMinimalisticLineDuotone,
-  solarDownloadMinimalisticBoldDuotone,
+  solarDownloadMinimalisticBoldDuotone
 ] as [Icon, Icon]
 const iconDocument = [
   solarDocumentTextLineDuotone,
-  solarDocumentTextBoldDuotone,
+  solarDocumentTextBoldDuotone
 ] as [Icon, Icon]
 const iconUserHeart = [
   solarUserHeartLineDuotone,
-  solarUserHeartBoldDuotone,
+  solarUserHeartBoldDuotone
 ] as [Icon, Icon]
 const iconSettings = [solarSettingsLineDuotone, solarSettingsBoldDuotone] as [
   Icon,
-  Icon,
+  Icon
 ]
 const iconInfoCircle = [
   solarInfoCircleLineDuotone,
-  solarInfoCircleBoldDuotone,
+  solarInfoCircleBoldDuotone
 ] as [Icon, Icon]
 const iconCodeBold = [solarCodeBoldDuotone, solarCodeBoldDuotone] as [
   Icon,
-  Icon,
+  Icon
 ]
 const iconBug = [solarBugLineDuotone, solarBugBoldDuotone] as [Icon, Icon]
 const iconNotebook = [
   solarNotebookBookmarkLineDuotone,
-  solarNotebookBookmarkBoldDuotone,
+  solarNotebookBookmarkBoldDuotone
 ] as [Icon, Icon]
 const iconTranslate = [phTranslateDuotone, phTranslateDuotone] as [Icon, Icon]
 const iconUserCircle = [
   solarUserCircleLineDuotone,
-  solarUserCircleBoldDuotone,
+  solarUserCircleBoldDuotone
 ] as [Icon, Icon]
+const iconMingcute = [mingcutePlugin2Line, mingcutePlugin2Line] as [Icon, Icon]
 
 export const Icons: Record<string, [Icon, Icon]> = {
   home: iconHome,
@@ -121,4 +123,39 @@ export const Icons: Record<string, [Icon, Icon]> = {
   notebook: iconNotebook,
   translate: iconTranslate,
   user_circle: iconUserCircle,
+  mingcute: iconMingcute
+}
+
+export enum STATUS_PLUGIN_INSTALL {
+  INSTALLED = "plugin_installed",
+  NOT_FOUND = "plugin_not_found",
+  NOT_AVAILABLE = "plugins_not_available"
+}
+export class PluginError extends Error {
+  name = "PluginError"
+  constructor(
+    public readonly sourceId: string,
+    code: string
+  ) {
+    super(code)
+  }
+}
+export class PluginsNotAvailable extends Error {
+  name = "PluginNotAvailable"
+  constructor() {
+    super(STATUS_PLUGIN_INSTALL.NOT_AVAILABLE)
+  }
+}
+
+enum Code {
+  REQUIRED_LOGIN = 'auth_required_login'
+}
+export class AuthError extends Error {
+  static Code = Code
+
+  name = "AuthError"
+  // eslint-disable-next-line no-useless-constructor
+  constructor(code: Code) {
+    super(code)
+  }
 }

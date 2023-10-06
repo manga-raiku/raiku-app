@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="data.path" v-ripple class="relative card-wrap">
+  <router-link :to="data.route" v-ripple class="relative card-wrap">
     <q-card flat dense class="bg-transparent card-main" ref="qCardRef">
       <q-img
         no-spinner
@@ -21,9 +21,9 @@
         </BottomBlur>
 
         <Quality
-          v-if="data.hot"
+          v-if="data.label"
           class="absolute top-2 right-0 backdrop-blur-13px !bg-rgba(0,0,0,0.85) !bg-none"
-          >{{ $t("hot") }}</Quality
+          >{{ data.label }}</Quality
         >
 
         <slot name="inside-image" />
@@ -33,7 +33,7 @@
       }}</span>
     </q-card>
 
-    <q-card class="card-more">
+    <q-card v-if="!noHover" class="card-more">
       <q-card-section>
         <h3
           class="text-15px text-weight-medium line-clamp-1 leading-loose text-white"
@@ -100,7 +100,7 @@
         <div class="tags mt-2 text-12px line-clamp-2">
           <span
             v-for="item in data.tags"
-            :key="data.path"
+            :key="data.name"
             class="text-gray-300"
           >
             {{ $t("tag-_val", [item]) }}
@@ -113,15 +113,15 @@
 
 <script lang="ts" setup>
 import { QCard, QImg } from "quasar"
+import type { MetaManga } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
-
-import type { CardProps } from "./Card.types"
 
 import "@fontsource/poppins"
 
 defineProps<{
-  data: CardProps["data"]
+  data: MetaManga
+  noHover?: boolean
 }>()
 </script>
 

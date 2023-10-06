@@ -1,5 +1,5 @@
 <template>
-  <div v-if="IDMStore.loadingDataInMemory" class="row">
+  <div v-if="IDMStore.lsingComicOnDisk" class="row">
     <CardVerticalSKT
       v-for="i in 12"
       :key="i"
@@ -18,8 +18,8 @@
     </div>
 
     <div
-      v-if="IDMStore.listMangaSorted.length > 0"
-      v-for="item in IDMStore.listMangaSorted"
+      v-if="IDMStore.listComicOnDisk.size > 0"
+      v-for="[, item] in IDMStore.listComicOnDisk"
       :key="item.manga_id"
       class="col-4 col-sm-3 col-md-2 px-[10px] py-2"
       @click="metaMangaShowInfo = item"
@@ -50,7 +50,7 @@
           {{
             $t("a-slash-b", [
               item.count_ep,
-              item.count_ep + (IDMStore.queue.get(item.manga_id)?.size ?? 0),
+              item.count_ep + (IDMStore.queue.get(item.manga_id)?.size ?? 0)
             ])
           }}
         </div>
@@ -99,6 +99,9 @@
 </template>
 
 <script lang="ts" setup>
+import type { ID } from "raiku-pgs/plugin"
+import type { MetaMangaAndCountOnDisk } from "stores/IDM"
+
 const props = defineProps<{
   visible?: boolean
 }>()
@@ -110,17 +113,17 @@ watch(
   (visible) => {
     if (visible !== false) IDMStore.runLoadInMemory()
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 const editMode = ref(false)
-const mangaSelected = shallowReactive<Set<number>>(new Set())
+const mangaSelected = shallowReactive<Set<ID>>(new Set())
 
-const metaMangaShowInfo = ref<(typeof IDMStore.listMangaSorted)[0] | null>(null)
+const metaMangaShowInfo = ref<MetaMangaAndCountOnDisk | null>(null)
 
 function selectAll() {
   // eslint-disable-next-line camelcase
-  IDMStore.listMangaSorted.forEach(({ manga_id }) => {
+  IDMStore.listComicOnDisk.forEach(({ manga_id }) => {
     mangaSelected.add(manga_id)
   })
 }
@@ -131,9 +134,8 @@ async function remove() {
   for (const manga_id of mangaSelected) {
     await deleteManga(manga_id)
   }
-  IDMStore.listMangaSorted.forEach((item, index) => {
-    if (mangaSelected.has(item.manga_id))
-      IDMStore.listMangaSorted.splice(index, 1)
+  IDMStore.listComicOnDisk.forEach((item, index) => {
+    if (mangaSelected.has(item.manga_id)) IDMStore.listComicOnDisk.delete(index)
   })
   removing.value = false
 }

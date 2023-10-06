@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { CardProps } from "./Card.types"
+import type { MetaManga } from "raiku-pgs/plugin"
 
 defineProps<{
-  items: CardProps["data"][]
+  items: readonly MetaManga[]
 }>()
 </script>

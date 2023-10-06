@@ -12,7 +12,7 @@ async function bumppAndroid() {
 
   const buildGradle = readFileSync(
     resolve(androidDir, "app/build.gradle"),
-    "utf8",
+    "utf8"
   )
 
   const indexVersionCode = buildGradle.indexOf("versionCode")
@@ -32,7 +32,7 @@ async function bumppAndroid() {
   const _t2 = buildGradle.slice(indexVersionName + 11)
   // eslint-disable-next-line no-new-func
   const currentVersionName = new Function(
-    "return " + _t2.slice(0, _t2.indexOf("\n")).trim(),
+    "return " + _t2.slice(0, _t2.indexOf("\n")).trim()
   )()
 
   const PADDING = 13
@@ -47,18 +47,16 @@ async function bumppAndroid() {
         {
           value: currentVersionCode + 1,
           title: `${"next".padStart(PADDING, " ")} ${bold(
-            currentVersionCode + 1,
+            currentVersionCode + 1
           )}`,
-          selected: true,
+          selected: true
         },
         {
           value: currentVersionCode,
-          title: `${"as-it".padStart(PADDING, " ")} ${bold(
-            currentVersionCode,
-          )}`,
+          title: `${"as-it".padStart(PADDING, " ")} ${bold(currentVersionCode)}`
         },
-        { value: "custom", title: "custom ...".padStart(PADDING + 4, " ") },
-      ],
+        { value: "custom", title: "custom ...".padStart(PADDING + 4, " ") }
+      ]
     },
     {
       type: (prev) => (prev === "custom" ? "number" : null),
@@ -68,7 +66,7 @@ async function bumppAndroid() {
       validate: (value: number) =>
         value >= currentVersionCode
           ? true
-          : "Invalid version code. The new version must be higher than the old version",
+          : "Invalid version code. The new version must be higher than the old version"
     },
     {
       type: "select",
@@ -86,7 +84,7 @@ async function bumppAndroid() {
           "prepatch",
 
           "preminor",
-          "prerelease",
+          "prerelease"
         ] as (semver.ReleaseType | "next")[]
       )
         .map((name) => {
@@ -102,8 +100,8 @@ async function bumppAndroid() {
           return { title: `${name.padStart(PADDING, " ")} ${value}`, value }
         })
         .concat([
-          { value: "custom", title: "custom ...".padStart(PADDING + 4, " ") },
-        ]),
+          { value: "custom", title: "custom ...".padStart(PADDING + 4, " ") }
+        ])
     },
     {
       type: (prev) => (prev === "custom" ? "text" : null),
@@ -114,8 +112,8 @@ async function bumppAndroid() {
         return isValidVersion(custom)
           ? true
           : "That's not a valid version number"
-      },
-    },
+      }
+    }
   ])
 
   const newVersionCode =
@@ -139,25 +137,25 @@ async function bumppAndroid() {
   const newBuildGradle = buildGradle
     .replace(
       `versionCode ${currentVersionCode}`,
-      `versionCode ${newVersionCode}`,
+      `versionCode ${newVersionCode}`
     )
     .replace(
       `versionName '${currentVersionName}`,
-      `versionName '${newVersionName}`,
+      `versionName '${newVersionName}`
     )
 
   writeFileSync(resolve(androidDir, "app/build.gradle"), newBuildGradle)
   spawnSync("git", ["add", `${resolve(androidDir, "app/build.gradle")}`], {
-    stdio: "inherit",
+    stdio: "inherit"
   })
   spawnSync(
     "git",
     [
       "commit",
       "-m",
-      `(chore): release Android ${newVersionName} build ${newVersionCode}`,
+      `(chore): release Android ${newVersionName} build ${newVersionCode}`
     ],
-    { stdio: "inherit" },
+    { stdio: "inherit" }
   )
   spawnSync("git", ["tag", `android@${newVersionName}#${newVersionCode}`])
   spawnSync("git", ["push"], { stdio: "inherit" })

@@ -9,7 +9,7 @@
         no-spinner
       />
     </q-avatar>
-    <i-solar-menu-dots-bold class="size-1.5em rotate-90deg" />
+    <i-solar-menu-dots-bold v-else class="size-1.5em rotate-90deg" />
     <!-- <component v-else :is="Icons.user_circle[1]" class="size-30px" /> -->
     <!-- <component v-else :is="Icons.settings[0]" width="30" height="30" /> -->
 
@@ -224,12 +224,13 @@ import langs from "virtual:i18n-langs"
 import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
 
 defineOptions({
-  inheritAttrs: false,
+  inheritAttrs: false
 })
 
 const authStore = useAuthStore()
 const route = useRoute()
 const settingsStore = useSettingsStore()
+const stateStore = useStateStore()
 const attrs = useAttrs()
 const i18n = useI18n()
 
@@ -254,39 +255,45 @@ const buttons: {
     // eslint-disable-next-line no-void
     onClick: () => void (tabMenuAccountActive.value = "locale"),
     icon: Icons.translate,
-    text: i18n.t("ngon-ngu"),
+    text: i18n.t("ngon-ngu")
   },
   {
     to: "/app/settings",
     icon: Icons.settings,
-    text: i18n.t("cai-dat"),
+    text: i18n.t("cai-dat")
   },
   {
     divider: true,
     to: "/app/settings/check-network",
     icon: Icons.bug,
-    text: i18n.t("kiem-tra-loi-mang"),
+    text: i18n.t("kiem-tra-loi-mang")
+  },
+  {
+    // to: "/app/settings/plugins",
+    onClick: () => (stateStore.showPluginManagerDialog = true),
+    icon: Icons.mingcute,
+    text: "Quản lý Plugin"
   },
   {
     divider: true,
     href: "mailto://contact@mangaraiku.eu.org?title=Feedback%20app%20git.shin.raiku",
     icon: Icons.info_circle,
-    text: i18n.t("phan-hoi-hoac-bao-loi"),
+    text: i18n.t("phan-hoi-hoac-bao-loi")
   },
   {
     href: "https://ko-fi.com/tachib_shin",
     icon: Icons.user_heart,
-    text: i18n.t("tai-tro-ung-ho"),
+    text: i18n.t("tai-tro-ung-ho")
   },
   {
     href: "https://github.com/manga-raiku/manga-raiku",
     icon: Icons.code_bold,
-    text: i18n.t("ma-nguon-mo"),
+    text: i18n.t("ma-nguon-mo")
   },
   {
     href: "https://mangaraiku.eu.org",
     icon: [antDesignAppleOutlined, antDesignAppleOutlined],
-    text: i18n.t("pwa-cho-ios-va-desktop"),
+    text: i18n.t("pwa-cho-ios-va-desktop")
   },
   {
     to: "/app/about",
@@ -298,7 +305,7 @@ const buttons: {
       } catch {
         return version
       }
-    }),
-  },
+    })
+  }
 ]
 </script>

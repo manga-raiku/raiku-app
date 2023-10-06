@@ -15,6 +15,10 @@ declare module "vue-router" {
 
     hiddenDrawerScope?: boolean
 
+    needSelectPlugin?: boolean
+
     auth?: boolean | "guest" | string
+
+    beforeEach?: string
   }
 }

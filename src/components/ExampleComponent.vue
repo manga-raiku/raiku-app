@@ -24,7 +24,7 @@ interface Props {
   active: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
-  todos: () => [],
+  todos: () => []
 })
 
 const clickCount = ref(0)

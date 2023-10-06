@@ -1,11 +1,20 @@
 <template>
   <div class="flex items-center font-family-poppins">
     <i-fluent-tag-24-regular :rotate="3" width="20" height="20" class="mr-1" />
-
     <q-btn
       v-for="item in items"
-      :key="item.path"
-      :to="item.path"
+      :key="item.name"
+      :to="
+        item.route.name === 'genre'
+          ? {
+              ...item.route,
+              name: undefined,
+              path: `/~${item.route.params!.sourceId}/genre/${
+                item.route.params!.type ?? ''
+              }`
+            }
+          : item.route
+      "
       no-caps
       rounded
       unelevated
@@ -16,10 +25,9 @@
 </template>
 
 <script lang="ts" setup>
+import type { RouteGenre } from "raiku-pgs/plugin"
+
 defineProps<{
-  items: {
-    name: string
-    path: string
-  }[]
+  items: readonly { name: string; route: RouteGenre }[]
 }>()
 </script>

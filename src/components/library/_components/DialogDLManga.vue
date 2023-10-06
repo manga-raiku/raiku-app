@@ -132,6 +132,7 @@
       >
         <ListChapters
           :chapters="allEp"
+          :source-id="metaMangaShowInfo?.source_id ?? null"
           class-panels="px-1 overflow-y-auto scrollbar-custom"
         >
           <template #item="{ data }">
@@ -142,7 +143,7 @@
                 :disable="mapEp?.has(data.id)"
                 class="bg-gray-400 bg-opacity-10 w-full text-light-200 text-opacity-90 text-weight-regular class=before:text-#fff before:text-opacity-20 px-4"
                 :class="{
-                  'text-blue': epsSelected.has(data),
+                  'text-blue': epsSelected.has(data)
                 }"
                 @click="
                   epsSelected.has(data)
@@ -177,14 +178,11 @@
           class="min-w-15% text-weight-regular"
           @click="epsSelected.size > 0 ? unSelectAll() : selectAll()"
         >
-          <component
-            :is="
-              epsSelected.size > 0
-                ? 'solar:close-circle-linear'
-                : 'solar:check-circle-linear'
-            "
+          <i-solar-close-circle-linear
+            v-if="epsSelected.size > 0"
             class="size-1.5em"
           />
+          <i-solar-check-circle-linear v-else class="size-1.5em" />
           <span class="whitespace-nowrap">{{
             epsSelected.size > 0 ? $t("bo-chon") : $t("chon-tat")
           }}</span>
@@ -206,23 +204,20 @@
 </template>
 
 <script lang="ts" setup>
-import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
-import GetListChapters from "src/apis/nettruyen/runs/get-list-chapters"
-import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
+import type { API, ID } from "raiku-pgs/plugin"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import type { MetaMangaAndCountOnDisk } from "stores/IDM"
 
 const $q = useQuasar()
 const IDMStore = useIDMStore()
+const pluginStore = usePluginStore()
 
 const props = defineProps<{
-  modelValue: (typeof IDMStore.listMangaSorted)[0] | null
+  modelValue: MetaMangaAndCountOnDisk | null
 }>()
 const metaMangaShowInfo = toRef(props, "modelValue")
 const emit = defineEmits<{
-  (
-    name: "update:model-value",
-    value: (typeof IDMStore.listMangaSorted)[0] | null,
-  ): void
+  (name: "update:model-value", value: MetaMangaAndCountOnDisk | null): void
 }>()
 
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
@@ -230,7 +225,7 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
 
   if (meta) {
     return shallowReactive(
-      await getListEpisodes(meta.manga_id).catch(() => []),
+      await getListEpisodes(meta.manga_id).catch(() => [])
     ).map((ref) => ({ ref }))
   }
 })
@@ -241,13 +236,13 @@ const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
   return [...(IDMStore.queue.get(meta.manga_id)?.values() ?? [])]
 })
 
-const mapEp = computed<Map<number, TaskDDEp | TaskDLEp> | undefined>(() => {
+const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   if (!lsEpDD.value || !lsEpDL.value) return
 
   return new Map(
     [...(lsEpDL.value ?? []), ...lsEpDD.value]
       .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
-      .map((item) => [item.ref.ep_id, item]),
+      .map((item) => [item.ref.ep_id, item])
   )
 })
 
@@ -260,10 +255,10 @@ async function resume(item: TaskDLEp | TaskDDEp) {
     if (!isTaskDLEp(result))
       lsEpDL.value.splice(
         lsEpDL.value.findIndex(
-          (item) => item.ref.ep_id === result.ref.ep_id,
+          (item) => item.ref.ep_id === result.ref.ep_id
         ) >>> 0,
         1,
-        result,
+        result
       )
   } catch (err) {
     if ((err as Error | undefined)?.message === "user_paused") return
@@ -273,7 +268,7 @@ async function resume(item: TaskDLEp | TaskDDEp) {
 }
 
 const modeEdit = ref(false)
-const listEpRemove = shallowRef<number[]>([])
+const listEpRemove = shallowRef<ID[]>([])
 const removing = ref(false)
 async function remove() {
   if (!metaMangaShowInfo.value) return
@@ -287,7 +282,7 @@ async function remove() {
     // eslint-disable-next-line camelcase
     listEpRemove.value.map(async (ep_id) => {
       await IDMStore.deleteEpisode(manga_id, ep_id)
-    }),
+    })
   )
 
   const storeTask = IDMStore.queue.get(manga_id)
@@ -303,17 +298,14 @@ async function remove() {
     })
 
   if (mapEp.value?.size === 0) {
-    IDMStore.listMangaSorted.splice(
-      IDMStore.listMangaSorted.indexOf(meta) >>> 0,
-      1,
-    )
+    IDMStore.listComicOnDisk.delete(manga_id)
   }
 
   removing.value = false
 }
 
 // =========== show download more ==========
-type MetaEpOnline = Awaited<ReturnType<typeof GetListChapters>>[0]
+type MetaEpOnline = Awaited<ReturnType<API["getListChapters"]>>[0]
 const showDownloadMore = ref(false)
 const allEp = shallowRef<MetaEpOnline[]>()
 const epsSelected = shallowReactive<Set<MetaEpOnline>>(new Set())
@@ -330,15 +322,21 @@ watch(showDownloadMore, async (state) => {
   // get port
 
   const loader = $q.loading.show({
-    spinnerColor: "white",
+    spinnerColor: "white"
   })
 
-  // load episodes
-  const episodes = await GetListChapters(meta.manga_id)
-
+  try {
+    // load episodes
+    const episodes = await (
+      await pluginStore.get(meta.source_id)
+    ).plugin.getListChapters(meta.manga_id)
+    allEp.value = episodes
+  } catch (err) {
+    $q.notify({
+      message: err + ""
+    })
+  }
   loader()
-
-  allEp.value = episodes
 })
 
 function selectAll() {
@@ -356,25 +354,27 @@ async function download() {
 
   downloading.value = true
 
+  const { plugin } = await pluginStore.get(metaMangaShowInfo.value.source_id)
+
   for (const ep of epsSelected) {
-    const conf = await SlugChapChap(
-      ep.path.split("/").slice(2).join("/"),
-      false,
-    )
+    const { comic, chap } = ep.route.params
+    const conf = await plugin.getComicChapter(comic, chap, false)
     // eslint-disable-next-line promise/catch-or-return
     IDMStore.download(metaMangaShowInfo.value, {
-      path: ep.path,
       ep_id: ep.id,
       ep_name: ep.name,
-      pages: conf.pages.map((item) => SERVERS[0].parse(item, conf)),
+      ep_param: chap,
+      pages: await Promise.all(
+        conf.pages.map((item) => plugin["servers:parse"](0, item, conf))
+      )
     }).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {
         lsEpDL.value.splice(
           lsEpDL.value.findIndex(
-            (item) => item.ref.ep_id === result.ref.ep_id,
+            (item) => item.ref.ep_id === result.ref.ep_id
           ) >>> 0,
           1,
-          result,
+          result
         )
       }
 

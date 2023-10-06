@@ -17,6 +17,7 @@
     "esModuleInterop": true,
     "lib": ["esnext", "DOM"]
   },
+  "exclude": ["./npm/**/*"],
   "vueCompilerOptions": {
     "target": 3, // or 2.7 for Vue 2
     "plugins": [

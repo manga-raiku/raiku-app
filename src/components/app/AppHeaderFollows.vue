@@ -20,21 +20,22 @@
       >
         <q-card-section>
           <q-infinite-scroll
-            v-if="data"
+            v-if="data && !loading"
             @load="onLoad"
             :offset="250"
             class="row md:block"
           >
             <div
               v-for="item in data"
-              :key="item.path"
+              :key="item.manga_param"
               class="col-12 col-sm-6 col-md-12 px-2 pb-4"
             >
               <ItemBasicHistory
-                :path="item.path"
+                :comic="item.manga_param"
                 :name="item.manga_name"
                 :image="item.image"
                 :history="item.history"
+                :source-id="item.source_id"
               />
             </div>
             <template #loading>
@@ -74,7 +75,7 @@ const followStore = useFollowStore()
 
 const showMenuFollow = ref(false)
 
-const { data, error, runAsync } = useRequest(() => followStore.get())
+const { data, error, loading, runAsync } = useRequest(() => followStore.get())
 const onLoad = async (index: number, done: (stop?: boolean) => void) => {
   const more = await followStore.get(data.value?.length)
 

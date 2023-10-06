@@ -34,7 +34,7 @@ describe("someLimit", () => {
         val()
         return true
       },
-      1,
+      1
     )
 
     expect(sources[0].mock.calls.length).toBe(1)

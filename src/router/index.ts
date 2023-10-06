@@ -6,9 +6,10 @@ import {
   createMemoryHistory,
   createRouter,
   createWebHashHistory,
-  createWebHistory,
+  createWebHistory
 } from "vue-router"
-// import { routes as autoRoutes } from 'vue-router/auto/routes'
+// import type { RouteRecordRaw } from "vue-router"
+// import { routes as autoRoutes } from "vue-router/auto/routes"
 
 /*
  * If not building with SSR mode, you can
@@ -25,24 +26,27 @@ routes.unshift({
     return `/${(to.params.mainPath as string[]).join("/")}?page=${
       to.params.page
     }`
-  },
-})
-routes.push({
-  path: "/tim-truyen/:slug",
-  redirect(to) {
-    return {
-      path: `/the-loai/${to.params.slug}`,
-      hash: to.hash,
-      query: to.query,
-    }
-  },
+  }
 })
 routes.push({
   path: "/:catchAll(.*)*.html",
   redirect(to) {
     return `/${(to.params.catchAll as string[]).join("/")}`
-  },
+  }
 })
+
+// function recursiveLayouts(route: RouteRecordRaw): RouteRecordRaw {
+//   if (route.children) {
+//     for (let i = 0; i < route.children.length; i++) {
+//       route.children[i] = recursiveLayouts(route.children[i])
+//       route.children[i].children?.forEach((item) => (item.props = true))
+//     }
+
+//     return route
+//   }
+
+//   return setupLayouts([route])[0]
+// }
 
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
@@ -53,7 +57,7 @@ export default route(function (/* { store, ssrContext } */) {
 
   const Router = createRouter({
     scrollBehavior(to, from, savedPosition) {
-      if (to.query.no_restore_scroll) return 
+      if (to.query.no_restore_scroll) return
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(savedPosition || { left: 0, top: 0 })
@@ -61,14 +65,22 @@ export default route(function (/* { store, ssrContext } */) {
       })
     },
     routes,
+    // extendRoutes(routes) {
+    //   return routes.map((route) => recursiveLayouts(route))
+    // },
 
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.VUE_ROUTER_BASE),
+    history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
   Router.beforeEach(async (to) => {
+    if (to.meta.beforeEach === 'true if $lt.md else "/app/myaccount"') {
+      if (Screen.lt.md) return to
+      return "/app/myaccount"
+    }
+
     const authStore = useAuthStore()
 
     await authStore.setup
@@ -76,8 +88,8 @@ export default route(function (/* { store, ssrContext } */) {
     let auth = to.meta.auth
     if (auth === undefined || auth === "guest") return
 
-    if (auth === "null if $lt.md else true") {
-      if (Screen.lt.md) return
+    if (auth === "'guest' if $lt.md else true") {
+      if (Screen.lt.md) return to
       auth = true
     }
 

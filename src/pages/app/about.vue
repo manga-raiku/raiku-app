@@ -62,7 +62,7 @@ useSeoMeta({
   title,
   description: title,
   ogTitle: title,
-  ogDescription: title,
+  ogDescription: title
 })
 
 const appInfo = computedAsync(async () => {
@@ -76,16 +76,16 @@ const appInfo = computedAsync(async () => {
 const buttons = computed(() => [
   {
     text: i18n.t("ma-nguon-mo-giay-phep-gnu-v3"),
-    href: "https://github.com/manga-raiku/manga-raiku",
+    href: "https://github.com/manga-raiku/manga-raiku"
   },
   {
     text: i18n.t("dieu-khoan-dich-vu"),
-    href: "https://manga-raiku.github.io/term-of-use",
+    href: "https://manga-raiku.github.io/term-of-use"
   },
   {
     text: i18n.t("chinh-sach-bao-mat"),
-    href: "https://manga-raiku.github.io/privacy-police",
-  },
+    href: "https://manga-raiku.github.io/privacy-police"
+  }
 ])
 </script>
 
