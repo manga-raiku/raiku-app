@@ -5,8 +5,8 @@
 
     <q-menu
       v-model="showMenuFollow"
-      class="flex flex-nowrap flex-col bg-dark-page shadow-xl md:rounded-xl <md:w-full <md:!left-0 <md:!top-0 <md:!max-w-full <md:!max-h-full <md:!h-full"
-    >
+      class="flex flex-nowrap flex-col bg-dark-page shadow-xl md:rounded-xl  md:!max-w-420px <md:w-full <md:!left-0 <md:!top-0 <md:!max-w-full <md:!max-h-full <md:!h-full"
+  ref=menuRef  >
       <q-toolbar>
         <q-btn v-if="$q.screen.lt.md" round v-close-popup>
           <i-line-md-arrow-left class="size-1.5em" />
@@ -67,15 +67,25 @@
 </template>
 
 <script lang="ts" setup>
-import { QCard } from "quasar"
+import { QCard, QMenu } from "quasar"
 
 const authStore = useAuthStore()
 const $q = useQuasar()
 const followStore = useFollowStore()
 
+const menuRef = ref<QMenu>()
+
 const showMenuFollow = ref(false)
 
-const { data, error, loading, runAsync } = useRequest(() => followStore.get())
+const { data, error, loading, runAsync } = useRequest(() => followStore.get(),
+  { manual: true }
+)
+watch(data, async (data) => {
+  if (data) {
+    await nextTick()
+    menuRef.value?.updatePosition()
+  }
+})
 const onLoad = async (index: number, done: (stop?: boolean) => void) => {
   const more = await followStore.get(data.value?.length)
 
@@ -83,4 +93,9 @@ const onLoad = async (index: number, done: (stop?: boolean) => void) => {
   if (more.length === 0) done(true)
   done()
 }
+
+watch(showMenuFollow, (show) => {
+  if (show) runAsync()
+  else data.value = undefined
+})
 </script>

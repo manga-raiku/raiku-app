@@ -5,7 +5,8 @@
 
     <q-menu
       v-model="showMenuHistory"
-      class="flex flex-nowrap flex-col bg-dark-page shadow-xl md:rounded-xl <md:w-full <md:!left-0 <md:!top-0 <md:!max-w-full <md:!max-h-full <md:!h-full"
+      class="flex flex-nowrap flex-col bg-dark-page shadow-xl md:rounded-xl md:!max-w-420px <md:w-full <md:!left-0 <md:!top-0 <md:!max-w-full <md:!max-h-full <md:!h-full"
+      ref="menuRef"
     >
       <q-toolbar>
         <q-btn v-if="$q.screen.lt.md" round v-close-popup>
@@ -85,21 +86,33 @@
 </template>
 
 <script lang="ts" setup>
+import { QMenu } from "quasar"
+
 const authStore = useAuthStore()
 const $q = useQuasar()
 const historyStore = useHistoryStore()
 
+const menuRef = ref<QMenu>()
+
 const showMenuHistory = ref(false)
 
-const { data, error, loading, runAsync } = useRequest(() =>
-  historyStore.get().then((res) =>
-    res.map((item) => ({
-      ...item,
-      $updated_at: item.updated_at,
-      updated_at: dayjs(item.updated_at)
-    }))
-  )
+const { data, error, loading, runAsync } = useRequest(
+  () =>
+    historyStore.get().then((res) =>
+      res.map((item) => ({
+        ...item,
+        $updated_at: item.updated_at,
+        updated_at: dayjs(item.updated_at)
+      }))
+    ),
+  { manual: true }
 )
+watch(data, async (data) => {
+  if (data) {
+    await nextTick()
+    menuRef.value?.updatePosition()
+  }
+})
 const onLoad = async (index: number, done: (stop?: boolean) => void) => {
   const more = await historyStore.get(data.value?.length).then((res) =>
     res.map((item) => ({
@@ -113,4 +126,9 @@ const onLoad = async (index: number, done: (stop?: boolean) => void) => {
   if (more.length === 0) done(true)
   done()
 }
+
+watch(showMenuHistory, (show) => {
+  if (show) runAsync()
+  else data.value = undefined
+})
 </script>
