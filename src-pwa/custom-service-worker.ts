@@ -8,7 +8,7 @@ import { clientsClaim } from "workbox-core"
 import {
   cleanupOutdatedCaches,
   createHandlerBoundToURL,
-  precacheAndRoute,
+  precacheAndRoute
 } from "workbox-precaching"
 import { NavigationRoute, registerRoute } from "workbox-routing"
 
@@ -29,7 +29,7 @@ if (process.env.MODE !== "ssr" || process.env.PROD) {
   registerRoute(
     new NavigationRoute(
       createHandlerBoundToURL(process.env.PWA_FALLBACK_HTML),
-      { denylist: [/sw\.js$/, /workbox-(.)*\.js$/] },
-    ),
+      { denylist: [/sw\.js$/, /workbox-(.)*\.js$/] }
+    )
   )
 }

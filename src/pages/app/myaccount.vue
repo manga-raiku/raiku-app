@@ -111,7 +111,7 @@ useSeoMeta({
   title,
   description: title,
   ogTitle: title,
-  ogDescription: title,
+  ogDescription: title
 })
 
 async function signOut() {
@@ -122,7 +122,7 @@ async function signOut() {
       position: "bottom",
       message:
         i18n.t("khong-the-dang-xuat-code-status", [error.status]) +
-        (import.meta.env.DEV ? `(${error.message})` : ""),
+        (import.meta.env.DEV ? `(${error.message})` : "")
     })
 
     return
@@ -130,7 +130,7 @@ async function signOut() {
 
   $q.notify({
     position: "bottom",
-    message: i18n.t("da-dang-xuat"),
+    message: i18n.t("da-dang-xuat")
   })
   router.back()
 }

@@ -14,7 +14,7 @@
         :label="$t('ch-from-to', [from, to])"
         class="rounded-30px text-[rgba(255,255,255,0.86)] bg-[#fbe0ef] bg-opacity-8 text-weight-light font-family-poppins !min-h-32px mx-2"
         :class="{
-          '!text-main-3 segment': tabActive === index,
+          '!text-main-3 segment': tabActive === index
         }"
         :ref="
           ($el: QTab) => {
@@ -67,15 +67,15 @@
           v-if="!slots.item"
           v-for="item in items"
           class="px-2 py-1"
-          :key="item.path"
+          :key="item.name"
           :class="[classItem ?? 'col-6 col-sm-4 col-md-3']"
         >
           <router-link
-            :to="item.path"
+            :to="item.route"
             class="flex flex-nowrap bg-#f8f8f8 bg-opacity-7.5 hover:bg-opacity-12 transition-background-color duration-200 rounded-md py-1 px-4 relative cursor-pointer"
             exact-active-class="!text-main reading text-weight-medium"
             :class="{
-              'text-#eee text-opacity-70': readsChapter?.has(item.id),
+              'text-#eee text-opacity-70': readsChapter?.has(item.id)
             }"
           >
             <div class="flex-1 min-w-0">
@@ -106,6 +106,7 @@
                   :manga-id="metaManga?.manga_id ?? null"
                   :ep-id="item.id"
                   :can-download="true"
+                  :disable="!sourceId"
                   @action:download="downloadEp(item)"
                 />
               </span>
@@ -130,8 +131,8 @@
 import "@fontsource/poppins"
 import type { QBtn } from "quasar"
 import { QTab, QTabs } from "quasar"
-import { SERVERS } from "src/apis/nettruyen/parsers/truyen-tranh/[slug]/[ep-id]"
-import SlugChapChap from "src/apis/nettruyen/runs/truyen-tranh/[slug]-chap-[chap]"
+import type { Chapter, ID } from "raiku-pgs/plugin"
+import { normalizeChName } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
 import type { MetaManga, TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
@@ -142,33 +143,31 @@ const props = defineProps<{
 
   focusTabActive?: boolean
 
-  readsChapter?: Set<number>
-  mapOffline?: Map<number, TaskDDEp | TaskDLEp>
+  readsChapter?: Set<ID>
+  mapOffline?: Map<ID, TaskDDEp | TaskDLEp>
   metaManga?: MetaManga
 
-  chapters: {
-    id: number
-    path: string
-    name: string
-    updated_at: number | null
-  }[]
+  chapters: readonly Chapter[]
 
   noDownload?: boolean
+  sourceId: string | null
 }>()
 const emit = defineEmits<{
   (name: "change-tab"): void
+  (name: "downloaded", value: TaskDDEp): void
 }>()
 const slots = useSlots()
 
 const route = useRoute()
 const IDMStore = useIDMStore()
+const pluginStore = usePluginStore()
 
 const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
     const [from, to] = [
       parseFloat(normalizeChName(items[0].name)),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      parseFloat(normalizeChName(items.at(-1)!.name)),
+      parseFloat(normalizeChName(items.at(-1)!.name))
     ]
 
     return { from, to, items }
@@ -179,11 +178,15 @@ const tabActive = ref(
   props.focusTabActive
     ? Math.max(
         segments.value.findIndex(({ items }) => {
-          return items.some((item) => pathEqual(item.path, route.path))
+          return items.some(
+            (item) =>
+              item.route.params.chap === route.params.chap &&
+              item.route.params.comic === route.params.comic
+          )
         }),
-        0,
+        0
       )
-    : 0,
+    : 0
 )
 watch(tabActive, () => emit("change-tab"))
 
@@ -196,7 +199,7 @@ watch(
     setTimeout(() => {
       if (segment) scrollXIntoView(segment)
     }, 70)
-  },
+  }
 )
 
 const ulPanelRef = ref<HTMLUListElement>()
@@ -219,19 +222,32 @@ function onWheelTabs(event: WheelEvent) {
     ?.scrollBy({ left: event.deltaY * 2, behavior: "smooth" })
 }
 
-async function downloadEp(item: { path: string; id: number; name: string }) {
-  const conf = await SlugChapChap(
-    item.path.split("/").slice(2).join("/"),
-    false,
+async function downloadEp(item: Chapter) {
+  if (!props.sourceId) return
+
+  const { plugin } = await pluginStore.get(props.sourceId)
+
+  const conf = await plugin.getComicChapter(
+    item.route.params.comic,
+    item.route.params.chap,
+    false
   )
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  IDMStore.download(props.metaManga!, {
-    path: item.path,
+  const task = await IDMStore.download(props.metaManga!, {
     ep_id: item.id,
     ep_name: item.name,
-    pages: conf.pages.map((item) => SERVERS[0].parse(item, conf)),
+    ep_param: item.route.params.chap,
+    pages: await Promise.all(
+      conf.pages.map((item) => plugin["servers:parse"](0, item, conf))
+    )
+  }).catch((err) => {
+    if (err?.message === "user_paused") return
+    // eslint-disable-next-line functional/no-throw-statement
+    throw err
   })
+
+  if (task && !isTaskDLEp(task)) emit("downloaded", task)
 }
 </script>
 

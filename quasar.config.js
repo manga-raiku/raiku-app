@@ -15,7 +15,7 @@ Module._load = function (request, parent, isMain) {
       bundle: false,
       format: "cjs",
       write: false,
-      sourcemap: "inline",
+      sourcemap: "inline"
     })
     const code = result.outputFiles[0].text
     const m = new Module()

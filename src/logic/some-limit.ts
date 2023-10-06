@@ -1,7 +1,7 @@
 export async function someLimit<T>(
   sources: readonly T[],
   fn: (value: T, index: number) => boolean | Promise<boolean>,
-  concurrency: number,
+  concurrency: number
 ): Promise<boolean> {
   const { length } = sources
   let i = 0

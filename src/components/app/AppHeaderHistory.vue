@@ -20,7 +20,7 @@
       >
         <q-card-section>
           <q-infinite-scroll
-            v-if="data"
+            v-if="data && !loading"
             @load="onLoad"
             :offset="250"
             class="row md:block"
@@ -38,20 +38,21 @@
                     : item.updated_at.isYesterday()
                     ? $t("hom-qua")
                     : `${item.updated_at.get("d")} thg ${item.updated_at.get(
-                        "months",
+                        "months"
                       )}`
                 }}
               </div>
               <div class="col-12 col-sm-6 col-md-12 px-2 pb-4">
                 <ItemBasicHistory
-                  :path="item.manga_path"
+                  :comic="item.manga_param"
                   :name="item.manga_name"
                   :image="item.image"
                   :history="{
                     name: item.last_ch_name,
-                    path: item.last_ch_path,
-                    updated_at: item.$updated_at,
+                    param: item.last_ch_param,
+                    updated_at: item.$updated_at
                   }"
+                  :source-id="item.source_id"
                 />
               </div>
             </template>
@@ -90,22 +91,22 @@ const historyStore = useHistoryStore()
 
 const showMenuHistory = ref(false)
 
-const { data, error, runAsync } = useRequest(() =>
+const { data, error, loading, runAsync } = useRequest(() =>
   historyStore.get().then((res) =>
     res.map((item) => ({
       ...item,
       $updated_at: item.updated_at,
-      updated_at: dayjs(item.updated_at),
-    })),
-  ),
+      updated_at: dayjs(item.updated_at)
+    }))
+  )
 )
 const onLoad = async (index: number, done: (stop?: boolean) => void) => {
   const more = await historyStore.get(data.value?.length).then((res) =>
     res.map((item) => ({
       ...item,
       $updated_at: item.updated_at,
-      updated_at: dayjs(item.updated_at),
-    })),
+      updated_at: dayjs(item.updated_at)
+    }))
   )
 
   data.value?.push(...more)

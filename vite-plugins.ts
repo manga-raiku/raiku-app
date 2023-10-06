@@ -6,6 +6,8 @@ import IconsResolver from "unplugin-icons/resolver"
 import Icons from "unplugin-icons/vite"
 import Components from "unplugin-vue-components/vite"
 import DefineOptions from "unplugin-vue-define-options/vite"
+// import { VueRouterAutoImports } from "unplugin-vue-router"
+// import VueRouter from "unplugin-vue-router/vite"
 import type { Plugin } from "vite"
 import RemoveConsole from "vite-plugin-remove-console"
 import ReWriteAll from "vite-plugin-rewrite-all"
@@ -16,15 +18,16 @@ import vitePluginI18nLangs from "./modules/vite-plugin-i18n-langs"
 
 export const vitePlugins: [
   (conf: object | undefined) => Plugin | Plugin[],
-  object | undefined,
+  object | undefined
 ][] = [
+  // [VueRouter, {}],
   [vitePluginI18nLangs, {}],
   [
     Pages,
     {
       routeStyle: "nuxt3",
-      importMode: () => "async",
-    },
+      importMode: () => "async"
+    }
   ],
   [ReWriteAll, {}],
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,14 +35,14 @@ export const vitePlugins: [
   [
     Layouts,
     {
-      defaultLayout: "MainLayout",
-    },
+      defaultLayout: "MainLayout"
+    }
   ],
   [
     UnoCSS,
     {
-      configFile: "./uno.config.ts",
-    },
+      configFile: "./uno.config.ts"
+    }
   ],
   [
     AutoImport,
@@ -49,19 +52,21 @@ export const vitePlugins: [
       imports: [
         "vue",
         "vue-router",
+        // VueRouterAutoImports,
         {
           "@iconify/vue": ["Icon"],
-          "@vueuse/core": ["computedAsync"],
+          "@vueuse/core": ["computedAsync", "watchImmediate"],
+          "@vueuse/router": ["useRouteParams"],
           quasar: ["useQuasar"],
           "vue-request": ["useRequest"],
           "vue-i18n": ["useI18n"],
           "@tachibana-shin/capacitor-filesystem": [
             "Filesystem",
             "Directory",
-            "Encoding",
-          ],
+            "Encoding"
+          ]
         },
-        unheadVueComposablesImports,
+        unheadVueComposablesImports
       ],
       dirs: [
         "src/logic/**/*.ts",
@@ -69,14 +74,14 @@ export const vitePlugins: [
         "src/stores/**/*.ts",
         "src/composables/*.ts",
         "src/boot/*.ts",
-        "src/*.ts",
+        "src/*.ts"
       ],
       eslintrc: {
         enabled: true,
         filepath: "./.eslintrc-auto-import.json",
-        globalsPropValue: true,
-      },
-    },
+        globalsPropValue: true
+      }
+    }
   ],
   [
     Components,
@@ -87,13 +92,13 @@ export const vitePlugins: [
           if (componentName.toLowerCase() === "icon")
             return {
               name: componentName,
-              from: "@iconify/vue",
+              from: "@iconify/vue"
             }
-        },
-      ],
-    },
+        }
+      ]
+    }
   ],
   [DefineOptions, {}],
   [vitePluginBuildRaw, {}],
-  [Icons, {}],
+  [Icons, {}]
 ]

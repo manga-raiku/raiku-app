@@ -5,7 +5,5 @@
 # Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
 
 tasks:
-  - init: pnpm install && pnpm run build
+  - init: pnpm install && pnpm build:raiku-pgs && pnpm i && pnpm build
     command: pnpm run dev
-
-

@@ -42,7 +42,7 @@ const { config } = VueTestUtils
 // config.global.plugins.push(i18n);
 config.global.mocks = {
   // eslint-disable-next-line functional/functional-parameters
-  $t: (...args: any[]) => args.join(":"),
+  $t: (...args: any[]) => args.join(":")
 }
 
 // Overwrite the transition and transition-group stubs which are stubbed by test-utils by default.

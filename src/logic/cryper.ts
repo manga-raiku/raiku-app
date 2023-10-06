@@ -1,7 +1,7 @@
 function uintToString(uint: Uint8Array): string {
   return uint.reduce(
     (prev, byte) => prev + byte.toString(16).padStart(2, "0"),
-    "",
+    ""
   )
 }
 function stringToUint(str: string): number[] {
@@ -20,7 +20,7 @@ export async function encryptText(text: string, password: string) {
     encoder.encode(password),
     { name: "PBKDF2" },
     false,
-    ["deriveBits", "deriveKey"],
+    ["deriveBits", "deriveKey"]
   )
   const salt = crypto.getRandomValues(new Uint8Array(16))
   const key = await crypto.subtle.deriveKey(
@@ -28,26 +28,26 @@ export async function encryptText(text: string, password: string) {
       name: "PBKDF2",
       salt,
       iterations: 100000,
-      hash: "SHA-256",
+      hash: "SHA-256"
     },
     keyMaterial,
     { name: "AES-GCM", length: 256 },
     true,
-    ["encrypt", "decrypt"],
+    ["encrypt", "decrypt"]
   )
   const iv = crypto.getRandomValues(new Uint8Array(12))
   const encryptedContent = await crypto.subtle.encrypt(
     {
       name: "AES-GCM",
-      iv,
+      iv
     },
     key,
-    data,
+    data
   )
   return {
     iv: uintToString(iv),
     salt: uintToString(salt),
-    buffer: uintToString(new Uint8Array(encryptedContent)),
+    buffer: uintToString(new Uint8Array(encryptedContent))
   }
 }
 
@@ -57,7 +57,7 @@ export async function decryptText(
     salt: string
     buffer: string
   },
-  password: string,
+  password: string
 ) {
   const encoder = new TextEncoder()
   const decoder = new TextDecoder()
@@ -66,27 +66,27 @@ export async function decryptText(
     encoder.encode(password),
     { name: "PBKDF2" },
     false,
-    ["deriveBits", "deriveKey"],
+    ["deriveBits", "deriveKey"]
   )
   const key = await crypto.subtle.deriveKey(
     {
       name: "PBKDF2",
       salt: new Uint8Array(stringToUint(encryptedText.salt)).buffer,
       iterations: 100000,
-      hash: "SHA-256",
+      hash: "SHA-256"
     },
     keyMaterial,
     { name: "AES-GCM", length: 256 },
     true,
-    ["encrypt", "decrypt"],
+    ["encrypt", "decrypt"]
   )
   const decryptedContent = await crypto.subtle.decrypt(
     {
       name: "AES-GCM",
-      iv: new Uint8Array(stringToUint(encryptedText.iv)).buffer,
+      iv: new Uint8Array(stringToUint(encryptedText.iv)).buffer
     },
     key,
-    new Uint8Array(stringToUint(encryptedText.buffer)).buffer,
+    new Uint8Array(stringToUint(encryptedText.buffer)).buffer
   )
   return decoder.decode(decryptedContent)
 }

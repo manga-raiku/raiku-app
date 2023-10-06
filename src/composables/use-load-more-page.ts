@@ -1,6 +1,6 @@
 export function useLoadMorePage<T>(
   fn: (page: number) => Promise<{
-    items: T[]
+    items: T[] | readonly T[]
     curPage: number
     maxPage: number
   }>,
@@ -10,7 +10,7 @@ export function useLoadMorePage<T>(
       }
     | undefined
   >,
-  page = 1,
+  page = 1
 ) {
   return async function onLoad(index: number, done: (end?: boolean) => void) {
     try {

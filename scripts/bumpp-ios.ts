@@ -15,16 +15,16 @@ async function bumppiOS() {
 
   const buildGradle = readFileSync(
     resolve(iOSDir, "App/App.xcodeproj/project.pbxproj"),
-    "utf8",
+    "utf8"
   )
 
   const indexBundleVersion = buildGradle.indexOf(
     `${CFBundleVersion} = `,
-    buildGradle.indexOf(`${CFBundleVersion} = `) + 1,
+    buildGradle.indexOf(`${CFBundleVersion} = `) + 1
   )
   const indexBundleVersionString = buildGradle.indexOf(
     `${CFBundleShortVersionString} = `,
-    buildGradle.indexOf(`${CFBundleShortVersionString} = `) + 1,
+    buildGradle.indexOf(`${CFBundleShortVersionString} = `) + 1
   )
 
   if (indexBundleVersion === -1) {
@@ -39,7 +39,7 @@ async function bumppiOS() {
   const _t1 = buildGradle.slice(indexBundleVersion + CFBundleVersion.length + 3)
   const currentVersionCode = parseInt(_t1.slice(0, _t1.indexOf("\n")).trim())
   const _t2 = buildGradle.slice(
-    indexBundleVersionString + CFBundleShortVersionString.length + 3,
+    indexBundleVersionString + CFBundleShortVersionString.length + 3
   )
   const currentVersionName = _t2.slice(0, _t2.indexOf(";\n")).trim()
 
@@ -55,18 +55,16 @@ async function bumppiOS() {
         {
           value: currentVersionCode + 1,
           title: `${"next".padStart(PADDING, " ")} ${bold(
-            currentVersionCode + 1,
+            currentVersionCode + 1
           )}`,
-          selected: true,
+          selected: true
         },
         {
           value: currentVersionCode,
-          title: `${"as-it".padStart(PADDING, " ")} ${bold(
-            currentVersionCode,
-          )}`,
+          title: `${"as-it".padStart(PADDING, " ")} ${bold(currentVersionCode)}`
         },
-        { value: "custom", title: "custom ...".padStart(PADDING + 4, " ") },
-      ],
+        { value: "custom", title: "custom ...".padStart(PADDING + 4, " ") }
+      ]
     },
     {
       type: (prev) => (prev === "custom" ? "number" : null),
@@ -76,7 +74,7 @@ async function bumppiOS() {
       validate: (value: number) =>
         value >= currentVersionCode
           ? true
-          : "Invalid version code. The new version must be higher than the old version",
+          : "Invalid version code. The new version must be higher than the old version"
     },
     {
       type: "select",
@@ -94,7 +92,7 @@ async function bumppiOS() {
           "prepatch",
 
           "preminor",
-          "prerelease",
+          "prerelease"
         ] as (semver.ReleaseType | "next")[]
       )
         .map((name) => {
@@ -110,8 +108,8 @@ async function bumppiOS() {
           return { title: `${name.padStart(PADDING, " ")} ${value}`, value }
         })
         .concat([
-          { value: "custom", title: "custom ...".padStart(PADDING + 4, " ") },
-        ]),
+          { value: "custom", title: "custom ...".padStart(PADDING + 4, " ") }
+        ])
     },
     {
       type: (prev) => (prev === "custom" ? "text" : null),
@@ -122,8 +120,8 @@ async function bumppiOS() {
         return isValidVersion(custom)
           ? true
           : "That's not a valid version number"
-      },
-    },
+      }
+    }
   ])
 
   const newVersionCode =
@@ -147,41 +145,41 @@ async function bumppiOS() {
   const newBuildGradle = buildGradle
     .replace(
       `${CFBundleVersion} = ${currentVersionCode}`,
-      `${CFBundleVersion} = ${newVersionCode}`,
+      `${CFBundleVersion} = ${newVersionCode}`
     )
     .replace(
       `${CFBundleVersion} = ${currentVersionCode}`,
-      `${CFBundleVersion} = ${newVersionCode}`,
+      `${CFBundleVersion} = ${newVersionCode}`
     )
     .replace(
       `${CFBundleShortVersionString} = ${currentVersionName}`,
-      `${CFBundleShortVersionString} = ${newVersionName}`,
+      `${CFBundleShortVersionString} = ${newVersionName}`
     )
     .replace(
       `${CFBundleShortVersionString} = ${currentVersionName}`,
-      `${CFBundleShortVersionString} = ${newVersionName}`,
+      `${CFBundleShortVersionString} = ${newVersionName}`
     )
 
   writeFileSync(
     resolve(iOSDir, "App/App.xcodeproj/project.pbxproj"),
-    newBuildGradle,
+    newBuildGradle
   )
 
   spawnSync(
     "git",
     ["add", `${resolve(iOSDir, "App/App.xcodeproj/project.pbxproj")}`],
     {
-      stdio: "inherit",
-    },
+      stdio: "inherit"
+    }
   )
   spawnSync(
     "git",
     [
       "commit",
       "-m",
-      `(chore): release iOS ${newVersionName} build ${newVersionCode}`,
+      `(chore): release iOS ${newVersionName} build ${newVersionCode}`
     ],
-    { stdio: "inherit" },
+    { stdio: "inherit" }
   )
   spawnSync("git", ["tag", `ios@${newVersionName}#${newVersionCode}`])
   spawnSync("git", ["push"], { stdio: "inherit" })

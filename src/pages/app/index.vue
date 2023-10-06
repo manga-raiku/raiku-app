@@ -3,7 +3,7 @@ meta:
   hiddenHeader: $lt.md
   hiddenFooter: false
   hiddenDrawer: true
-  auth: null if $lt.md else $lt.md
+  beforeEach: true if $lt.md else "/app/myaccount"
 </route>
 
 <template>
@@ -101,32 +101,32 @@ const buttons: {
   {
     href: "https://ko-fi.com/tachib_shin",
     icon: Icons.user_heart,
-    text: i18n.t("tai-tro-ung-ho"),
+    text: i18n.t("tai-tro-ung-ho")
   },
   {
     to: "/app/settings",
     icon: Icons.settings,
-    text: i18n.t("cai-dat"),
+    text: i18n.t("cai-dat")
   },
   {
     href: "mailto://contact@mangaraiku.eu.org?title=Feedback%20app%20git.shin.raiku",
     icon: Icons.info_circle,
-    text: i18n.t("phan-hoi"),
+    text: i18n.t("phan-hoi")
   },
   {
     href: "https://github.com/manga-raiku/manga-raiku",
     icon: Icons.code_bold,
-    text: i18n.t("ma-nguon-mo"),
+    text: i18n.t("ma-nguon-mo")
   },
   {
     href: "https://mangaraiku.eu.org",
     icon: [antDesignAppleOutlined, antDesignAppleOutlined],
-    text: i18n.t("phien-ban-pwa-cho-iphone-va-may-tinh"),
+    text: i18n.t("phien-ban-pwa-cho-iphone-va-may-tinh")
   },
   {
     to: "/app/settings/check-network",
     icon: Icons.bug,
-    text: i18n.t("kiem-tra-loi-mang"),
+    text: i18n.t("kiem-tra-loi-mang")
   },
   {
     to: "/app/about",
@@ -138,8 +138,8 @@ const buttons: {
       } catch {
         return version
       }
-    }),
-  },
+    })
+  }
 ]
 
 watch(
@@ -147,6 +147,6 @@ watch(
   (mobile) => {
     if (!mobile) router.push("/app/myaccount")
   },
-  { immediate: true },
+  { immediate: true }
 )
 </script>
