@@ -5,12 +5,12 @@ import { expect } from "vitest"
 import {
   createAccountExample,
   getIdExample,
-  loginAccountExample,
+  loginAccountExample
 } from "../setup-file"
 
 const supabase = createClient<Database>(
   "http://localhost:54321",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
 )
 
 describe("table `history`", () => {
@@ -30,7 +30,7 @@ describe("table `history`", () => {
       name: "Manga 1",
       path: "/truyen-tranh/1",
       poster: "/poster",
-      user_id: await getIdExample(),
+      user_id: await getIdExample()
     })
 
     expect(res.status).toBe(201)

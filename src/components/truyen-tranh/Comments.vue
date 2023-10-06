@@ -7,11 +7,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { RComment } from "src/apis/nettruyen/parsers/__helpers__/parseComment"
+import type { Comment as CommentT } from "raiku-pgs/plugin"
 
 import Comment from "./__components__/Comment.vue"
 
 defineProps<{
-  comments: RComment[]
+  comments: readonly CommentT[]
 }>()
 </script>

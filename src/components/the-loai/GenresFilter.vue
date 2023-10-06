@@ -8,24 +8,23 @@
 
       <div v-if="isSelectMode(item)" class="display-table-cell">
         <q-btn
-          v-for="{ path, name } in item.select"
-          :key="path"
+          v-for="{ route: route2, name } in item.select"
+          :key="name"
           no-caps
           rounded
           unelevated
           outline
           :to="{
-            ...route,
+            ...route2,
             query: {
-              ...route.query,
-              page: undefined,
+              ...route2.query,
+              page: undefined
             },
-            name: undefined,
-            path,
+            name: undefined
           }"
           class="text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
           :class="{
-            '!text-main-3': pathEqual(router.resolve(path).path, route.path),
+            '!text-main-3': route2.params.type === route.params.type
           }"
           >{{ name }}</q-btn
         >
@@ -42,12 +41,12 @@
             ...route,
             query: {
               ...route.query,
-              [item.key]: value,
-            },
+              [item.key]: value
+            }
           }"
           class="text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
           :class="{
-            '!text-main-3': route.query[item.key] === value,
+            '!text-main-3': route.query[item.key] === value
           }"
           >{{ name }}</q-btn
         >
@@ -57,41 +56,18 @@
 </template>
 
 <script lang="ts" setup>
-import { pathEqual } from "src/logic/path-equal"
+import type { FilterQuery, FilterURI } from "raiku-pgs/plugin"
 
 import "@fontsource/poppins"
 
-interface FilterURI {
-  type: string
-  select: {
-    path: string
-    name: string
-  }[]
-}
-interface FilterQuery {
-  type: string
-  key: string
-  items: {
-    value: string
-    name: string
-  }[]
-}
-
 defineProps<{
-  filter: (FilterQuery | FilterURI)[]
+  filter: readonly (FilterQuery | FilterURI)[]
 }>()
 
 const route = useRoute()
-const router = useRouter()
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isSelectMode(val: any): val is {
-  type: string
-  select: {
-    path: string
-    name: string
-  }[]
-} {
+function isSelectMode(val: any): val is FilterURI {
   return val.select !== undefined
 }
 </script>

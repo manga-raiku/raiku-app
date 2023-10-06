@@ -1,8 +1,11 @@
 <route lang="yaml">
+name: "index"
+alias: ["/~:sourceId?"]
 meta:
   transparentHeader: true
   hiddenDrawer: true
   noSpaceHeader: true
+  needSelectPlugin: true
 </route>
 
 <template>
@@ -10,82 +13,12 @@ meta:
     :style-fn="
       (offset, height) => {
         return {
-          height: height + 'px',
+          height: height + 'px'
         }
       }
     "
   >
-    <div v-if="!data" class="absolute w-full h-full overflow-hidden loader">
-      <div class="swiper-hot">
-        <q-responsive :ratio="583 / 306" class="poster">
-          <q-skeleton type="rect" width="100%" height="100%" />
-        </q-responsive>
-        <div
-          class="mark-b w-full h-[30%] z-101 absolute bottom-0 pointer-events-none"
-          :style="{
-            'background-image': `linear-gradient(
-            rgba(17, 19, 25, 0) 2%,
-            rgb(17, 19, 25) 94%
-          )`,
-          }"
-        />
-      </div>
-
-      <div
-        class="mx-4 sm:mx-6 md:mx-13 relative whitespace-nowrap overflow-hidden"
-      >
-        <div
-          v-for="i in 3"
-          :key="i"
-          class="display-inline-block px-3 w-90% sm:w-49% md:w-31%"
-        >
-          <CardVerticalSKT v-for="j in 3" :key="j" class="my-2" />
-        </div>
-      </div>
-
-      <div class="mx-4 sm:mx-6 md:mx-8 relative">
-        <q-skeleton type="text" width="7rem" class="text-h6" />
-
-        <SkeletonGridCard :count="6" />
-      </div>
-
-      <div class="mx-4 sm:mx-6 md:mx-8 relative">
-        <q-skeleton type="text" width="7rem" class="text-h6" />
-
-        <div class="wpa-grid">
-          <div class="ctnr">
-            <SkeletonCard
-              v-for="item in 12"
-              :key="item"
-              class="card-wrap inline-block"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="mx-4 sm:mx-6 md:mx-8 relative">
-        <q-skeleton type="text" width="7rem" class="text-h6" />
-
-        <div class="wpa-grid">
-          <q-skeleton type="text" width="100%" />
-          <div class="ctnr">
-            <SkeletonCard
-              v-for="item in 12"
-              :key="item"
-              class="card-wrap inline-block"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="mx-4 sm:mx-6 md:mx-8 relative">
-        <q-skeleton type="text" width="7rem" class="text-h6" />
-
-        <SkeletonGridCard :count="6" />
-      </div>
-    </div>
-
-    <template v-else>
+    <template v-if="data && !loading">
       <swiper
         :space-between="10"
         :centered-slides="true"
@@ -93,7 +26,7 @@ meta:
         loop
         :autoplay="{
           delay: 5000,
-          disableOnInteraction: false,
+          disableOnInteraction: false
         }"
         @real-index-change="sliderIndex = $event.realIndex"
         class="swiper-hot"
@@ -103,12 +36,12 @@ meta:
           :key="index"
           v-ripple
           class="!flex flex-col items-center slide"
-          @click="router.push(item.path)"
+          @click="router.push(item.route)"
         >
           <div
             class="flex-1 flex items-center justify-center w-full h-full backdrop-bg <sm:pt-50px"
             :style="{
-              '--data-src': `url(${item.image})`,
+              '--data-src': `url(${item.image})`
             }"
           >
             <img
@@ -135,12 +68,12 @@ meta:
                     rounded
                     class="bg-main mt-2 xs:mt-4 pointer-events-all mx-auto"
                     no-caps
+                    :to="item.last_chapters[0].route"
                   >
                     <i-fluent-play-24-filled
                       width="1.3em"
                       height="1.3em"
                       class="mr-2"
-                      :to="item.last_chapters[0].path"
                     />
                     {{ $t("doc-ngay") }}
                   </q-btn>
@@ -163,7 +96,7 @@ meta:
                   </div>
                   <div class="focus-item-info !display-block">
                     <div class="ellipsis flex items-center">
-                      <Quality v-if="item.hot">{{ $t("hot") }}</Quality>
+                      <Quality v-if="item.label">{{ item.label }}</Quality>
 
                       <q-separator vertical class="mx-2" />
 
@@ -208,17 +141,17 @@ meta:
                     '-webkit-line-clamp': Math.round(
                       (leftSecRefs[index]?.offsetHeight -
                         rightTopSecRefs[index]?.offsetHeight) /
-                        25,
+                        25
                     ),
                     'line-clamp': Math.round(
                       (leftSecRefs[index]?.offsetHeight -
                         rightTopSecRefs[index]?.offsetHeight) /
-                        25,
+                        25
                     ),
                     height:
                       leftSecRefs[index] && rightTopSecRefs[index]
                         ? 'auto !important'
-                        : undefined,
+                        : undefined
                   }"
                 >
                   {{ item.description }}
@@ -242,8 +175,8 @@ meta:
               }}</small>
             </div>
             <div class="focus-item-info">
-              <Quality v-if="data.sliders[sliderIndex].hot">{{
-                $t("hot")
+              <Quality v-if="data.sliders[sliderIndex].label">{{
+                data.sliders[sliderIndex].label
               }}</Quality>
 
               <q-separator vertical class="mx-2" />
@@ -251,7 +184,7 @@ meta:
               <span class="focus-item-update">
                 {{
                   $t("chuong-name", [
-                    data.sliders[sliderIndex].last_chapters[0].name,
+                    data.sliders[sliderIndex].last_chapters[0].name
                   ])
                 }}
               </span>
@@ -280,12 +213,12 @@ meta:
               rounded
               class="bg-main mt-2 sm:mt-4 pointer-events-all"
               no-caps
+              :to="data.sliders[sliderIndex].last_chapters[0].route"
             >
               <i-fluent-play-24-filled
                 width="1.3em"
                 height="1.3em"
                 class="mr-2"
-                :to="data.sliders[sliderIndex].last_chapters[0].path"
               />
               {{ $t("doc-ngay") }}
             </q-btn>
@@ -298,7 +231,7 @@ meta:
             'background-image': `linear-gradient(
                 rgba(17, 19, 25, 0) 2%,
                 rgb(17, 19, 25) 94%
-              )`,
+              )`
           }"
         />
       </swiper>
@@ -314,12 +247,12 @@ meta:
           :breakpoints="{
             [$q.screen.sizes.sm]: {
               slidesPerView: 2.1,
-              centeredSlides: false,
+              centeredSlides: false
             },
             [$q.screen.sizes.md]: {
               slidesPerView: 3.2,
-              centeredSlides: false,
-            },
+              centeredSlides: false
+            }
           }"
           class="<sm:!ml--4"
         >
@@ -328,12 +261,12 @@ meta:
             :key="i"
             class="px-1"
             :class="{
-              'pl-0': i === 0,
+              'pl-0': i === 0
             }"
           >
             <CardVertical
               v-for="item in items"
-              :key="item.path"
+              :key="item.name"
               :data="item"
               img-width="100px"
               class="my-2 text-13px"
@@ -409,12 +342,87 @@ meta:
         <GridCard :items="data.last_update" />
       </div>
     </template>
+    <ErrorDisplay
+      v-else-if="error"
+      :error="error"
+      :retry-async="refreshAsync"
+    />
+    <div v-else class="absolute w-full h-full overflow-hidden loader">
+      <div class="swiper-hot">
+        <q-responsive :ratio="583 / 306" class="poster">
+          <q-skeleton type="rect" width="100%" height="100%" />
+        </q-responsive>
+        <div
+          class="mark-b w-full h-[30%] z-101 absolute bottom-0 pointer-events-none"
+          :style="{
+            'background-image': `linear-gradient(
+            rgba(17, 19, 25, 0) 2%,
+            rgb(17, 19, 25) 94%
+          )`
+          }"
+        />
+      </div>
+
+      <div
+        class="mx-4 sm:mx-6 md:mx-13 relative whitespace-nowrap overflow-hidden"
+      >
+        <div
+          v-for="i in 3"
+          :key="i"
+          class="display-inline-block px-3 w-90% sm:w-49% md:w-31%"
+        >
+          <CardVerticalSKT v-for="j in 3" :key="j" class="my-2" />
+        </div>
+      </div>
+
+      <div class="mx-4 sm:mx-6 md:mx-8 relative">
+        <q-skeleton type="text" width="7rem" class="text-h6" />
+
+        <SkeletonGridCard :count="6" />
+      </div>
+
+      <div class="mx-4 sm:mx-6 md:mx-8 relative">
+        <q-skeleton type="text" width="7rem" class="text-h6" />
+
+        <div class="wpa-grid">
+          <div class="ctnr">
+            <SkeletonCard
+              v-for="item in 12"
+              :key="item"
+              class="card-wrap inline-block"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="mx-4 sm:mx-6 md:mx-8 relative">
+        <q-skeleton type="text" width="7rem" class="text-h6" />
+
+        <div class="wpa-grid">
+          <q-skeleton type="text" width="100%" />
+          <div class="ctnr">
+            <SkeletonCard
+              v-for="item in 12"
+              :key="item"
+              class="card-wrap inline-block"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="mx-4 sm:mx-6 md:mx-8 relative">
+        <q-skeleton type="text" width="7rem" class="text-h6" />
+
+        <SkeletonGridCard :count="6" />
+      </div>
+    </div>
   </q-page>
+
+  <FABPluginSelect v-model="paramSourceId" />
 </template>
 
 <script setup lang="ts">
 // import data from "src/apis/parsers/__test__/assets/index.json"
-import Index from "src/apis/nettruyen/runs/index"
 import { formatView } from "src/logic/formatView"
 import { unflat } from "src/logic/unflat"
 import { Autoplay } from "swiper"
@@ -430,8 +438,32 @@ import "swiper/css/autoplay"
 import "swiper/css/grid"
 // Import Swiper Vue.js components
 
+const props = defineProps<{
+  sourceId?: string
+}>()
+
 const router = useRouter()
+const route = useRoute()
 const i18n = useI18n()
+const pluginStore = usePluginStore()
+
+const paramSourceId = ref(props.sourceId ?? null)
+watch(paramSourceId, (sourceId) => {
+  if (sourceId) router.push(`/~${sourceId}`)
+})
+
+const sourceId = computed(() => {
+  return paramSourceId.value ?? pluginStore.pluginMain
+})
+watchImmediate(paramSourceId, async (sourceId) => {
+  if (!sourceId) {
+    const id =
+      pluginStore.pluginMain ??
+      (await pluginStore.pluginMainPromise) ??
+      undefined
+    if (id && route.name === "index") router.replace("/~" + id)
+  }
+})
 
 const title = "Raiku"
 const description = computed(() => i18n.t("app-des"))
@@ -439,7 +471,7 @@ useSeoMeta({
   title,
   description,
   ogTitle: title,
-  ogDescription: description,
+  ogDescription: description
 })
 
 const leftSecRefs = shallowReactive<HTMLDivElement[]>([])
@@ -452,7 +484,7 @@ function Carousel({ swiper, on }: any) {
     swiper.classNames.push(`${swiper.params.containerModifierClass}carousel`)
     const newParams = {
       watchSlidesProgress: true,
-      centeredSlides: true,
+      centeredSlides: true
     }
     Object.assign(swiper.params, newParams)
     Object.assign(swiper.originalParams, newParams)
@@ -467,7 +499,7 @@ function Carousel({ swiper, on }: any) {
       let scale = 1
       if (absProgress > 1) scale = 0.3 * (absProgress - 1) + 1
       const opacityEls = slide.querySelectorAll(
-        ".swiper-carousel-animate-opacity",
+        ".swiper-carousel-animate-opacity"
       )
       const translateX =
         progress * scale * 50 * (swiper.rtlTranslate ? -1 : 1) + "%"
@@ -486,7 +518,7 @@ function Carousel({ swiper, on }: any) {
       for (let i = 0; i < swiper.slides.length; i++) {
         const slide = swiper.slides[i]
         const opacityEls = slide.querySelectorAll(
-          ".swiper-carousel-animate-opacity",
+          ".swiper-carousel-animate-opacity"
         )
         slide.style.transitionDuration = `${speed}ms`
         opacityEls.forEach((el: HTMLDivElement) => {
@@ -497,7 +529,13 @@ function Carousel({ swiper, on }: any) {
   })
 }
 
-const { data } = useRequest(() => Index())
+const api = pluginStore.useApi(sourceId, true)
+const { data, error, loading, refreshAsync } = useRequest(
+  () => api.value.then((res) => res.index()),
+  {
+    refreshDeps: [api]
+  }
+)
 
 const sliderIndex = ref(0)
 </script>

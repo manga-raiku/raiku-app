@@ -8,7 +8,7 @@
         src="~/assets/horizontal_arrow.png"
         class="size-96px mx-auto"
         :class="{
-          'rotate-180': rightToLeft,
+          'rotate-180': rightToLeft
         }"
       />
       <div class="text-16px text-[hsla(0,0%,88.2%,.5)] text-center mx-auto">
@@ -38,6 +38,6 @@ watch(
   (modelValue) => {
     if (!modelValue) return
     setTimeout(() => emit("update:model-value", false), 3_000)
-  },
+  }
 )
 </script>

@@ -1,6 +1,11 @@
 <template>
   <q-card class="transparent min-h-0 shadow-none overflow-y-auto">
-    <q-infinite-scroll v-if="data" @load="onLoad" :offset="250" class="row">
+    <q-infinite-scroll
+      v-if="data && !loading"
+      @load="onLoad"
+      :offset="250"
+      class="row"
+    >
       <template v-for="(item, index) in data" :key="item.path">
         <div
           v-if="!data[index - 1]?.updated_at.isSame(item.updated_at, 'day')"
@@ -12,20 +17,21 @@
               : item.updated_at.isYesterday()
               ? $t("hom-qua")
               : `${item.updated_at.get("d")} thg ${item.updated_at.get(
-                  "months",
+                  "months"
                 )}`
           }}
         </div>
         <div class="col-12 col-sm-6 px-2 pb-4">
           <ItemBasicHistory
-            :path="item.manga_path"
+            :comic="item.manga_param"
             :name="item.manga_name"
             :image="item.image"
             :history="{
               name: item.last_ch_name,
-              path: item.last_ch_path,
-              updated_at: item.$updated_at,
+              param: item.last_ch_param,
+              updated_at: item.$updated_at
             }"
+            :source-id="item.source_id"
           />
         </div>
       </template>
@@ -35,14 +41,11 @@
         </div>
       </template>
     </q-infinite-scroll>
-    <div v-else-if="error" class="text-center">
-      <div class="text-subtitle1 font-weight-medium">
-        {{ $t("loi-khong-xac-dinh-error", [error]) }}
-      </div>
-      <q-btn outline rounded color="main" @click="refreshAsync">{{
-        $t("thu-lai")
-      }}</q-btn>
-    </div>
+    <ErrorDisplay
+      v-else-if="error"
+      :error="error"
+      :retry-async="refreshAsync"
+    />
     <div v-else class="row">
       <CardVerticalSKT
         v-for="i in 12"
@@ -60,14 +63,14 @@ const props = defineProps<{
 
 const historyStore = useHistoryStore()
 
-const { error, data, refreshAsync } = useRequest(() =>
+const { error, data, loading, refreshAsync } = useRequest(() =>
   historyStore.get().then((res) =>
     res.map((item) => ({
       ...item,
       $updated_at: item.updated_at,
-      updated_at: dayjs(item.updated_at),
-    })),
-  ),
+      updated_at: dayjs(item.updated_at)
+    }))
+  )
 )
 watch(
   () => props.visible,
@@ -76,15 +79,15 @@ watch(
 
     if (visible && !data.value) refreshAsync()
   },
-  { immediate: true },
+  { immediate: true }
 )
 const onLoad = async (index: number, done: (stop?: boolean) => void) => {
   const more = await historyStore.get(data.value?.length).then((res) =>
     res.map((item) => ({
       ...item,
       $updated_at: item.updated_at,
-      updated_at: dayjs(item.updated_at),
-    })),
+      updated_at: dayjs(item.updated_at)
+    }))
   )
 
   data.value?.push(...more)

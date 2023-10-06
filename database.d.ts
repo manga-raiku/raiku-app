@@ -39,27 +39,30 @@ export interface Database {
           created_at: string
           id: number
           image: string
-          manga_id: number
+          manga_id: string
           manga_name: string
-          path: string
+          manga_param: string
+          source_id: string
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: number
           image: string
-          manga_id: number
+          manga_id: string
           manga_name: string
-          path: string
+          manga_param: string
+          source_id?: string
           user_id?: string
         }
         Update: {
           created_at?: string
           id?: number
           image?: string
-          manga_id?: number
+          manga_id?: string
           manga_name?: string
-          path?: string
+          manga_param?: string
+          source_id?: string
           user_id?: string
         }
         Relationships: [
@@ -68,27 +71,27 @@ export interface Database {
             columns: ["user_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       history_chapter: {
         Row: {
           created_at: string
-          ep_id: number
+          ep_id: string
           h_manga_id: number
           id: number
           updated_at: string
         }
         Insert: {
           created_at?: string
-          ep_id: number
+          ep_id: string
           h_manga_id: number
           id?: number
           updated_at?: string
         }
         Update: {
           created_at?: string
-          ep_id?: number
+          ep_id?: string
           h_manga_id?: number
           id?: number
           updated_at?: string
@@ -99,7 +102,7 @@ export interface Database {
             columns: ["h_manga_id"]
             referencedRelation: "history_manga"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       history_manga: {
@@ -107,12 +110,13 @@ export interface Database {
           created_at: string
           id: number
           image: string
-          last_ch_id: number
+          last_ch_id: string
           last_ch_name: string
-          last_ch_path: string
-          manga_id: number
+          last_ch_param: string
+          manga_id: string
           manga_name: string
-          manga_path: string
+          manga_param: string
+          source_id: string
           updated_at: string
           user_id: string
         }
@@ -120,12 +124,13 @@ export interface Database {
           created_at?: string
           id?: number
           image: string
-          last_ch_id: number
+          last_ch_id: string
           last_ch_name: string
-          last_ch_path: string
-          manga_id: number
+          last_ch_param: string
+          manga_id: string
           manga_name: string
-          manga_path: string
+          manga_param: string
+          source_id?: string
           updated_at?: string
           user_id?: string
         }
@@ -133,12 +138,13 @@ export interface Database {
           created_at?: string
           id?: number
           image?: string
-          last_ch_id?: number
+          last_ch_id?: string
           last_ch_name?: string
-          last_ch_path?: string
-          manga_id?: number
+          last_ch_param?: string
+          manga_id?: string
           manga_name?: string
-          manga_path?: string
+          manga_param?: string
+          source_id?: string
           updated_at?: string
           user_id?: string
         }
@@ -148,7 +154,7 @@ export interface Database {
             columns: ["user_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       profiles: {
@@ -182,7 +188,7 @@ export interface Database {
             columns: ["id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
     }
@@ -192,10 +198,10 @@ export interface Database {
     Functions: {
       get_ls_ep_read: {
         Args: {
-          manga_id: number
+          manga_id: string
         }
         Returns: {
-          ep_id: number
+          ep_id: string
           updated_at: string
         }[]
       }
@@ -249,7 +255,7 @@ export interface Database {
             columns: ["owner"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       migrations: {
@@ -322,7 +328,7 @@ export interface Database {
             columns: ["owner"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
     }

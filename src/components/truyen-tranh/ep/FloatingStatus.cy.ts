@@ -10,11 +10,12 @@ describe("FloatingStatus", () => {
         pagesLength: 3,
         sizePage: 3,
         currentPage: 0,
+        sizeOldPages: 0,
 
         metaEp: {
-          name: "Chapter 1",
-        },
-      },
+          name: "Chapter 1"
+        }
+      }
     })
 
     cy.get("[data-cy=image]").find("img").should("have.class", "rotate-90")
@@ -36,11 +37,12 @@ describe("FloatingStatus", () => {
         pagesLength: 3,
         sizePage: 3,
         currentPage: 0,
+        sizeOldPages: 0,
 
         metaEp: {
-          name: "Chapter 1",
-        },
-      },
+          name: "Chapter 1"
+        }
+      }
     })
 
     cy.get("[data-cy=image]").find("img").should("not.have.class", "rotate-90")
@@ -63,11 +65,12 @@ describe("FloatingStatus", () => {
           pagesLength: 3,
           sizePage: 3,
           currentPage: 0,
+          sizeOldPages: 0,
 
           metaEp: {
-            name: "Chapter 1",
-          },
-        },
+            name: "Chapter 1"
+          }
+        }
       })
 
       cy.get("[data-cy=image]")
@@ -96,11 +99,12 @@ describe("FloatingStatus", () => {
         sizePage: 3,
         pagesLength: 2,
         currentPage: 0,
+        sizeOldPages: 0,
 
         metaEp: {
-          name: "Chapter 1",
-        },
-      },
+          name: "Chapter 1"
+        }
+      }
     })
 
     cy.get("[data-cy=text]")

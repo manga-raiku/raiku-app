@@ -18,7 +18,15 @@
     "johnsoncodehk.vscode-typescript-vue-plugin",
     "aminer.codegeex",
     "vue.volar",
-    "streetsidesoftware.code-spell-checker"
+    "streetsidesoftware.code-spell-checker",
+    "voorjaar.windicss-intellisense",
+    "antfu.unocss",
+    "zixuanchen.vitest-explorer",
+    "eamodio.gitlens",
+    "sourcegraph.cody-ai",
+    "codeandstuff.package-json-upgrade",
+    "manuth.eslint-language-service",
+    "snyk-security.snyk-vulnerability-scanner"
   ],
   "unwantedRecommendations": [
     "octref.vetur",

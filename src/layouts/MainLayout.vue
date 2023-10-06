@@ -5,7 +5,7 @@
       :reveal="route.meta.revealHeader"
       class="bg-dark-page py-1 px-2 header-blur"
       :class="{
-        '!bg-transparent': route.meta?.transparentHeader,
+        '!bg-transparent': route.meta?.transparentHeader
       }"
     >
       <q-toolbar>
@@ -29,7 +29,7 @@
             >Trang chủ</router-link
           >
           <router-link
-            to="/the-loai"
+            to="/genre"
             class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
             exact-active-class="!text-main-3 text-weight-medium"
             >Thể loại</router-link
@@ -45,7 +45,9 @@
         <q-space />
 
         <template v-if="$q.screen.md || $q.screen.gt.md">
-          <AppHeaderSearch />
+          <AppHeaderSearch
+            :source-id="(route.params.sourceId as string | undefined) ?? null"
+          />
           <AppHeaderGithub />
         </template>
         <template v-else>
@@ -123,7 +125,7 @@
           </template>
         </q-list>
 
-        <div v-if="hideDrawer ? false : !showDrawer" class="text-gray-500 mt-7">
+        <div v-if="hideDrawer ? true : !showDrawer" class="text-gray-500 mt-7">
           <a
             v-for="item in drawersBottom"
             :key="item.name"
@@ -138,7 +140,7 @@
 
     <q-page-container
       :class="{
-        '!pt-0': route.meta.noSpaceHeader,
+        '!pt-0': route.meta.noSpaceHeader
       }"
     >
       <router-view v-if="true" v-slot="{ Component }">
@@ -172,17 +174,13 @@
         <q-route-tab
           replace
           class="pt-1"
-          to="/tim-kiem"
+          to="/search"
           :class="{
-            'q-router-link--exact-active': route.path.startsWith('/tim-kiem'),
+            'q-router-link--exact-active': route.name === 'search'
           }"
         >
           <component
-            :is="
-              route.path.startsWith('/tim-kiem')
-                ? Icons.search[1]
-                : Icons.search[0]
-            "
+            :is="route.name === 'search' ? Icons.search[1] : Icons.search[0]"
             width="24"
             height="24"
             class="mb-1"
@@ -192,15 +190,13 @@
         <q-route-tab
           replace
           class="pt-1"
-          to="/the-loai"
+          to="/genre"
           :class="{
-            'q-router-link--exact-active': route.path.startsWith('/the-loai'),
+            'q-router-link--exact-active': route.name === 'genre'
           }"
         >
           <component
-            :is="
-              route.path.startsWith('/the-loai') ? Icons.box[1] : Icons.box[0]
-            "
+            :is="route.name === 'genre' ? Icons.box[1] : Icons.box[0]"
             width="24"
             height="24"
             class="mb-1"
@@ -212,7 +208,7 @@
           class="pt-1"
           to="/library"
           :class="{
-            'q-router-link--exact-active': route.path.startsWith('/library'),
+            'q-router-link--exact-active': route.path.startsWith('/library')
           }"
         >
           <component
@@ -232,7 +228,7 @@
           class="pt-1"
           to="/app"
           :class="{
-            'q-router-link--exact-active': route.path.startsWith('/app'),
+            'q-router-link--exact-active': route.path.startsWith('/app')
           }"
         >
           <component
@@ -245,6 +241,12 @@
         </q-route-tab>
       </q-tabs>
     </q-footer>
+
+    <PluginManagerDialog v-model="stateStore.showPluginManagerDialog" />
+    <PluginAddDialog
+      v-model="stateStore.showPluginAddDialog"
+      @installed="stateStore.showPluginAddDialog = false"
+    />
   </q-layout>
 
   <canvas
@@ -268,6 +270,7 @@ import NotExistsExtension from "./NotExistsExtension.vue"
 const route = useRoute()
 const router = useRouter()
 const $q = useQuasar()
+const pluginStore = usePluginStore()
 const MODE = import.meta.env.MODE
 
 const canvasRef = ref<HTMLCanvasElement>()
@@ -291,19 +294,19 @@ const drawers = computed(() => [
     icon: Icons.home[0],
     active: Icons.home[1],
     name: "Trang chủ",
-    path: "/",
+    path: "/"
   },
   {
     icon: Icons.box[0],
     active: Icons.box[1],
     name: "Thể loại",
-    path: "/the-loai",
+    path: "/genre"
   },
   {
     icon: Icons.fire[0],
     active: Icons.fire[1],
     name: "Truyện hot",
-    path: "/bang-xep-hang/ngay",
+    path: "/trending"
   },
 
   { divider: true },
@@ -312,47 +315,50 @@ const drawers = computed(() => [
     icon: Icons.history[0],
     active: Icons.history[1],
     name: "Lịch sử",
-    path: "/library/history",
+    path: "/library/history"
   },
   {
     icon: Icons.favorite[0],
     active: Icons.favorite[1],
     name: "Yêu thích",
-    path: "/library/follow",
+    path: "/library/follow"
   },
   {
     icon: Icons.download[0],
     active: Icons.download[1],
     name: "Nội dung tải xuống",
-    path: "/library/offline",
-  },
+    path: "/library/offline"
+  }
 ])
 const drawersBottom = computed(() => [
   {
     name: "Về chúng tôi",
-    href: "https://github.com/manga-raiku",
+    href: "https://github.com/manga-raiku"
   },
   {
     name: "Liên hệ chúng tôi",
-    href: "mailto:contact@mangaraiku.eu.org?subject=Phản hồi ứng dụng web Raiku",
+    href: "mailto:contact@mangaraiku.eu.org?subject=Phản hồi ứng dụng web Raiku"
   },
   {
     name: "Tải ứng dụng",
-    href: "https://manga-raiku.github.io",
+    href: "https://manga-raiku.github.io"
   },
   {
     name: "Điều khoản sử dụng",
-    href: "https://manga-raiku.github.io/tems-of-use",
+    href: "https://manga-raiku.github.io/tems-of-use"
   },
   {
     name: "Chính sách riêng tư",
-    href: "https://manga-raiku.github.io/privacy-police",
+    href: "https://manga-raiku.github.io/privacy-police"
   },
   {
     name: "Khiếu nại vi phạm",
-    href: "https://manga-raiku.github.io/disclaimer",
-  },
+    href: "https://manga-raiku.github.io/disclaimer"
+  }
 ])
+
+// ========= plugin manager ========
+const stateStore = useStateStore()
 </script>
 
 <style lang="scss">

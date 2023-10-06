@@ -5,15 +5,16 @@
     @mousedown.prevent="onMouseDown"
   >
     <div
-      class="relative transition-width,height duration-444ms"
+      class="relative transition-width,height duration-444ms flex items-center justify-center"
       ref="overflowRef"
       :style="{
         width: `${zoom}%`,
-        height: `${zoom}%`,
+        height: `${zoom}%`
       }"
     >
       <PageView
         class="object-scale-down h-full mx-auto"
+        loader-absolute
         :src="src"
         @load="(image) => emit('load', image)"
       >
@@ -30,7 +31,7 @@ import { useEventListener, useScroll } from "@vueuse/core"
 import type { DomOffset } from "quasar"
 
 defineProps<{
-  src: string
+  src: string | Promise<string>
 }>()
 const emit = defineEmits<{
   (name: "load", image: HTMLImageElement): void
@@ -48,7 +49,7 @@ watch(
     if (!ref) return
     scroller.measure()
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 const zoom = ref(100.0)
@@ -71,12 +72,12 @@ function onMouseMove(event: MouseEvent) {
 
   const [diffX, diffY] = [
     event.clientX - mouseStart.clientX,
-    event.clientY - mouseStart.clientY,
+    event.clientY - mouseStart.clientY
   ]
   parentRef.value?.scrollTo({
     top: scrollStart.top - diffY,
     left: scrollStart.left - diffX,
-    behavior: "auto",
+    behavior: "auto"
   })
   // diffXZoom.value = scrollStart.left - diffX
   // console.log({ diffXZoom }, scrollStart.left - diffX)
@@ -105,6 +106,6 @@ watch(
 
     emit("update:can-swipe", null)
   },
-  { immediate: true },
+  { immediate: true }
 )
 </script>

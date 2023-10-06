@@ -49,7 +49,7 @@ meta:
                   (email) => email.length > 1 || $t('vui-long-nhap-e-mail'),
                   (email) =>
                     /^[\w\d\.]+@[\w\d]*\.[\w\d]{2,}$/i.test(email) ||
-                    $t('vui-long-nhap-e-mail-hop-le'),
+                    $t('vui-long-nhap-e-mail-hop-le')
                 ]"
               />
               <q-input
@@ -61,7 +61,7 @@ meta:
                 dense
                 lazy-rules
                 :rules="[
-                  (value) => value.length > 1 || $t('vui-long-nhap-mat-khau'),
+                  (value) => value.length > 1 || $t('vui-long-nhap-mat-khau')
                 ]"
               >
                 <template #append>
@@ -214,7 +214,7 @@ useSeoMeta({
   title,
   description,
   ogTitle: title,
-  ogDescription: description,
+  ogDescription: description
 })
 
 const qFormRef = ref<QForm>()
@@ -228,7 +228,7 @@ const showPassword = ref(false)
 async function login() {
   const loader = $q.loading.show({
     spinnerColor: "main-3",
-    spinnerSize: 40,
+    spinnerSize: 40
   })
 
   const { data, error } = await authStore.signIn(email.value, password.value)
@@ -239,7 +239,7 @@ async function login() {
     $q.notify({
       message:
         i18n.t("dang-nhap-that-bai-code-status", [error.status]) +
-        (import.meta.env.DEV ? `(${error.message})` : ""),
+        (import.meta.env.DEV ? `(${error.message})` : "")
     })
 
     return
@@ -247,8 +247,8 @@ async function login() {
 
   $q.notify({
     message: i18n.t("da-dang-nhap-voi-tu-cach-_user", [
-      data.user.user_metadata.name ?? data.user.email,
-    ]),
+      data.user.user_metadata.name ?? data.user.email
+    ])
   })
   router.push((route.query.redirectTo ?? "/") + "")
 }

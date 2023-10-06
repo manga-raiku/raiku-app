@@ -1,20 +1,28 @@
-import type { GetOption } from "client-ext-animevsub-helper"
+import type { GetOption, PostOption } from "client-ext-animevsub-helper"
 import { Http } from "client-ext-animevsub-helper"
 
-async function httpGet(
-  url: string | GetOption,
-  headers?: Record<string, string>,
-) {
-  console.log("get: ", url)
+type Response<Type extends GetOption["responseType"]> = Omit<
+  Awaited<ReturnType<typeof Http.get>>,
+  "data"
+> & {
+  data: Type extends "json"
+    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      any
+    : Type extends "arraybuffer"
+    ? ArrayBuffer
+    : string
+}
 
-  const response = await Http.get(
-    typeof url === "object"
-      ? url
-      : {
-          url: url + "#nettruyen",
-          headers,
-        },
-  ).then((response) => {
+async function httpGet<
+  ReturnType extends GetOption["responseType"] | undefined
+>(
+  options: Omit<GetOption, "responseType"> & {
+    responseType?: ReturnType
+  }
+): Promise<Response<ReturnType>> {
+  console.log("GET: ", options)
+
+  const response = await Http.get(options).then((response) => {
     if (response.status === 403 || response.status === 520) {
       console.log("response fail")
     }
@@ -22,90 +30,104 @@ async function httpGet(
     return response
   })
 
-  console.log("get-result: ", response)
+  console.log("RETURN GET: ", response)
   // eslint-disable-next-line functional/no-throw-statement
   if (response.status !== 200 && response.status !== 201) throw response
 
-  return response as Omit<typeof response, "data"> & { data: string }
+  return response as Response<ReturnType>
 }
 
-async function httpPost(
-  url: string,
-  data: string | Record<string, number | string | boolean>,
-  headers?: Record<string, string>,
-) {
-  console.log("post: ", {
-    url,
-    data,
-    headers,
-  })
+async function httpPost<
+  ReturnType extends GetOption["responseType"] | undefined
+>(
+  options: Omit<PostOption, "responseType"> & {
+    responseType?: ReturnType
+  }
+): Promise<Response<ReturnType>> {
+  console.log("GET: ", options)
 
-  const response = await Http.post({
-    url: url + "#nettruyen",
-    headers,
-    data,
-  })
+  const response = await Http.post(options)
 
-  console.log("post-result: ", response)
+  console.log("RETURN POST: ", response)
   // eslint-disable-next-line functional/no-throw-statement
   if (response.status !== 200 && response.status !== 201) throw response
 
-  return response as Omit<typeof response, "data"> & { data: string }
+  return response as Response<ReturnType>
 }
 
 // Proxy: https://corsproxy.io/
 
-export function proxyGet(
-  url: string | GetOption,
-  headers?: Record<string, string>,
-): ReturnType<typeof httpGet> {
+export function proxyGet<
+  ReturnType extends GetOption["responseType"] | undefined
+>(
+  options: Omit<GetOption, "responseType"> & {
+    responseType?: ReturnType
+  }
+): Promise<Response<ReturnType>> {
   return fetch(
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(
-      typeof url === "string" ? url : url.url,
-    )}`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(options.url)}`,
     {
-      headers: new Headers(headers ?? (url as GetOption)?.headers),
-    },
+      headers: options.headers
+    }
   ).then(async (res) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let data: any
+    switch (options.responseType) {
+      case "arraybuffer":
+        data = await res.arrayBuffer()
+        break
+      case "json":
+        data = JSON.parse(await res.text())
+        break
+      default:
+        data = await res.text()
+    }
     return {
-      data: await res.text(),
+      data,
       status: res.status,
       headers: Object.fromEntries([
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ...(res.headers as unknown as any).entries(),
+        ...(res.headers as unknown as any).entries()
       ]),
-      url: res.url,
+      url: res.url
     }
   })
 }
 
-export function proxyPost(
-  url: string,
-  data: string | Record<string, number | string | boolean>,
-  headers?: Record<string, string>,
-): ReturnType<typeof httpPost> {
+export function proxyPost<
+  ReturnType extends GetOption["responseType"] | undefined
+>(
+  options: Omit<PostOption, "responseType"> & {
+    responseType?: ReturnType
+  }
+): Promise<Response<ReturnType>> {
   return fetch(
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(options.url)}`,
     {
       method: "post",
-      headers: new Headers(headers),
-      body:
-        typeof data === "string"
-          ? data
-          : Object.entries(data).reduce((form, [key, value]) => {
-              form.set(key, value + "")
-              return form
-            }, new FormData()),
-    },
+      headers: options.headers
+    }
   ).then(async (res) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let data: any
+    switch (options.responseType) {
+      case "arraybuffer":
+        data = await res.arrayBuffer()
+        break
+      case "json":
+        data = JSON.parse(await res.text())
+        break
+      default:
+        data = await res.text()
+    }
     return {
-      data: await res.text(),
+      data,
       status: res.status,
       headers: Object.fromEntries([
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ...(res.headers as unknown as any).entries(),
+        ...(res.headers as unknown as any).entries()
       ]),
-      url: res.url,
+      url: res.url
     }
   })
 }

@@ -1,11 +1,6 @@
 <template>
-  <router-link :to="data.path" v-ripple>
-    <q-card
-      flat
-      dense
-      class="bg-transparent"
-      @mousemove="enablePopup ? (eventMouseoverCard = $event) : undefined"
-    >
+  <router-link :to="data.route" v-ripple class="relative card-wrap">
+    <q-card flat dense class="bg-transparent card-main" ref="qCardRef">
       <q-img
         no-spinner
         :src="data.image"
@@ -26,9 +21,9 @@
         </BottomBlur>
 
         <Quality
-          v-if="data.hot"
+          v-if="data.label"
           class="absolute top-2 right-0 backdrop-blur-13px !bg-rgba(0,0,0,0.85) !bg-none"
-          >{{ $t("hot") }}</Quality
+          >{{ data.label }}</Quality
         >
 
         <slot name="inside-image" />
@@ -37,29 +32,18 @@
         data.name
       }}</span>
     </q-card>
-  </router-link>
 
-  <q-menu
-    v-if="enablePopup"
-    ref="menuRef"
-    no-parent-event
-    anchor="center right"
-    self="center left"
-    touch-position
-    class="bg-[rgba(20,22,27,0.98)] scrollbar-custom overflow-x-visible !max-w-[280px] md:!max-w-[320px]"
-    @mouseover.stop
-  >
-    <q-card class="bg-transparent" ref="cardMenuRef">
+    <q-card v-if="!noHover" class="card-more">
       <q-card-section>
         <h3
-          class="text-subtitle1 font-weight-medium line-clamp-3 leading-normal"
+          class="text-15px text-weight-medium line-clamp-1 leading-loose text-white"
         >
           {{ data.name }}
         </h3>
-        <h4 class="text-subtitle2 line-clamp-3 leading-norma">
+        <h4 class="text-12px line-clamp-1 py-1 leading-loose">
           {{ data.othername }}
         </h4>
-        <h4 class="text-grey-5 text-[13px] leading-normal">
+        <!-- <p class="text-grey-5 text-12px leading-normal">
           <template v-if="data.views">{{
             $t("luot-xem-val", [formatView(data.views)])
           }}</template>
@@ -71,18 +55,17 @@
               ])
             }}
           </template>
-        </h4>
+        </p>
 
         <div class="flex items-center mt-3">
           {{ data.status }}
           <span class="hr-vertical" />
           {{ $t("chuong-name", [data.last_chapters[0].name]) }}
-        </div>
+        </div> -->
 
-        <div class="mt-1.5 mb-2 text-0.95em">
+        <div class="mb-2 text-0.95em">
           <div v-if="data.views">
             {{ $t("val-luot-xem", [formatView(data.views)]) }}
-            <q-separator v-if="data.comments" vertical class="mx-2" />
           </div>
           <div class="flex items-center">
             <div v-if="data.likes" class="flex items-center">
@@ -100,24 +83,24 @@
             </div>
           </div>
         </div>
-
+        <!--
         <div v-if="data.author" class="">
           {{ $t("tac-gia-name", [data.author]) }}
-        </div>
+        </div> -->
 
         <!-- <div class="text-gray-400 mt-2">{{ t("cap-nhat-toi-tap-_duration", [data.process]) }}</div> -->
 
-        <div class="mt-2 text-[#eee] font-weight-medium">
+        <!-- <div class="mt-2 text-[#eee] font-weight-medium">
           {{ $t("gioi-thieu") }}
-        </div>
-        <p class="text-gray-400 text-0.95em">
+        </div> -->
+        <p class="text-gray-400 text-0.95em line-clamp-3">
           {{ data.description ?? $t("khong-co-mo-ta") }}
         </p>
 
-        <div class="tags mt-2">
+        <div class="tags mt-2 text-12px line-clamp-2">
           <span
             v-for="item in data.tags"
-            :key="data.path"
+            :key="data.name"
             class="text-gray-300"
           >
             {{ $t("tag-_val", [item]) }}
@@ -125,54 +108,68 @@
         </div>
       </q-card-section>
     </q-card>
-  </q-menu>
+  </router-link>
 </template>
 
 <script lang="ts" setup>
-import type { MaybeRefOrGetter } from "@vueuse/core"
-import { useElementHover } from "@vueuse/core"
-import { debounce, QCard, QImg, QMenu } from "quasar"
+import { QCard, QImg } from "quasar"
+import type { MetaManga } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
 
-import type { CardProps } from "./Card.types"
-
 import "@fontsource/poppins"
 
-const props = defineProps<{
-  data: CardProps["data"]
+defineProps<{
+  data: MetaManga
+  noHover?: boolean
 }>()
-
-const menuRef = ref<QMenu>()
-
-const imgRef = ref<QImg>()
-const cardMenuRef = ref<QCard>()
-
-const eventMouseoverCard = ref<Event | null>(null)
-const enablePopup = props.data.views !== null
-
-if (enablePopup) {
-  const mouseInCard = useElementHover(
-    imgRef as unknown as MaybeRefOrGetter<EventTarget>,
-  )
-  const mouseInCardMenu = useElementHover(
-    cardMenuRef as unknown as MaybeRefOrGetter<EventTarget>,
-  )
-
-  const showMenu = debounce(() => {
-    if (eventMouseoverCard.value) menuRef.value?.show(eventMouseoverCard.value)
-  }, 700)
-  watch(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [mouseInCard, mouseInCardMenu] as unknown as any,
-    debounce(([outsideCard, outsideCardMenu]) => {
-      showMenu.cancel()
-      if (outsideCard || outsideCardMenu) showMenu()
-      else menuRef.value?.hide()
-    }, 10),
-  )
-}
 </script>
+
+<style lang="scss" scoped>
+.card-more {
+  &.transition-scale-enter-active,
+  &.transition-scale-leave-active {
+    transition: transform 0.224s ease;
+  }
+
+  &.transition-scale-enter-from,
+  &.transition-leave-to {
+    transform: scale(0) translate(-50%, -50%);
+  }
+}
+
+.card-more {
+  // font-size: 0.875rem;
+  // line-height: 1.5625rem;
+  position: absolute;
+  left: -1rem;
+  top: -1rem;
+  right: -1rem;
+  transition: 0.2s;
+  border-radius: 6px;
+  min-height: calc(100% + 1rem);
+  z-index: 2;
+  background-color: #1a191c;
+  color: #818083;
+  box-shadow:
+    inset 0 0 70px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(0, 0, 0, 0.5);
+  opacity: 0; //1;
+  visibility: hidden; //visible;
+  transform: scale(0); //scale(1);
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+}
+.card-wrap:hover .card-more {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+</style>
 
 <style lang="scss" scoped>
 .a {

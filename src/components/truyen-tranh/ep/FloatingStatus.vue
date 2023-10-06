@@ -11,7 +11,7 @@
         class="h-32px my-auto"
         :class="{
           'rotate-90': scrollingMode,
-          'rotate-180': rightToLeft,
+          'rotate-180': rightToLeft
         }"
       />
 
@@ -22,10 +22,22 @@
       </template>
       <template v-else>
         <span class="absolute top-1/2 left-1/4 translate--1/2">
-          {{ indexed?.[absCurrentPage]?.[rightToLeft ? 1 : 0] }}
+          {{
+            indexed?.[absCurrentPage]?.[rightToLeft ? 1 : 0] ??
+            absCurrentPage * (singlePage ? 1 : 2) +
+              1 +
+              (rightToLeft ? 1 : 0) -
+              sizeOldPages
+          }}
         </span>
         <span class="absolute top-1/2 left-3/4 translate--1/2">
-          {{ indexed?.[absCurrentPage]?.[rightToLeft ? 0 : 1] }}
+          {{
+            indexed?.[absCurrentPage]?.[rightToLeft ? 0 : 1] ??
+            absCurrentPage * (singlePage ? 1 : 2) +
+              1 +
+              (rightToLeft ? 0 : 1) -
+              sizeOldPages
+          }}
         </span>
       </template>
     </div>
@@ -35,7 +47,7 @@
         {{
           $t("page-p-per", [
             pagesLength ?? "_",
-            Math.round(((absCurrentPage + 1) / sizePage) * 100),
+            Math.round(((absCurrentPage + 1) / sizePage) * 100)
           ])
         }}
       </div>
@@ -47,17 +59,18 @@
 </template>
 
 <script lang="ts" setup>
+import { normalizeChName } from "raiku-pgs/plugin"
 // eslint-disable-next-line camelcase
 import img_double from "src/assets/img_double.png?url"
 // eslint-disable-next-line camelcase
 import img_single from "src/assets/img_single.png?url"
-import { normalizeChName } from "src/logic/normalize-ch-name"
 
 const props = defineProps<{
   scrollingMode: boolean
   singlePage: boolean
   rightToLeft: boolean
   pagesLength?: number
+  sizeOldPages: number
 
   sizes?: Map<number, readonly [number, number]>
   currentPage: number

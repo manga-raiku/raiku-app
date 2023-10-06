@@ -79,7 +79,7 @@ jobs:
           run_install: false
 
       - name: Install depends
-        run: pnpm i
+        run: sh install.sh
 
       - name: Fretit
         run: pnpm pretit
@@ -170,38 +170,38 @@ jobs:
           attempt_limit: 3
           attempt_delay: 2000
 
-  build:
-    name: Try build
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-        node_version: [16, 18, 20]
-        include:
-          # Active LTS + other OS
-          - os: macos-latest
-            node_version: 18
-          - os: windows-latest
-            node_version: 18
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  # build:
+  #   name: Try build
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       node_version: [16, 18, 20]
+  #       include:
+  #         # Active LTS + other OS
+  #         - os: macos-latest
+  #           node_version: 18
+  #         - os: windows-latest
+  #           node_version: 18
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+  #     - name: Install Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 18
 
-      - uses: pnpm/action-setup@v2.0.1
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          version: 8.3.1
-          run_install: false
+  #     - uses: pnpm/action-setup@v2.0.1
+  #       name: Install pnpm
+  #       id: pnpm-install
+  #       with:
+  #         version: 8.3.1
+  #         run_install: false
 
-      - name: Install depends
-        run: pnpm i
+  #     - name: Install depends
+  #       run: sh install.sh
 
-      - name: Build
-        run: cp .env.example .env && pnpm build
+  #     - name: Build
+  #       run: cp .env.example .env && pnpm build

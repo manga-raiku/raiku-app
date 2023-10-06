@@ -84,7 +84,6 @@ meta:
 import { Device } from "@capacitor/device"
 import type { ConnectionType } from "@capacitor/network"
 import { Network } from "@capacitor/network"
-import index from "src/apis/nettruyen/runs"
 
 const i18n = useI18n()
 
@@ -93,7 +92,7 @@ useSeoMeta({
   title,
   description: title,
   ogTitle: title,
-  ogDescription: title,
+  ogDescription: title
 })
 
 const router = useRouter()
@@ -105,7 +104,7 @@ Network.getStatus().then(
   (status) =>
     (connectionType.value = status.connected
       ? status.connectionType
-      : "offline"),
+      : "offline")
 )
 Network.addListener("networkStatusChange", (status) => {
   connectionType.value = status.connected ? status.connectionType : "offline"
@@ -120,7 +119,7 @@ const IP = computedAsync(() => {
 })
 const ping = computedAsync(async () => {
   const time = performance.now()
-  await index()
+  await fetch("https://google.com")
   return performance.now() - time
 })
 const device = computedAsync(async () => {

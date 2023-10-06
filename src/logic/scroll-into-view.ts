@@ -12,7 +12,7 @@ export function scrollXIntoView(el: HTMLElement) {
 
     parent.scrollTo({
       left,
-      behavior: "smooth",
+      behavior: "smooth"
     })
 
     if (oldLeft !== el.offsetLeft) break
@@ -32,7 +32,7 @@ export function scrollYIntoView(el: HTMLElement, deep = 3) {
 
     parent.scrollTo({
       top,
-      behavior: "smooth",
+      behavior: "smooth"
     })
 
     if (oldTop !== el.offsetTop) break

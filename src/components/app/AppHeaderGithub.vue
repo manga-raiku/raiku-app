@@ -38,7 +38,7 @@
               <i-carbon-repo-source-code width="20" height="20" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ $t("nhan-thong-bao-that-bai") }}</q-item-label>
+              <q-item-label>{{ $t("ma-nguon-mo") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item

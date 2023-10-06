@@ -5,6 +5,7 @@ node_modules
 # Quasar core related directories
 .quasar
 /dist
+/npm/*/dist
 
 # Cordova related directories and files
 /src-cordova/node_modules
@@ -15,6 +16,7 @@ node_modules
 # Capacitor related directories and files
 /src-capacitor/www
 /src-capacitor/node_modules
+/src-capacitor/android/app/src/main/assets
 
 # BEX related directories and files
 /src-bex/www
@@ -34,6 +36,7 @@ yarn-error.log*
 
 /auto-imports.d.ts
 /components.d.ts
+/typed-router.d.ts
 /.eslintrc-auto-import.json
 /*.sqlite
 
