@@ -1,7 +1,7 @@
 {
   "name": "manga-raiku",
   "packageName": "git.shin.raiku",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "App reading manga, comic safe, free, private and ad-free.",
   "productName": "Raiku",
   "productDescription": "Ứng dụng đọc truyện tranh, truyện tranh an toàn, miễn phí, riêng tư và không có quảng cáo",
@@ -178,10 +178,10 @@
     "workbox-build": "^6.5.0",
     "workbox-cacheable-response": "^6.5.0",
     "workbox-core": "^6.5.0",
-    "workbox-expiration": "^6.5.0",
+    "workbox-expiration": "^7.0.0",
     "workbox-precaching": "^6.5.0",
     "workbox-routing": "^6.5.0",
-    "workbox-strategies": "^6.5.0"
+    "workbox-strategies": "^7.0.0"
   },
   "overrides": {
     "vite": "^2.9.16",
