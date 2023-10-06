@@ -4,13 +4,20 @@ name: not_found
 
 <template>
   <q-page>
-    <div
-      class="w-full h-full bg-blue text-white text-center q-pa-md flex flex-center"
-    >
+    <div class="w-full h-full text-white text-center q-pa-md flex flex-center">
       <div>
-        <div style="font-size: 30vh">404</div>
+        <img
+          src="~assets/not_found.svg"
+          alt="not_found"
+          class="w-240px sm:w-400px max-w-100% mx-auto"
+        />
 
-        <div class="text-h2" style="opacity: 0.4">Oops. Nothing here...</div>
+        <div class="text-20px text-weight-normal q-my-sm">404</div>
+        <div
+          class="text-subtitle2 text-weight-normal leading-normal text-gray-200 q-my-sm"
+        >
+          Oops. Nothing here...
+        </div>
 
         <q-btn
           class="q-mt-xl"
