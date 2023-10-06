@@ -208,7 +208,7 @@
   "placeholder-input-url-plugin": "e.x: https://repo.github.io/plugins/manga",
   "da-them-plugin-name": "Đã thêm plugin {0}",
   "khong-co-plugin-nao-duoc-tim-thay": "Không có plugin nào được tìm thấy",
-  "loi-khi-them-plugin": "Lỗi khi thêm plugin{0})` : \"\"}",
+  "loi-khi-them-plugin": "Lỗi khi thêm plugin{0}",
   "khong-co-gi-ca": "Không có gì cả",
   "v-item-version": "(v{0})",
   "cap-nhat-v": "Cập nhật v{0}",
