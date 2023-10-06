@@ -27,6 +27,8 @@
           @keydown.enter="addPlugin"
         />
 
+        <q-toggle v-model="devMode" color="main-3" label="Dev Mode" class=ml--2 />
+
         <div class="mt-4 text-gray-300">
           Đây là 2 plugin cho phiên bản Raiku beta:
           <ul>
@@ -62,7 +64,7 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
+const props = defineProps<{
   modelValue: boolean
 }>()
 const emit = defineEmits<{
@@ -75,6 +77,7 @@ const $q = useQuasar()
 const { t } = useI18n()
 
 const pluginUrl = ref("")
+const devMode = ref(false)
 
 const addingPlugin = ref(false)
 async function addPlugin() {
@@ -82,7 +85,7 @@ async function addPlugin() {
 
   const plugin = pluginUrl.value
   try {
-    const { name } = await pluginStore.installPlugin(plugin)
+    const { name } = await pluginStore.installPlugin(plugin, devMode.value)
 
     $q.notify({
       message: t("da-them-plugin-name", [name])
@@ -110,6 +113,17 @@ async function addPlugin() {
 
   addingPlugin.value = false
 }
+
+watch(
+  () => props.modelValue,
+  (modelValue) => {
+    if (!modelValue) {
+      pluginUrl.value = ""
+      devMode.value = false
+      addingPlugin.value = false
+    }
+  }
+)
 
 const plugins = [
   "https://manga-raiku.github.io/raiku-plugin-nettruyen",

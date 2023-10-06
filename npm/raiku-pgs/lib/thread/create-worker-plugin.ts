@@ -40,7 +40,8 @@ class WorkerSession {
   constructor(
     private readonly code: string,
     private readonly get: FetchGet<GetOption["responseType"]>,
-    private readonly post: FetchPost<PostOption["responseType"]>
+    private readonly post: FetchPost<PostOption["responseType"]>,
+    private readonly devMode: boolean
   ) {}
 
   public createWorker() {
@@ -49,16 +50,15 @@ class WorkerSession {
       return this.worker
     }
     // setup port
-    const codeWorker = `!(()=>{${this.code}})();${appendWorkerPluginMjs.replace(
-      /process\.env\.DEV/g,
-      process.env.DEV + ""
-    )}`
+    const codeWorker = `${
+      this.devMode ?  this.code:`!(()=>{${this.code}})()`
+    };${appendWorkerPluginMjs.replace(/process\.env\.DEV/g, this.devMode + "")}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(
       new Blob([codeWorker], { type: "text/javascript" })
     )
 
-    this.worker = new Worker(url, __DEV__ ? { type: "module" } : undefined)
+    this.worker = new Worker(url, this.devMode ? { type: "module" } : undefined)
     this.worker.addEventListener("error", (error) => {
       console.error(error)
       this.destroy()
@@ -140,9 +140,10 @@ class WorkerSession {
 export function createWorkerPlugin(
   code: string,
   get: FetchGet<GetOption["responseType"]>,
-  post: FetchPost<PostOption["responseType"]>
+  post: FetchPost<PostOption["responseType"]>,
+  devMode: boolean
 ): APIPorted {
-  const workerSession = new WorkerSession(code, get, post)
+  const workerSession = new WorkerSession(code, get, post, devMode)
 
   const proxy = new Proxy({} as APIPorted, {
     get(_target, p) {

@@ -2,20 +2,19 @@ import type { Package } from "../API"
 
 import appendWorkerExecPackageMjs from "./private/code/append-worker-exec-package-mjs?braw"
 
-export async function execPackageMjs(code: string) {
+export async function execPackageMjs(code: string, devMode: boolean) {
   return new Promise<Package>((resolve, reject) => {
     // run in webworker
     // setup port
-    const codeWorker = `!(()=>{${code}})();${appendWorkerExecPackageMjs.replace(
-      /process\.env\.DEV/g,
-      process.env.DEV + ""
-    )}`
+    const codeWorker = `${
+      devMode ? code : `!(()=>{${code}})()`
+    };${appendWorkerExecPackageMjs.replace(/process\.env\.DEV/g, devMode + "")}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(
       new Blob([codeWorker], { type: "text/javascript" })
     )
     let urlRevoked = false
-    const worker = new Worker(url, __DEV__ ? { type: "module" } : undefined)
+    const worker = new Worker(url, devMode ? { type: "module" } : undefined)
 
     worker.onmessage = (
       event: MessageEvent<

@@ -16,6 +16,7 @@ export interface PackageDisk extends Package {
   readonly installedAt: number
   readonly updatedAt: number
   readonly plugin: string
+  readonly devMode: boolean
 }
 
 export interface PluginOnMemory {
@@ -58,7 +59,7 @@ export const usePluginStore = defineStore("plugin", () => {
     ).then((res) => res.filter(Boolean) as PackageDisk[])
   }
 
-  async function installPlugin(source: string) {
+  async function installPlugin(source: string, devMode:boolean) {
     const [packageMjs, pluginMjs] = await Promise.all([
       fetch(join(source, "package.mjs")).then((res) => {
         if (res.ok) return res.text()
@@ -72,7 +73,7 @@ export const usePluginStore = defineStore("plugin", () => {
       })
     ])
     // run init package.mjs
-    const meta = await execPackageMjs(packageMjs)
+    const meta = await execPackageMjs(packageMjs, devMode)
 
     const updatedAt = Date.now()
     const installedAt = await Filesystem.readFile({
@@ -83,7 +84,7 @@ export const usePluginStore = defineStore("plugin", () => {
       .then((res) => JSON.parse(res.data).installedAt)
       .catch(() => updatedAt)
 
-    const plugin = createWorkerPlugin(pluginMjs, httpGet, httpPost)
+    const plugin = createWorkerPlugin(pluginMjs, httpGet, httpPost, devMode)
 
     Object.assign(meta, {
       source,
@@ -129,14 +130,14 @@ export const usePluginStore = defineStore("plugin", () => {
 
     const metaOnline = await fetch(`${meta.source}/plugin.mjs`)
       .then((res) => res.text())
-      .then((text) => execPackageMjs(text))
+      .then((text) => execPackageMjs(text, meta.devMode))
 
     if (!semverGt(metaOnline.version, meta.version)) {
       // don't need update
       return false
     }
 
-    await installPlugin(meta.source)
+    await installPlugin(meta.source, meta.devMode)
 
     return true
   }
@@ -145,7 +146,7 @@ export const usePluginStore = defineStore("plugin", () => {
     const { source, version } = (await get(sourceId)).meta
     const metaOnline = await fetch(join(source, "plugin.mjs"))
       .then((res) => res.text())
-      .then((code) => execPackageMjs(code))
+      .then((code) => execPackageMjs(code, false))
     // check for updated
     if (!semverGt(metaOnline.version, version)) {
       // don't need update
@@ -168,7 +169,7 @@ export const usePluginStore = defineStore("plugin", () => {
           directory: Directory.External,
           encoding: Encoding.UTF8
         }).then(({ data }) => JSON.parse(data) as PackageDisk)
-        const plugin = createWorkerPlugin(meta.plugin, httpGet, httpPost)
+        const plugin = createWorkerPlugin(meta.plugin, httpGet, httpPost, meta.devMode)
 
         const v = { meta, plugin }
         console.timeEnd(`Time load plugin "${sourceId}"`)

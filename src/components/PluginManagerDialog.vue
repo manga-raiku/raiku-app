@@ -56,7 +56,7 @@
             class="rounded-xl"
           >
             <q-item-section avatar class="min-w-0">
-              <img :src="item.favicon" :alt="item.name" />
+              <img :src="item.favicon" :alt="item.name" class="size-1.2em" />
             </q-item-section>
             <q-item-section>
               <q-item-label lines="1">
@@ -64,6 +64,9 @@
                 <span class="text-0.8em text-gray-300">{{
                   $t("v-item-version", [item.version])
                 }}</span>
+                <q-badge v-if="item.devMode" rounded color="blue" class="ml-1"
+                  >dev</q-badge
+                >
               </q-item-label>
               <q-item-label lines="2" caption>{{
                 item.description
