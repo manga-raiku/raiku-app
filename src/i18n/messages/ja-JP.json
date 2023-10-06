@@ -215,5 +215,9 @@
   "trinh-quan-ly-plugin": "プラグインマネージャー",
   "v-item-version": "(v{0})",
   "xoa-plugin": "プラグインの削除",
-  "tim-kiem-query": "{0}を検索"
+  "tim-kiem-query": "{0}を検索",
+  "de-sau": "後で",
+  "lam-moi-ngay": "今すぐ更新してください",
+  "search-no-result-msg": "このソースでは結果が見つかりませんでした。\n別のソースで試してください。",
+  "ung-dung-da-duoc-cap-nhat": "アプリケーションが更新されました"
 }

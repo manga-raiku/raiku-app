@@ -37,7 +37,6 @@ register(process.env.SERVICE_WORKER_FILE, {
     updatingCache.value = false
     Notify.create({
       message: i18n.global.t("ung-dung-da-duoc-cap-nhat"),
-      position: "bottom-right",
       timeout: 5000,
       actions: [
         {

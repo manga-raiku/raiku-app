@@ -215,5 +215,9 @@
   "trinh-quan-ly-plugin": "Plugin Manager",
   "v-item-version": "(v{0})",
   "xoa-plugin": "Delete Plugins",
-  "tim-kiem-query": "Search {0}"
+  "tim-kiem-query": "Search {0}",
+  "de-sau": "Later",
+  "lam-moi-ngay": "Refresh now",
+  "search-no-result-msg": "No results were found in this source. \nTry with another source.",
+  "ung-dung-da-duoc-cap-nhat": "The application has been updated"
 }

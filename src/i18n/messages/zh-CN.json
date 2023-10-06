@@ -215,5 +215,9 @@
   "trinh-quan-ly-plugin": "插件管理器",
   "v-item-version": "（v{0}）",
   "xoa-plugin": "删除插件",
-  "tim-kiem-query": "搜索{0}"
+  "tim-kiem-query": "搜索{0}",
+  "de-sau": "之后",
+  "lam-moi-ngay": "立即刷新",
+  "search-no-result-msg": "在此来源中未找到任何结果。\n尝试使用其他来源。",
+  "ung-dung-da-duoc-cap-nhat": "应用程序已更新"
 }
