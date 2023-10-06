@@ -430,7 +430,7 @@ const GetWithCache = useWithCache(
 )
 
 const { data, runAsync, error, loading } = useRequest(GetWithCache, {
-  refreshDeps: [api, () => props.comic],
+  refreshDeps: [api, () => props.comic]
 })
 watch(error, (error) => {
   if (error?.message === "not_found")

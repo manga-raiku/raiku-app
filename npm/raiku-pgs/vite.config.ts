@@ -3,7 +3,6 @@ import esbuild from "esbuild"
 import { defineConfig } from "vite"
 import type { Plugin } from "vite"
 
-
 function vitePluginBuildRaw(): Plugin {
   return {
     name: "vite-plugin-build-raw",

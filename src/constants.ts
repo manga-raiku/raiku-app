@@ -148,7 +148,7 @@ export class PluginsNotAvailable extends Error {
 }
 
 enum Code {
-  REQUIRED_LOGIN = 'auth_required_login'
+  REQUIRED_LOGIN = "auth_required_login"
 }
 export class AuthError extends Error {
   static Code = Code

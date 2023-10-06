@@ -27,7 +27,12 @@
           @keydown.enter="addPlugin"
         />
 
-        <q-toggle v-model="devMode" color="main-3" label="Dev Mode" class=ml--2 />
+        <q-toggle
+          v-model="devMode"
+          color="main-3"
+          label="Dev Mode"
+          class="ml--2"
+        />
 
         <div class="mt-4 text-gray-300">
           Đây là 2 plugin cho phiên bản Raiku beta:

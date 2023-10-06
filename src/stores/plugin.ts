@@ -59,7 +59,7 @@ export const usePluginStore = defineStore("plugin", () => {
     ).then((res) => res.filter(Boolean) as PackageDisk[])
   }
 
-  async function installPlugin(source: string, devMode:boolean) {
+  async function installPlugin(source: string, devMode: boolean) {
     const [packageMjs, pluginMjs] = await Promise.all([
       fetch(join(source, "package.mjs")).then((res) => {
         if (res.ok) return res.text()
@@ -169,7 +169,12 @@ export const usePluginStore = defineStore("plugin", () => {
           directory: Directory.External,
           encoding: Encoding.UTF8
         }).then(({ data }) => JSON.parse(data) as PackageDisk)
-        const plugin = createWorkerPlugin(meta.plugin, httpGet, httpPost, meta.devMode)
+        const plugin = createWorkerPlugin(
+          meta.plugin,
+          httpGet,
+          httpPost,
+          meta.devMode
+        )
 
         const v = { meta, plugin }
         console.timeEnd(`Time load plugin "${sourceId}"`)

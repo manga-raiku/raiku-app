@@ -51,7 +51,7 @@ class WorkerSession {
     }
     // setup port
     const codeWorker = `${
-      this.devMode ?  this.code:`!(()=>{${this.code}})()`
+      this.devMode ? this.code : `!(()=>{${this.code}})()`
     };${appendWorkerPluginMjs.replace(/process\.env\.DEV/g, this.devMode + "")}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(
