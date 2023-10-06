@@ -6,7 +6,7 @@ export async function execPackageMjs(code: string) {
   return new Promise<Package>((resolve, reject) => {
     // run in webworker
     // setup port
-    const codeWorker = `${code};${appendWorkerExecPackageMjs.replace(
+    const codeWorker = `!(()=>{${code}})();${appendWorkerExecPackageMjs.replace(
       /process\.env\.DEV/g,
       process.env.DEV + ""
     )}`
@@ -14,6 +14,7 @@ export async function execPackageMjs(code: string) {
     const url = URL.createObjectURL(
       new Blob([codeWorker], { type: "text/javascript" })
     )
+    let urlRevoked = false
     const worker = new Worker(url, __DEV__ ? { type: "module" } : undefined)
 
     worker.onmessage = (
@@ -25,16 +26,19 @@ export async function execPackageMjs(code: string) {
         | "load"
       >
     ) => {
-      if (event.data === "load") {
+      if (!urlRevoked) {
         // eslint-disable-next-line n/no-unsupported-features/node-builtins
         URL.revokeObjectURL(url)
-
-        return
+        urlRevoked = true
       }
+      if (event.data === "load") return
+
       if (event.data.ok) resolve(event.data.data as Package)
       else reject(new Error(event.data.data as string))
     }
     worker.onerror = (event) => {
+      // eslint-disable-next-line n/no-unsupported-features/node-builtins
+      URL.revokeObjectURL(url)
       reject(event)
     }
     worker.onmessageerror = worker.onerror as unknown as null

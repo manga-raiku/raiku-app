@@ -49,7 +49,7 @@ class WorkerSession {
       return this.worker
     }
     // setup port
-    const codeWorker = `${this.code};${appendWorkerPluginMjs.replace(
+    const codeWorker = `!(()=>{${this.code}})();${appendWorkerPluginMjs.replace(
       /process\.env\.DEV/g,
       process.env.DEV + ""
     )}`
@@ -62,10 +62,14 @@ class WorkerSession {
     this.worker.addEventListener("error", (error) => {
       console.error(error)
       this.destroy()
+      // eslint-disable-next-line n/no-unsupported-features/node-builtins
+      URL.revokeObjectURL(url)
     })
     this.worker.addEventListener("messageerror", (event) => {
       console.error(event)
       this.destroy()
+      // eslint-disable-next-line n/no-unsupported-features/node-builtins
+      URL.revokeObjectURL(url)
     })
     this.resetAutoDestroy()
 
