@@ -85,7 +85,7 @@ meta:
     class="fixed top-0 w-full"
   >
     <!-- reader -->
-    <template v-if="pages">
+    <template v-if="data && !loading && pages">
       <ReaderHorizontal
         v-if="!scrollingMode"
         ref="readerHorizontalRef"
@@ -283,7 +283,7 @@ meta:
                 {{ $t("danh-sach-chuong") }}
               </div>
 
-              <div v-if="!data" class="py-4 text-center">
+              <div v-if="!data || loading" class="py-4 text-center">
                 <q-spinner color="main-3" size="40px" class="mx-auto" />
               </div>
               <ListChapters
@@ -490,7 +490,7 @@ meta:
             >
               <div class="text-subtitle1 mb-1">{{ $t("binh-luan") }}</div>
 
-              <div v-if="!data" class="py-4 text-center">
+              <div v-if="!data || loading" class="py-4 text-center">
                 <q-spinner color="main-3" size="40px" class="mx-auto" />
               </div>
               <div
@@ -599,7 +599,7 @@ const GetWithCache = useWithCache(
 )
 console.log(api.value, props)
 // let disableReactiveParams = false
-const { data, runAsync, error } = useRequest(GetWithCache, {
+const { data, runAsync, loading, error } = useRequest(GetWithCache, {
   refreshDeps: [api, () => props.comic, () => props.chap],
   async refreshDepsAction() {
     if (route.query.no_restore_scroll) return
