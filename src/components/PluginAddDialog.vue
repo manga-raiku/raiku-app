@@ -21,7 +21,7 @@
           :rules="[
             (v) => !!v || 'Vui lòng nhập địa chỉ plugin',
             (v) =>
-              v.match(/^https?:\/\/[^.]+\.[^.]{2,}/) ||
+              !!v.match(/^https?:\/\/[^.]+(?:(\.[^.]{2,})|(?:\:\d+))/) ||
               'Địa chỉ plugin không hợp lệ'
           ]"
           @keydown.enter="addPlugin"
