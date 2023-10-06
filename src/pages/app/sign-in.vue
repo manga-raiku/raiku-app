@@ -21,7 +21,7 @@ meta:
 
     <q-page padding>
       <q-card
-        class="md:max-w-450px md:mx-auto bg-dark-page <md:transparent <md:shadow-none"
+        class="md:max-w-450px md:mx-auto sm:px-12 md:px-4 bg-dark-page <md:transparent <md:shadow-none"
       >
         <q-card-section class="transparent relative">
           <img
@@ -132,7 +132,7 @@ meta:
               </small>
             </q-card-section>
 
-            <q-card-section class="mt-4">
+            <q-card-section class="mt-4 text-center">
               <div class="or mb-2">
                 <span class="px-4 text-gray-300 bg-dark-page">{{
                   $t("hoac")
@@ -143,14 +143,13 @@ meta:
                 outline
                 rounded
                 no-caps
-                class="w-full text-#fff text-opacity-20 py-2 mt-2"
+                no-wrap
+                class="w-full max-w-420px mx-auto text-#fff text-opacity-20 py-2 mt-2"
                 @click="authStore.signInOAuth2('twitter')"
               >
-                <div class="w-full flex flex-items pl-8 pr-28%">
+                <div class="w-full flex flex-items pl-8 relative">
                   <i-logos-twitter class="size-1.5em mr-10" />
-                  <div
-                    class="text-weight-normal text-white text-center min-w-0 w-full flex-1"
-                  >
+                  <div class="text-weight-normal text-white text-center">
                     {{ $t("tiep-tuc-voi-twitter") }}
                   </div>
                 </div>
@@ -159,14 +158,13 @@ meta:
                 outline
                 rounded
                 no-caps
-                class="w-full text-#fff text-opacity-20 py-2 mt-2"
+                no-wrap
+                class="w-full max-w-420px mx-auto text-#fff text-opacity-20 py-2 mt-2"
                 @click="authStore.signInOAuth2('google')"
               >
-                <div class="w-full flex flex-items pl-8 pr-28%">
+                <div class="w-full flex flex-items pl-8 relative">
                   <i-logos-google-icon class="size-1.5em mr-10" />
-                  <div
-                    class="text-weight-normal text-white text-center min-w-0 w-full flex-1"
-                  >
+                  <div class="text-weight-normal text-white text-center">
                     {{ $t("tiep-tuc-voi-google") }}
                   </div>
                 </div>
@@ -175,17 +173,16 @@ meta:
                 outline
                 rounded
                 no-caps
-                class="w-full text-#fff text-opacity-20 py-2 mt-2"
+                no-wrap
+                class="w-full max-w-420px mx-auto text-#fff text-opacity-20 py-2 mt-2"
                 to="/app/sign-up"
               >
-                <div class="w-full flex flex-items pl-8 pr-28%">
+                <div class="w-full flex flex-items pl-8 relative">
                   <i-fluent-mail-24-filled
                     color="white"
                     class="size-1.5em mr-10"
                   />
-                  <div
-                    class="text-weight-normal text-white text-center min-w-0 w-full flex-1"
-                  >
+                  <div class="text-weight-normal text-white text-center">
                     {{ $t("dang-ky-voi-e-mail") }}
                   </div>
                 </div>
