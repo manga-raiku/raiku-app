@@ -214,5 +214,6 @@
   "them-plugin": "添加插件",
   "trinh-quan-ly-plugin": "插件管理器",
   "v-item-version": "（v{0}）",
-  "xoa-plugin": "删除插件"
+  "xoa-plugin": "删除插件",
+  "tim-kiem-query": "搜索{0}"
 }

@@ -3,7 +3,7 @@
     <img
       src="~assets/unknown_error.png"
       alt="plugin_error"
-      class="w-240px max-w-100% mx-auto"
+              class="w-240px sm:w-450px max-w-100% mx-auto"
     />
 
     <div class="text-20px text-weight-normal q-my-sm">

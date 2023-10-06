@@ -214,5 +214,7 @@
   "cap-nhat-v": "Cập nhật v{0}",
   "xoa-plugin": "Xóa Plugin",
   "ban-chac-chan-muon-xoa-plugin-item-name-chu": "Bạn chắc chắn muốn xóa plugin {0} chứ ?",
-  "da-xoa-plugin": "Đã xóa plugin {0}"
+  "da-xoa-plugin": "Đã xóa plugin {0}",
+  "tim-kiem-query": "Tìm kiếm {0}",
+  "search-no-result-msg": "Không tìm thấy kết quả gì trong nguồn này. Hãy thử với nguồn khác."
 }

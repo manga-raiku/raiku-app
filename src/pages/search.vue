@@ -1,5 +1,6 @@
 <route lang="yaml">
 name: search
+alias: /~:sourceId/search
 meta:
   hiddenHeader: $lt.md
   needSelectPlugin: true
@@ -164,8 +165,19 @@ meta:
           <InfiniteScroll v-if="data.items.length > 0" @load="onLoad">
             <GridCard :items="data.items" />
           </InfiniteScroll>
-          <div v-else class="text-center text-20px py-10">
+          <div v-else class="text-20px text-weight-normal text-center q-my-sm">
+            <img
+              src="~assets/search_no_result.svg"
+              alt="search_no_result"
+              class="w-240px sm:w-450px max-w-100% mx-auto"
+            />
             {{ $t("khong-co-ket-qua") }}
+            <br />
+            <div
+              class="text-subtitle2 text-weight-normal leading-normal text-gray-200 q-my-sm"
+            >
+              {{ $t("search-no-result-msg") }}
+            </div>
           </div>
         </template>
         <template v-else>
@@ -178,13 +190,13 @@ meta:
               class="text-17px text-light-900 leading-normal flex items-center justify-between relative cursor-pointer py-1 px-2 mx--2 rounded-xl transition-bg duration-200ms hover:bg-#fff hover:bg-opacity-10"
               v-ripple
               :to="{
-                name: 'search in source',
+                ...route,
+                name: undefined,
+                path: `/~${meta.id}/search`,
                 params: {
                   ...route.params,
                   sourceId: meta.id
-                },
-                query: route.query,
-                hash: route.hash
+                }
               }"
             >
               <div>
@@ -192,7 +204,9 @@ meta:
                 <span class="text-12px"
                   >(
                   {{
-                    $t("size-trang-ket-qua", [promise.value?.maxPage ?? "__"])
+                    $t("size-trang-ket-qua", [
+                      promise.value?.ok ? promise.value.data.maxPage : "__"
+                    ])
                   }})</span
                 >
               </div>
@@ -202,22 +216,36 @@ meta:
             <div
               class="py-10px overflow-x-scroll flex flex-nowrap scrollbar-custom mx--10px mt--5px"
             >
-              <div v-if="!promise.value">
+              <div v-if="!promise.value" class="w-full">
                 <q-spinner size="1.5em" class="my-6 mx-10" />
               </div>
               <div
-                v-else-if="promise.value.items.length === 0"
-                class="text-gray-300 py-6 px-10"
+                v-else-if="
+                  promise.value.ok && promise.value.data.items.length === 0
+                "
+                class="text-gray-300 py-6 px-10 w-full text-center q-my-sm text-16px"
               >
-                Không có kết quả
+                <div class="text-18px leading-normal text-white mb-1">{{ randomEmoji("sad") }}</div>
+
+                {{ $t("khong-co-ket-qua") }}
               </div>
               <div
-                v-else
-                v-for="item in promise.value.items"
+                v-else-if="promise.value.ok"
+                v-for="item in promise.value.data.items"
                 :key="item.name"
-                class="w-28.57% sm:w-23.25% md:15.62% flex-none px-[10px] py-2"
+                class="w-28.57% sm:w-23.25% md:w-15.62% flex-none px-[10px] py-2"
               >
                 <Card :data="item" no-hover />
+              </div>
+              <div v-else class="w-full">
+                <div class="text-20px text-weight-normal q-my-sm">
+                  {{ $t("rat-tiec-da-xay-ra-loi") }}
+                </div>
+                <div
+                  class="text-subtitle2 text-weight-normal leading-normal text-gray-200 q-my-sm"
+                >
+                  {{ promise.value.data + "" }}
+                </div>
               </div>
             </div>
           </section>
@@ -242,6 +270,7 @@ meta:
 
 <script lang="ts" setup>
 import type { API, General, MetaManga } from "raiku-pgs/plugin"
+import { randomEmoji } from "src/logic/emoji-charater"
 import type { Swiper as TSwiper } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 
@@ -261,6 +290,7 @@ const router = useRouter()
 const i18n = useI18n()
 const $q = useQuasar()
 const pluginStore = usePluginStore()
+const { t } = i18n
 
 const paramSourceId = ref(props.sourceId ?? null)
 watch(paramSourceId, (sourceId) => {
@@ -279,7 +309,7 @@ watch(paramSourceId, (sourceId) => {
 
 const api = pluginStore.useApi(toGetter(props, "sourceId"), true)
 
-const title = () => `Tìm kiếm ${route.query.query ?? ""}`
+const title = () => t("tim-kiem-query", [route.query.query ?? ""])
 const description = title
 useSeoMeta({
   title,
@@ -335,9 +365,25 @@ const { data, run, error, loading, runAsync } = useRequest(
           const { meta, plugin } = await pluginStore.get(id)
           return {
             meta,
-            promise: computedAsync<General | undefined>(() =>
-              plugin.search(route.query.query + "", 1)
-            )
+            promise: computedAsync<
+              | {
+                  ok: true
+                  data: General
+                }
+              | {
+                  ok: false
+                  data: unknown
+                }
+            >(async () => {
+              try {
+                return {
+                  ok: true,
+                  data: await plugin.search(route.query.query + "", 1)
+                }
+              } catch (err) {
+                return { ok: false, data: err }
+              }
+            })
           }
         })
       )

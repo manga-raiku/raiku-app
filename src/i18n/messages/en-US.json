@@ -214,5 +214,6 @@
   "them-plugin": "Add plugins",
   "trinh-quan-ly-plugin": "Plugin Manager",
   "v-item-version": "(v{0})",
-  "xoa-plugin": "Delete Plugins"
+  "xoa-plugin": "Delete Plugins",
+  "tim-kiem-query": "Search {0}"
 }
