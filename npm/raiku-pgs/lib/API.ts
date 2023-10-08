@@ -122,6 +122,9 @@ export interface Package {
   readonly favicon: string
   readonly version: string
   readonly description: string
+  readonly isNSFW: boolean
+  /** @description Example: `ja`, `en` */
+  readonly language: string
 
   readonly author: string
 
