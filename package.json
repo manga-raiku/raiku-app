@@ -45,7 +45,7 @@
     "release:pwa": "bumpp --commit \"(chore): release PWA %s\" --tag \"pwa@%s\"",
     "release:android": "tsx scripts/bumpp-android.ts",
     "release:ios": "tsx scripts/bumpp-ios.ts",
-    "release:raiku-pgs": "cd npm/raiku-pgs && pnpm release && cd ../.."
+    "release:npm": "pnpm --filter ./npm/* run release"
   },
   "dependencies": {
     "@capacitor/device": "^5.0.6",
