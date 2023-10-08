@@ -125,6 +125,8 @@ export interface Package {
   readonly isNSFW: boolean
   /** @description Example: `ja`, `en` */
   readonly language: string
+  /** @description Example: Japanese, English */
+  readonly languageName: string
 
   readonly author: string
 
