@@ -7,9 +7,11 @@ export { parseDate } from "./plugin/parseDate"
 export { parseNumber } from "./plugin/parseNumber"
 export { parsePath } from "./plugin/parsePath"
 export { parseTimeAgo } from "./plugin/parseTimeAgo"
+export { parseQuery } from "./plugin/parseQuery"
 
 export { normalizeChName } from "./plugin/logic/normalize-ch-name"
 export { pathIsHome } from "./plugin/logic/path-is-home"
+export { removeExt } from "./plugin/logic/remove-ext"
 
 // composition apis
 export { defineApi } from "./plugin/composition-apis/define-api"
