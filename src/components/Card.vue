@@ -99,12 +99,23 @@
 
         <div class="tags mt-2 text-12px line-clamp-2">
           <span
+            v-if="typeof data.tags[0] === 'string'"
             v-for="item in data.tags"
             :key="data.name"
             class="text-gray-300"
           >
             {{ $t("tag-_val", [item]) }}
           </span>
+          <template v-else>
+            <router-link
+              v-for="item in data.tags as Genre[]"
+              :key="data.name"
+              :to="item.route"
+              class="text-gray-300"
+            >
+              {{ $t("tag-_val", [item.name]) }}
+            </router-link>
+          </template>
         </div>
       </q-card-section>
     </q-card>
@@ -113,7 +124,7 @@
 
 <script lang="ts" setup>
 import { QCard, QImg } from "quasar"
-import type { MetaManga } from "raiku-pgs/plugin"
+import type { Genre, MetaManga } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
 

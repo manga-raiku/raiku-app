@@ -37,6 +37,12 @@ export interface RouteAuthor {
   query?: LocationQueryRaw
 }
 
+export interface Genre {
+  readonly name: string
+  readonly route: RouteGenre
+  readonly description?: string
+}
+
 export interface Chapter {
   readonly name: string
   readonly route: RouteComicChap
@@ -49,7 +55,7 @@ export interface MetaManga {
   readonly image: string
   readonly name: string
   readonly othername: string | null
-  readonly tags: string[]
+  readonly tags: string[] | Genre[]
   readonly status: string | null
   readonly author: string | null
   readonly description: string
@@ -85,7 +91,7 @@ export interface QuicklyItem {
   readonly image: string
   readonly last_chapter: string
   readonly othername: string
-  readonly tags: string[]
+  readonly tags: string[] | Genre[]
 }
 
 export interface FilterURI {

@@ -75,21 +75,32 @@
         {{ data.description }}
       </p>
 
-      <!-- <div class="tags mt-2">
+      <div class="tags mt-2 text-12px line-clamp-2">
         <span
+          v-if="typeof data.tags[0] === 'string'"
           v-for="item in data.tags"
-          :key="data"
+          :key="data.name"
           class="text-gray-300"
         >
-        #{{item}}
+          {{ $t("tag-_val", [item]) }}
         </span>
-      </div> -->
+        <template v-else>
+          <router-link
+            v-for="item in data.tags as Genre[]"
+            :key="data.name"
+            :to="item.route"
+            class="text-gray-300"
+          >
+            {{ $t("tag-_val", [item.name]) }}
+          </router-link>
+        </template>
+      </div>
     </div>
   </router-link>
 </template>
 
 <script lang="ts" setup>
-import type { MetaManga } from "raiku-pgs/plugin"
+import type { Genre, MetaManga } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
 import { formatView } from "src/logic/formatView"
 
@@ -103,3 +114,19 @@ defineProps<{
   imgWidth?: string
 }>()
 </script>
+
+<style lang="scss" scoped>
+.tags {
+  > * {
+    @apply mr-3 inline-block;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 13px;
+
+    > * {
+      @apply mr-1 mt-1;
+    }
+  }
+}
+</style>
