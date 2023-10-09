@@ -66,8 +66,8 @@ importers:
         specifier: 1.0.0-rc.12
         version: 1.0.0-rc.12
       client-ext-animevsub-helper:
-        specifier: ^1.0.4
-        version: 1.0.4
+        specifier: ^1.0.16
+        version: 1.0.16
       dayjs:
         specifier: ^1.11.9
         version: 1.11.9
@@ -434,8 +434,8 @@ importers:
         specifier: ^9.2.0
         version: 9.2.0
       client-ext-animevsub-helper:
-        specifier: ^1.0.4
-        version: 1.0.4
+        specifier: ^1.0.16
+        version: 1.0.16
       esbuild:
         specifier: ^0.19.2
         version: 0.19.2
@@ -8013,8 +8013,8 @@ packages:
     resolution: {integrity: sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==}
     engines: {node: '>= 10'}
 
-  /client-ext-animevsub-helper@1.0.4:
-    resolution: {integrity: sha512-gv7Ctbg6AcfESlvXpGVIdvw9ApQMZb3o0lpFGbboZcyhJ6YclhYiwxTEvyM4UV+f1zLU1V7VG2Fv6WEgwVCI5A==}
+  /client-ext-animevsub-helper@1.0.16:
+    resolution: {integrity: sha512-cZrHzNYNyOjaNR6Z1J9BWzPjvUf4N3DOmgUGcWEGZ/2CmWkHr6VuozssIfU3NpW4dufAlfOV+/otDlYKuJbRGA==}
     engines: {node: '>=10'}
 
   /cliui@6.0.0:
