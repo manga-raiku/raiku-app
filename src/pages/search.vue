@@ -225,7 +225,9 @@ meta:
                 "
                 class="text-gray-300 py-6 px-10 w-full text-center q-my-sm text-16px"
               >
-                <div class="text-18px leading-normal text-white mb-1">{{ randomEmoji("sad") }}</div>
+                <div class="text-18px leading-normal text-white mb-1">
+                  {{ randomEmoji("sad") }}
+                </div>
 
                 {{ $t("khong-co-ket-qua") }}
               </div>

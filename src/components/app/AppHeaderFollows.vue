@@ -5,8 +5,9 @@
 
     <q-menu
       v-model="showMenuFollow"
-      class="flex flex-nowrap flex-col bg-dark-page shadow-xl md:rounded-xl  md:!max-w-420px <md:w-full <md:!left-0 <md:!top-0 <md:!max-w-full <md:!max-h-full <md:!h-full"
-  ref=menuRef  >
+      class="flex flex-nowrap flex-col bg-dark-page shadow-xl md:rounded-xl md:!max-w-420px <md:w-full <md:!left-0 <md:!top-0 <md:!max-w-full <md:!max-h-full <md:!h-full"
+      ref="menuRef"
+    >
       <q-toolbar>
         <q-btn v-if="$q.screen.lt.md" round v-close-popup>
           <i-line-md-arrow-left class="size-1.5em" />
@@ -77,9 +78,9 @@ const menuRef = ref<QMenu>()
 
 const showMenuFollow = ref(false)
 
-const { data, error, loading, runAsync } = useRequest(() => followStore.get(),
-  { manual: true }
-)
+const { data, error, loading, runAsync } = useRequest(() => followStore.get(), {
+  manual: true
+})
 watch(data, async (data) => {
   if (data) {
     await nextTick()
