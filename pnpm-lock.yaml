@@ -199,8 +199,8 @@ importers:
         specifier: ^1.4.3
         version: 1.4.3(eslint@8.33.0)(pinia@2.0.29)(quasar@2.12.2)(rollup@2.77.3)(vue-router@4.2.5)(vue@3.2.45)(workbox-build@6.6.0)
       '@quasar/cli':
-        specifier: ^2.2.3
-        version: 2.2.3
+        specifier: ^2.3.0
+        version: 2.3.0
       '@quasar/icongenie':
         specifier: ^3.1.1
         version: 3.1.1
@@ -4863,32 +4863,6 @@ packages:
       - supports-color
     dev: false
 
-  /@quasar/cli@2.2.3:
-    resolution: {integrity: sha512-mDLq/LICFbW7sIYte1DyJrBe55LPuYXPYydhQS0Mfjcaob9JuE7o2lDtT+cUwvEwOVYmcDMSg8dNhIqB+wwxjw==}
-    engines: {node: '>= 16', npm: '>= 5.6.0', yarn: '>= 1.6.0'}
-    hasBin: true
-    dependencies:
-      '@quasar/ssl-certificate': 1.0.0
-      ci-info: 3.8.0
-      compression: 1.7.4
-      connect-history-api-fallback: 2.0.0
-      cors: 2.8.5
-      cross-spawn: 7.0.3
-      express: 4.18.2
-      fs-extra: 11.1.1
-      http-proxy-middleware: 2.0.6
-      kolorist: 1.8.0
-      minimist: 1.2.8
-      open: 9.1.0
-      route-cache: 0.5.0
-      selfsigned: 2.1.1
-      update-notifier: 6.0.2
-    transitivePeerDependencies:
-      - '@types/express'
-      - debug
-      - supports-color
-    dev: true
-
   /@quasar/cli@2.3.0:
     resolution: {integrity: sha512-DNFDemicj3jXe5+Ib+5w9Bwj1U3yoHQkqn0bU/qysIl/p0MmGA1yqOfUF0V4fw/5or1dfCvStIA/oZxUcC+2pQ==}
     engines: {node: '>= 16', npm: '>= 5.6.0', yarn: '>= 1.6.0'}
@@ -4913,7 +4887,6 @@ packages:
       - '@types/express'
       - debug
       - supports-color
-    dev: false
 
   /@quasar/extras@1.15.10:
     resolution: {integrity: sha512-6w8e+wPNfcWhzW43tlnJPHOrcNwAgaaNJ3zBz8k+BMqpenA3fHZhFhxCYEVRZVqPFE2IK/8nRiPBp4t9xlW5tA==}
