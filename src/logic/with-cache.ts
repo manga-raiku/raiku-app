@@ -15,16 +15,15 @@ export async function withCache<T extends object>(
       // eslint-disable-next-line promise/always-return
       if (!result) result = shallowReactive(JSON.parse(json))
     }),
-    fn()
-      .then((data) => {
-        // eslint-disable-next-line promise/always-return
-        if (result && typeof result === "object" && typeof data === "object") {
-          Object.assign(result, data)
-        } else {
-          result = shallowReactive(data as Awaited<T>)
-        }
-        void set(uniKey, JSON.stringify(data))
-      })
+    fn().then((data) => {
+      // eslint-disable-next-line promise/always-return
+      if (result && typeof result === "object" && typeof data === "object") {
+        Object.assign(result, data)
+      } else {
+        result = shallowReactive(data as Awaited<T>)
+      }
+      void set(uniKey, JSON.stringify(data))
+    })
   ])
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

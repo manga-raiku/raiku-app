@@ -248,6 +248,7 @@ export const usePluginStore = defineStore("plugin", () => {
       ? computed(() =>
           getPluginOrDefault(sourceId.value).then(({ plugin }) => plugin)
         )
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       : computed(() => get(sourceId.value!).then(({ plugin }) => plugin))
   }
 

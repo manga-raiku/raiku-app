@@ -41,7 +41,7 @@ const { config } = VueTestUtils
 // For example use the actual i18n instance or mock it
 // config.global.plugins.push(i18n);
 config.global.mocks = {
-  // eslint-disable-next-line functional/functional-parameters
+  // eslint-disable-next-line functional/functional-parameters, @typescript-eslint/no-explicit-any
   $t: (...args: any[]) => args.join(":")
 }
 
