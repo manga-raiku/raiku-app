@@ -4,14 +4,12 @@
   >
     {{ Math.abs(currentPage) + 1 - sizeOldPages }}/{{ sizePage - sizeOldPages
     }}<span class="ml-2">{{
-      $t("ep-name", [metaEp ? normalizeChName(metaEp.name) : "_"])
+      $t("ep-name", [metaEp ? (metaEp.name) : "_"])
     }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { normalizeChName } from "raiku-pgs/plugin"
-
 defineProps<{
   currentPage: number
   sizePage: number

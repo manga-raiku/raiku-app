@@ -37,9 +37,9 @@ export default defineConfig({
     lib: {
       entry: ["./lib/plugin.ts", "./lib/thread.ts"],
       name: "RaikuPgs",
-      formats: ["es", "cjs"]
+      formats: ["cjs", "es"],
 
-      // fileName: (format, entry) => (entry + format === "es" ? ".js" : ".cjs"),
+      fileName: (format, entry) => (entry + (format === "es" ? ".js" : ".cjs")),
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled

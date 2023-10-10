@@ -132,7 +132,6 @@ import "@fontsource/poppins"
 import type { QBtn } from "quasar"
 import { QTab, QTabs } from "quasar"
 import type { Chapter, ID } from "raiku-pgs/plugin"
-import { normalizeChName } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
 import type { MetaManga, TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
@@ -165,9 +164,8 @@ const pluginStore = usePluginStore()
 const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
     const [from, to] = [
-      parseFloat(normalizeChName(items[0].name)),
-       
-      parseFloat(normalizeChName(items.at(-1)!.name))
+      parseFloat((items[0].name)) || items[0].name,
+      parseFloat((items.at(-1)!.name)) || items.at(-1)!.name
     ]
 
     return { from, to, items }
@@ -233,7 +231,7 @@ async function downloadEp(item: Chapter) {
     false
   )
 
-   
+
   const task = await IDMStore.download(props.metaManga!, {
     ep_id: item.id,
     ep_name: item.name,

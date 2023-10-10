@@ -17,319 +17,319 @@ const route = {
 const chapters_long: Chapter[] = [
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 27",
+    name: "27",
     update: 1628899200000,
     readed: true
   },
   {
     route,
-    name: "Chương 26",
+    name: "26",
     update: 1628208000000,
     readed: true
   },
   {
     route,
-    name: "Chương 25",
+    name: "25",
     update: 1627776000000,
     readed: true
   },
   {
     route,
-    name: "Chương 24",
+    name: "24",
     update: 1627776000000,
     readed: true
   },
   {
     route,
-    name: "Chương 23",
+    name: "23",
     update: 1626480000000,
     readed: true
   },
   {
     route,
-    name: "Chương 22",
+    name: "22",
     update: 1626307200000,
     readed: true
   },
   {
     route,
-    name: "Chương 21",
+    name: "21",
     update: 1625788800000,
     readed: true
   },
   {
     route,
-    name: "Chương 20",
+    name: "20",
     update: 1625788800000,
     readed: true
   },
   {
     route,
-    name: "Chương 19",
+    name: "19",
     update: 1625788800000,
     readed: true
   },
   {
     route,
-    name: "Chương 18",
+    name: "18",
     update: 1625788800000,
     readed: true
   },
   {
     route,
-    name: "Chương 17",
+    name: "17",
     update: 1620345600000,
     readed: true
   },
   {
     route,
-    name: "Chương 16",
+    name: "16",
     update: 1619308800000,
     readed: true
   },
   {
     route,
-    name: "Chương 15",
+    name: "15",
     update: 1618876800000,
     readed: false
   },
   {
     route,
-    name: "Chương 14",
+    name: "14",
     update: 1606003200000,
     readed: false
   },
   {
     route,
-    name: "Chương 13",
+    name: "13",
     update: 1605571200000,
     readed: false
   },
   {
     route,
-    name: "Chương 12",
+    name: "12",
     update: 1605484800000,
     readed: false
   },
   {
     route,
-    name: "Chương 11",
+    name: "11",
     update: 1602979200000,
     readed: false
   },
   {
     route,
-    name: "Chương 10",
+    name: "10",
     update: 1592438400000,
     readed: false
   },
   {
     route,
-    name: "Chương 9",
+    name: "9",
     update: 1590969600000,
     readed: false
   },
   {
     route,
-    name: "Chương 8",
+    name: "8",
     update: 1589846400000,
     readed: false
   },
   {
     route,
-    name: "Chương 7",
+    name: "7",
     update: 1588550400000,
     readed: false
   },
   {
     route,
-    name: "Chương 6",
+    name: "6",
     update: 1587168000000,
     readed: false
   },
   {
     route,
-    name: "Chương 5",
+    name: "5",
     update: 1586217600000,
     readed: false
   },
   {
     route,
-    name: "Chương 4",
+    name: "4",
     update: 1585353600000,
     readed: false
   },
   {
     route,
-    name: "Chương 3",
+    name: "3",
     update: 1584144000000,
     readed: false
   },
   {
     route,
-    name: "Chương 2",
+    name: "2",
     update: 1584144000000,
     readed: false
   },
   {
     route,
-    name: "Chương 1",
+    name: "1",
     update: 1584144000000,
     readed: false
   }
@@ -347,163 +347,163 @@ describe("ListChapters", () => {
     const chapters: Chapter[] = [
       {
         route,
-        name: "Chương 27",
+        name: "27",
         update: 1628899200000,
         readed: true
       },
       {
         route,
-        name: "Chương 26",
+        name: "26",
         update: 1628208000000,
         readed: true
       },
       {
         route,
-        name: "Chương 25",
+        name: "25",
         update: 1627776000000,
         readed: true
       },
       {
         route,
-        name: "Chương 24",
+        name: "24",
         update: 1627776000000,
         readed: true
       },
       {
         route,
-        name: "Chương 23",
+        name: "23",
         update: 1626480000000,
         readed: true
       },
       {
         route,
-        name: "Chương 22",
+        name: "22",
         update: 1626307200000,
         readed: true
       },
       {
         route,
-        name: "Chương 21",
+        name: "21",
         update: 1625788800000,
         readed: true
       },
       {
         route,
-        name: "Chương 20",
+        name: "20",
         update: 1625788800000,
         readed: true
       },
       {
         route,
-        name: "Chương 19",
+        name: "19",
         update: 1625788800000,
         readed: true
       },
       {
         route,
-        name: "Chương 18",
+        name: "18",
         update: 1625788800000,
         readed: true
       },
       {
         route,
-        name: "Chương 17",
+        name: "17",
         update: 1620345600000,
         readed: true
       },
       {
         route,
-        name: "Chương 16",
+        name: "16",
         update: 1619308800000,
         readed: true
       },
       {
         route,
-        name: "Chương 15",
+        name: "15",
         update: 1618876800000,
         readed: false
       },
       {
         route,
-        name: "Chương 14",
+        name: "14",
         update: 1606003200000,
         readed: false
       },
       {
         route,
-        name: "Chương 13",
+        name: "13",
         update: 1605571200000,
         readed: false
       },
       {
         route,
-        name: "Chương 12",
+        name: "12",
         update: 1605484800000,
         readed: false
       },
       {
         route,
-        name: "Chương 11",
+        name: "11",
         update: 1602979200000,
         readed: false
       },
       {
         route,
-        name: "Chương 10",
+        name: "10",
         update: 1592438400000,
         readed: false
       },
       {
         route,
-        name: "Chương 9",
+        name: "9",
         update: 1590969600000,
         readed: false
       },
       {
         route,
-        name: "Chương 8",
+        name: "8",
         update: 1589846400000,
         readed: false
       },
       {
         route,
-        name: "Chương 7",
+        name: "7",
         update: 1588550400000,
         readed: false
       },
       {
         route,
-        name: "Chương 6",
+        name: "6",
         update: 1587168000000,
         readed: false
       },
       {
         route,
-        name: "Chương 5",
+        name: "5",
         update: 1586217600000,
         readed: false
       },
       {
         route,
-        name: "Chương 4",
+        name: "4",
         update: 1585353600000,
         readed: false
       },
       {
         route,
-        name: "Chương 3",
+        name: "3",
         update: 1584144000000,
         readed: false
       },
       {
         route,
-        name: "Chương 2",
+        name: "2",
         update: 1584144000000,
         readed: false
       },
       {
         route,
-        name: "Chương 1",
+        name: "1",
         update: 1584144000000,
         readed: false
       }

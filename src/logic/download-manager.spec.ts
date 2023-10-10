@@ -1,4 +1,4 @@
- 
+
 /* eslint-disable camelcase */
 import hashSum from "hash-sum"
 import { cleanup, exists, readdir, readFile } from "test/vitest/utils"
@@ -53,11 +53,11 @@ function patchFetch() {
     async (url: string) => {
       await sleep(100)
       return Promise.resolve({
-         
+
         async arrayBuffer() {
           return new TextEncoder().encode(url)
         },
-         
+
         async text() {
           return url
         }
@@ -115,7 +115,7 @@ describe("download-manager", () => {
     ])
 
     // valid image pages
-     
+
     for (const index in pages) {
       const path = `files/${hashIDManga}/${hashIDEp}/${hashSum(+index)}`
 
@@ -170,11 +170,11 @@ describe("download-manager", () => {
         if (counter++ > 5) return Promise.reject(new Error("time_out"))
 
         return Promise.resolve({
-           
+
           async arrayBuffer() {
             return new TextEncoder().encode(url)
           },
-           
+
           async text() {
             return url
           }
@@ -201,7 +201,7 @@ describe("download-manager", () => {
     ])
 
     // valid image page
-     
+
     for (const index in pages.slice(0, 5)) {
       const path = `files/${hashIDManga}/${hashIDEp}/${hashSum(+index)}`
 
@@ -244,11 +244,11 @@ describe("download-manager", () => {
         if (counter++ > 5) return Promise.reject(new Error("time_out"))
 
         return Promise.resolve({
-           
+
           async arrayBuffer() {
             return new TextEncoder().encode(url)
           },
-           
+
           async text() {
             return url
           }
@@ -276,7 +276,7 @@ describe("download-manager", () => {
     ])
 
     // valid image page
-     
+
     for (const index in pages.slice(0, 5)) {
       const path = `files/${hashIDManga}/${hashIDEp}/${hashSum(+index)}`
 
@@ -332,7 +332,7 @@ describe("download-manager", () => {
     ])
 
     // valid image pages
-     
+
     for (const index in pages) {
       const path = `files/${hashIDManga}/${hashIDEp}/${hashSum(+index)}`
 
@@ -411,7 +411,7 @@ describe("download-manager", () => {
     ])
 
     // valid image pages
-     
+
     for (const index in pages) {
       const path = `files/${hashIDManga}/${hashIDEp}/${hashSum(+index)}`
 

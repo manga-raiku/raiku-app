@@ -102,7 +102,7 @@ describe("FloatingStatus", () => {
         sizeOldPages: 0,
 
         metaEp: {
-          name: "Chapter 1"
+          name: "1"
         }
       }
     })
