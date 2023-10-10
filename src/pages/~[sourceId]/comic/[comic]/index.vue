@@ -81,7 +81,7 @@ meta:
 
             <q-separator vertical class="mx-3 h-12px my-auto <md:!hidden" />
 
-            <div class="flex <md:w-full items-center">
+            <div v-if="data.rate.max" class="flex <md:w-full items-center">
               <i-iconamoon-like-duotone
                 class="text-yellow w-1.2em h-1.2em mr-1"
               />
@@ -94,7 +94,11 @@ meta:
               }}
             </div>
 
-            <q-separator vertical class="mx-3 h-12px my-auto <md:!hidden" />
+            <q-separator
+              v-if="data.rate.max"
+              vertical
+              class="mx-3 h-12px my-auto <md:!hidden"
+            />
 
             <div v-if="data.follows" class="flex <md:w-full items-center">
               <i-iconamoon-heart-duotone
