@@ -10,12 +10,14 @@ module.exports = {
   parserOptions: {
     parser: require.resolve("@typescript-eslint/parser"),
     project: "tsconfig.json",
+    ecmaVersion: "latest",
+    sourceType: "module",
     extraFileExtensions: [".vue"]
   },
 
   env: {
     browser: true,
-    es2021: true,
+    es2022: true,
     node: true,
     "vue/setup-compiler-macros": true
   },
