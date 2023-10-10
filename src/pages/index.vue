@@ -268,6 +268,7 @@ meta:
               v-for="item in items"
               :key="item.name"
               :data="item"
+              no-tags
               img-width="100px"
               class="my-2 text-13px"
             />

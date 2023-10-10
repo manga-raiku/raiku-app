@@ -75,7 +75,7 @@
         {{ data.description }}
       </p>
 
-      <div class="tags mt-2 text-12px line-clamp-2">
+      <div v-if="!noTags" class="tags mt-2 text-12px line-clamp-2">
         <span
           v-if="typeof data.tags[0] === 'string'"
           v-for="item in data.tags"
@@ -108,6 +108,8 @@ import "@fontsource/poppins"
 
 defineProps<{
   data: MetaManga
+
+  noTags?: boolean
 
   threeLine?: boolean
   readContinue?: boolean
