@@ -219,5 +219,7 @@
   "de-sau": "之后",
   "lam-moi-ngay": "立即刷新",
   "search-no-result-msg": "在此来源中未找到任何结果。\n尝试使用其他来源。",
-  "ung-dung-da-duoc-cap-nhat": "应用程序已更新"
+  "ung-dung-da-duoc-cap-nhat": "应用程序已更新",
+  "dang-cap-nhat-ung-dung": "更新应用程序",
+  "quan-ly-plugin": "插件管理"
 }

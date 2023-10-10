@@ -219,5 +219,7 @@
   "search-no-result-msg": "Không tìm thấy kết quả gì trong nguồn này. Hãy thử với nguồn khác.",
   "ung-dung-da-duoc-cap-nhat": "Ứng dụng đã được cập nhật",
   "lam-moi-ngay": "Làm mới ngay",
-  "de-sau": "Để sau"
+  "de-sau": "Để sau",
+  "dang-cap-nhat-ung-dung": "Đang cập nhật ứng dụng",
+  "quan-ly-plugin": "Quản lý Plugin"
 }

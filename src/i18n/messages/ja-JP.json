@@ -219,5 +219,7 @@
   "de-sau": "後で",
   "lam-moi-ngay": "今すぐ更新してください",
   "search-no-result-msg": "このソースでは結果が見つかりませんでした。\n別のソースで試してください。",
-  "ung-dung-da-duoc-cap-nhat": "アプリケーションが更新されました"
+  "ung-dung-da-duoc-cap-nhat": "アプリケーションが更新されました",
+  "dang-cap-nhat-ung-dung": "アプリケーションのアップデート",
+  "quan-ly-plugin": "プラグイン管理"
 }

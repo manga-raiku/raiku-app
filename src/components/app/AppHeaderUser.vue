@@ -112,6 +112,28 @@
               <q-separator class="bg-[rgba(255,255,255,0.1)]" />
             </template>
 
+            <template v-if="updatingCache && installedSW">
+              <q-item>
+                <q-item-section avaatar class="min-w-0">
+                  <q-circular-progress
+                    indeterminate
+                    rounded
+                    show-value
+                    size="35px"
+                    color="main"
+                  >
+                  </q-circular-progress>
+
+                  <q-item-section>
+                    <q-item-label>{{
+                      $t("dang-cap-nhat-ung-dung")
+                    }}</q-item-label>
+                  </q-item-section>
+                </q-item-section>
+              </q-item>
+              <q-separator class="bg-[rgba(255,255,255,0.1)]" />
+            </template>
+
             <template v-for="item in buttons" :key="item.text">
               <q-separator
                 v-if="item.divider"
@@ -219,6 +241,7 @@ import { App } from "@capacitor/app"
 import { version } from "app/package.json"
 import { Icons } from "src/constants"
 import type { Icon } from "src/constants"
+import { installedSW, updatingCache } from "src/logic/state-sw"
 import langs from "virtual:i18n-langs"
 
 import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
@@ -272,7 +295,7 @@ const buttons: {
     // to: "/app/settings/plugins",
     onClick: () => (stateStore.showPluginManagerDialog = true),
     icon: Icons.mingcute,
-    text: "Quản lý Plugin"
+    text: i18n.t("quan-ly-plugin")
   },
   {
     divider: true,

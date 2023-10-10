@@ -219,5 +219,7 @@
   "de-sau": "Later",
   "lam-moi-ngay": "Refresh now",
   "search-no-result-msg": "No results were found in this source. \nTry with another source.",
-  "ung-dung-da-duoc-cap-nhat": "The application has been updated"
+  "ung-dung-da-duoc-cap-nhat": "The application has been updated",
+  "dang-cap-nhat-ung-dung": "Updating the application",
+  "quan-ly-plugin": "Plugin Management"
 }
