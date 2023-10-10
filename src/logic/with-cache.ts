@@ -8,7 +8,7 @@ export async function withCache<T extends object>(
   let result: ShallowReactive<Awaited<T>>
 
   await Promise.any([
-    get(uniKey).then((json) => {
+    get(uniKey).then((json: string) => {
       // eslint-disable-next-line functional/no-throw-statement
       if (!json) throw new Error("not_found")
 
@@ -23,11 +23,12 @@ export async function withCache<T extends object>(
         } else {
           result = shallowReactive(data as Awaited<T>)
         }
-        set(uniKey, JSON.stringify(data))
+        void set(uniKey, JSON.stringify(data))
       })
       .catch((err) => console.error(err))
   ])
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  return result!
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  return result
 }

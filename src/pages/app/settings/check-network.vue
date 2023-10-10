@@ -99,14 +99,13 @@ const router = useRouter()
 
 const connectionType = shallowRef<ConnectionType | "offline">()
 
-// eslint-disable-next-line promise/catch-or-return
-Network.getStatus().then(
+void Network.getStatus().then(
   (status) =>
     (connectionType.value = status.connected
       ? status.connectionType
       : "offline")
 )
-Network.addListener("networkStatusChange", (status) => {
+void Network.addListener("networkStatusChange", (status) => {
   connectionType.value = status.connected ? status.connectionType : "offline"
 })
 
@@ -114,6 +113,7 @@ const IP = computedAsync(() => {
   return fetch("https://freeipapi.com/api/json")
     .then((res) => res.json())
     .then((res) => {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       return `${res.ipAddress} - ${res.regionName} (${res.countryName})`
     })
 })

@@ -69,6 +69,7 @@ const paramSourceId = useRouteParams<string | null>("sourceId", undefined, {
 
 const page = computed<number>({
   get: () => parseInt(route.query.page?.toString() ?? "1") || 1,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   set: (page) =>
     router.push({
       ...route,
@@ -99,7 +100,7 @@ const { data, runAsync, loading, error } = useRequest(
   {
     refreshDeps: [api, () => props.type, () => route.query],
     refreshDepsAction() {
-      runAsync()
+      void runAsync()
     }
   }
 )
@@ -118,7 +119,7 @@ const onLoad = useLoadMorePage(
 )
 watch(error, (error) => {
   if (error?.message === "not_found")
-    router.replace({
+    void router.replace({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       name: "not_found" as any,
       params: {

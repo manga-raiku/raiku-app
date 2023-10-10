@@ -6,7 +6,7 @@ import type { Plugin } from "vite"
 function vitePluginBuildRaw(): Plugin {
   return {
     name: "vite-plugin-build-raw",
-    transform(src, id) {
+    transform(src: string, id: string) {
       if (id.includes("?braw")) {
         id = id.replace(/\?braw$/, "")
         // console.log({ id })

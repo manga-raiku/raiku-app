@@ -130,6 +130,7 @@ const allPlugins = computed(() =>
 
 const keyword = ref("")
 
+// eslint-disable-next-line @typescript-eslint/restrict-plus-operands
 const query = ref((route.query.query ?? "") + "")
 const { data: searchResult, runAsync } = useRequest(
   () => {
@@ -137,7 +138,7 @@ const { data: searchResult, runAsync } = useRequest(
       .then((plugins) => Promise.all(plugins))
       .then((plugins) =>
         Promise.all(
-          plugins.map(async ({ meta, plugin }) => {
+          plugins.map(({ meta, plugin }) => {
             return {
               meta,
               promise: computedAsync<
@@ -165,7 +166,7 @@ function onClickItemPreLoad(
   if (load) {
     query.value = item.name
   } else {
-    router.push(item.route)
+    void router.push(item.route)
   }
 }
 

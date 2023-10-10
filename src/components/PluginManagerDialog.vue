@@ -222,8 +222,7 @@ async function onClickUpdate(item: PackageDisk) {
   updateMap.value.delete(item.id)
   updatingMap.delete(item.id)
 }
-
-async function removePlugin(item: PackageDisk) {
+function removePlugin(item: PackageDisk) {
   $q.dialog({
     title: t("xoa-plugin"),
     message: t("ban-chac-chan-muon-xoa-plugin-item-name-chu", [item.name]),
@@ -236,8 +235,8 @@ async function removePlugin(item: PackageDisk) {
       rounded: true
     },
     persistent: true
-  }).onOk(async () => {
-    await pluginStore.removePlugin(item.id)
+  }).onOk(() => {
+    void pluginStore.removePlugin(item.id)
     $q.notify({
       message: t("da-xoa-plugin", [item.name])
     })

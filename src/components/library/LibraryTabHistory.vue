@@ -77,7 +77,7 @@ watch(
   (visible) => {
     if (visible === undefined) return
 
-    if (visible && !data.value) refreshAsync()
+    if (visible && !data.value) void refreshAsync()
   },
   { immediate: true }
 )

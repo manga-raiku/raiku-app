@@ -145,7 +145,7 @@ const buttons: {
 watch(
   () => $q.screen.lt.md,
   (mobile) => {
-    if (!mobile) router.push("/app/myaccount")
+    if (!mobile) void router.push("/app/myaccount")
   },
   { immediate: true }
 )

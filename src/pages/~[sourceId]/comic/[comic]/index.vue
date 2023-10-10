@@ -434,7 +434,7 @@ const { data, runAsync, error, loading } = useRequest(GetWithCache, {
 })
 watch(error, (error) => {
   if (error?.message === "not_found")
-    router.replace({
+    void router.replace({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       name: "not_found" as any,
       params: {
@@ -504,7 +504,7 @@ const listEpRead = computedAsync(() => {
 
 function onClickShare() {
   if (!data.value) return
-  share({
+  void share({
     title: i18n.t("doc-name-ch", [
       data.value.name,
       data.value.othername ? `(${data.value.othername})` : ""

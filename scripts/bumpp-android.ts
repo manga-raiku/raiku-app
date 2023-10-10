@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { spawnSync } from "child_process"
 import { readFileSync, writeFileSync } from "fs"
 import { resolve } from "path"
@@ -30,7 +32,7 @@ async function bumppAndroid() {
   const _t1 = buildGradle.slice(indexVersionCode + 11)
   const currentVersionCode = parseInt(_t1.slice(0, _t1.indexOf("\n")).trim())
   const _t2 = buildGradle.slice(indexVersionName + 11)
-  // eslint-disable-next-line no-new-func
+  // eslint-disable-next-line no-new-func, @typescript-eslint/no-implied-eval
   const currentVersionName = new Function(
     "return " + _t2.slice(0, _t2.indexOf("\n")).trim()
   )()
@@ -163,4 +165,5 @@ async function bumppAndroid() {
 }
 
 console.log(bold(green(" === Bumpp version for Capacitor Android === ")))
-bumppAndroid()
+
+void bumppAndroid()

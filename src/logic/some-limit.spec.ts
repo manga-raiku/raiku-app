@@ -28,7 +28,7 @@ describe("someLimit", () => {
   it("should stop if true value", async () => {
     const sources = [vi.fn(), vi.fn()]
 
-    someLimit(
+    await someLimit(
       sources,
       (val) => {
         val()

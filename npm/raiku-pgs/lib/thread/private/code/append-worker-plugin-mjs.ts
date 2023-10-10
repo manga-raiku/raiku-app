@@ -8,7 +8,6 @@ import type { GetOption } from "client-ext-animevsub-helper"
 import type { API, ComicChapter, FetchGet, FetchPost } from "../../../API"
 import type { ListenerThread } from "../../create-worker-plugin"
 import { parseDom } from "../../parseDom"
-
 ping(self, "load")
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions

@@ -26,8 +26,8 @@ export const useIDMStore = defineStore("IDM", () => {
   async function runLoadInMemory() {
     if (!gettedList) {
       lsingComicOnDisk.value = true
-      // eslint-disable-next-line promise/catch-or-return, promise/always-return
-      getListManga().then(async (list) => {
+      // eslint-disable-next-line promise/always-return
+      await getListManga().then(async (list) => {
         await Promise.all(
           list.map(async (item) => {
             const itemReactive = shallowReactive<

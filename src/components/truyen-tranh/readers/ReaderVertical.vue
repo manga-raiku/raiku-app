@@ -227,7 +227,7 @@ function onMouseMove(event: MouseEvent) {
   // last2Time = lastTime
   // lastTime = Date.now()
 }
-async function onMouseUp() {
+function onMouseUp() {
   mouseStart = null
   scrollStart = null
   // if (last2Mouse && last2Time) await scrollInertia(event, last2Mouse, last2Time)

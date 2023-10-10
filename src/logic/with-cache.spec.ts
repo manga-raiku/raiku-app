@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 import { expect } from "vitest"
 
 const value = { v: Math.random() }
@@ -21,7 +22,6 @@ describe("with-cache", () => {
     {
       const start = performance.now()
       const data = await withCache(async () => {
-        await 1000
         return value
       }, ref("key"))
 

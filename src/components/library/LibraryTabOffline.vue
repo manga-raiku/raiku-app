@@ -111,7 +111,7 @@ const IDMStore = useIDMStore()
 watch(
   () => props.visible,
   (visible) => {
-    if (visible !== false) IDMStore.runLoadInMemory()
+    if (visible !== false) void IDMStore.runLoadInMemory()
   },
   { immediate: true }
 )

@@ -157,7 +157,7 @@ const {
       .then((plugins) => Promise.all(plugins))
       .then((plugins) =>
         Promise.all(
-          plugins.map(async ({ meta, plugin }) => {
+          plugins.map(({ meta, plugin }) => {
             return {
               meta,
               promise: computedAsync<

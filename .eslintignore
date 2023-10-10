@@ -6,3 +6,4 @@
 .eslintrc.js
 /src-ssr
 dist
+/quasar.config.js

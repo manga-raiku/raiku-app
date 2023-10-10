@@ -192,7 +192,7 @@ watch(tabActive, () => emit("change-tab"))
 
 const btnActiveRef = ref<QBtn | QTab>()
 watch(
-  () => btnActiveRef.value?.$el,
+  () => btnActiveRef.value?.$el as HTMLDivElement,
   (segment) => {
     if (!segment) return
 
@@ -209,8 +209,8 @@ watch(ulPanelRef, (ulPanelRef) => {
   setTimeout(() => {
     // ulPanelRef.querySelector(".reading")?.scrollIntoView({ behavior: 'smooth' })
 
-    const reading = ulPanelRef.querySelector(".reading") as HTMLElement | null
-    if (reading) scrollYIntoView(reading)
+    const reading = ulPanelRef.querySelector(".reading")
+    if (reading) scrollYIntoView(reading as HTMLDivElement)
   }, 70)
 })
 

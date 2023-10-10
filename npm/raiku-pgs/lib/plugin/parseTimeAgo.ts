@@ -16,19 +16,10 @@ export function parseTimeAgo(ago: string, now: number): number {
     new Date(
       ago.replace(
         /^(\d{1,2}):(\d{1,2}) (\d{1,2})\/(\d{1,2})(\/\d{2,4})?$/,
-        (_, $1, $2, $3, $4, $5) => {
-          return (
-            $1 +
-            ":" +
-            $2 +
-            ":00" +
-            " " +
-            $4 +
-            "/" +
-            $3 +
-            "/" +
-            ($5?.slice(1) ?? new Date(now).getFullYear())
-          )
+        (_, $1: string, $2: string, $3: string, $4: string, $5: string) => {
+          return `${$1}:${$2}:00 ${$4}/${$3}/${
+            $5?.slice(1) ?? new Date(now).getFullYear()
+          }`
         }
       )
     ).getTime() ||

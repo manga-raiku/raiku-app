@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable camelcase */
 import hashSum from "hash-sum"
 import { cleanup, exists, readdir, readFile } from "test/vitest/utils"
@@ -48,17 +49,21 @@ const hashIDEp = hashSum(ep_id)
 function patchFetch() {
   // continue download
   ;(fetch as ReturnType<typeof vi.fn>).mockReset()
-  ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(async (url) => {
-    await sleep(100)
-    return Promise.resolve({
-      async arrayBuffer() {
-        return new TextEncoder().encode(url)
-      },
-      async text() {
-        return url
-      }
-    })
-  })
+  ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(
+    async (url: string) => {
+      await sleep(100)
+      return Promise.resolve({
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async arrayBuffer() {
+          return new TextEncoder().encode(url)
+        },
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async text() {
+          return url
+        }
+      })
+    }
+  )
 }
 ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(0)
 patchFetch()
@@ -110,6 +115,7 @@ describe("download-manager", () => {
     ])
 
     // valid image pages
+    // eslint-disable-next-line @typescript-eslint/no-for-in-array
     for (const index in pages) {
       const path = `files/${hashIDManga}/${hashIDEp}/${hashSum(+index)}`
 
@@ -158,19 +164,23 @@ describe("download-manager", () => {
   test("should forcibly stopped while downloading", async () => {
     let counter = 0
     ;(fetch as ReturnType<typeof vi.fn>).mockReset()
-    ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(async (url) => {
-      // await sleep(500)
-      if (counter++ > 5) return Promise.reject(new Error("time_out"))
+    ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(
+      async (url: string) => {
+        // await sleep(500)
+        if (counter++ > 5) return Promise.reject(new Error("time_out"))
 
-      return Promise.resolve({
-        async arrayBuffer() {
-          return new TextEncoder().encode(url)
-        },
-        async text() {
-          return url
-        }
-      })
-    })
+        return Promise.resolve({
+          // eslint-disable-next-line @typescript-eslint/require-await
+          async arrayBuffer() {
+            return new TextEncoder().encode(url)
+          },
+          // eslint-disable-next-line @typescript-eslint/require-await
+          async text() {
+            return url
+          }
+        })
+      }
+    )
 
     const { ref, start, downloading } = createTaskDownloadEpisode(
       metaManga,
@@ -191,6 +201,7 @@ describe("download-manager", () => {
     ])
 
     // valid image page
+    // eslint-disable-next-line @typescript-eslint/no-for-in-array
     for (const index in pages.slice(0, 5)) {
       const path = `files/${hashIDManga}/${hashIDEp}/${hashSum(+index)}`
 
@@ -227,19 +238,23 @@ describe("download-manager", () => {
   test("should continue while downloading", async () => {
     let counter = 0
     ;(fetch as ReturnType<typeof vi.fn>).mockReset()
-    ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(async (url) => {
-      // await sleep(500)
-      if (counter++ > 5) return Promise.reject(new Error("time_out"))
+    ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(
+      async (url: string) => {
+        // await sleep(500)
+        if (counter++ > 5) return Promise.reject(new Error("time_out"))
 
-      return Promise.resolve({
-        async arrayBuffer() {
-          return new TextEncoder().encode(url)
-        },
-        async text() {
-          return url
-        }
-      })
-    })
+        return Promise.resolve({
+          // eslint-disable-next-line @typescript-eslint/require-await
+          async arrayBuffer() {
+            return new TextEncoder().encode(url)
+          },
+          // eslint-disable-next-line @typescript-eslint/require-await
+          async text() {
+            return url
+          }
+        })
+      }
+    )
 
     const { ref, start, downloading } = createTaskDownloadEpisode(
       metaManga,
@@ -261,6 +276,7 @@ describe("download-manager", () => {
     ])
 
     // valid image page
+    // eslint-disable-next-line @typescript-eslint/no-for-in-array
     for (const index in pages.slice(0, 5)) {
       const path = `files/${hashIDManga}/${hashIDEp}/${hashSum(+index)}`
 
@@ -316,6 +332,7 @@ describe("download-manager", () => {
     ])
 
     // valid image pages
+    // eslint-disable-next-line @typescript-eslint/no-for-in-array
     for (const index in pages) {
       const path = `files/${hashIDManga}/${hashIDEp}/${hashSum(+index)}`
 
@@ -364,12 +381,12 @@ describe("download-manager", () => {
     const watcher = vi.fn()
     watch(ref, watcher, { deep: true })
 
-    start()
+    void start()
     await sleep(500)
     expect(downloading.value).toBe(true)
     expect(ref.downloaded).toBeGreaterThanOrEqual(1)
 
-    stop()
+    void stop()
     await sleep(500)
 
     expect(downloading.value).toBe(false)
@@ -394,6 +411,7 @@ describe("download-manager", () => {
     ])
 
     // valid image pages
+    // eslint-disable-next-line @typescript-eslint/no-for-in-array
     for (const index in pages) {
       const path = `files/${hashIDManga}/${hashIDEp}/${hashSum(+index)}`
 

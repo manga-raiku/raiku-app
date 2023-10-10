@@ -2,7 +2,6 @@
   "name": "raiku-pgs",
   "private": false,
   "version": "0.0.9-beta.22",
-  "type": "module",
   "files": [
     "dist"
   ],
