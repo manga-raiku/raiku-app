@@ -25,7 +25,6 @@ export async function withCache<T extends object>(
         }
         void set(uniKey, JSON.stringify(data))
       })
-      .catch((err) => console.error(err))
   ])
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
