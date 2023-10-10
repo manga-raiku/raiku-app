@@ -190,7 +190,7 @@ const onLoad = useLoadMorePage(
 )
 watch(error, (error) => {
   if (error?.message === "not_found")
-    router.replace({
+    void router.replace({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       name: "not_found" as any,
       params: {

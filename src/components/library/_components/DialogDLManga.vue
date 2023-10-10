@@ -333,6 +333,7 @@ watch(showDownloadMore, async (state) => {
     allEp.value = episodes
   } catch (err) {
     $q.notify({
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       message: err + ""
     })
   }
@@ -359,8 +360,7 @@ async function download() {
   for (const ep of epsSelected) {
     const { comic, chap } = ep.route.params
     const conf = await plugin.getComicChapter(comic, chap, false)
-    // eslint-disable-next-line promise/catch-or-return
-    IDMStore.download(metaMangaShowInfo.value, {
+    void IDMStore.download(metaMangaShowInfo.value, {
       ep_id: ep.id,
       ep_name: ep.name,
       ep_param: chap,

@@ -57,8 +57,8 @@ const disable = computed(() => {
 function onClickDownload() {
   const value = props.modelValue
   if (value && isTaskDLEp(value)) {
-    if (value.downloading) value.stop()
-    else (value as TaskDLEp).resume()
+    if (value.downloading) void value.stop()
+    else void (value as TaskDLEp).resume()
 
     return
   }
@@ -80,6 +80,7 @@ function onClickDownload() {
         noCaps: true,
         flat: true
       }
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
     }).onOk(async () => {
       if (props.mangaId !== null && props.epId !== null)
         await deleteEpisode(props.mangaId, props.epId)

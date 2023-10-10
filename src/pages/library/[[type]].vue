@@ -131,6 +131,6 @@ function onSwiper(swiper: TSwiper) {
 
 function onSlideChange(swiper: TSwiper) {
   activeValue.value = tabs.value[swiper.activeIndex].value
-  router.push(`/library/${activeValue.value}`)
+  void router.push(`/library/${activeValue.value}`)
 }
 </script>

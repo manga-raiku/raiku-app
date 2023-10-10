@@ -96,7 +96,7 @@ const onLoad = async (index: number, done: (stop?: boolean) => void) => {
 }
 
 watch(showMenuFollow, (show) => {
-  if (show) runAsync()
+  if (show) void runAsync()
   else data.value = undefined
 })
 </script>

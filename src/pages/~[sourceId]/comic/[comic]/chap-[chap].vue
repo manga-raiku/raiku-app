@@ -611,7 +611,7 @@ const { data, runAsync, loading, error } = useRequest(GetWithCache, {
 })
 watch(error, (error) => {
   if (error?.message === "not_found")
-    router.replace({
+    void router.replace({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       name: "not_found" as any,
       params: {
@@ -715,7 +715,7 @@ async function downloadEp() {
     lsEpDL.value = [...(lsEpDL.value || [])]
   }
 }
-async function deleteEp(epId: ID) {
+function deleteEp(epId: ID) {
   lsEpDL.value?.splice(
     lsEpDL.value.findIndex((item) => item.ref.ep_id === epId) >>> 0,
     1
@@ -742,12 +742,13 @@ const listEpRead = computedAsync(() => {
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)
 const serversReady = computedAsync(
-  () =>
-    api.value.then((plugin) =>
-      data.value
-        ? plugin["servers:has"](toRaw(data.value.pages[0]), toRaw(data.value))
-        : undefined
-    ),
+  async () => {
+    if (data.value && data.value.pages[0])
+      return (await api.value)["servers:has"](
+        toRaw(data.value.pages[0]),
+        toRaw(data.value)
+      )
+  },
   undefined,
   {
     onError: console.error.bind(console)
@@ -755,17 +756,18 @@ const serversReady = computedAsync(
 )
 // eslint-disable-next-line no-void
 watch(serversReady, () => void (server.value = 0))
-const pageGetter = computed(() =>
-  data.value
-    ? async (page: ComicChapter["pages"][0]) =>
-        (await api.value)["servers:parse"](
-          server.value,
-          toRaw(page),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          toRaw(data.value!)
-        )
-    : undefined
-)
+const pageGetter = computed(() => {
+  if (data.value) {
+    const s = server.value
+    return async (page: ComicChapter["pages"][0]) =>
+      (await api.value)["servers:parse"](
+        s,
+        toRaw(page),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        toRaw(data.value!)
+      )
+  }
+})
 const pages = computedAsync(
   () =>
     data.value?.pages.map(
@@ -924,7 +926,7 @@ watch(
     const { sourceId } = props
 
     timeoutUpsertHistory = setTimeout(() => {
-      historyStore.upsert({
+      void historyStore.upsert({
         image: data.image,
         last_ch_id: ep.id,
         last_ch_name: ep.name,

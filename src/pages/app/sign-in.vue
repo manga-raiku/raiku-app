@@ -247,7 +247,8 @@ async function login() {
       data.user.user_metadata.name ?? data.user.email
     ])
   })
-  router.push((route.query.redirectTo ?? "/") + "")
+  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+  void router.push((route.query.redirectTo ?? "/") + "")
 }
 </script>
 

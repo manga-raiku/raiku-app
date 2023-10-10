@@ -56,7 +56,7 @@ export const usePluginStore = defineStore("plugin", () => {
 
         return meta
       })
-    ).then((res) => res.filter(Boolean) as PackageDisk[])
+    ).then((res) => res.filter(Boolean))
   }
 
   async function installPlugin(source: string, devMode: boolean) {

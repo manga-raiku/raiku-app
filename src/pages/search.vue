@@ -297,7 +297,7 @@ const { t } = i18n
 const paramSourceId = ref(props.sourceId ?? null)
 watch(paramSourceId, (sourceId) => {
   if (sourceId) {
-    router.push({
+    void router.push({
       ...route,
       name: undefined,
       path: `/~${sourceId}/search`,
@@ -352,6 +352,7 @@ const { data, run, error, loading, runAsync } = useRequest(
     if (!route.query.query) return Promise.resolve(undefined)
 
     if (props.sourceId) {
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       const data = await (await api.value).search(route.query.query + "", 1)
       return {
         ...data,
@@ -380,6 +381,7 @@ const { data, run, error, loading, runAsync } = useRequest(
               try {
                 return {
                   ok: true,
+                  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                   data: await plugin.search(route.query.query + "", 1)
                 }
               } catch (err) {
@@ -399,8 +401,9 @@ const { data, run, error, loading, runAsync } = useRequest(
   }
 )
 const onLoad = useLoadMorePage(
+  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   (page) => api.value.then((res) => res.search(route.query.query + "", page)),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
   data as unknown as any
 )
 
@@ -442,6 +445,7 @@ async function fetchRankType(type: string) {
     })
     console.error(err)
     $q.notify({
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       message: err + ""
     })
   }
@@ -454,6 +458,7 @@ async function refreshRank(done: () => void, type: string) {
     })
   } catch (err) {
     $q.notify({
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       message: err + ""
     })
     // eslint-disable-next-line functional/no-throw-statement
@@ -467,7 +472,9 @@ const activeIndex = ref(0)
 watch(
   [activeIndex, typesRank],
   ([activeIndex, typesRank]) => {
-    typesRank?.[activeIndex] && fetchRankType(typesRank[activeIndex].value)
+    void (
+      typesRank?.[activeIndex] && fetchRankType(typesRank[activeIndex].value)
+    )
 
     console.log({ activeIndex, typesRank })
   },

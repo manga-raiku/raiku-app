@@ -1,6 +1,7 @@
 const levels = ["N", "Tr", "T", "V"]
 
 export function formatView(view: number): string {
+  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   if (view < 1000) return view + ""
   const index = levels.findIndex(() => {
     view /= 1000

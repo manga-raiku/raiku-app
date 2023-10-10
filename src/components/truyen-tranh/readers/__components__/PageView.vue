@@ -87,7 +87,7 @@ watch(
   () => intersection.value?.isIntersecting,
   (visible = false) => {
     emit("change:visible", visible)
-    if (visible) startLoad(props.src)
+    if (visible) void startLoad(props.src)
   },
   { immediate: true }
 )
@@ -132,7 +132,7 @@ async function startLoad(src: string | Promise<string>) {
     error.value = err
 
     await sleep(3_000)
-    // eslint-disable-next-line no-void
+
     void startLoad(rawSrc)
   } finally {
     loaded.value = true

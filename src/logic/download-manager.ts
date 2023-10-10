@@ -136,7 +136,7 @@ export function createTaskDownloadEpisode(
   startSaveMetaManga: () => Promise<MetaMangaOnDisk>
   downloading: globalThis.Ref<boolean>
   start: () => Promise<MetaEpisodeOnDisk | undefined>
-  stop: () => void
+  stop: () => Promise<MetaEpisodeOnDisk | undefined>
   resume: () => Promise<MetaEpisodeOnDisk | undefined>
 } {
   const hashIDManga = hashSum(metaManga.manga_id)
@@ -159,6 +159,7 @@ export function createTaskDownloadEpisode(
       // delay 1s
       clearTimeout(timeout)
 
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       timeout = setTimeout(async () => {
         try {
           await Filesystem.writeFile({
@@ -213,7 +214,7 @@ export function createTaskDownloadEpisode(
       (cur, total, path) => {
         refValue.pages[cur] = path
         refValue.downloaded++
-        saveMeta(refValue)
+        void saveMeta(refValue)
       }
     ).catch(async (err) => {
       await saveMeta(refValue)

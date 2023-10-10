@@ -8,8 +8,9 @@ export async function copyToClipboard(text: string) {
       // eslint-disable-next-line functional/no-throw-statement
       throw new Error("Browser not allow copy to clipboard.")
 
-    const input = (document.querySelector("#\\$fake--input-copy") ??
-      document.createElement("input")) as HTMLInputElement
+    const input =
+      (document.querySelector("#\\$fake--input-copy") as HTMLInputElement) ??
+      document.createElement("input")
     input.id = "\\$fake--input-copy"
     input.setAttribute("value", text)
     input.setAttribute("readonly", "")

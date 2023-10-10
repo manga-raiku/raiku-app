@@ -268,6 +268,7 @@ meta:
               v-for="item in items"
               :key="item.name"
               :data="item"
+              no-tags
               img-width="100px"
               class="my-2 text-13px"
             />
@@ -422,6 +423,7 @@ meta:
 </template>
 
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 // import data from "src/apis/parsers/__test__/assets/index.json"
 import { formatView } from "src/logic/formatView"
 import { unflat } from "src/logic/unflat"
@@ -449,7 +451,7 @@ const pluginStore = usePluginStore()
 
 const paramSourceId = ref(props.sourceId ?? null)
 watch(paramSourceId, (sourceId) => {
-  if (sourceId) router.push(`/~${sourceId}`)
+  if (sourceId) void router.push(`/~${sourceId}`)
 })
 
 const sourceId = computed(() => {
@@ -461,7 +463,7 @@ watchImmediate(paramSourceId, async (sourceId) => {
       pluginStore.pluginMain ??
       (await pluginStore.pluginMainPromise) ??
       undefined
-    if (id && route.name === "index") router.replace("/~" + id)
+    if (id && route.name === "index") void router.replace("/~" + id)
   }
 })
 
@@ -494,7 +496,7 @@ function Carousel({ swiper, on }: any) {
     const numSlides = swiper.slides.length
     for (let i = 0; i < numSlides; i++) {
       const slide = swiper.slides[i]
-      const progress = slide.progress
+      const progress = slide.progress as number
       const absProgress = Math.abs(progress)
       let scale = 1
       if (absProgress > 1) scale = 0.3 * (absProgress - 1) + 1
@@ -502,6 +504,7 @@ function Carousel({ swiper, on }: any) {
         ".swiper-carousel-animate-opacity"
       )
       const translateX =
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         progress * scale * 50 * (swiper.rtlTranslate ? -1 : 1) + "%"
       const scaleVal = 1 - 0.2 * absProgress
       const zIndex = numSlides - Math.abs(Math.round(progress))
@@ -509,6 +512,7 @@ function Carousel({ swiper, on }: any) {
       slide.style.zIndex = zIndex
       slide.style.opacity = absProgress > 3 ? 0 : 1
       opacityEls.forEach((el: HTMLDivElement) => {
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         el.style.opacity = 1 - absProgress / 3 + ""
       })
     }

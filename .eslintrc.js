@@ -9,6 +9,7 @@ module.exports = {
   // `parser: 'vue-eslint-parser'` is already included with any 'plugin:vue/**' config and should be omitted
   parserOptions: {
     parser: require.resolve("@typescript-eslint/parser"),
+    project: "tsconfig.json",
     extraFileExtensions: [".vue"]
   },
 
@@ -27,7 +28,7 @@ module.exports = {
     // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage
     // ESLint typescript rules
     "plugin:@typescript-eslint/recommended",
-
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "@tachibana-shin/eslint-config",
     // Uncomment any of the lines below to choose desired strictness,
     // but leave only one uncommented!
@@ -95,6 +96,17 @@ module.exports = {
     "no-undef": "off",
     "functional/no-let": "off",
     "vue/valid-v-for": "off",
-    "functional/no-loop-statements": "off"
+    "functional/no-loop-statements": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "no-void": [
+      "error",
+      {
+        allowAsStatement: true
+      }
+    ]
   }
 }

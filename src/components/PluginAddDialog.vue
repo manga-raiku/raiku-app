@@ -105,6 +105,7 @@ async function addPlugin() {
         break
       default:
         message = t("loi-khi-them-plugin", [
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           import.meta.env.DEV ? ` (${err})` : ""
         ])
     }

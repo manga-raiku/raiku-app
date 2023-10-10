@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { spawnSync } from "child_process"
 import { readFileSync, writeFileSync } from "fs"
 import { resolve } from "path"
@@ -187,4 +188,4 @@ async function bumppiOS() {
 }
 
 console.log(bold(green(" === Bumpp version for Capacitor iOS === ")))
-bumppiOS()
+void bumppiOS()

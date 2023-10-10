@@ -110,7 +110,9 @@ export default configure((/* ctx */) => {
                 }
               : process.env.CODESPACE_NAME
               ? {
-                  host: `${process.env.CODESPACE_NAME}-9000.${process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}`,
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  host: `${process.env.CODESPACE_NAME}-9000.${process.env
+                    .GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN!}`,
                   protocol: "wss",
                   clientPort: 443
                 }
