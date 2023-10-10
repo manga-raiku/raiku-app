@@ -145,7 +145,7 @@ const sizePage = computed(() => {
 
   return Math.ceil(
     props.pages.reduce((prev, item, index) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
       if (sizes.get(index)?.[0]! > 1_200) prev += 2
       else prev += 0.5
 

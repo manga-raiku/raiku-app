@@ -113,7 +113,7 @@ const IP = computedAsync(() => {
   return fetch("https://freeipapi.com/api/json")
     .then((res) => res.json())
     .then((res) => {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+       
       return `${res.ipAddress} - ${res.regionName} (${res.countryName})`
     })
 })

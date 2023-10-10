@@ -69,15 +69,15 @@ export const useIDMStore = defineStore("IDM", () => {
     } else {
       queue.set(metaManga.manga_id, new Map())
       store = queue.get(metaManga.manga_id)
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+       
       store!.set(metaEp.ep_id, task)
     }
 
     const meta = await task.start()
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+     
     listComicOnDisk.get(metaManga.manga_id)!.count_ep++
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+     
     store!.delete(metaEp.ep_id)
 
     return meta ? { ref: meta } : task

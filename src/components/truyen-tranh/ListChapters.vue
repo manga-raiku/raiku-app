@@ -166,7 +166,7 @@ const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
     const [from, to] = [
       parseFloat(normalizeChName(items[0].name)),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+       
       parseFloat(normalizeChName(items.at(-1)!.name))
     ]
 
@@ -233,7 +233,7 @@ async function downloadEp(item: Chapter) {
     false
   )
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+   
   const task = await IDMStore.download(props.metaManga!, {
     ep_id: item.id,
     ep_name: item.name,

@@ -115,6 +115,7 @@ export const usePluginStore = defineStore("plugin", () => {
     await Filesystem.deleteFile({
       path: `plugins/${id}`,
       directory: Directory.External
+
       // eslint-disable-next-line @typescript-eslint/no-empty-function
     }).catch(() => {})
     ;(await pluginsInstalled.get(id))?.plugin.destroy()
@@ -248,7 +249,6 @@ export const usePluginStore = defineStore("plugin", () => {
       ? computed(() =>
           getPluginOrDefault(sourceId.value).then(({ plugin }) => plugin)
         )
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       : computed(() => get(sourceId.value!).then(({ plugin }) => plugin))
   }
 

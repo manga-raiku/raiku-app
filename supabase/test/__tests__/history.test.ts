@@ -38,9 +38,9 @@ describe("table `history`", () => {
 
     const rows = await supabase.from("history").select("*")
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+     
     expect(rows.data!.length).toBe(1)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+     
     expect(rows.data![0].manga_id).toBe(1)
   })
 })

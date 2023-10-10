@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 import { boot } from "quasar/wrappers"
 import { loadLocalize } from "src/i18n"
 import enUS from "src/i18n/messages/en-US.json"
@@ -7,7 +8,7 @@ import type { Ref } from "vue"
 import { watch } from "vue"
 import { createI18n } from "vue-i18n"
 
-/* eslint-disable @typescript-eslint/no-empty-interface */
+
 declare module "vue-i18n" {
   // define the datetime format schema
   export interface DefineDateTimeFormat {}

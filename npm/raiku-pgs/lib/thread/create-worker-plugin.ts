@@ -52,7 +52,7 @@ class WorkerSession {
     // setup port
     const codeWorker = `${
       this.devMode ? this.code : `!(()=>{${this.code}})()`
-      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+       
     };${appendWorkerPluginMjs.replace(/process\.env\.DEV/g, this.devMode + "")}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(

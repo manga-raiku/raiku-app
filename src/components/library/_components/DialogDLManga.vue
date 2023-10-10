@@ -333,7 +333,7 @@ watch(showDownloadMore, async (state) => {
     allEp.value = episodes
   } catch (err) {
     $q.notify({
-      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+       
       message: err + ""
     })
   }

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/require-await */
+ 
 import { expect } from "vitest"
 
 const value = { v: Math.random() }

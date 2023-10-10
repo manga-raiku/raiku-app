@@ -423,7 +423,7 @@ meta:
 </template>
 
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
+ 
 // import data from "src/apis/parsers/__test__/assets/index.json"
 import { formatView } from "src/logic/formatView"
 import { unflat } from "src/logic/unflat"
@@ -504,7 +504,7 @@ function Carousel({ swiper, on }: any) {
         ".swiper-carousel-animate-opacity"
       )
       const translateX =
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+         
         progress * scale * 50 * (swiper.rtlTranslate ? -1 : 1) + "%"
       const scaleVal = 1 - 0.2 * absProgress
       const zIndex = numSlides - Math.abs(Math.round(progress))
@@ -512,7 +512,7 @@ function Carousel({ swiper, on }: any) {
       slide.style.zIndex = zIndex
       slide.style.opacity = absProgress > 3 ? 0 : 1
       opacityEls.forEach((el: HTMLDivElement) => {
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+         
         el.style.opacity = 1 - absProgress / 3 + ""
       })
     }

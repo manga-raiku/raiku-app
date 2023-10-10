@@ -64,7 +64,7 @@ watch(srcImage, (n, o) => {
   if (o?.startsWith("blob:")) URL.revokeObjectURL(o)
 })
 function onLoad(event: Event) {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+   
   emit("load", event.target as HTMLImageElement, intersection.value!)
   const { src } = event.target as HTMLImageElement
   if (src.startsWith("blob:")) URL.revokeObjectURL(src)

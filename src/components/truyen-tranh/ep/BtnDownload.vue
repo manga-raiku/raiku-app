@@ -80,7 +80,7 @@ function onClickDownload() {
         noCaps: true,
         flat: true
       }
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+       
     }).onOk(async () => {
       if (props.mangaId !== null && props.epId !== null)
         await deleteEpisode(props.mangaId, props.epId)

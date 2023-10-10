@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
+ 
  
 import { spawnSync } from "child_process"
 import { readFileSync, writeFileSync } from "fs"
@@ -32,7 +32,7 @@ async function bumppAndroid() {
   const _t1 = buildGradle.slice(indexVersionCode + 11)
   const currentVersionCode = parseInt(_t1.slice(0, _t1.indexOf("\n")).trim())
   const _t2 = buildGradle.slice(indexVersionName + 11)
-  // eslint-disable-next-line no-new-func, @typescript-eslint/no-implied-eval
+  // eslint-disable-next-line no-new-func
   const currentVersionName = new Function(
     "return " + _t2.slice(0, _t2.indexOf("\n")).trim()
   )()
@@ -93,9 +93,9 @@ async function bumppAndroid() {
           const value =
             name === "next"
               ? semver.parse(currentVersionName)?.prerelease?.length
-                ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                ?  
                   semver.inc(currentVersionName, "prerelease")!
-                : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                :  
                   semver.inc(currentVersionName, "patch")!
               : new SemVer(currentVersionName).inc(name)
 

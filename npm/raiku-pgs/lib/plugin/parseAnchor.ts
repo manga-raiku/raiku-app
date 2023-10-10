@@ -9,7 +9,7 @@ export function parseAnchor(
   readonly path: string
   readonly name: string
 } {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+   
   const path = parsePath(anchor.attr("href")!)!
   const name = anchor.text().trim()
 

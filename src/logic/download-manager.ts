@@ -159,7 +159,7 @@ export function createTaskDownloadEpisode(
       // delay 1s
       clearTimeout(timeout)
 
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+       
       timeout = setTimeout(async () => {
         try {
           await Filesystem.writeFile({

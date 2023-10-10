@@ -24,7 +24,7 @@ routes.unshift({
   path: "/:mainPath(.*)*/trang-:page(\\d+)",
   redirect(to) {
     return `/${(to.params.mainPath as string[]).join("/")}?page=${
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+       
       to.params.page
     }`
   }

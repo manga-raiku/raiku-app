@@ -130,7 +130,7 @@ const allPlugins = computed(() =>
 
 const keyword = ref("")
 
-// eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+ 
 const query = ref((route.query.query ?? "") + "")
 const { data: searchResult, runAsync } = useRequest(
   () => {

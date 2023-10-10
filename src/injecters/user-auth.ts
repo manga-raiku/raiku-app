@@ -2,7 +2,7 @@
 import { copyToClipboard } from "src/logic/copy-to-clipboard"
 import { encryptText } from "src/logic/cryper"
 
-// eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-misused-promises
+// eslint-disable-next-line no-unused-expressions
 !(async () => {
   const user_auth = localStorage.getItem("user-auth")
 
