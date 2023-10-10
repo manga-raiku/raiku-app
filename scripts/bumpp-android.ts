@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
+ 
 import { spawnSync } from "child_process"
 import { readFileSync, writeFileSync } from "fs"
 import { resolve } from "path"

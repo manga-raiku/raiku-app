@@ -403,7 +403,7 @@ const { data, run, error, loading, runAsync } = useRequest(
 const onLoad = useLoadMorePage(
   // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   (page) => api.value.then((res) => res.search(route.query.query + "", page)),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data as unknown as any
 )
 

@@ -35,7 +35,7 @@ export function PostWorker<Fn extends (...args: any) => any>(
     worker.addEventListener("message", (event: MessageEvent) => {
       if (event.data.id === id) {
         worker.terminate()
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+         
         resolve(event.data.result)
       }
     })
