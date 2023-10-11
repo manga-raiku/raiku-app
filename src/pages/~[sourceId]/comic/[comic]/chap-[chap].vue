@@ -755,9 +755,11 @@ const serversReady = computedAsync(
 watch(serversReady, () => void (server.value = 0))
 const pages = computedAsync(
   async () => {
-    const s = server.value
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return (await api.value)["servers:parse"](s, toRaw(data.value!))
+    if (data.value) {
+      const s = server.value
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return (await api.value)["servers:parse"](s, toRaw(data.value!))
+    }
   },
   undefined,
   {
