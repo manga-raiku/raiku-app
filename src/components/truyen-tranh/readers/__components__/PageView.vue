@@ -46,6 +46,7 @@ defineOptions({
 const props = defineProps<{
   src: string | Promise<string>
   loaderAbsolute?: boolean
+  observer?: IntersectionObserver
 }>()
 const emit = defineEmits<{
   (name: "load", img: HTMLImageElement): void
@@ -115,4 +116,10 @@ async function startLoad(src: string | Promise<string>) {
 
 const imgRef = ref<HTMLImageElement>()
 defineExpose({ imgRef })
+watch([() => props.observer, imgRef], ([observer, img], [, old]) => {
+  if (!observer) return
+  if (old) props.observer?.unobserve(old)
+  if (img) props.observer?.observe(img)
+})
+onBeforeUnmount(() => imgRef.value && props.observer?.unobserve(imgRef.value))
 </script>

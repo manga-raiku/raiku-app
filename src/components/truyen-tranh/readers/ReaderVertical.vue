@@ -30,6 +30,8 @@
             (ref) =>
               (pageViewRefs[index] = ref as InstanceType<typeof PageView>)
           "
+          :observer="observer"
+          :index.prop="index"
         >
           <template #loading>
             <div class="flex items-center flex-col justify-center">
@@ -234,24 +236,25 @@ useEventListener(window, "mousemove", onMouseMove)
 useEventListener(window, "mouseup", onMouseUp)
 
 const pageViewRefs = shallowReactive<InstanceType<typeof PageView>[]>([])
+watch(pagesRender, () => pageViewRefs.splice(0))
 
-// let disableReactiveCurrentPage = false
+let disableReactiveCurrentPage = false
 
-// const pagesIsVisible = shallowReactive<Set<number>>(new Set())
-// watch(
-//   () =>
-//     pagesIsVisible.size > 0
-//       ? Math.max(...pagesIsVisible.values())
-//       : props.currentPage,
-//   async (max: number) => {
-//     console.log("change max value to %s", max)
-//     disableReactiveCurrentPage = true
-//     emit("update:current-page", max)
-//     await nextTick()
-//     disableReactiveCurrentPage = false
-//   },
-//   { immediate: true }
-// )
+const pagesIsVisible = shallowReactive<Set<number>>(new Set())
+watch(
+  () =>
+    pagesIsVisible.size > 0
+      ? Math.max(...pagesIsVisible.values())
+      : props.currentPage,
+  async (max: number) => {
+    console.log("change max value to %s", max)
+    disableReactiveCurrentPage = true
+    emit("update:current-page", max)
+    await nextTick()
+    disableReactiveCurrentPage = false
+  },
+  { immediate: true }
+)
 
 // // create sort map offset?
 // const mapOffset = computed(() => {
@@ -299,7 +302,7 @@ const pageViewRefs = shallowReactive<InstanceType<typeof PageView>[]>([])
 watch(
   () => props.currentPage,
   (currentPage) => {
-    // if (disableReactiveCurrentPage) return
+    if (disableReactiveCurrentPage) return
     console.log("traffict emit")
     parentRef.value?.scrollTo({
       top: (pageViewRefs[currentPage].imgRef ?? pageViewRefs[currentPage].$el)
@@ -329,4 +332,27 @@ watch(
 //     })
 //   }
 // }
+
+const observer = computed((oldValue) => {
+  oldValue?.disconnect()
+  if (!parentRef.value) return
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          pagesIsVisible.add((entry.target as unknown as any).index)
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          pagesIsVisible.delete((entry.target as unknown as any).index)
+        }
+      })
+    },
+    { rootMargin: "0px", threshold: 0.1, root: parentRef.value }
+  )
+
+  return observer
+})
+onBeforeUnmount(() => observer.value?.disconnect())
 </script>
