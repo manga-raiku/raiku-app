@@ -236,9 +236,7 @@ async function downloadEp(item: Chapter) {
     ep_id: item.id,
     ep_name: item.name,
     ep_param: item.route.params.chap,
-    pages: await Promise.all(
-      conf.pages.map((item) => plugin["servers:parse"](0, item, conf))
-    )
+    pages: await plugin["servers:parse"](0, conf)
   }).catch((err) => {
     if (err?.message === "user_paused") return
     // eslint-disable-next-line functional/no-throw-statement

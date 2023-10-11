@@ -333,7 +333,7 @@ watch(showDownloadMore, async (state) => {
     allEp.value = episodes
   } catch (err) {
     $q.notify({
-       
+
       message: err + ""
     })
   }
@@ -364,9 +364,8 @@ async function download() {
       ep_id: ep.id,
       ep_name: ep.name,
       ep_param: chap,
-      pages: await Promise.all(
-        conf.pages.map((item) => plugin["servers:parse"](0, item, conf))
-      )
+      pages: await plugin["servers:parse"](0, conf)
+
     }).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {
         lsEpDL.value.splice(

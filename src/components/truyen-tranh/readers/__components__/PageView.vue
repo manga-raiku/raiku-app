@@ -3,6 +3,7 @@
     v-if="!error"
     v-bind="attrs"
     :src="srcImage"
+    loading="lazy"
     @load="onLoad"
     ref="imgRef"
     class="min-h-1px"
@@ -13,7 +14,7 @@
     class="text-center w-100% min-h-40vh aspect-ratio-2 flex items-center justify-center"
     :class="loaderAbsolute ? 'absolute top-0 left-0 w-full h-full' : undefined"
   >
-    <slot v-if="intersection?.isIntersecting" name="loading" />
+    <slot name="loading" />
   </div>
   <div
     v-else-if="error"
@@ -36,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useIntersectionObserver } from "@vueuse/core"
+import empty from "src/assets/empty.png"
 
 defineOptions({
   inheritAttrs: true
@@ -47,59 +48,32 @@ const props = defineProps<{
   loaderAbsolute?: boolean
 }>()
 const emit = defineEmits<{
-  (
-    name: "load",
-    img: HTMLImageElement,
-    intersection: IntersectionObserverEntry
-  ): void
-  (name: "change:visible", value: boolean): void
+  (name: "load", img: HTMLImageElement): void
 }>()
 const attrs = useAttrs()
 
 const loaded = ref(false)
 const error = ref<unknown>()
-const srcImage = ref<string | undefined>()
-// Free memory
-watch(srcImage, (n, o) => {
-  if (o?.startsWith("blob:")) URL.revokeObjectURL(o)
-})
+const srcImage = ref<string | undefined>(empty)
+
 function onLoad(event: Event) {
-   
-  emit("load", event.target as HTMLImageElement, intersection.value!)
+  console.log("onLoad", srcImage.value, empty)
+  if (srcImage.value === empty) {
+    return startLoad(props.src)
+  }
+
+  emit("load", event.target as HTMLImageElement)
   const { src } = event.target as HTMLImageElement
   if (src.startsWith("blob:")) URL.revokeObjectURL(src)
 }
-
-// ======= controller =======
-const imgRef = ref<HTMLImageElement>()
-const intersection = shallowRef<IntersectionObserverEntry>()
-useIntersectionObserver(
-  imgRef,
-  ([inter]) => {
-    intersection.value = inter
-  },
-  {
-    threshold: 0
-  }
-)
-
-watch(
-  () => intersection.value?.isIntersecting,
-  (visible = false) => {
-    emit("change:visible", visible)
-    if (visible) void startLoad(props.src)
-  },
-  { immediate: true }
-)
-defineExpose({ intersection, imgRef })
 
 // ===========================
 
 let srcLoaded: string | null = null
 async function startLoad(src: string | Promise<string>) {
+  console.log("start load")
   const rawSrc = typeof src === "string" ? src : await src
 
-  if (!intersection.value?.isIntersecting) return
   if (rawSrc === srcLoaded) return
   srcLoaded = null
 
@@ -139,6 +113,6 @@ async function startLoad(src: string | Promise<string>) {
   }
 }
 
-// try use ajax
-watch(() => props.src, startLoad, { immediate: true })
+const imgRef = ref<HTMLImageElement>()
+defineExpose({ imgRef })
 </script>

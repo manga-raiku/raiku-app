@@ -13,16 +13,13 @@
       ref="overflowRef"
     >
       <template v-for="(item, index) in pagesRender" :key="item">
-        <!-- v-if="typeof item === 'string'" -->
+        <!-- v-if="typeof item === 'string'"    @load="
+            (img, intersection) => onLoadPageView(index, img, intersection)
+          "-->
         <PageView
           class="object-cover display-block mx-auto"
           :src="item"
-          @load="
-            (img, intersection) => onLoadPageView(index, img, intersection)
-          "
-          @change:visible="
-            $event ? pagesIsVisible.add(index) : pagesIsVisible.delete(index)
-          "
+          @load="sizes.set(index, [$event.naturalWidth, $event.naturalHeight])"
           :style="{
             width: sizes.has(index)
               ? `${(sizes.get(index)?.[0]! * zoom) / 100}px`
@@ -238,23 +235,23 @@ useEventListener(window, "mouseup", onMouseUp)
 
 const pageViewRefs = shallowReactive<InstanceType<typeof PageView>[]>([])
 
-let disableReactiveCurrentPage = false
+// let disableReactiveCurrentPage = false
 
-const pagesIsVisible = shallowReactive<Set<number>>(new Set())
-watch(
-  () =>
-    pagesIsVisible.size > 0
-      ? Math.max(...pagesIsVisible.values())
-      : props.currentPage,
-  async (max: number) => {
-    console.log("change max value to %s", max)
-    disableReactiveCurrentPage = true
-    emit("update:current-page", max)
-    await nextTick()
-    disableReactiveCurrentPage = false
-  },
-  { immediate: true }
-)
+// const pagesIsVisible = shallowReactive<Set<number>>(new Set())
+// watch(
+//   () =>
+//     pagesIsVisible.size > 0
+//       ? Math.max(...pagesIsVisible.values())
+//       : props.currentPage,
+//   async (max: number) => {
+//     console.log("change max value to %s", max)
+//     disableReactiveCurrentPage = true
+//     emit("update:current-page", max)
+//     await nextTick()
+//     disableReactiveCurrentPage = false
+//   },
+//   { immediate: true }
+// )
 
 // // create sort map offset?
 // const mapOffset = computed(() => {
@@ -302,7 +299,7 @@ watch(
 watch(
   () => props.currentPage,
   (currentPage) => {
-    if (disableReactiveCurrentPage) return
+    // if (disableReactiveCurrentPage) return
     console.log("traffict emit")
     parentRef.value?.scrollTo({
       top: (pageViewRefs[currentPage].imgRef ?? pageViewRefs[currentPage].$el)
@@ -312,24 +309,24 @@ watch(
   }
 )
 
-function onLoadPageView(
-  index: number,
-  image: HTMLImageElement,
-  intersection: IntersectionObserverEntry
-) {
-  sizes.set(index, [image.naturalWidth, image.naturalHeight])
+// function onLoadPageView(
+//   index: number,
+//   image: HTMLImageElement,
+//   intersection: IntersectionObserverEntry
+// ) {
+//   sizes.set(index, [image.naturalWidth, image.naturalHeight])
 
-  if (disableReactiveCurrentPage) return
-  if (
-    !intersection.isIntersecting &&
-    intersection.boundingClientRect.y - intersection.boundingClientRect.width <
-      0
-  ) {
-    parentRef.value?.scrollBy({
-      top:
-        (image.naturalHeight / image.naturalWidth) * oWidth.value -
-        heightImageDefault.value
-    })
-  }
-}
+//   if (disableReactiveCurrentPage) return
+//   if (
+//     !intersection.isIntersecting &&
+//     intersection.boundingClientRect.y - intersection.boundingClientRect.width <
+//       0
+//   ) {
+//     parentRef.value?.scrollBy({
+//       top:
+//         (image.naturalHeight / image.naturalWidth) * oWidth.value -
+//         heightImageDefault.value
+//     })
+//   }
+// }
 </script>
