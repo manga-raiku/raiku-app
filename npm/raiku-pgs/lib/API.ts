@@ -90,7 +90,7 @@ export interface QuicklyItem {
   readonly name: string
   readonly image: string
   readonly last_chapter: string
-  readonly othername: string
+  readonly othername: string | null
   readonly tags: string[] | Genre[]
 }
 
@@ -113,9 +113,9 @@ export interface FilterQuery {
 export interface Server {
   readonly name: string
   // eslint-disable-next-line no-use-before-define
-  readonly has: (page: ComicChapter["pages"][0], conf: ComicChapter) => boolean
+  readonly has: (page: ComicChapter["pages"][0], conf: ComicChapter) => Promise<boolean> | boolean
   // eslint-disable-next-line no-use-before-define
-  readonly parse: (page: ComicChapter["pages"][0], conf: ComicChapter) => string
+  readonly parse: (page: ComicChapter["pages"][0], conf: ComicChapter) => Promise<string> | string
 }
 export interface Ranking {
   readonly value: string
@@ -176,7 +176,7 @@ export interface FetchPost<
 // page fully
 export interface Comic {
   readonly name: string
-  readonly othername: string
+  readonly othername: string | null
   readonly manga_id: ID
   readonly updated_at: number
   readonly image: string
