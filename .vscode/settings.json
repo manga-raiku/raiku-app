@@ -19,7 +19,10 @@
   "ionic.previewInEditor": true,
   "vue-i18n.i18nPaths": "src/i18n",
   "i18n-ally.keystyle": "flat",
-  "i18n-ally.localesPaths": ["src/i18n", "src/i18n/messages"],
+  "i18n-ally.localesPaths": [
+    "src/i18n",
+    "src/i18n/messages"
+  ],
   "i18n-ally.extract.ignoredByFiles": {
     "src/components/BrtPlayer.vue": ["Space", "Space"],
     "src/pages/[_type-normal]/[value].vue": [" • "],

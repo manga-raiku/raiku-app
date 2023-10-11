@@ -102,7 +102,7 @@ defineOptions({
 })
 
 const props = defineProps<{
-  pages: (Promise<string> | string)[]
+  pages: readonly (Promise<string> | string)[]
   currentPage: number
   zoom: number
   nextEpisode?: Chapter["route"]

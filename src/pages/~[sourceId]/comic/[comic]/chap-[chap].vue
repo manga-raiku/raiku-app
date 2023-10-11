@@ -564,7 +564,7 @@ import { packageName } from "app/package.json"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
-import type { ComicChapter, ID } from "raiku-pgs/plugin"
+import type { ID } from "raiku-pgs/plugin"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
@@ -744,10 +744,7 @@ const server = ref(0)
 const serversReady = computedAsync(
   async () => {
     if (data.value && data.value.pages[0])
-      return (await api.value)["servers:has"](
-        toRaw(data.value.pages[0]),
-        toRaw(data.value)
-      )
+      return (await api.value)["servers:has"](toRaw(data.value))
   },
   undefined,
   {
@@ -756,26 +753,12 @@ const serversReady = computedAsync(
 )
 // eslint-disable-next-line no-void
 watch(serversReady, () => void (server.value = 0))
-const pageGetter = computed(() => {
-  if (data.value) {
-    const s = server.value
-    return async (page: ComicChapter["pages"][0]) =>
-      (await api.value)["servers:parse"](
-        s,
-        toRaw(page),
-         
-        toRaw(data.value!)
-      )
-  }
-})
 const pages = computedAsync(
-  () =>
-    data.value?.pages.map(
-      // // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      // (item) =>
-      //   item.$l ? item : pageGetter.value?.(item, data.value!) ?? item.src,
-      (item) => pageGetter.value?.(item) ?? item.src
-    ) as Promise<string>[],
+  async () => {
+    const s = server.value
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return (await api.value)["servers:parse"](s, toRaw(data.value!))
+  },
   undefined,
   {
     onError: console.error.bind(console)

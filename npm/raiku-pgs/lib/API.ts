@@ -113,9 +113,11 @@ export interface FilterQuery {
 export interface Server {
   readonly name: string
   // eslint-disable-next-line no-use-before-define
-  readonly has: (page: ComicChapter["pages"][0], conf: ComicChapter) => Promise<boolean> | boolean
-  // eslint-disable-next-line no-use-before-define
-  readonly parse: (page: ComicChapter["pages"][0], conf: ComicChapter) => Promise<string> | string
+  readonly has: (conf: ComicChapter) => Promise<boolean> | boolean
+  readonly parse: (
+    // eslint-disable-next-line no-use-before-define
+    conf: ComicChapter
+  ) => Promise<readonly string[]> | readonly string[]
 }
 export interface Ranking {
   readonly value: string

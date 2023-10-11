@@ -21,14 +21,9 @@ type AsyncRecord<T extends API> = {
 
 interface APIPorted extends Omit<AsyncRecord<API>, "Servers"> {
   "servers:has": (
-    page: ComicChapter["pages"][0],
     conf: ComicChapter
   ) => Readonly<{ id: number; name: string }[]>
-  "servers:parse": (
-    id: number,
-    page: ComicChapter["pages"][0],
-    conf: ComicChapter
-  ) => string
+  "servers:parse": (id: number, conf: ComicChapter) => readonly string[]
   destroy: () => void
 }
 
@@ -52,7 +47,6 @@ class WorkerSession {
     // setup port
     const codeWorker = `${
       this.devMode ? this.code : `!(()=>{${this.code}})()`
-       
     };${appendWorkerPluginMjs.replace(/process\.env\.DEV/g, this.devMode + "")}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(
@@ -152,20 +146,15 @@ export function createWorkerPlugin(
       if (p === "Rankings")
         return put<ListenerWorker, "get">(worker, "get", p.toString())
       if (p === "servers:has") {
-        return (page: ComicChapter["pages"][0], conf: ComicChapter) =>
-          put<ListenerWorker, "servers:has">(worker, "servers:has", page, conf)
+        return (conf: ComicChapter) =>
+          put<ListenerWorker, "servers:has">(worker, "servers:has", conf)
       }
       if (p === "servers:parse") {
-        return (
-          id: number,
-          page: ComicChapter["pages"][0],
-          conf: ComicChapter
-        ) =>
+        return (id: number, conf: ComicChapter) =>
           put<ListenerWorker, "servers:parse">(
             worker,
             "servers:parse",
             id,
-            page,
             conf
           )
       }
