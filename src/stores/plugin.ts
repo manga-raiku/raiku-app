@@ -86,18 +86,20 @@ export const usePluginStore = defineStore("plugin", () => {
 
     const plugin = createWorkerPlugin(pluginMjs, httpGet, httpPost, devMode)
 
-    Object.assign(meta, {
+    const metaDisk: PackageDisk = {
+      ...meta,
       source,
       installedAt,
       updatedAt,
-      plugin: pluginMjs
-    })
+      plugin: pluginMjs,
+      devMode
+    }
 
     await Filesystem.writeFile({
       path: `plugins/${meta.id}`,
       directory: Directory.External,
       encoding: Encoding.UTF8,
-      data: JSON.stringify(meta),
+      data: JSON.stringify(metaDisk),
       recursive: true
     })
     ;(await pluginsInstalled.get(meta.id))?.plugin.destroy()
