@@ -142,6 +142,13 @@ export function createWorkerPlugin(
 
   const proxy = new Proxy({} as APIPorted, {
     get(_target, p) {
+      if (p === "__v_skip") return true // mark raw for vue reactivity
+
+      if (p === "toJSON") {
+        console.warn("[worker-plugin]: toJSON called but can't control.")
+
+        return () => "{}"
+      }
       const worker = workerSession.getWorker()
       if (p === "Rankings")
         return put<ListenerWorker, "get">(worker, "get", p.toString())
