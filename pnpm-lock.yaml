@@ -196,8 +196,8 @@ importers:
         specifier: ^0.1.3
         version: 0.1.3(pinia@2.0.29)(vue@3.2.45)
       '@quasar/app-vite':
-        specifier: ^1.4.3
-        version: 1.4.3(eslint@8.33.0)(pinia@2.0.29)(quasar@2.12.2)(rollup@2.77.3)(vue-router@4.2.5)(vue@3.2.45)(workbox-build@6.6.0)
+        specifier: ^1.6.2
+        version: 1.6.2(eslint@8.33.0)(pinia@2.0.29)(quasar@2.12.2)(rollup@2.77.3)(vue-router@4.2.5)(vue@3.2.45)(workbox-build@6.6.0)
       '@quasar/cli':
         specifier: ^2.2.3
         version: 2.3.0
@@ -4539,7 +4539,7 @@ packages:
     hasBin: true
     dependencies:
       nx: 16.8.1
-      tslib: 2.6.0
+      tslib: 2.6.2
     transitivePeerDependencies:
       - '@swc-node/register'
       - '@swc/core'
@@ -4713,8 +4713,8 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
 
-  /@quasar/app-vite@1.4.3(eslint@8.33.0)(pinia@2.0.29)(quasar@2.12.2)(rollup@2.77.3)(vue-router@4.2.5)(vue@3.2.45)(workbox-build@6.6.0):
-    resolution: {integrity: sha512-5iMs1sk6fyYTFoRVySwFXWL/PS23UEsdk+YSFejhXnSs5fVDmb2GQMguCHwDl3jPIHjZ7A+XKkb2iWx9pjiPXw==}
+  /@quasar/app-vite@1.6.2(eslint@8.33.0)(pinia@2.0.29)(quasar@2.12.2)(rollup@2.77.3)(vue-router@4.2.5)(vue@3.2.45)(workbox-build@6.6.0):
+    resolution: {integrity: sha512-keyJ28cqVtzNLDibQESo1c/DD++6+wqf8nQO6oMRqH6WgYcPs+YO1buRsRMXF9w3ghMCV0/9/Lj8Kyb7S55j6A==}
     engines: {node: ^24 || ^22 || ^20 || ^18 || ^16 || ^14.19, npm: '>= 6.14.12', yarn: '>= 1.17.3'}
     hasBin: true
     peerDependencies:
@@ -4726,7 +4726,7 @@ packages:
       vue: ^3.2.29
       vue-router: ^4.0.12
       vuex: ^4.0.0
-      workbox-build: ^6.5.0
+      workbox-build: '>= 6'
     peerDependenciesMeta:
       electron-builder:
         optional: true
@@ -6802,7 +6802,7 @@ packages:
     engines: {node: '>=14.15.0'}
     dependencies:
       js-yaml: 3.14.1
-      tslib: 2.6.0
+      tslib: 2.6.2
     dev: true
 
   /@zkochan/js-yaml@0.0.6:
@@ -9690,7 +9690,7 @@ packages:
       damerau-levenshtein: 1.0.8
       emoji-regex: 9.2.2
       eslint: 8.33.0
-      has: 1.0.3
+      has: 1.0.4
       jsx-ast-utils: 3.3.4
       language-tags: 1.0.5
       minimatch: 3.1.2
@@ -10633,7 +10633,7 @@ packages:
     resolution: {integrity: sha512-2DcsyfABl+gVHEfCOaTrWgyt+tb6MSEGmKq+kI5HwLbIYgjgmMcV8KQ41uaKz1xxUcn9tJtgFbQUEVcEbd0FYw==}
     dependencies:
       function-bind: 1.1.1
-      has: 1.0.3
+      has: 1.0.4
       has-proto: 1.0.1
       has-symbols: 1.0.3
 
@@ -11052,12 +11052,6 @@ packages:
   /has-yarn@3.0.0:
     resolution: {integrity: sha512-IrsVwUHhEULx3R8f/aA8AHuEzAorplsab/v8HBzEiIukwq5i/EC+xmOW+HfP1OaDP+2JkgT1yILHN2O3UFIbcA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-
-  /has@1.0.3:
-    resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
-    engines: {node: '>= 0.4.0'}
-    dependencies:
-      function-bind: 1.1.1
 
   /has@1.0.4:
     resolution: {integrity: sha512-qdSAmqLF6209RFj4VVItywPMbm3vWylknmB3nvNiUIs72xAimcM8nVYxYr7ncvZq5qzk9MKIZR8ijqD/1QuYjQ==}
