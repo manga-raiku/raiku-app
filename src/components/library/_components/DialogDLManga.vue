@@ -364,7 +364,7 @@ async function download() {
       ep_id: ep.id,
       ep_name: ep.name,
       ep_param: chap,
-      pages: await plugin["servers:parse"](0, conf)
+      pages: await plugin["servers:parse"](0, conf, APP_MODE)
 
     }).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {

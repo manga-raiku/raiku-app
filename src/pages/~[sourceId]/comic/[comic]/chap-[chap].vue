@@ -744,7 +744,7 @@ const server = ref(0)
 const serversReady = computedAsync(
   async () => {
     if (data.value && data.value.pages[0])
-      return (await api.value)["servers:has"](toRaw(data.value))
+      return (await api.value)["servers:has"](toRaw(data.value), APP_MODE)
   },
   undefined,
   {
@@ -758,7 +758,7 @@ const pages = computedAsync(
     if (data.value) {
       const s = server.value
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return (await api.value)["servers:parse"](s, toRaw(data.value!))
+      return (await api.value)["servers:parse"](s, toRaw(data.value!), APP_MODE)
     }
   },
   undefined,

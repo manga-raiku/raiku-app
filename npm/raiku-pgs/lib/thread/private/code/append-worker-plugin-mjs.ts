@@ -5,7 +5,7 @@
 import { listen, ping, put } from "@fcanvas/communicate"
 import type { GetOption } from "client-ext-animevsub-helper"
 
-import type { API, ComicChapter, FetchGet, FetchPost } from "../../../API"
+import type { API, AppMode, ComicChapter, FetchGet, FetchPost } from "../../../API"
 import type { ListenerThread } from "../../create-worker-plugin"
 import { parseDom } from "../../parseDom"
 ping(self, "load")
@@ -16,11 +16,11 @@ export type ListenerWorker = {
   api: (type: string, args: any[]) => any[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   get: (type: string) => any
-  "servers:has": (conf: ComicChapter) => readonly {
+  "servers:has": (conf: ComicChapter, mode: AppMode) => readonly {
     readonly id: number
     readonly name: string
   }[]
-  "servers:parse": (id: number, conf: ComicChapter) => readonly string[]
+  "servers:parse": (id: number, conf: ComicChapter, mode: AppMode) => readonly string[]
 }
 
 Object.assign(self, { parseDom })
@@ -67,14 +67,14 @@ if (!(self as unknown as any).__DEFINE_API__) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (api as unknown as any)[type] // no limit function
   })
-  listen<ListenerWorker, "servers:has">(self, "servers:has", (conf) => {
-    return api.Servers.filter((server) => server.has(conf)).map(
+  listen<ListenerWorker, "servers:has">(self, "servers:has", (conf, mode) => {
+    return api.Servers.filter((server) => server.has(conf, mode)).map(
       ({ name }, id) => ({ id, name })
     )
   })
   listen<ListenerWorker, "servers:parse">(
     self,
     "servers:parse",
-    (id: number, conf) => api.Servers[id].parse(conf)
+    (id: number, conf, mode) => api.Servers[id].parse(conf, mode)
   )
 }

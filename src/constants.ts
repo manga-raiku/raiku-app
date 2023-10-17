@@ -39,6 +39,8 @@ import solarUserRoundedBoldDuotone from "~icons/solar/user-rounded-bold-duotone"
 export const SUPABASE_PROJECT_URL = process.env.SUPABASE_PROJECT_URL
 export const SUPABASE_PROJECT_KEY = process.env.SUPABASE_PROJECT_KEY
 
+export const APP_MODE: AppMode = import.meta.env.MODE as AppMode
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Icon = FunctionalComponent<SVGAttributes, {}>
 

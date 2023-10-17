@@ -105,7 +105,14 @@ export function proxyPost<
     `https://api.allorigins.win/raw?url=${encodeURIComponent(options.url)}`,
     {
       method: "post",
-      headers: options.headers
+      headers: options.headers,
+      body:
+        typeof options.data === "object"
+          ? Object.entries(options.data).reduce((form, [name, value]) => {
+              form.set(name, value + "")
+              return form
+            }, new FormData())
+          : options.data
     }
   ).then(async (res) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

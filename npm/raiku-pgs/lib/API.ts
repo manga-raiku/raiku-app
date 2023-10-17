@@ -110,13 +110,19 @@ export interface FilterQuery {
   }[]
 }
 
+export type AppMode = "spa" | "pwa" | "capacitor"
+
 export interface Server {
   readonly name: string
-  // eslint-disable-next-line no-use-before-define
-  readonly has: (conf: ComicChapter) => Promise<boolean> | boolean
+  readonly has: (
+    // eslint-disable-next-line no-use-before-define
+    conf: ComicChapter,
+    mode: AppMode
+  ) => Promise<boolean> | boolean
   readonly parse: (
     // eslint-disable-next-line no-use-before-define
-    conf: ComicChapter
+    conf: ComicChapter,
+    mode: AppMode
   ) => Promise<readonly string[]> | readonly string[]
 }
 export interface Ranking {
@@ -269,8 +275,8 @@ export declare class API {
   getComic(zlugComic: ID): Promise<Comic>
   getComicChapter<Fast extends boolean>(
     zlugComic: ID,
-    chapId: ID,
-    fast: Fast,
+    chap: ID,
+    fast: Fast
   ): Promise<
     Fast extends true
       ? ComicChapter
