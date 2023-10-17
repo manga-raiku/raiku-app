@@ -1,7 +1,7 @@
 {
   "name": "manga-raiku",
   "packageName": "git.shin.raiku",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "description": "App reading manga, comic safe, free, private and ad-free.",
   "productName": "Raiku",
   "productDescription": "Ứng dụng đọc truyện tranh, truyện tranh an toàn, miễn phí, riêng tư và không có quảng cáo",
@@ -192,7 +192,10 @@
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   },
-  "workspaces": ["npm/*", "src-capacitor"],
+  "workspaces": [
+    "npm/*",
+    "src-capacitor"
+  ],
   "nx": {
     "targets": {}
   }
