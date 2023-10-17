@@ -104,7 +104,7 @@
                   :model-value="mapOffline?.get(item.id)"
                   @update:model-value="mapOffline?.delete(item.id)"
                   :manga-id="metaManga?.manga_id ?? null"
-                  :ep-id="item.id"
+                  :ep-id="item.id + ''"
                   :can-download="true"
                   :disable="!sourceId"
                   @action:download="downloadEp(item)"
