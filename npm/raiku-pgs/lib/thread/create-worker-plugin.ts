@@ -125,7 +125,7 @@ class WorkerSession {
 
     this.timeoutAutoDestroy = setTimeout(() => {
       this.timeoutAutoDestroy = null
-      // this.destroy()
+      this.destroy()
     }, EXPIRES_WAIT_WORKER)
   }
 
