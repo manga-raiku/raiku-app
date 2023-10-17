@@ -4,7 +4,7 @@
   >
     {{ Math.abs(currentPage) + 1 - sizeOldPages }}/{{ sizePage - sizeOldPages
     }}<span class="ml-2">{{
-      $t("ep-name", [metaEp ? (metaEp.name) : "_"])
+      $t("ep-name", [metaEp ? metaEp.name : "_"])
     }}</span>
   </div>
 </template>

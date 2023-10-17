@@ -69,15 +69,14 @@ export const useIDMStore = defineStore("IDM", () => {
     } else {
       queue.set(metaManga.manga_id, new Map())
       store = queue.get(metaManga.manga_id)
-       
+
       store!.set(metaEp.ep_id, task)
     }
 
     const meta = await task.start()
 
-     
     listComicOnDisk.get(metaManga.manga_id)!.count_ep++
-     
+
     store!.delete(metaEp.ep_id)
 
     return meta ? { ref: meta } : task

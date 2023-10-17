@@ -626,7 +626,7 @@ const title = () =>
   data.value
     ? i18n.t("name-chuong-ep-name", [
         data.value.name,
-        data.value.chapters[0]?.name??''
+        data.value.chapters[0]?.name ?? ""
       ])
     : ""
 const description = title

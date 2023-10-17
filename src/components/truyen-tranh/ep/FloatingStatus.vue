@@ -52,7 +52,7 @@
         }}
       </div>
       <div>
-        {{ $t("ep-name", [metaEp ? (metaEp?.name) : "_"]) }}
+        {{ $t("ep-name", [metaEp ? metaEp?.name : "_"]) }}
       </div>
     </div>
   </div>

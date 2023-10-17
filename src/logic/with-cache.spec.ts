@@ -1,4 +1,3 @@
- 
 import { expect } from "vitest"
 
 const value = { v: Math.random() }

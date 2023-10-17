@@ -1,4 +1,3 @@
- 
 import { spawnSync } from "child_process"
 import { readFileSync, writeFileSync } from "fs"
 import { resolve } from "path"
@@ -100,10 +99,8 @@ async function bumppiOS() {
           const value =
             name === "next"
               ? semver.parse(currentVersionName)?.prerelease?.length
-                ?  
-                  semver.inc(currentVersionName, "prerelease")!
-                :  
-                  semver.inc(currentVersionName, "patch")!
+                ? semver.inc(currentVersionName, "prerelease")!
+                : semver.inc(currentVersionName, "patch")!
               : new SemVer(currentVersionName).inc(name)
 
           return { title: `${name.padStart(PADDING, " ")} ${value}`, value }

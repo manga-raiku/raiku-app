@@ -160,9 +160,18 @@ meta:
             </div>
           </div>
         </swiper-slide>
-        <div v-if="$q.screen.gt.xs" class="pointer-events-none drop-left z-2"></div>
-        <div v-if="$q.screen.gt.xs" class="pointer-events-none drop-center z-2"></div>
-        <div v-if="$q.screen.gt.xs" class="pointer-events-none drop-right z-2"></div>
+        <div
+          v-if="$q.screen.gt.xs"
+          class="pointer-events-none drop-left z-2"
+        ></div>
+        <div
+          v-if="$q.screen.gt.xs"
+          class="pointer-events-none drop-center z-2"
+        ></div>
+        <div
+          v-if="$q.screen.gt.xs"
+          class="pointer-events-none drop-right z-2"
+        ></div>
 
         <transition v-if="$q.screen.gt.xs" name="q-transition--fade">
           <div :key="sliderIndex" class="info pointer-events-none">
@@ -174,7 +183,7 @@ meta:
                 data.sliders[sliderIndex].othername
               }}</small>
             </div>
-            <div class=" focus-item-info">
+            <div class="focus-item-info">
               <Quality v-if="data.sliders[sliderIndex].label">{{
                 data.sliders[sliderIndex].label
               }}</Quality>
@@ -198,11 +207,11 @@ meta:
               <!-- <i-fluent-eye-24-filled class="size-1.5em" /> -->
               {{ formatView(data.sliders[sliderIndex].views!) }}
             </div>
-            <div class=" mt-1 text-12px ellipsis">
+            <div class="mt-1 text-12px ellipsis">
               {{ data.sliders[sliderIndex].tags.join(", ") }}
             </div>
             <div
-              class=" focus-item-desc text-gray-200 line-clamp-3 sm:line-clamp-2 md:line-clamp-5 !leading-normal"
+              class="focus-item-desc text-gray-200 line-clamp-3 sm:line-clamp-2 md:line-clamp-5 !leading-normal"
             >
               {{ data.sliders[sliderIndex].description }}
             </div>
@@ -423,7 +432,6 @@ meta:
 </template>
 
 <script setup lang="ts">
-
 // import data from "src/apis/parsers/__test__/assets/index.json"
 import { formatView } from "src/logic/formatView"
 import { unflat } from "src/logic/unflat"
@@ -504,7 +512,6 @@ function Carousel({ swiper, on }: any) {
         ".swiper-carousel-animate-opacity"
       )
       const translateX =
-
         progress * scale * 50 * (swiper.rtlTranslate ? -1 : 1) + "%"
       const scaleVal = 1 - 0.2 * absProgress
       const zIndex = numSlides - Math.abs(Math.round(progress))
@@ -512,7 +519,6 @@ function Carousel({ swiper, on }: any) {
       slide.style.zIndex = zIndex
       slide.style.opacity = absProgress > 3 ? 0 : 1
       opacityEls.forEach((el: HTMLDivElement) => {
-
         el.style.opacity = 1 - absProgress / 3 + ""
       })
     }

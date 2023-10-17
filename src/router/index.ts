@@ -24,7 +24,6 @@ routes.unshift({
   path: "/:mainPath(.*)*/trang-:page(\\d+)",
   redirect(to) {
     return `/${(to.params.mainPath as string[]).join("/")}?page=${
-       
       to.params.page
     }`
   }

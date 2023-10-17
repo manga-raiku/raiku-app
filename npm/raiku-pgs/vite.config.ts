@@ -39,7 +39,7 @@ export default defineConfig({
       name: "RaikuPgs",
       formats: ["cjs", "es"],
 
-      fileName: (format, entry) => (entry + (format === "es" ? ".js" : ".cjs")),
+      fileName: (format, entry) => entry + (format === "es" ? ".js" : ".cjs")
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled

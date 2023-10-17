@@ -35,7 +35,7 @@ export function PostWorker<Fn extends (...args: any) => any>(
     worker.addEventListener("message", (event: MessageEvent) => {
       if (event.data.id === id) {
         worker.terminate()
-         
+
         resolve(event.data.result)
       }
     })

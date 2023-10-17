@@ -159,7 +159,6 @@ export function createTaskDownloadEpisode(
       // delay 1s
       clearTimeout(timeout)
 
-       
       timeout = setTimeout(async () => {
         try {
           await Filesystem.writeFile({

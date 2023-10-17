@@ -113,7 +113,6 @@ const IP = computedAsync(() => {
   return fetch("https://freeipapi.com/api/json")
     .then((res) => res.json())
     .then((res) => {
-       
       return `${res.ipAddress} - ${res.regionName} (${res.countryName})`
     })
 })

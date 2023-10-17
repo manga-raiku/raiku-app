@@ -1,4 +1,3 @@
-
 /* eslint-disable camelcase */
 import hashSum from "hash-sum"
 import { cleanup, exists, readdir, readFile } from "test/vitest/utils"
@@ -53,7 +52,6 @@ function patchFetch() {
     async (url: string) => {
       await sleep(100)
       return Promise.resolve({
-
         async arrayBuffer() {
           return new TextEncoder().encode(url)
         },
@@ -170,7 +168,6 @@ describe("download-manager", () => {
         if (counter++ > 5) return Promise.reject(new Error("time_out"))
 
         return Promise.resolve({
-
           async arrayBuffer() {
             return new TextEncoder().encode(url)
           },
@@ -244,7 +241,6 @@ describe("download-manager", () => {
         if (counter++ > 5) return Promise.reject(new Error("time_out"))
 
         return Promise.resolve({
-
           async arrayBuffer() {
             return new TextEncoder().encode(url)
           },

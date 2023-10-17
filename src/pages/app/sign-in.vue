@@ -247,7 +247,7 @@ async function login() {
       data.user.user_metadata.name ?? data.user.email
     ])
   })
-   
+
   void router.push((route.query.redirectTo ?? "/") + "")
 }
 </script>

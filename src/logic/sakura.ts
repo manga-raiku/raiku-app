@@ -125,7 +125,6 @@ function createSakura(x1: number, y1: number, x2: number, y2: number): Sakura {
 export function useSakura(element: HTMLCanvasElement) {
   const sakura = new Set<Sakura>()
 
-   
   const ctx = element.getContext("2d")!
 
   let stopped = false

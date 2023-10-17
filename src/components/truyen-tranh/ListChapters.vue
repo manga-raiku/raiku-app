@@ -164,8 +164,8 @@ const pluginStore = usePluginStore()
 const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
     const [from, to] = [
-      parseFloat((items[0].name)) || items[0].name,
-      parseFloat((items.at(-1)!.name)) || items.at(-1)!.name
+      parseFloat(items[0].name) || items[0].name,
+      parseFloat(items.at(-1)!.name) || items.at(-1)!.name
     ]
 
     return { from, to, items }
@@ -230,7 +230,6 @@ async function downloadEp(item: Chapter) {
     item.route.params.chap,
     false
   )
-
 
   const task = await IDMStore.download(props.metaManga!, {
     ep_id: item.id,

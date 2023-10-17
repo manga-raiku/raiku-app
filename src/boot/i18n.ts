@@ -8,7 +8,6 @@ import type { Ref } from "vue"
 import { watch } from "vue"
 import { createI18n } from "vue-i18n"
 
-
 declare module "vue-i18n" {
   // define the datetime format schema
   export interface DefineDateTimeFormat {}

@@ -1,3 +1,4 @@
+import type { AppMode } from "raiku-pgs/plugin"
 import type { FunctionalComponent, SVGAttributes } from "vue"
 
 import iconamoonSearch from "~icons/iconamoon/search"

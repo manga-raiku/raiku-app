@@ -8,7 +8,6 @@ export async function execPackageMjs(code: string, devMode: boolean) {
     // setup port
     const codeWorker = `${
       devMode ? code : `!(()=>{${code}})()`
-       
     };${appendWorkerExecPackageMjs.replace(/process\.env\.DEV/g, devMode + "")}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(

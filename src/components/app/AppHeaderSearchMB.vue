@@ -130,7 +130,6 @@ const allPlugins = computed(() =>
 
 const keyword = ref("")
 
- 
 const query = ref((route.query.query ?? "") + "")
 const { data: searchResult, runAsync } = useRequest(
   () => {

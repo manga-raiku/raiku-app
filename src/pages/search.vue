@@ -352,7 +352,6 @@ const { data, run, error, loading, runAsync } = useRequest(
     if (!route.query.query) return Promise.resolve(undefined)
 
     if (props.sourceId) {
-       
       const data = await (await api.value).search(route.query.query + "", 1)
       return {
         ...data,
@@ -381,7 +380,7 @@ const { data, run, error, loading, runAsync } = useRequest(
               try {
                 return {
                   ok: true,
-                   
+
                   data: await plugin.search(route.query.query + "", 1)
                 }
               } catch (err) {
@@ -401,7 +400,6 @@ const { data, run, error, loading, runAsync } = useRequest(
   }
 )
 const onLoad = useLoadMorePage(
-   
   (page) => api.value.then((res) => res.search(route.query.query + "", page)),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data as unknown as any
@@ -445,7 +443,6 @@ async function fetchRankType(type: string) {
     })
     console.error(err)
     $q.notify({
-       
       message: err + ""
     })
   }
@@ -458,7 +455,6 @@ async function refreshRank(done: () => void, type: string) {
     })
   } catch (err) {
     $q.notify({
-       
       message: err + ""
     })
     // eslint-disable-next-line functional/no-throw-statement

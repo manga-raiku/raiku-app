@@ -38,9 +38,8 @@ describe("table `history`", () => {
 
     const rows = await supabase.from("history").select("*")
 
-     
     expect(rows.data!.length).toBe(1)
-     
+
     expect(rows.data![0].manga_id).toBe(1)
   })
 })

@@ -9,7 +9,6 @@ export function parseAnchor(
   readonly path: string
   readonly name: string
 } {
-   
   const path = parsePath(anchor.attr("href")!)!
   const name = anchor.text().trim()
 

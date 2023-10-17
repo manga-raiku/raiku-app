@@ -80,7 +80,6 @@ function onClickDownload() {
         noCaps: true,
         flat: true
       }
-       
     }).onOk(async () => {
       if (props.mangaId !== null && props.epId !== null)
         await deleteEpisode(props.mangaId, props.epId)
