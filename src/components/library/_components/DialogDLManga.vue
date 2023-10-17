@@ -329,7 +329,7 @@ watch(showDownloadMore, async (state) => {
     // load episodes
     const episodes = await (
       await pluginStore.get(meta.source_id)
-    ).plugin.getListChapters(meta.manga_id)
+    ).plugin.getListChapters(meta.manga_id, meta.manga_param)
     allEp.value = episodes
   } catch (err) {
     $q.notify({

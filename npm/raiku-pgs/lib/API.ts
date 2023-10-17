@@ -266,11 +266,11 @@ export declare class API {
     }>
   >
 
-  getComic(mangaId: ID): Promise<Comic>
+  getComic(zlugComic: ID): Promise<Comic>
   getComicChapter<Fast extends boolean>(
-    mangaId: ID,
+    zlugComic: ID,
     chapId: ID,
-    fast: Fast
+    fast: Fast,
   ): Promise<
     Fast extends true
       ? ComicChapter
@@ -286,7 +286,7 @@ export declare class API {
     page: number,
     comicKey: string
   ): Promise<Comments>
-  getListChapters(mangaId: ID): Promise<Chapter[]>
+  getListChapters(mangaId: ID, mangaParam: string): Promise<Chapter[]>
   searchQuickly(keyword: string, page: number): Promise<readonly QuicklyItem[]>
   search(keyword: string, page: number): Promise<General>
   getRanking(

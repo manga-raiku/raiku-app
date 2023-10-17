@@ -84,7 +84,7 @@
     "pinia": "^2.0.29",
     "pinia-plugin-persistedstate": "^3.2.0",
     "quasar": "^2.12.2",
-    "raiku-pgs": "workspace:^",
+    "raiku-pgs": "workspace:*",
     "register-service-worker": "^1.7.2",
     "set-cookie-parser": "^2.6.0",
     "swiper": "^9.4.1",
@@ -192,6 +192,7 @@
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   },
+  "workspaces": ["npm/*", "src-capacitor"],
   "nx": {
     "targets": {}
   }
