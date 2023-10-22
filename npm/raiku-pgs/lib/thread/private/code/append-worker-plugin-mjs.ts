@@ -7,7 +7,6 @@ import type { GetOption } from "client-ext-animevsub-helper"
 
 import type {
   API,
-  AppMode,
   ComicChapter,
   FetchGet,
   FetchPost
@@ -22,18 +21,11 @@ export type ListenerWorker = {
   api: (type: string, args: any[]) => any[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   get: (type: string) => any
-  "servers:has": (
-    conf: ComicChapter,
-    mode: AppMode
-  ) => readonly {
+  "servers:has": (conf: ComicChapter) => readonly {
     readonly id: number
     readonly name: string
   }[]
-  "servers:parse": (
-    id: number,
-    conf: ComicChapter,
-    mode: AppMode
-  ) => readonly string[]
+  "servers:parse": (id: number, conf: ComicChapter) => readonly string[]
 }
 
 Object.assign(self, { parseDom })
@@ -62,10 +54,7 @@ if (!(self as unknown as any).__DEFINE_API__) {
   )
 } else {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const api = new ((self as unknown as any).__DEFINE_API__ as typeof API)(
-    get,
-    post
-  )
+  const api = new ((self as unknown as any).__DEFINE_API__ as typeof API)()
 
   listen<ListenerWorker, "api">(
     self,
@@ -80,14 +69,14 @@ if (!(self as unknown as any).__DEFINE_API__) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (api as unknown as any)[type] // no limit function
   })
-  listen<ListenerWorker, "servers:has">(self, "servers:has", (conf, mode) => {
-    return api.Servers.filter((server) => server.has(conf, mode)).map(
+  listen<ListenerWorker, "servers:has">(self, "servers:has", (conf) => {
+    return api.Servers.filter((server) => server.has(conf)).map(
       ({ name }, id) => ({ id, name })
     )
   })
   listen<ListenerWorker, "servers:parse">(
     self,
     "servers:parse",
-    (id: number, conf, mode) => api.Servers[id].parse(conf, mode)
+    (id: number, conf) => api.Servers[id].parse(conf)
   )
 }

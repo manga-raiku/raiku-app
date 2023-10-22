@@ -109,20 +109,21 @@ export interface FilterQuery {
     readonly name: string
   }[]
 }
-
-export type AppMode = "spa" | "pwa" | "capacitor"
+export interface AppInfo {
+  readonly mode: "spa" | "pwa" | "capacitor"
+  readonly extension: boolean
+  readonly version: string
+}
 
 export interface Server {
   readonly name: string
   readonly has: (
     // eslint-disable-next-line no-use-before-define
-    conf: ComicChapter,
-    mode: AppMode
+    conf: ComicChapter
   ) => Promise<boolean> | boolean
   readonly parse: (
     // eslint-disable-next-line no-use-before-define
-    conf: ComicChapter,
-    mode: AppMode
+    conf: ComicChapter
   ) => Promise<readonly string[]> | readonly string[]
 }
 export interface Ranking {
@@ -255,14 +256,12 @@ export declare class API {
 
   public readonly Servers: readonly Server[]
   public readonly Rankings: readonly Ranking[]
-  // static readonly repo
-  public readonly get: FetchGet<GetOption["responseType"]>
-  public readonly post: FetchPost<GetOption["responseType"]>
 
-  constructor(
-    get: FetchGet<GetOption["responseType"]>,
-    post: FetchPost<GetOption["responseType"]>
-  )
+  setup(): Promise<
+    Readonly<{
+      isSupport: boolean
+    }>
+  >
 
   index(): Promise<
     Readonly<{

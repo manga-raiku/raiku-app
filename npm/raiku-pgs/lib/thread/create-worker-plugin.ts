@@ -1,7 +1,7 @@
 import { listen, put } from "@fcanvas/communicate"
 import type { GetOption, PostOption } from "client-ext-animevsub-helper"
 
-import type { API, AppMode, ComicChapter, FetchGet, FetchPost } from "../API"
+import type { API, ComicChapter, FetchGet, FetchPost } from "../API"
 
 import type { ListenerWorker } from "./private/code/append-worker-plugin-mjs"
 import appendWorkerPluginMjs from "./private/code/append-worker-plugin-mjs?braw"
@@ -21,14 +21,9 @@ type AsyncRecord<T extends API> = {
 
 interface APIPorted extends Omit<AsyncRecord<API>, "Servers"> {
   "servers:has": (
-    conf: ComicChapter,
-    mode: AppMode
+    conf: ComicChapter
   ) => Readonly<{ id: number; name: string }[]>
-  "servers:parse": (
-    id: number,
-    conf: ComicChapter,
-    mode: AppMode
-  ) => readonly string[]
+  "servers:parse": (id: number, conf: ComicChapter) => readonly string[]
   destroy: () => void
 }
 
@@ -158,17 +153,16 @@ export function createWorkerPlugin(
       if (p === "Rankings")
         return put<ListenerWorker, "get">(worker, "get", p.toString())
       if (p === "servers:has") {
-        return (conf: ComicChapter, mode: AppMode) =>
-          put<ListenerWorker, "servers:has">(worker, "servers:has", conf, mode)
+        return (conf: ComicChapter) =>
+          put<ListenerWorker, "servers:has">(worker, "servers:has", conf)
       }
       if (p === "servers:parse") {
-        return (id: number, conf: ComicChapter, mode: AppMode) =>
+        return (id: number, conf: ComicChapter) =>
           put<ListenerWorker, "servers:parse">(
             worker,
             "servers:parse",
             id,
-            conf,
-            mode
+            conf
           )
       }
       if (p === "catch" || p === "then" || p === "finally") return undefined
