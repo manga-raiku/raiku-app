@@ -5,17 +5,12 @@
 import { listen, ping, put } from "@fcanvas/communicate"
 import type { GetOption } from "client-ext-animevsub-helper"
 
-import type {
-  API,
-  ComicChapter,
-  FetchGet,
-  FetchPost
-} from "../../../API"
+import type { API, ComicChapter, FetchGet, FetchPost } from "../../../API"
 import type { ListenerThread } from "../../create-worker-plugin"
 import { parseDom } from "../../parseDom"
 ping(self, "load")
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions, functional/no-mixed-type
 export type ListenerWorker = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   api: (type: string, args: any[]) => any[]
@@ -26,6 +21,7 @@ export type ListenerWorker = {
     readonly name: string
   }[]
   "servers:parse": (id: number, conf: ComicChapter) => readonly string[]
+  setup: API["setup"]
 }
 
 Object.assign(self, { parseDom })
@@ -36,8 +32,11 @@ const get: FetchGet<GetOption["responseType"]> = (options) => {
 const post: FetchPost<GetOption["responseType"]> = (options) => {
   return put<ListenerThread, "post">(self, "post", options)
 }
+const setReferers: ListenerThread["setReferers"] = (referers) => {
+  return put<ListenerThread, "setReferers">(self, "setReferers", referers)
+}
 
-Object.assign(self, { get, post })
+Object.assign(self, { get, post, setReferers })
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 if (!(self as unknown as any).__DEFINE_API__) {
@@ -79,4 +78,5 @@ if (!(self as unknown as any).__DEFINE_API__) {
     "servers:parse",
     (id: number, conf) => api.Servers[id].parse(conf)
   )
+  listen<ListenerWorker, "setup">(self, "setup", () => api.setup())
 }

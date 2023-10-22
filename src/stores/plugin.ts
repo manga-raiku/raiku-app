@@ -84,7 +84,13 @@ export const usePluginStore = defineStore("plugin", () => {
       .then((res) => JSON.parse(res.data).installedAt)
       .catch(() => updatedAt)
 
-    const plugin = createWorkerPlugin(pluginMjs, httpGet, httpPost, devMode)
+    const plugin = createWorkerPlugin(
+      pluginMjs,
+      httpGet,
+      httpPost,
+      devMode,
+      APP_INFO
+    )
 
     const metaDisk: PackageDisk = {
       ...meta,
@@ -176,7 +182,8 @@ export const usePluginStore = defineStore("plugin", () => {
           meta.plugin,
           httpGet,
           httpPost,
-          meta.devMode
+          meta.devMode,
+          APP_INFO
         )
 
         const v = { meta, plugin }

@@ -1,4 +1,6 @@
-import type { AppMode } from "raiku-pgs/plugin"
+import { version } from "app/package.json"
+import { Http } from "client-ext-animevsub-helper"
+import type { AppInfo } from "raiku-pgs/plugin"
 import type { FunctionalComponent, SVGAttributes } from "vue"
 
 import iconamoonSearch from "~icons/iconamoon/search"
@@ -40,7 +42,11 @@ import solarUserRoundedBoldDuotone from "~icons/solar/user-rounded-bold-duotone"
 export const SUPABASE_PROJECT_URL = process.env.SUPABASE_PROJECT_URL
 export const SUPABASE_PROJECT_KEY = process.env.SUPABASE_PROJECT_KEY
 
-export const APP_MODE: AppMode = import.meta.env.MODE as AppMode
+export const APP_INFO: AppInfo = {
+  mode: import.meta.env.MODE as AppInfo["mode"],
+  extension: !!Http.version,
+  version
+}
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Icon = FunctionalComponent<SVGAttributes, {}>

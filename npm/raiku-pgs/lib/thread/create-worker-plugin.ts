@@ -1,7 +1,8 @@
 import { listen, put } from "@fcanvas/communicate"
 import type { GetOption, PostOption } from "client-ext-animevsub-helper"
+import { setReferers } from "client-ext-animevsub-helper"
 
-import type { API, ComicChapter, FetchGet, FetchPost } from "../API"
+import type { API, AppInfo, ComicChapter, FetchGet, FetchPost } from "../API"
 
 import type { ListenerWorker } from "./private/code/append-worker-plugin-mjs"
 import appendWorkerPluginMjs from "./private/code/append-worker-plugin-mjs?braw"
@@ -12,6 +13,7 @@ const EXPIRES_WAIT_WORKER = 60_000 // 60s
 export type ListenerThread = {
   get: FetchGet<GetOption["responseType"]>
   post: FetchPost<PostOption["responseType"]>
+  setReferers: typeof setReferers
 }
 
 type AsyncRecord<T extends API> = {
@@ -36,17 +38,21 @@ class WorkerSession {
     private readonly code: string,
     private readonly get: FetchGet<GetOption["responseType"]>,
     private readonly post: FetchPost<PostOption["responseType"]>,
-    private readonly devMode: boolean
+    private readonly devMode: boolean,
+    private readonly AppInfo: AppInfo
   ) {}
 
-  public createWorker() {
+  public async createWorker() {
     if (this.worker) {
       console.warn("[worker-plugin]: This session's worker already exists.")
       return this.worker
     }
+
     // setup port
     const codeWorker = `${
-      this.devMode ? this.code : `!(()=>{${this.code}})()`
+      this.devMode
+        ? `self.AppInfo=${JSON.stringify(this.AppInfo)};${this.code}`
+        : `!(()=>{self.AppInfo=${JSON.stringify(this.AppInfo)};${this.code}})()`
     };${appendWorkerPluginMjs.replace(/process\.env\.DEV/g, this.devMode + "")}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(
@@ -68,8 +74,15 @@ class WorkerSession {
     })
     this.resetAutoDestroy()
 
-    // eslint-disable-next-line n/no-unsupported-features/node-builtins
-    listen(this.worker, "load", () => URL.revokeObjectURL(url), { once: true })
+    listen(
+      this.worker,
+      "load",
+      () => {
+        // eslint-disable-next-line n/no-unsupported-features/node-builtins
+        URL.revokeObjectURL(url)
+      },
+      { once: true }
+    )
     listen<ListenerThread, "get">(
       this.worker,
       "get",
@@ -106,11 +119,18 @@ class WorkerSession {
       },
       { debug: !!process.env.DEV }
     )
+    listen<ListenerThread, "setReferers">(
+      this.worker,
+      "setReferers",
+      setReferers
+    )
+
+    await put<ListenerWorker, "setup">(this.worker, "setup")
 
     return this.worker
   }
 
-  public getWorker(): Worker {
+  public async getWorker(): Promise<Worker> {
     if (!this.worker) return this.createWorker()
     return this.worker
   }
@@ -136,9 +156,10 @@ export function createWorkerPlugin(
   code: string,
   get: FetchGet<GetOption["responseType"]>,
   post: FetchPost<PostOption["responseType"]>,
-  devMode: boolean
+  devMode: boolean,
+  AppInfo: AppInfo
 ): APIPorted {
-  const workerSession = new WorkerSession(code, get, post, devMode)
+  const workerSession = new WorkerSession(code, get, post, devMode, AppInfo)
 
   const proxy = new Proxy({} as APIPorted, {
     get(_target, p) {
@@ -151,15 +172,17 @@ export function createWorkerPlugin(
       }
       const worker = workerSession.getWorker()
       if (p === "Rankings")
-        return put<ListenerWorker, "get">(worker, "get", p.toString())
+        return worker.then((worker) =>
+          put<ListenerWorker, "get">(worker, "get", p.toString())
+        )
       if (p === "servers:has") {
-        return (conf: ComicChapter) =>
-          put<ListenerWorker, "servers:has">(worker, "servers:has", conf)
+        return async (conf: ComicChapter) =>
+          put<ListenerWorker, "servers:has">(await worker, "servers:has", conf)
       }
       if (p === "servers:parse") {
-        return (id: number, conf: ComicChapter) =>
+        return async (id: number, conf: ComicChapter) =>
           put<ListenerWorker, "servers:parse">(
-            worker,
+            await worker,
             "servers:parse",
             id,
             conf
@@ -169,8 +192,8 @@ export function createWorkerPlugin(
       if (p === "destroy") return workerSession.destroy.bind(workerSession)
 
       // eslint-disable-next-line functional/functional-parameters, @typescript-eslint/no-explicit-any
-      return (...args: any[]) =>
-        put<ListenerWorker, "api">(worker, "api", p.toString(), args)
+      return async (...args: any[]) =>
+        put<ListenerWorker, "api">(await worker, "api", p.toString(), args)
     }
   })
 

@@ -44,7 +44,7 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ["cheerio", "htmlparser2"],
+      external: ["cheerio", "htmlparser2", "client-ext-animevsub-helper"],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
