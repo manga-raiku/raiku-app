@@ -67,7 +67,7 @@
     "@vueuse/router": "^10.4.1",
     "@vueuse/shared": "^10.2.1",
     "cheerio": "1.0.0-rc.12",
-    "client-ext-animevsub-helper": "^1.0.4",
+    "client-ext-animevsub-helper": "^1.0.22",
     "dayjs": "^1.11.9",
     "eruda2": "0.0.2-b8",
     "fetch-retry": "^5.0.6",

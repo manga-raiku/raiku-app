@@ -53,7 +53,10 @@ class WorkerSession {
       this.devMode
         ? `self.AppInfo=${JSON.stringify(this.AppInfo)};${this.code}`
         : `!(()=>{self.AppInfo=${JSON.stringify(this.AppInfo)};${this.code}})()`
-    };${appendWorkerPluginMjs.replace(/process\.env\.DEV/g, this.devMode + "")}`
+    };${appendWorkerPluginMjs.replace(
+      /process\.env\.DEV/g,
+      (__DEV__ || this.devMode) + ""
+    )}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(
       new Blob([codeWorker], { type: "text/javascript" })
@@ -99,7 +102,7 @@ class WorkerSession {
 
         return response
       },
-      { debug: !!process.env.DEV }
+      { debug: __DEV__ }
     )
     listen<ListenerThread, "post">(
       this.worker,
@@ -117,12 +120,13 @@ class WorkerSession {
 
         return response
       },
-      { debug: !!process.env.DEV }
+      { debug: __DEV__ }
     )
     listen<ListenerThread, "setReferers">(
       this.worker,
       "setReferers",
-      setReferers
+      setReferers,
+      { debug: __DEV__ }
     )
 
     await put<ListenerWorker, "setup">(this.worker, "setup")

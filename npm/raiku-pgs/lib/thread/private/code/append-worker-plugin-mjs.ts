@@ -64,19 +64,32 @@ if (!(self as unknown as any).__DEFINE_API__) {
     },
     { debug: !!process.env.DEV }
   )
-  listen<ListenerWorker, "get">(self, "get", (type) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (api as unknown as any)[type] // no limit function
-  })
-  listen<ListenerWorker, "servers:has">(self, "servers:has", (conf) => {
-    return api.Servers.filter((server) => server.has(conf)).map(
-      ({ name }, id) => ({ id, name })
-    )
-  })
+  listen<ListenerWorker, "get">(
+    self,
+    "get",
+    (type) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return (api as unknown as any)[type] // no limit function
+    },
+    { debug: !!process.env.DEV }
+  )
+  listen<ListenerWorker, "servers:has">(
+    self,
+    "servers:has",
+    (conf) => {
+      return api.Servers.filter((server) => server.has(conf)).map(
+        ({ name }, id) => ({ id, name })
+      )
+    },
+    { debug: !!process.env.DEV }
+  )
   listen<ListenerWorker, "servers:parse">(
     self,
     "servers:parse",
-    (id: number, conf) => api.Servers[id].parse(conf)
+    (id: number, conf) => api.Servers[id].parse(conf),
+    { debug: !!process.env.DEV }
   )
-  listen<ListenerWorker, "setup">(self, "setup", () => api.setup())
+  listen<ListenerWorker, "setup">(self, "setup", () => api.setup(), {
+    debug: !!process.env.DEV
+  })
 }
