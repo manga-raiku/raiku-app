@@ -73,7 +73,10 @@ export const usePluginStore = defineStore("plugin", () => {
       })
     ])
     // run init package.mjs
-    const meta = await execPackageMjs(packageMjs, devMode)
+    const meta = await execPackageMjs(packageMjs, devMode, APP_INFO)
+    if (!meta.support)
+      // eslint-disable-next-line functional/no-throw-statement
+      throw new PluginError(meta.id, STATUS_PLUGIN_INSTALL.NOT_SUPPORT_PLATFORM)
 
     const updatedAt = Date.now()
     const installedAt = await Filesystem.readFile({
@@ -139,7 +142,7 @@ export const usePluginStore = defineStore("plugin", () => {
 
     const metaOnline = await fetch(`${meta.source}/plugin.mjs`)
       .then((res) => res.text())
-      .then((text) => execPackageMjs(text, meta.devMode))
+      .then((text) => execPackageMjs(text, meta.devMode, APP_INFO))
 
     if (!semverGt(metaOnline.version, meta.version)) {
       // don't need update
@@ -155,7 +158,7 @@ export const usePluginStore = defineStore("plugin", () => {
     const { source, version } = (await get(sourceId)).meta
     const metaOnline = await fetch(join(source, "plugin.mjs"))
       .then((res) => res.text())
-      .then((code) => execPackageMjs(code, false))
+      .then((code) => execPackageMjs(code, false, APP_INFO))
     // check for updated
     if (!semverGt(metaOnline.version, version)) {
       // don't need update

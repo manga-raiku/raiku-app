@@ -140,6 +140,7 @@ export interface Package {
   readonly isNSFW: boolean
   /** @description Example: `ja`, `en` */
   readonly language: string
+  readonly support: boolean
 
   readonly author: string
 
@@ -257,11 +258,7 @@ export declare class API {
   public readonly Servers: readonly Server[]
   public readonly Rankings: readonly Ranking[]
 
-  setup(): Promise<
-    Readonly<{
-      isSupport: boolean
-    }>
-  >
+  setup(): Promise<void>
 
   index(): Promise<
     Readonly<{

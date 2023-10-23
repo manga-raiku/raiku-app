@@ -1,13 +1,19 @@
-import type { Package } from "../API"
+import type { AppInfo, Package } from "../API"
 
 import appendWorkerExecPackageMjs from "./private/code/append-worker-exec-package-mjs?braw"
 
-export async function execPackageMjs(code: string, devMode: boolean) {
+export async function execPackageMjs(
+  code: string,
+  devMode: boolean,
+  AppInfo: AppInfo
+) {
   return new Promise<Package>((resolve, reject) => {
     // run in webworker
     // setup port
     const codeWorker = `${
-      devMode ? code : `!(()=>{${code}})()`
+      devMode
+        ? `self.AppInfo=${JSON.stringify(AppInfo)};${code}`
+        : `!(()=>{self.AppInfo=${JSON.stringify(AppInfo)};${code}})()`
     };${appendWorkerExecPackageMjs.replace(/process\.env\.DEV/g, devMode + "")}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(
