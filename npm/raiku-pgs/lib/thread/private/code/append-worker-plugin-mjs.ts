@@ -32,11 +32,11 @@ const get: FetchGet<GetOption["responseType"]> = (options) => {
 const post: FetchPost<GetOption["responseType"]> = (options) => {
   return put<ListenerThread, "post">(self, "post", options)
 }
-const setReferers: ListenerThread["setReferers"] = (referers) => {
-  return put<ListenerThread, "setReferers">(self, "setReferers", referers)
+const setReferrers: ListenerThread["setReferrers"] = (referrers) => {
+  return put<ListenerThread, "setReferrers">(self, "setReferrers", referrers)
 }
 
-Object.assign(self, { get, post, setReferers })
+Object.assign(self, { get, post, setReferrers })
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 if (!(self as unknown as any).__DEFINE_API__) {

@@ -14,5 +14,5 @@ declare global {
   // eslint-disable-next-line no-var
   var AppInfo: AppInfo
   // eslint-disable-next-line no-var
-  var setReferers: ListenerThread["setReferrers"]
+  var setReferrers: ListenerThread["setReferrers"]
 }
