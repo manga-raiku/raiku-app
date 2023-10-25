@@ -96,9 +96,11 @@ meta:
                   </div>
                   <div class="focus-item-info !display-block">
                     <div class="ellipsis flex items-center">
-                      <Quality v-if="item.label">{{ item.label }}</Quality>
+                      <template v-if="item.label">
+                        <Quality>{{ item.label }}</Quality>
 
-                      <q-separator vertical class="mx-2" />
+                        <q-separator vertical class="mx-2" />
+                      </template>
 
                       <span class="focus-item-update">
                         {{ $t("chuong-name", [item.last_chapters[0].name]) }}
@@ -108,12 +110,14 @@ meta:
                     <div
                       class="ellipsis flex items-center text-0.95em text-gray-300 py-2"
                     >
-                      {{ item.status }}
+                      <template v-if="item.status">
+                        {{ item.status }}
 
-                      <q-separator vertical class="mx-2" />
+                        <q-separator vertical class="mx-2" />
+                      </template>
 
                       <!-- <i-fluent-eye-24-filled class="size-1.5em" /> -->
-                      {{ formatView(item.views!) }}
+                      {{ formatView(item.views!) }} lượt xem
                     </div>
                   </div>
                   <div class="mt-1 text-12px ellipsis">
@@ -195,11 +199,11 @@ meta:
               }}</small>
             </div>
             <div class="focus-item-info">
-              <Quality v-if="data.sliders[sliderIndex].label">{{
-                data.sliders[sliderIndex].label
-              }}</Quality>
+              <template v-if="data.sliders[sliderIndex].label">
+                <Quality>{{ data.sliders[sliderIndex].label }}</Quality>
 
-              <q-separator vertical class="mx-2" />
+                <q-separator vertical class="mx-2" />
+              </template>
 
               <span class="focus-item-update">
                 {{
@@ -211,12 +215,14 @@ meta:
 
               <q-separator vertical class="mx-2" />
 
-              {{ data.sliders[sliderIndex].status }}
+              <template v-if="data.sliders[sliderIndex].status">
+                {{ data.sliders[sliderIndex].status }}
 
-              <q-separator vertical class="mx-2" />
+                <q-separator vertical class="mx-2" />
+              </template>
 
               <!-- <i-fluent-eye-24-filled class="size-1.5em" /> -->
-              {{ formatView(data.sliders[sliderIndex].views!) }}
+              {{ formatView(data.sliders[sliderIndex].views!) }} lượt xem
             </div>
             <div class="mt-1 text-12px ellipsis">
               <template
