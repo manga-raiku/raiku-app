@@ -14,7 +14,7 @@ export async function execPackageMjs(
       devMode
         ? `self.AppInfo=${JSON.stringify(AppInfo)};${code}`
         : `!(()=>{self.AppInfo=${JSON.stringify(AppInfo)};${code}})()`
-    };${appendWorkerExecPackageMjs.replace(/process\.env\.DEV/g, devMode + "")}`
+    };${appendWorkerExecPackageMjs.replace(/__DEBUG__/g, devMode + "")}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(
       new Blob([codeWorker], { type: "text/javascript" })

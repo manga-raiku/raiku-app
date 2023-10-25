@@ -49,7 +49,7 @@ if (!(self as unknown as any).__DEFINE_API__) {
         'The code may not contain "defineApi" or something has broken this data structure.'
       )
     },
-    { debug: !!process.env.DEV }
+    { debug: __DEBUG__ }
   )
 } else {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,7 +62,7 @@ if (!(self as unknown as any).__DEFINE_API__) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (api as unknown as any)[type].apply(api, args)
     },
-    { debug: !!process.env.DEV }
+    { debug: __DEBUG__ }
   )
   listen<ListenerWorker, "get">(
     self,
@@ -71,7 +71,7 @@ if (!(self as unknown as any).__DEFINE_API__) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (api as unknown as any)[type] // no limit function
     },
-    { debug: !!process.env.DEV }
+    { debug: __DEBUG__ }
   )
   listen<ListenerWorker, "servers:has">(
     self,
@@ -81,15 +81,15 @@ if (!(self as unknown as any).__DEFINE_API__) {
         ({ name }, id) => ({ id, name })
       )
     },
-    { debug: !!process.env.DEV }
+    { debug: __DEBUG__ }
   )
   listen<ListenerWorker, "servers:parse">(
     self,
     "servers:parse",
     (id: number, conf) => api.Servers[id].parse(conf),
-    { debug: !!process.env.DEV }
+    { debug: __DEBUG__ }
   )
   listen<ListenerWorker, "setup">(self, "setup", () => api.setup(), {
-    debug: !!process.env.DEV
+    debug: __DEBUG__
   })
 }

@@ -54,7 +54,7 @@ class WorkerSession {
         ? `self.AppInfo=${JSON.stringify(this.AppInfo)};${this.code}`
         : `!(()=>{self.AppInfo=${JSON.stringify(this.AppInfo)};${this.code}})()`
     };${appendWorkerPluginMjs.replace(
-      /process\.env\.DEV/g,
+      /__DEBUG__/g,
       (__DEV__ || this.devMode) + ""
     )}`
     // eslint-disable-next-line n/no-unsupported-features/node-builtins

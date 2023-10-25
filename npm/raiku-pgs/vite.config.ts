@@ -1,35 +1,8 @@
 import replace from "@rollup/plugin-replace"
-import esbuild from "esbuild"
 import { defineConfig } from "vite"
 import type { Plugin } from "vite"
 
-function vitePluginBuildRaw(): Plugin {
-  return {
-    name: "vite-plugin-build-raw",
-    transform(src: string, id: string) {
-      if (id.includes("?braw")) {
-        id = id.replace(/\?braw$/, "")
-        // console.log({ id })
-        const code = esbuild.buildSync({
-          entryPoints: [id],
-          format: "iife",
-          bundle: true,
-          minify:
-            id.includes("&minify") || process.env.NODE_ENV === "production",
-          treeShaking: true,
-          write: false
-        })
-        const { text } = code.outputFiles[0]
-
-        return {
-          code: `export default ${JSON.stringify(text)}`,
-
-          map: null
-        }
-      }
-    }
-  }
-}
+import vitePluginBuildRaw from "../../modules/vite-plugin-build-raw"
 
 export default defineConfig({
   build: {
@@ -56,9 +29,10 @@ export default defineConfig({
     }
   },
   plugins: [
-    vitePluginBuildRaw(),
+    vitePluginBuildRaw() as unknown as Plugin,
     replace({
-      __DEV__: "process.env.NODE_ENV === 'development'"
+      __DEV__: "process.env.NODE_ENV === 'development'",
+      __DEBUG__: "__DEBUG__"
     }) as unknown as Plugin
   ]
 })
