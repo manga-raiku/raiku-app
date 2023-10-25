@@ -1,5 +1,5 @@
 import { listen, put } from "@fcanvas/communicate"
-import { setReferers } from "client-ext-animevsub-helper"
+import { setReferrers } from "client-ext-animevsub-helper"
 import type { GetOption, PostOption } from "client-ext-animevsub-helper"
 
 import type { API, AppInfo, ComicChapter, FetchGet, FetchPost } from "../API"
@@ -13,7 +13,7 @@ const EXPIRES_WAIT_WORKER = 60_000 // 60s
 export type ListenerThread = {
   get: FetchGet<GetOption["responseType"]>
   post: FetchPost<PostOption["responseType"]>
-  setReferrers: typeof setReferers
+  setReferrers: typeof setReferrers
 }
 
 type AsyncRecord<T extends API> = {
@@ -125,7 +125,7 @@ class WorkerSession {
     listen<ListenerThread, "setReferrers">(
       this.worker,
       "setReferrers",
-      setReferers,
+      setReferrers,
       { debug: __DEV__ }
     )
 
