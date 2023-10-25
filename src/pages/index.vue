@@ -117,7 +117,7 @@ meta:
                       </template>
 
                       <!-- <i-fluent-eye-24-filled class="size-1.5em" /> -->
-                      {{ formatView(item.views!) }} lượt xem
+                      {{ $t('val-luot-xem', [formatView(item.views!)]) }}
                     </div>
                   </div>
                   <div class="mt-1 text-12px ellipsis">
@@ -222,7 +222,7 @@ meta:
               </template>
 
               <!-- <i-fluent-eye-24-filled class="size-1.5em" /> -->
-              {{ formatView(data.sliders[sliderIndex].views!) }} lượt xem
+              {{ $t('val-luot-xem', [formatView(data.sliders[sliderIndex].views!)]) }}
             </div>
             <div class="mt-1 text-12px ellipsis">
               <template
