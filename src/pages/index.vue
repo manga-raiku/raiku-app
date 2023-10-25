@@ -117,7 +117,18 @@ meta:
                     </div>
                   </div>
                   <div class="mt-1 text-12px ellipsis">
-                    {{ item.tags.join(", ") }}
+                    <template v-if="typeof item.tags[0] === 'string'">{{
+                      item.tags.join(", ")
+                    }}</template>
+                    <template v-else>
+                      <template
+                        v-for="(tag, i) in item.tags as Genre[]"
+                        :key="tag.name"
+                      >
+                        <router-link :to="tag.route">{{ tag.name }}</router-link
+                        ><template v-if="i < item.tags.length - 1">, </template>
+                      </template>
+                    </template>
                   </div>
                 </div>
                 <!-- action -->
@@ -208,7 +219,22 @@ meta:
               {{ formatView(data.sliders[sliderIndex].views!) }}
             </div>
             <div class="mt-1 text-12px ellipsis">
-              {{ data.sliders[sliderIndex].tags.join(", ") }}
+              <template
+                v-if="typeof data.sliders[sliderIndex].tags[0] === 'string'"
+                >{{ data.sliders[sliderIndex].tags.join(", ") }}</template
+              >
+              <template v-else>
+                <template
+                  v-for="(tag, i) in data.sliders[sliderIndex].tags as Genre[]"
+                  :key="tag.name"
+                >
+                  <router-link :to="tag.route">{{ tag.name }}</router-link
+                  ><template
+                    v-if="i < data.sliders[sliderIndex].tags.length - 1"
+                    >,
+                  </template>
+                </template>
+              </template>
             </div>
             <div
               class="focus-item-desc text-gray-200 line-clamp-3 sm:line-clamp-2 md:line-clamp-5 !leading-normal"
@@ -433,6 +459,7 @@ meta:
 
 <script setup lang="ts">
 // import data from "src/apis/parsers/__test__/assets/index.json"
+import type { Genre } from "raiku-pgs/plugin"
 import { formatView } from "src/logic/formatView"
 import { unflat } from "src/logic/unflat"
 import { Autoplay } from "swiper"
