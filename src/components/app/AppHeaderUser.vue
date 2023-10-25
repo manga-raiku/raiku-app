@@ -114,7 +114,7 @@
 
             <template v-if="updatingCache && installedSW">
               <q-item>
-                <q-item-section avaatar class="min-w-0">
+                <q-item-section avatar class="min-w-0">
                   <q-circular-progress
                     indeterminate
                     rounded
@@ -122,6 +122,10 @@
                     size="35px"
                     color="main"
                   >
+                    <i-solar-smartphone-update-bold-duotone
+                      width="24"
+                      height="24"
+                    />
                   </q-circular-progress>
 
                   <q-item-section>
