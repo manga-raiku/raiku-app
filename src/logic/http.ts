@@ -65,7 +65,7 @@ export function proxyGet<
   }
 ): Promise<Response<ReturnType>> {
   return fetch(
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(options.url)}`,
+    `https://corsproxy.org/?${encodeURIComponent(options.url)}`,
     {
       headers: options.headers
     }
@@ -102,7 +102,7 @@ export function proxyPost<
   }
 ): Promise<Response<ReturnType>> {
   return fetch(
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(options.url)}`,
+    `https://corsproxy.org/?${encodeURIComponent(options.url)}`,
     {
       method: "post",
       headers: options.headers,
