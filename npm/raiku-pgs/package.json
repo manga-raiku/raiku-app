@@ -56,5 +56,8 @@
     "htmlparser2": "^9.0.0",
     "semver": "^7.5.4",
     "uuid": "^9.0.1"
+  },
+  "peerDependencies": {
+    "client-ext-animevsub-helper": "^1.0.23"
   }
 }
