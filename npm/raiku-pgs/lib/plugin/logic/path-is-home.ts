@@ -1,12 +1,13 @@
-export function pathIsHome(path: string): boolean {
+export function pathIsHome(path: string, checkQuery = false): boolean {
   // eslint-disable-next-line n/no-unsupported-features/node-builtins
-  const { pathname } = new URL(path, "http://localhost")
+  const { pathname, search } = new URL(path, "http://localhost")
 
   if (
-    !pathname ||
-    pathname === "/" ||
-    pathname === "/index" ||
-    pathname === "/index.html"
+    (!pathname ||
+      pathname === "/" ||
+      pathname === "/index" ||
+      pathname === "/index.html") &&
+    (checkQuery ? !search : true)
   )
     return true
 
