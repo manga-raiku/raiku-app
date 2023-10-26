@@ -75,10 +75,12 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
-  Router.beforeEach(async (to) => {
+  Router.beforeEach(async (from, to) => {
+    if (Router.resolve(from) === Router.resolve(to)) return to
+
     if (to.meta.beforeEach === 'true if $lt.md else "/app/myaccount"') {
-      if (Screen.lt.md) return
-      debugger
+      if (Screen.lt.md) return to
+
       return "/app/myaccount"
     }
 
