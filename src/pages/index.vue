@@ -520,6 +520,7 @@ const pluginStore = usePluginStore()
 
 const paramSourceId = ref(props.sourceId ?? null)
 watch(paramSourceId, (sourceId) => {
+  pluginStore.pluginMain = sourceId
   if (sourceId) void router.push(`/~${sourceId}`)
 })
 

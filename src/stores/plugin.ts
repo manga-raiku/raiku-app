@@ -31,7 +31,13 @@ export const usePluginStore = defineStore("plugin", () => {
   const pluginsInstalled = shallowReactive<
     Map<string, PluginOnMemory | Promise<PluginOnMemory>>
   >(new Map())
-  const pluginMain = ref<string | null>(null)
+  const pluginMain = ref<string | null>(
+    localStorage.getItem("plugin-main") || null
+  )
+  watch(pluginMain, (name) => {
+    if (name) localStorage.setItem("plugin-main", name)
+    else localStorage.removeItem("plugin-main")
+  })
 
   const busses = new EventBus<{
     "install plugin": [PackageDisk]
