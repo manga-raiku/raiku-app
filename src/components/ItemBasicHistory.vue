@@ -2,7 +2,7 @@
   <router-link
     :to="{
       name: 'comic',
-      params: { comic }
+      params: { comic, sourceId }
     }"
     v-ripple
     class="relative flex flex-nowrap mb-4"
