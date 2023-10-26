@@ -4,8 +4,8 @@
       <q-infinite-scroll @load="onLoad" :offset="250" class="row">
         <div
           v-for="item in data"
-          :key="item.manga_id"
-          class="col-12 col-sm-6 px-2 pb-4"
+          :key="item.manga_param"
+          class="col-12 col-sm-6 col-md-12 px-2 pb-4"
         >
           <ItemBasicHistory
             :comic="item.manga_param"

@@ -6,7 +6,7 @@
       :offset="250"
       class="row"
     >
-      <template v-for="(item, index) in data" :key="item.path">
+      <template v-for="(item, index) in data" :key="item.manga_param">
         <div
           v-if="!data[index - 1]?.updated_at.isSame(item.updated_at, 'day')"
           class="col-12 text-1em mb-1.2 text-weight-normal text-gray-300"
@@ -21,7 +21,7 @@
                 )}`
           }}
         </div>
-        <div class="col-12 col-sm-6 px-2 pb-4">
+        <div class="col-12 col-sm-6 col-md-12 px-2 pb-4">
           <ItemBasicHistory
             :comic="item.manga_param"
             :name="item.manga_name"

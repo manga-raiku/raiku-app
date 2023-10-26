@@ -77,7 +77,8 @@ export default route(function (/* { store, ssrContext } */) {
 
   Router.beforeEach(async (to) => {
     if (to.meta.beforeEach === 'true if $lt.md else "/app/myaccount"') {
-      if (Screen.lt.md) return to
+      if (Screen.lt.md) return
+      debugger
       return "/app/myaccount"
     }
 
