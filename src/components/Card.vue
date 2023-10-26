@@ -97,7 +97,7 @@
           {{ data.description ?? $t("khong-co-mo-ta") }}
         </p>
 
-        <div class="tags mt-2 text-12px line-clamp-2">
+        <div class="tags mt-2 text-12px line-clamp-2 children:mr-1">
           <span
             v-if="typeof data.tags[0] === 'string'"
             v-for="item in data.tags"
@@ -107,14 +107,7 @@
             {{ $t("tag-_val", [item]) }}
           </span>
           <template v-else>
-            <router-link
-              v-for="item in data.tags as Genre[]"
-              :key="data.name"
-              :to="item.route"
-              class="text-gray-300"
-            >
-              {{ $t("tag-_val", [item.name]) }}
-            </router-link>
+            <Tags :items="data.tags as Genre[]" flat />
           </template>
         </div>
       </q-card-section>

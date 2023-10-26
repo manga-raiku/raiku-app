@@ -117,7 +117,7 @@ meta:
                       </template>
 
                       <!-- <i-fluent-eye-24-filled class="size-1.5em" /> -->
-                      {{ $t('val-luot-xem', [formatView(item.views!)]) }}
+                      {{ $t("val-luot-xem", [formatView(item.views!)]) }}
                     </div>
                   </div>
                   <div class="mt-1 text-12px ellipsis">
@@ -129,7 +129,19 @@ meta:
                         v-for="(tag, i) in item.tags as Genre[]"
                         :key="tag.name"
                       >
-                        <router-link :to="tag.route">{{ tag.name }}</router-link
+                        <router-link
+                          :to="
+                            tag.route.name === 'genre'
+                              ? {
+                                  ...tag.route,
+                                  name: undefined,
+                                  path: `/~${
+                                    tag.route.params!.sourceId
+                                  }/genre/${tag.route.params!.type ?? ''}`
+                                }
+                              : tag.route
+                          "
+                          >{{ tag.name }}</router-link
                         ><template v-if="i < item.tags.length - 1">, </template>
                       </template>
                     </template>
@@ -222,7 +234,11 @@ meta:
               </template>
 
               <!-- <i-fluent-eye-24-filled class="size-1.5em" /> -->
-              {{ $t('val-luot-xem', [formatView(data.sliders[sliderIndex].views!)]) }}
+              {{
+                $t("val-luot-xem", [
+                  formatView(data.sliders[sliderIndex].views!)
+                ])
+              }}
             </div>
             <div class="mt-1 text-12px ellipsis">
               <template
@@ -234,7 +250,19 @@ meta:
                   v-for="(tag, i) in data.sliders[sliderIndex].tags as Genre[]"
                   :key="tag.name"
                 >
-                  <router-link :to="tag.route">{{ tag.name }}</router-link
+                  <router-link
+                    :to="
+                      tag.route.name === 'genre'
+                        ? {
+                            ...tag.route,
+                            name: undefined,
+                            path: `/~${tag.route.params!.sourceId}/genre/${
+                              tag.route.params!.type ?? ''
+                            }`
+                          }
+                        : tag.route
+                    "
+                    >{{ tag.name }}</router-link
                   ><template
                     v-if="i < data.sliders[sliderIndex].tags.length - 1"
                     >,

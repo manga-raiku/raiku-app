@@ -1,5 +1,24 @@
 <template>
-  <div class="flex items-center font-family-poppins">
+  <router-link
+    v-if="flat"
+    v-for="item in items"
+    :key="item.name"
+    :to="
+      item.route.name === 'genre'
+        ? {
+            ...item.route,
+            name: undefined,
+            path: `/~${item.route.params!.sourceId}/genre/${
+              item.route.params!.type ?? ''
+            }`
+          }
+        : item.route
+    "
+    class="text-gray-300"
+  >
+    {{ $t("tag-_val", [item.name]) }}
+  </router-link>
+  <div v-else class="flex items-center font-family-poppins">
     <i-fluent-tag-24-regular :rotate="3" width="20" height="20" class="mr-1" />
     <q-btn
       v-for="item in items"
@@ -29,5 +48,6 @@ import type { RouteGenre } from "raiku-pgs/plugin"
 
 defineProps<{
   items: readonly { name: string; route: RouteGenre }[]
+  flat?: boolean
 }>()
 </script>
