@@ -1,6 +1,7 @@
 <template>
   <q-dialog
-    maximized
+    :maximized="!$q.screen.gt.sm"
+    :full-height="$q.screen.gt.sm"
     transition-show="slide-up"
     transition-hide="slide-down"
     :model-value="!!metaMangaShowInfo"
@@ -8,7 +9,7 @@
   >
     <q-card
       v-if="metaMangaShowInfo"
-      class="bg-dark-page h-full flex flex-col flex-nowrap"
+      class="bg-dark-page h-full flex flex-col flex-nowrap `min-w-[min(500px,100%)] max-w-100%"
     >
       <header>
         <q-toolbar>
@@ -80,12 +81,13 @@
 
       <footer
         v-show="modeEdit"
-        class="fixed bottom-0 left-0 w-full z-9999 bg-dark-page"
+        class="fixed md:absolute bottom-0 left-0 w-full z-9999 bg-dark-page"
       >
         <q-toolbar>
           <q-btn
             no-caps
             unelevated
+            rounded
             class="w-1/2 text-weight-regular"
             @click="
               listEpRemove =
@@ -94,7 +96,11 @@
                   : [...new Set([...listEpRemove, ...(mapEp?.keys() ?? [])])]
             "
           >
-            <i-solar-check-circle-linear class="size-1.5em mr-1" />
+            <i-solar-close-circle-linear
+              v-if="listEpRemove.length > 0"
+              class="size-1.5em"
+            />
+            <i-solar-check-circle-linear v-else class="size-1.5em" />
             <span class="whitespace-nowrap">{{
               listEpRemove.length > 0 ? $t("bo-chon") : $t("chon-tat")
             }}</span>
@@ -102,6 +108,7 @@
           <q-btn
             no-caps
             unelevated
+            rounded
             class="w-1/2 text-weight-regular text-red"
             :loading="removing"
             @click="remove"
@@ -116,7 +123,7 @@
 
   <q-dialog
     position="bottom"
-    full-width
+    :full-width="!$q.screen.gt.sm"
     :model-value="showDownloadMore && !!allEp"
     @update:model-value="$event ? null : (showDownloadMore = false)"
   >
@@ -139,9 +146,10 @@
             <li class="px-1 py-1 col-3">
               <q-btn
                 no-caps
+                rounded
                 :outline="!mapEp?.has(data.id)"
                 :disable="mapEp?.has(data.id)"
-                class="bg-gray-400 bg-opacity-10 w-full text-light-200 text-opacity-90 text-weight-regular class=before:text-#fff before:text-opacity-20 px-4"
+                class="bg-gray-400 bg-opacity-10 w-full text-light-400 text-opacity-90 text-weight-regular class=before:text-#fff before:text-opacity-20 px-4"
                 :class="{
                   'text-blue': epsSelected.has(data)
                 }"
@@ -191,6 +199,7 @@
         <q-btn
           no-caps
           unelevated
+          rounded
           color="blue"
           class="w-60%"
           :disable="epsSelected.size === 0"
@@ -224,9 +233,9 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   const meta = metaMangaShowInfo.value
 
   if (meta) {
-    return shallowReactive(
+    return shallowReactive((
       await getListEpisodes(meta.manga_id).catch(() => [])
-    ).map((ref) => ({ ref }))
+    ).map((ref) => ({ ref })))
   }
 })
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
