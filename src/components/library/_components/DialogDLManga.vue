@@ -233,9 +233,9 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   const meta = metaMangaShowInfo.value
 
   if (meta) {
-    return shallowReactive(
+    return shallowReactive((
       await getListEpisodes(meta.manga_id).catch(() => [])
-    ).map((ref) => ({ ref }))
+    ).map((ref) => ({ ref })))
   }
 })
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
