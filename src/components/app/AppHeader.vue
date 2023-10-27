@@ -1,0 +1,83 @@
+<template>
+  <q-header
+    v-if="execScriptMeta($q, route.meta?.hiddenHeader) !== true"
+    :reveal="route.meta.revealHeader"
+    class="bg-dark-page py-1 px-2 header-blur"
+    :class="{
+      '!bg-transparent': route.meta?.transparentHeader
+    }"
+  >
+    <q-toolbar>
+      <q-btn
+        v-if="$q.screen.gt.sm"
+        dense
+        flat
+        round
+        icon="menu"
+        class="mr-5"
+        @click="emit('update:showDrawer', !showDrawer)"
+      />
+
+      <AppHeaderIconApp :no-name="$q.screen.lt.sm" class="mr-8" />
+
+      <!-- <template v-if="$q.screen.md || $q.screen.gt.md">
+          <router-link
+            to="/"
+            class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
+            exact-active-class="!text-main-3 text-weight-medium"
+            >Trang chủ</router-link
+          >
+          <router-link
+            to="/genre"
+            class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
+            exact-active-class="!text-main-3 text-weight-medium"
+            >Thể loại</router-link
+          >
+          <router-link
+            to="/bang-xep-hang/ngay"
+            class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
+            exact-active-class="!text-main-3 text-weight-medium"
+            >Bảng xếp hạng</router-link
+          >
+        </template> -->
+
+      <q-space />
+
+      <template v-if="$q.screen.md || $q.screen.gt.md">
+        <AppHeaderSearch
+          :source-id="(route.params.sourceId as string | undefined) ?? null"
+        />
+        <AppHeaderGithub />
+      </template>
+      <template v-else>
+        <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
+          <q-icon name="search" />
+        </q-btn>
+        <AppHeaderSearchMB v-model:searching="showSearchMB" />
+      </template>
+
+      <AppHeaderFollows v-if="MODE !== 'capacitor'" />
+      <AppHeaderHistory v-if="MODE !== 'capacitor'" />
+      <AppHeaderNotify />
+
+      <AppHeaderUser />
+    </q-toolbar>
+  </q-header>
+</template>
+
+<script lang="ts" setup>
+import { execScriptMeta } from "src/logic/exec-script-meta"
+
+defineProps<{
+  showDrawer: boolean
+}>()
+const emit = defineEmits<{
+  (name: "update:showDrawer", value: boolean): void
+}>()
+
+const route = useRoute()
+const $q = useQuasar()
+const MODE = import.meta.env.MODE
+
+const showSearchMB = ref(false)
+</script>
