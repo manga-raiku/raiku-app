@@ -22,6 +22,7 @@ cleanEnv(process.env, {
   SUPABASE_PROJECT_KEY: str()
 })
 
+
 function removeDataTestAttrs(
   node: RootNode | TemplateChildNode
 ): void | (() => void) | (() => void)[] {
@@ -87,7 +88,7 @@ export default configure((/* ctx */) => {
       // publicPath: '/',
       // analyze: true,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      env: process.env as unknown as any,
+      env: Object.fromEntries(Object.entries(process.env as unknown as any).filter(([name, value]) => !value.includes("\\"))),
       // rawDefine: {},
       // ignorePublicFolder: true,
       // minify: false,
