@@ -1,3 +1,4 @@
 packages:
   - "npm/*"
   - src-capacitor
+  - src/nativescript

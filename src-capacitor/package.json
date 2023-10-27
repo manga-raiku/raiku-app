@@ -1,6 +1,6 @@
 {
   "name": "manga-raiku",
-  "version": "0.0.20",
+  "version": "0.0.45",
   "description": "App reading manga, comic safe, free, private and ad-free.",
   "author": "Tachibana Shin <45375496+tachibana-shin@users.noreply.github.com>",
   "private": true,
@@ -13,6 +13,8 @@
     "@capacitor/ios": "^5.4.2",
     "@capacitor/network": "^5.0.6",
     "@fontsource/caveat": "^5.0.12",
+    "@nativescript/capacitor": "^5.0.2",
+    "@nativescript/core": "7.3.0-rc.0",
     "@quasar/app-vite": "^1.6.2",
     "@quasar/cli": "^2.3.0",
     "@tachibana-shin/capacitor-filesystem": "^5.0.2"

@@ -8,6 +8,11 @@
 
 <script setup lang="ts">
 import eruda2 from "eruda2"
+import { native } from '@nativescript/capacitor'
+import { Http } from "@nativescript/core"
+
+Object.assign(self, { Http })
+console.log(native)
 
 const i18n = useI18n()
 
