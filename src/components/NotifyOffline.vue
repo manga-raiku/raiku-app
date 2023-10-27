@@ -7,11 +7,11 @@
 
           <div class="ml-2">
             <div class="leading-normal">
-              Không có mạng. Khám phá các truyện đã tải xuống?
+              {{ $t("title-offline") }}
             </div>
-            <small class="text-13px mt-1 text-gray-300"
-              >Hãy tải các truyện khác vào lần sau bạn nối mạng.</small
-            >
+            <small class="text-13px mt-1 text-gray-300">{{
+              $t("desc-offline")
+            }}</small>
 
             <div class="flex items-center justify-end mt-3">
               <q-btn
@@ -20,7 +20,7 @@
                 color="main-3"
                 no-caps
                 @click="emit('update:modelValue', false)"
-                >Không, cảm ơn</q-btn
+                >{{ $t("khong-cam-on") }}</q-btn
               >
               <q-btn
                 rounded
@@ -29,7 +29,7 @@
                 class="text-black"
                 to="/library/offline"
                 @click="emit('update:modelValue', false)"
-                >Đi đến truyện đã tải</q-btn
+                >{{ $t("di-den-truyen-da-tai") }}</q-btn
               >
             </div>
           </div>

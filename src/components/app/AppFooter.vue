@@ -17,7 +17,7 @@
           height="24"
           class="mb-1"
         />
-        Trang chủ
+        {{ $t("trang-chu") }}
       </q-route-tab>
       <q-route-tab
         replace
@@ -33,7 +33,7 @@
           height="24"
           class="mb-1"
         />
-        Tìm kiếm
+        {{ $t("tim-kiem") }}
       </q-route-tab>
       <q-route-tab
         replace
@@ -49,7 +49,7 @@
           height="24"
           class="mb-1"
         />
-        Thể loại
+        {{ $t("the-loai") }}
       </q-route-tab>
       <q-route-tab
         replace
@@ -69,7 +69,7 @@
           height="24"
           class="mb-1"
         />
-        Thư viện
+        {{ $t("thu-vien") }}
       </q-route-tab>
       <q-route-tab
         replace
@@ -85,12 +85,12 @@
           height="24"
           class="mb-1"
         />
-        Tôi
+        {{ $t("toi") }}
       </q-route-tab>
     </q-tabs>
 
     <div v-if="!networkStore.isOnline" class="text-center">
-      Không có kết nối
+      {{ $t("khong-co-ket-noi") }}
     </div>
   </q-footer>
 </template>
