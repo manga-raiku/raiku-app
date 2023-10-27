@@ -62,7 +62,7 @@ meta:
     </q-page-sticky>
 
     <div class="pt-40px">
-      <component :is="tabs[activeIndex].component" />
+      <component :is="tabs[activeIndex].component" :visible="true" />
     </div>
   </q-page>
 </template>
