@@ -21,7 +21,7 @@
                 )}`
           }}
         </div>
-        <div class="col-12 col-sm-6 col-md-12 px-2 pb-4">
+        <div class="col-12 col-sm-6 px-2 pb-4">
           <ItemBasicHistory
             :comic="item.manga_param"
             :name="item.manga_name"
@@ -63,14 +63,18 @@ const props = defineProps<{
 
 const historyStore = useHistoryStore()
 
-const { error, data, loading, refreshAsync } = useRequest(() =>
-  historyStore.get().then((res) =>
-    res.map((item) => ({
-      ...item,
-      $updated_at: item.updated_at,
-      updated_at: dayjs(item.updated_at)
-    }))
-  )
+const { error, data, loading, refreshAsync } = useRequest(
+  () =>
+    historyStore.get().then((res) =>
+      res.map((item) => ({
+        ...item,
+        $updated_at: item.updated_at,
+        updated_at: dayjs(item.updated_at)
+      }))
+    ),
+  {
+    manual: props.visible !== undefined
+  }
 )
 watch(
   () => props.visible,
