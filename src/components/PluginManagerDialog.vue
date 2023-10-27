@@ -73,6 +73,7 @@
               }}</q-item-label>
             </q-item-section>
             <q-item-section side>
+              <template v-if='!showEdit'>
               <i-eos-icons-bubble-loading
                 v-if="updateMap.get(item.id)?.loading.value"
               />
@@ -110,6 +111,8 @@
                     updateMap.get(item.id)?.status.value?.data + ""
                   }}</q-tooltip>
                 </div>
+              </template>
+                
               </template>
 
               <q-btn

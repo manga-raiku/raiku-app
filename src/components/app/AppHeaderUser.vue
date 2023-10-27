@@ -127,12 +127,11 @@
                       height="24"
                     />
                   </q-circular-progress>
-
-                  <q-item-section>
-                    <q-item-label>{{
-                      $t("dang-cap-nhat-ung-dung")
-                    }}</q-item-label>
-                  </q-item-section>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>{{
+                    $t("dang-cap-nhat-ung-dung")
+                  }}</q-item-label>
                 </q-item-section>
               </q-item>
               <q-separator class="bg-[rgba(255,255,255,0.1)]" />
