@@ -1,6 +1,7 @@
 <route lang="yaml">
 meta:
   hiddenHeader: $lt.md
+  drawersBottom: true
 </route>
 
 <template>
