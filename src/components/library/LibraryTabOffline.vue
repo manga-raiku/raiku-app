@@ -78,7 +78,11 @@
           class="w-1/2 text-weight-regular"
           @click="mangaSelected.size > 0 ? mangaSelected.clear() : selectAll()"
         >
-          <i-solar-check-circle-linear class="size-1.5em mr-1" />
+          <i-solar-close-circle-linear
+            v-if="mangaSelected.size > 0"
+            class="size-1.5em"
+          />
+          <i-solar-check-circle-linear v-else class="size-1.5em" />
           <span class="whitespace-nowrap">{{
             mangaSelected.size > 0 ? $t("bo-chon") : $t("chon-tat")
           }}</span>
