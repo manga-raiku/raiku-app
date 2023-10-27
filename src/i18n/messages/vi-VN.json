@@ -221,5 +221,6 @@
   "lam-moi-ngay": "Làm mới ngay",
   "de-sau": "Để sau",
   "dang-cap-nhat-ung-dung": "Đang cập nhật ứng dụng",
-  "quan-ly-plugin": "Quản lý Plugin"
+  "quan-ly-plugin": "Quản lý Plugin",
+  "plugin-nay-khong-ho-tro-moi-truong-nay": "Plugin này không hỗ trợ môi trường này"
 }
