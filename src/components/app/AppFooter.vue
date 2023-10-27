@@ -88,6 +88,10 @@
         Tôi
       </q-route-tab>
     </q-tabs>
+
+    <div v-if="!networkStore.isOnline" class="text-center">
+      Không có kết nối
+    </div>
   </q-footer>
 </template>
 
@@ -96,4 +100,5 @@ import { Icons } from "src/constants"
 import { pathEqual } from "src/logic/path-equal"
 
 const route = useRoute()
+const networkStore = useNetworkStore()
 </script>

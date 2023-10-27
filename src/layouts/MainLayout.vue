@@ -14,9 +14,9 @@
       <q-page v-else>
         <NotExistsExtension />
       </q-page>
-    </q-page-container>
 
-    <div class="fixed bottom-0 left-0 w-full">Offline mode</div>
+      <NotifyOffline v-model="showNotifyOffline" />
+    </q-page-container>
 
     <AppFooter />
 
@@ -43,6 +43,8 @@ import NotExistsExtension from "./NotExistsExtension.vue"
 
 const route = useRoute()
 const $q = useQuasar()
+const stateStore = useStateStore()
+const networkStore = useNetworkStore()
 
 const canvasRef = ref<HTMLCanvasElement>()
 const instance = getCurrentInstance()
@@ -57,10 +59,14 @@ watch(canvasRef, (ref) => {
 
 const showDrawer = ref(false)
 
-// ========= plugin manager ========
-const stateStore = useStateStore()
-
 // ======== offline control ========
+const showNotifyOffline = ref(false)
+watchImmediate(
+  () => networkStore.isOnline,
+  (isOnline) => {
+    showNotifyOffline.value = !isOnline
+  }
+)
 </script>
 
 <style lang="scss">

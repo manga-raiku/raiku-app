@@ -92,6 +92,8 @@ quasar build
 - [x] multiple pre search
 - [ ] control plugin separate
 
+- [ ] use QScrollArea and QVirtualScroll
+
 ### Customize the configuration
 
 See [Configuring quasar.config.ts](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
