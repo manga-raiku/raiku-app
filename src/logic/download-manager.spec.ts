@@ -1,17 +1,16 @@
 /* eslint-disable camelcase */
 import hashSum from "hash-sum"
+import type { Comic, ComicChapter, RouteComic } from "raiku-pgs/plugin"
 import { cleanup, exists, readdir, readFile } from "test/vitest/utils"
 import { expect } from "vitest"
 
-import type { MetaEpisode, MetaManga } from "./download-manager"
 import { createTaskDownloadEpisode, getListManga } from "./download-manager"
 
 global.fetch = vi.fn()
 global.Date.now = vi.fn()
 
-const manga_param = "manga-1"
 const manga_id = "1"
-const manga_name = "Manga 1"
+const manga_name = "Hôn Nhân Hạnh Phúc Của Tôi"
 const manga_image = "http://localhost/poster/manga-1.jpg"
 const source_id = "nettruyen"
 const ep_id = "1234"
@@ -26,20 +25,76 @@ const pages = [
   "https://localhost/pages/7.png",
   "https://localhost/pages/8.png"
 ]
-const ep_param = "2"
 
-const metaManga: MetaManga = {
-  manga_param,
-  manga_id,
-  manga_image,
-  manga_name,
-  source_id
+const route: RouteComic = {
+  name: "comic",
+  params: {
+    sourceId: source_id,
+    comic: "manga-1"
+  }
 }
-const metaEp: MetaEpisode = {
-  ep_param,
+const metaManga: Comic = {
+  name: manga_name,
+  othername: "",
+  manga_id,
+  updated_at: 1682580180000,
+  likes: null,
+  image: manga_image,
+  author: [
+    {
+      name: "Agoki Akumi",
+      route: {
+        name: "author",
+        params: { sourceId: "nettruyen", type: "" },
+        query: { "tac-gia": "Agoki Akumi" }
+      }
+    }
+  ],
+  status: "Đang tiến hành",
+  genres: [],
+  views: 1626445,
+  rate: { cur: 4.4, max: 5, count: 2032 },
+  follows: 14821,
+  description: "",
+  chapters: [
+    {
+      id: "776047",
+      route: {
+        name: "comic chap",
+        params: {
+          sourceId: "nettruyen",
+          comic: "hon-nhan-hanh-phuc-cua-toi",
+          chap: "20-2-i776047"
+        }
+      },
+      name: "20",
+      updated_at: 1634169600000,
+      views: 62085
+    }
+  ],
+  comments: [],
+  comments_count: 1,
+  comments_pages: 1
+}
+const metaEp: ComicChapter = {
+  name: manga_id,
+  image: manga_image,
+  manga_id,
+  path_manga: {
+    name: "comic",
+    params: {
+      comic: "hon-nhan-hanh-phuc-cua-toi-25737",
+      sourceId: "nettruyen"
+    }
+  },
   ep_id,
-  ep_name,
-  pages
+  updated_at: 1634183940000,
+  pages: pages.map((src) => ({ src })),
+  cdn: "//cdn.ntcdntempv26.com",
+  cdn2: "//cdn.ntcdntempv3.com",
+  comments: [],
+  comments_count: 29,
+  comments_pages: 1
 }
 
 const hashIDManga = hashSum(manga_id)
@@ -74,8 +129,11 @@ describe("download-manager", () => {
 
   test("should download episode x for the first time", async () => {
     const { ref, start, downloading } = createTaskDownloadEpisode(
+      route,
       metaManga,
-      metaEp
+      metaEp,
+      ep_name,
+      pages
     )
     expect(ref.downloaded).toBe(0)
     expect(downloading.value).toBeFalsy()
@@ -125,7 +183,8 @@ describe("download-manager", () => {
       JSON.parse(await readFile(`meta/${hashIDManga}.mod`, Encoding.UTF8))
     ).toEqual({
       ...metaManga,
-      manga_image: "offline:///poster/8daa1a0a",
+      route,
+      image: "offline:///poster/8daa1a0a",
       start_download_at: 0
     })
 
@@ -135,12 +194,12 @@ describe("download-manager", () => {
         await readFile(`meta/${hashIDManga}/${hashIDEp}.mod`, Encoding.UTF8)
       )
     ).toEqual({
-      ep_param,
+      ...metaEp,
+      ep_name,
+      route,
       start_download_at: 0,
       downloaded: 8,
-      ep_id,
-      ep_name,
-      pages: [
+      pages_offline: [
         "offline://files/8daa1a0a/2d0aa938/1a96284a",
         "offline://files/8daa1a0a/2d0aa938/1a96284b",
         "offline://files/8daa1a0a/2d0aa938/1a96284c",
@@ -180,8 +239,11 @@ describe("download-manager", () => {
     )
 
     const { ref, start, downloading } = createTaskDownloadEpisode(
+      route,
       metaManga,
-      metaEp
+      metaEp,
+      ep_name,
+      pages
     )
     expect(ref.downloaded).toBe(0)
     expect(downloading.value).toBeFalsy()
@@ -214,12 +276,12 @@ describe("download-manager", () => {
         )
       )
     ).toEqual({
-      ep_param,
+      ...metaEp,
+      ep_name,
+      route,
       start_download_at: 0,
       downloaded: 5,
-      ep_id,
-      ep_name,
-      pages: [
+      pages_offline: [
         "offline://files/8daa1a0a/2d0aa938/1a96284a",
         "offline://files/8daa1a0a/2d0aa938/1a96284b",
         "offline://files/8daa1a0a/2d0aa938/1a96284c",
@@ -253,8 +315,11 @@ describe("download-manager", () => {
     )
 
     const { ref, start, downloading } = createTaskDownloadEpisode(
+      route,
       metaManga,
-      metaEp
+      metaEp,
+      ep_name,
+      pages
     )
     expect(ref.downloaded).toBe(0)
     expect(downloading.value).toBeFalsy()
@@ -288,12 +353,12 @@ describe("download-manager", () => {
         )
       )
     ).toEqual({
-      ep_param,
-      ep_id,
+      ...metaEp,
       ep_name,
+      route,
       start_download_at: 0,
       downloaded: 5,
-      pages: [
+      pages_offline: [
         "offline://files/8daa1a0a/2d0aa938/1a96284a",
         "offline://files/8daa1a0a/2d0aa938/1a96284b",
         "offline://files/8daa1a0a/2d0aa938/1a96284c",
@@ -309,7 +374,7 @@ describe("download-manager", () => {
       ref: ref2,
       start: start2,
       downloading: dl2
-    } = createTaskDownloadEpisode(metaManga, metaEp)
+    } = createTaskDownloadEpisode(route, metaManga, metaEp, ep_name, pages)
     expect(ref2.downloaded).toBe(0)
     expect(dl2.value).toBeFalsy()
 
@@ -344,12 +409,12 @@ describe("download-manager", () => {
         )
       )
     ).toEqual({
-      ep_param,
+      ...metaEp,
+      ep_name,
+      route,
       start_download_at: 0,
       downloaded: 8,
-      ep_id,
-      ep_name,
-      pages: [
+      pages_offline: [
         "offline://files/8daa1a0a/2d0aa938/1a96284a",
         "offline://files/8daa1a0a/2d0aa938/1a96284b",
         "offline://files/8daa1a0a/2d0aa938/1a96284c",
@@ -368,8 +433,11 @@ describe("download-manager", () => {
     patchFetch()
 
     const { ref, downloading, start, stop, resume } = createTaskDownloadEpisode(
+      route,
       metaManga,
-      metaEp
+      metaEp,
+      ep_name,
+      pages
     )
     expect(downloading.value).toBe(false)
     expect(ref.downloaded).toBe(0)
@@ -423,12 +491,12 @@ describe("download-manager", () => {
         )
       )
     ).toEqual({
-      ep_param,
+      ...metaEp,
+      ep_name,
+      route,
       start_download_at: 0,
       downloaded: 8,
-      ep_id,
-      ep_name,
-      pages: [
+      pages_offline: [
         "offline://files/8daa1a0a/2d0aa938/1a96284a",
         "offline://files/8daa1a0a/2d0aa938/1a96284b",
         "offline://files/8daa1a0a/2d0aa938/1a96284c",
@@ -442,17 +510,21 @@ describe("download-manager", () => {
   })
 
   test("should get list manga downloaded", async () => {
-    await createTaskDownloadEpisode(metaManga, metaEp).start()
+    await createTaskDownloadEpisode(
+      route,
+      metaManga,
+      metaEp,
+      ep_name,
+      pages
+    ).start()
 
     // ok get list
 
     expect(await getListManga()).toEqual([
       {
-        manga_param,
-        manga_id,
-        manga_image: "offline:///poster/8daa1a0a",
-        manga_name,
-        source_id,
+        ...metaManga,
+        route,
+        image: "offline:///poster/8daa1a0a",
         start_download_at: 0
       }
     ])
@@ -462,40 +534,49 @@ describe("download-manager", () => {
       manga_id: "2"
     }
 
-    await createTaskDownloadEpisode(meta2, metaEp).start()
+    await createTaskDownloadEpisode(
+      route,
+      meta2,
+      metaEp,
+      ep_name,
+      pages
+    ).start()
 
     expect(await getListManga()).toEqual([
       {
-        manga_param,
+        ...metaManga,
+        route,
         manga_id: "2",
-        manga_image: "offline:///poster/8daa1a08",
-        manga_name,
-        source_id,
+        image: "offline:///poster/8daa1a08",
         start_download_at: 0
       },
       {
-        manga_param,
-        manga_id,
-        manga_image: "offline:///poster/8daa1a0a",
-        manga_name,
-        source_id,
+        ...metaManga,
+        route,
+        image: "offline:///poster/8daa1a0a",
         start_download_at: 0
       }
     ])
   })
 
   test("should get list episodes downloaded", async () => {
-    await createTaskDownloadEpisode(metaManga, metaEp).start()
+    await createTaskDownloadEpisode(
+      route,
+      metaManga,
+      metaEp,
+      ep_name,
+      pages
+    ).start()
 
     // ok get list
     expect(await getListEpisodes(manga_id)).toEqual([
       {
-        ep_param,
+        ...metaEp,
+        ep_name,
+        route,
         start_download_at: 0,
         downloaded: 8,
-        ep_id,
-        ep_name,
-        pages: [
+        pages_offline: [
           "offline://files/8daa1a0a/2d0aa938/1a96284a",
           "offline://files/8daa1a0a/2d0aa938/1a96284b",
           "offline://files/8daa1a0a/2d0aa938/1a96284c",
@@ -509,19 +590,22 @@ describe("download-manager", () => {
     ])
     ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(1)
 
-    await createTaskDownloadEpisode(metaManga, {
-      ...metaEp,
-      ep_id: metaEp.ep_id + 1
-    }).start()
+    await createTaskDownloadEpisode(
+      route,
+      metaManga,
+      { ...metaEp, ep_id: metaEp.ep_id + 1 + "" },
+      ep_name,
+      pages
+    ).start()
 
     expect(await getListEpisodes(manga_id)).toEqual([
       {
-        ep_param,
+        ...metaEp,
+        route,
+        ep_name,
         start_download_at: 0,
         downloaded: 8,
-        ep_id,
-        ep_name,
-        pages: [
+        pages_offline: [
           "offline://files/8daa1a0a/2d0aa938/1a96284a",
           "offline://files/8daa1a0a/2d0aa938/1a96284b",
           "offline://files/8daa1a0a/2d0aa938/1a96284c",
@@ -533,11 +617,12 @@ describe("download-manager", () => {
         ]
       },
       {
+        ...metaEp,
+        route,
+        ep_name,
         downloaded: 8,
-        ep_param,
         ep_id: "12341",
-        ep_name: "Chapter 1",
-        pages: [
+        pages_offline: [
           "offline://files/8daa1a0a/744a7df9/1a96284a",
           "offline://files/8daa1a0a/744a7df9/1a96284b",
           "offline://files/8daa1a0a/744a7df9/1a96284c",
@@ -554,7 +639,13 @@ describe("download-manager", () => {
   })
 
   test("should delete manga", async () => {
-    await createTaskDownloadEpisode(metaManga, metaEp).start()
+    await createTaskDownloadEpisode(
+      route,
+      metaManga,
+      metaEp,
+      ep_name,
+      pages
+    ).start()
 
     await expect(exists(`meta/${hashIDManga}`)).resolves.toBeTruthy()
     await expect(exists(`poster/${hashIDManga}`)).resolves.toBeTruthy()
@@ -568,11 +659,20 @@ describe("download-manager", () => {
   })
 
   test("should delete episode", async () => {
-    await createTaskDownloadEpisode(metaManga, metaEp).start()
-    await createTaskDownloadEpisode(metaManga, {
-      ...metaEp,
-      ep_id: metaEp.ep_id + 1
-    }).start()
+    await createTaskDownloadEpisode(
+      route,
+      metaManga,
+      metaEp,
+      ep_name,
+      pages
+    ).start()
+    await createTaskDownloadEpisode(
+      route,
+      metaManga,
+      { ...metaEp, ep_id: metaEp.ep_id + 1 + "" },
+      ep_name,
+      pages
+    ).start()
 
     await expect(exists(`meta/${hashIDManga}`)).resolves.toBeTruthy()
     await expect(exists(`poster/${hashIDManga}`)).resolves.toBeTruthy()

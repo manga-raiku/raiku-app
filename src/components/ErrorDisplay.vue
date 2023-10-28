@@ -30,7 +30,8 @@ const props = defineProps<{
 const comp = computed(() => {
   if (props.error instanceof PluginError) return PluginErrorVue
   if (props.error instanceof PluginsNotAvailable) return PluginsNotAvailableVue
-  if (props.error.message === "Error: TypeError: Failed to fetch") return Offline
+  if (props.error.message === "Error: TypeError: Failed to fetch")
+    return Offline
 
   return DefaultErrorVue
 })

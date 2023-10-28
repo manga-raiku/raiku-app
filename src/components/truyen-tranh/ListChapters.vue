@@ -103,10 +103,10 @@
                 <BtnDownload
                   :model-value="mapOffline?.get(item.id)"
                   @update:model-value="mapOffline?.delete(item.id)"
-                  :manga-id="metaManga?.manga_id ?? null"
+                  :manga-id="comic?.manga_id ?? null"
                   :ep-id="item.id + ''"
                   :can-download="true"
-                  :disable="!sourceId"
+                  :disable="!comic?.data"
                   @action:download="downloadEp(item)"
                 />
               </span>
@@ -131,9 +131,9 @@
 import "@fontsource/poppins"
 import type { QBtn } from "quasar"
 import { QTab, QTabs } from "quasar"
-import type { Chapter, ID } from "raiku-pgs/plugin"
+import type { Chapter, Comic, ID, RouteComic } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
-import type { MetaManga, TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
 const props = defineProps<{
   classItem?: string
@@ -144,12 +144,15 @@ const props = defineProps<{
 
   readsChapter?: Set<ID>
   mapOffline?: Map<ID, TaskDDEp | TaskDLEp>
-  metaManga?: MetaManga
+  comic?: {
+    data: Comic | null | (() => Promise<Comic>)
+    manga_id?: string
+    route: RouteComic | null
+  }
 
   chapters: readonly Chapter[]
 
   noDownload?: boolean
-  sourceId: string | null
 }>()
 const emit = defineEmits<{
   (name: "change-tab"): void
@@ -165,6 +168,7 @@ const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
     const [from, to] = [
       parseFloat(items[0].name) || items[0].name,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       parseFloat(items.at(-1)!.name) || items.at(-1)!.name
     ]
 
@@ -221,9 +225,10 @@ function onWheelTabs(event: WheelEvent) {
 }
 
 async function downloadEp(item: Chapter) {
-  if (!props.sourceId) return
+  if (!props.comic?.route || !props.comic?.data)
+    return console.warn("[downloadEp]: can't run because ", props.comic)
 
-  const { plugin } = await pluginStore.get(props.sourceId)
+  const { plugin } = await pluginStore.get(props.comic.route.params.sourceId)
 
   const conf = await plugin.getComicChapter(
     item.route.params.comic,
@@ -231,12 +236,15 @@ async function downloadEp(item: Chapter) {
     false
   )
 
-  const task = await IDMStore.download(props.metaManga!, {
-    ep_id: item.id,
-    ep_name: item.name,
-    ep_param: item.route.params.chap,
-    pages: await plugin["servers:parse"](0, conf)
-  }).catch((err) => {
+  const task = await IDMStore.download(
+    props.comic.route,
+    typeof props.comic.data === "function"
+      ? await props.comic.data()
+      : props.comic.data,
+    conf,
+    item.name,
+    await plugin["servers:parse"](0, conf)
+  ).catch((err) => {
     if (err?.message === "user_paused") return
     // eslint-disable-next-line functional/no-throw-statement
     throw err

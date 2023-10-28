@@ -201,14 +201,14 @@ meta:
           :chapters="data.chapters"
           :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
           :map-offline="mapEp"
-          :meta-manga="{
+          :route-comic="{
+            data,
             manga_id: data.manga_id,
-            manga_name: data.name,
-            manga_image: data.image,
-            manga_param: comic,
-            source_id: sourceId
+            route: {
+              name: 'comic',
+              params: { sourceId, comic }
+            }
           }"
-          :source-id="sourceId"
           @downloaded="lsEpDL?.push($event)"
         />
       </section>

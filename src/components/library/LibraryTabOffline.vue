@@ -26,7 +26,7 @@
     >
       <q-card class="transparent cursor-pointer">
         <div class="relative">
-          <ImageView :src="item.manga_image" />
+          <ImageView :src="item.image" />
           <div
             v-if="editMode"
             class="absolute w-full h-full top-0 left-0 bg-#000 bg-opacity-50"
@@ -45,7 +45,7 @@
           </div>
         </div>
 
-        <div class="text-1em ellipsis">{{ item.manga_name }}</div>
+        <div class="text-1em ellipsis">{{ item.name }}</div>
         <div class="text-0.92em text-gray-300 text-opacity-90">
           {{
             $t("a-slash-b", [
@@ -100,7 +100,7 @@
 
 <script lang="ts" setup>
 import type { ID } from "raiku-pgs/plugin"
-import type { MetaMangaAndCountOnDisk } from "stores/IDM"
+import type { ComicAndCountOnDisk } from "src/stores/IDM"
 
 const props = defineProps<{
   visible?: boolean
@@ -119,7 +119,7 @@ watch(
 const editMode = ref(false)
 const mangaSelected = shallowReactive<Set<ID>>(new Set())
 
-const metaMangaShowInfo = ref<MetaMangaAndCountOnDisk | null>(null)
+const metaMangaShowInfo = ref<ComicAndCountOnDisk | null>(null)
 
 function selectAll() {
   // eslint-disable-next-line camelcase

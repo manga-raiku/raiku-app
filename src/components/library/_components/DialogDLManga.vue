@@ -19,7 +19,7 @@
           <q-space />
 
           <div class="ellipsis text-16px text-weight-medium">
-            {{ metaMangaShowInfo.manga_name }}
+            {{ metaMangaShowInfo.name }}
           </div>
 
           <q-space />
@@ -132,7 +132,11 @@
       >
         <ListChapters
           :chapters="allEp"
-          :source-id="metaMangaShowInfo?.source_id ?? null"
+          :comic="{
+            data: null,
+            manga_id: metaMangaShowInfo?.manga_id,
+            route: metaMangaShowInfo?.route ?? null
+          }"
           class-panels="px-1 overflow-y-auto scrollbar-custom"
         >
           <template #item="{ data }">
@@ -206,18 +210,18 @@
 <script lang="ts" setup>
 import type { API, ID } from "raiku-pgs/plugin"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
-import type { MetaMangaAndCountOnDisk } from "stores/IDM"
+import type { ComicAndCountOnDisk } from "stores/IDM"
 
 const $q = useQuasar()
 const IDMStore = useIDMStore()
 const pluginStore = usePluginStore()
 
 const props = defineProps<{
-  modelValue: MetaMangaAndCountOnDisk | null
+  modelValue: ComicAndCountOnDisk | null
 }>()
 const metaMangaShowInfo = toRef(props, "modelValue")
 const emit = defineEmits<{
-  (name: "update:model-value", value: MetaMangaAndCountOnDisk | null): void
+  (name: "update:model-value", value: ComicAndCountOnDisk | null): void
 }>()
 
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
@@ -250,7 +254,11 @@ async function resume(item: TaskDLEp | TaskDDEp) {
   if (!metaMangaShowInfo.value || !lsEpDL.value) return
 
   try {
-    const result = await IDMStore.resumeDownload(metaMangaShowInfo.value, item)
+    const result = await IDMStore.resumeDownload(
+      metaMangaShowInfo.value,
+      item.ref.ep_name,
+      item
+    )
 
     if (!isTaskDLEp(result))
       lsEpDL.value.splice(
@@ -328,8 +336,8 @@ watch(showDownloadMore, async (state) => {
   try {
     // load episodes
     const episodes = await (
-      await pluginStore.get(meta.source_id)
-    ).plugin.getListChapters(meta.manga_id, meta.manga_param)
+      await pluginStore.get(meta.route.params.sourceId)
+    ).plugin.getListChapters(meta.manga_id, meta.route.params.comic)
     allEp.value = episodes
   } catch (err) {
     $q.notify({
@@ -354,17 +362,20 @@ async function download() {
 
   downloading.value = true
 
-  const { plugin } = await pluginStore.get(metaMangaShowInfo.value.source_id)
+  const { plugin } = await pluginStore.get(
+    metaMangaShowInfo.value.route.params.sourceId
+  )
 
   for (const ep of epsSelected) {
     const { comic, chap } = ep.route.params
     const conf = await plugin.getComicChapter(comic, chap, false)
-    void IDMStore.download(metaMangaShowInfo.value, {
-      ep_id: ep.id,
-      ep_name: ep.name,
-      ep_param: chap,
-      pages: await plugin["servers:parse"](0, conf)
-    }).then((result) => {
+    void IDMStore.download(
+      metaMangaShowInfo.value.route,
+      metaMangaShowInfo.value,
+      conf,
+      ep.name,
+      await plugin["servers:parse"](0, conf)
+    ).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {
         lsEpDL.value.splice(
           lsEpDL.value.findIndex(

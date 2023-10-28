@@ -291,14 +291,14 @@ meta:
                 :chapters="data.chapters"
                 :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
                 :map-offline="mapEp"
-                :meta-manga="{
-                  manga_id: data.manga_id,
-                  manga_name: data.name,
-                  manga_image: data.image,
-                  manga_param: comic,
-                  source_id: sourceId
+                :comic="{
+                  data: comicData,
+                  manga_id: data?.manga_id,
+                  route: {
+                    name: 'comic',
+                    params: { sourceId, comic }
+                  }
                 }"
-                :source-id="sourceId"
                 focus-tab-active
                 @change-tab="onChangeTabEpisodes"
                 @downloaded="lsEpDL?.push($event)"
@@ -564,7 +564,7 @@ import { packageName } from "app/package.json"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
-import type { ID } from "raiku-pgs/plugin"
+import type { Comic, ID } from "raiku-pgs/plugin"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 
@@ -620,6 +620,20 @@ watch(error, (error) => {
       query: route.query,
       hash: route.hash
     })
+})
+let $idComicDataCache: string | null = null
+let $comicDataCache: (() => Promise<Comic>) | null = null
+const comicData = computed<() => Promise<Comic>>(() => {
+  const id = `${props.sourceId}/${props.comic}`
+  if (id === $idComicDataCache) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return $comicDataCache!
+  }
+
+  $idComicDataCache = id
+  const { comic } = props
+
+  return ($comicDataCache = () => api.value.then((res) => res.getComic(comic)))
 })
 
 const title = () =>
@@ -687,18 +701,16 @@ async function downloadEp() {
 
   const meta = await IDMStore.download(
     {
-      manga_id: data.value.manga_id,
-      manga_name: data.value.name,
-      manga_image: data.value.image,
-      manga_param: props.comic,
-      source_id: props.sourceId
+      name: "comic",
+      params: {
+        sourceId: props.sourceId,
+        comic: props.comic
+      }
     },
-    {
-      ep_param: props.chap,
-      ep_id: data.value.ep_id,
-      ep_name: currentEpisode.value.value.name,
-      pages: await Promise.all(pages.value.slice(0))
-    }
+    await comicData.value(),
+    data.value,
+    currentEpisode.value.value.name,
+    await Promise.all(pages.value.slice(0))
   ).catch((err) => {
     if (err?.message === "user_paused") return
     // eslint-disable-next-line functional/no-throw-statement

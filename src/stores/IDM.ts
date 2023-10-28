@@ -1,15 +1,13 @@
 import { defineStore } from "pinia"
-import type { ID } from "raiku-pgs/plugin"
+import type { Comic, ComicChapter, ID, RouteComic } from "raiku-pgs/plugin"
 import type {
-  MetaEpisode,
-  MetaManga,
-  MetaMangaOnDisk,
+  ComicOnDisk,
   TaskDDEp,
   TaskDLEp
 } from "src/logic/download-manager"
 import type { ShallowReactive } from "vue"
 
-export interface MetaMangaAndCountOnDisk extends MetaMangaOnDisk {
+export interface ComicAndCountOnDisk extends ComicOnDisk {
   count_ep: number
 }
 
@@ -19,7 +17,7 @@ export const useIDMStore = defineStore("IDM", () => {
   >(new Map())
   const lsingComicOnDisk = ref(false)
   const listComicOnDisk = reactive<
-    Map<ID, ShallowReactive<MetaMangaAndCountOnDisk>>
+    Map<ID, ShallowReactive<ComicAndCountOnDisk>>
   >(new Map())
 
   let gettedList = false
@@ -31,7 +29,7 @@ export const useIDMStore = defineStore("IDM", () => {
         await Promise.all(
           list.map(async (item) => {
             const itemReactive = shallowReactive<
-              MetaMangaOnDisk & {
+              ComicOnDisk & {
                 count_ep: number
               }
             >({
@@ -48,11 +46,21 @@ export const useIDMStore = defineStore("IDM", () => {
   }
 
   async function download(
-    metaManga: MetaManga,
-    metaEp: MetaEpisode
+    route: RouteComic,
+    metaManga: Comic,
+    metaEp: ComicChapter,
+    // eslint-disable-next-line camelcase
+    ep_name: string,
+    pages: readonly string[]
   ): Promise<TaskDLEp | TaskDDEp> {
     console.log("start download: ", metaEp)
-    const task = createTaskDownloadEpisode(metaManga, metaEp)
+    const task = createTaskDownloadEpisode(
+      route,
+      metaManga,
+      metaEp,
+      ep_name,
+      pages
+    )
 
     if (!listComicOnDisk.has(metaManga.manga_id)) {
       const manga = {
@@ -70,20 +78,25 @@ export const useIDMStore = defineStore("IDM", () => {
       queue.set(metaManga.manga_id, new Map())
       store = queue.get(metaManga.manga_id)
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       store!.set(metaEp.ep_id, task)
     }
 
     const meta = await task.start()
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     listComicOnDisk.get(metaManga.manga_id)!.count_ep++
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     store!.delete(metaEp.ep_id)
 
     return meta ? { ref: meta } : task
   }
 
   async function resumeDownload(
-    metaManga: MetaManga,
+    metaManga: Comic,
+    // eslint-disable-next-line camelcase
+    ep_name: string,
     task: Awaited<ReturnType<typeof download>>
   ): ReturnType<typeof download> {
     if (
@@ -98,7 +111,13 @@ export const useIDMStore = defineStore("IDM", () => {
       return task
     }
 
-    return download(metaManga, task.ref)
+    return download(
+      task.ref.route,
+      metaManga,
+      task.ref,
+      ep_name,
+      task.ref.pages_offline
+    )
   }
 
   return {

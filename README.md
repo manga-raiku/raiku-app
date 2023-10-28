@@ -34,8 +34,7 @@ The app currently supports:
 </div>
 
 - Desktop
-![image](https://github.com/manga-raiku/raiku-app/assets/45375496/b580ab92-114a-487c-a39f-690e19180248)
-
+  ![image](https://github.com/manga-raiku/raiku-app/assets/45375496/b580ab92-114a-487c-a39f-690e19180248)
 
 ## Install the dependencies
 

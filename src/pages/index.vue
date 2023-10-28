@@ -66,7 +66,7 @@ meta:
 
                   <q-btn
                     rounded
-                    color=main
+                    color="main"
                     class="mt-2 xs:mt-4 pointer-events-all mx-auto"
                     no-caps
                     :to="item.last_chapters[0].route"

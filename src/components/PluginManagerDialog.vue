@@ -73,46 +73,45 @@
               }}</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <template v-if='!showEdit'>
-              <i-eos-icons-bubble-loading
-                v-if="updateMap.get(item.id)?.loading.value"
-              />
-              <template v-else-if="updateMap.get(item.id)?.status.value">
-                <q-btn
-                  v-if="updateMap.get(item.id)?.status.value?.ok"
-                  no-caps
-                  unelevated
-                  rounded
-                  stack
-                  class="text-white"
-                  @click.stop.prevent="onClickUpdate(item)"
-                  @mousedown.stop
-                >
-                  <i-ic-outline-update
-                    class="mx-auto icon"
-                    :class="{
-                      rotating: updatingMap.has(item.id)
-                    }"
-                  />
-                  <div class="text-0.8em">
-                    {{
-                      $t("cap-nhat-v", [
-                        (
-                          updateMap.get(item.id)?.status.value
-                            ?.data as unknown as any
-                        )?.version
-                      ])
-                    }}
+              <template v-if="!showEdit">
+                <i-eos-icons-bubble-loading
+                  v-if="updateMap.get(item.id)?.loading.value"
+                />
+                <template v-else-if="updateMap.get(item.id)?.status.value">
+                  <q-btn
+                    v-if="updateMap.get(item.id)?.status.value?.ok"
+                    no-caps
+                    unelevated
+                    rounded
+                    stack
+                    class="text-white"
+                    @click.stop.prevent="onClickUpdate(item)"
+                    @mousedown.stop
+                  >
+                    <i-ic-outline-update
+                      class="mx-auto icon"
+                      :class="{
+                        rotating: updatingMap.has(item.id)
+                      }"
+                    />
+                    <div class="text-0.8em">
+                      {{
+                        $t("cap-nhat-v", [
+                          (
+                            updateMap.get(item.id)?.status.value
+                              ?.data as unknown as any
+                          )?.version
+                        ])
+                      }}
+                    </div>
+                  </q-btn>
+                  <div v-else class="relative">
+                    <i-codicon-error class="text-red-400" />
+                    <q-tooltip>{{
+                      updateMap.get(item.id)?.status.value?.data + ""
+                    }}</q-tooltip>
                   </div>
-                </q-btn>
-                <div v-else class="relative">
-                  <i-codicon-error class="text-red-400" />
-                  <q-tooltip>{{
-                    updateMap.get(item.id)?.status.value?.data + ""
-                  }}</q-tooltip>
-                </div>
-              </template>
-                
+                </template>
               </template>
 
               <q-btn

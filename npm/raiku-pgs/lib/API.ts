@@ -288,7 +288,7 @@ export declare class API {
     page: number,
     comicKey: string
   ): Promise<Comments>
-  getListChapters(mangaId: ID, mangaParam: string): Promise<Chapter[]>
+  getListChapters(mangaId: ID, comic: string): Promise<Chapter[]>
   searchQuickly(keyword: string, page: number): Promise<readonly QuicklyItem[]>
   search(keyword: string, page: number): Promise<General>
   getRanking(
