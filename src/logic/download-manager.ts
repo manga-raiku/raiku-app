@@ -39,17 +39,26 @@ export interface ComicChapterRunning extends ComicChapterOnDisk {
 async function downloadFile(
   src: string,
   path: string,
-  downloading: Ref<boolean>
+  downloading: Ref<boolean>,
+  retry: number
 ): Promise<void> {
-  const buffer = await fetch(src).then((res) => res.arrayBuffer())
+  while (retry-- > 0) {
+    try {
+      const buffer = await fetch(src).then((res) => res.arrayBuffer())
 
-  if (!downloading.value) throw new Error("user_paused")
-  await Filesystem.writeFile({
-    path,
-    data: uint8ToBase64(new Uint8Array(buffer)),
-    directory: Directory.External,
-    recursive: true
-  })
+      if (!downloading.value) throw new Error("user_paused")
+      await Filesystem.writeFile({
+        path,
+        data: uint8ToBase64(new Uint8Array(buffer)),
+        directory: Directory.External,
+        recursive: true
+      })
+
+      break
+    } catch (err) {
+      console.log("[downloadFile]: Error ", err + ". Retry " + retry)
+    }
+  }
 }
 
 async function downloadFiles(
@@ -68,7 +77,7 @@ async function downloadFiles(
         throw new Error("user_paused")
       }
       const path = `${DIR_FILES}/${hashIDManga}/${hashIDEp}/${hashSum(index)}`
-      await downloadFile(src, path, downloading)
+      await downloadFile(src, path, downloading, 5)
 
       onprogress(index, sources.length, PROTOCOL_OFFLINE + path)
 
@@ -100,9 +109,14 @@ async function saveMetaManga(
   } catch {}
 
   const pathPoster = `${DIR_POSTER}/${hash_id}`
-  await downloadFile(metaManga.image, pathPoster, {
-    value: true
-  } as Ref<boolean>)
+  await downloadFile(
+    metaManga.image,
+    pathPoster,
+    {
+      value: true
+    } as Ref<boolean>,
+    5
+  )
 
   const metaOnDisk: ComicOnDisk = {
     ...metaManga,
