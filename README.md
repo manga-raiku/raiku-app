@@ -81,7 +81,7 @@ quasar build
 - [x] Localize app
 - [x] meta header
 - [x] update UI screen error
-- [ ] show error network offline
+- [x] show error network offline
 - [x] add redirect to not found page
 - [x] show error if throw error
 - [x] fix favicon small
