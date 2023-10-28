@@ -2,7 +2,7 @@
   <q-layout view="hHh Lpr lFf">
     <AppHeader v-model:show-drawer="showDrawer" />
     <AppDrawer v-model="showDrawer" />
-
+    
     <q-page-container
       :class="{
         '!pt-0': route.meta.noSpaceHeader
