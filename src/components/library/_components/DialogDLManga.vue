@@ -9,7 +9,7 @@
   >
     <q-card
       v-if="metaMangaShowInfo"
-      class="bg-dark-page h-full flex flex-col flex-nowrap `min-w-[min(500px,100%)] max-w-100%"
+      class="bg-dark-page h-full flex flex-col flex-nowrap min-w-[min(500px,100%)] max-w-100%"
     >
       <header>
         <q-toolbar>
@@ -61,7 +61,13 @@
             :key="item.ref.ep_id"
             clickable
             v-ripple
-            :data.prop="item"
+            :to="{
+              name: 'comic chap',
+              params: {
+                ...item.ref.route.params,
+                chap: item.ref.ep_param
+              }
+            }"
             class="!px-2 rounded-xl"
           >
             <q-item-section v-if="modeEdit" side>
@@ -139,7 +145,7 @@
   >
     <q-card
       v-if="allEp"
-      class="h-full <md:!max-h-80vh sm:!max-h-70vh min-w-310px flex flex-nowrap column min-h-0 rounded-xl"
+      class="h-full <md:!max-h-80vh sm:!max-h-70vh min-w-[min(500px,100%)] max-w-100% flex flex-nowrap column min-h-0 rounded-xl"
     >
       <q-card-section class="text-16px">
         {{ $t("count-chuong", [allEp.length]) }}
@@ -248,9 +254,11 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   const meta = metaMangaShowInfo.value
 
   if (meta) {
-    return shallowReactive((
-      await getListEpisodes(meta.manga_id).catch(() => [])
-    ).map((ref) => ({ ref })))
+    return shallowReactive(
+      (await getListEpisodes(meta.manga_id).catch(() => [])).map((ref) => ({
+        ref
+      }))
+    )
   }
 })
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {

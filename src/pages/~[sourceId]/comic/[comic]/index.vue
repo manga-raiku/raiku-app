@@ -201,7 +201,7 @@ meta:
           :chapters="data.chapters"
           :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
           :map-offline="mapEp"
-          :route-comic="{
+          :comic="{
             data,
             manga_id: data.manga_id,
             route: {
