@@ -243,6 +243,7 @@ async function downloadEp(item: Chapter) {
       : props.comic.data,
     conf,
     item.name,
+    item.route.params.chap,
     await plugin["servers:parse"](0, conf)
   ).catch((err) => {
     if (err?.message === "user_paused") return

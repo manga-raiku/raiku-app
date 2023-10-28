@@ -51,6 +51,8 @@ export const useIDMStore = defineStore("IDM", () => {
     metaEp: ComicChapter,
     // eslint-disable-next-line camelcase
     ep_name: string,
+    // eslint-disable-next-line camelcase
+    ep_param: string,
     pages: readonly string[]
   ): Promise<TaskDLEp | TaskDDEp> {
     console.log("start download: ", metaEp)
@@ -59,6 +61,7 @@ export const useIDMStore = defineStore("IDM", () => {
       metaManga,
       metaEp,
       ep_name,
+      ep_param,
       pages
     )
 
@@ -97,6 +100,8 @@ export const useIDMStore = defineStore("IDM", () => {
     metaManga: Comic,
     // eslint-disable-next-line camelcase
     ep_name: string,
+    // eslint-disable-next-line camelcase
+    ep_param: string,
     task: Awaited<ReturnType<typeof download>>
   ): ReturnType<typeof download> {
     if (
@@ -116,6 +121,7 @@ export const useIDMStore = defineStore("IDM", () => {
       metaManga,
       task.ref,
       ep_name,
+      ep_param,
       task.ref.pages_offline
     )
   }

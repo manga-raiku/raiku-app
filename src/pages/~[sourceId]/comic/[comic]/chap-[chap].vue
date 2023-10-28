@@ -710,6 +710,7 @@ async function downloadEp() {
     await comicData.value(),
     data.value,
     currentEpisode.value.value.name,
+    currentEpisode.value.value.route.params.comic,
     await Promise.all(pages.value.slice(0))
   ).catch((err) => {
     if (err?.message === "user_paused") return

@@ -40,7 +40,11 @@
         class="h-full min-h-0 flex-1 overflow-y-auto scrollbar-custom pb-50px"
       >
         <!-- button more download -->
-        <q-item @click="showDownloadMore = true" clickable>
+        <q-item
+          @click="showDownloadMore = true"
+          clickable
+          :disable="!networkStore.isOnline"
+        >
           <q-item-section>
             <q-item-label>{{ $t("tai-them-chuong-khac") }}</q-item-label>
           </q-item-section>
@@ -51,30 +55,36 @@
         <!-- /button more download -->
 
         <ul class="mx-4">
-          <li
+          <q-item
             v-for="[ep_id, item] in mapEp"
             :key="item.ref.ep_id"
-            class="py-2 flex flex-nowrap items-center"
+            clickable
+            v-ripple
+            :data.prop="item"
+            class="!px-2 rounded-xl"
           >
-            <q-checkbox
-              v-if="modeEdit"
-              v-model="listEpRemove"
-              dense
-              :val="ep_id"
-              class="mr-2"
-            />
-            <div class="w-full min-w-0">
-              <EpControl
-                :data="item.ref"
-                :downloading="
-                  // eslint-disable-next-line vue/no-deprecated-filter
-                  item.downloading as unknown as boolean | undefined
-                "
-                @stop="item.stop"
-                @resume="resume(item)"
+            <q-item-section v-if="modeEdit" side>
+              <q-checkbox
+                v-model="listEpRemove"
+                dense
+                :val="ep_id"
+                class="mr-2"
               />
-            </div>
-          </li>
+            </q-item-section>
+            <q-item-section>
+              <div class="w-full min-w-0">
+                <EpControl
+                  :data="item.ref"
+                  :downloading="
+                    // eslint-disable-next-line vue/no-deprecated-filter
+                    item.downloading as unknown as boolean | undefined
+                  "
+                  @stop="item.stop"
+                  @resume="resume(item)"
+                />
+              </div>
+            </q-item-section>
+          </q-item>
         </ul>
       </main>
 
@@ -215,6 +225,7 @@ import type { ComicAndCountOnDisk } from "stores/IDM"
 const $q = useQuasar()
 const IDMStore = useIDMStore()
 const pluginStore = usePluginStore()
+const networkStore = useNetworkStore()
 
 const props = defineProps<{
   modelValue: ComicAndCountOnDisk | null
@@ -257,6 +268,7 @@ async function resume(item: TaskDLEp | TaskDDEp) {
     const result = await IDMStore.resumeDownload(
       metaMangaShowInfo.value,
       item.ref.ep_name,
+      item.ref.ep_param,
       item
     )
 
@@ -374,6 +386,7 @@ async function download() {
       metaMangaShowInfo.value,
       conf,
       ep.name,
+      chap,
       await plugin["servers:parse"](0, conf)
     ).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {

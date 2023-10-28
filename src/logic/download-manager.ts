@@ -27,6 +27,7 @@ export interface ComicOnDisk extends Comic {
 export interface ComicChapterOnDisk extends ComicChapter {
   readonly route: RouteComic
   readonly ep_name: string
+  readonly ep_param: string
   readonly downloaded: number
   readonly start_download_at: number
   readonly pages_offline: readonly string[]
@@ -42,23 +43,18 @@ async function downloadFile(
   downloading: Ref<boolean>,
   retry: number
 ): Promise<void> {
-  while (retry-- > 0) {
-    try {
-      const buffer = await fetch(src).then((res) => res.arrayBuffer())
+  const buffer = await await fetchRetry(src, {
+    retries: retry,
+    retryDelay: 300
+  }).then((res) => res.arrayBuffer())
 
-      if (!downloading.value) throw new Error("user_paused")
-      await Filesystem.writeFile({
-        path,
-        data: uint8ToBase64(new Uint8Array(buffer)),
-        directory: Directory.External,
-        recursive: true
-      })
-
-      break
-    } catch (err) {
-      console.log("[downloadFile]: Error ", err + ". Retry " + retry)
-    }
-  }
+  if (!downloading.value) throw new Error("user_paused")
+  await Filesystem.writeFile({
+    path,
+    data: uint8ToBase64(new Uint8Array(buffer)),
+    directory: Directory.External,
+    recursive: true
+  })
 }
 
 async function downloadFiles(
@@ -139,6 +135,7 @@ export function createTaskDownloadEpisode(
   metaManga: Comic,
   metaEp: ComicChapter,
   ep_name: string,
+  ep_param: string,
   pages: readonly string[]
 ): {
   ref: ComicChapterRunning
@@ -158,7 +155,8 @@ export function createTaskDownloadEpisode(
     ...metaEp,
     route,
     pages_offline: pages.slice(0),
-    ep_name
+    ep_name,
+    ep_param
   })
 
   const startSaveMetaManga = () => saveMetaManga(route, metaManga)

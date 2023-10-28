@@ -2,11 +2,14 @@
 import hashSum from "hash-sum"
 import type { Comic, ComicChapter, RouteComic } from "raiku-pgs/plugin"
 import { cleanup, exists, readdir, readFile } from "test/vitest/utils"
-import { expect } from "vitest"
+import { expect, vi } from "vitest"
+import createFetchMock from "vitest-fetch-mock"
 
 import { createTaskDownloadEpisode, getListManga } from "./download-manager"
 
-global.fetch = vi.fn()
+const fetchMocker = createFetchMock(vi)
+
+Object.assign(global, { fetch: fetchMocker })
 global.Date.now = vi.fn()
 
 const manga_id = "1"
@@ -15,6 +18,7 @@ const manga_image = "http://localhost/poster/manga-1.jpg"
 const source_id = "nettruyen"
 const ep_id = "1234"
 const ep_name = "Chapter 1"
+const ep_param = "chap-1-i1234"
 const pages = [
   "https://localhost/pages/1.png",
   "https://localhost/pages/2.png",
@@ -119,7 +123,7 @@ function patchFetch() {
   )
 }
 ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(0)
-patchFetch()
+fetchMocker.enableMocks()
 
 describe("download-manager", () => {
   beforeEach(async () => {
@@ -128,11 +132,14 @@ describe("download-manager", () => {
   })
 
   test("should download episode x for the first time", async () => {
+    fetchMocker.mockResponse(({ url }) => url)
+
     const { ref, start, downloading } = createTaskDownloadEpisode(
       route,
       metaManga,
       metaEp,
       ep_name,
+      ep_param,
       pages
     )
     expect(ref.downloaded).toBe(0)
@@ -196,6 +203,7 @@ describe("download-manager", () => {
     ).toEqual({
       ...metaEp,
       ep_name,
+      ep_param,
       route,
       start_download_at: 0,
       downloaded: 8,
@@ -220,29 +228,19 @@ describe("download-manager", () => {
 
   test("should forcibly stopped while downloading", async () => {
     let counter = 0
-    ;(fetch as ReturnType<typeof vi.fn>).mockReset()
-    ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(
-      async (url: string) => {
-        // await sleep(500)
-        if (counter++ > 5) return Promise.reject(new Error("time_out"))
+    fetchMocker.mockResponse(async ({ url }) => {
+      // await sleep(500)
+      if (counter++ > 5) return Promise.reject(new Error("time_out"))
 
-        return Promise.resolve({
-          async arrayBuffer() {
-            return new TextEncoder().encode(url)
-          },
-
-          async text() {
-            return url
-          }
-        })
-      }
-    )
+      return url
+    })
 
     const { ref, start, downloading } = createTaskDownloadEpisode(
       route,
       metaManga,
       metaEp,
       ep_name,
+      ep_param,
       pages
     )
     expect(ref.downloaded).toBe(0)
@@ -278,6 +276,7 @@ describe("download-manager", () => {
     ).toEqual({
       ...metaEp,
       ep_name,
+      ep_param,
       route,
       start_download_at: 0,
       downloaded: 5,
@@ -296,29 +295,19 @@ describe("download-manager", () => {
 
   test("should continue while downloading", async () => {
     let counter = 0
-    ;(fetch as ReturnType<typeof vi.fn>).mockReset()
-    ;(fetch as ReturnType<typeof vi.fn>).mockImplementation(
-      async (url: string) => {
-        // await sleep(500)
-        if (counter++ > 5) return Promise.reject(new Error("time_out"))
+    fetchMocker.mockResponse(async ({ url }) => {
+      // await sleep(500)
+      if (counter++ > 5) return Promise.reject(new Error("time_out"))
 
-        return Promise.resolve({
-          async arrayBuffer() {
-            return new TextEncoder().encode(url)
-          },
-
-          async text() {
-            return url
-          }
-        })
-      }
-    )
+      return url
+    })
 
     const { ref, start, downloading } = createTaskDownloadEpisode(
       route,
       metaManga,
       metaEp,
       ep_name,
+      ep_param,
       pages
     )
     expect(ref.downloaded).toBe(0)
@@ -355,6 +344,7 @@ describe("download-manager", () => {
     ).toEqual({
       ...metaEp,
       ep_name,
+      ep_param,
       route,
       start_download_at: 0,
       downloaded: 5,
@@ -374,7 +364,14 @@ describe("download-manager", () => {
       ref: ref2,
       start: start2,
       downloading: dl2
-    } = createTaskDownloadEpisode(route, metaManga, metaEp, ep_name, pages)
+    } = createTaskDownloadEpisode(
+      route,
+      metaManga,
+      metaEp,
+      ep_name,
+      ep_param,
+      pages
+    )
     expect(ref2.downloaded).toBe(0)
     expect(dl2.value).toBeFalsy()
 
@@ -411,6 +408,7 @@ describe("download-manager", () => {
     ).toEqual({
       ...metaEp,
       ep_name,
+      ep_param,
       route,
       start_download_at: 0,
       downloaded: 8,
@@ -437,6 +435,7 @@ describe("download-manager", () => {
       metaManga,
       metaEp,
       ep_name,
+      ep_param,
       pages
     )
     expect(downloading.value).toBe(false)
@@ -493,6 +492,7 @@ describe("download-manager", () => {
     ).toEqual({
       ...metaEp,
       ep_name,
+      ep_param,
       route,
       start_download_at: 0,
       downloaded: 8,
@@ -515,6 +515,7 @@ describe("download-manager", () => {
       metaManga,
       metaEp,
       ep_name,
+      ep_param,
       pages
     ).start()
 
@@ -539,6 +540,7 @@ describe("download-manager", () => {
       meta2,
       metaEp,
       ep_name,
+      ep_param,
       pages
     ).start()
 
@@ -565,6 +567,7 @@ describe("download-manager", () => {
       metaManga,
       metaEp,
       ep_name,
+      ep_param,
       pages
     ).start()
 
@@ -573,6 +576,7 @@ describe("download-manager", () => {
       {
         ...metaEp,
         ep_name,
+        ep_param,
         route,
         start_download_at: 0,
         downloaded: 8,
@@ -595,6 +599,7 @@ describe("download-manager", () => {
       metaManga,
       { ...metaEp, ep_id: metaEp.ep_id + 1 + "" },
       ep_name,
+      ep_param,
       pages
     ).start()
 
@@ -603,6 +608,7 @@ describe("download-manager", () => {
         ...metaEp,
         route,
         ep_name,
+        ep_param,
         start_download_at: 0,
         downloaded: 8,
         pages_offline: [
@@ -620,6 +626,7 @@ describe("download-manager", () => {
         ...metaEp,
         route,
         ep_name,
+        ep_param,
         downloaded: 8,
         ep_id: "12341",
         pages_offline: [
@@ -644,6 +651,7 @@ describe("download-manager", () => {
       metaManga,
       metaEp,
       ep_name,
+      ep_param,
       pages
     ).start()
 
@@ -664,6 +672,7 @@ describe("download-manager", () => {
       metaManga,
       metaEp,
       ep_name,
+      ep_param,
       pages
     ).start()
     await createTaskDownloadEpisode(
@@ -671,6 +680,7 @@ describe("download-manager", () => {
       metaManga,
       { ...metaEp, ep_id: metaEp.ep_id + 1 + "" },
       ep_name,
+      ep_param,
       pages
     ).start()
 
