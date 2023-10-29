@@ -87,7 +87,7 @@ async function saveMetaManga(
   route: RouteComic,
   metaManga: Comic
 ): Promise<ComicOnDisk> {
-  const hash_id = hashSum(metaManga.manga_id)
+  const hash_id = hashSum(route.params.comic)
 
   const path = `${DIR_META}/${hash_id}.mod`
 
@@ -145,8 +145,8 @@ export function createTaskDownloadEpisode(
   stop: () => Promise<ComicChapterOnDisk | undefined>
   resume: () => Promise<ComicChapterOnDisk | undefined>
 } {
-  const hashIDManga = hashSum(metaManga.manga_id)
-  const hashIDEp = hashSum(metaEp.ep_id)
+  const hashIDManga = hashSum(route.params.comic)
+  const hashIDEp = hashSum(ep_param)
 
   const downloading = ref(false)
   const refValue = reactive<ComicChapterRunning>({
@@ -192,7 +192,7 @@ export function createTaskDownloadEpisode(
     }
 
     downloading.value = true
-    const hashIDManga = hashSum((await startSaveMetaManga()).manga_id)
+    const hashIDManga = hashSum((await startSaveMetaManga()).route.params.comic)
 
     // check continue this passed
     const metaInDisk = await Filesystem.readFile({
@@ -277,8 +277,8 @@ export async function getListManga() {
   }
 }
 
-export async function getCountEpisodes(manga_id: ID) {
-  const hashIDManga = hashSum(manga_id)
+export async function getCountEpisodes(comic: string) {
+  const hashIDManga = hashSum(comic)
 
   try {
     const { files } = await Filesystem.readdir({
@@ -295,8 +295,8 @@ export async function getCountEpisodes(manga_id: ID) {
   }
 }
 
-export async function getListEpisodes(manga_id: ID) {
-  const hashIDManga = hashSum(manga_id)
+export async function getListEpisodes(comic: string) {
+  const hashIDManga = hashSum(comic)
 
   const { files } = await Filesystem.readdir({
     path: `${DIR_META}/${hashIDManga}`,
@@ -316,8 +316,8 @@ export async function getListEpisodes(manga_id: ID) {
   ).then((list) => list.filter(Boolean) as ComicChapterOnDisk[])
 }
 
-export async function deleteManga(manga_id: ID) {
-  const hashIDManga = hashSum(manga_id)
+export async function deleteManga(comic: string) {
+  const hashIDManga = hashSum(comic)
 
   await Promise.all([
     // remove meta episodes
@@ -348,9 +348,9 @@ export async function deleteManga(manga_id: ID) {
   ])
 }
 
-export async function deleteEpisode(manga_id: ID, ep_id: ID) {
-  const hashIDManga = hashSum(manga_id)
-  const hashIDEp = hashSum(ep_id)
+export async function deleteEpisode(comic: string, ep_param: string) {
+  const hashIDManga = hashSum(comic)
+  const hashIDEp = hashSum(ep_param)
 
   await Promise.all([
     // remove meta
@@ -416,9 +416,9 @@ export async function deleteEpisode(manga_id: ID, ep_id: ID) {
   ])
 }
 
-export async function getEpisode(manga_id: ID, ep_id: ID) {
-  const hashIDManga = hashSum(manga_id)
-  const hashIDEp = hashSum(ep_id)
+export async function getEpisode(comic: string, ep_param: string) {
+  const hashIDManga = hashSum(comic)
+  const hashIDEp = hashSum(ep_param)
 
   return JSON.parse(
     await Filesystem.readFile({

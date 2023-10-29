@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import type { Comic, ComicChapter, ID, RouteComic } from "raiku-pgs/plugin"
+import type { Comic, ComicChapter, RouteComic } from "raiku-pgs/plugin"
 import type {
   ComicOnDisk,
   TaskDDEp,
@@ -13,11 +13,11 @@ export interface ComicAndCountOnDisk extends ComicOnDisk {
 
 export const useIDMStore = defineStore("IDM", () => {
   const queue = reactive<
-    Map<ID, Map<ID, ReturnType<typeof createTaskDownloadEpisode>>>
+    Map<string, Map<string, ReturnType<typeof createTaskDownloadEpisode>>>
   >(new Map())
   const lsingComicOnDisk = ref(false)
   const listComicOnDisk = reactive<
-    Map<ID, ShallowReactive<ComicAndCountOnDisk>>
+    Map<string, ShallowReactive<ComicAndCountOnDisk>>
   >(new Map())
 
   let gettedList = false
@@ -34,9 +34,9 @@ export const useIDMStore = defineStore("IDM", () => {
               }
             >({
               ...item,
-              count_ep: await getCountEpisodes(item.manga_id)
+              count_ep: await getCountEpisodes(item.route.params.comic)
             })
-            listComicOnDisk.set(item.manga_id, itemReactive)
+            listComicOnDisk.set(item.route.params.comic, itemReactive)
           })
         )
         lsingComicOnDisk.value = false
@@ -65,33 +65,33 @@ export const useIDMStore = defineStore("IDM", () => {
       pages
     )
 
-    if (!listComicOnDisk.has(metaManga.manga_id)) {
+    if (!listComicOnDisk.has(route.params.comic)) {
       const manga = {
         ...(await task.startSaveMetaManga()),
         count_ep: 0
       }
-      listComicOnDisk.set(manga.manga_id, manga)
+      listComicOnDisk.set(route.params.comic, manga)
     }
 
-    let store = queue.get(metaManga.manga_id)
+    let store = queue.get(route.params.comic)
     console.log("set store", store)
     if (store) {
-      store.set(metaEp.ep_id, task)
+      store.set(ep_param, task)
     } else {
-      queue.set(metaManga.manga_id, new Map())
-      store = queue.get(metaManga.manga_id)
+      queue.set(route.params.comic, new Map())
+      store = queue.get(route.params.comic)
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      store!.set(metaEp.ep_id, task)
+      store!.set(ep_param, task)
     }
 
     const meta = await task.start()
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    listComicOnDisk.get(metaManga.manga_id)!.count_ep++
+    listComicOnDisk.get(route.params.comic)!.count_ep++
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    store!.delete(metaEp.ep_id)
+    store!.delete(ep_param)
 
     return meta ? { ref: meta } : task
   }

@@ -469,7 +469,7 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   if (!data.value) return
 
   return shallowReactive(
-    (await getListEpisodes(data.value.manga_id).catch(() => [])).map((ref) => ({
+    (await getListEpisodes(props.comic).catch(() => [])).map((ref) => ({
       ref
     }))
   )
@@ -477,7 +477,7 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
   if (!data.value) return
 
-  return [...(IDMStore.queue.get(data.value.manga_id)?.values() ?? [])]
+  return [...(IDMStore.queue.get(props.comic)?.values() ?? [])]
 })
 
 const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
@@ -486,7 +486,7 @@ const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   return new Map(
     [...(lsEpDL.value ?? []), ...lsEpDD.value]
       .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
-      .map((item) => [item.ref.ep_id, item])
+      .map((item) => [item.ref.ep_param, item])
   )
 })
 

@@ -101,10 +101,12 @@
 
               <span v-if="!noDownload" @click.stop.prevent>
                 <BtnDownload
-                  :model-value="mapOffline?.get(item.id)"
-                  @update:model-value="mapOffline?.delete(item.id)"
-                  :manga-id="comic?.manga_id ?? null"
-                  :ep-id="item.id + ''"
+                  :model-value="mapOffline?.get(item.route.params.chap)"
+                  @update:model-value="
+                    mapOffline?.delete(item.route.params.chap)
+                  "
+                  :comic="item.route.params.comic ?? null"
+                  :ep-param="item.route.params.chap"
                   :can-download="true"
                   :disable="!comic?.data"
                   @action:download="downloadEp(item)"
@@ -143,7 +145,7 @@ const props = defineProps<{
   focusTabActive?: boolean
 
   readsChapter?: Set<ID>
-  mapOffline?: Map<ID, TaskDDEp | TaskDLEp>
+  mapOffline?: Map<string, TaskDDEp | TaskDLEp>
   comic?: {
     data: Comic | null | (() => Promise<Comic>)
     manga_id?: string

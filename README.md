@@ -93,6 +93,8 @@ quasar build
 
 - [ ] use QScrollArea and QVirtualScroll
 
+- [ ] bootloop in page read if plugin not install
+
 ### Customize the configuration
 
 See [Configuring quasar.config.ts](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).

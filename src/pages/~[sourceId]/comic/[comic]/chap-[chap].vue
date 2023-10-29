@@ -65,8 +65,8 @@ meta:
 
       <BtnDownload
         v-model="statusEPDL"
-        :manga-id="data?.manga_id ?? null"
-        :ep-id="data?.ep_id ?? null"
+        :comic="comic"
+        :ep-param="chap"
         @action:delete="deleteEp"
         :can-download="!!(data && currentEpisode && pages)"
         @action:download="downloadEp"
@@ -655,13 +655,10 @@ const statusEPDL = computedAsync<TaskDDEp | TaskDLEp | null | undefined>(
   async () => {
     if (!data.value) return
 
-    const task = IDMStore.queue.get(data.value.manga_id)?.get(data.value.ep_id)
+    const task = IDMStore.queue.get(props.comic)?.get(props.chap)
     if (task) return task
 
-    const onDisk = await getEpisode(
-      data.value.manga_id,
-      data.value.ep_id
-    ).catch(() => null)
+    const onDisk = await getEpisode(props.comic, props.chap).catch(() => null)
 
     if (onDisk) return { ref: onDisk }
     return null
@@ -675,7 +672,7 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   if (!data.value) return
 
   return shallowReactive(
-    (await getListEpisodes(data.value.manga_id).catch(() => [])).map((ref) => ({
+    (await getListEpisodes(props.comic).catch(() => [])).map((ref) => ({
       ref
     }))
   )
@@ -683,7 +680,7 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
   if (!data.value) return
 
-  return [...(IDMStore.queue.get(data.value.manga_id)?.values() ?? [])]
+  return Array.from(IDMStore.queue.get(props.comic)?.values() ?? [])
 })
 
 const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
@@ -692,7 +689,7 @@ const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   return new Map(
     [...(lsEpDL.value ?? []), ...lsEpDD.value]
       .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
-      .map((item) => [item.ref.ep_id, item])
+      .map((item) => [item.ref.ep_param, item])
   )
 })
 
@@ -710,7 +707,7 @@ async function downloadEp() {
     await comicData.value(),
     data.value,
     currentEpisode.value.value.name,
-    currentEpisode.value.value.route.params.comic,
+    currentEpisode.value.value.route.params.chap,
     await Promise.all(pages.value.slice(0))
   ).catch((err) => {
     if (err?.message === "user_paused") return
@@ -721,16 +718,18 @@ async function downloadEp() {
   console.log(lsEpDL, meta)
   if (meta && !isTaskDLEp(meta)) {
     lsEpDL.value?.splice(
-      lsEpDL.value.findIndex((item) => item.ref.ep_id === meta.ref.ep_id) >>> 0,
+      lsEpDL.value.findIndex(
+        (item) => item.ref.ep_param === meta.ref.ep_param
+      ) >>> 0,
       1,
       meta
     )
     lsEpDL.value = [...(lsEpDL.value || [])]
   }
 }
-function deleteEp(epId: ID) {
+function deleteEp(epParam: string) {
   lsEpDL.value?.splice(
-    lsEpDL.value.findIndex((item) => item.ref.ep_id === epId) >>> 0,
+    lsEpDL.value.findIndex((item) => item.ref.ep_param === epParam) >>> 0,
     1
   )
   lsEpDL.value = [...(lsEpDL.value || [])]

@@ -57,8 +57,8 @@
 
         <ul class="mx-4">
           <q-item
-            v-for="[ep_id, item] in mapEp"
-            :key="item.ref.ep_id"
+            v-for="[ep_param, item] in mapEp"
+            :key="ep_param"
             clickable
             v-ripple
             :to="{
@@ -74,7 +74,7 @@
               <q-checkbox
                 v-model="listEpRemove"
                 dense
-                :val="ep_id"
+                :val="ep_param"
                 class="mr-2"
               />
             </q-item-section>
@@ -255,7 +255,7 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
 
   if (meta) {
     return shallowReactive(
-      (await getListEpisodes(meta.manga_id).catch(() => [])).map((ref) => ({
+      (await getListEpisodes(meta.route.params.comic).catch(() => [])).map((ref) => ({
         ref
       }))
     )
@@ -265,7 +265,7 @@ const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
   const meta = metaMangaShowInfo.value
   if (!meta) return
 
-  return [...(IDMStore.queue.get(meta.manga_id)?.values() ?? [])]
+  return [...(IDMStore.queue.get(meta.route.params.comic)?.values() ?? [])]
 })
 
 const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
@@ -274,7 +274,7 @@ const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   return new Map(
     [...(lsEpDL.value ?? []), ...lsEpDD.value]
       .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
-      .map((item) => [item.ref.ep_id, item])
+      .map((item) => [item.ref.ep_param, item])
   )
 })
 
@@ -292,7 +292,7 @@ async function resume(item: TaskDLEp | TaskDDEp) {
     if (!isTaskDLEp(result))
       lsEpDL.value.splice(
         lsEpDL.value.findIndex(
-          (item) => item.ref.ep_id === result.ref.ep_id
+          (item) => item.ref.ep_param === result.ref.ep_param
         ) >>> 0,
         1,
         result
@@ -305,7 +305,7 @@ async function resume(item: TaskDLEp | TaskDDEp) {
 }
 
 const modeEdit = ref(false)
-const listEpRemove = shallowRef<ID[]>([])
+const listEpRemove = shallowRef<string[]>([])
 const removing = ref(false)
 async function remove() {
   if (!metaMangaShowInfo.value) return
@@ -313,29 +313,28 @@ async function remove() {
   removing.value = true
 
   const meta = metaMangaShowInfo.value
-  // eslint-disable-next-line camelcase
-  const { manga_id } = meta
+  const { route } = meta
   await Promise.allSettled(
     // eslint-disable-next-line camelcase
-    listEpRemove.value.map(async (ep_id) => {
-      await IDMStore.deleteEpisode(manga_id, ep_id)
+    listEpRemove.value.map(async (ep_param) => {
+      await IDMStore.deleteEpisode(route.params.comic, ep_param)
     })
   )
 
-  const storeTask = IDMStore.queue.get(manga_id)
+  const storeTask = IDMStore.queue.get(route.params.comic)
   if (storeTask && storeTask?.size > 0)
     // eslint-disable-next-line camelcase
-    listEpRemove.value.forEach((ep_id) => {
+    listEpRemove.value.forEach((ep_param) => {
       // clear
-      storeTask.delete(ep_id)
+      storeTask.delete(ep_param)
     })
   if (lsEpDL.value)
     lsEpDL.value = lsEpDL.value.filter((item) => {
-      return !listEpRemove.value.includes(item.ref.ep_id)
+      return !listEpRemove.value.includes(item.ref.ep_param)
     })
 
   if (mapEp.value?.size === 0) {
-    IDMStore.listComicOnDisk.delete(manga_id)
+    IDMStore.listComicOnDisk.delete(route.params.comic)
   }
 
   removing.value = false
@@ -409,7 +408,7 @@ async function download() {
       if (lsEpDL.value && !isTaskDLEp(result)) {
         lsEpDL.value.splice(
           lsEpDL.value.findIndex(
-            (item) => item.ref.ep_id === result.ref.ep_id
+            (item) => item.ref.ep_param === result.ref.ep_param
           ) >>> 0,
           1,
           result
