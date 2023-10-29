@@ -48,6 +48,9 @@ export const APP_INFO: AppInfo = {
   version
 }
 
+
+export const PROTOCOL_OFFLINE = "offline://"
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Icon = FunctionalComponent<SVGAttributes, {}>
 

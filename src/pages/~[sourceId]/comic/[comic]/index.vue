@@ -21,10 +21,10 @@ meta:
       v-if="$q.screen.lt.md"
       class="fixed top-0 left-0 w-full h-full z--1"
       :class="{
-        'before-filter-blur': data?.image
+        'before-filter-blur': image
       }"
       :style="{
-        '--data-src': `url('${data?.image}')`
+        '--data-src': `url('${image}')`
       }"
     />
     <template v-if="data && !loading">
@@ -33,11 +33,11 @@ meta:
           <div
             class="before-filter-blur before-filter-blur--no-after relative py-4 flex items-center justify-center"
             :style="{
-              '--data-src': `url('${data.image}')`
+              '--data-src': `url('${image}')`
             }"
           >
             <q-img
-              :src="data.image"
+              :src="image"
               :ratio="190 / 247"
               class="w-240px <sm:w-190px max-w-30vw rounded"
               no-spinner
@@ -398,6 +398,9 @@ meta:
         {{ $t("tiep-ch-name", [lastEpRead.name]) }}
       </q-btn>
     </q-toolbar>
+
+    <!-- element is space for <BBarNetwork /> -->
+    <div v-if=!networkStore.isOnline class="text-center h-1.5em" />
   </q-footer>
 </template>
 
@@ -425,6 +428,7 @@ const followStore = useFollowStore()
 const historyStore = useHistoryStore()
 const IDMStore = useIDMStore()
 const pluginStore = usePluginStore()
+const networkStore = useNetworkStore()
 
 const api = pluginStore.useApi(toGetter(props, "sourceId"), false)
 
@@ -433,9 +437,19 @@ const GetWithCache = useWithCache(
   computed(() => `${packageName}:///manga/${props.comic}`)
 )
 
-const { data, runAsync, error, loading } = useRequest(GetWithCache, {
-  refreshDeps: [api, () => props.comic]
-})
+const { data, runAsync, error, loading } = useRequest(
+  () => {
+    return Promise.any([
+      GetWithCache(),
+      getComic(props.comic).then((res) =>
+        Object.assign(res, { __OFFLINE__: true })
+      )
+    ])
+  },
+  {
+    refreshDeps: [api, () => props.comic]
+  }
+)
 watch(error, (error) => {
   if (error?.message === "not_found")
     void router.replace({
@@ -448,6 +462,16 @@ watch(error, (error) => {
       hash: route.hash
     })
 })
+
+const image = computedAsync(
+  () => {
+    if (data.value) return fastProcessImage(data.value.image)
+  },
+  undefined,
+  {
+    onError: console.error.bind(console)
+  }
+)
 
 const title = () =>
   data.value
@@ -462,7 +486,8 @@ useSeoMeta({
   title,
   description,
   ogTitle: title,
-  ogDescription: description
+  ogDescription: description,
+  ogImage: image
 })
 
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {

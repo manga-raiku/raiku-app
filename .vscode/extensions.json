@@ -26,7 +26,8 @@
     "sourcegraph.cody-ai",
     "codeandstuff.package-json-upgrade",
     "manuth.eslint-language-service",
-    "snyk-security.snyk-vulnerability-scanner"
+    "snyk-security.snyk-vulnerability-scanner",
+    "tabnine.tabnine-vscode"
   ],
   "unwantedRecommendations": [
     "octref.vetur",

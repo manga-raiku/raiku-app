@@ -1,9 +1,5 @@
 <template>
-  <q-footer
-    v-if="$q.screen.lt.md"
-    :model-value="!route.meta.hiddenFooter"
-    class="bg-dark-page"
-  >
+  <q-footer class="bg-dark-page">
     <q-tabs
       indicator-color="transparent"
       active-color="white"

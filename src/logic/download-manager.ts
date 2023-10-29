@@ -18,7 +18,6 @@ import type { Comic, ComicChapter, ID, RouteComic } from "raiku-pgs/plugin"
 const DIR_META = "meta"
 const DIR_POSTER = "poster"
 const DIR_FILES = "files"
-const PROTOCOL_OFFLINE = "offline://"
 
 export interface ComicOnDisk extends Comic {
   readonly route: RouteComic
@@ -414,6 +413,18 @@ export async function deleteEpisode(comic: string, ep_param: string) {
       })
       .catch(() => null)
   ])
+}
+
+export async function getComic(comic: string) {
+  const hashIDManga = hashSum(comic)
+
+  return JSON.parse(
+    await Filesystem.readFile({
+      path: `${DIR_META}/${hashIDManga}.mod`,
+      directory: Directory.External,
+      encoding: Encoding.UTF8
+    }).then((res) => res.data)
+  ) as ComicOnDisk
 }
 
 export async function getEpisode(comic: string, ep_param: string) {

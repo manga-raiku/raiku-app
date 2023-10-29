@@ -2,7 +2,7 @@
   <q-layout view="hHh Lpr lFf">
     <AppHeader v-model:show-drawer="showDrawer" />
     <AppDrawer v-model="showDrawer" />
-    
+
     <q-page-container
       :class="{
         '!pt-0': route.meta.noSpaceHeader
@@ -18,7 +18,12 @@
       <NotifyOffline v-model="showNotifyOffline" />
     </q-page-container>
 
-    <AppFooter />
+    <AppFooter v-if="$q.screen.lt.md" :model-value="!route.meta.hiddenFooter" />
+    <BBarNetwork
+      v-if="
+        ($q.screen.lt.md || route.meta.hiddenFooter) && !networkStore.isOnline
+      "
+    />
 
     <PluginManagerDialog v-model="stateStore.showPluginManagerDialog" />
     <PluginAddDialog
