@@ -70,15 +70,24 @@
           :key="item.name"
           :class="[classItem ?? 'col-6 col-sm-4 col-md-3']"
         >
-          <router-link
+          <q-btn
+            flat
+            no-caps
             :to="item.route"
-            class="flex flex-nowrap bg-#f8f8f8 bg-opacity-7.5 hover:bg-opacity-12 transition-background-color duration-200 rounded-md py-1 px-4 relative cursor-pointer"
-            exact-active-class="!text-main reading text-weight-medium"
+            class="w-full bg-#f8f8f8 bg-opacity-7.5 py-1 px-4"
+            :disable="
+              offline
+                ? !mapOffline?.get(item.route.params.chap) ||
+                  isTaskDLEp(mapOffline?.get(item.route.params.chap))
+                : true
+            "
             :class="{
-              'text-#eee text-opacity-70': readsChapter?.has(item.id)
+              'text-#eee text-opacity-70': readsChapter?.has(item.id),
+              '!text-main reading text-weight-medium':
+                route.fullPath === router.resolve(item.route).fullPath
             }"
           >
-            <div class="flex-1 min-w-0">
+            <div class="flex-1 min-w-0 text-left">
               <h5 class="text-14px ellipsis">
                 {{ $t("ch-name", [item.name]) }}
               </h5>
@@ -114,7 +123,7 @@
               </span>
             </div>
             <!-- {{ mapOffline?.get(item.id) }} -->
-          </router-link>
+          </q-btn>
         </li>
 
         <slot
@@ -131,11 +140,11 @@
 
 <script lang="ts" setup>
 import "@fontsource/poppins"
-import type { QBtn } from "quasar"
-import { QTab, QTabs } from "quasar"
+import { QBtn, QTab, QTabs } from "quasar"
 import type { Chapter, Comic, ID, RouteComic } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import { isTaskDLEp } from "src/logic/download-manager"
 
 const props = defineProps<{
   classItem?: string
@@ -146,6 +155,7 @@ const props = defineProps<{
 
   readsChapter?: Set<ID>
   mapOffline?: Map<string, TaskDDEp | TaskDLEp>
+  offline: boolean
   comic?: {
     data: Comic | null | (() => Promise<Comic>)
     manga_id?: string
@@ -163,8 +173,10 @@ const emit = defineEmits<{
 const slots = useSlots()
 
 const route = useRoute()
+const router = useRouter()
 const IDMStore = useIDMStore()
 const pluginStore = usePluginStore()
+const networkStore = useNetworkStore()
 
 const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
