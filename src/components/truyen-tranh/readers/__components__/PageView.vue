@@ -57,10 +57,10 @@ const loaded = ref(false)
 const error = ref<unknown>()
 const srcImage = ref<string | undefined>(empty)
 
-function onLoad(event: Event) {
+async function onLoad(event: Event) {
   console.log("onLoad", srcImage.value, empty)
   if (srcImage.value === empty) {
-    return startLoad(props.src)
+    return startLoad(await fastProcessImage(await props.src))
   }
 
   emit("load", event.target as HTMLImageElement)
