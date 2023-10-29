@@ -201,6 +201,7 @@ meta:
           :chapters="data.chapters"
           :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
           :map-offline="mapEp"
+          :offline="data && isFlag(data, FLAG_OFFLINE)"
           :comic="{
             data,
             manga_id: data.manga_id,
@@ -411,9 +412,11 @@ import { useShare } from "@vueuse/core"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import { packageName } from "app/package.json"
 import type { ID } from "raiku-pgs/plugin"
+import { FLAG_OFFLINE } from "src/constants"
 import dayjs from "src/logic/dayjs"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 import { formatView } from "src/logic/formatView"
+import { isFlag } from "src/logic/mark-is-flag"
 
 const props = defineProps<{
   sourceId: string
@@ -442,7 +445,7 @@ const { data, runAsync, error, loading } = useRequest(
     return Promise.any([
       GetWithCache(),
       getComic(props.comic).then((res) =>
-        Object.assign(res, { __OFFLINE__: true })
+       markFlag(res, FLAG_OFFLINE)
       )
     ])
   },

@@ -1,7 +1,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable functional/no-throw-statement */
 import hashSum from "hash-sum"
-import type { Comic, ComicChapter, ID, RouteComic } from "raiku-pgs/plugin"
+import type {
+  Chapter,
+  Comic,
+  ComicChapter,
+  ID,
+  RouteComic
+} from "raiku-pgs/plugin"
 /*
 .
 ├── meta/
@@ -24,6 +30,7 @@ export interface ComicOnDisk extends Comic {
   readonly start_download_at: number
 }
 export interface ComicChapterOnDisk extends ComicChapter {
+  readonly chapters: Chapter[]
   readonly route: RouteComic
   readonly ep_name: string
   readonly ep_param: string
@@ -132,7 +139,9 @@ async function saveMetaManga(
 export function createTaskDownloadEpisode(
   route: RouteComic,
   metaManga: Comic,
-  metaEp: ComicChapter,
+  metaEp: ComicChapter & {
+    readonly chapters: Chapter[]
+  },
   ep_name: string,
   ep_param: string,
   pages: readonly string[]

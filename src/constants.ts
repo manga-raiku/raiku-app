@@ -50,6 +50,7 @@ export const APP_INFO: AppInfo = {
 
 
 export const PROTOCOL_OFFLINE = "offline://"
+export const FLAG_OFFLINE = '__OFFLINE__'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Icon = FunctionalComponent<SVGAttributes, {}>

@@ -291,6 +291,7 @@ meta:
                 :chapters="data.chapters"
                 :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
                 :map-offline="mapEp"
+                :offline="data && isFlag(data, FLAG_OFFLINE)"
                 :comic="{
                   data: comicData,
                   manga_id: data?.manga_id,
@@ -446,6 +447,7 @@ meta:
                   v-memo="[server === index]"
                   :outline="server === index"
                   :color="server === index ? 'main-3' : undefined"
+                  :disable="data && isFlag(data, FLAG_OFFLINE)"
                   @click="server = index"
                 />
               </div>
@@ -553,6 +555,10 @@ meta:
         <!-- fluent:full-screen-minimize-24-regular -->
       </q-btn>
     </q-toolbar>
+
+
+    <!-- element is space for <BBarNetwork /> -->
+    <div v-if=!networkStore.isOnline class="text-center h-1.5em" />
   </q-footer>
   <!-- <p class="whitespace-pre-wrap">{{ data }}</p> -->
 </template>
@@ -566,7 +572,10 @@ import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
 import type { Comic, ID } from "raiku-pgs/plugin"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
-import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import { FLAG_OFFLINE } from "src/constants"
+import type { ComicChapterOnDisk, TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import { isFlag } from "src/logic/mark-is-flag"
+
 
 const props = defineProps<{
   sourceId: string
@@ -584,6 +593,7 @@ const router = useRouter()
 const i18n = useI18n()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 const pluginStore = usePluginStore()
+const networkStore = useNetworkStore()
 
 const api = pluginStore.useApi(toGetter(props, "sourceId"), false)
 
@@ -597,18 +607,28 @@ const GetWithCache = useWithCache(
     ),
   computed(() => `${packageName}:///manga/${props.comic + "/" + props.chap}`)
 )
-console.log(api.value, props)
-// let disableReactiveParams = false
-const { data, runAsync, loading, error } = useRequest(GetWithCache, {
-  refreshDeps: [api, () => props.comic, () => props.chap],
-  async refreshDepsAction() {
-    if (route.query.no_restore_scroll) return
 
-    await runAsync()
-    currentPage.value = 0
-    readerVerticalRef.value?.reset()
+// let disableReactiveParams = false
+const { data, runAsync, loading, error } = useRequest(
+  () => {
+    return Promise.any([
+      GetWithCache(),
+      getEpisode(props.comic, props.chap).then((res) =>
+       markFlag(res, FLAG_OFFLINE)
+      )
+    ])
+  },
+  {
+    refreshDeps: [api, () => props.comic, () => props.chap],
+    async refreshDepsAction() {
+      if (route.query.no_restore_scroll) return
+
+      await runAsync()
+      currentPage.value = 0
+      readerVerticalRef.value?.reset()
+    }
   }
-})
+)
 watch(error, (error) => {
   if (error?.message === "not_found")
     void router.replace({
@@ -767,6 +787,7 @@ const serversReady = computedAsync(
 watch(serversReady, () => void (server.value = 0))
 const pages = computedAsync(
   async () => {
+    if (data.value && isFlag(data, FLAG_OFFLINE)) return (data.value as ComicChapterOnDisk).pages_offline
     if (data.value) {
       const s = server.value
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -778,7 +799,7 @@ const pages = computedAsync(
     onError: console.error.bind(console)
   }
 )
-console.log(pages)
+
 const singlePage = ref(false)
 const rightToLeft = ref(false)
 const scrollingMode = ref(true)
