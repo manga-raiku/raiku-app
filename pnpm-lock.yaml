@@ -144,8 +144,8 @@ importers:
         specifier: ^9.2.2
         version: 9.2.2(vue@3.2.45)
       vue-request:
-        specifier: 2.0.3
-        version: 2.0.3(vue@3.2.45)
+        specifier: 2.0.4
+        version: 2.0.4(vue@3.2.45)
       vue-router:
         specifier: ^4.2.5
         version: 4.2.5(vue@3.2.45)
@@ -16335,8 +16335,8 @@ packages:
       '@vue/devtools-api': 6.5.0
       vue: 3.2.45
 
-  /vue-request@2.0.3(vue@3.2.45):
-    resolution: {integrity: sha512-eO90vlfrm1JFReurVjorwie/NvIUT6S5wvxr0VxpC1GoTDWZl/dBewxdScQh98HxZNeYDfjvSS8FiQISg8thww==}
+  /vue-request@2.0.4(vue@3.2.45):
+    resolution: {integrity: sha512-+Tu5rDy6ItF9UdD21Mmbjiq5Pq6NZSN9juH72hNQTMn1whHh4KZPTKWVLK2YS4nzbuEnPs+82G91AA2Fgd93mg==}
     engines: {node: '>=14'}
     peerDependencies:
       '@vue/composition-api': ^1.0.0-rc.1
