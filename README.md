@@ -91,6 +91,7 @@ quasar build
 
 - [x] multiple pre search
 - [ ] control plugin separate
+- [ ] fix url with proxy wrong
 
 ### Customize the configuration
 
