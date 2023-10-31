@@ -401,7 +401,7 @@ meta:
     </q-toolbar>
 
     <!-- element is space for <BBarNetwork /> -->
-    <div v-if=!networkStore.isOnline class="text-center h-1.5em" />
+    <div v-if="!networkStore.isOnline" class="text-center h-1.5em" />
   </q-footer>
 </template>
 
@@ -442,12 +442,8 @@ const GetWithCache = useWithCache(
 
 const { data, runAsync, error, loading } = useRequest(
   () => {
-    return Promise.any([
-      GetWithCache(),
-      getComic(props.comic).then((res) =>
-       markFlag(res, FLAG_OFFLINE)
-      )
-    ])
+    if (networkStore.isOnline) return GetWithCache()
+    return getComic(props.comic).then((res) => markFlag(res, FLAG_OFFLINE))
   },
   {
     refreshDeps: [api, () => props.comic]

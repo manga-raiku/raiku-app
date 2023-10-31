@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import empty from "src/assets/empty.png"
+import empty from "src/assets/empty.png?base64"
 
 defineOptions({
   inheritAttrs: true
@@ -58,7 +58,7 @@ const error = ref<unknown>()
 const srcImage = ref<string | undefined>(empty)
 
 async function onLoad(event: Event) {
-  console.log("onLoad", srcImage.value, empty)
+  console.log("onLoad", srcImage.value?.slice(0, 120), empty)
   if (srcImage.value === empty) {
     return startLoad(await fastProcessImage(await props.src))
   }

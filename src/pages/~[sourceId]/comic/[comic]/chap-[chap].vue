@@ -556,9 +556,8 @@ meta:
       </q-btn>
     </q-toolbar>
 
-
     <!-- element is space for <BBarNetwork /> -->
-    <div v-if=!networkStore.isOnline class="text-center h-1.5em" />
+    <div v-if="!networkStore.isOnline" class="text-center h-1.5em" />
   </q-footer>
   <!-- <p class="whitespace-pre-wrap">{{ data }}</p> -->
 </template>
@@ -573,9 +572,12 @@ import type { QDialog, QMenu } from "quasar"
 import type { Comic, ID } from "raiku-pgs/plugin"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { FLAG_OFFLINE } from "src/constants"
-import type { ComicChapterOnDisk, TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import type {
+  ComicChapterOnDisk,
+  TaskDDEp,
+  TaskDLEp
+} from "src/logic/download-manager"
 import { isFlag } from "src/logic/mark-is-flag"
-
 
 const props = defineProps<{
   sourceId: string
@@ -611,12 +613,10 @@ const GetWithCache = useWithCache(
 // let disableReactiveParams = false
 const { data, runAsync, loading, error } = useRequest(
   () => {
-    return Promise.any([
-      GetWithCache(),
-      getEpisode(props.comic, props.chap).then((res) =>
-       markFlag(res, FLAG_OFFLINE)
-      )
-    ])
+    if (networkStore.isOnline) return GetWithCache()
+    return getEpisode(props.comic, props.chap).then((res) =>
+      markFlag(res, FLAG_OFFLINE)
+    )
   },
   {
     refreshDeps: [api, () => props.comic, () => props.chap],
@@ -787,12 +787,15 @@ const serversReady = computedAsync(
 watch(serversReady, () => void (server.value = 0))
 const pages = computedAsync(
   async () => {
-    if (data.value && isFlag(data, FLAG_OFFLINE)) return (data.value as ComicChapterOnDisk).pages_offline
-    if (data.value) {
+    if (!data.value)return
+debugger
+    if (isFlag(data.value, FLAG_OFFLINE))
+      return (data.value as ComicChapterOnDisk).pages_offline
+
       const s = server.value
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return (await api.value)["servers:parse"](s, toRaw(data.value!))
-    }
+
   },
   undefined,
   {
