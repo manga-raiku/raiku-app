@@ -38,7 +38,7 @@
     "release": "bumpp package.json --commit \"chore: release npm `raiku-pgs` `%s`\" --tag \"raiku-pgs@%s\" && pnpm publish"
   },
   "devDependencies": {
-    "@rollup/plugin-replace": "^5.0.3",
+    "@rollup/plugin-replace": "^5.0.5",
     "bumpp": "^9.2.0",
     "client-ext-animevsub-helper": "^1.0.23",
     "esbuild": "^0.19.2",
