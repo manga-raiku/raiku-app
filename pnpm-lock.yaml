@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@capacitor/device':
         specifier: ^5.0.6
-        version: 5.0.6(@capacitor/core@5.4.2)
+        version: 5.0.6(@capacitor/core@5.5.1)
       '@capacitor/network':
         specifier: ^5.0.6
-        version: 5.0.6(@capacitor/core@5.4.2)
+        version: 5.0.6(@capacitor/core@5.5.1)
       '@fontsource/caveat':
         specifier: ^4.5.10
         version: 4.5.10
@@ -43,7 +43,7 @@ importers:
         version: 2.33.1
       '@tachibana-shin/capacitor-filesystem':
         specifier: ^5.0.2
-        version: 5.0.2(@capacitor/core@5.4.2)
+        version: 5.0.2(@capacitor/core@5.5.1)
       '@unhead/vue':
         specifier: ^1.6.2
         version: 1.6.2(vue@3.2.45)
@@ -152,7 +152,7 @@ importers:
     devDependencies:
       '@capacitor/app':
         specifier: ^5.0.6
-        version: 5.0.6(@capacitor/core@5.4.2)
+        version: 5.0.6(@capacitor/core@5.5.1)
       '@iconify-json/ant-design':
         specifier: ^1.1.10
         version: 1.1.10
@@ -462,25 +462,25 @@ importers:
     dependencies:
       '@capacitor/android':
         specifier: ^5.4.2
-        version: 5.4.2(@capacitor/core@5.4.2)
+        version: 5.4.2(@capacitor/core@5.5.1)
       '@capacitor/app':
         specifier: ^5.0.6
-        version: 5.0.6(@capacitor/core@5.4.2)
+        version: 5.0.6(@capacitor/core@5.5.1)
       '@capacitor/cli':
         specifier: ^5.4.2
         version: 5.4.2
       '@capacitor/core':
-        specifier: ^5.4.2
-        version: 5.4.2
+        specifier: ^5.5.1
+        version: 5.5.1
       '@capacitor/device':
         specifier: ^5.0.6
-        version: 5.0.6(@capacitor/core@5.4.2)
+        version: 5.0.6(@capacitor/core@5.5.1)
       '@capacitor/ios':
         specifier: ^5.4.2
-        version: 5.4.2(@capacitor/core@5.4.2)
+        version: 5.4.2(@capacitor/core@5.5.1)
       '@capacitor/network':
         specifier: ^5.0.6
-        version: 5.0.6(@capacitor/core@5.4.2)
+        version: 5.0.6(@capacitor/core@5.5.1)
       '@fontsource/caveat':
         specifier: ^5.0.12
         version: 5.0.12
@@ -492,7 +492,7 @@ importers:
         version: 2.3.0
       '@tachibana-shin/capacitor-filesystem':
         specifier: ^5.0.2
-        version: 5.0.2(@capacitor/core@5.4.2)
+        version: 5.0.2(@capacitor/core@5.5.1)
 
 packages:
 
@@ -2699,20 +2699,20 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
 
-  /@capacitor/android@5.4.2(@capacitor/core@5.4.2):
+  /@capacitor/android@5.4.2(@capacitor/core@5.5.1):
     resolution: {integrity: sha512-PlOTWpInXPnrbjoe59fA/a8wSfcoGxfkQQ+Jg4REZKOQelYHUQUP9CI1kn3YvRYNhFuWxnOC8NjCu+67rX9n8Q==}
     peerDependencies:
       '@capacitor/core': ^5.4.0
     dependencies:
-      '@capacitor/core': 5.4.2
+      '@capacitor/core': 5.5.1
     dev: false
 
-  /@capacitor/app@5.0.6(@capacitor/core@5.4.2):
+  /@capacitor/app@5.0.6(@capacitor/core@5.5.1):
     resolution: {integrity: sha512-6ZXVdnNmaYILasC/RjQw+yfTmq2ZO7Q3v5lFcDVfq3PFGnybyYQh+RstBrYri+376OmXOXxBD7E6UxBhrMzXGA==}
     peerDependencies:
       '@capacitor/core': ^5.0.0
     dependencies:
-      '@capacitor/core': 5.4.2
+      '@capacitor/core': 5.5.1
 
   /@capacitor/cli@5.4.2:
     resolution: {integrity: sha512-ck2DC9hEai2BWsBM08WN98xjC2LDusSzUWQySTNQ81S/cQUpSPXk9YX+KTd3rP/kI/sXpOuDEe7SSS7qkD1a2w==}
@@ -2740,33 +2740,33 @@ packages:
       - supports-color
     dev: false
 
-  /@capacitor/core@5.4.2:
-    resolution: {integrity: sha512-XbR1vldJFzBWHeoGPpgfNy3Zhjf0NxXdHEaGNANWVBg0ZWG2gwFr1dcRALUUQtbwrEEkCCNiLYg4YiQPRk7SEQ==}
+  /@capacitor/core@5.5.1:
+    resolution: {integrity: sha512-VG6Iv8Q7ZAbvjodxpvjcSe0jfxUwZXnvjbi93ehuJ6eYP8U926qLSXyrT/DToZq+F6v/HyGyVgn3mrE/9jW2Tg==}
     dependencies:
       tslib: 2.6.2
 
-  /@capacitor/device@5.0.6(@capacitor/core@5.4.2):
+  /@capacitor/device@5.0.6(@capacitor/core@5.5.1):
     resolution: {integrity: sha512-tmjK0H8IKbDLMcmzZzJPbV+9yLkKJ76QOdz4A7fZAOYx2GnFHsFngxldq/wKotGAJuDX/ih3ZzHNrzVguzlv2g==}
     peerDependencies:
       '@capacitor/core': ^5.0.0
     dependencies:
-      '@capacitor/core': 5.4.2
+      '@capacitor/core': 5.5.1
     dev: false
 
-  /@capacitor/ios@5.4.2(@capacitor/core@5.4.2):
+  /@capacitor/ios@5.4.2(@capacitor/core@5.5.1):
     resolution: {integrity: sha512-KsICm57H7rUOcQ+V7IOIPe87VOiXGWFrsCqAYxDWAS++hxTR7sn8Z0pcq7Ir2xS6as0ct1eZva9BokykpYaUXQ==}
     peerDependencies:
       '@capacitor/core': ^5.4.0
     dependencies:
-      '@capacitor/core': 5.4.2
+      '@capacitor/core': 5.5.1
     dev: false
 
-  /@capacitor/network@5.0.6(@capacitor/core@5.4.2):
+  /@capacitor/network@5.0.6(@capacitor/core@5.5.1):
     resolution: {integrity: sha512-E//cq9NEvFFiLyptK0ha4B8OytdWpSqvtUo5L2uiqcoADWUnl5d7aK45M09eyd347HchICeEdIkO31n6CNxyYA==}
     peerDependencies:
       '@capacitor/core': ^5.0.0
     dependencies:
-      '@capacitor/core': 5.4.2
+      '@capacitor/core': 5.5.1
     dev: false
 
   /@colors/colors@1.5.0:
@@ -5109,12 +5109,12 @@ packages:
     dependencies:
       defer-to-connect: 2.0.1
 
-  /@tachibana-shin/capacitor-filesystem@5.0.2(@capacitor/core@5.4.2):
+  /@tachibana-shin/capacitor-filesystem@5.0.2(@capacitor/core@5.5.1):
     resolution: {integrity: sha512-jm5RMZ7LjVr0W9k0UGVMGNBxocYfkTSqv2REBNDOnTj9oUChEIH9ye4DEDwnqTVe3hC9rLnbc5oCMxlUv+3VNw==}
     peerDependencies:
       '@capacitor/core': ^5.0.0
     dependencies:
-      '@capacitor/core': 5.4.2
+      '@capacitor/core': 5.5.1
     dev: false
 
   /@tachibana-shin/eslint-config@1.0.7(eslint@8.33.0)(typescript@5.0.4):
