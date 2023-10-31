@@ -12,7 +12,7 @@
     "@capacitor/device": "^5.0.6",
     "@capacitor/ios": "^5.4.2",
     "@capacitor/network": "^5.0.6",
-    "@fontsource/caveat": "^5.0.12",
+    "@fontsource/caveat": "^5.0.15",
     "@quasar/app-vite": "^1.6.2",
     "@quasar/cli": "^2.3.0",
     "@tachibana-shin/capacitor-filesystem": "^5.0.2"

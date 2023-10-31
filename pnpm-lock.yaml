@@ -15,8 +15,8 @@ importers:
         specifier: ^5.0.6
         version: 5.0.6(@capacitor/core@5.5.1)
       '@fontsource/caveat':
-        specifier: ^4.5.10
-        version: 4.5.10
+        specifier: ^5.0.15
+        version: 5.0.15
       '@fontsource/poppins':
         specifier: ^5.0.8
         version: 5.0.8
@@ -482,8 +482,8 @@ importers:
         specifier: ^5.0.6
         version: 5.0.6(@capacitor/core@5.5.1)
       '@fontsource/caveat':
-        specifier: ^5.0.12
-        version: 5.0.12
+        specifier: ^5.0.15
+        version: 5.0.15
       '@quasar/app-vite':
         specifier: ^1.6.2
         version: 1.6.2(eslint@8.33.0)(pinia@2.0.29)(quasar@2.12.2)(rollup@2.77.3)(vue-router@4.2.5)(vue@3.3.4)(workbox-build@6.6.0)
@@ -3508,12 +3508,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /@fontsource/caveat@4.5.10:
-    resolution: {integrity: sha512-uTg0I4hBXfOzjpUQlGwdmdlcLUlwSNXlux52IwFq7TCHlyHMAHPEqP1zDyg8lWKD86L7wOyv9jmIK/Iy5erndg==}
-    dev: false
-
-  /@fontsource/caveat@5.0.12:
-    resolution: {integrity: sha512-KQxkz/v0duH5tJaZhjoYwHLFsO/TFA1sZ6FYhKErL/bW7rS7JYTaHH9IMZ/hNGBtJmuSZ6kr7sYw9RvG6eUojA==}
+  /@fontsource/caveat@5.0.15:
+    resolution: {integrity: sha512-dQo7vlq0Z+aevMzVftx4hsIcbGU9Py6xxRhSBmt+iy3f7/0Wxwv1S+j5gCBZFTQ/f7Z5Kqf5Oo+b5lMyin/o2g==}
     dev: false
 
   /@fontsource/poppins@5.0.8:
