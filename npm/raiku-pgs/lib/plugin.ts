@@ -12,6 +12,7 @@ export { parseQuery } from "./plugin/parseQuery"
 export { normalizeChName } from "./plugin/logic/normalize-ch-name"
 export { pathIsHome } from "./plugin/logic/path-is-home"
 export { removeExt } from "./plugin/logic/remove-ext"
+export { upgradeToHttps } from "./plugin/logic/upgrade-to-https"
 
 // composition apis
 export { defineApi } from "./plugin/composition-apis/define-api"
