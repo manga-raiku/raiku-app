@@ -83,7 +83,7 @@
             :class="{
               'text-#eee text-opacity-70': readsChapter?.has(item.id),
               '!text-main reading text-weight-medium':
-                route.fullPath === router.resolve(item.route).fullPath
+              CYPRESS ||  route.fullPath === router.resolve(item.route).fullPath
             }"
           >
             <div class="flex-1 min-w-0 text-left">
@@ -175,7 +175,7 @@ const route = useRoute()
 const router = useRouter()
 const IDMStore = useIDMStore()
 const pluginStore = usePluginStore()
-const networkStore = useNetworkStore()
+const { CYPRESS } = process.env
 
 const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {

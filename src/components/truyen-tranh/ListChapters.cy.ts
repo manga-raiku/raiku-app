@@ -2,6 +2,7 @@
 import { createPinia, setActivePinia } from "pinia"
 import type { Chapter } from "raiku-pgs/plugin"
 
+
 import ListChapters from "./ListChapters.vue"
 
 setActivePinia(createPinia())
@@ -336,6 +337,7 @@ const chapters_long: Chapter[] = [
 ].map((item) => {
   return {
     ...item,
+    route,
     updated_at: item.update,
     id: "0",
     views: null
@@ -510,6 +512,7 @@ describe("ListChapters", () => {
     ].map((item) => {
       return {
         ...item,
+        route,
         updated_at: item.update,
         id: "0",
         views: null
