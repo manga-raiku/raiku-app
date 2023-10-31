@@ -411,10 +411,14 @@ import { useShare } from "@vueuse/core"
 // import Like from "src/apis/runs/frontend/regiter-like"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import { packageName } from "app/package.json"
-import type { ID } from "raiku-pgs/plugin"
+import type { Comic, ID } from "raiku-pgs/plugin"
 import { FLAG_OFFLINE } from "src/constants"
 import dayjs from "src/logic/dayjs"
-import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import type {
+  ComicOnDisk,
+  TaskDDEp,
+  TaskDLEp
+} from "src/logic/download-manager"
 import { formatView } from "src/logic/formatView"
 import { isFlag } from "src/logic/mark-is-flag"
 
@@ -440,7 +444,7 @@ const GetWithCache = useWithCache(
   computed(() => `${packageName}:///manga/${props.comic}`)
 )
 
-const { data, runAsync, error, loading } = useRequest(
+const { data, runAsync, error, loading } = useRequest<Comic | ComicOnDisk>(
   () => {
     if (networkStore.isOnline) return GetWithCache()
     return getComic(props.comic).then((res) => markFlag(res, FLAG_OFFLINE))

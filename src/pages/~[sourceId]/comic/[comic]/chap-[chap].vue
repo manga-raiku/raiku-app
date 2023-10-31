@@ -569,7 +569,7 @@ import { packageName } from "app/package.json"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
-import type { Comic, ID } from "raiku-pgs/plugin"
+import type { Chapter, Comic, ComicChapter, ID } from "raiku-pgs/plugin"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { FLAG_OFFLINE } from "src/constants"
 import type {
@@ -611,7 +611,12 @@ const GetWithCache = useWithCache(
 )
 
 // let disableReactiveParams = false
-const { data, runAsync, loading, error } = useRequest(
+const { data, runAsync, loading, error } = useRequest<
+  | (ComicChapter & {
+      readonly chapters: Chapter[]
+    })
+  | ComicChapterOnDisk
+>(
   () => {
     if (networkStore.isOnline) return GetWithCache()
     return getEpisode(props.comic, props.chap).then((res) =>
@@ -787,15 +792,14 @@ const serversReady = computedAsync(
 watch(serversReady, () => void (server.value = 0))
 const pages = computedAsync(
   async () => {
-    if (!data.value)return
-debugger
+    if (!data.value) return
+    debugger
     if (isFlag(data.value, FLAG_OFFLINE))
       return (data.value as ComicChapterOnDisk).pages_offline
 
-      const s = server.value
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return (await api.value)["servers:parse"](s, toRaw(data.value!))
-
+    const s = server.value
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return (await api.value)["servers:parse"](s, toRaw(data.value!))
   },
   undefined,
   {

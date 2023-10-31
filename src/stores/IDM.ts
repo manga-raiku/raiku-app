@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import type { Comic, ComicChapter, RouteComic } from "raiku-pgs/plugin"
+import type { Chapter, Comic, ComicChapter, RouteComic } from "raiku-pgs/plugin"
 import type {
   ComicOnDisk,
   TaskDDEp,
@@ -48,7 +48,9 @@ export const useIDMStore = defineStore("IDM", () => {
   async function download(
     route: RouteComic,
     metaManga: Comic,
-    metaEp: ComicChapter,
+    metaEp: ComicChapter & {
+      chapters: Chapter[]
+    },
     // eslint-disable-next-line camelcase
     ep_name: string,
     // eslint-disable-next-line camelcase

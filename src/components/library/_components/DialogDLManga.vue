@@ -160,6 +160,7 @@
             manga_id: metaMangaShowInfo?.manga_id,
             route: metaMangaShowInfo?.route ?? null
           }"
+          :offline="!networkStore.isOnline"
           class-panels="px-1 overflow-y-auto scrollbar-custom"
         >
           <template #item="{ data }">
@@ -255,9 +256,11 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
 
   if (meta) {
     return shallowReactive(
-      (await getListEpisodes(meta.route.params.comic).catch(() => [])).map((ref) => ({
-        ref
-      }))
+      (await getListEpisodes(meta.route.params.comic).catch(() => [])).map(
+        (ref) => ({
+          ref
+        })
+      )
     )
   }
 })

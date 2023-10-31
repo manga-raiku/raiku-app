@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import hashSum from "hash-sum"
-import type { Comic, ComicChapter, RouteComic } from "raiku-pgs/plugin"
+import type { Chapter, Comic, ComicChapter, RouteComic } from "raiku-pgs/plugin"
 import { cleanup, exists, readdir, readFile } from "test/vitest/utils"
 import { expect, vi } from "vitest"
 import createFetchMock from "vitest-fetch-mock"
@@ -80,7 +80,9 @@ const metaManga: Comic = {
   comments_count: 1,
   comments_pages: 1
 }
-const metaEp: ComicChapter = {
+const metaEp: ComicChapter & {
+  chapters: Chapter[]
+} = {
   name: manga_id,
   image: manga_image,
   manga_id,
@@ -96,13 +98,14 @@ const metaEp: ComicChapter = {
   pages: pages.map((src) => ({ src })),
   cdn: "//cdn.ntcdntempv26.com",
   cdn2: "//cdn.ntcdntempv3.com",
+  chapters: <Chapter[]>[],
   comments: [],
   comments_count: 29,
   comments_pages: 1
 }
 
-const hashIDManga = hashSum(manga_id)
-const hashIDEp = hashSum(ep_id)
+const hashIDManga = hashSum(route.params.comic)
+const hashIDEp = hashSum(ep_param)
 
 function patchFetch() {
   // continue download
@@ -191,7 +194,7 @@ describe("download-manager", () => {
     ).toEqual({
       ...metaManga,
       route,
-      image: "offline:///poster/8daa1a0a",
+      image: "offline:///poster/4523dfa2",
       start_download_at: 0
     })
 
@@ -208,14 +211,14 @@ describe("download-manager", () => {
       start_download_at: 0,
       downloaded: 8,
       pages_offline: [
-        "offline://files/8daa1a0a/2d0aa938/1a96284a",
-        "offline://files/8daa1a0a/2d0aa938/1a96284b",
-        "offline://files/8daa1a0a/2d0aa938/1a96284c",
-        "offline://files/8daa1a0a/2d0aa938/1a96284d",
-        "offline://files/8daa1a0a/2d0aa938/1a96284e",
-        "offline://files/8daa1a0a/2d0aa938/1a96284f",
-        "offline://files/8daa1a0a/2d0aa938/1a962850",
-        "offline://files/8daa1a0a/2d0aa938/1a962851"
+        "offline://files/4523dfa2/62c5450c/1a96284a",
+        "offline://files/4523dfa2/62c5450c/1a96284b",
+        "offline://files/4523dfa2/62c5450c/1a96284c",
+        "offline://files/4523dfa2/62c5450c/1a96284d",
+        "offline://files/4523dfa2/62c5450c/1a96284e",
+        "offline://files/4523dfa2/62c5450c/1a96284f",
+        "offline://files/4523dfa2/62c5450c/1a962850",
+        "offline://files/4523dfa2/62c5450c/1a962851"
       ]
     })
 
@@ -281,11 +284,11 @@ describe("download-manager", () => {
       start_download_at: 0,
       downloaded: 5,
       pages_offline: [
-        "offline://files/8daa1a0a/2d0aa938/1a96284a",
-        "offline://files/8daa1a0a/2d0aa938/1a96284b",
-        "offline://files/8daa1a0a/2d0aa938/1a96284c",
-        "offline://files/8daa1a0a/2d0aa938/1a96284d",
-        "offline://files/8daa1a0a/2d0aa938/1a96284e",
+        "offline://files/4523dfa2/62c5450c/1a96284a",
+        "offline://files/4523dfa2/62c5450c/1a96284b",
+        "offline://files/4523dfa2/62c5450c/1a96284c",
+        "offline://files/4523dfa2/62c5450c/1a96284d",
+        "offline://files/4523dfa2/62c5450c/1a96284e",
         "https://localhost/pages/6.png",
         "https://localhost/pages/7.png",
         "https://localhost/pages/8.png"
@@ -349,11 +352,11 @@ describe("download-manager", () => {
       start_download_at: 0,
       downloaded: 5,
       pages_offline: [
-        "offline://files/8daa1a0a/2d0aa938/1a96284a",
-        "offline://files/8daa1a0a/2d0aa938/1a96284b",
-        "offline://files/8daa1a0a/2d0aa938/1a96284c",
-        "offline://files/8daa1a0a/2d0aa938/1a96284d",
-        "offline://files/8daa1a0a/2d0aa938/1a96284e",
+        "offline://files/4523dfa2/62c5450c/1a96284a",
+        "offline://files/4523dfa2/62c5450c/1a96284b",
+        "offline://files/4523dfa2/62c5450c/1a96284c",
+        "offline://files/4523dfa2/62c5450c/1a96284d",
+        "offline://files/4523dfa2/62c5450c/1a96284e",
         "https://localhost/pages/6.png",
         "https://localhost/pages/7.png",
         "https://localhost/pages/8.png"
@@ -413,14 +416,14 @@ describe("download-manager", () => {
       start_download_at: 0,
       downloaded: 8,
       pages_offline: [
-        "offline://files/8daa1a0a/2d0aa938/1a96284a",
-        "offline://files/8daa1a0a/2d0aa938/1a96284b",
-        "offline://files/8daa1a0a/2d0aa938/1a96284c",
-        "offline://files/8daa1a0a/2d0aa938/1a96284d",
-        "offline://files/8daa1a0a/2d0aa938/1a96284e",
-        "offline://files/8daa1a0a/2d0aa938/1a96284f",
-        "offline://files/8daa1a0a/2d0aa938/1a962850",
-        "offline://files/8daa1a0a/2d0aa938/1a962851"
+        "offline://files/4523dfa2/62c5450c/1a96284a",
+        "offline://files/4523dfa2/62c5450c/1a96284b",
+        "offline://files/4523dfa2/62c5450c/1a96284c",
+        "offline://files/4523dfa2/62c5450c/1a96284d",
+        "offline://files/4523dfa2/62c5450c/1a96284e",
+        "offline://files/4523dfa2/62c5450c/1a96284f",
+        "offline://files/4523dfa2/62c5450c/1a962850",
+        "offline://files/4523dfa2/62c5450c/1a962851"
       ]
     })
   })
@@ -497,14 +500,14 @@ describe("download-manager", () => {
       start_download_at: 0,
       downloaded: 8,
       pages_offline: [
-        "offline://files/8daa1a0a/2d0aa938/1a96284a",
-        "offline://files/8daa1a0a/2d0aa938/1a96284b",
-        "offline://files/8daa1a0a/2d0aa938/1a96284c",
-        "offline://files/8daa1a0a/2d0aa938/1a96284d",
-        "offline://files/8daa1a0a/2d0aa938/1a96284e",
-        "offline://files/8daa1a0a/2d0aa938/1a96284f",
-        "offline://files/8daa1a0a/2d0aa938/1a962850",
-        "offline://files/8daa1a0a/2d0aa938/1a962851"
+        "offline://files/4523dfa2/62c5450c/1a96284a",
+        "offline://files/4523dfa2/62c5450c/1a96284b",
+        "offline://files/4523dfa2/62c5450c/1a96284c",
+        "offline://files/4523dfa2/62c5450c/1a96284d",
+        "offline://files/4523dfa2/62c5450c/1a96284e",
+        "offline://files/4523dfa2/62c5450c/1a96284f",
+        "offline://files/4523dfa2/62c5450c/1a962850",
+        "offline://files/4523dfa2/62c5450c/1a962851"
       ]
     })
   })
@@ -525,18 +528,23 @@ describe("download-manager", () => {
       {
         ...metaManga,
         route,
-        image: "offline:///poster/8daa1a0a",
+        image: "offline:///poster/4523dfa2",
         start_download_at: 0
       }
     ])
 
     const meta2 = {
-      ...metaManga,
-      manga_id: "2"
+      ...metaManga
     }
 
     await createTaskDownloadEpisode(
-      route,
+      {
+        ...route,
+        params: {
+          ...route.params,
+          comic: "runn"
+        }
+      },
       meta2,
       metaEp,
       ep_name,
@@ -547,15 +555,21 @@ describe("download-manager", () => {
     expect(await getListManga()).toEqual([
       {
         ...metaManga,
-        route,
-        manga_id: "2",
-        image: "offline:///poster/8daa1a08",
+        route: {
+          ...route,
+          params: {
+            ...route.params,
+            comic: "runn"
+          }
+        },
+        manga_id: "1",
+        image: "offline:///poster/2d293839",
         start_download_at: 0
       },
       {
         ...metaManga,
         route,
-        image: "offline:///poster/8daa1a0a",
+        image: "offline:///poster/4523dfa2",
         start_download_at: 0
       }
     ])
@@ -572,7 +586,7 @@ describe("download-manager", () => {
     ).start()
 
     // ok get list
-    expect(await getListEpisodes(manga_id)).toEqual([
+    expect(await getListEpisodes(route.params.comic)).toEqual([
       {
         ...metaEp,
         ep_name,
@@ -581,14 +595,14 @@ describe("download-manager", () => {
         start_download_at: 0,
         downloaded: 8,
         pages_offline: [
-          "offline://files/8daa1a0a/2d0aa938/1a96284a",
-          "offline://files/8daa1a0a/2d0aa938/1a96284b",
-          "offline://files/8daa1a0a/2d0aa938/1a96284c",
-          "offline://files/8daa1a0a/2d0aa938/1a96284d",
-          "offline://files/8daa1a0a/2d0aa938/1a96284e",
-          "offline://files/8daa1a0a/2d0aa938/1a96284f",
-          "offline://files/8daa1a0a/2d0aa938/1a962850",
-          "offline://files/8daa1a0a/2d0aa938/1a962851"
+          "offline://files/4523dfa2/62c5450c/1a96284a",
+          "offline://files/4523dfa2/62c5450c/1a96284b",
+          "offline://files/4523dfa2/62c5450c/1a96284c",
+          "offline://files/4523dfa2/62c5450c/1a96284d",
+          "offline://files/4523dfa2/62c5450c/1a96284e",
+          "offline://files/4523dfa2/62c5450c/1a96284f",
+          "offline://files/4523dfa2/62c5450c/1a962850",
+          "offline://files/4523dfa2/62c5450c/1a962851"
         ]
       }
     ])
@@ -597,13 +611,32 @@ describe("download-manager", () => {
     await createTaskDownloadEpisode(
       route,
       metaManga,
-      { ...metaEp, ep_id: metaEp.ep_id + 1 + "" },
+      { ...metaEp },
       ep_name,
-      ep_param,
+      ep_param + 1,
       pages
     ).start()
 
-    expect(await getListEpisodes(manga_id)).toEqual([
+    expect(await getListEpisodes(route.params.comic)).toEqual([
+      {
+        ...metaEp,
+        route,
+        ep_name,
+        ep_param: ep_param + 1,
+        downloaded: 8,
+        ep_id,
+        pages_offline: [
+          `offline://files/${hashIDManga}/143946b6/1a96284a`,
+          `offline://files/${hashIDManga}/143946b6/1a96284b`,
+          `offline://files/${hashIDManga}/143946b6/1a96284c`,
+          `offline://files/${hashIDManga}/143946b6/1a96284d`,
+          `offline://files/${hashIDManga}/143946b6/1a96284e`,
+          `offline://files/${hashIDManga}/143946b6/1a96284f`,
+          `offline://files/${hashIDManga}/143946b6/1a962850`,
+          `offline://files/${hashIDManga}/143946b6/1a962851`
+        ],
+        start_download_at: 1
+      },
       {
         ...metaEp,
         route,
@@ -612,34 +645,15 @@ describe("download-manager", () => {
         start_download_at: 0,
         downloaded: 8,
         pages_offline: [
-          "offline://files/8daa1a0a/2d0aa938/1a96284a",
-          "offline://files/8daa1a0a/2d0aa938/1a96284b",
-          "offline://files/8daa1a0a/2d0aa938/1a96284c",
-          "offline://files/8daa1a0a/2d0aa938/1a96284d",
-          "offline://files/8daa1a0a/2d0aa938/1a96284e",
-          "offline://files/8daa1a0a/2d0aa938/1a96284f",
-          "offline://files/8daa1a0a/2d0aa938/1a962850",
-          "offline://files/8daa1a0a/2d0aa938/1a962851"
+          `offline://files/${hashIDManga}/${hashIDEp}/1a96284a`,
+          `offline://files/${hashIDManga}/${hashIDEp}/1a96284b`,
+          `offline://files/${hashIDManga}/${hashIDEp}/1a96284c`,
+          `offline://files/${hashIDManga}/${hashIDEp}/1a96284d`,
+          `offline://files/${hashIDManga}/${hashIDEp}/1a96284e`,
+          `offline://files/${hashIDManga}/${hashIDEp}/1a96284f`,
+          `offline://files/${hashIDManga}/${hashIDEp}/1a962850`,
+          `offline://files/${hashIDManga}/${hashIDEp}/1a962851`
         ]
-      },
-      {
-        ...metaEp,
-        route,
-        ep_name,
-        ep_param,
-        downloaded: 8,
-        ep_id: "12341",
-        pages_offline: [
-          "offline://files/8daa1a0a/744a7df9/1a96284a",
-          "offline://files/8daa1a0a/744a7df9/1a96284b",
-          "offline://files/8daa1a0a/744a7df9/1a96284c",
-          "offline://files/8daa1a0a/744a7df9/1a96284d",
-          "offline://files/8daa1a0a/744a7df9/1a96284e",
-          "offline://files/8daa1a0a/744a7df9/1a96284f",
-          "offline://files/8daa1a0a/744a7df9/1a962850",
-          "offline://files/8daa1a0a/744a7df9/1a962851"
-        ],
-        start_download_at: 1
       }
     ])
     ;(Date.now as ReturnType<typeof vi.fn>).mockReturnValue(0)
@@ -659,7 +673,7 @@ describe("download-manager", () => {
     await expect(exists(`poster/${hashIDManga}`)).resolves.toBeTruthy()
     await expect(exists(`files/${hashIDManga}`)).resolves.toBeTruthy()
 
-    await deleteManga(manga_id)
+    await deleteManga(route.params.comic)
 
     await expect(exists(`meta/${hashIDManga}`)).resolves.toBeFalsy()
     await expect(exists(`poster/${hashIDManga}`)).resolves.toBeFalsy()
@@ -680,7 +694,7 @@ describe("download-manager", () => {
       metaManga,
       { ...metaEp, ep_id: metaEp.ep_id + 1 + "" },
       ep_name,
-      ep_param,
+      ep_param + 1,
       pages
     ).start()
 
@@ -695,7 +709,7 @@ describe("download-manager", () => {
       exists(`files/${hashIDManga}/${hashIDEp}`)
     ).resolves.toBeTruthy()
 
-    const hashIDEp2 = hashSum(metaEp.ep_id + 1)
+    const hashIDEp2 = hashSum(ep_param + 1)
     await expect(
       exists(`meta/${hashIDManga}/${hashIDEp2}.mod`)
     ).resolves.toBeTruthy()
@@ -703,7 +717,7 @@ describe("download-manager", () => {
       exists(`files/${hashIDManga}/${hashIDEp2}`)
     ).resolves.toBeTruthy()
 
-    await deleteEpisode(manga_id, ep_id)
+    await deleteEpisode(route.params.comic, ep_param)
 
     await expect(
       exists(`meta/${hashIDManga}/${hashIDEp}.mod`)
@@ -718,7 +732,7 @@ describe("download-manager", () => {
       exists(`files/${hashIDManga}/${hashIDEp2}`)
     ).resolves.toBeTruthy()
 
-    await deleteEpisode(manga_id, ep_id + 1)
+    await deleteEpisode(route.params.comic, ep_param + 1)
 
     await expect(exists(`meta/${hashIDManga}.mod`)).resolves.toBeFalsy()
     await expect(exists(`poster/${hashIDManga}`)).resolves.toBeFalsy()

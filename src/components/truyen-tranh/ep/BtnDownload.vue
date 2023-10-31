@@ -35,7 +35,7 @@ import { isTaskDLEp } from "src/logic/download-manager"
 const props = defineProps<{
   modelValue?: TaskDDEp | TaskDLEp | null
   comic: string | null
-  epParam:string | null
+  epParam: string | null
   canDownload: boolean
 }>()
 const $q = useQuasar()

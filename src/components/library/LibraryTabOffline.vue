@@ -50,7 +50,8 @@
           {{
             $t("a-slash-b", [
               item.count_ep,
-              item.count_ep + (IDMStore.queue.get(item.route.params.comic)?.size ?? 0)
+              item.count_ep +
+                (IDMStore.queue.get(item.route.params.comic)?.size ?? 0)
             ])
           }}
         </div>
