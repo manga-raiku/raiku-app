@@ -222,5 +222,14 @@
   "de-sau": "Để sau",
   "dang-cap-nhat-ung-dung": "Đang cập nhật ứng dụng",
   "quan-ly-plugin": "Quản lý Plugin",
+  "title-offline": "Không có mạng. Khám phá các truyện đã tải xuống?",
+  "desc-offline": "Hãy tải các truyện khác vào lần sau bạn nối mạng.",
+  "khong-cam-on": "Không, cảm ơn",
+  "di-den-truyen-da-tai": "Đi đến truyện đã tải",
+  "trang-chu": "Trang chủ",
+  "the-loai": "Thể loại",
+  "thu-vien": "Thư viện",
+  "khong-co-ket-noi": "Không có kết nối",
+  "khong-co-ket-noi-internet": "Không có kết nối Internet",
   "plugin-nay-khong-ho-tro-moi-truong-nay": "Plugin này không hỗ trợ môi trường này"
 }

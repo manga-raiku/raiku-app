@@ -65,8 +65,8 @@ meta:
 
       <BtnDownload
         v-model="statusEPDL"
-        :manga-id="data?.manga_id ?? null"
-        :ep-id="data?.ep_id ?? null"
+        :comic="comic"
+        :ep-param="chap"
         @action:delete="deleteEp"
         :can-download="!!(data && currentEpisode && pages)"
         @action:download="downloadEp"
@@ -291,14 +291,15 @@ meta:
                 :chapters="data.chapters"
                 :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
                 :map-offline="mapEp"
-                :meta-manga="{
-                  manga_id: data.manga_id,
-                  manga_name: data.name,
-                  manga_image: data.image,
-                  manga_param: comic,
-                  source_id: sourceId
+                :offline="data && isFlag(data, FLAG_OFFLINE)"
+                :comic="{
+                  data: comicData,
+                  manga_id: data?.manga_id,
+                  route: {
+                    name: 'comic',
+                    params: { sourceId, comic }
+                  }
                 }"
-                :source-id="sourceId"
                 focus-tab-active
                 @change-tab="onChangeTabEpisodes"
                 @downloaded="lsEpDL?.push($event)"
@@ -446,6 +447,7 @@ meta:
                   v-memo="[server === index]"
                   :outline="server === index"
                   :color="server === index ? 'main-3' : undefined"
+                  :disable="data && isFlag(data, FLAG_OFFLINE)"
                   @click="server = index"
                 />
               </div>
@@ -553,6 +555,9 @@ meta:
         <!-- fluent:full-screen-minimize-24-regular -->
       </q-btn>
     </q-toolbar>
+
+    <!-- element is space for <BBarNetwork /> -->
+    <div v-if="!networkStore.isOnline" class="text-center h-1.5em" />
   </q-footer>
   <!-- <p class="whitespace-pre-wrap">{{ data }}</p> -->
 </template>
@@ -564,9 +569,15 @@ import { packageName } from "app/package.json"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
-import type { ID } from "raiku-pgs/plugin"
+import type { Chapter, Comic, ComicChapter, ID } from "raiku-pgs/plugin"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
-import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import { FLAG_OFFLINE } from "src/constants"
+import type {
+  ComicChapterOnDisk,
+  TaskDDEp,
+  TaskDLEp
+} from "src/logic/download-manager"
+import { isFlag } from "src/logic/mark-is-flag"
 
 const props = defineProps<{
   sourceId: string
@@ -584,6 +595,7 @@ const router = useRouter()
 const i18n = useI18n()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 const pluginStore = usePluginStore()
+const networkStore = useNetworkStore()
 
 const api = pluginStore.useApi(toGetter(props, "sourceId"), false)
 
@@ -597,18 +609,31 @@ const GetWithCache = useWithCache(
     ),
   computed(() => `${packageName}:///manga/${props.comic + "/" + props.chap}`)
 )
-console.log(api.value, props)
-// let disableReactiveParams = false
-const { data, runAsync, loading, error } = useRequest(GetWithCache, {
-  refreshDeps: [api, () => props.comic, () => props.chap],
-  async refreshDepsAction() {
-    if (route.query.no_restore_scroll) return
 
-    await runAsync()
-    currentPage.value = 0
-    readerVerticalRef.value?.reset()
+// let disableReactiveParams = false
+const { data, runAsync, loading, error } = useRequest<
+  | (ComicChapter & {
+      readonly chapters: Chapter[]
+    })
+  | ComicChapterOnDisk
+>(
+  () => {
+    if (networkStore.isOnline) return GetWithCache()
+    return getEpisode(props.comic, props.chap).then((res) =>
+      markFlag(res, FLAG_OFFLINE)
+    )
+  },
+  {
+    refreshDeps: [api, () => props.comic, () => props.chap],
+    async refreshDepsAction() {
+      if (route.query.no_restore_scroll) return
+
+      await runAsync()
+      currentPage.value = 0
+      readerVerticalRef.value?.reset()
+    }
   }
-})
+)
 watch(error, (error) => {
   if (error?.message === "not_found")
     void router.replace({
@@ -620,6 +645,20 @@ watch(error, (error) => {
       query: route.query,
       hash: route.hash
     })
+})
+let $idComicDataCache: string | null = null
+let $comicDataCache: (() => Promise<Comic>) | null = null
+const comicData = computed<() => Promise<Comic>>(() => {
+  const id = `${props.sourceId}/${props.comic}`
+  if (id === $idComicDataCache) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return $comicDataCache!
+  }
+
+  $idComicDataCache = id
+  const { comic } = props
+
+  return ($comicDataCache = () => api.value.then((res) => res.getComic(comic)))
 })
 
 const title = () =>
@@ -641,13 +680,10 @@ const statusEPDL = computedAsync<TaskDDEp | TaskDLEp | null | undefined>(
   async () => {
     if (!data.value) return
 
-    const task = IDMStore.queue.get(data.value.manga_id)?.get(data.value.ep_id)
+    const task = IDMStore.queue.get(props.comic)?.get(props.chap)
     if (task) return task
 
-    const onDisk = await getEpisode(
-      data.value.manga_id,
-      data.value.ep_id
-    ).catch(() => null)
+    const onDisk = await getEpisode(props.comic, props.chap).catch(() => null)
 
     if (onDisk) return { ref: onDisk }
     return null
@@ -661,7 +697,7 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   if (!data.value) return
 
   return shallowReactive(
-    (await getListEpisodes(data.value.manga_id).catch(() => [])).map((ref) => ({
+    (await getListEpisodes(props.comic).catch(() => [])).map((ref) => ({
       ref
     }))
   )
@@ -669,7 +705,7 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
   if (!data.value) return
 
-  return [...(IDMStore.queue.get(data.value.manga_id)?.values() ?? [])]
+  return Array.from(IDMStore.queue.get(props.comic)?.values() ?? [])
 })
 
 const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
@@ -678,7 +714,7 @@ const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   return new Map(
     [...(lsEpDL.value ?? []), ...lsEpDD.value]
       .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
-      .map((item) => [item.ref.ep_id, item])
+      .map((item) => [item.ref.ep_param, item])
   )
 })
 
@@ -687,18 +723,17 @@ async function downloadEp() {
 
   const meta = await IDMStore.download(
     {
-      manga_id: data.value.manga_id,
-      manga_name: data.value.name,
-      manga_image: data.value.image,
-      manga_param: props.comic,
-      source_id: props.sourceId
+      name: "comic",
+      params: {
+        sourceId: props.sourceId,
+        comic: props.comic
+      }
     },
-    {
-      ep_param: props.chap,
-      ep_id: data.value.ep_id,
-      ep_name: currentEpisode.value.value.name,
-      pages: await Promise.all(pages.value.slice(0))
-    }
+    await comicData.value(),
+    data.value,
+    currentEpisode.value.value.name,
+    currentEpisode.value.value.route.params.chap,
+    await Promise.all(pages.value.slice(0))
   ).catch((err) => {
     if (err?.message === "user_paused") return
     // eslint-disable-next-line functional/no-throw-statement
@@ -708,16 +743,18 @@ async function downloadEp() {
   console.log(lsEpDL, meta)
   if (meta && !isTaskDLEp(meta)) {
     lsEpDL.value?.splice(
-      lsEpDL.value.findIndex((item) => item.ref.ep_id === meta.ref.ep_id) >>> 0,
+      lsEpDL.value.findIndex(
+        (item) => item.ref.ep_param === meta.ref.ep_param
+      ) >>> 0,
       1,
       meta
     )
     lsEpDL.value = [...(lsEpDL.value || [])]
   }
 }
-function deleteEp(epId: ID) {
+function deleteEp(epParam: string) {
   lsEpDL.value?.splice(
-    lsEpDL.value.findIndex((item) => item.ref.ep_id === epId) >>> 0,
+    lsEpDL.value.findIndex((item) => item.ref.ep_param === epParam) >>> 0,
     1
   )
   lsEpDL.value = [...(lsEpDL.value || [])]
@@ -755,18 +792,21 @@ const serversReady = computedAsync(
 watch(serversReady, () => void (server.value = 0))
 const pages = computedAsync(
   async () => {
-    if (data.value) {
-      const s = server.value
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return (await api.value)["servers:parse"](s, toRaw(data.value!))
-    }
+    if (!data.value) return
+    debugger
+    if (isFlag(data.value, FLAG_OFFLINE))
+      return (data.value as ComicChapterOnDisk).pages_offline
+
+    const s = server.value
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return (await api.value)["servers:parse"](s, toRaw(data.value!))
   },
   undefined,
   {
     onError: console.error.bind(console)
   }
 )
-console.log(pages)
+
 const singlePage = ref(false)
 const rightToLeft = ref(false)
 const scrollingMode = ref(true)

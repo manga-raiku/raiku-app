@@ -34,8 +34,7 @@ The app currently supports:
 </div>
 
 - Desktop
-![image](https://github.com/manga-raiku/raiku-app/assets/45375496/b580ab92-114a-487c-a39f-690e19180248)
-
+  ![image](https://github.com/manga-raiku/raiku-app/assets/45375496/b580ab92-114a-487c-a39f-690e19180248)
 
 ## Install the dependencies
 
@@ -82,7 +81,7 @@ quasar build
 - [x] Localize app
 - [x] meta header
 - [x] update UI screen error
-- [ ] show error network offline
+- [x] show error network offline
 - [x] add redirect to not found page
 - [x] show error if throw error
 - [x] fix favicon small
@@ -92,6 +91,10 @@ quasar build
 - [x] multiple pre search
 - [ ] control plugin separate
 - [ ] fix url with proxy wrong
+
+- [ ] use QScrollArea and QVirtualScroll
+
+- [ ] bootloop in page read if plugin not install
 
 ### Customize the configuration
 

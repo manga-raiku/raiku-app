@@ -9,7 +9,7 @@
   >
     <q-card
       v-if="metaMangaShowInfo"
-      class="bg-dark-page h-full flex flex-col flex-nowrap `min-w-[min(500px,100%)] max-w-100%"
+      class="bg-dark-page h-full flex flex-col flex-nowrap min-w-[min(500px,100%)] max-w-100%"
     >
       <header>
         <q-toolbar>
@@ -20,7 +20,7 @@
           <q-space />
 
           <div class="ellipsis text-16px text-weight-medium">
-            {{ metaMangaShowInfo.manga_name }}
+            {{ metaMangaShowInfo.name }}
           </div>
 
           <q-space />
@@ -41,7 +41,11 @@
         class="h-full min-h-0 flex-1 overflow-y-auto scrollbar-custom pb-50px"
       >
         <!-- button more download -->
-        <q-item @click="showDownloadMore = true" clickable>
+        <q-item
+          @click="showDownloadMore = true"
+          clickable
+          :disable="!networkStore.isOnline"
+        >
           <q-item-section>
             <q-item-label>{{ $t("tai-them-chuong-khac") }}</q-item-label>
           </q-item-section>
@@ -52,30 +56,42 @@
         <!-- /button more download -->
 
         <ul class="mx-4">
-          <li
-            v-for="[ep_id, item] in mapEp"
-            :key="item.ref.ep_id"
-            class="py-2 flex flex-nowrap items-center"
+          <q-item
+            v-for="[ep_param, item] in mapEp"
+            :key="ep_param"
+            clickable
+            v-ripple
+            :to="{
+              name: 'comic chap',
+              params: {
+                ...item.ref.route.params,
+                chap: item.ref.ep_param
+              }
+            }"
+            class="!px-2 rounded-xl"
           >
-            <q-checkbox
-              v-if="modeEdit"
-              v-model="listEpRemove"
-              dense
-              :val="ep_id"
-              class="mr-2"
-            />
-            <div class="w-full min-w-0">
-              <EpControl
-                :data="item.ref"
-                :downloading="
-                  // eslint-disable-next-line vue/no-deprecated-filter
-                  item.downloading as unknown as boolean | undefined
-                "
-                @stop="item.stop"
-                @resume="resume(item)"
+            <q-item-section v-if="modeEdit" side>
+              <q-checkbox
+                v-model="listEpRemove"
+                dense
+                :val="ep_param"
+                class="mr-2"
               />
-            </div>
-          </li>
+            </q-item-section>
+            <q-item-section>
+              <div class="w-full min-w-0">
+                <EpControl
+                  :data="item.ref"
+                  :downloading="
+                    // eslint-disable-next-line vue/no-deprecated-filter
+                    item.downloading as unknown as boolean | undefined
+                  "
+                  @stop="item.stop"
+                  @resume="resume(item)"
+                />
+              </div>
+            </q-item-section>
+          </q-item>
         </ul>
       </main>
 
@@ -129,7 +145,7 @@
   >
     <q-card
       v-if="allEp"
-      class="h-full <md:!max-h-80vh sm:!max-h-70vh min-w-310px flex flex-nowrap column min-h-0 rounded-xl"
+      class="h-full <md:!max-h-80vh sm:!max-h-70vh min-w-[min(500px,100%)] max-w-100% flex flex-nowrap column min-h-0 rounded-xl"
     >
       <q-card-section class="text-16px">
         {{ $t("count-chuong", [allEp.length]) }}
@@ -139,7 +155,12 @@
       >
         <ListChapters
           :chapters="allEp"
-          :source-id="metaMangaShowInfo?.source_id ?? null"
+          :comic="{
+            data: null,
+            manga_id: metaMangaShowInfo?.manga_id,
+            route: metaMangaShowInfo?.route ?? null
+          }"
+          :offline="!networkStore.isOnline"
           class-panels="px-1 overflow-y-auto scrollbar-custom"
         >
           <template #item="{ data }">
@@ -215,34 +236,39 @@
 <script lang="ts" setup>
 import type { API, ID } from "raiku-pgs/plugin"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
-import type { MetaMangaAndCountOnDisk } from "stores/IDM"
+import type { ComicAndCountOnDisk } from "stores/IDM"
 
 const $q = useQuasar()
 const IDMStore = useIDMStore()
 const pluginStore = usePluginStore()
+const networkStore = useNetworkStore()
 
 const props = defineProps<{
-  modelValue: MetaMangaAndCountOnDisk | null
+  modelValue: ComicAndCountOnDisk | null
 }>()
 const metaMangaShowInfo = toRef(props, "modelValue")
 const emit = defineEmits<{
-  (name: "update:model-value", value: MetaMangaAndCountOnDisk | null): void
+  (name: "update:model-value", value: ComicAndCountOnDisk | null): void
 }>()
 
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   const meta = metaMangaShowInfo.value
 
   if (meta) {
-    return shallowReactive((
-      await getListEpisodes(meta.manga_id).catch(() => [])
-    ).map((ref) => ({ ref })))
+    return shallowReactive(
+      (await getListEpisodes(meta.route.params.comic).catch(() => [])).map(
+        (ref) => ({
+          ref
+        })
+      )
+    )
   }
 })
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
   const meta = metaMangaShowInfo.value
   if (!meta) return
 
-  return [...(IDMStore.queue.get(meta.manga_id)?.values() ?? [])]
+  return [...(IDMStore.queue.get(meta.route.params.comic)?.values() ?? [])]
 })
 
 const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
@@ -251,7 +277,7 @@ const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   return new Map(
     [...(lsEpDL.value ?? []), ...lsEpDD.value]
       .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
-      .map((item) => [item.ref.ep_id, item])
+      .map((item) => [item.ref.ep_param, item])
   )
 })
 
@@ -259,12 +285,17 @@ async function resume(item: TaskDLEp | TaskDDEp) {
   if (!metaMangaShowInfo.value || !lsEpDL.value) return
 
   try {
-    const result = await IDMStore.resumeDownload(metaMangaShowInfo.value, item)
+    const result = await IDMStore.resumeDownload(
+      metaMangaShowInfo.value,
+      item.ref.ep_name,
+      item.ref.ep_param,
+      item
+    )
 
     if (!isTaskDLEp(result))
       lsEpDL.value.splice(
         lsEpDL.value.findIndex(
-          (item) => item.ref.ep_id === result.ref.ep_id
+          (item) => item.ref.ep_param === result.ref.ep_param
         ) >>> 0,
         1,
         result
@@ -277,7 +308,7 @@ async function resume(item: TaskDLEp | TaskDDEp) {
 }
 
 const modeEdit = ref(false)
-const listEpRemove = shallowRef<ID[]>([])
+const listEpRemove = shallowRef<string[]>([])
 const removing = ref(false)
 async function remove() {
   if (!metaMangaShowInfo.value) return
@@ -285,29 +316,28 @@ async function remove() {
   removing.value = true
 
   const meta = metaMangaShowInfo.value
-  // eslint-disable-next-line camelcase
-  const { manga_id } = meta
+  const { route } = meta
   await Promise.allSettled(
     // eslint-disable-next-line camelcase
-    listEpRemove.value.map(async (ep_id) => {
-      await IDMStore.deleteEpisode(manga_id, ep_id)
+    listEpRemove.value.map(async (ep_param) => {
+      await IDMStore.deleteEpisode(route.params.comic, ep_param)
     })
   )
 
-  const storeTask = IDMStore.queue.get(manga_id)
+  const storeTask = IDMStore.queue.get(route.params.comic)
   if (storeTask && storeTask?.size > 0)
     // eslint-disable-next-line camelcase
-    listEpRemove.value.forEach((ep_id) => {
+    listEpRemove.value.forEach((ep_param) => {
       // clear
-      storeTask.delete(ep_id)
+      storeTask.delete(ep_param)
     })
   if (lsEpDL.value)
     lsEpDL.value = lsEpDL.value.filter((item) => {
-      return !listEpRemove.value.includes(item.ref.ep_id)
+      return !listEpRemove.value.includes(item.ref.ep_param)
     })
 
   if (mapEp.value?.size === 0) {
-    IDMStore.listComicOnDisk.delete(manga_id)
+    IDMStore.listComicOnDisk.delete(route.params.comic)
   }
 
   removing.value = false
@@ -337,8 +367,8 @@ watch(showDownloadMore, async (state) => {
   try {
     // load episodes
     const episodes = await (
-      await pluginStore.get(meta.source_id)
-    ).plugin.getListChapters(meta.manga_id, meta.manga_param)
+      await pluginStore.get(meta.route.params.sourceId)
+    ).plugin.getListChapters(meta.manga_id, meta.route.params.comic)
     allEp.value = episodes
   } catch (err) {
     $q.notify({
@@ -363,21 +393,25 @@ async function download() {
 
   downloading.value = true
 
-  const { plugin } = await pluginStore.get(metaMangaShowInfo.value.source_id)
+  const { plugin } = await pluginStore.get(
+    metaMangaShowInfo.value.route.params.sourceId
+  )
 
   for (const ep of epsSelected) {
     const { comic, chap } = ep.route.params
     const conf = await plugin.getComicChapter(comic, chap, false)
-    void IDMStore.download(metaMangaShowInfo.value, {
-      ep_id: ep.id,
-      ep_name: ep.name,
-      ep_param: chap,
-      pages: await plugin["servers:parse"](0, conf)
-    }).then((result) => {
+    void IDMStore.download(
+      metaMangaShowInfo.value.route,
+      metaMangaShowInfo.value,
+      conf,
+      ep.name,
+      chap,
+      await plugin["servers:parse"](0, conf)
+    ).then((result) => {
       if (lsEpDL.value && !isTaskDLEp(result)) {
         lsEpDL.value.splice(
           lsEpDL.value.findIndex(
-            (item) => item.ref.ep_id === result.ref.ep_id
+            (item) => item.ref.ep_param === result.ref.ep_param
           ) >>> 0,
           1,
           result

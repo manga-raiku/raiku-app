@@ -64,12 +64,9 @@ export function proxyGet<
     responseType?: ReturnType
   }
 ): Promise<Response<ReturnType>> {
-  return fetch(
-    `https://corsproxy.org/?${encodeURIComponent(options.url)}`,
-    {
-      headers: options.headers
-    }
-  ).then(async (res) => {
+  return fetch(`https://corsproxy.org/?${encodeURIComponent(options.url)}`, {
+    headers: options.headers
+  }).then(async (res) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let data: any
     switch (options.responseType) {
@@ -101,20 +98,17 @@ export function proxyPost<
     responseType?: ReturnType
   }
 ): Promise<Response<ReturnType>> {
-  return fetch(
-    `https://corsproxy.org/?${encodeURIComponent(options.url)}`,
-    {
-      method: "post",
-      headers: options.headers,
-      body:
-        typeof options.data === "object"
-          ? Object.entries(options.data).reduce((form, [name, value]) => {
-              form.set(name, value + "")
-              return form
-            }, new FormData())
-          : options.data
-    }
-  ).then(async (res) => {
+  return fetch(`https://corsproxy.org/?${encodeURIComponent(options.url)}`, {
+    method: "post",
+    headers: options.headers,
+    body:
+      typeof options.data === "object"
+        ? Object.entries(options.data).reduce((form, [name, value]) => {
+            form.set(name, value + "")
+            return form
+          }, new FormData())
+        : options.data
+  }).then(async (res) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let data: any
     switch (options.responseType) {

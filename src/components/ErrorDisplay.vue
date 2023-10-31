@@ -16,6 +16,7 @@
 
 <script lang="ts" setup>
 import DefaultErrorVue from "./errors/DefaultError.vue"
+import Offline from "./errors/Offline.vue"
 import PluginErrorVue from "./errors/PluginError.vue"
 import PluginsNotAvailableVue from "./errors/PluginsNotAvailable.vue"
 
@@ -29,6 +30,8 @@ const props = defineProps<{
 const comp = computed(() => {
   if (props.error instanceof PluginError) return PluginErrorVue
   if (props.error instanceof PluginsNotAvailable) return PluginsNotAvailableVue
+  if (props.error.message === "Error: TypeError: Failed to fetch")
+    return Offline
 
   return DefaultErrorVue
 })

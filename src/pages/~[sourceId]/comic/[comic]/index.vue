@@ -21,10 +21,10 @@ meta:
       v-if="$q.screen.lt.md"
       class="fixed top-0 left-0 w-full h-full z--1"
       :class="{
-        'before-filter-blur': data?.image
+        'before-filter-blur': image
       }"
       :style="{
-        '--data-src': `url('${data?.image}')`
+        '--data-src': `url('${image}')`
       }"
     />
     <template v-if="data && !loading">
@@ -33,11 +33,11 @@ meta:
           <div
             class="before-filter-blur before-filter-blur--no-after relative py-4 flex items-center justify-center"
             :style="{
-              '--data-src': `url('${data.image}')`
+              '--data-src': `url('${image}')`
             }"
           >
             <q-img
-              :src="data.image"
+              :src="image"
               :ratio="190 / 247"
               class="w-240px <sm:w-190px max-w-30vw rounded"
               no-spinner
@@ -201,14 +201,15 @@ meta:
           :chapters="data.chapters"
           :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
           :map-offline="mapEp"
-          :meta-manga="{
+          :offline="data && isFlag(data, FLAG_OFFLINE)"
+          :comic="{
+            data,
             manga_id: data.manga_id,
-            manga_name: data.name,
-            manga_image: data.image,
-            manga_param: comic,
-            source_id: sourceId
+            route: {
+              name: 'comic',
+              params: { sourceId, comic }
+            }
           }"
-          :source-id="sourceId"
           @downloaded="lsEpDL?.push($event)"
         />
       </section>
@@ -398,6 +399,9 @@ meta:
         {{ $t("tiep-ch-name", [lastEpRead.name]) }}
       </q-btn>
     </q-toolbar>
+
+    <!-- element is space for <BBarNetwork /> -->
+    <div v-if="!networkStore.isOnline" class="text-center h-1.5em" />
   </q-footer>
 </template>
 
@@ -407,10 +411,16 @@ import { useShare } from "@vueuse/core"
 // import Like from "src/apis/runs/frontend/regiter-like"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import { packageName } from "app/package.json"
-import type { ID } from "raiku-pgs/plugin"
+import type { Comic, ID } from "raiku-pgs/plugin"
+import { FLAG_OFFLINE } from "src/constants"
 import dayjs from "src/logic/dayjs"
-import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import type {
+  ComicOnDisk,
+  TaskDDEp,
+  TaskDLEp
+} from "src/logic/download-manager"
 import { formatView } from "src/logic/formatView"
+import { isFlag } from "src/logic/mark-is-flag"
 
 const props = defineProps<{
   sourceId: string
@@ -425,6 +435,7 @@ const followStore = useFollowStore()
 const historyStore = useHistoryStore()
 const IDMStore = useIDMStore()
 const pluginStore = usePluginStore()
+const networkStore = useNetworkStore()
 
 const api = pluginStore.useApi(toGetter(props, "sourceId"), false)
 
@@ -433,9 +444,15 @@ const GetWithCache = useWithCache(
   computed(() => `${packageName}:///manga/${props.comic}`)
 )
 
-const { data, runAsync, error, loading } = useRequest(GetWithCache, {
-  refreshDeps: [api, () => props.comic]
-})
+const { data, runAsync, error, loading } = useRequest<Comic | ComicOnDisk>(
+  () => {
+    if (networkStore.isOnline) return GetWithCache()
+    return getComic(props.comic).then((res) => markFlag(res, FLAG_OFFLINE))
+  },
+  {
+    refreshDeps: [api, () => props.comic]
+  }
+)
 watch(error, (error) => {
   if (error?.message === "not_found")
     void router.replace({
@@ -448,6 +465,16 @@ watch(error, (error) => {
       hash: route.hash
     })
 })
+
+const image = computedAsync(
+  () => {
+    if (data.value) return fastProcessImage(data.value.image)
+  },
+  undefined,
+  {
+    onError: console.error.bind(console)
+  }
+)
 
 const title = () =>
   data.value
@@ -462,14 +489,15 @@ useSeoMeta({
   title,
   description,
   ogTitle: title,
-  ogDescription: description
+  ogDescription: description,
+  ogImage: image
 })
 
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   if (!data.value) return
 
   return shallowReactive(
-    (await getListEpisodes(data.value.manga_id).catch(() => [])).map((ref) => ({
+    (await getListEpisodes(props.comic).catch(() => [])).map((ref) => ({
       ref
     }))
   )
@@ -477,7 +505,7 @@ const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
 const lsEpDD = computed<TaskDLEp[] | undefined>(() => {
   if (!data.value) return
 
-  return [...(IDMStore.queue.get(data.value.manga_id)?.values() ?? [])]
+  return [...(IDMStore.queue.get(props.comic)?.values() ?? [])]
 })
 
 const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
@@ -486,7 +514,7 @@ const mapEp = computed<Map<ID, TaskDDEp | TaskDLEp> | undefined>(() => {
   return new Map(
     [...(lsEpDL.value ?? []), ...lsEpDD.value]
       .sort((a, b) => b.ref.start_download_at - a.ref.start_download_at)
-      .map((item) => [item.ref.ep_id, item])
+      .map((item) => [item.ref.ep_param, item])
   )
 })
 

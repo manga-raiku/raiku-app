@@ -221,5 +221,14 @@
   "search-no-result-msg": "No results were found in this source. \nTry with another source.",
   "ung-dung-da-duoc-cap-nhat": "The application has been updated",
   "dang-cap-nhat-ung-dung": "Updating the application",
-  "quan-ly-plugin": "Plugin Management"
+  "quan-ly-plugin": "Plugin Management",
+  "desc-offline": "Download other stories next time you connect online.",
+  "di-den-truyen-da-tai": "Go to downloaded stories",
+  "khong-cam-on": "No, thanks",
+  "khong-co-ket-noi": "No connection",
+  "the-loai": "Category",
+  "thu-vien": "Library",
+  "title-offline": "No network. \nExplore downloaded stories?",
+  "trang-chu": "Home page",
+  "khong-co-ket-noi-internet": "No Internet connection"
 }

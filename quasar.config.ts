@@ -22,7 +22,6 @@ cleanEnv(process.env, {
   SUPABASE_PROJECT_KEY: str()
 })
 
-
 function removeDataTestAttrs(
   node: RootNode | TemplateChildNode
 ): void | (() => void) | (() => void)[] {
@@ -87,8 +86,15 @@ export default configure((/* ctx */) => {
 
       // publicPath: '/',
       // analyze: true,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      env: Object.fromEntries(Object.entries(process.env as unknown as any).filter(([name, value]) => !value.includes("\\"))),
+
+      env: Object.fromEntries(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        Object.entries(process.env as unknown as any).filter(
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          ([_name, value]) => !(value as string).includes("\\")
+        )
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ) as unknown as any,
       // rawDefine: {},
       // ignorePublicFolder: true,
       // minify: false,
@@ -111,6 +117,7 @@ export default configure((/* ctx */) => {
                 }
               : process.env.CODESPACE_NAME
               ? {
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   host: `${process.env.CODESPACE_NAME}-9000.${process.env
                     .GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN!}`,
                   protocol: "wss",

@@ -34,8 +34,8 @@ import { isTaskDLEp } from "src/logic/download-manager"
 
 const props = defineProps<{
   modelValue?: TaskDDEp | TaskDLEp | null
-  mangaId: ID | null
-  epId: ID | null
+  comic: string | null
+  epParam: string | null
   canDownload: boolean
 }>()
 const $q = useQuasar()
@@ -43,7 +43,7 @@ const { t } = useI18n()
 const emit = defineEmits<{
   (name: "update:model-value", value: undefined | TaskDDEp | TaskDDEp): void
   (name: "action:download"): void
-  (name: "action:delete", ep_id: ID): void
+  (name: "action:delete", ep_param: string): void
 }>()
 
 const disable = computed(() => {
@@ -81,10 +81,10 @@ function onClickDownload() {
         flat: true
       }
     }).onOk(async () => {
-      if (props.mangaId !== null && props.epId !== null)
-        await deleteEpisode(props.mangaId, props.epId)
+      if (props.comic !== null && props.epParam !== null)
+        await deleteEpisode(props.comic, props.epParam)
       emit("update:model-value", undefined)
-      if (props.epId) emit("action:delete", props.epId)
+      if (props.epParam) emit("action:delete", props.epParam)
     })
 
     return

@@ -17,6 +17,7 @@
       <q-btn
         v-if="data.downloaded < data.pages.length"
         round
+        :disable="!networkStore.isOnline"
         @click="downloading ? emit('stop') : emit('resume')"
       >
         <i-solar-pause-bold v-if="downloading" class="size-1.2em" />
@@ -41,15 +42,17 @@
 
 <script lang="ts" setup>
 import type {
-  MetaEpisodeOnDisk,
-  MetaEpisodeRunning
+  ComicChapterOnDisk,
+  ComicChapterRunning
 } from "src/logic/download-manager"
 
 defineProps<{
-  data: MetaEpisodeOnDisk | MetaEpisodeRunning
+  data: ComicChapterOnDisk | ComicChapterRunning
   downloading?: boolean
 }>()
 const emit = defineEmits<{
   (name: "stop" | "resume"): void
 }>()
+
+const networkStore = useNetworkStore()
 </script>

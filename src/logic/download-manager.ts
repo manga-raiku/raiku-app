@@ -1,7 +1,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable functional/no-throw-statement */
 import hashSum from "hash-sum"
-import type { ID } from "raiku-pgs/plugin"
+import type {
+  Chapter,
+  Comic,
+  ComicChapter,
+  ID,
+  RouteComic
+} from "raiku-pgs/plugin"
 /*
 .
 ├── meta/
@@ -18,42 +24,35 @@ import type { ID } from "raiku-pgs/plugin"
 const DIR_META = "meta"
 const DIR_POSTER = "poster"
 const DIR_FILES = "files"
-const PROTOCOL_OFFLINE = "offline://"
 
-export interface MetaManga {
-  readonly manga_id: ID
-  readonly manga_name: string
-  readonly manga_image: string
-  readonly manga_param: string
-
-  readonly source_id: string
-}
-export interface MetaMangaOnDisk extends MetaManga {
+export interface ComicOnDisk extends Comic {
+  readonly route: RouteComic
   readonly start_download_at: number
 }
-export interface MetaEpisode {
-  readonly ep_param: string
-
-  readonly ep_id: ID
+export interface ComicChapterOnDisk extends ComicChapter {
+  readonly chapters: Chapter[]
+  readonly route: RouteComic
   readonly ep_name: string
-
-  readonly pages: readonly string[]
-}
-export interface MetaEpisodeOnDisk extends MetaEpisode {
+  readonly ep_param: string
   readonly downloaded: number
   readonly start_download_at: number
+  readonly pages_offline: readonly string[]
 }
-export interface MetaEpisodeRunning extends MetaEpisodeOnDisk {
+export interface ComicChapterRunning extends ComicChapterOnDisk {
   downloaded: number
-  pages: string[]
+  readonly pages_offline: string[]
 }
 
 async function downloadFile(
   src: string,
   path: string,
-  downloading: Ref<boolean>
+  downloading: Ref<boolean>,
+  retry: number
 ): Promise<void> {
-  const buffer = await fetch(src).then((res) => res.arrayBuffer())
+  const buffer = await await fetchRetry(src, {
+    retries: retry,
+    retryDelay: 300
+  }).then((res) => res.arrayBuffer())
 
   if (!downloading.value) throw new Error("user_paused")
   await Filesystem.writeFile({
@@ -80,7 +79,7 @@ async function downloadFiles(
         throw new Error("user_paused")
       }
       const path = `${DIR_FILES}/${hashIDManga}/${hashIDEp}/${hashSum(index)}`
-      await downloadFile(src, path, downloading)
+      await downloadFile(src, path, downloading, 5)
 
       onprogress(index, sources.length, PROTOCOL_OFFLINE + path)
 
@@ -90,8 +89,11 @@ async function downloadFiles(
   )
 }
 
-async function saveMetaManga(metaManga: MetaManga): Promise<MetaMangaOnDisk> {
-  const hash_id = hashSum(metaManga.manga_id)
+async function saveMetaManga(
+  route: RouteComic,
+  metaManga: Comic
+): Promise<ComicOnDisk> {
+  const hash_id = hashSum(route.params.comic)
 
   const path = `${DIR_META}/${hash_id}.mod`
 
@@ -105,17 +107,23 @@ async function saveMetaManga(metaManga: MetaManga): Promise<MetaMangaOnDisk> {
       }).then((res) => res.data)
     )
 
-    if (val) return val as MetaMangaOnDisk
+    if (val) return val as ComicOnDisk
   } catch {}
 
   const pathPoster = `${DIR_POSTER}/${hash_id}`
-  await downloadFile(metaManga.manga_image, pathPoster, {
-    value: true
-  } as Ref<boolean>)
+  await downloadFile(
+    metaManga.image,
+    pathPoster,
+    {
+      value: true
+    } as Ref<boolean>,
+    5
+  )
 
-  const metaOnDisk: MetaMangaOnDisk = {
+  const metaOnDisk: ComicOnDisk = {
     ...metaManga,
-    manga_image: `${PROTOCOL_OFFLINE}/${pathPoster}`,
+    route,
+    image: `${PROTOCOL_OFFLINE}/${pathPoster}`,
     start_download_at: Date.now()
   }
   await Filesystem.writeFile({
@@ -129,33 +137,42 @@ async function saveMetaManga(metaManga: MetaManga): Promise<MetaMangaOnDisk> {
 }
 
 export function createTaskDownloadEpisode(
-  metaManga: MetaManga,
-  metaEp: MetaEpisode
+  route: RouteComic,
+  metaManga: Comic,
+  metaEp: ComicChapter & {
+    readonly chapters: Chapter[]
+  },
+  ep_name: string,
+  ep_param: string,
+  pages: readonly string[]
 ): {
-  ref: MetaEpisodeRunning
-  startSaveMetaManga: () => Promise<MetaMangaOnDisk>
+  ref: ComicChapterRunning
+  startSaveMetaManga: () => Promise<ComicOnDisk>
   downloading: globalThis.Ref<boolean>
-  start: () => Promise<MetaEpisodeOnDisk | undefined>
-  stop: () => Promise<MetaEpisodeOnDisk | undefined>
-  resume: () => Promise<MetaEpisodeOnDisk | undefined>
+  start: () => Promise<ComicChapterOnDisk | undefined>
+  stop: () => Promise<ComicChapterOnDisk | undefined>
+  resume: () => Promise<ComicChapterOnDisk | undefined>
 } {
-  const hashIDManga = hashSum(metaManga.manga_id)
-  const hashIDEp = hashSum(metaEp.ep_id)
+  const hashIDManga = hashSum(route.params.comic)
+  const hashIDEp = hashSum(ep_param)
 
   const downloading = ref(false)
-  const refValue = reactive<MetaEpisodeRunning>({
+  const refValue = reactive<ComicChapterRunning>({
     start_download_at: Date.now(),
     downloaded: 0,
     ...metaEp,
-    pages: metaEp.pages.slice(0)
+    route,
+    pages_offline: pages.slice(0),
+    ep_name,
+    ep_param
   })
 
-  const startSaveMetaManga = () => saveMetaManga(metaManga)
+  const startSaveMetaManga = () => saveMetaManga(route, metaManga)
 
   let timeout: NodeJS.Timeout | number
-  let taskSaveMeta: Promise<MetaEpisodeOnDisk> | undefined
-  const saveMeta = (metaCloned: MetaEpisodeOnDisk) => {
-    taskSaveMeta = new Promise<MetaEpisodeOnDisk>((resolve, reject) => {
+  let taskSaveMeta: Promise<ComicChapterOnDisk> | undefined
+  const saveMeta = (metaCloned: ComicChapterOnDisk) => {
+    taskSaveMeta = new Promise<ComicChapterOnDisk>((resolve, reject) => {
       // delay 1s
       clearTimeout(timeout)
 
@@ -183,7 +200,7 @@ export function createTaskDownloadEpisode(
     }
 
     downloading.value = true
-    const hashIDManga = hashSum((await startSaveMetaManga()).manga_id)
+    const hashIDManga = hashSum((await startSaveMetaManga()).route.params.comic)
 
     // check continue this passed
     const metaInDisk = await Filesystem.readFile({
@@ -193,7 +210,7 @@ export function createTaskDownloadEpisode(
     })
       .then(
         (res) =>
-          JSON.parse(res.data) as MetaEpisodeOnDisk & {
+          JSON.parse(res.data) as ComicChapterOnDisk & {
             downloaded: number
           }
       )
@@ -206,12 +223,12 @@ export function createTaskDownloadEpisode(
 
     // save files
     await downloadFiles(
-      refValue.pages,
+      refValue.pages_offline,
       hashIDManga,
       hashIDEp,
       downloading,
       (cur, total, path) => {
-        refValue.pages[cur] = path
+        refValue.pages_offline[cur] = path
         refValue.downloaded++
         void saveMeta(refValue)
       }
@@ -251,11 +268,11 @@ export async function getListManga() {
               path: `${DIR_META}/${item.name}`,
               directory: Directory.External,
               encoding: Encoding.UTF8
-            }).then((res) => JSON.parse(res.data) as MetaMangaOnDisk)
+            }).then((res) => JSON.parse(res.data) as ComicOnDisk)
           // .catch(() => null)
         })
       )
-    ).filter(Boolean) as MetaMangaOnDisk[]
+    ).filter(Boolean) as ComicOnDisk[]
 
     list.sort((a, b) => a.start_download_at - b.start_download_at)
 
@@ -268,8 +285,8 @@ export async function getListManga() {
   }
 }
 
-export async function getCountEpisodes(manga_id: ID) {
-  const hashIDManga = hashSum(manga_id)
+export async function getCountEpisodes(comic: string) {
+  const hashIDManga = hashSum(comic)
 
   try {
     const { files } = await Filesystem.readdir({
@@ -286,8 +303,8 @@ export async function getCountEpisodes(manga_id: ID) {
   }
 }
 
-export async function getListEpisodes(manga_id: ID) {
-  const hashIDManga = hashSum(manga_id)
+export async function getListEpisodes(comic: string) {
+  const hashIDManga = hashSum(comic)
 
   const { files } = await Filesystem.readdir({
     path: `${DIR_META}/${hashIDManga}`,
@@ -302,13 +319,13 @@ export async function getListEpisodes(manga_id: ID) {
           path: `${DIR_META}/${hashIDManga}/${item.name}`,
           directory: Directory.External,
           encoding: Encoding.UTF8
-        }).then((res) => JSON.parse(res.data) as MetaEpisodeOnDisk)
+        }).then((res) => JSON.parse(res.data) as ComicChapterOnDisk)
     )
-  ).then((list) => list.filter(Boolean) as MetaEpisodeOnDisk[])
+  ).then((list) => list.filter(Boolean) as ComicChapterOnDisk[])
 }
 
-export async function deleteManga(manga_id: ID) {
-  const hashIDManga = hashSum(manga_id)
+export async function deleteManga(comic: string) {
+  const hashIDManga = hashSum(comic)
 
   await Promise.all([
     // remove meta episodes
@@ -339,9 +356,9 @@ export async function deleteManga(manga_id: ID) {
   ])
 }
 
-export async function deleteEpisode(manga_id: ID, ep_id: ID) {
-  const hashIDManga = hashSum(manga_id)
-  const hashIDEp = hashSum(ep_id)
+export async function deleteEpisode(comic: string, ep_param: string) {
+  const hashIDManga = hashSum(comic)
+  const hashIDEp = hashSum(ep_param)
 
   await Promise.all([
     // remove meta
@@ -407,9 +424,21 @@ export async function deleteEpisode(manga_id: ID, ep_id: ID) {
   ])
 }
 
-export async function getEpisode(manga_id: ID, ep_id: ID) {
-  const hashIDManga = hashSum(manga_id)
-  const hashIDEp = hashSum(ep_id)
+export async function getComic(comic: string) {
+  const hashIDManga = hashSum(comic)
+
+  return JSON.parse(
+    await Filesystem.readFile({
+      path: `${DIR_META}/${hashIDManga}.mod`,
+      directory: Directory.External,
+      encoding: Encoding.UTF8
+    }).then((res) => res.data)
+  ) as ComicOnDisk
+}
+
+export async function getEpisode(comic: string, ep_param: string) {
+  const hashIDManga = hashSum(comic)
+  const hashIDEp = hashSum(ep_param)
 
   return JSON.parse(
     await Filesystem.readFile({
@@ -417,12 +446,12 @@ export async function getEpisode(manga_id: ID, ep_id: ID) {
       directory: Directory.External,
       encoding: Encoding.UTF8
     }).then((res) => res.data)
-  ) as MetaEpisodeOnDisk
+  ) as ComicChapterOnDisk
 }
 
 // eslint-disable-next-line functional/no-mixed-type
 export interface TaskDDEp {
-  ref: MetaEpisodeOnDisk
+  ref: ComicChapterOnDisk
   downloading?: boolean
   stop?: () => void
 }

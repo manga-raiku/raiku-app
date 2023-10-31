@@ -221,5 +221,14 @@
   "search-no-result-msg": "在此来源中未找到任何结果。\n尝试使用其他来源。",
   "ung-dung-da-duoc-cap-nhat": "应用程序已更新",
   "dang-cap-nhat-ung-dung": "更新应用程序",
-  "quan-ly-plugin": "插件管理"
+  "quan-ly-plugin": "插件管理",
+  "desc-offline": "下次连接时下载其他故事。",
+  "di-den-truyen-da-tai": "转到下载的故事",
+  "khong-cam-on": "不，谢谢",
+  "khong-co-ket-noi": "无连接",
+  "the-loai": "类别",
+  "thu-vien": "图书馆",
+  "title-offline": "没有网络。\n探索下载的故事？",
+  "trang-chu": "主页",
+  "khong-co-ket-noi-internet": "没有网络连接"
 }

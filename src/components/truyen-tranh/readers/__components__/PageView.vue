@@ -29,7 +29,7 @@
     <q-btn
       outline
       color="main-3"
-      class="mt-2"
+      class="mt-2 text-black"
       @click="startLoad(src)"
       :label="$t('thu-lai')"
     />
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import empty from "src/assets/empty.png"
+import empty from "src/assets/empty.png?base64"
 
 defineOptions({
   inheritAttrs: true
@@ -57,10 +57,10 @@ const loaded = ref(false)
 const error = ref<unknown>()
 const srcImage = ref<string | undefined>(empty)
 
-function onLoad(event: Event) {
-  console.log("onLoad", srcImage.value, empty)
+async function onLoad(event: Event) {
+  console.log("onLoad", srcImage.value?.slice(0, 120), empty)
   if (srcImage.value === empty) {
-    return startLoad(props.src)
+    return startLoad(await fastProcessImage(await props.src))
   }
 
   emit("load", event.target as HTMLImageElement)

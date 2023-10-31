@@ -2,6 +2,7 @@
 import { createPinia, setActivePinia } from "pinia"
 import type { Chapter } from "raiku-pgs/plugin"
 
+
 import ListChapters from "./ListChapters.vue"
 
 setActivePinia(createPinia())
@@ -336,6 +337,7 @@ const chapters_long: Chapter[] = [
 ].map((item) => {
   return {
     ...item,
+    route,
     updated_at: item.update,
     id: "0",
     views: null
@@ -510,17 +512,14 @@ describe("ListChapters", () => {
     ].map((item) => {
       return {
         ...item,
+        route,
         updated_at: item.update,
         id: "0",
         views: null
       }
     })
     cy.mount(ListChapters, {
-      props: {
-        chapters,
-        noDownload: true,
-        sourceId: null
-      }
+      props: { offline: false, chapters, noDownload: true, sourceId: null }
     })
 
     cy.get("ul").find("li").should("have.length", chapters.length)
@@ -529,6 +528,7 @@ describe("ListChapters", () => {
   it("split chapters to group size 50", () => {
     cy.mount(ListChapters, {
       props: {
+        offline: false,
         chapters: chapters_long,
         noDownload: true,
         sourceId: null
@@ -546,6 +546,7 @@ describe("ListChapters", () => {
   it("segment first active", () => {
     cy.mount(ListChapters, {
       props: {
+        offline: false,
         chapters: chapters_long,
         noDownload: true,
         sourceId: null

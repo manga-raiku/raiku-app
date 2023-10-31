@@ -19,24 +19,24 @@
 
     <div
       v-if="IDMStore.listComicOnDisk.size > 0"
-      v-for="[, item] in IDMStore.listComicOnDisk"
-      :key="item.manga_id"
+      v-for="[comic, item] in IDMStore.listComicOnDisk"
+      :key="comic"
       class="col-4 col-sm-3 col-md-2 px-[10px] py-2"
       @click="metaMangaShowInfo = item"
     >
       <q-card class="transparent cursor-pointer">
         <div class="relative">
-          <ImageView :src="item.manga_image" />
+          <ImageView :src="item.image" />
           <div
             v-if="editMode"
             class="absolute w-full h-full top-0 left-0 bg-#000 bg-opacity-50"
           >
             <q-radio
-              :model-value="mangaSelected.has(item.manga_id) ? '1' : undefined"
+              :model-value="mangaSelected.has(item.route) ? '1' : undefined"
               @click="
-                mangaSelected.has(item.manga_id)
-                  ? mangaSelected.delete(item.manga_id)
-                  : mangaSelected.add(item.manga_id)
+                mangaSelected.has(item.route)
+                  ? mangaSelected.delete(item.route)
+                  : mangaSelected.add(item.route)
               "
               val="1"
               color="white        "
@@ -45,12 +45,13 @@
           </div>
         </div>
 
-        <div class="text-1em ellipsis">{{ item.manga_name }}</div>
+        <div class="text-1em ellipsis">{{ item.name }}</div>
         <div class="text-0.92em text-gray-300 text-opacity-90">
           {{
             $t("a-slash-b", [
               item.count_ep,
-              item.count_ep + (IDMStore.queue.get(item.manga_id)?.size ?? 0)
+              item.count_ep +
+                (IDMStore.queue.get(item.route.params.comic)?.size ?? 0)
             ])
           }}
         </div>
@@ -103,8 +104,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { ID } from "raiku-pgs/plugin"
-import type { MetaMangaAndCountOnDisk } from "stores/IDM"
+import type { RouteComic } from "raiku-pgs/plugin"
+import type { ComicAndCountOnDisk } from "src/stores/IDM"
 
 const props = defineProps<{
   visible?: boolean
@@ -121,25 +122,25 @@ watch(
 )
 
 const editMode = ref(false)
-const mangaSelected = shallowReactive<Set<ID>>(new Set())
+const mangaSelected = shallowReactive<Set<RouteComic>>(new Set())
 
-const metaMangaShowInfo = ref<MetaMangaAndCountOnDisk | null>(null)
+const metaMangaShowInfo = ref<ComicAndCountOnDisk | null>(null)
 
 function selectAll() {
-  // eslint-disable-next-line camelcase
-  IDMStore.listComicOnDisk.forEach(({ manga_id }) => {
-    mangaSelected.add(manga_id)
+  IDMStore.listComicOnDisk.forEach(({ route }) => {
+    mangaSelected.add(route)
   })
 }
 const removing = ref(false)
 async function remove() {
   removing.value = true
-  // eslint-disable-next-line camelcase
-  for (const manga_id of mangaSelected) {
-    await deleteManga(manga_id)
+  for (const {
+    params: { comic }
+  } of mangaSelected) {
+    await deleteManga(comic)
   }
-  IDMStore.listComicOnDisk.forEach((item, index) => {
-    if (mangaSelected.has(item.manga_id)) IDMStore.listComicOnDisk.delete(index)
+  IDMStore.listComicOnDisk.forEach(({ route }, index) => {
+    if (mangaSelected.has(route)) IDMStore.listComicOnDisk.delete(index)
   })
   removing.value = false
 }

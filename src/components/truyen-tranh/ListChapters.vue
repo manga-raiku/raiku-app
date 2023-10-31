@@ -70,15 +70,23 @@
           :key="item.name"
           :class="[classItem ?? 'col-6 col-sm-4 col-md-3']"
         >
-          <router-link
+          <q-btn
+            flat
+            no-caps
             :to="item.route"
-            class="flex flex-nowrap bg-#f8f8f8 bg-opacity-7.5 hover:bg-opacity-12 transition-background-color duration-200 rounded-md py-1 px-4 relative cursor-pointer"
-            exact-active-class="!text-main reading text-weight-medium"
+            class="w-full bg-#f8f8f8 bg-opacity-7.5 py-1 px-4"
+            :disable="
+              offline &&
+              (!mapOffline?.get(item.route.params.chap) ||
+                isTaskDLEp(mapOffline?.get(item.route.params.chap)))
+            "
             :class="{
-              'text-#eee text-opacity-70': readsChapter?.has(item.id)
+              'text-#eee text-opacity-70': readsChapter?.has(item.id),
+              '!text-main reading text-weight-medium':
+              CYPRESS ||  route.fullPath === router.resolve(item.route).fullPath
             }"
           >
-            <div class="flex-1 min-w-0">
+            <div class="flex-1 min-w-0 text-left">
               <h5 class="text-14px ellipsis">
                 {{ $t("ch-name", [item.name]) }}
               </h5>
@@ -101,18 +109,20 @@
 
               <span v-if="!noDownload" @click.stop.prevent>
                 <BtnDownload
-                  :model-value="mapOffline?.get(item.id)"
-                  @update:model-value="mapOffline?.delete(item.id)"
-                  :manga-id="metaManga?.manga_id ?? null"
-                  :ep-id="item.id + ''"
+                  :model-value="mapOffline?.get(item.route.params.chap)"
+                  @update:model-value="
+                    mapOffline?.delete(item.route.params.chap)
+                  "
+                  :comic="item.route.params.comic ?? null"
+                  :ep-param="item.route.params.chap"
                   :can-download="true"
-                  :disable="!sourceId"
+                  :disable="!comic?.data"
                   @action:download="downloadEp(item)"
                 />
               </span>
             </div>
             <!-- {{ mapOffline?.get(item.id) }} -->
-          </router-link>
+          </q-btn>
         </li>
 
         <slot
@@ -129,11 +139,11 @@
 
 <script lang="ts" setup>
 import "@fontsource/poppins"
-import type { QBtn } from "quasar"
-import { QTab, QTabs } from "quasar"
-import type { Chapter, ID } from "raiku-pgs/plugin"
+import { QBtn, QTab, QTabs } from "quasar"
+import type { Chapter, Comic, ID, RouteComic } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
-import type { MetaManga, TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
+import { isTaskDLEp } from "src/logic/download-manager"
 
 const props = defineProps<{
   classItem?: string
@@ -143,13 +153,17 @@ const props = defineProps<{
   focusTabActive?: boolean
 
   readsChapter?: Set<ID>
-  mapOffline?: Map<ID, TaskDDEp | TaskDLEp>
-  metaManga?: MetaManga
+  mapOffline?: Map<string, TaskDDEp | TaskDLEp>
+  offline: boolean
+  comic?: {
+    data: Comic | null | (() => Promise<Comic>)
+    manga_id?: string
+    route: RouteComic | null
+  }
 
   chapters: readonly Chapter[]
 
   noDownload?: boolean
-  sourceId: string | null
 }>()
 const emit = defineEmits<{
   (name: "change-tab"): void
@@ -158,13 +172,16 @@ const emit = defineEmits<{
 const slots = useSlots()
 
 const route = useRoute()
+const router = useRouter()
 const IDMStore = useIDMStore()
 const pluginStore = usePluginStore()
+const { CYPRESS } = process.env
 
 const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
     const [from, to] = [
       parseFloat(items[0].name) || items[0].name,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       parseFloat(items.at(-1)!.name) || items.at(-1)!.name
     ]
 
@@ -221,9 +238,10 @@ function onWheelTabs(event: WheelEvent) {
 }
 
 async function downloadEp(item: Chapter) {
-  if (!props.sourceId) return
+  if (!props.comic?.route || !props.comic?.data)
+    return console.warn("[downloadEp]: can't run because ", props.comic)
 
-  const { plugin } = await pluginStore.get(props.sourceId)
+  const { plugin } = await pluginStore.get(props.comic.route.params.sourceId)
 
   const conf = await plugin.getComicChapter(
     item.route.params.comic,
@@ -231,12 +249,16 @@ async function downloadEp(item: Chapter) {
     false
   )
 
-  const task = await IDMStore.download(props.metaManga!, {
-    ep_id: item.id,
-    ep_name: item.name,
-    ep_param: item.route.params.chap,
-    pages: await plugin["servers:parse"](0, conf)
-  }).catch((err) => {
+  const task = await IDMStore.download(
+    props.comic.route,
+    typeof props.comic.data === "function"
+      ? await props.comic.data()
+      : props.comic.data,
+    conf,
+    item.name,
+    item.route.params.chap,
+    await plugin["servers:parse"](0, conf)
+  ).catch((err) => {
     if (err?.message === "user_paused") return
     // eslint-disable-next-line functional/no-throw-statement
     throw err
