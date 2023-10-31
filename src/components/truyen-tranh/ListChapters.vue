@@ -77,9 +77,9 @@
             class="w-full bg-#f8f8f8 bg-opacity-7.5 py-1 px-4"
             :disable="
               offline
-                ? !mapOffline?.get(item.route.params.chap) ||
+                && ( !mapOffline?.get(item.route.params.chap) ||
                   isTaskDLEp(mapOffline?.get(item.route.params.chap))
-                : true
+                )
             "
             :class="{
               'text-#eee text-opacity-70': readsChapter?.has(item.id),
