@@ -118,7 +118,7 @@ const IP = computedAsync(() => {
 })
 const ping = computedAsync(async () => {
   const time = performance.now()
-  await fetch("https://google.com")
+  await get({ url: "https://google.co.jp" })
   return performance.now() - time
 })
 const device = computedAsync(async () => {
