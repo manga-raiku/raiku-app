@@ -409,8 +409,8 @@ importers:
   npm/raiku-pgs:
     dependencies:
       '@fcanvas/communicate':
-        specifier: ^1.1.4
-        version: 1.1.4
+        specifier: ^1.1.5
+        version: 1.1.5
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
@@ -3503,8 +3503,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@fcanvas/communicate@1.1.4:
-    resolution: {integrity: sha512-PLvDC9514TO7ALA4L4hNGaP+qsA/p77G6j0RRUSXD4Dvkv0DB3xkQbcwr85V7k88tjRypL7L79mjE4cTBD5rOA==}
+  /@fcanvas/communicate@1.1.5:
+    resolution: {integrity: sha512-ZyZj+ohaOK//r/x7BgsD8FpA5qkW1ubLldBHxi3kzWZ9zUDDj6IXKMMiF3qHKWmsp0j0Ek3zdPJs6DDKLYsMZQ==}
     engines: {node: '>=10'}
     dev: false
 

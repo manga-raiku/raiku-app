@@ -50,7 +50,7 @@
     "vue-router": "^4.2.4"
   },
   "dependencies": {
-    "@fcanvas/communicate": "^1.1.4",
+    "@fcanvas/communicate": "^1.1.5",
     "chalk": "^4.1.2",
     "cheerio": "1.0.0-rc.12",
     "htmlparser2": "^9.0.0",
