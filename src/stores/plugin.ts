@@ -176,10 +176,10 @@ export const usePluginStore = defineStore("plugin", () => {
   }
 
   async function checkForUpdate(sourceId: ID) {
-    const { source, version } = (await get(sourceId)).meta
+    const { source, version, devMode } = (await get(sourceId)).meta
     const metaOnline = await fetch(join(source, "plugin.mjs"))
       .then((res) => res.text())
-      .then((code) => execPackageMjs(code, false, APP_INFO))
+      .then((code) => execPackageMjs(code, devMode, APP_INFO))
     // check for updated
     if (!semverGt(metaOnline.version, version)) {
       // don't need update
