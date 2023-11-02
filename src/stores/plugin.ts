@@ -174,10 +174,7 @@ export const usePluginStore = defineStore("plugin", () => {
     return metaOnline
   }
 
-  async function _get(sourceId: string) {
-    const onCache = pluginsInstalled.get(sourceId)
-    if (onCache) return onCache
-
+  async function _getOnDisk(sourceId: string) {
     console.time(`Time load plugin "${sourceId}"`)
 
     try {
@@ -212,13 +209,16 @@ export const usePluginStore = defineStore("plugin", () => {
     }
   }
 
-  const storeTaskGet = new Map<string, ReturnType<typeof _get>>()
+  const storeTaskGet = new Map<string, ReturnType<typeof _getOnDisk>>()
   async function get(sourceId: string) {
+    const onCache = pluginsInstalled.get(sourceId)
+    if (onCache) return onCache
+
     const task = storeTaskGet.get(sourceId)
 
     if (task) return task
 
-    const newTask = _get(sourceId)
+    const newTask = _getOnDisk(sourceId)
     storeTaskGet.set(sourceId, newTask)
 
     return newTask
