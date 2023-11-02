@@ -12,6 +12,7 @@ export class EventBus<Events extends Record<string, unknown[]>> {
     if (!(name in this.events))
       this.events[name] = new Set<(...args: unknown[]) => void>()
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.events[name]!.add(cb)
 
     if (instance) onBeforeUnmount(() => this.off(name, cb), instance)

@@ -91,8 +91,10 @@ async function bumppAndroid() {
           const value =
             name === "next"
               ? semver.parse(currentVersionName)?.prerelease?.length
-                ? semver.inc(currentVersionName, "prerelease")!
-                : semver.inc(currentVersionName, "patch")!
+                ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  semver.inc(currentVersionName, "prerelease")!
+                : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  semver.inc(currentVersionName, "patch")!
               : new SemVer(currentVersionName).inc(name)
 
           return { title: `${name.padStart(PADDING, " ")} ${value}`, value }

@@ -815,7 +815,7 @@ const serversReady = computedAsync(
   {
     onError(err) {
       if (err instanceof PluginError) {
-        error.value = err
+        error.value = err as typeof PluginError
         return
       }
 
