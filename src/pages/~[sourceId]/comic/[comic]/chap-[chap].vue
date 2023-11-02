@@ -700,7 +700,7 @@ const statusEPDL = computedAsync<TaskDDEp | TaskDLEp | null | undefined>(
   },
   undefined,
   {
-    onError: console.error.bind(console)
+    onError: WARN
   }
 )
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
@@ -774,16 +774,22 @@ const isFollow = computedAsync<boolean | undefined>(() => {
   if (!data.value) return
 
   return followStore.check(data.value.manga_id)
-}, undefined)
+}, undefined, {
+  onError: WARN
+})
 const lastEpRead = computedAsync(() => {
   if (!data.value) return
 
   return historyStore.getLastEpRead(data.value.manga_id)
-}, undefined)
+}, undefined, {
+  onError: WARN
+})
 const listEpRead = computedAsync(() => {
   if (!data.value) return
 
   return historyStore.getListEpRead(data.value.manga_id)
+}, undefined, {
+  onError: WARN
 })
 
 const zoom = useClamp(100, 50, 200)
@@ -801,7 +807,7 @@ const serversReady = computedAsync(
         return
       }
 
-      console.error(error)
+      WARN(err)
     }
   }
 )
@@ -819,7 +825,7 @@ const pages = computedAsync(
   },
   undefined,
   {
-    onError: console.error.bind(console)
+    onError: WARN
   }
 )
 

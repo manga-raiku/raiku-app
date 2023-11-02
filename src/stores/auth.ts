@@ -33,7 +33,7 @@ export const useAuthStore = defineStore("auth-spb", () => {
       return null
     },
     null,
-    { lazy: true, onError: (err) => console.warn(err) }
+    { lazy: true, onError: WARN }
   )
 
   const setup = ref<Promise<void>>()

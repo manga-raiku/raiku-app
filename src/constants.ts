@@ -52,6 +52,8 @@ export const PROTOCOL_OFFLINE = "offline://"
 export const FLAG_OFFLINE = "__OFFLINE__"
 export const FLAG_CACHE = "__CACHE__"
 
+export const WARN = console.warn.bind(console)
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Icon = FunctionalComponent<SVGAttributes, {}>
 

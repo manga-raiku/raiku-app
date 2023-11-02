@@ -488,7 +488,7 @@ const image = computedAsync(
   },
   undefined,
   {
-    onError: console.error.bind(console)
+    onError:WARN
   }
 )
 

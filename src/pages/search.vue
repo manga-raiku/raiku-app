@@ -336,7 +336,7 @@ const typesRank = computedAsync<
     }),
   undefined,
   {
-    onError: (err) => console.error(err)
+    onError: WARN
   }
 )
 
