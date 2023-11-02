@@ -67,12 +67,18 @@ jobs:
           name: apk-release.apk
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
-      - name: "✏️ Generate release changelog"
+      # - name: "✏️ Generate release changelog"
+      #   id: changelog
+      #   uses: heinrichreimer/github-changelog-generator-action@v2.3
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     excludeTagsRegex: pwa|ios@.*
+
+      - name: Generate changelog
         id: changelog
-        uses: heinrichreimer/github-changelog-generator-action@v2.3
+        uses: metcalfc/changelog-generator@v4.0.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          excludeTagsRegex: pwa|ios@.*
+          myToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
         uses: softprops/action-gh-release@v0.1.14
