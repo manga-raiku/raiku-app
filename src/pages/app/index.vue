@@ -13,7 +13,11 @@ meta:
       autoplay
       loop
       muted
-      class="h-full object-cover"
+      class="fixed w-full object-cover sm:hidden min-h-[calc(100%-65%+58px)]"
+    />
+    <img
+      src="~/assets/picture_sakura.svg"
+      class="w-full object-cover <sm:hidden min-h-[calc(100%-65%+58px)]"
     />
 
     <div
@@ -88,7 +92,6 @@ import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
 
 const authStore = useAuthStore()
 const $q = useQuasar()
-const router = useRouter()
 const i18n = useI18n()
 
 const buttons: {
@@ -141,12 +144,4 @@ const buttons: {
     })
   }
 ]
-
-watch(
-  () => $q.screen.lt.md,
-  (mobile) => {
-    if (!mobile) void router.push("/app/myaccount")
-  },
-  { immediate: true }
-)
 </script>
