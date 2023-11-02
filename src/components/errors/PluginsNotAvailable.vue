@@ -2,7 +2,7 @@
   <q-card-section>
     <img
       src="~assets/plugin_not_available.png"
-      class="w-240px sm:w-450px max-w-100% mx-auto"
+      class="w-240px sm:w-450px max-w-100% mx-auto mt--60px"
       alt="plugin_error"
     />
 
