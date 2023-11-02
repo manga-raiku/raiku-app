@@ -14,9 +14,19 @@ meta:
       </q-btn>
 
       <div class="ellipsis text-16px text-weight-medium">{{ data?.name }}</div>
+
+      <q-space />
+
+      <q-btn
+        round
+        unelevated
+        @click="stateStore.showPluginManagerDialog = true"
+      >
+        <component :is="Icons.mingcute[0]" />
+      </q-btn>
     </q-toolbar>
   </q-header>
-  <q-page padding>
+  <q-page padding class="pb-60px">
     <div
       v-if="$q.screen.lt.md"
       class="fixed top-0 left-0 w-full h-full z--1"
@@ -412,7 +422,7 @@ import { useShare } from "@vueuse/core"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import { packageName } from "app/package.json"
 import type { Comic, ID } from "raiku-pgs/plugin"
-import { FLAG_OFFLINE } from "src/constants"
+import { FLAG_OFFLINE, Icons } from "src/constants"
 import dayjs from "src/logic/dayjs"
 import type {
   ComicOnDisk,
@@ -435,6 +445,7 @@ const followStore = useFollowStore()
 const historyStore = useHistoryStore()
 const IDMStore = useIDMStore()
 const pluginStore = usePluginStore()
+const stateStore = useStateStore()
 const networkStore = useNetworkStore()
 
 const api = pluginStore.useApi(toGetter(props, "sourceId"), false)
