@@ -1,9 +1,8 @@
 <template>
   <TemplateError
-    image="~assets/unknown_error.png"
-    alt="plugin_error"
-    :title="$t('rat-tiec-da-xay-ra-loi')"
-    :caption="error + ''"
+    image="~assets/resource_not_found.svg"
+    :title="`Tài nguyên không có`"
+    :caption="`Plugin không cung cấp bất cứ thông tin gì.`"
     :retrying="retrying"
     :retry="retry"
   />

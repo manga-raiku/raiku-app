@@ -2,7 +2,6 @@
 import { createPinia, setActivePinia } from "pinia"
 import type { Chapter } from "raiku-pgs/plugin"
 
-
 import ListChapters from "./ListChapters.vue"
 
 setActivePinia(createPinia())

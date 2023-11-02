@@ -83,7 +83,8 @@
             :class="{
               'text-#eee text-opacity-70': readsChapter?.has(item.id),
               '!text-main reading text-weight-medium':
-              CYPRESS ||  route.fullPath === router.resolve(item.route).fullPath
+                CYPRESS ||
+                route.fullPath === router.resolve(item.route).fullPath
             }"
           >
             <div class="flex-1 min-w-0 text-left">

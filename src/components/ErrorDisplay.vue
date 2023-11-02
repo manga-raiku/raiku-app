@@ -16,6 +16,7 @@ import DefaultErrorVue from "./errors/DefaultError.vue"
 import Offline from "./errors/Offline.vue"
 import PluginErrorVue from "./errors/PluginError.vue"
 import PluginsNotAvailableVue from "./errors/PluginsNotAvailable.vue"
+import ResourceNotFound from "./errors/ResourceNotFound.vue"
 
 const props = defineProps<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,6 +30,7 @@ const comp = computed(() => {
   if (props.error instanceof PluginsNotAvailable) return PluginsNotAvailableVue
   if (props.error.message === "Error: TypeError: Failed to fetch")
     return Offline
+  if (props.error?.status === 404) return ResourceNotFound
 
   return DefaultErrorVue
 })

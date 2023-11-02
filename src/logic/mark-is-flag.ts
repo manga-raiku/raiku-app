@@ -3,7 +3,7 @@ export function markFlag<T extends object>(data: T, name: string): T {
   return data
 }
 
-export function unFlag<T extends object>(data: T, name: string): T{
+export function unFlag<T extends object>(data: T, name: string): T {
   delete data[name as keyof T]
   return data
 }

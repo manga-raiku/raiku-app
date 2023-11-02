@@ -1,12 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable functional/no-throw-statement */
 import hashSum from "hash-sum"
-import type {
-  Chapter,
-  Comic,
-  ComicChapter,
-  RouteComic
-} from "raiku-pgs/plugin"
+import type { Chapter, Comic, ComicChapter, RouteComic } from "raiku-pgs/plugin"
 /*
 .
 ├── meta/

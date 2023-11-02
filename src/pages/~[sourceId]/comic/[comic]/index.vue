@@ -69,9 +69,9 @@ meta:
             >{{
               $t("val-luot-xem", [data.views ? formatView(data.views) : "N/A"])
             }}
-           <template v-if="isFlag(data, FLAG_CACHE)">
-           &bull; <i-octicon-cache-16 class="ml-1" />
-           </template>
+            <template v-if="isFlag(data, FLAG_CACHE)">
+              &bull; <i-octicon-cache-16 class="ml-1" />
+            </template>
           </small>
 
           <div
