@@ -793,7 +793,6 @@ watch(serversReady, () => void (server.value = 0))
 const pages = computedAsync(
   async () => {
     if (!data.value) return
-    debugger
     if (isFlag(data.value, FLAG_OFFLINE))
       return (data.value as ComicChapterOnDisk).pages_offline
 
