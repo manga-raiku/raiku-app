@@ -11,7 +11,7 @@
         {{ $t("trinh-quan-ly-plugin") }}
 
         <div>
-          <q-btn unelevated round @click="triggerCheckUpdate">
+          <q-btn unelevated round @click="pluginStore.checkUpdatePlugins()">
             <i-solar-refresh-line-duotone class="size-1.5em" />
           </q-btn>
           <q-btn unelevated round v-close-popup>
@@ -76,15 +76,15 @@
               <template v-if="!showEdit">
                 <i-eos-icons-bubble-loading
                   v-if="
-                    updateMap.get(item.id)?.status ===
+                    pluginStore.updateState.get(item.id)?.status ===
                       UpdatePluginStatus.CHECKING ||
-                    updateMap.get(item.id)?.status ===
+                    pluginStore.updateState.get(item.id)?.status ===
                       UpdatePluginStatus.PEDDING
                   "
                 />
                 <q-btn
                   v-else-if="
-                    updateMap.get(item.id)?.status ===
+                    pluginStore.updateState.get(item.id)?.status ===
                     UpdatePluginStatus.NEW_VERSION
                   "
                   no-caps
@@ -104,20 +104,23 @@
                   <div class="text-0.8em">
                     {{
                       $t("cap-nhat-v", [
-                        (updateMap.get(item.id) as unknown as any)?.data.version
+                        (pluginStore.updateState.get(item.id) as unknown as any)
+                          ?.data.version
                       ])
                     }}
                   </div>
                 </q-btn>
                 <div
                   v-else-if="
-                    updateMap.get(item.id)?.status === UpdatePluginStatus.ERROR
+                    pluginStore.updateState.get(item.id)?.status ===
+                    UpdatePluginStatus.ERROR
                   "
                   class="relative"
                 >
                   <i-codicon-error class="text-red-400" />
                   <q-tooltip>{{
-                    (updateMap.get(item.id) as unknown as any)?.data
+                    (pluginStore.updateState.get(item.id) as unknown as any)
+                      ?.data
                   }}</q-tooltip>
                 </div>
               </template>
@@ -175,23 +178,40 @@ pluginStore.busses.on("remove plugin", (id) => {
   data.value?.splice(data.value.findIndex((item) => item.id === id) >>> 0, 1)
 })
 
-const counter = ref(0)
-const updateMap = computed(() => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _ = counter.value
-
-  void pluginStore.checkUpdatePlugins()
-
-  return pluginStore.updateState
-})
-const triggerCheckUpdate = () => counter.value++
+void pluginStore.checkUpdatePlugins()
 const updatingMap = shallowReactive(new Set<string>())
 
 async function onClickUpdate(item: Pick<PackageDisk, "name" | "id">) {
   updatingMap.add(item.id)
-  await pluginStore.updatePlugin(item.id)
-  pluginStore.updateState.delete(item.id)
-  updatingMap.delete(item.id)
+  try {
+    const r = await pluginStore.updatePlugin(item.id)
+
+    if (r)
+      $q.notify({
+        message: t("da-cap-nhat-plugin-r-name", [r.name])
+      })
+
+    updatingMap.delete(item.id)
+  } catch (err) {
+    console.error(err)
+    let message: string
+    switch ((err as Response)?.status) {
+      case 404:
+        message = t("khong-co-plugin-nao-duoc-tim-thay")
+        break
+      default:
+        if (err + "" === STATUS_PLUGIN_INSTALL.NOT_SUPPORT_PLATFORM)
+          message = t("plugin-nay-khong-ho-tro-moi-truong-nay")
+        else
+          message = t("loi-khi-them-plugin", [
+            import.meta.env.DEV ? ` (${err})` : ""
+          ])
+    }
+
+    $q.notify({
+      message
+    })
+  }
 }
 function removePlugin(item: Pick<PackageDisk, "name" | "id">) {
   $q.dialog({
@@ -219,7 +239,7 @@ const showEdit = ref(false)
 
 <style lang="scss" scoped>
 .icon {
-  .rotating {
+  &.rotating {
     animation: rotating 1s infinite ease-in-out;
     @keyframes rotating {
       from {

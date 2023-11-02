@@ -150,6 +150,7 @@ export const usePluginStore = defineStore("plugin", () => {
     }).catch(() => {})
     ;(await pluginsInstalled.get(id))?.plugin.destroy()
     pluginsInstalled.delete(id)
+    updateState.delete(id)
     busses.emit("remove plugin", id)
   }
   async function updatePlugin(id: string) {
@@ -168,9 +169,10 @@ export const usePluginStore = defineStore("plugin", () => {
       return false
     }
 
-    await installPlugin(meta.source, meta.devMode)
+    const r = await installPlugin(meta.source, meta.devMode)
+    updateState.delete(id)
 
-    return true
+    return r
   }
 
   async function checkForUpdate(sourceId: ID) {
