@@ -17,6 +17,7 @@ meta:
     />
     <img
       src="~/assets/picture_sakura.svg"
+      alt="picture_sakura"
       class="w-full object-cover <sm:hidden min-h-[calc(100%-65%+58px)]"
     />
 
