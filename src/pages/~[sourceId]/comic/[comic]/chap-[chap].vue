@@ -582,6 +582,7 @@ import type { QDialog, QMenu } from "quasar"
 import type { Chapter, Comic, ComicChapter, ID } from "raiku-pgs/plugin"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import { FLAG_CACHE, FLAG_OFFLINE } from "src/constants"
+import { PluginError } from "src/errors/plugin"
 import type {
   ComicChapterOnDisk,
   TaskDDEp,
@@ -815,7 +816,7 @@ const serversReady = computedAsync(
   {
     onError(err) {
       if (err instanceof PluginError) {
-        error.value = err as typeof PluginError
+        error.value = err as PluginError
         return
       }
 
