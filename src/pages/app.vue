@@ -66,7 +66,7 @@
 <script lang="ts" setup>
 import { App } from "@capacitor/app"
 import { version } from "app/package.json"
-import { Icons } from "src/constants"
+import { Icons } from "src/Icons"
 import type { Icon } from "src/constants"
 
 import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"

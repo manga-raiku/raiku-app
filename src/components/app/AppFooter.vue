@@ -92,7 +92,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Icons } from "src/constants"
+import { Icons } from "src/Icons"
 import { pathEqual } from "src/logic/path-equal"
 
 const route = useRoute()

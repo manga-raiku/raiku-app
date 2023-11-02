@@ -242,8 +242,8 @@
 <script lang="ts" setup>
 import { App } from "@capacitor/app"
 import { version } from "app/package.json"
-import { Icons } from "src/constants"
-import type { Icon } from "src/constants"
+import { Icons } from "src/Icons"
+import type { Icon } from "src/Icons"
 import { installedSW, updatingCache } from "src/logic/state-sw"
 import langs from "virtual:i18n-langs"
 

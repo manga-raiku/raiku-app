@@ -770,27 +770,39 @@ function deleteEp(epParam: string) {
   lsEpDL.value = [...(lsEpDL.value || [])]
 }
 
-const isFollow = computedAsync<boolean | undefined>(() => {
-  if (!data.value) return
+const isFollow = computedAsync<boolean | undefined>(
+  () => {
+    if (!data.value) return
 
-  return followStore.check(data.value.manga_id)
-}, undefined, {
-  onError: WARN
-})
-const lastEpRead = computedAsync(() => {
-  if (!data.value) return
+    return followStore.check(data.value.manga_id)
+  },
+  undefined,
+  {
+    onError: WARN
+  }
+)
+const lastEpRead = computedAsync(
+  () => {
+    if (!data.value) return
 
-  return historyStore.getLastEpRead(data.value.manga_id)
-}, undefined, {
-  onError: WARN
-})
-const listEpRead = computedAsync(() => {
-  if (!data.value) return
+    return historyStore.getLastEpRead(data.value.manga_id)
+  },
+  undefined,
+  {
+    onError: WARN
+  }
+)
+const listEpRead = computedAsync(
+  () => {
+    if (!data.value) return
 
-  return historyStore.getListEpRead(data.value.manga_id)
-}, undefined, {
-  onError: WARN
-})
+    return historyStore.getListEpRead(data.value.manga_id)
+  },
+  undefined,
+  {
+    onError: WARN
+  }
+)
 
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)

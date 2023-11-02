@@ -427,7 +427,8 @@ import { useShare } from "@vueuse/core"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import { packageName } from "app/package.json"
 import type { Comic, ID } from "raiku-pgs/plugin"
-import { FLAG_CACHE, FLAG_OFFLINE, Icons } from "src/constants"
+import { Icons } from "src/Icons"
+import { FLAG_CACHE, FLAG_OFFLINE } from "src/constants"
 import dayjs from "src/logic/dayjs"
 import type {
   ComicOnDisk,
@@ -488,7 +489,7 @@ const image = computedAsync(
   },
   undefined,
   {
-    onError:WARN
+    onError: WARN
   }
 )
 
