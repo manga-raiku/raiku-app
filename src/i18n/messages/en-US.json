@@ -230,5 +230,7 @@
   "thu-vien": "Library",
   "title-offline": "No network. \nExplore downloaded stories?",
   "trang-chu": "Home page",
-  "khong-co-ket-noi-internet": "No Internet connection"
+  "khong-co-ket-noi-internet": "No Internet connection",
+  "da-cap-nhat-plugin-r-name": "Plugin {0} updated",
+  "plugin-nay-khong-ho-tro-moi-truong-nay": "This plugin does not support this environment"
 }

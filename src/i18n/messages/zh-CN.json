@@ -230,5 +230,7 @@
   "thu-vien": "图书馆",
   "title-offline": "没有网络。\n探索下载的故事？",
   "trang-chu": "主页",
-  "khong-co-ket-noi-internet": "没有网络连接"
+  "khong-co-ket-noi-internet": "没有网络连接",
+  "da-cap-nhat-plugin-r-name": "插件 {0} 已更新",
+  "plugin-nay-khong-ho-tro-moi-truong-nay": "该插件不支持该环境"
 }

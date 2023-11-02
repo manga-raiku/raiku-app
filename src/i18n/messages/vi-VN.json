@@ -231,5 +231,6 @@
   "thu-vien": "Thư viện",
   "khong-co-ket-noi": "Không có kết nối",
   "khong-co-ket-noi-internet": "Không có kết nối Internet",
-  "plugin-nay-khong-ho-tro-moi-truong-nay": "Plugin này không hỗ trợ môi trường này"
+  "plugin-nay-khong-ho-tro-moi-truong-nay": "Plugin này không hỗ trợ môi trường này",
+  "da-cap-nhat-plugin-r-name": "Đã cập nhật plugin {0}"
 }

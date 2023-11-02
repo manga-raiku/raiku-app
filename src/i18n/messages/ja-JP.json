@@ -230,5 +230,7 @@
   "thu-vien": "図書館",
   "title-offline": "圏外。\nダウンロードしたストーリーを探索しますか?",
   "trang-chu": "ホームページ",
-  "khong-co-ket-noi-internet": "インターネット接続なし"
+  "khong-co-ket-noi-internet": "インターネット接続なし",
+  "da-cap-nhat-plugin-r-name": "プラグイン {0} が更新されました",
+  "plugin-nay-khong-ho-tro-moi-truong-nay": "このプラグインはこの環境をサポートしていません"
 }
