@@ -13,13 +13,15 @@ export async function withCache<T extends object>(
       if (!json) throw new Error("not_found")
 
       // eslint-disable-next-line promise/always-return
-      if (!result) result = shallowReactive(JSON.parse(json))
+      if (!result)
+        result = markFlag(shallowReactive(JSON.parse(json)), FLAG_CACHE)
     }),
     fn()
       .then((data) => {
         // eslint-disable-next-line promise/always-return
         if (result && typeof result === "object" && typeof data === "object") {
           Object.assign(result, data)
+          unFlag(result, FLAG_CACHE)
         } else {
           result = shallowReactive(data as Awaited<T>)
         }
@@ -30,7 +32,10 @@ export async function withCache<T extends object>(
         // eslint-disable-next-line functional/no-throw-statement
         throw err
       })
-  ])
+  ]).catch(({ errors }) => {
+    // eslint-disable-next-line functional/no-throw-statement
+    throw errors[1]
+  })
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
