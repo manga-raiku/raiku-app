@@ -39,9 +39,14 @@ meta:
         <i-iconamoon-arrow-right-2-thin class="mx-1 <md:!hidden" />
 
         <small
-          class="text-gray-300 md:text-14px md:text-white text-12px whitespace-nowrap"
-          >{{ $t("chuong-name", [currentEpisode?.value.name ?? "__"]) }}</small
+          class="text-gray-300 md:text-14px md:text-white text-12px whitespace-nowrap flex items-center line-clamp-1"
         >
+          {{ $t("chuong-name", [currentEpisode?.value.name ?? "__"]) }}
+
+          <template v-if="data && isFlag(data, FLAG_CACHE)">
+            &bull; <i-octicon-cache-16 class="ml-1" />
+          </template>
+        </small>
       </div>
 
       <q-space />
@@ -576,7 +581,7 @@ import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
 import type { Chapter, Comic, ComicChapter, ID } from "raiku-pgs/plugin"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
-import { FLAG_OFFLINE } from "src/constants"
+import { FLAG_CACHE, FLAG_OFFLINE } from "src/constants"
 import type {
   ComicChapterOnDisk,
   TaskDDEp,

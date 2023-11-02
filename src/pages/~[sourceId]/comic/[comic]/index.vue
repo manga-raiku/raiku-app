@@ -65,9 +65,14 @@ meta:
           >
             {{ data.othername }}
           </h2>
-          <small class="text-14px text-gray-400 my-2">{{
-            $t("val-luot-xem", [data.views ? formatView(data.views) : "N/A"])
-          }}</small>
+          <small class="flex items-center text-14px text-gray-400 my-2"
+            >{{
+              $t("val-luot-xem", [data.views ? formatView(data.views) : "N/A"])
+            }}
+           <template v-if="isFlag(data, FLAG_CACHE)">
+           &bull; <i-octicon-cache-16 class="ml-1" />
+           </template>
+          </small>
 
           <div
             class="mt-3 flex children:my-1 text-gray-300 text-15px font-family-poppins"
@@ -422,7 +427,7 @@ import { useShare } from "@vueuse/core"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import { packageName } from "app/package.json"
 import type { Comic, ID } from "raiku-pgs/plugin"
-import { FLAG_OFFLINE, Icons } from "src/constants"
+import { FLAG_CACHE, FLAG_OFFLINE, Icons } from "src/constants"
 import dayjs from "src/logic/dayjs"
 import type {
   ComicOnDisk,
