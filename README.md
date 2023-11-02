@@ -75,7 +75,7 @@ quasar build
 ### To be on
 
 - [x] Download manager for desktop
-- [ ] Offline ready interface
+- [x] Offline ready interface
 - [ ] Infinite reader
 - [x] Common API to support various sources
 - [x] Localize app
