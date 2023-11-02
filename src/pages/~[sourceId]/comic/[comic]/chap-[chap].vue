@@ -109,7 +109,12 @@ meta:
         @action:next-ch="nextCh"
       />
     </template>
-    <ErrorDisplay v-else-if="error" :error="error" :retry-async="runAsync" />
+    <ErrorDisplay
+      v-else-if="error"
+      :error="error"
+      :retry-async="runAsync"
+      class="pb-150px"
+    />
     <div v-else class="w-full h-full flex items-center justify-center">
       <div>
         <SpinnerSakura />
@@ -785,7 +790,14 @@ const serversReady = computedAsync(
   },
   undefined,
   {
-    onError: console.error.bind(console)
+    onError(err) {
+      if (err instanceof PluginError) {
+        error.value = err
+        return
+      }
+
+      console.error(error)
+    }
   }
 )
 // eslint-disable-next-line no-void

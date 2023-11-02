@@ -94,7 +94,7 @@ quasar build
 
 - [ ] use QScrollArea and QVirtualScroll
 
-- [ ] bootloop in page read if plugin not install
+- [x] bootloop in page read if plugin not install
 
 ### Customize the configuration
 
