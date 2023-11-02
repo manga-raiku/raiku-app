@@ -1,9 +1,6 @@
 <template>
   <div class="w-full h-full">
-    <q-card
-      flat
-      class="q-ma-sm full-width top-1/2 transform translate-y--50% transparent text-center"
-    >
+    <q-card flat class="q-ma-sm full-width transparent text-center">
       <component
         :is="comp"
         :error="error"
