@@ -9,20 +9,20 @@ meta:
 
 <template>
   <q-page padding>
-    <template v-if="!data">
+    <!-- <template v-if="!data">
       <q-skeleton type="text" width="220px" class="mt-3" />
 
       <SkeletonGridCard :count="40" />
-    </template>
-    <template v-else>
+    </template> -->
+    <template v-if="data">
       <GenresFilterNative :filter="data.filters" />
 
       <p class="mt-80px font-family-poppins">{{ data.description }}</p>
+    </template>
+    <!-- filter native -->
+    <!-- /filter native -->
 
-      <!-- filter native -->
-      <!-- /filter native -->
-
-      <!--
+    <!--
         <div
           v-if="data.maxPage > 1 && $q.screen.gt.sm"
           class="flex items-center justify-center q-pa-md"
@@ -30,19 +30,18 @@ meta:
           <Pagination :max="data.maxPage" v-model="page" />
         </div> -->
 
-      <InfiniteScroll v-if="data && !loading" @load="onLoad">
-        <GridCard :items="data.items" />
-      </InfiniteScroll>
-      <ErrorDisplay v-else-if="error" :error="error" :retry-async="runAsync" />
-      <SkeletonGridCard v-else :count="40" />
+    <InfiniteScroll v-if="data && !loading" @load="onLoad">
+      <GridCard :items="data.items" />
+    </InfiniteScroll>
+    <ErrorDisplay v-else-if="error" :error="error" :retry-async="runAsync" />
+    <SkeletonGridCard v-else :count="40" />
 
-      <!-- <div
+    <!-- <div
           v-if="data.maxPage > 1 && $q.screen.gt.sm"
           class="flex items-center justify-center q-pa-md"
         >
           <Pagination :max="data.maxPage" v-model="page" />
-        </div> -->
-    </template>
+        </div> -->\
   </q-page>
 
   <FABPluginSelect v-model="paramSourceId" />
