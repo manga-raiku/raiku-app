@@ -1,6 +1,7 @@
 import { expect } from "vitest"
 
 const value = { v: Math.random() }
+markFlag(value, FLAG_CACHE)
 
 describe("with-cache", () => {
   test("should get value from fn", async () => {
