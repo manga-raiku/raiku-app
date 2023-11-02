@@ -89,7 +89,7 @@ quasar build
 - [x] button next chap
 
 - [x] multiple pre search
-- [ ] control plugin separate
+- [x] control plugin separate
 - [ ] fix url with proxy wrong
 
 - [ ] use QScrollArea and QVirtualScroll

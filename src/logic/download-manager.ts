@@ -5,7 +5,6 @@ import type {
   Chapter,
   Comic,
   ComicChapter,
-  ID,
   RouteComic
 } from "raiku-pgs/plugin"
 /*

@@ -24,6 +24,14 @@ export interface PluginOnMemory {
   readonly plugin: ReturnType<typeof createWorkerPlugin>
 }
 
+export enum UpdatePluginStatus {
+  CHECKING,
+  PEDDING,
+  NEW_VERSION,
+  ERROR,
+  NOTHING
+}
+
 const httpGet = get
 const httpPost = post
 
@@ -58,7 +66,12 @@ export const usePluginStore = defineStore("plugin", () => {
           path: `plugins/${file.name}`,
           directory: Directory.External,
           encoding: Encoding.UTF8
-        }).then(({ data }) => JSON.parse(data) as PackageDisk)
+        }).then(({ data }) => {
+          const plugin = JSON.parse(data)
+          delete plugin.plugin
+
+          return plugin as Omit<PackageDisk, "plugin">
+        })
 
         return meta
       })
@@ -270,6 +283,62 @@ export const usePluginStore = defineStore("plugin", () => {
       : computed(() => get(sourceId.value!).then(({ plugin }) => plugin))
   }
 
+  // ===== plugin update checking =====
+  const updateState = shallowReactive(
+    new Map<
+      string,
+      | {
+          readonly status:
+            | UpdatePluginStatus.CHECKING
+            | UpdatePluginStatus.PEDDING
+            | UpdatePluginStatus.NOTHING
+        }
+      | {
+          readonly status: UpdatePluginStatus.NEW_VERSION
+          readonly data: Package
+        }
+      | {
+          readonly status: UpdatePluginStatus.ERROR
+          readonly data: unknown
+        }
+    >()
+  )
+  async function checkUpdatePlugins() {
+    const plugins = await getAllPlugins()
+    plugins.forEach((plugin) =>
+      updateState.set(plugin.id, { status: UpdatePluginStatus.PEDDING })
+    )
+
+    await someLimit(
+      plugins,
+      async (plugin) => {
+        updateState.set(plugin.id, { status: UpdatePluginStatus.CHECKING })
+
+        try {
+          const pkg = await checkForUpdate(plugin.id)
+
+          if (pkg)
+            updateState.set(plugin.id, {
+              status: UpdatePluginStatus.NEW_VERSION,
+              data: pkg
+            })
+          else
+            updateState.set(plugin.id, {
+              status: UpdatePluginStatus.NOTHING
+            })
+        } catch (error) {
+          updateState.set(plugin.id, {
+            status: UpdatePluginStatus.ERROR,
+            data: error
+          })
+        }
+
+        return false
+      },
+      5
+    )
+  }
+
   return {
     pluginMain,
     pluginMainPromise,
@@ -283,10 +352,12 @@ export const usePluginStore = defineStore("plugin", () => {
     installPlugin,
     removePlugin,
     updatePlugin,
-    checkForUpdate,
 
     getPluginOrDefault,
 
-    useApi
+    useApi,
+
+    updateState,
+    checkUpdatePlugins
   }
 })

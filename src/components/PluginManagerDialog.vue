@@ -75,43 +75,51 @@
             <q-item-section side>
               <template v-if="!showEdit">
                 <i-eos-icons-bubble-loading
-                  v-if="updateMap.get(item.id)?.loading.value"
+                  v-if="
+                    updateMap.get(item.id)?.status ===
+                      UpdatePluginStatus.CHECKING ||
+                    updateMap.get(item.id)?.status ===
+                      UpdatePluginStatus.PEDDING
+                  "
                 />
-                <template v-else-if="updateMap.get(item.id)?.status.value">
-                  <q-btn
-                    v-if="updateMap.get(item.id)?.status.value?.ok"
-                    no-caps
-                    unelevated
-                    rounded
-                    stack
-                    class="text-white"
-                    @click.stop.prevent="onClickUpdate(item)"
-                    @mousedown.stop
-                  >
-                    <i-ic-outline-update
-                      class="mx-auto icon"
-                      :class="{
-                        rotating: updatingMap.has(item.id)
-                      }"
-                    />
-                    <div class="text-0.8em">
-                      {{
-                        $t("cap-nhat-v", [
-                          (
-                            updateMap.get(item.id)?.status.value
-                              ?.data as unknown as any
-                          )?.version
-                        ])
-                      }}
-                    </div>
-                  </q-btn>
-                  <div v-else class="relative">
-                    <i-codicon-error class="text-red-400" />
-                    <q-tooltip>{{
-                      updateMap.get(item.id)?.status.value?.data + ""
-                    }}</q-tooltip>
+                <q-btn
+                  v-else-if="
+                    updateMap.get(item.id)?.status ===
+                    UpdatePluginStatus.NEW_VERSION
+                  "
+                  no-caps
+                  unelevated
+                  rounded
+                  stack
+                  class="text-white"
+                  @click.stop.prevent="onClickUpdate(item)"
+                  @mousedown.stop
+                >
+                  <i-ic-outline-update
+                    class="mx-auto icon"
+                    :class="{
+                      rotating: updatingMap.has(item.id)
+                    }"
+                  />
+                  <div class="text-0.8em">
+                    {{
+                      $t("cap-nhat-v", [
+                        (updateMap.get(item.id) as unknown as any)?.data.version
+                      ])
+                    }}
                   </div>
-                </template>
+                </q-btn>
+                <div
+                  v-else-if="
+                    updateMap.get(item.id)?.status === UpdatePluginStatus.ERROR
+                  "
+                  class="relative"
+                >
+                  <i-codicon-error class="text-red-400" />
+                  <q-tooltip>{{
+                    (updateMap.get(item.id) as unknown as any)?.data
+                  }}</q-tooltip>
+                </div>
               </template>
 
               <q-btn
@@ -140,9 +148,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { Package } from "raiku-pgs/plugin"
 import type { PackageDisk } from "stores/plugin"
-import type { ShallowRef } from "vue"
+import { UpdatePluginStatus } from "stores/plugin"
 
 defineProps<{
   modelValue: boolean
@@ -172,59 +179,21 @@ const counter = ref(0)
 const updateMap = computed(() => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _ = counter.value
-  const map = shallowReactive(
-    new Map<
-      string,
-      {
-        readonly loading: Ref<boolean>
-        readonly status: ShallowRef<{
-          ok: boolean
-          data: Package | Error
-        } | null>
-      }
-    >()
-  )
-  data.value?.forEach(({ id }) => {
-    const status = shallowRef<{
-      ok: boolean
-      data: Package | Error
-    } | null>(null)
-    const loading = ref(true)
 
-    pluginStore
-      .checkForUpdate(id)
-      .finally(() => (loading.value = false))
-      .then((meta) => {
-        // eslint-disable-next-line promise/always-return
-        if (meta)
-          status.value = {
-            ok: true,
-            data: meta
-          }
-        else status.value = null
-      })
-      .catch((err) => {
-        status.value = {
-          ok: false,
-          data: err as Error
-        }
-      })
+  void pluginStore.checkUpdatePlugins()
 
-    map.set(id, { loading, status })
-  })
-
-  return map
+  return pluginStore.updateState
 })
 const triggerCheckUpdate = () => counter.value++
 const updatingMap = shallowReactive(new Set<string>())
 
-async function onClickUpdate(item: PackageDisk) {
+async function onClickUpdate(item: Pick<PackageDisk, "name" | "id">) {
   updatingMap.add(item.id)
   await pluginStore.updatePlugin(item.id)
-  updateMap.value.delete(item.id)
+  pluginStore.updateState.delete(item.id)
   updatingMap.delete(item.id)
 }
-function removePlugin(item: PackageDisk) {
+function removePlugin(item: Pick<PackageDisk, "name" | "id">) {
   $q.dialog({
     title: t("xoa-plugin"),
     message: t("ban-chac-chan-muon-xoa-plugin-item-name-chu", [item.name]),
