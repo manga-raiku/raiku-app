@@ -74,6 +74,7 @@ export const vitePlugins: [
         "src/stores/**/*.ts",
         "src/composables/*.ts",
         "src/boot/*.ts",
+        "src/errors/*.ts",
         "src/*.ts"
       ],
       eslintrc: {
