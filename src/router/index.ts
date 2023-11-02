@@ -75,11 +75,11 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
-  Router.beforeEach(async (from, to) => {
-    if (Router.resolve(from) === Router.resolve(to)) return to
+  Router.beforeEach(async (to, from) => {
+    if (Router.resolve(from) === Router.resolve(to)) return
 
     if (to.meta.beforeEach === 'true if $lt.md else "/app/myaccount"') {
-      if (Screen.lt.md) return to
+      if (Screen.lt.md) return
 
       return "/app/myaccount"
     }
@@ -92,7 +92,7 @@ export default route(function (/* { store, ssrContext } */) {
     if (auth === undefined || auth === "guest") return
 
     if (auth === "'guest' if $lt.md else true") {
-      if (Screen.lt.md) return to
+      if (Screen.lt.md) return
       auth = true
     }
 
