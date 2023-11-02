@@ -63,8 +63,23 @@ const router = useRouter()
 const i18n = useI18n()
 const pluginStore = usePluginStore()
 
-const paramSourceId = useRouteParams<string | null>("sourceId", undefined, {
-  transform: (value) => (value ? value + "" : value ?? null)
+const paramSourceId = ref(props.sourceId ?? null)
+watch(paramSourceId, (sourceId) => {
+  pluginStore.pluginMain = sourceId
+  if (sourceId) void router.push(`/~${sourceId}/genre`)
+})
+
+const sourceId = computed(() => {
+  return paramSourceId.value ?? pluginStore.pluginMain
+})
+watchImmediate(paramSourceId, async (sourceId) => {
+  if (!sourceId) {
+    const id =
+      pluginStore.pluginMain ??
+      (await pluginStore.pluginMainPromise) ??
+      undefined
+    if (id && route.name === "index") void router.replace("/~" + id)
+  }
 })
 
 const page = computed<number>({
@@ -80,7 +95,7 @@ const page = computed<number>({
     })
 })
 
-const api = pluginStore.useApi(toGetter(props, "sourceId"), true)
+const api = pluginStore.useApi(sourceId, true)
 const { data, runAsync, loading, error } = useRequest(
   async () => {
     const data = await (
