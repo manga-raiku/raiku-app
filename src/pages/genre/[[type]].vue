@@ -5,6 +5,7 @@ meta:
   hiddenHeader: isNative or ($lt.md and isPWA)
   revealHeader: true
   needSelectPlugin: true
+  beforeEach: auto fix sourceId
 </route>
 
 <template>
@@ -41,7 +42,7 @@ meta:
           class="flex items-center justify-center q-pa-md"
         >
           <Pagination :max="data.maxPage" v-model="page" />
-        </div> -->\
+        </div> -->
   </q-page>
 
   <FABPluginSelect v-model="paramSourceId" />
@@ -71,16 +72,6 @@ watch(paramSourceId, (sourceId) => {
 const sourceId = computed(() => {
   return paramSourceId.value ?? pluginStore.pluginMain
 })
-watchImmediate(paramSourceId, async (sourceId) => {
-  if (!sourceId) {
-    const id =
-      pluginStore.pluginMain ??
-      (await pluginStore.pluginMainPromise) ??
-      undefined
-    if (id && route.name === "index") void router.replace("/~" + id)
-  }
-})
-
 const page = computed<number>({
   get: () => parseInt(route.query.page?.toString() ?? "1") || 1,
 

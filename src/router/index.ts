@@ -83,6 +83,22 @@ export default route(function (/* { store, ssrContext } */) {
 
       return "/app/myaccount"
     }
+    if (to.meta.beforeEach === "auto fix sourceId") {
+      if ("sourceId" in to.params === false) {
+        const pluginStore = usePluginStore()
+
+        const id =
+          pluginStore.pluginMain ??
+          (await pluginStore.pluginMainPromise) ??
+          undefined
+        if (id)
+          return {
+            ...to,
+            name: undefined,
+            path: `/~${id}${to.path}`
+          }
+      }
+    }
 
     const authStore = useAuthStore()
 

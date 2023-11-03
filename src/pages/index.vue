@@ -6,6 +6,7 @@ meta:
   hiddenDrawer: true
   noSpaceHeader: true
   needSelectPlugin: true
+  beforeEach: auto fix sourceId
 </route>
 
 <template>
@@ -527,15 +528,6 @@ watch(paramSourceId, (sourceId) => {
 
 const sourceId = computed(() => {
   return paramSourceId.value ?? pluginStore.pluginMain
-})
-watchImmediate(paramSourceId, async (sourceId) => {
-  if (!sourceId) {
-    const id =
-      pluginStore.pluginMain ??
-      (await pluginStore.pluginMainPromise) ??
-      undefined
-    if (id && route.name === "index") void router.replace("/~" + id)
-  }
 })
 
 const title = "Raiku"
