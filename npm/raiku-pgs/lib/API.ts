@@ -99,6 +99,7 @@ export interface FilterURI {
   readonly select: {
     readonly route: RouteGenre
     readonly name: string
+    readonly title?: string
   }[]
 }
 export interface FilterQuery {
@@ -107,6 +108,7 @@ export interface FilterQuery {
   readonly items: {
     readonly value: string
     readonly name: string
+    readonly title?: string
   }[]
 }
 export interface AppInfo {

@@ -1,26 +1,34 @@
 <template>
-  <q-header
-    v-if="execScriptMeta($q, route.meta?.hiddenHeader) !== true"
-    :reveal="route.meta.revealHeader"
-    class="bg-dark-page py-1 px-2 header-blur"
+  <div
+    class="app-header q-layout__section--marginal pt-58px header-blur fixed z-2000 w-full"
     :class="{
+      'translate-y--58px': reveal && !appHeaderReveal,
       '!bg-transparent': route.meta?.transparentHeader
     }"
   >
-    <q-toolbar>
-      <q-btn
-        v-if="$q.screen.gt.sm"
-        dense
-        flat
-        round
-        icon="menu"
-        class="mr-5"
-        @click="emit('update:showDrawer', !showDrawer)"
-      />
+    <q-header
+      v-if="execScriptMeta($q, route.meta?.hiddenHeader) !== true"
+      :reveal="reveal"
+      @reveal="appHeaderReveal = $event"
+      class="bg-dark-page py-1 px-2 header-blur"
+      :class="{
+        '!bg-transparent': route.meta?.transparentHeader
+      }"
+    >
+      <q-toolbar>
+        <q-btn
+          v-if="$q.screen.gt.sm"
+          dense
+          flat
+          round
+          icon="menu"
+          class="mr-5"
+          @click="emit('update:showDrawer', !showDrawer)"
+        />
 
-      <AppHeaderIconApp :no-name="$q.screen.lt.sm" class="mr-8" />
+        <AppHeaderIconApp :no-name="$q.screen.lt.sm" class="mr-8" />
 
-      <!-- <template v-if="$q.screen.md || $q.screen.gt.md">
+        <!-- <template v-if="$q.screen.md || $q.screen.gt.md">
           <router-link
             to="/"
             class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
@@ -41,28 +49,29 @@
           >
         </template> -->
 
-      <q-space />
+        <q-space />
 
-      <template v-if="$q.screen.md || $q.screen.gt.md">
-        <AppHeaderSearch
-          :source-id="(route.params.sourceId as string | undefined) ?? null"
-        />
-        <AppHeaderGithub />
-      </template>
-      <template v-else>
-        <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
-          <q-icon name="search" />
-        </q-btn>
-        <AppHeaderSearchMB v-model:searching="showSearchMB" />
-      </template>
+        <template v-if="$q.screen.md || $q.screen.gt.md">
+          <AppHeaderSearch
+            :source-id="(route.params.sourceId as string | undefined) ?? null"
+          />
+          <AppHeaderGithub />
+        </template>
+        <template v-else>
+          <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
+            <q-icon name="search" />
+          </q-btn>
+          <AppHeaderSearchMB v-model:searching="showSearchMB" />
+        </template>
 
-      <AppHeaderFollows v-if="MODE !== 'capacitor'" />
-      <AppHeaderHistory v-if="MODE !== 'capacitor'" />
-      <AppHeaderNotify />
+        <AppHeaderFollows v-if="MODE !== 'capacitor'" />
+        <AppHeaderHistory v-if="MODE !== 'capacitor'" />
+        <AppHeaderNotify />
 
-      <AppHeaderUser />
-    </q-toolbar>
-  </q-header>
+        <AppHeaderUser />
+      </q-toolbar>
+    </q-header>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -80,4 +89,9 @@ const $q = useQuasar()
 const MODE = import.meta.env.MODE
 
 const showSearchMB = ref(false)
+const appHeaderReveal = ref(false)
+
+const reveal = computed(
+  () => execScriptMeta($q, route.meta.revealHeader) === true
+)
 </script>

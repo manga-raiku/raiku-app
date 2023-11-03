@@ -3,7 +3,7 @@ name: genre
 alias: ["/~:sourceId/genre/:type?"]
 meta:
   hiddenHeader: isNative or ($lt.md and isPWA)
-  revealHeader: true
+  revealHeader: $lt.md
   needSelectPlugin: true
   beforeEach: auto fix sourceId
 </route>
@@ -16,9 +16,17 @@ meta:
       <SkeletonGridCard :count="40" />
     </template> -->
     <template v-if="data">
-      <GenresFilterNative :filter="data.filters" />
+      <teleport to=".app-header">
+        <div
+          :style="{
+            'padding-left': `${$layout?.left.offset}px`
+          }"
+        >
+          <GenresFilterNative :filters="data.filters" class="bg-transparent" />
+        </div>
+      </teleport>
 
-      <p class="mt-80px font-family-poppins">{{ data.description }}</p>
+      <p class="mt-89px font-family-poppins">{{ data.description }}</p>
     </template>
     <!-- filter native -->
     <!-- /filter native -->
@@ -62,6 +70,7 @@ const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
 const pluginStore = usePluginStore()
+const $layout = inject("_q_l_") as any
 
 const paramSourceId = ref(props.sourceId ?? null)
 watch(paramSourceId, (sourceId) => {

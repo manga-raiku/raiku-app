@@ -59,7 +59,7 @@ meta:
 
           <GenresFilter
             v-if="data?.filters"
-            :filter="data.filters"
+            :filters="data.filters"
             class="my-3"
           />
           <template v-if="data && !loading">

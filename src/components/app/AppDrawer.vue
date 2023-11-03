@@ -168,3 +168,12 @@ const drawersBottom = computed(() => [
   }
 ])
 </script>
+
+<style lang="scss">
+.q-drawer {
+  z-index: 2000 !important;
+  &.q-drawer--on-top {
+    z-index: 3000 !important;
+  }
+}
+</style>
