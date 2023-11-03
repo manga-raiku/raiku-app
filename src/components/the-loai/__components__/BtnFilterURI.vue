@@ -18,7 +18,7 @@
 import type { FilterURI } from "raiku-pgs"
 
 defineProps<{
-  filterParam: string
+  filterParam: "type"
   item: FilterURI["select"][0]
 }>()
 
