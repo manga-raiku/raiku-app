@@ -2,6 +2,7 @@
 alias: ["/~:sourceId?/trending/:type?"]
 meta:
   needSelectPlugin: true
+  beforeEach: auto fix sourceId
 </route>
 
 <template>
@@ -35,7 +36,7 @@ meta:
               rounded
               unelevated
               :class="{
-                '!opacity-100': item.value === type
+                '!opacity-100': item.value === typeVal
               }"
               >{{ item.name }}</q-btn
             >
@@ -51,7 +52,7 @@ meta:
             <!-- #8c6b1c #548c76 -->
             <span class="text-main-2 text-16px mx-2 text-weight-medium">{{
               $t("bang-type", [
-                typesRank.find((item) => item.value === type)?.name
+                typesRank?.find((item) => item.value === type)?.name
               ])
             }}</span>
             <TrendingCardIconRight class="rotate-180deg text-main-4" />
@@ -102,7 +103,7 @@ meta:
 </template>
 
 <script lang="ts" setup>
-import type { MetaManga } from "raiku-pgs/dist/API"
+import type { MetaManga } from "raiku-pgs"
 
 // import data from "src/apis/parsers/__test__/assets/top-ngay.json"
 
@@ -116,16 +117,33 @@ const props = defineProps<{
   sourceId?: string
 }>()
 
+const Rankings = computed(() => api.value.then((res) => res.Rankings))
+
+const typePromise = computed(
+  () => props.type || Rankings.value.then((list) => list[0].value)
+)
+const typeVal = computedAsync<string | undefined>(
+  () => typePromise.value,
+  undefined,
+  { onError: WARN }
+)
+
 const api = pluginStore.useApi(toGetter(props, "sourceId"), true)
-const typesRank = computedAsync(async () => {
-  return (await (await api.value).Rankings).map((item) => {
-    return {
-      value: item.value,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      name: (item.name as unknown as any)[i18n.locale.value]
-    }
-  })
-})
+const typesRank = computedAsync<{ value: string; name: string }[] | undefined>(
+  async () => {
+    return (await Rankings.value).map((item) => {
+      return {
+        value: item.value,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        name: (item.name as unknown as any)[i18n.locale.value]
+      }
+    })
+  },
+  undefined,
+  {
+    onError: WARN
+  }
+)
 
 const title = () =>
   i18n.t("bang-xep-hang-type", [
@@ -156,7 +174,7 @@ const { data, error, loading, runAsync } = useRequest(
     const data = await (
       await api.value
     ).getRanking(
-      props.type ?? "",
+      await typePromise.value,
       page.value,
       route.query as Record<string, string>
     )
@@ -177,9 +195,9 @@ const onLoad = useLoadMorePage(
     // eslint-disable-next-line functional/no-throw-statement
     if (!pluginId) throw new PluginsNotAvailable()
 
-    return api.value.then((plugin) =>
+    return api.value.then(async (plugin) =>
       plugin.getRanking(
-        props.type ?? "",
+        await typePromise.value,
         page,
         route.query as Record<string, string>
       )
@@ -277,7 +295,7 @@ watch(error, (error) => {
       padding-right: 24px;
     }
   }
-  &.dark.trending-card__container {
+  &.dark &__container {
     background:
       top right / 320px 320px no-repeat url(assets/anime-ranking-icon.png),
       linear-gradient(
