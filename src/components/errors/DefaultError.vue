@@ -1,6 +1,6 @@
 <template>
   <TemplateError
-    image="~assets/unknown_error.png"
+    :image="image"
     alt="plugin_error"
     :title="$t('rat-tiec-da-xay-ra-loi')"
     :caption="error + ''"
@@ -10,6 +10,8 @@
 </template>
 
 <script lang="ts" setup>
+import image from "src/assets/unknown_error.png"
+
 defineProps<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any

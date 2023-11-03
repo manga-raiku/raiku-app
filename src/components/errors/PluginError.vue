@@ -1,6 +1,6 @@
 <template>
   <TemplateError
-    image="~assets/plugin_not_found.png"
+    :image="image"
     alt="plugin error"
     title-slot
     :retrying="retrying"
@@ -32,6 +32,8 @@
 </template>
 
 <script lang="ts" setup>
+import image from "src/assets/plugin_not_found.png"
+
 defineProps<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any
