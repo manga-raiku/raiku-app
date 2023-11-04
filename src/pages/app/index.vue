@@ -7,18 +7,27 @@ meta:
 </route>
 
 <template>
-  <q-page v-if="$q.screen.lt.md">
-    <video
+  <q-page
+    v-if="$q.screen.lt.md"
+    :style-fn="
+      (offset, height) => {
+        return {
+          height: height + 'px'
+        }
+      }
+    "
+  >
+    <!-- <video
       src="~/assets/yae-miko-genshin-impact.mp4"
       autoplay
       loop
       muted
       class="fixed w-full object-cover sm:hidden min-h-[calc(100%-65%+58px)]"
-    />
+    /> -->
     <img
       src="~/assets/picture_sakura.svg"
       alt="picture_sakura"
-      class="w-full object-cover <sm:hidden min-h-[calc(100%-65%+58px)]"
+      class="w-full object-cover min-h-[calc(100%-65%+58px)]"
     />
 
     <div
