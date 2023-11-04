@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="execScriptMeta($q, route.meta?.hiddenHeader) !== true"
     class="app-header q-layout__section--marginal pt-58px header-blur fixed z-2000 w-full"
     :class="{
       'translate-y--58px': reveal && !appHeaderReveal,
@@ -7,7 +8,6 @@
     }"
   >
     <q-header
-      v-if="execScriptMeta($q, route.meta?.hiddenHeader) !== true"
       :reveal="reveal"
       @reveal="appHeaderReveal = $event"
       class="bg-dark-page py-1 px-2 header-blur"
