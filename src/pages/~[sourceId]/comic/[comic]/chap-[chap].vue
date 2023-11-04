@@ -18,7 +18,7 @@ meta:
         class="mr-8"
       />
       <q-btn
-        v-else-if="MODE === 'capacitor'"
+        v-else-if="APP_STANDALONE"
         round
         unelevated
         class="mr-1"
@@ -55,7 +55,7 @@ meta:
         <AppHeaderSearch />
         <AppHeaderGithub />
       </template>
-      <template v-else-if="MODE !== 'capacitor'">
+      <template v-else-if="!APP_STANDALONE">
         <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
           <q-icon name="search" />
         </q-btn>
@@ -66,7 +66,7 @@ meta:
       <AppHeaderHistory v-if="$q.screen.gt.xs" />
       <!-- <AppHeaderNotify /> -->
 
-      <AppHeaderUser v-if="MODE !== 'capacitor'" class="mr-2" />
+      <AppHeaderUser v-if="!APP_STANDALONE" class="mr-2" />
 
       <BtnDownload
         v-model="statusEPDL"
@@ -581,7 +581,7 @@ import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
 import type { Chapter, Comic, ComicChapter, ID } from "raiku-pgs/plugin"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
-import { FLAG_CACHE, FLAG_OFFLINE } from "src/constants"
+import { APP_STANDALONE, FLAG_CACHE, FLAG_OFFLINE } from "src/constants"
 import { PluginError } from "src/errors/plugin"
 import type {
   ComicChapterOnDisk,
@@ -596,7 +596,6 @@ const props = defineProps<{
   chap: string
 }>()
 
-const MODE = import.meta.env.MODE
 const $q = useQuasar()
 const IDMStore = useIDMStore()
 const followStore = useFollowStore()

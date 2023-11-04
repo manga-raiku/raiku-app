@@ -64,8 +64,8 @@
           <AppHeaderSearchMB v-model:searching="showSearchMB" />
         </template>
 
-        <AppHeaderFollows v-if="MODE !== 'capacitor'" />
-        <AppHeaderHistory v-if="MODE !== 'capacitor'" />
+        <AppHeaderFollows v-if="APP_STANDALONE" />
+        <AppHeaderHistory v-if="APP_STANDALONE" />
         <AppHeaderNotify />
 
         <AppHeaderUser />
@@ -75,6 +75,7 @@
 </template>
 
 <script lang="ts" setup>
+import { APP_STANDALONE } from "src/constants"
 import { execScriptMeta } from "src/logic/exec-script-meta"
 
 defineProps<{
@@ -86,7 +87,6 @@ const emit = defineEmits<{
 
 const route = useRoute()
 const $q = useQuasar()
-const MODE = import.meta.env.MODE
 
 const showSearchMB = ref(false)
 const appHeaderReveal = ref(false)

@@ -11,8 +11,17 @@ export const APP_INFO: AppInfo = {
   version
 }
 
+// functions for dev
+export const WARN = console.warn.bind(console)
+
+// constants for building
+export const APP_NATIVE_MOBILE =
+  import.meta.env.MODE === "capacitor" || import.meta.env.MODE === "cordova"
+export const APP_STANDALONE =
+  APP_NATIVE_MOBILE ||
+  (window.matchMedia?.("(display-mode: standalone)").matches ?? false)
+
+// constants string
 export const PROTOCOL_OFFLINE = "offline://"
 export const FLAG_OFFLINE = "__OFFLINE__"
 export const FLAG_CACHE = "__CACHE__"
-
-export const WARN = console.warn.bind(console)

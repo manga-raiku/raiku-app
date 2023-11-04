@@ -117,7 +117,7 @@ export default route(function (/* { store, ssrContext } */) {
       return "/app/sign-in?redirect=" + to.fullPath
     }
     if (authStore.session) {
-      return import.meta.env.MODE === "capacitor" ? "/app" : "/"
+      return APP_STANDALONE ? "/app" : "/"
     }
   })
 
