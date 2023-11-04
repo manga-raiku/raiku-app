@@ -1,6 +1,10 @@
 <template>
   <section class="display-table font-family-poppins">
-    <div v-for="(item, index) in filters" :key="index" class="display-table-row">
+    <div
+      v-for="(item, index) in filters"
+      :key="index"
+      class="display-table-row"
+    >
       <label
         class="display-table-cell whitespace-nowrap mt-2 text-gray-400 pr-2"
         >{{ item.type }}</label

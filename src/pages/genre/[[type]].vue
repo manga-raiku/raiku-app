@@ -69,6 +69,7 @@ const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
 const pluginStore = usePluginStore()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const $layout = inject("_q_l_") as any
 
 const paramSourceId = ref(props.sourceId ?? null)
