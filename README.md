@@ -19,17 +19,17 @@ The app currently supports:
 
 - Android, Web Mobile:
 <div style="overflow-x: scroll; white-space: nowrap">
-
-![Screenshot_20231102-150857_Chrome](https://github.com/manga-raiku/raiku-app/assets/45375496/ce9b272f-0810-44f5-abe4-17e08fe9728d)
-![Screenshot_20231102-150846_Chrome](https://github.com/manga-raiku/raiku-app/assets/45375496/65b88d62-bdd5-42c0-9fb0-8cbce1ec55e8)
-![Screenshot_20231102-150837_Chrome](https://github.com/manga-raiku/raiku-app/assets/45375496/75eb168c-0302-4d56-af84-2caaac73f8e5)
-![Screenshot_20231102-150802_Chrome](https://github.com/manga-raiku/raiku-app/assets/45375496/fefcb62f-6c75-4c10-96f5-25566caa90f1)
-![Screenshot_20231102-150742_Chrome](https://github.com/manga-raiku/raiku-app/assets/45375496/3631c6a4-440d-4cae-968a-849872d11cb7)
-![Screenshot_20231102-150708_Chrome](https://github.com/manga-raiku/raiku-app/assets/45375496/9871c561-2c85-4932-b2ea-8d68e6762ccf)
-![Screenshot_20231102-150705_Chrome](https://github.com/manga-raiku/raiku-app/assets/45375496/188c394a-fb17-493b-8c27-6fb47c27e667)
-![Screenshot_20231102-150517_Chrome](https://github.com/manga-raiku/raiku-app/assets/45375496/3c030e04-d181-4b43-9f5e-9af6f9ab6d4e)
-![Screenshot_20231102-150505_Chrome](https://github.com/manga-raiku/raiku-app/assets/45375496/ccc89acb-e341-491e-a683-4647388630cd)
-![Screenshot_20231102-150344_Chrome](https://github.com/manga-raiku/raiku-app/assets/45375496/b7fead64-654a-40d6-81ec-cdd6d8e2f5ec)
+  
+<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/b7fead64-654a-40d6-81ec-cdd6d8e2f5ec" width="240" />
+<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/ccc89acb-e341-491e-a683-4647388630cd" width="240" />
+<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/3c030e04-d181-4b43-9f5e-9af6f9ab6d4e" width="240" />
+<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/188c394a-fb17-493b-8c27-6fb47c27e667" width="240" />
+<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/9871c561-2c85-4932-b2ea-8d68e6762ccf" width="240" />
+<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/3631c6a4-440d-4cae-968a-849872d11cb7" width="240" />
+<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/fefcb62f-6c75-4c10-96f5-25566caa90f1" width="240" />
+<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/75eb168c-0302-4d56-af84-2caaac73f8e5" width="240" />
+<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/65b88d62-bdd5-42c0-9fb0-8cbce1ec55e8" width="240" />
+<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/ce9b272f-0810-44f5-abe4-17e08fe9728d" width="240" />
 
 
 </div>
