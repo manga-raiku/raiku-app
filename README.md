@@ -3,6 +3,21 @@
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmanga-raiku%2Fmanga-raiku.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmanga-raiku%2Fmanga-raiku?ref=badge_shield)
 [![built with Codeium](https://codeium.com/badges/main)](https://codeium.com)
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/79ead2b7-a29d-45a8-9c2f-3a563d8357f5/deploy-status)](https://app.netlify.com/sites/manga-raiku/deploys)
+[![GitHub license](https://img.shields.io/github/license/manga-raiku/raiku-app)](https://github.com/manga-raiku/raiku-app/blob/main/LICENSE)
+[![GitHub Issues](https://img.shields.io/github/issues/manga-raiku/raiku-app)](https://github.com/manga-raiku/raiku-app/issues)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d08aea4f3b99438fb61e7a4f2024fe44)](https://app.codacy.com/gh/manga-raiku/raiku-app/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Hits-of-Code](https://hitsofcode.com/github/manga-raiku/raiku-app?branch=main)](https://hitsofcode.com/github/manga-raiku/raiku-app/view?branch=main)
+
+[![CI](https://github.com/manga-raiku/raiku-app/actions/workflows/ci.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/ci.yml)
+[![CodeCov](https://github.com/manga-raiku/raiku-app/actions/workflows/codecov.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/codecov.yml)
+[![CodeQL](https://github.com/manga-raiku/raiku-app/actions/workflows/codeql.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/codeql.yml)
+[![CodeSee](https://github.com/manga-raiku/raiku-app/actions/workflows/codesee-arch-diagram.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/codesee-arch-diagram.yml)
+[![DevSkim](https://github.com/manga-raiku/raiku-app/actions/workflows/devskim.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/devskim.yml)
+[![Release for Android](https://github.com/manga-raiku/raiku-app/actions/workflows/android-release.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/android-release.yml)
+[![Release for PWA](https://github.com/manga-raiku/raiku-app/actions/workflows/pwa-release.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/pwa-release.yml)
+[![Try build](https://github.com/manga-raiku/raiku-app/actions/workflows/try-build.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/try-build.yml)
+
 「無邪気な笑顔の下の、日付は遥かなメモリー」
 
 App reading manga, comic safe, free, private and ad-free.
