@@ -176,7 +176,7 @@ const route = useRoute()
 const router = useRouter()
 const IDMStore = useIDMStore()
 const pluginStore = usePluginStore()
-const { CYPRESS } = process.env
+const CYPRESS = process.env.CYPRESS
 
 const segments = computed(() => {
   return unflat(props.chapters, 50).map((items) => {
