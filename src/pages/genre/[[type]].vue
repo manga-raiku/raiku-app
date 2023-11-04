@@ -2,7 +2,6 @@
 name: genre
 alias: ["/~:sourceId/genre/:type?"]
 meta:
-  hiddenHeader: isNative or ($lt.md and isPWA)
   revealHeader: $lt.md
   needSelectPlugin: true
   beforeEach: auto fix sourceId
