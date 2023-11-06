@@ -99,5 +99,9 @@ export const useProxyStore = defineStore("proxy", () => {
     return req
   }
 
-  return { proxies, has, add, remove, enable, get, resolution }
+  function getAllProxy() {
+    return proxies
+  }
+
+  return { proxies, has, add, remove, enable, get, resolution, getAllProxy }
 })

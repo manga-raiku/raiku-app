@@ -26,6 +26,7 @@
     />
 
     <PluginManagerDialog v-model="stateStore.showPluginManagerDialog" />
+    <ProxyManagerDialog v-model="stateStore.showProxyManagerDialog" />
     <PluginAddDialog
       v-model="stateStore.showPluginAddDialog"
       @installed="stateStore.showPluginAddDialog = false"
