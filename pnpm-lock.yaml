@@ -166,8 +166,8 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1
       '@iconify-json/iconoir':
-        specifier: ^1.1.32
-        version: 1.1.32
+        specifier: ^1.1.33
+        version: 1.1.33
       '@iconify-json/ion':
         specifier: ^1.1.12
         version: 1.1.12
@@ -3650,8 +3650,8 @@ packages:
       '@iconify/types': 2.0.0
     dev: true
 
-  /@iconify-json/iconoir@1.1.32:
-    resolution: {integrity: sha512-z12EzOZsqatGuCAc7CzYpxufVoexRKC910ZouB29sDT8lJiGUSVCmrhgqZSz4M7PIeqaN6YUuE6jNRgH7Wal+A==}
+  /@iconify-json/iconoir@1.1.33:
+    resolution: {integrity: sha512-sHYHsI/XXY6ByFZD5wjSqToz1EsIhMzI6QOgsN+saWPYEyXVsGwRaygXzMiK+NE1i/4xxVryU9u/NXRVMrqb/w==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
