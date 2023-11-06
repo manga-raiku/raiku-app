@@ -57,6 +57,7 @@ async function httpPost<
 
 // Proxy: https://corsproxy.io/
 
+let proxyStore: ReturnType<typeof useProxyStore>
 export function proxyGet<
   ReturnType extends GetOption["responseType"] | undefined
 >(
@@ -64,9 +65,10 @@ export function proxyGet<
     responseType?: ReturnType
   }
 ): Promise<Response<ReturnType>> {
-  return fetch(`https://corsproxy.org/?${encodeURIComponent(options.url)}`, {
-    headers: options.headers
-  }).then(async (res) => {
+  proxyStore ??= useProxyStore()
+  const config = proxyStore.resolution(options)
+
+  return fetch(config.url, config).then(async (res) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let data: any
     switch (options.responseType) {
@@ -98,16 +100,19 @@ export function proxyPost<
     responseType?: ReturnType
   }
 ): Promise<Response<ReturnType>> {
-  return fetch(`https://corsproxy.org/?${encodeURIComponent(options.url)}`, {
+  proxyStore ??= useProxyStore()
+  const config = proxyStore.resolution(options)
+
+  return fetch(config.url, {
     method: "post",
-    headers: options.headers,
+    ...config,
     body:
-      typeof options.data === "object"
-        ? Object.entries(options.data).reduce((form, [name, value]) => {
+      typeof config.data === "object"
+        ? Object.entries(config.data).reduce((form, [name, value]) => {
             form.set(name, value + "")
             return form
           }, new FormData())
-        : options.data
+        : config.data
   }).then(async (res) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let data: any
