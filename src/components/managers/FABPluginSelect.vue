@@ -8,7 +8,7 @@
 
   <q-dialog v-model="showDialog" full-width full-height>
     <q-card
-      class="h-full min-w-310px flex flex-nowrap column min-h-0 rounded-xl"
+      class="h-full min-w-310px max-w-560px flex flex-nowrap column min-h-0 rounded-xl"
     >
       <q-card-section class="text-16px flex items-center justify-between pl-7">
         Chọn Plugin chính
