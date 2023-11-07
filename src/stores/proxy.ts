@@ -16,6 +16,12 @@ const PROXIES_DEFAULT = {
     name: null,
     modeQuery: true,
     readonly: true
+  },
+  [new URL("https://api.allorigins.win/raw").toString()]: {
+    name: "url",
+    modeQuery: true,
+    encodeURI: true,
+    readonly: true
   }
 }
 
