@@ -9,6 +9,17 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d08aea4f3b99438fb61e7a4f2024fe44)](https://app.codacy.com/gh/manga-raiku/raiku-app/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Hits-of-Code](https://hitsofcode.com/github/manga-raiku/raiku-app?branch=main)](https://hitsofcode.com/github/manga-raiku/raiku-app/view?branch=main)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=manga-raiku_manga-raiku&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=manga-raiku_manga-raiku&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=manga-raiku_manga-raiku&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=manga-raiku_manga-raiku&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=manga-raiku_manga-raiku&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=manga-raiku_manga-raiku&metric=bugs)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=manga-raiku_manga-raiku&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=manga-raiku_manga-raiku&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=manga-raiku_manga-raiku&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
+
+
 [![CI](https://github.com/manga-raiku/raiku-app/actions/workflows/ci.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/ci.yml)
 [![CodeCov](https://github.com/manga-raiku/raiku-app/actions/workflows/codecov.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/codecov.yml)
 [![CodeQL](https://github.com/manga-raiku/raiku-app/actions/workflows/codeql.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/codeql.yml)
@@ -21,6 +32,9 @@
 「無邪気な笑顔の下の、日付は遥かなメモリー」
 
 App reading manga, comic safe, free, private and ad-free.
+
+[![SonarCloud](https://sonarcloud.io/api/project_badges/quality_gate?branch=main&project=manga-raiku_manga-raiku)](https://sonarcloud.io/api/project_badges/quality_gate?branch=main&project=manga-raiku_manga-raiku)
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
 
 > The app is in development
 

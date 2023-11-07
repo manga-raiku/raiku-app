@@ -236,7 +236,8 @@ export default configure((/* ctx */) => {
     },
 
     bin: {
-      linuxAndroidStudio: "./noop.sh"
+      linuxAndroidStudio: "./noop.sh",
+      windowsAndroidStudio: "./noop"
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/configuring-electron

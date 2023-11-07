@@ -38,7 +38,7 @@
             </q-item>
             <q-item-section side class="mr--2" @click="showEdit = !showEdit">
               <q-btn rounded no-caps flat class="text-main-3">{{
-                showEdit ? "Hủy" : "Sửa"
+                showEdit ? $t("huy") : $t("sua")
               }}</q-btn>
             </q-item-section>
           </div>

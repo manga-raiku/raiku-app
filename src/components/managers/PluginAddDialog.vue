@@ -19,10 +19,10 @@
           :placeholder="$t('placeholder-input-url-plugin')"
           color="main-2"
           :rules="[
-            (v) => !!v || 'Vui lòng nhập địa chỉ plugin',
+            (v) => !!v || $t('vui-long-nhap-dia-chi-plugin'),
             (v) =>
               !!v.match(/^https?:\/\/[^.]+(?:(\.[^.]{2,})|(?:\:\d+))/) ||
-              'Địa chỉ plugin không hợp lệ'
+              $t('dia-chi-plugin-khong-hop-le')
           ]"
           @keydown.enter="addPlugin"
         />
