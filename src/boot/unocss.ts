@@ -5,3 +5,5 @@ import "uno.css"
 import "virtual:unocss-devtools"
 import "uno:utilities.css"
 import "uno:components.css"
+
+import "onu-ui/dist/style.css"

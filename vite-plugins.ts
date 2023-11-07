@@ -1,5 +1,6 @@
 import Pages from "@tachibana-shin/vite-plugin-pages"
 import { unheadVueComposablesImports } from "@unhead/vue"
+import { OnuResolver } from "onu-ui"
 import UnoCSS from "unocss/vite"
 import AutoImport from "unplugin-auto-import/vite"
 import IconsResolver from "unplugin-icons/resolver"
@@ -89,6 +90,7 @@ export const vitePlugins: [
     {
       resolvers: [
         IconsResolver(),
+        OnuResolver(),
         (componentName: string) => {
           if (componentName.toLowerCase() === "icon")
             return {
