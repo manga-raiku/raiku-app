@@ -21,24 +21,40 @@
       >
         <q-list v-if="!error && data">
           <div class="flex items-center justify-between">
-            <q-item
-              clickable
-              class="rounded-xl"
+            <o-button
+              light
+              rounded
+              type="primary"
               @click="stateStore.showProxyAddDialog = true"
             >
-              <q-item-section avatar class="min-w-0">
-                <i-iconamoon-sign-plus-fill class="size-1.5em" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>{{ $t("them-proxy") }}</q-item-label>
-              </q-item-section>
-            </q-item>
+              <i-iconamoon-sign-plus-fill class="size-1.5em" />
+              {{ $t("them-proxy") }}
+            </o-button>
+
             <q-item-section side class="mr--2" @click="showEdit = !showEdit">
               <q-btn rounded no-caps flat class="text-main-3">{{
                 showEdit ? $t("huy") : $t("sua")
               }}</q-btn>
             </q-item-section>
           </div>
+
+          <q-toggle
+            v-if="APP_NATIVE_MOBILE"
+            v-model="proxyStore.useNativeAPI"
+            class="toggle-main-3"
+            label="Sử dụng Http của OS"
+          />
+          <q-toggle
+            v-else
+            v-model="proxyStore.useExtAPI"
+            :disable="!APP_INFO.extension"
+            class="toggle-main-3"
+            label="Sử dụng Http của AnimeVsub Helper"
+          >
+            <q-tooltip v-if="!APP_INFO.extension"
+              >Ứng dụng không thể tìm thấy Extension</q-tooltip
+            >
+          </q-toggle>
 
           <div v-if="!Object.keys(data).length" class="text-center py-6">
             {{ $t("khong-co-gi-ca") }}
@@ -48,7 +64,7 @@
             v-for="(info, url) in data"
             :key="url"
             clickable
-            target="_blank"
+            @click="proxyStore.useNativeAPI ? null : (proxyStore.enabled = url)"
             class="rounded-xl"
           >
             <q-item-section v-show="!showEdit" side>
@@ -56,7 +72,8 @@
                 v-model="proxyStore.enabled"
                 :val="url"
                 dense
-                color="main-3"
+                :disable="APP_NATIVE_MOBILE ? proxyStore.useNativeAPI : (APP_INFO.extension ? proxyStore.useExtAPI : false)"
+                color="toggle-main-3"
               />
             </q-item-section>
             <q-item-section>
@@ -91,6 +108,8 @@
 </template>
 
 <script lang="ts" setup>
+import { APP_INFO, APP_NATIVE_MOBILE } from "src/constants"
+
 defineProps<{
   modelValue: boolean
 }>()

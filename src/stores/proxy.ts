@@ -36,6 +36,8 @@ export const useProxyStore = defineStore("proxy", () => {
       _enabled.value in proxies ? _enabled.value : Object.keys(proxies)[0],
     set: (value) => (_enabled.value = value)
   })
+  const useNativeAPI = useStorage<boolean>("use-native-api", APP_NATIVE_MOBILE)
+  const useExtAPI = useStorage<boolean>("use-ext-api", APP_INFO.extension)
 
   if (import.meta.env.DEV)
     watchEffect(() => {
@@ -125,6 +127,8 @@ export const useProxyStore = defineStore("proxy", () => {
     enabled,
     get,
     resolution,
-    getAllProxy
+    getAllProxy,
+    useNativeAPI,
+    useExtAPI
   }
 })
