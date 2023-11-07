@@ -17,11 +17,7 @@ meta:
 
       <q-space />
 
-      <q-btn
-        round
-        unelevated
-        @click="stateStore.showProxyManagerDialog = true"
-      >
+      <q-btn round unelevated @click="stateStore.showProxyManagerDialog = true">
         <component :is="Icons.vpn[0]" />
       </q-btn>
       <q-btn

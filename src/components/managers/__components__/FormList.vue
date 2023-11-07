@@ -11,7 +11,7 @@
           emit('edit', {
             index,
             type: 0,
-            value: $event
+            value: ($event as string) ?? ''
           })
         "
         filled
@@ -26,7 +26,7 @@
           emit('edit', {
             index,
             type: 1,
-            value: $event
+            value: ($event as string) ?? ''
           })
         "
         filled

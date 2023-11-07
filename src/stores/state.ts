@@ -6,7 +6,7 @@ export const useStateStore = defineStore("state", () => {
   const showPluginSelectDialog = ref(false)
 
   const showProxyManagerDialog = ref(false)
-const showProxyAddDialog = ref(false)
+  const showProxyAddDialog = ref(false)
 
   return {
     showPluginManagerDialog,

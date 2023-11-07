@@ -34,7 +34,8 @@ The app currently supports:
 
 - Android, Web Mobile:
 <div style="overflow-x: scroll; white-space: nowrap">
-  
+
+
 <img src="https://github.com/manga-raiku/raiku-app/assets/45375496/b7fead64-654a-40d6-81ec-cdd6d8e2f5ec" width="240" />
 <img src="https://github.com/manga-raiku/raiku-app/assets/45375496/ccc89acb-e341-491e-a683-4647388630cd" width="240" />
 <img src="https://github.com/manga-raiku/raiku-app/assets/45375496/3c030e04-d181-4b43-9f5e-9af6f9ab6d4e" width="240" />
@@ -45,7 +46,6 @@ The app currently supports:
 <img src="https://github.com/manga-raiku/raiku-app/assets/45375496/75eb168c-0302-4d56-af84-2caaac73f8e5" width="240" />
 <img src="https://github.com/manga-raiku/raiku-app/assets/45375496/65b88d62-bdd5-42c0-9fb0-8cbce1ec55e8" width="240" />
 <img src="https://github.com/manga-raiku/raiku-app/assets/45375496/ce9b272f-0810-44f5-abe4-17e08fe9728d" width="240" />
-
 
 </div>
 
