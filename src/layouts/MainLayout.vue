@@ -25,11 +25,21 @@
       "
     />
 
+    <!-- plugin manager -->
     <PluginManagerDialog v-model="stateStore.showPluginManagerDialog" />
     <PluginAddDialog
       v-model="stateStore.showPluginAddDialog"
       @installed="stateStore.showPluginAddDialog = false"
     />
+    <!-- /plugin manager -->
+
+    <!-- proxy manager -->
+    <ProxyManagerDialog v-model="stateStore.showProxyManagerDialog" />
+    <ProxyAddDialog
+      v-model="stateStore.showProxyAddDialog"
+      @installed="stateStore.showProxyAddDialog = false"
+    />
+    <!-- /proxy manager -->
   </q-layout>
 
   <canvas

@@ -4,7 +4,7 @@
     <img
       v-else
       :src="image"
-      class="w-240px sm:w-450px max-w-100% mx-auto mt--60px"
+      class="w-240px sm:w-450px max-w-100% mx-auto"
       :alt="alt"
     />
 

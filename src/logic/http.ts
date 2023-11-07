@@ -1,3 +1,4 @@
+import { CapacitorHttp as NativeHttp } from "@capacitor/core"
 import type { GetOption, PostOption } from "client-ext-animevsub-helper"
 import { Http } from "client-ext-animevsub-helper"
 
@@ -13,6 +14,7 @@ type Response<Type extends GetOption["responseType"]> = Omit<
     : string
 }
 
+// ======= Http for extension =========
 async function httpGet<
   ReturnType extends GetOption["responseType"] | undefined
 >(
@@ -54,19 +56,20 @@ async function httpPost<
 
   return response as Response<ReturnType>
 }
+// ======= /Http for extension ========
 
+// ======= Http for proxy ========
 // Proxy: https://corsproxy.io/
-
-export function proxyGet<
-  ReturnType extends GetOption["responseType"] | undefined
->(
+let proxyStore: ReturnType<typeof useProxyStore>
+function proxyGet<ReturnType extends GetOption["responseType"] | undefined>(
   options: Omit<GetOption, "responseType"> & {
     responseType?: ReturnType
   }
 ): Promise<Response<ReturnType>> {
-  return fetch(`https://corsproxy.org/?${encodeURIComponent(options.url)}`, {
-    headers: options.headers
-  }).then(async (res) => {
+  proxyStore ??= useProxyStore()
+  const config = proxyStore.resolution(options)
+
+  return fetch(config.url, config).then(async (res) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let data: any
     switch (options.responseType) {
@@ -91,23 +94,24 @@ export function proxyGet<
   })
 }
 
-export function proxyPost<
-  ReturnType extends GetOption["responseType"] | undefined
->(
+function proxyPost<ReturnType extends GetOption["responseType"] | undefined>(
   options: Omit<PostOption, "responseType"> & {
     responseType?: ReturnType
   }
 ): Promise<Response<ReturnType>> {
-  return fetch(`https://corsproxy.org/?${encodeURIComponent(options.url)}`, {
+  proxyStore ??= useProxyStore()
+  const config = proxyStore.resolution(options)
+
+  return fetch(config.url, {
     method: "post",
-    headers: options.headers,
+    ...config,
     body:
-      typeof options.data === "object"
-        ? Object.entries(options.data).reduce((form, [name, value]) => {
+      typeof config.data === "object"
+        ? Object.entries(config.data).reduce((form, [name, value]) => {
             form.set(name, value + "")
             return form
           }, new FormData())
-        : options.data
+        : config.data
   }).then(async (res) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let data: any
@@ -132,6 +136,70 @@ export function proxyPost<
     }
   })
 }
+// ======= /Http for proxy ========
 
-export const get = Http.version ? httpGet : proxyGet
-export const post = Http.version ? httpPost : proxyPost
+// ======= Http for native ========
+function nativeGet<ReturnType extends GetOption["responseType"] | undefined>(
+  options: Omit<GetOption, "responseType"> & {
+    responseType?: ReturnType
+  }
+): Promise<Response<ReturnType>> {
+  return NativeHttp.get(options).then((response) => {
+    if (
+      response.status !== 200 &&
+      response.status !== 201 &&
+      response.status < 301 &&
+      response.status > 304
+    )
+      // eslint-disable-next-line functional/no-throw-statement
+      throw response
+    return response
+  })
+}
+function nativePost<ReturnType extends GetOption["responseType"] | undefined>(
+  options: Omit<GetOption, "responseType"> & {
+    responseType?: ReturnType
+  }
+): Promise<Response<ReturnType>> {
+  return NativeHttp.post(options).then((response) => {
+    if (
+      response.status !== 200 &&
+      response.status !== 201 &&
+      response.status < 301 &&
+      response.status > 304
+    )
+      // eslint-disable-next-line functional/no-throw-statement
+      throw response
+    return response
+  })
+}
+// ======= /Http for native ========
+
+export function get<ReturnType extends GetOption["responseType"] | undefined>(
+  options: Omit<GetOption, "responseType"> & {
+    responseType?: ReturnType
+  }
+): Promise<Response<ReturnType>> {
+  if (APP_NATIVE_MOBILE || APP_INFO.extension) {
+    proxyStore ??= useProxyStore()
+  }
+
+  if (APP_NATIVE_MOBILE && proxyStore.useNativeAPI) return nativeGet(options)
+  if (APP_INFO.extension && proxyStore.useExtAPI) return httpGet(options)
+
+  return proxyGet(options)
+}
+export function post<ReturnType extends GetOption["responseType"] | undefined>(
+  options: Omit<GetOption, "responseType"> & {
+    responseType?: ReturnType
+  }
+): Promise<Response<ReturnType>> {
+  if (APP_NATIVE_MOBILE || APP_INFO.extension) {
+    proxyStore ??= useProxyStore()
+  }
+
+  if (APP_NATIVE_MOBILE && proxyStore.useNativeAPI) return nativePost(options)
+  if (APP_INFO.extension && proxyStore.useExtAPI) return httpPost(options)
+
+  return proxyPost(options)
+}

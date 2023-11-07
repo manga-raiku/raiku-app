@@ -516,7 +516,6 @@ const props = defineProps<{
 }>()
 
 const router = useRouter()
-const route = useRoute()
 const i18n = useI18n()
 const pluginStore = usePluginStore()
 

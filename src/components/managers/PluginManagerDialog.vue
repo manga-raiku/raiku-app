@@ -24,18 +24,15 @@
       >
         <q-list v-if="!error && data">
           <div class="flex items-center justify-between">
-            <q-item
-              clickable
-              class="rounded-xl"
+            <o-button
+              light
+              rounded
+              type="primary"
               @click="stateStore.showPluginAddDialog = true"
             >
-              <q-item-section avatar class="min-w-0">
-                <i-iconamoon-sign-plus-fill class="size-1.5em" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>{{ $t("them-plugin") }}</q-item-label>
-              </q-item-section>
-            </q-item>
+              <i-iconamoon-sign-plus-fill class="size-1.5em" />
+              {{ $t("them-plugin") }}
+            </o-button>
             <q-item-section side class="mr--2" @click="showEdit = !showEdit">
               <q-btn rounded no-caps flat class="text-main-3">{{
                 showEdit ? $t("huy") : $t("sua")
