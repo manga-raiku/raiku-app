@@ -31,9 +31,8 @@
 
           <q-toggle
             v-model="queryMode"
-            color="main-3"
             :label="$t('che-do-query')"
-            class="ml--2"
+            class="ml--2 toggle-main-3"
           />
 
           <q-input

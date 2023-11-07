@@ -38,7 +38,7 @@
     </div>
 
     <div class="">
-      <q-btn round flat elevated @click="emit('remove', index)">
+      <q-btn round flat unelevated @click="emit('remove', index)">
         <i-solar-trash-bin-2-bold-duotone />
       </q-btn>
     </div>
