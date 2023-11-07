@@ -190,7 +190,7 @@ async function onClickUpdate(item: Pick<PackageDisk, "name" | "id">) {
 
     updatingMap.delete(item.id)
   } catch (err) {
-    console.error(err)
+    WARN(err)
     let message: string
     switch ((err as Response)?.status) {
       case 404:

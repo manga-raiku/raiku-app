@@ -126,7 +126,7 @@ async function addProxy() {
     })
     emit("installed")
   } catch (err) {
-    console.error(err)
+    WARN(err)
     const message = i18n.t("loi-khi-them-proxy-err-err", [err + ""])
 
     $q.notify({
