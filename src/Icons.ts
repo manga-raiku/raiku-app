@@ -1,5 +1,7 @@
 import type { FunctionalComponent, SVGAttributes } from "vue"
 
+import icBaselineVpnKey from "~icons/ic/baseline-vpn-key"
+import icOutlineVpnKey from "~icons/ic/outline-vpn-key"
 import iconamoonSearch from "~icons/iconamoon/search"
 import iconamoonSearchDuotone from "~icons/iconamoon/search-duotone"
 import mingcutePlugin2Line from "~icons/mingcute/plugin-2-line"
@@ -100,6 +102,7 @@ const iconUserCircle = [
   solarUserCircleBoldDuotone
 ] as [Icon, Icon]
 const iconMingcute = [mingcutePlugin2Line, mingcutePlugin2Line] as [Icon, Icon]
+const iconVPN = [icOutlineVpnKey, icBaselineVpnKey] as [Icon, Icon]
 
 export const Icons: Record<string, [Icon, Icon]> = {
   home: iconHome,
@@ -120,5 +123,6 @@ export const Icons: Record<string, [Icon, Icon]> = {
   notebook: iconNotebook,
   translate: iconTranslate,
   user_circle: iconUserCircle,
-  mingcute: iconMingcute
+  mingcute: iconMingcute,
+  vpn: iconVPN
 }

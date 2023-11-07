@@ -8,7 +8,7 @@
       class="h-full min-w-[min(500px,100%)] max-w-100% flex flex-nowrap column min-h-0 rounded-xl"
     >
       <q-card-section class="text-16px flex items-center justify-between pl-7">
-        Trình quản lý Proxy
+        {{ $t("trinh-quan-ly-proxy") }}
 
         <div>
           <q-btn unelevated round v-close-popup>
@@ -24,23 +24,23 @@
             <q-item
               clickable
               class="rounded-xl"
-              @click="emit('update:modelValue', true)"
+              @click="stateStore.showProxyAddDialog = true"
             >
               <q-item-section avatar class="min-w-0">
                 <i-iconamoon-sign-plus-fill class="size-1.5em" />
               </q-item-section>
               <q-item-section>
-                <q-item-label>Thêm Proxy</q-item-label>
+                <q-item-label>{{ $t("them-proxy") }}</q-item-label>
               </q-item-section>
             </q-item>
             <q-item-section side class="mr--2" @click="showEdit = !showEdit">
               <q-btn rounded no-caps flat class="text-main-3">{{
-                showEdit ? "Hủy" : "Sửa"
+                showEdit ? $t("huy") : $t("sua")
               }}</q-btn>
             </q-item-section>
           </div>
 
-          <div v-if="!data.length" class="text-center py-6">
+          <div v-if="!Object.keys(data).length" class="text-center py-6">
             {{ $t("khong-co-gi-ca") }}
           </div>
           <q-item
@@ -51,16 +51,24 @@
             target="_blank"
             class="rounded-xl"
           >
+            <q-item-section v-show="!showEdit" side>
+              <q-radio
+                v-model="proxyStore.enabled"
+                :val="url"
+                dense
+                color="main-3"
+              />
+            </q-item-section>
             <q-item-section>
               <q-item-label lines="1">
-                {{ item.name }}
+                {{ url }}
               </q-item-label>
             </q-item-section>
-            <q-item-section side>
+            <q-item-section v-if="showEdit" side>
               <q-btn
-                v-if="showEdit"
                 round
-                @click.stop.prevent="removePlugin(item)"
+                :disable="info.readonly"
+                @click.stop.prevent="removeProxy(url)"
                 @mousedown.stop
               >
                 <i-iconamoon-sign-minus-circle-light
@@ -92,14 +100,14 @@ const proxyStore = useProxyStore()
 const stateStore = useStateStore()
 const $q = useQuasar()
 const { t } = useI18n()
+const i18n = useI18n()
 
-const { data, error } = useRequest(() =>proxyStore.getAllProxy()
-)
+const { data, error } = useRequest(() => proxyStore.getAllProxy())
 
 function removeProxy(url: string) {
   $q.dialog({
-    title: "Xóa Proxy",
-    message: "Bạn chắc chắn muốn xóa Proxy này chứ?",
+    title: i18n.t("xoa-proxy"),
+    message: i18n.t("ban-chac-chan-muon-xoa-proxy-nay-chu"),
     cancel: { label: t("huy"), flat: true, noCaps: true, rounded: true },
     ok: {
       label: t("xoa"),
@@ -109,10 +117,10 @@ function removeProxy(url: string) {
       rounded: true
     },
     persistent: true
-  }).onOk(() => {
+  }).onOk(async () => {
     await proxyStore.remove(url)
     $q.notify({
-      message: `Đã xóa Proxy ${url}`
+      message: i18n.t("da-xoa-proxy-url", [url])
     })
   })
 }

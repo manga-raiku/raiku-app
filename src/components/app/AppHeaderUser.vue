@@ -301,6 +301,11 @@ const buttons: {
     text: i18n.t("quan-ly-plugin")
   },
   {
+    onClick: () => (stateStore.showProxyManagerDialog = true),
+    icon: Icons.vpn,
+    text: i18n.t("quan-ly-proxy")
+  },
+  {
     divider: true,
     href: "mailto://contact@mangaraiku.eu.org?title=Feedback%20app%20git.shin.raiku",
     icon: Icons.info_circle,

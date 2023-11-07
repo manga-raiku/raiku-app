@@ -20,6 +20,13 @@ meta:
       <q-btn
         round
         unelevated
+        @click="stateStore.showProxyManagerDialog = true"
+      >
+        <component :is="Icons.vpn[0]" />
+      </q-btn>
+      <q-btn
+        round
+        unelevated
         @click="stateStore.showPluginManagerDialog = true"
       >
         <component :is="Icons.mingcute[0]" />

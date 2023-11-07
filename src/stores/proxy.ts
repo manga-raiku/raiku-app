@@ -8,17 +8,22 @@ interface ProxyInfo {
   readonly headers?: Record<string, string>
   readonly query?: Record<string, string>
   readonly body?: Record<string, string> | string
+  readonly readonly?: boolean
+}
+
+const PROXIES_DEFAULT = {
+  [new URL("https://corsproxy.org").toString()]: {
+    name: null,
+    modeQuery: true,
+    readonly: true
+  }
 }
 
 export const useProxyStore = defineStore("proxy", () => {
   const proxies = toReactive(
-    useStorage<Record<string, ProxyInfo>>("proxies", {
-      "https://corsproxy.org": {
-        name: null,
-        modeQuery: true
-      }
-    })
+    useStorage<Record<string, ProxyInfo>>("proxies", {})
   )
+  Object.assign(proxies, PROXIES_DEFAULT)
   const _enabled = useStorage<string>("proxy-enabled", "")
   const enabled = computed<string>({
     get: () =>
@@ -40,7 +45,9 @@ export const useProxyStore = defineStore("proxy", () => {
     proxies[new URL(url).toString()] = proxy
   }
   function remove(url: string) {
-    return delete proxies[new URL(url).toString()]
+    const key = new URL(url).toString()
+    if (proxies[key]?.readonly) return
+    return delete proxies[key]
   }
 
   function enable(url: string) {
@@ -99,9 +106,19 @@ export const useProxyStore = defineStore("proxy", () => {
     return req
   }
 
-  function getAllProxy() {
+  async function getAllProxy() {
     return proxies
   }
 
-  return { proxies, has, add, remove, enable, get, resolution, getAllProxy }
+  return {
+    proxies,
+    has,
+    add,
+    remove,
+    enable,
+    enabled,
+    get,
+    resolution,
+    getAllProxy
+  }
 })

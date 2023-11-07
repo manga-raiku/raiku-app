@@ -9,7 +9,7 @@
     <template #image>
       <img
         src="~assets/plugin_not_available.png"
-        class="w-240px sm:w-450px max-w-100% mx-auto mt--60px"
+        class="w-240px sm:w-450px max-w-100% mx-auto"
         alt="plugin not available"
       />
     </template>
