@@ -97,14 +97,17 @@ async function addPlugin() {
     })
     emit("installed")
   } catch (err) {
-    console.error(err)
+    WARN(err)
     let message: string
     switch ((err as Response)?.status) {
       case 404:
         message = t("khong-co-plugin-nao-duoc-tim-thay")
         break
       default:
-        if (err + "" === STATUS_PLUGIN_INSTALL.NOT_SUPPORT_PLATFORM)
+        if (
+          err instanceof PluginError &&
+          err.code === STATUS_PLUGIN_INSTALL.NOT_SUPPORT_PLATFORM
+        )
           message = t("plugin-nay-khong-ho-tro-moi-truong-nay")
         else
           message = t("loi-khi-them-plugin", [
