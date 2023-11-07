@@ -19,7 +19,6 @@
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=manga-raiku_manga-raiku&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=manga-raiku_manga-raiku&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
 
-
 [![CI](https://github.com/manga-raiku/raiku-app/actions/workflows/ci.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/ci.yml)
 [![CodeCov](https://github.com/manga-raiku/raiku-app/actions/workflows/codecov.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/codecov.yml)
 [![CodeQL](https://github.com/manga-raiku/raiku-app/actions/workflows/codeql.yml/badge.svg)](https://github.com/manga-raiku/raiku-app/actions/workflows/codeql.yml)
@@ -48,7 +47,6 @@ The app currently supports:
 
 - Android, Web Mobile:
 <div style="overflow-x: scroll; white-space: nowrap">
-
 
 <img src="https://github.com/manga-raiku/raiku-app/assets/45375496/b7fead64-654a-40d6-81ec-cdd6d8e2f5ec" width="240" />
 <img src="https://github.com/manga-raiku/raiku-app/assets/45375496/ccc89acb-e341-491e-a683-4647388630cd" width="240" />

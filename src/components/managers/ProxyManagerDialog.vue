@@ -72,7 +72,13 @@
                 v-model="proxyStore.enabled"
                 :val="url"
                 dense
-                :disable="APP_NATIVE_MOBILE ? proxyStore.useNativeAPI : (APP_INFO.extension ? proxyStore.useExtAPI : false)"
+                :disable="
+                  APP_NATIVE_MOBILE
+                    ? proxyStore.useNativeAPI
+                    : APP_INFO.extension
+                    ? proxyStore.useExtAPI
+                    : false
+                "
                 color="toggle-main-3"
               />
             </q-item-section>
