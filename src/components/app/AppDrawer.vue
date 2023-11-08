@@ -87,17 +87,6 @@ const route = useRoute()
 const router = useRouter()
 const $q = useQuasar()
 
-const canvasRef = ref<HTMLCanvasElement>()
-const instance = getCurrentInstance()
-watch(canvasRef, (ref) => {
-  if (!ref) return
-
-  const { draw, stop } = useSakura(ref)
-
-  draw()
-  onBeforeUnmount(stop, instance)
-})
-
 const hideDrawer = computed(() => route.meta.hiddenDrawer ?? false)
 
 const drawers = computed(() => [
