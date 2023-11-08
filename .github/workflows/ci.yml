@@ -11,10 +11,6 @@ name: CI
 
 on:
   push:
-    tags-ignore:
-      - "pwa@*"
-      - "android@*"
-      - "ios@*"
   pull_request:
   schedule:
     - cron: '15 10 * * 5'
