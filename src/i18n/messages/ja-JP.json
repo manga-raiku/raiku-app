@@ -234,6 +234,7 @@
   "da-cap-nhat-plugin-r-name": "プラグイン {0} が更新されました",
   "plugin-nay-khong-ho-tro-moi-truong-nay": "このプラグインはこの環境をサポートしていません",
   "quan-ly-proxy": "プロキシ管理",
+  "mo-quan-ly-proxy": "公プロキシ管理",
   "ban-chac-chan-muon-xoa-proxy-nay-chu": "このプロキシを削除してもよろしいですか?",
   "body": "体",
   "che-do-query": "クエリモード",
