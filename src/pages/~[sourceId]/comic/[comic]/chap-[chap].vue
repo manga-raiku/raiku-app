@@ -206,6 +206,7 @@ meta:
         :disable="!previousEpisode"
         class="<md:order-1"
         :to="previousEpisode?.value.route"
+        :replace="APP_STANDALONE"
       >
         <i-solar-alt-arrow-left-line-duotone
           v-if="$q.screen.lt.md && scrollingMode"
@@ -232,6 +233,7 @@ meta:
         :disable="!nextEpisode"
         class="<md:order-3"
         :to="nextEpisode?.value.route"
+        :replace="APP_STANDALONE"
       >
         <i-solar-alt-arrow-right-line-duotone
           v-if="$q.screen.lt.md && scrollingMode"

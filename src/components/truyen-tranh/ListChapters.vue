@@ -74,6 +74,7 @@
             flat
             no-caps
             :to="item.route"
+            :replace="APP_STANDALONE"
             class="w-full bg-#f8f8f8 bg-opacity-7.5 py-1 px-4"
             :disable="
               offline &&
@@ -145,6 +146,7 @@ import type { Chapter, Comic, ID, RouteComic } from "raiku-pgs/plugin"
 import dayjs from "src/logic/dayjs"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 import { isTaskDLEp } from "src/logic/download-manager"
+import { APP_STANDALONE } from "src/constants"
 
 const props = defineProps<{
   classItem?: string

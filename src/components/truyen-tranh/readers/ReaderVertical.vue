@@ -57,6 +57,7 @@
         v-if="nextEpisode"
         class="w-full h-120px flex items-center justify-center"
         :to="nextEpisode"
+        :replace="APP_STANDALONE"
         @click.stop
         ref="btnNextEpRef"
       >
@@ -93,6 +94,7 @@ import {
 import { type DomOffset } from "quasar"
 import type { Chapter } from "raiku-pgs/plugin"
 import { RouterLink } from "vue-router"
+import { APP_STANDALONE } from "src/constants"
 
 import PageView from "./__components__/PageView.vue"
 

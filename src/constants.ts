@@ -6,7 +6,7 @@ export const SUPABASE_PROJECT_URL = process.env.SUPABASE_PROJECT_URL
 export const SUPABASE_PROJECT_KEY = process.env.SUPABASE_PROJECT_KEY
 
 export const APP_INFO: AppInfo = {
-  mode: import.meta.env.MODE as AppInfo["mode"],
+  mode: process.env.MODE as AppInfo["mode"],
   extension: !!Http.version,
   version
 }
@@ -16,7 +16,7 @@ export const WARN = console.warn.bind(console)
 
 // constants for building
 export const APP_NATIVE_MOBILE =
-  import.meta.env.MODE === "capacitor" || import.meta.env.MODE === "cordova"
+  process.env.MODE === "capacitor" || process.env.MODE === "cordova"
 export const APP_STANDALONE =
   APP_NATIVE_MOBILE ||
   (window.matchMedia?.("(display-mode: standalone)").matches ?? false)
