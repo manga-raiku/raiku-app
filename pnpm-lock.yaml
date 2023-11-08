@@ -1,4 +1,4 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
 
 settings:
   autoInstallPeers: true
@@ -71,9 +71,6 @@ importers:
       dayjs:
         specifier: ^1.11.9
         version: 1.11.9
-      eruda2:
-        specifier: 0.0.2-b8
-        version: 0.0.2-b8
       hash-sum:
         specifier: ^2.0.0
         version: 2.0.0
@@ -282,6 +279,9 @@ importers:
       chalk:
         specifier: ^5.2.0
         version: 5.2.0
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
       cypress:
         specifier: ^12.17.0
         version: 12.17.0
@@ -291,6 +291,9 @@ importers:
       envalid:
         specifier: ^7.3.1
         version: 7.3.1
+      eruda2:
+        specifier: 0.0.2-b8
+        version: 0.0.2-b8
       esbuild:
         specifier: ^0.19.2
         version: 0.19.2
@@ -326,7 +329,7 @@ importers:
         version: 16.8.1
       nx-cloud:
         specifier: latest
-        version: 16.4.0
+        version: 16.5.2
       prettier:
         specifier: ^3.0.1
         version: 3.0.1
@@ -4464,10 +4467,10 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
 
-  /@nrwl/nx-cloud@16.4.0:
-    resolution: {integrity: sha512-QitrYK6z9ceagetBlgLMZnC0T85k2JTk+oK0MxZ5p/woclqeYN7SiGNZgMzDq8TjJwt8Fm/MDnsSo3xtufmLBg==}
+  /@nrwl/nx-cloud@16.5.2:
+    resolution: {integrity: sha512-oHO5T1HRJsR9mbRd8eUqMBPCgqVZLSbAh3zJoPFmhEmjbM4YB9ePRpgYFT8dRNeZUOUd/8Yt7Pb6EVWOHvpD/w==}
     dependencies:
-      nx-cloud: 16.4.0
+      nx-cloud: 16.5.2
     transitivePeerDependencies:
       - debug
     dev: true
@@ -6639,7 +6642,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.3.8
       '@vue/shared': 3.3.8
-      vue: 3.3.8(typescript@5.0.4)
+      vue: 3.3.8(typescript@5.2.2)
 
   /@vue/shared@3.2.45:
     resolution: {integrity: sha512-Ewzq5Yhimg7pSztDV+RH1UDKBzmtqieXQlpTVm2AwraoRL/Rks96mvd8Vgi7Lj+h+TH8dv7mXD3FRZR3TUvbSg==}
@@ -7417,7 +7420,7 @@ packages:
   /axios@0.27.2(debug@4.3.4):
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@4.3.4)
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -7426,7 +7429,7 @@ packages:
   /axios@1.1.3:
     resolution: {integrity: sha512-00tXVRwKx/FZr/IDVFt4C+f9FYairX517WoGCL6dpOntqLkZofjhu43F/Xl44UOpqa+9sLFDrG/XAnFsUYgkDA==}
     dependencies:
-      follow-redirects: 1.15.2(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@4.3.4)
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -7436,7 +7439,7 @@ packages:
   /axios@1.5.0:
     resolution: {integrity: sha512-D4DdjDo5CY50Qms0qGQTTw6Q44jl7zRwY7bthds06pUGfChBCTcQs+N743eFWGEd6pRTMd6A+I87aWyFV5wiZQ==}
     dependencies:
-      follow-redirects: 1.15.2(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@4.3.4)
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -9138,7 +9141,7 @@ packages:
 
   /eruda2@0.0.2-b8:
     resolution: {integrity: sha512-Ur6Vvbixz8JrCJTU5mSmoQ2P/zQXLiJi8u3XPX6Gs+fqGpcZjKcGs5fmvwZK4kj82ICA2EXxNOa0PQ+7je1Aeg==}
-    dev: false
+    dev: true
 
   /es-abstract@1.21.2:
     resolution: {integrity: sha512-y/B5POM2iBnIxCiernH1G7rC9qQoM77lLIMQLuob0zhp8C56Po81+2Nj0WFKnd0pNReDTnkYryc+zhOzpEIROg==}
@@ -10662,8 +10665,8 @@ packages:
   /flatted@3.2.7:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
 
-  /follow-redirects@1.15.2(debug@4.3.4):
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+  /follow-redirects@1.15.3(debug@4.3.4):
+    resolution: {integrity: sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -10672,16 +10675,6 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
-    dev: true
-
-  /follow-redirects@1.15.3:
-    resolution: {integrity: sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
 
   /for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -10774,7 +10767,7 @@ packages:
       at-least-node: 1.0.0
       graceful-fs: 4.2.11
       jsonfile: 6.1.0
-      universalify: 2.0.0
+      universalify: 2.0.1
 
   /fs-minipass@2.1.0:
     resolution: {integrity: sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg==}
@@ -11372,7 +11365,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.3
+      follow-redirects: 1.15.3(debug@4.3.4)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -13159,11 +13152,11 @@ packages:
     resolution: {integrity: sha512-6xpotnECFy/og7tKSBVmUNft7J3jyXAka4XvG6AUhFWRz+Q/Ljus7znJAA3bxColfQLdS+XsjoodtJfCgeTEFQ==}
     dev: true
 
-  /nx-cloud@16.4.0:
-    resolution: {integrity: sha512-jbq4hWvDwRlJVpxgMgbmNSkue+6XZSn53R6Vo6qmCAWODJ9KY1BZdZ/9VRL8IX/BRKebVFiXp3SapFB1qPhH8A==}
+  /nx-cloud@16.5.2:
+    resolution: {integrity: sha512-1t1Ii9gojl8r/8hFGaZ/ZyYR0Cb0hzvXLCsaFuvg+EJEFdvua3P4cfNya/0bdRrm+7Eb/ITUOskbvYq4TSlyGg==}
     hasBin: true
     dependencies:
-      '@nrwl/nx-cloud': 16.4.0
+      '@nrwl/nx-cloud': 16.5.2
       axios: 1.1.3
       chalk: 4.1.2
       dotenv: 10.0.0
@@ -15788,7 +15781,6 @@ packages:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     hasBin: true
-    dev: true
 
   /ua-parser-js@1.0.33:
     resolution: {integrity: sha512-RqshF7TPTE0XLYAqmjlu5cLLuGdKrNu9O1KLA/qp39QtbZwuzwv1dT46DZSopoUMsYgXpB3Cv8a03FI8b74oFQ==}
@@ -15896,10 +15888,6 @@ packages:
     resolution: {integrity: sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg==}
     engines: {node: '>= 4.0.0'}
     dev: true
-
-  /universalify@2.0.0:
-    resolution: {integrity: sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==}
-    engines: {node: '>= 10.0.0'}
 
   /universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
@@ -16448,8 +16436,8 @@ packages:
         optional: true
     dependencies:
       esbuild: 0.14.51
-      postcss: 8.4.31
-      resolve: 1.22.8
+      postcss: 8.4.29
+      resolve: 1.22.2
       rollup: 2.77.3
       sass: 1.32.12
     optionalDependencies:
@@ -16784,6 +16772,7 @@ packages:
       '@vue/server-renderer': 3.3.8(vue@3.3.8)
       '@vue/shared': 3.3.8
       typescript: 5.0.4
+    dev: false
 
   /vue@3.3.8(typescript@5.2.2):
     resolution: {integrity: sha512-5VSX/3DabBikOXMsxzlW8JyfeLKlG9mzqnWgLQLty88vdZL7ZJgrdgBOmrArwxiLtmS+lNNpPcBYqrhE6TQW5w==}
@@ -16799,7 +16788,6 @@ packages:
       '@vue/server-renderer': 3.3.8(vue@3.3.8)
       '@vue/shared': 3.3.8
       typescript: 5.2.2
-    dev: true
 
   /w3c-xmlserializer@4.0.0:
     resolution: {integrity: sha512-d+BFHzbiCx6zGfz0HyQ6Rg69w9k19nviJspaj4yNscGjrHu94sVP+aRm75yEbCh+r2/yR+7q6hux9LVtbuTGBw==}
