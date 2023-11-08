@@ -41,13 +41,6 @@
     />
     <!-- /proxy manager -->
   </q-layout>
-
-  <canvas
-    class="hidden fixed z-0 top-0 left-0"
-    ref="canvasRef"
-    :width="$q.screen.width"
-    :height="$q.screen.height"
-  />
 </template>
 
 <script lang="ts" setup>
@@ -60,17 +53,6 @@ const route = useRoute()
 const $q = useQuasar()
 const stateStore = useStateStore()
 const networkStore = useNetworkStore()
-
-const canvasRef = ref<HTMLCanvasElement>()
-const instance = getCurrentInstance()
-watch(canvasRef, (ref) => {
-  if (!ref) return
-
-  const { draw, stop } = useSakura(ref)
-
-  draw()
-  onBeforeUnmount(stop, instance)
-})
 
 const showDrawer = ref(false)
 

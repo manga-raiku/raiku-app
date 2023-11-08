@@ -90,6 +90,15 @@ meta:
 
     <!-- <q-input v-model="binaryAuth" placeholder="Enter binary auth" /> -->
   </q-page>
+
+  
+
+  <canvas
+    class="fixed z-0 top-0 left-0"
+    ref="canvasRef"
+    :width="$q.screen.width"
+    :height="$q.screen.height"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -154,4 +163,17 @@ const buttons: {
     })
   }
 ]
+
+
+const canvasRef = ref<HTMLCanvasElement>()
+const instance = getCurrentInstance()
+watch(canvasRef, (ref) => {
+  if (!ref) return
+
+  const { draw, stop } = useSakura(ref)
+
+  draw()
+  onBeforeUnmount(stop, instance)
+})
+
 </script>
