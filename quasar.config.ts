@@ -235,10 +235,10 @@ export default configure((/* ctx */) => {
       hideSplashscreen: true
     },
 
-    bin: {
+    bin: process.env.TEST ? {
       linuxAndroidStudio: "./noop.sh",
       windowsAndroidStudio: "./noop"
-    },
+    } : undefined,
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/configuring-electron
     electron: {

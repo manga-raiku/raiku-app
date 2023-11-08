@@ -48,7 +48,7 @@ jobs:
         run: sh install.sh
 
       - name: Build .apk for Android
-        run: pnpm build:android --ide
+        run: pnpm build:android:ci
 
       - name: Build PWA
         run: pnpm build:pwa
