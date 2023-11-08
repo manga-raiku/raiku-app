@@ -124,6 +124,11 @@ quasar build
 
 - [x] bootloop in page read if plugin not install
 
+- [ ] add `<keep-alive>`?
+- [ ] rounded button footer toolbar
+- [ ] API load image in native
+- [ ] fix header reveal default not show
+
 ### Customize the configuration
 
 See [Configuring quasar.config.ts](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
