@@ -91,8 +91,6 @@ meta:
     <!-- <q-input v-model="binaryAuth" placeholder="Enter binary auth" /> -->
   </q-page>
 
-  
-
   <canvas
     class="fixed z-0 top-0 left-0"
     ref="canvasRef"
@@ -164,7 +162,6 @@ const buttons: {
   }
 ]
 
-
 const canvasRef = ref<HTMLCanvasElement>()
 const instance = getCurrentInstance()
 watch(canvasRef, (ref) => {
@@ -175,5 +172,4 @@ watch(canvasRef, (ref) => {
   draw()
   onBeforeUnmount(stop, instance)
 })
-
 </script>

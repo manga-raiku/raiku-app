@@ -93,8 +93,8 @@ import {
 } from "@vueuse/core"
 import { type DomOffset } from "quasar"
 import type { Chapter } from "raiku-pgs/plugin"
-import { RouterLink } from "vue-router"
 import { APP_STANDALONE } from "src/constants"
+import { RouterLink } from "vue-router"
 
 import PageView from "./__components__/PageView.vue"
 

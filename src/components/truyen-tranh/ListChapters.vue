@@ -143,10 +143,10 @@
 import "@fontsource/poppins"
 import { QBtn, QTab, QTabs } from "quasar"
 import type { Chapter, Comic, ID, RouteComic } from "raiku-pgs/plugin"
+import { APP_STANDALONE } from "src/constants"
 import dayjs from "src/logic/dayjs"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
 import { isTaskDLEp } from "src/logic/download-manager"
-import { APP_STANDALONE } from "src/constants"
 
 const props = defineProps<{
   classItem?: string
