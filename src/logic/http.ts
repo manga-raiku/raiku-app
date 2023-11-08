@@ -153,6 +153,8 @@ function nativeGet<ReturnType extends GetOption["responseType"] | undefined>(
     )
       // eslint-disable-next-line functional/no-throw-statement
       throw response
+    if (options.responseType !== "json" && typeof response.data === "object")
+      response.data = JSON.stringify(response.data)
     return response
   })
 }
@@ -170,6 +172,8 @@ function nativePost<ReturnType extends GetOption["responseType"] | undefined>(
     )
       // eslint-disable-next-line functional/no-throw-statement
       throw response
+    if (options.responseType !== "json" && typeof response.data === "object")
+      response.data = JSON.stringify(response.data)
     return response
   })
 }
