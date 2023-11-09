@@ -15,7 +15,7 @@ on:
 
 jobs:
   android:
-    name: Build for Android
+    name: Build for PWA
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -50,19 +50,18 @@ jobs:
       - name: Build PWA
         run: pnpm build:pwa
   pwa:
-    name: Build for PWA
-    runs-on: ${{ matrix.os }}
+    name: Build for Android
+    runs-on: [ubuntu-latest, macos-latest]
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        node_version: [16, 18, 20]
+        os: [ubuntu-latest, macos-latest]
+        node_version: [20]
         include:
           # Active LTS + other OS
           - os: macos-latest
             node_version: 18
-          - os: windows-latest
-            node_version: 18
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -71,6 +70,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "zulu" # See 'Supported distributions' for available options
+          java-version: "17"
 
       - uses: pnpm/action-setup@v2.0.1
         name: Install pnpm
@@ -81,6 +87,9 @@ jobs:
 
       - name: Install depends
         run: sh install.sh
+
+      - name: Build Quasar
+        run: pnpm build:android:ci
 
       - name: Build Android App
         uses: anime-vsub/android-build-action@1.2.1
