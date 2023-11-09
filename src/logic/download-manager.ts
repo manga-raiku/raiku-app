@@ -50,8 +50,9 @@ async function downloadFile(
     const json = JSON.parse(src.slice(hashIndex + HASH_TAG.length))
     // request now
     buffer = await get({
-      url: src.slice(0, hashIndex),
-      headers: json
+      url: (src.startsWith("//") ? "https:" : "") + src.slice(0, hashIndex),
+      headers: json,
+      responseType: "arraybuffer"
     }).then((res) => base64ToUint8(res.data))
   } else {
     buffer = await await fetchRetry(fetch, [src], {

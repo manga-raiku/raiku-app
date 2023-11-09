@@ -60,7 +60,7 @@ const srcImage = ref<string | undefined>(empty)
 async function onLoad(event: Event) {
   console.log("onLoad", srcImage.value?.slice(0, 120), empty)
   if (srcImage.value === empty) {
-    return startLoad(await fastProcessImage(await props.src))
+    return startLoad(await props.src)
   }
 
   emit("load", event.target as HTMLImageElement)
@@ -73,7 +73,8 @@ async function onLoad(event: Event) {
 let srcLoaded: string | null = null
 async function startLoad(src: string | Promise<string>) {
   console.log("start load")
-  const rawSrc = typeof src === "string" ? src : await src
+  // eslint-disable-next-line functional/no-let
+  let rawSrc = await src
 
   if (rawSrc === srcLoaded) return
   srcLoaded = null
@@ -84,7 +85,9 @@ async function startLoad(src: string | Promise<string>) {
   try {
     for (let i = 0; i < 5; i++) {
       try {
-        await loadImage(rawSrc)
+        const result = await fastProcessImage(rawSrc)
+        if (result.startsWith("blob:")) rawSrc = result
+        else await loadImage(result)
         break
       } catch {
         await sleep(300)
