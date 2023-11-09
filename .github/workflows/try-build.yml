@@ -51,9 +51,12 @@ jobs:
         run: pnpm build:pwa
   pwa:
     name: Build for Android
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node_version: 20
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
