@@ -114,6 +114,8 @@ export interface FilterQuery {
 export interface AppInfo {
   readonly mode: "spa" | "pwa" | "capacitor"
   readonly extension: boolean
+  readonly native: boolean
+  readonly standalone: boolean
   readonly version: string
 }
 
