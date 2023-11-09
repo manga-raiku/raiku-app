@@ -54,14 +54,6 @@ jobs:
     runs-on: [ubuntu-latest, macos-latest]
     strategy:
       fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        node_version: [20]
-        include:
-          # Active LTS + other OS
-          - os: macos-latest
-            node_version: 18
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
