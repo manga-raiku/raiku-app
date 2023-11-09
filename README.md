@@ -71,37 +71,44 @@ The app currently supports:
 ## Install the dependencies
 
 ```bash
-yarn
-# or
-npm install
+pnpm setup # or pnpm install
 ```
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 
 ```bash
-quasar dev
+pnpm dev
+
+# for Android
+pnpm dev:android
+
+# for iOS
+pnpm dev:ios
 ```
 
 ### Lint the files
 
 ```bash
-yarn lint
-# or
-npm run lint
+pnpm lint
 ```
 
 ### Format the files
 
 ```bash
-yarn format
-# or
-npm run format
+pnpm format
 ```
 
 ### Build the app for production
 
 ```bash
-quasar build
+# Build for PWA
+pnpm build:pwa
+
+# Build for Android
+pnpm build:android
+
+# Build for iOS
+pnpm build:pwa
 ```
 
 ### To be on
