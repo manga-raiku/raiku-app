@@ -73,7 +73,6 @@ async function onLoad(event: Event) {
 let srcLoaded: string | null = null
 async function startLoad(src: string | Promise<string>) {
   console.log("start load")
-  // eslint-disable-next-line functional/no-let
   let rawSrc = await src
 
   if (rawSrc === srcLoaded) return
