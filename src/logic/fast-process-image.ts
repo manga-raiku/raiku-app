@@ -17,5 +17,16 @@ export async function fastProcessImage(url: string) {
 
     return `data:image;base64,${base64}`
   }
+
+  const hashIndex = url.indexOf(HASH_TAG)
+  if (hashIndex > -1) {
+    const json = JSON.parse(url.slice(hashIndex + HASH_TAG.length))
+    // request now
+    return get({
+      url: url.slice(0, hashIndex),
+      headers: json
+    }).then((res) => `data:image;base64,${res.data}`)
+  }
+
   return url
 }
