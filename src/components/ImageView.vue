@@ -26,7 +26,7 @@ function onLoad() {
 watch(
   () => props.src,
   async (src) => {
-    if (src.startsWith("offline://")) {
+    if (src.startsWith(PROTOCOL_OFFLINE)) {
       // load arrayBuffer
       const { buffer } = await Filesystem.readFile({
         path: src.slice(11),
