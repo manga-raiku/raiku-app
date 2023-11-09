@@ -51,7 +51,7 @@ jobs:
         run: pnpm build:pwa
   pwa:
     name: Build for Android
-    runs-on: [ubuntu-latest, macos-latest]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     steps:
