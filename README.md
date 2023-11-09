@@ -125,7 +125,7 @@ quasar build
 - [x] bootloop in page read if plugin not install
 
 - [ ] add `<keep-alive>`?
-- [ ] rounded button footer toolbar
+- [x] rounded button footer toolbar
 - [ ] API load image in native
 - [ ] fix header reveal default not show
 
