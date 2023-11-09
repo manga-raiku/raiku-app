@@ -3,85 +3,34 @@
     <q-tabs
       indicator-color="transparent"
       active-color="white"
-      class="bg-transparent text-grey-5 !shadow-2 text-[12px] tabs-main children:w-20% children:min-w-0"
+      class="bg-transparent text-grey-5 !shadow-2 text-[12px] tabs-main"
       no-caps
     >
-      <q-route-tab replace class="pt-1" to="/">
-        <component
-          :is="pathEqual(route.fullPath, '/') ? Icons.home[1] : Icons.home[0]"
-          width="24"
-          height="24"
-          class="mb-1"
-        />
-        {{ $t("trang-chu") }}
-      </q-route-tab>
       <q-route-tab
+        v-for="btn in buttons"
+        :key="btn.to"
         replace
+        :ripple="false"
         class="pt-1"
-        to="/search"
+        :to="btn.to"
         :class="{
-          'q-router-link--exact-active': route.name === 'search'
+          'q-router-link--exact-active': btn.check()
         }"
       >
-        <component
-          :is="route.name === 'search' ? Icons.search[1] : Icons.search[0]"
-          width="24"
-          height="24"
-          class="mb-1"
-        />
-        {{ $t("tim-kiem") }}
-      </q-route-tab>
-      <q-route-tab
-        replace
-        class="pt-1"
-        to="/genre"
-        :class="{
-          'q-router-link--exact-active': route.name === 'genre'
-        }"
-      >
-        <component
-          :is="route.name === 'genre' ? Icons.box[1] : Icons.box[0]"
-          width="24"
-          height="24"
-          class="mb-1"
-        />
-        {{ $t("the-loai") }}
-      </q-route-tab>
-      <q-route-tab
-        replace
-        class="pt-1"
-        to="/library"
-        :class="{
-          'q-router-link--exact-active': route.path.startsWith('/library')
-        }"
-      >
-        <component
-          :is="
-            route.path.startsWith('/library')
-              ? Icons.library[1]
-              : Icons.library[0]
-          "
-          width="24"
-          height="24"
-          class="mb-1"
-        />
-        {{ $t("thu-vien") }}
-      </q-route-tab>
-      <q-route-tab
-        replace
-        class="pt-1"
-        to="/app"
-        :class="{
-          'q-router-link--exact-active': route.path.startsWith('/app')
-        }"
-      >
-        <component
-          :is="route.path.startsWith('/app') ? Icons.user[1] : Icons.user[0]"
-          width="24"
-          height="24"
-          class="mb-1"
-        />
-        {{ $t("toi") }}
+        <div
+          class="bg-icon"
+          :class="{
+            'bg-transparent': !btn.check()
+          }"
+        >
+          <component
+            :is="btn.check() ? btn.icon[1] : btn.icon[0]"
+            width="24"
+            height="24"
+            class="my-1"
+          />
+        </div>
+        {{ btn.name() }}
       </q-route-tab>
     </q-tabs>
 
@@ -92,9 +41,73 @@
 </template>
 
 <script lang="ts" setup>
-import { Icons } from "src/Icons"
-import { pathEqual } from "src/logic/path-equal"
+import { type Icon, Icons } from "src/Icons"
 
 const route = useRoute()
+const i18n = useI18n()
 const networkStore = useNetworkStore()
+
+const buttons: {
+  to: string
+  icon: [Icon, Icon]
+  name: () => string
+  check: () => boolean
+}[] = [
+  {
+    to: "/",
+    icon: Icons.home,
+    name: () => i18n.t("trang-chu"),
+    check: () => route.name === "index"
+  },
+  {
+    to: "/search",
+    icon: Icons.search,
+    name: () => i18n.t("tim-kiem"),
+    check: () => route.name === "search"
+  },
+  {
+    to: "/genre",
+    icon: Icons.box,
+    name: () => i18n.t("the-loai"),
+    check: () => route.name === "genre"
+  },
+  {
+    to: "/library",
+    icon: Icons.library,
+    name: () => i18n.t("thu-vien"),
+    check: () => route.path.startsWith("/library")
+  },
+  {
+    to: "/app",
+    icon: Icons.user,
+    name: () => i18n.t("toi"),
+    check: () => route.path.startsWith("/app")
+  }
+]
 </script>
+
+<style lang="scss" scoped>
+.tabs-main :deep(.q-router-link--exact-active) {
+  svg {
+    color: var(--sakura);
+  }
+}
+.tabs-main :deep(.q-tab) {
+  width: (100% / 5) !important;
+  min-width: 0 !important;
+
+  .q-focus-helper {
+    display: none;
+  }
+
+  .bg-icon {
+    @apply px-3 rounded-30px bg-pink-300 bg-opacity-10 transition transition-bg duration-222;
+  }
+
+  &:hover {
+    .bg-icon {
+      @apply \!bg-pink-300 \!bg-opacity-5;
+    }
+  }
+}
+</style>
