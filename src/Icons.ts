@@ -104,7 +104,7 @@ const iconUserCircle = [
 const iconMingcute = [mingcutePlugin2Line, mingcutePlugin2Line] as [Icon, Icon]
 const iconVPN = [icOutlineVpnKey, icBaselineVpnKey] as [Icon, Icon]
 
-export const Icons: Record<string, [Icon, Icon]> = {
+export const Icons = {
   home: iconHome,
   search: iconSearch,
   box: iconBox,
@@ -125,4 +125,4 @@ export const Icons: Record<string, [Icon, Icon]> = {
   user_circle: iconUserCircle,
   mingcute: iconMingcute,
   vpn: iconVPN
-}
+} as const
