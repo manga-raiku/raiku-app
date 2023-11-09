@@ -43,6 +43,10 @@ The app currently supports:
 - SPA
 - PWA
 
+> 🎉 The application supports Plugins that allow you to install and read stories from many different sources and languages
+> 
+> 🎊 I'm planning to create some English and Japanese plugins. If you need additional plugins from other sources or languages, you can create them yourself. Refer to https://github.com/manga-raiku/raiku-plugin-template
+
 ## Screenshot
 
 - Android, Web Mobile:
