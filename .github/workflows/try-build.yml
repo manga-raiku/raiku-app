@@ -14,8 +14,8 @@ on:
     - cron: "15 10 * * 5"
 
 jobs:
-  build:
-    name: Try build
+  android:
+    name: Build for Android
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -47,8 +47,44 @@ jobs:
       - name: Install depends
         run: sh install.sh
 
-      - name: Build .apk for Android
-        run: pnpm build:android:ci
-
       - name: Build PWA
         run: pnpm build:pwa
+  pwa:
+    name: Build for PWA
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        node_version: [16, 18, 20]
+        include:
+          # Active LTS + other OS
+          - os: macos-latest
+            node_version: 18
+          - os: windows-latest
+            node_version: 18
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8.3.1
+          run_install: false
+
+      - name: Install depends
+        run: sh install.sh
+
+      - name: Build Android App
+        uses: anime-vsub/android-build-action@1.2.1
+        with:
+          project-path: src-capacitor/android
+          output-path: apk-release.apk
+          gradle-task: assembleRelease
