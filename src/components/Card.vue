@@ -10,7 +10,7 @@
         class="!rounded-[4px]"
         ref="imgRef"
       >
-        <BottomBlur>
+        <BottomBlur v-if="data.last_chapters.length > 0">
           <!-- <div class="text-[30px]">#{{ trending }}</div> -->
           <div class="card-title line-clamp-2 font-family-poppins">
             {{ $t("chuong-name", [data.last_chapters[0].name]) }}
@@ -123,10 +123,14 @@ import { formatView } from "src/logic/formatView"
 
 import "@fontsource/poppins"
 
-defineProps<{
+const props = defineProps<{
   data: MetaManga
   noHover?: boolean
 }>()
+
+if (import.meta.env.DEV && props.data.last_chapters.length < 1) {
+  WARN("[Card.vue]: last_chapters not found", props.data)
+}
 </script>
 
 <style lang="scss" scoped>
