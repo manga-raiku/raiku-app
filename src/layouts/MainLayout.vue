@@ -65,14 +65,3 @@ watchImmediate(
   }
 )
 </script>
-
-<style lang="scss">
-.tabs-main .q-router-link--exact-active {
-  svg {
-    color: var(--sakura);
-  }
-}
-.tabs-main .q-tab {
-  width: (100% / 5) !important;
-}
-</style>
