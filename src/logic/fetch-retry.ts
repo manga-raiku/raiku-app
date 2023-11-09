@@ -1,5 +1,6 @@
-export async function fetchRetry(
-  src: string,
+export async function fetchRetry<A extends unknown[], T>(
+  fn: (...args: A) => T,
+  options: A,
   {
     retries,
     retryDelay
@@ -7,12 +8,12 @@ export async function fetchRetry(
     retries: number
     retryDelay: number
   }
-) {
+): Promise<Awaited<T>> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let err: any
   while (retries-- > 0) {
     try {
-      return await fetch(src)
+      return await fn(...options)
     } catch (error) {
       err = error
       await sleep(retryDelay)

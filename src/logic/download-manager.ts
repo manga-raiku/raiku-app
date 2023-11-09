@@ -43,10 +43,23 @@ async function downloadFile(
   downloading: Ref<boolean>,
   retry: number
 ): Promise<void> {
-  const buffer = await await fetchRetry(src, {
-    retries: retry,
-    retryDelay: 300
-  }).then((res) => res.arrayBuffer())
+  let buffer: ArrayBuffer
+
+  const hashIndex = src.indexOf(HASH_TAG)
+  if (hashIndex > -1) {
+    const json = JSON.parse(src.slice(hashIndex + HASH_TAG.length))
+    // request now
+    buffer = await get({
+      url: (src.startsWith("//") ? "https:" : "") + src.slice(0, hashIndex),
+      headers: json,
+      responseType: "arraybuffer"
+    }).then((res) => base64ToUint8(res.data))
+  } else {
+    buffer = await await fetchRetry(fetch, [src], {
+      retries: retry,
+      retryDelay: 300
+    }).then((res) => res.arrayBuffer())
+  }
 
   if (!downloading.value) throw new Error("user_paused")
   await Filesystem.writeFile({

@@ -15,7 +15,25 @@ export async function fastProcessImage(url: string) {
 
     console.groupEnd()
 
-    return `data:image;base64,${base64}`
+    return URL.createObjectURL(
+      new Blob([base64ToUint8(base64)], { type: "image" })
+    ) // `data:image;base64,${base64}`
   }
+
+  const hashIndex = url.indexOf(HASH_TAG)
+  if (hashIndex > -1) {
+    const json = JSON.parse(url.slice(hashIndex + HASH_TAG.length))
+    // request now
+    return get({
+      url: (url.startsWith("//") ? "https:" : "") + url.slice(0, hashIndex),
+      headers: json,
+      responseType: "arraybuffer"
+    }).then((res) =>
+      URL.createObjectURL(
+        new Blob([base64ToUint8(res.data)], { type: "image/jpeg" })
+      )
+    )
+  }
+
   return url
 }
