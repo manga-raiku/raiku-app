@@ -137,7 +137,7 @@ pnpm build:pwa
 
 - [ ] add `<keep-alive>`?
 - [x] rounded button footer toolbar
-- [ ] API load image in native
+- [x] API load image in native
 - [ ] fix header reveal default not show
 
 ### Customize the configuration
