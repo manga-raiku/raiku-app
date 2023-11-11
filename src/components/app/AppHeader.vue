@@ -10,7 +10,7 @@
     <q-header
       :reveal="reveal"
       @reveal="appHeaderReveal = $event"
-      class="bg-dark-page py-1 px-2 header-blur"
+            class="bg-dark-page py-1 px-2 header-blur"
       :class="{
         '!bg-transparent': route.meta?.transparentHeader
       }"
@@ -89,7 +89,7 @@ const route = useRoute()
 const $q = useQuasar()
 
 const showSearchMB = ref(false)
-const appHeaderReveal = ref(false)
+const appHeaderReveal = ref(true)
 
 const reveal = computed(
   () => execScriptMeta($q, route.meta.revealHeader) === true
