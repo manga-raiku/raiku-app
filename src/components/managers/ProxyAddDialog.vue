@@ -3,7 +3,7 @@
     :model-value="modelValue"
     @update:model-value="emit('update:modelValue', $event)"
   >
-    <q-card class="w-full mx-6 max-w-560px flex flex-nowrap flex-col">
+    <q-card class="w-full mx-6 !max-w-560px flex flex-nowrap flex-col">
       <q-card-section class="pb-0">
         <h2 class="text-h6">{{ $t("them-proxy") }}</h2>
       </q-card-section>

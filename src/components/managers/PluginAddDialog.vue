@@ -3,7 +3,7 @@
     :model-value="modelValue"
     @update:model-value="emit('update:modelValue', $event)"
   >
-    <q-card class="w-full mx-6 max-w-560px">
+    <q-card class="w-full mx-6 !max-w-560px">
       <q-card-section>
         <h2 class="text-h6">{{ $t("them-plugin") }}</h2>
         <div class="text-subtitle2 text-weight-normal mt-4">
