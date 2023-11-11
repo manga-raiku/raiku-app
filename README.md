@@ -70,8 +70,14 @@ The app currently supports:
 
 ## Install the dependencies
 
+If you use Linux or MacOS:
 ```bash
-pnpm setup # or pnpm install
+pnpm setup
+```
+and if you use Windows:
+```bash
+pnpm i
+pnpm build:npm
 ```
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
