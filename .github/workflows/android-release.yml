@@ -37,14 +37,14 @@ jobs:
       - name: Install depends
         run: sh install.sh
 
-      - name: Build Quasar
-        run: pnpm build:android:ci
-
       - name: Setup .env
         run: |
           echo "" > .env
           echo SUPABASE_PROJECT_URL=${{ secrets.SUPABASE_PROJECT_URL }} >> .env
           echo SUPABASE_PROJECT_KEY=${{ secrets.SUPABASE_PROJECT_KEY }} >> .env
+
+      - name: Build Quasar
+        run: pnpm build:android:ci
 
       - name: Build Android App
         uses: anime-vsub/android-build-action@1.2.1
