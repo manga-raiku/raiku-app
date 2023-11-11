@@ -100,9 +100,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v0.1.14
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
           files: ${{steps.sign_app.outputs.signedReleaseFile}}
           body: ${{ steps.changelog.outputs.clean_changelog  }}
-          draft: false
-          prerelease: false
