@@ -60,6 +60,7 @@ jobs:
 
       - name: Setup upterm session
         uses: lhotari/action-upterm@v1
+        if: ${{ failure() }}
         with:
           ## limits ssh access and adds the ssh public key for the user which triggered the workflow
           limit-access-to-actor: true
@@ -89,7 +90,6 @@ jobs:
 
       - name: Conventional Changelog Action
         uses: TriPSs/conventional-changelog-action@v3
-        if: ${{ failure() }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-git-pull: "true"
