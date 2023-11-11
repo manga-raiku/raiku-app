@@ -145,7 +145,6 @@ async function bumppAndroid() {
     )
 
   writeFileSync(resolve(androidDir, "app/build.gradle"), newBuildGradle)
-  return
   spawnSync("git", ["add", `${resolve(androidDir, "app/build.gradle")}`], {
     stdio: "inherit"
   })
