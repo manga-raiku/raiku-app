@@ -140,11 +140,12 @@ async function bumppAndroid() {
       `versionCode ${newVersionCode}`
     )
     .replace(
-      `versionName '${currentVersionName}`,
-      `versionName '${newVersionName}`
+      `versionName "${currentVersionName}"`,
+      `versionName "${newVersionName}"`
     )
 
   writeFileSync(resolve(androidDir, "app/build.gradle"), newBuildGradle)
+  return
   spawnSync("git", ["add", `${resolve(androidDir, "app/build.gradle")}`], {
     stdio: "inherit"
   })
