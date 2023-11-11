@@ -59,7 +59,17 @@ jobs:
           # keystore-alias:  ${{ secrets.KEYSTORE_ALIAS }}
           # browserstack-upload: true
           # browserstack-username: ${{ secrets.BROWSERSTACK_USERNAME }}
-          # browserstack-access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          # browserstack-access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }
+
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
+        with:
+          ## limits ssh access and adds the ssh public key for the user which triggered the workflow
+          limit-access-to-actor: true
+          ## limits ssh access and adds the ssh public keys of the listed GitHub users
+          limit-access-to-users: tachibana-shin
+          wait-timeout-minutes: 5
+
       - uses: r0adkll/sign-android-release@v1
         name: Sign app APK
         # ID used to access action output
