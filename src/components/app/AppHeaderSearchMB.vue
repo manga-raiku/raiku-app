@@ -2,6 +2,7 @@
   <teleport to="body">
     <header
       v-if="searching"
+      v-show="activated"
       class="fixed top-0 left-0 w-full bg-dark-page z-9999"
     >
       <q-toolbar class="relative">
@@ -122,6 +123,8 @@ const router = useRouter()
 const route = useRoute()
 const pluginStore = usePluginStore()
 
+const activated = useActivated()
+
 const allPlugins = computed(() =>
   pluginStore
     .getAllPlugins()
@@ -175,5 +178,3 @@ watch(inputRef, (input) => {
   setTimeout(() => input?.focus(), 70)
 })
 </script>
-
-<style></style>

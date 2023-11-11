@@ -66,7 +66,7 @@
 
   <teleport to="body">
     <q-page-sticky
-      v-if="visible && editMode"
+      v-if="activated && visible && editMode"
       position="bottom"
       expand
       :offset="[0, 0]"
@@ -112,6 +112,8 @@ const props = defineProps<{
 }>()
 
 const IDMStore = useIDMStore()
+
+const activated = useActivated()
 
 watch(
   () => props.visible,

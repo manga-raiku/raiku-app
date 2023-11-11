@@ -68,6 +68,7 @@
 
   <teleport to="body">
     <r-scrollbar
+      v-if="activated"
       :min-y="minDiffY"
       :max-y="maxDiffY"
       v-model:scroll-y="diffYZoom"
@@ -133,6 +134,9 @@ const emit = defineEmits<{
   // (name: "next"): void
 }>()
 const attrs = useAttrs()
+
+const activated = useActivated()
+
 defineExpose({
   reset: () => parentRef.value?.scrollTo(0, 0)
 })

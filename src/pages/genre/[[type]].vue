@@ -17,6 +17,7 @@ meta:
     <template v-if="data">
       <teleport to=".app-header">
         <div
+          v-show="activated"
           :style="{
             'padding-left': `${$layout?.left.offset}px`
           }"
@@ -69,6 +70,9 @@ const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
 const pluginStore = usePluginStore()
+
+const activated = useActivated()
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const $layout = inject("_q_l_") as any
 
