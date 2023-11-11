@@ -27,12 +27,13 @@ jobs:
           git branch release -f
           git push origin release -f
 
-      - name: "✏️ Generate release changelog"
-        id: changelog
-        uses: heinrichreimer/github-changelog-generator-action@v2.3
+      - name: Conventional Changelog Action
+        uses: TriPSs/conventional-changelog-action@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          excludeTagsRegex: android|ios@.*
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          tag-prefix: "pwa@"
+          output-file: "false"
+          git-branch: "main"
 
       - name: Create Release
         id: create_release
@@ -42,7 +43,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          body: ${{ steps.changelog.outputs.changelog }}
+          body: ${{ steps.changelog.outputs.clean_changelog  }}
           draft: false
           prerelease: false
-
