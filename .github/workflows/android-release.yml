@@ -37,13 +37,10 @@ jobs:
       - name: Install depends
         run: sh install.sh
 
-      - name: Setup .env
-        run: |
-          echo "" > .env
-          echo SUPABASE_PROJECT_URL=${{ secrets.SUPABASE_PROJECT_URL }} >> .env
-          echo SUPABASE_PROJECT_KEY=${{ secrets.SUPABASE_PROJECT_KEY }} >> .env
-
       - name: Build Quasar
+        env:
+          SUPABASE_PROJECT_URL: ${{ secrets.SUPABASE_PROJECT_URL }}
+          SUPABASE_PROJECT_KEY: ${{ secrets.SUPABASE_PROJECT_KEY }}
         run: pnpm build:android:ci
 
       - name: Build Android App
@@ -92,6 +89,7 @@ jobs:
 
       - name: Conventional Changelog Action
         uses: TriPSs/conventional-changelog-action@v3
+        if: ${{ failure() }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-git-pull: "true"
