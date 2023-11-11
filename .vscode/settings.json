@@ -3,15 +3,8 @@
   "editor.guides.bracketPairs": true,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.codeActionsOnSave": [
-    "source.fixAll.eslint"
-  ],
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "vue"
-  ],
+  "editor.codeActionsOnSave": ["source.fixAll.eslint"],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
     "Chương",
@@ -26,25 +19,15 @@
   "ionic.previewInEditor": true,
   "vue-i18n.i18nPaths": "src/i18n",
   "i18n-ally.keystyle": "flat",
-  "i18n-ally.localesPaths": [
-    "src/i18n",
-    "src/i18n/messages"
-  ],
+  "i18n-ally.localesPaths": ["src/i18n", "src/i18n/messages"],
   "i18n-ally.extract.ignoredByFiles": {
-    "src/components/BrtPlayer.vue": [
-      "Space",
-      "Space"
-    ],
-    "src/pages/[_type-normal]/[value].vue": [
-      " • "
-    ],
+    "src/components/BrtPlayer.vue": ["Space", "Space"],
+    "src/pages/[_type-normal]/[value].vue": [" • "],
     "src/pages/phim/_season.vue": [
       "${nameSeason} (${chaps[0].name} - ${\n            chaps[chaps.length - 1].name\n          })",
       "${name} - ${currentMetaSeason.name} Tập ${currentMetaChap.name}(${seasonId}/${currentMetaChap.id})"
     ],
-    "src/pages/tai-khoan/index.vue": [
-      "bg-dark text-light-9"
-    ],
+    "src/pages/tai-khoan/index.vue": ["bg-dark text-light-9"],
     "src/pages/lich-chieu-phim.vue": [
       "\n          T{{ dayTextToNum(item.day) }}\n          ",
       "/{{ item.month }}"
@@ -52,9 +35,7 @@
     "src/pages/news.vue": [
       "&bull;\n            {{ dayjs(item.time).locale(\"vi\").fromNow() }}\n          "
     ],
-    "src/pages/tai-khoan/edit-profile.vue": [
-      "bg-dark text-light-9"
-    ],
+    "src/pages/tai-khoan/edit-profile.vue": ["bg-dark text-light-9"],
     "src/layouts/MainLayout.vue": [
       "mailto:ogmo2r3q@duck.com?subject=Phản hồi ứng dụng web AnimeVsub",
       "bg-dark text-light-9",
@@ -68,12 +49,8 @@
       "&bull; {{ t('_maxPage-trang', [data?.maxPage]) }}\n      ",
       "&bull; {{ t('_maxPage-trang', [data?.maxPage]) }}\n      "
     ],
-    "src/apis/runs/ajax/rate.ts": [
-      "${token_name}=${token_value}"
-    ],
-    "src/components/errors/cloudflare.vue": [
-      ")\n      "
-    ],
+    "src/apis/runs/ajax/rate.ts": ["${token_name}=${token_value}"],
+    "src/components/errors/cloudflare.vue": [")\n      "],
     "src/components/errors/domain-strange.vue": [
       "\n        {{ extensionVersion ?? \""
     ],
@@ -83,27 +60,17 @@
     "src/components/library/_components/EpControl.vue": [
       "< data.pages.length\n          ? downloading\n            ? $t(\"dang-tai\")\n            : $t(\"tam-dung\")\n          : $t(\"finished\")\n      }}"
     ],
-    "src/components/app/AppHeaderSearch.vue": [
-      "Slash"
-    ],
-    "src/pages/tim-kiem.vue": [
-      "\nmeta:\n  hiddenHeader: $lt.md\n"
-    ],
-    "src/pages/index.vue": [
-      "%"
-    ],
-    "src/pages/[...catchAll].vue": [
-      "\nname: not_found\n"
-    ],
+    "src/components/app/AppHeaderSearch.vue": ["Slash"],
+    "src/pages/tim-kiem.vue": ["\nmeta:\n  hiddenHeader: $lt.md\n"],
+    "src/pages/index.vue": ["%"],
+    "src/pages/[...catchAll].vue": ["\nname: not_found\n"],
     "src/pages/truyen-tranh/[zlug]/index.vue": [
       "\nmeta:\n  hiddenFooter: true\n  hiddenDrawer: true\n  hiddenHeader: $lt.md\n"
     ],
     "src/pages/truyen-tranh/[zlug]/[epName]/[epId].vue": [
       "\nmeta:\n  hiddenHeader: true\n  hiddenDrawer: true\n  hiddenFooter: true\n"
     ],
-    "src/components/PluginManagerDialog.vue": [
-      "install plugin"
-    ]
+    "src/components/PluginManagerDialog.vue": ["install plugin"]
   },
   "scss.lint.unknownAtRules": "ignore",
   "i18n-ally.sourceLanguage": "vi-VN",
@@ -113,9 +80,7 @@
   ],
   "editor.tabCompletion": "on",
   "diffEditor.codeLens": true,
-  "typescript.preferences.autoImportFileExcludePatterns": [
-    "vue-router"
-  ],
+  "typescript.preferences.autoImportFileExcludePatterns": ["vue-router"],
   "MutableAI.upsell": false,
   "[ruby]": {
     "editor.defaultFormatter": "mbessey.vscode-rufo"

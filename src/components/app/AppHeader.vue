@@ -10,7 +10,7 @@
     <q-header
       :reveal="reveal"
       @reveal="appHeaderReveal = $event"
-            class="bg-dark-page py-1 px-2 header-blur"
+      class="bg-dark-page py-1 px-2 header-blur"
       :class="{
         '!bg-transparent': route.meta?.transparentHeader
       }"

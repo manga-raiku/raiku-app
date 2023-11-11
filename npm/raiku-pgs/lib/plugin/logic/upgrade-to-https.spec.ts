@@ -19,7 +19,7 @@ describe("upgradeToHttps", () => {
     expect(upgradeToHttps(url)).toEqual(url)
   })
 
-  it('should upgrade the URL to HTTPS if not found protocol', () => {
+  it("should upgrade the URL to HTTPS if not found protocol", () => {
     expect(upgradeToHttps("//example.com")).toEqual("https://example.com")
   })
 })
