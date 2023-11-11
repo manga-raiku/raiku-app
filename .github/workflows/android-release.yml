@@ -63,6 +63,7 @@ jobs:
 
       - name: Setup upterm session
         uses: lhotari/action-upterm@v1
+        if: ${{ failure() }}
         with:
           ## limits ssh access and adds the ssh public key for the user which triggered the workflow
           limit-access-to-actor: true
@@ -75,7 +76,7 @@ jobs:
         # ID used to access action output
         id: sign_app
         with:
-          releaseDirectory: /home/runner/work/manga-raiku/raiku-app
+          releaseDirectory: /home/runner/work/raiku-app/raiku-app
           signingKeyBase64: ${{ secrets.KEYSTORE_CONTENT }}
           alias: ${{ secrets.KEYSTORE_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
