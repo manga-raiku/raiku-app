@@ -44,7 +44,7 @@ The app currently supports:
 - PWA
 
 > 🎉 The application supports Plugins that allow you to install and read stories from many different sources and languages
-> 
+>
 > 🎊 I'm planning to create some English and Japanese plugins. If you need additional plugins from other sources or languages, you can create them yourself. Refer to https://github.com/manga-raiku/raiku-plugin-template
 
 ## Screenshot
@@ -135,7 +135,7 @@ pnpm build:pwa
 
 - [x] bootloop in page read if plugin not install
 
-- [ ] add `<keep-alive>`?
+- [x] add `<keep-alive>`?
 - [x] rounded button footer toolbar
 - [x] API load image in native
 - [ ] fix header reveal default not show

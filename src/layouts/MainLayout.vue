@@ -9,7 +9,9 @@
       }"
     >
       <router-view v-if="true" v-slot="{ Component }">
-        <component :is="Component" />
+        <keep-alive :max="10">
+          <component :is="Component" />
+        </keep-alive>
       </router-view>
       <q-page v-else>
         <NotExistsExtension />
