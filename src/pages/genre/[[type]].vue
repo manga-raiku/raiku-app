@@ -5,6 +5,7 @@ meta:
   revealHeader: $lt.md
   needSelectPlugin: true
   beforeEach: auto fix sourceId
+  isTab: true
 </route>
 
 <template>

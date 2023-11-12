@@ -4,6 +4,7 @@ alias: /~:sourceId/search
 meta:
   hiddenHeader: $lt.md
   needSelectPlugin: true
+  isTab: true
 </route>
 
 <template>

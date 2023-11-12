@@ -6,6 +6,9 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
+
+import { join } from "path"
+
 // eslint-disable-next-line n/no-extraneous-import
 import type { RootNode, TemplateChildNode } from "@vue/compiler-core"
 import dotenv from "dotenv"
@@ -124,6 +127,11 @@ export default configure((/* ctx */) => {
                   clientPort: 443
                 }
               : true
+          },
+          resolve: {
+            alias: {
+              "vue-router": join(__dirname , "src/modules/vue-router.js")
+            }
           }
         })
       },

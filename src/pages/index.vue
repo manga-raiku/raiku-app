@@ -7,6 +7,7 @@ meta:
   noSpaceHeader: true
   needSelectPlugin: true
   beforeEach: auto fix sourceId
+  isTab: true
 </route>
 
 <template>

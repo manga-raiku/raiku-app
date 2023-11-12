@@ -4,6 +4,7 @@ meta:
   hiddenFooter: false
   hiddenDrawer: true
   beforeEach: true if $lt.md else "/app/myaccount"
+  isTab: true
 </route>
 
 <template>

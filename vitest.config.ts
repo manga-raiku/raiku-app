@@ -22,6 +22,12 @@ export default defineConfig({
       "test/vitest/__tests__/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"
     ]
   },
+
+  resolve: {
+    alias: {
+      "vue-router": join(__dirname, "src/modules/vue-router.js")
+    }
+  },
   plugins: [
     vue({
       template: { transformAssetUrls }

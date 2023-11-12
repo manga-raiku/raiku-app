@@ -57,11 +57,10 @@ export default route(function (/* { store, ssrContext } */) {
 
   const Router = createRouter({
     scrollBehavior(to, from, savedPosition) {
-      if (to.query.no_restore_scroll) return
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(savedPosition || { left: 0, top: 0 })
-        }, 500)
+        }, 10)
       })
     },
     routes,

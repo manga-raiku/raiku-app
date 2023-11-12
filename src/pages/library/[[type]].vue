@@ -2,6 +2,7 @@
 meta:
   hiddenHeader: $lt.md
   drawersBottom: true
+  isTab: true
 </route>
 
 <template>
