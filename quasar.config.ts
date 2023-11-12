@@ -6,7 +6,6 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
-
 import { join } from "path"
 
 // eslint-disable-next-line n/no-extraneous-import
@@ -130,7 +129,7 @@ export default configure((/* ctx */) => {
           },
           resolve: {
             alias: {
-              "vue-router": join(__dirname , "src/modules/vue-router.js")
+              "vue-router": join(__dirname, "src/modules/vue-router.js")
             }
           }
         })
