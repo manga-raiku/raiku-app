@@ -27,7 +27,7 @@ meta:
     <img
       src="~/assets/picture_sakura.svg"
       alt="picture_sakura"
-      class="w-full object-cover min-h-[calc(100%-65%+58px)]"
+      class="w-full object-cover min-h-[calc(100%-65%+58px)] fixed top-0 left-0"
     />
 
     <div
@@ -92,7 +92,7 @@ meta:
   </q-page>
 
   <canvas
-    class="fixed z-0 top-0 left-0"
+    class="fixed z-0 top-0 left-0 pointer-events-none"
     ref="canvasRef"
     :width="$q.screen.width"
     :height="$q.screen.height"
