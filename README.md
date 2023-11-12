@@ -35,15 +35,19 @@
 
 > The app is in development
 
-**Manga Raiku** is a cross-platform story reading application, giving you the best story reading experience. With Manga Raiku, you can read thousands of series from many different sources, including manga, comics and many other story genres.
+--------------------
+
+**Manga Raiku** is a cross-platform story reading application 📱, bringing you the best story reading experience 📖. With Manga Raiku, you can read thousands of series from many different sources, including manga, comics and many other story genres.
 
 **Main feature**:
-- **Read stories for free**: Provides thousands of series from many different sources, helping you easily find and read your favorite stories.
-- **No ads**: Smooth story reading experience, uninterrupted by ads.
-- **Privacy**: Manga Raiku respects your privacy, does not collect or share your personal information.
-- **Multi-platform**: Supports many different platforms, including Android APK (native app), SPA, PWA.
+- **Read stories for free** 🆓: Provides thousands of stories from many different sources, helping you easily find and read your favorite stories.
+- **No ads** 🚫: Smooth story reading experience, uninterrupted by ads.
+- **Privacy** 🔒: Manga Raiku respects your privacy, does not collect or share your personal information.
+- **Multi-platform** 🌐: Supports many different platforms, including Android APK (native app), SPA, PWA.
 
 With Manga Raiku, you can enjoy the fun of reading stories anytime, anywhere. Download the app today and start your reading journey! 📚🚀
+
+--------------------
 
 The app currently supports:
 
