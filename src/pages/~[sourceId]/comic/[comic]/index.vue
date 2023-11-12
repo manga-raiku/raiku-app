@@ -7,7 +7,7 @@ meta:
 </route>
 
 <template>
-  <q-header v-if="$q.screen.lt.md" class="bg-dark-page header-blur">
+  <q-header-custom v-if="$q.screen.lt.md" class="bg-dark-page header-blur">
     <q-toolbar>
       <q-btn round unelevated @click="router.back()">
         <i-fluent-arrow-left-24-filled class="size-1.5em" />
@@ -28,7 +28,7 @@ meta:
         <component :is="Icons.mingcute[0]" />
       </q-btn>
     </q-toolbar>
-  </q-header>
+  </q-header-custom>
   <q-page padding class="pb-60px">
     <div
       v-if="$q.screen.lt.md"

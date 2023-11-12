@@ -7,7 +7,7 @@ meta:
 </route>
 
 <template>
-  <q-header v-if="$q.screen.lt.md" class="bg-dark-page">
+  <q-header-custom v-if="$q.screen.lt.md" class="bg-dark-page">
     <q-toolbar>
       <AppHeaderIconApp v-if="!route.query.query" no-name class="pr-2" />
       <q-btn v-else flat dense round class="mr-2" @click="router.back()">
@@ -90,7 +90,7 @@ meta:
         </span>
       </div>
     </q-toolbar>
-  </q-header>
+  </q-header-custom>
 
   <q-page
     padding

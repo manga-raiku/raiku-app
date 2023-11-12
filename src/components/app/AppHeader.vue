@@ -7,7 +7,7 @@
       '!bg-transparent': route.meta?.transparentHeader
     }"
   >
-    <q-header
+    <q-header-custom
       :reveal="reveal"
       @reveal="appHeaderReveal = $event"
       class="bg-dark-page py-1 px-2 header-blur"
@@ -70,7 +70,7 @@
 
         <AppHeaderUser />
       </q-toolbar>
-    </q-header>
+    </q-header-custom>
   </div>
 </template>
 

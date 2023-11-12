@@ -5,7 +5,7 @@ meta:
 </route>
 
 <template>
-  <q-header v-if="$q.screen.lt.md" class="w-full bg-dark-page text-16px">
+  <q-header-custom v-if="$q.screen.lt.md" class="w-full bg-dark-page text-16px">
     <q-toolbar>
       <div class="overflow-x-auto text-grey">
         <div
@@ -21,7 +21,7 @@ meta:
         </div>
       </div>
     </q-toolbar>
-  </q-header>
+  </q-header-custom>
 
   <q-page
     v-if="$q.screen.lt.md"

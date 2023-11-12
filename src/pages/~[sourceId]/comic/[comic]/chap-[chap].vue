@@ -7,7 +7,7 @@ meta:
 </route>
 
 <template>
-  <q-header
+  <q-header-custom
     class="bg-#1a191c md:bg-opacity-90 md:bg-#000"
     :model-value="showToolbar"
   >
@@ -77,7 +77,7 @@ meta:
         @action:download="downloadEp"
       />
     </q-toolbar>
-  </q-header>
+  </q-header-custom>
 
   <q-page
     :style-fn="
