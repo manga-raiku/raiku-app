@@ -34,6 +34,8 @@ jobs:
           tag-prefix: "pwa@"
           output-file: "false"
           git-branch: "main"
+          skip-tag: "true"
+
 
       - name: Create Release
         id: create_release

@@ -101,6 +101,7 @@ jobs:
           tag-prefix: "android@"
           output-file: "false"
           git-branch: "main"
+          skip-tag: "true"
 
       - name: Release
         uses: softprops/action-gh-release@v0.1.14
