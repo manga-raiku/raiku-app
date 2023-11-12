@@ -1,4 +1,6 @@
 /* eslint-disable n/no-extraneous-import */
+import { join } from "path"
+
 import { quasar, transformAssetUrls } from "@quasar/vite-plugin"
 import vue from "@vitejs/plugin-vue"
 import tsconfigPaths from "vite-tsconfig-paths"
@@ -25,7 +27,7 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      "vue-router": join(__dirname, "src/modules/vue-router.js")
+      "vue-router": join(__dirname, "modules-client/vue-router.js")
     }
   },
   plugins: [

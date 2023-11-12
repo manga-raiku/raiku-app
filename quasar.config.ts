@@ -129,7 +129,7 @@ export default configure((/* ctx */) => {
           },
           resolve: {
             alias: {
-              "vue-router": join(__dirname, "src/modules/vue-router.js")
+              "vue-router": join(__dirname, "modules-client/vue-router.js")
             }
           }
         })
