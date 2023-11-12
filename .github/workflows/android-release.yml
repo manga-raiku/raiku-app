@@ -102,6 +102,7 @@ jobs:
           output-file: "false"
           git-branch: "main"
           skip-tag: "true"
+          skip-git-pull: "true"
 
       - name: Release
         uses: softprops/action-gh-release@v0.1.14

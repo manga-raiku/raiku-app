@@ -31,6 +31,7 @@ jobs:
         uses: TriPSs/conventional-changelog-action@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          skip-git-pull: "true"
           tag-prefix: "pwa@"
           output-file: "false"
           git-branch: "main"
