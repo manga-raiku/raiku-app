@@ -30,12 +30,20 @@
 
 「無邪気な笑顔の下の、日付は遥かなメモリー」
 
-App reading manga, comic safe, free, private and ad-free.
-
 [![SonarCloud](https://sonarcloud.io/api/project_badges/quality_gate?branch=main&project=manga-raiku_manga-raiku)](https://sonarcloud.io/api/project_badges/quality_gate?branch=main&project=manga-raiku_manga-raiku)
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg)](https://sonarcloud.io/summary/new_code?id=manga-raiku_manga-raiku)
 
 > The app is in development
+
+**Manga Raiku** is a cross-platform story reading application, giving you the best story reading experience. With Manga Raiku, you can read thousands of series from many different sources, including manga, comics and many other story genres.
+
+**Main feature**:
+- **Read stories for free**: Provides thousands of series from many different sources, helping you easily find and read your favorite stories.
+- **No ads**: Smooth story reading experience, uninterrupted by ads.
+- **Privacy**: Manga Raiku respects your privacy, does not collect or share your personal information.
+- **Multi-platform**: Supports many different platforms, including Android APK (native app), SPA, PWA.
+
+With Manga Raiku, you can enjoy the fun of reading stories anytime, anywhere. Download the app today and start your reading journey! 📚🚀
 
 The app currently supports:
 
