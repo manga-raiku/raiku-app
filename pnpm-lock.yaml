@@ -184,8 +184,8 @@ importers:
         specifier: ^1.1.6
         version: 1.1.6
       '@iconify/json':
-        specifier: ^2.2.132
-        version: 2.2.132
+        specifier: ^2.2.141
+        version: 2.2.141
       '@intlify/vite-plugin-vue-i18n':
         specifier: ^7.0.0
         version: 7.0.0(vite@2.9.16)(vue-i18n@9.6.5)
@@ -3751,8 +3751,8 @@ packages:
       '@iconify/types': 2.0.0
     dev: false
 
-  /@iconify/json@2.2.132:
-    resolution: {integrity: sha512-iRhfaUp7yQvez1lubMgjtBflpPXl2/2ItOoEybbA+u4Xv9sOJ3n7131DavvzhXqWiRu2NOhGpiGoqcU4RlOLnA==}
+  /@iconify/json@2.2.141:
+    resolution: {integrity: sha512-EmHsjVngGE7K9ykKkkGczXTW5552h/dDp7SicHT3SaQD1Krb/GvIVCff9jRgBDFu9QxhcqVdVk+kDHfbzJXT8Q==}
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 1.1.1
