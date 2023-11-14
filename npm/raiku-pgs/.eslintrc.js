@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   extends: require.resolve("../../.eslintrc.js"),
   parserOptions: {
     parser: "@typescript-eslint/parser",
