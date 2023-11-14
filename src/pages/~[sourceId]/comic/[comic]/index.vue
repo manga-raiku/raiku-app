@@ -339,7 +339,7 @@ meta:
     </template>
   </q-page>
 
-  <q-footer
+  <q-footer-custom
     v-if="$q.screen.lt.md"
     class="bg-dark-page header-blur"
     style="box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1)"
@@ -420,7 +420,7 @@ meta:
 
     <!-- element is space for <BBarNetwork /> -->
     <div v-if="!networkStore.isOnline" class="text-center h-1.5em" />
-  </q-footer>
+  </q-footer-custom>
 </template>
 
 <script lang="ts" setup>
@@ -601,7 +601,6 @@ function onClickShare() {
     display: none;
   }
 }
-
 
 .btn-action {
   background: #ff204e;

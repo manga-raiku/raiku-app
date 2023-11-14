@@ -159,7 +159,7 @@ meta:
     <!-- /tutorial reader -->
   </q-page>
 
-  <q-footer
+  <q-footer-custom
     class="bg-#1a191c md:bg-opacity-90 md:bg-#000 font-family-poppins"
     :model-value="showToolbar"
   >
@@ -570,7 +570,7 @@ meta:
 
     <!-- element is space for <BBarNetwork /> -->
     <div v-if="!networkStore.isOnline" class="text-center h-1.5em" />
-  </q-footer>
+  </q-footer-custom>
   <!-- <p class="whitespace-pre-wrap">{{ data }}</p> -->
 </template>
 

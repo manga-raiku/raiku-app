@@ -1,5 +1,5 @@
 <template>
-  <q-footer class="bg-dark-page">
+  <q-footer-custom class="bg-dark-page">
     <q-tabs
       indicator-color="transparent"
       active-color="white"
@@ -37,7 +37,7 @@
     <div v-if="!networkStore.isOnline" class="text-center">
       {{ $t("khong-co-ket-noi") }}
     </div>
-  </q-footer>
+  </q-footer-custom>
 </template>
 
 <script lang="ts" setup>
