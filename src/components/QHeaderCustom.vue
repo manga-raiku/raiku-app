@@ -166,7 +166,6 @@ watch($layout.scroll, (scroll) => {
 })
 
 const instance = {}
-console.log($layout, qResizeObserverRef)
 function onInsertLayout() {
   if ($layout.instances.header !== instance) {
     if (props.modelValue === true) updateLayout("size", size.value)
