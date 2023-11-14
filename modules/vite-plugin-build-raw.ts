@@ -1,5 +1,5 @@
 import esbuild from "esbuild"
-import { obfuscate } from "javascript-obfuscator"
+// import { obfuscate } from "javascript-obfuscator"
 import type { Plugin } from "vite"
 
 export default function vitePluginBuildRaw(): Plugin {
@@ -32,7 +32,7 @@ export default function vitePluginBuildRaw(): Plugin {
 
         return {
           code: `export default ${JSON.stringify(
-            id.includes("&obfuscate")
+            /* id.includes("&obfuscate")
               ? esbuild.transformSync(
                   obfuscate(text, {
                     compact: false,
@@ -52,7 +52,7 @@ export default function vitePluginBuildRaw(): Plugin {
                     treeShaking: true
                   }
                 ).code
-              : text
+              : */ text
           )}`,
 
           map: null
