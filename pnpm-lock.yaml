@@ -90,8 +90,8 @@ importers:
         specifier: ^3.0.5
         version: 3.0.5
       modern-async:
-        specifier: ^1.1.3
-        version: 1.1.3
+        specifier: ^1.1.4
+        version: 1.1.4
       nypm:
         specifier: ^0.3.3
         version: 0.3.3
@@ -12889,8 +12889,8 @@ packages:
       pkg-types: 1.0.3
       ufo: 1.3.0
 
-  /modern-async@1.1.3:
-    resolution: {integrity: sha512-2ErvrRBESpOvzofl3r4Wk3J8ykMvAcTyFPciZKk8I8IvRzXEwNT9Z2H5lZ62wVjNtPUvfjKRYIvAeNrLGLIksw==}
+  /modern-async@1.1.4:
+    resolution: {integrity: sha512-jaZlzQB3W9PRF43+T144lYWb7UaTapJM6MZxNGLqpgPVal6uV4ixkR+t/1H1/7UM03jDu5BnvAYDqeawvL7kiw==}
     dependencies:
       core-js-pure: 3.31.1
       nanoassert: 2.0.0
