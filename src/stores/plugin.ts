@@ -93,7 +93,7 @@ export const usePluginStore = defineStore("plugin", () => {
     ])
     // run init package.mjs
     const meta = await execPackageMjs(packageMjs, devMode, APP_INFO)
-    if (!meta.support)
+    if (!checkSupport(meta.support))
       // eslint-disable-next-line functional/no-throw-statement
       throw new PluginError(meta.id, STATUS_PLUGIN_INSTALL.NOT_SUPPORT_PLATFORM)
 
