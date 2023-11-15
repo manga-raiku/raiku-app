@@ -135,6 +135,7 @@ export interface Ranking {
   readonly match: string
   readonly name: Record<string, string>
 }
+export type MayBeArray<T> = T | T[]
 export interface Package {
   readonly name: string
   readonly id: string
@@ -144,7 +145,7 @@ export interface Package {
   readonly isNSFW: boolean
   /** @description Example: `ja`, `en` */
   readonly language: string
-  readonly support: boolean
+  readonly support: boolean | MayBeArray<"pwa" | "extension" | "native">
 
   readonly author: string
 
