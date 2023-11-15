@@ -252,5 +252,8 @@
   "mo-trinh-quan-ly-proxy": "Open Proxy Manager",
   "vui-long-nhap-dia-chi-plugin": "Please enter the plugin address",
   "vui-long-nhap-dia-chi-proxy": "Please enter proxy address",
-  "xoa-proxy": "Delete Proxies"
+  "xoa-proxy": "Delete Proxies",
+  "mo-quan-ly-proxy": "Open Proxy management",
+  "plugin-da-xac-minh": "Verified plugins:",
+  "tag-user": "@{0}"
 }

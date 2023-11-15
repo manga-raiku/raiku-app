@@ -6,4 +6,7 @@ const pkg = JSON.parse(
 )
 pkg.type = "module"
 
-writeFileSync(join(__dirname, "..", "package.json"), JSON.stringify(pkg, null , 2))
+writeFileSync(
+  join(__dirname, "..", "package.json"),
+  JSON.stringify(pkg, null, 2)
+)

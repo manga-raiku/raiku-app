@@ -60,8 +60,19 @@
               <q-item-section>
                 <q-item-label lines="1">
                   {{ item.name }}
-                  <q-badge v-if="item.devMode" rounded color="blue" class="ml-1"
+                  <q-badge
+                    v-if="item.devMode"
+                    rounded
+                    color="blue"
+                    class="text-10px ml-1"
                     >dev</q-badge
+                  >
+                  <q-badge
+                    v-if="item.isNSFW"
+                    rounded
+                    color="pink-7"
+                    class="text-10px ml-1"
+                    >NSFW</q-badge
                   >
                 </q-item-label>
                 <q-item-label v-if="item.description" lines="2" caption>{{

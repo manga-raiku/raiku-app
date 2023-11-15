@@ -252,5 +252,8 @@
   "trinh-quan-ly-proxy": "代理管理器",
   "vui-long-nhap-dia-chi-plugin": "请输入插件地址",
   "vui-long-nhap-dia-chi-proxy": "请输入代理地址",
-  "xoa-proxy": "删除代理"
+  "xoa-proxy": "删除代理",
+  "mo-trinh-quan-ly-proxy": "打开代理管理器",
+  "plugin-da-xac-minh": "已验证的插件：",
+  "tag-user": "@{0}"
 }

@@ -252,5 +252,8 @@
   "query": "Query",
   "body": "Body",
   "da-them-proxy-url": "Đã thêm Proxy {0}",
-  "loi-khi-them-proxy-err-err": "Lỗi khi thêm Proxy (err: {0})"
+  "loi-khi-them-proxy-err-err": "Lỗi khi thêm Proxy (err: {0})",
+  "mo-quan-ly-proxy": "Mở quản lý Proxy",
+  "plugin-da-xac-minh": "Plugin đã xác minh:",
+  "tag-user": "@{0}"
 }

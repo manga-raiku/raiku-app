@@ -252,5 +252,8 @@
   "trinh-quan-ly-proxy": "プロキシマネージャー",
   "vui-long-nhap-dia-chi-plugin": "プラグインのアドレスを入力してください",
   "vui-long-nhap-dia-chi-proxy": "プロキシアドレスを入力してください",
-  "xoa-proxy": "プロキシの削除"
+  "xoa-proxy": "プロキシの削除",
+  "mo-trinh-quan-ly-proxy": "プロキシマネージャーを開く",
+  "plugin-da-xac-minh": "検証済みのプラグイン:",
+  "tag-user": "@{0}"
 }
