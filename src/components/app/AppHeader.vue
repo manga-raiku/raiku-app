@@ -7,7 +7,6 @@
       '!bg-transparent': route.meta?.transparentHeader
     }"
   >
-    \
     <q-header-custom
       :reveal="reveal"
       @reveal="appHeaderReveal = $event"
