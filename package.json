@@ -163,7 +163,7 @@
     "nx-cloud": "latest",
     "prettier": "^3.0.1",
     "prompts": "^2.4.2",
-    "sass": "1.69.5",
+    "sass": "1.32.11",
     "semver": "^7.5.4",
     "supabase": "^1.88.0",
     "tsx": "^3.12.7",
