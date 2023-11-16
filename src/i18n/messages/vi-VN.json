@@ -260,5 +260,8 @@
   "msg-suggest-install-app": "Chúng tôi có sẵn ứng dụng cho Android với khả năng chạy bản địa nhanh hơn",
   "lay": "Lấy",
   "tien-ich-ho-tro-cho-trinh-duyet": "Tiện ích hỗ trợ cho trình duyệt",
-  "msg-suggest-ext": "AnimeVsub Helper có thể tăng tốc ứng dụng này mạnh đến mức giống như bạn đã cài đặt ứng dụng trên thiết bị"
+  "msg-suggest-ext": "AnimeVsub Helper có thể tăng tốc ứng dụng này mạnh đến mức giống như bạn đã cài đặt ứng dụng trên thiết bị",
+  "dang-kiem-tra-quyen-khoi-chay": "Đang kiểm tra quyền khởi chạy",
+  "ung-dung-da-dung-lai": "Ứng dụng đã dừng lại",
+  "msg-not-allow": "Phiên bản ứng dụng này đã bị sửa đổi hoặc không được ủy quyền vui lòng tải xuống ứng dụng tại"
 }

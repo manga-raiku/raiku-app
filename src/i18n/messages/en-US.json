@@ -260,5 +260,8 @@
   "msg-suggest-install-app": "We have apps available for Android that run faster natively",
   "ung-dung-cho-android": "Application for Android",
   "msg-suggest-ext": "AnimeVsub Helper can speed up this application so much that it looks like you have the application installed on your device",
-  "tien-ich-ho-tro-cho-trinh-duyet": "Browser support utility"
+  "tien-ich-ho-tro-cho-trinh-duyet": "Browser support utility",
+  "dang-kiem-tra-quyen-khoi-chay": "Checking launch permissions",
+  "msg-not-allow": "This version of the application has been modified or is not authorized please download the application at",
+  "ung-dung-da-dung-lai": "The application has stopped"
 }

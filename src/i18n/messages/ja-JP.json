@@ -260,5 +260,8 @@
   "msg-suggest-install-app": "ネイティブでより高速に実行できる Android 用アプリをご用意しています",
   "ung-dung-cho-android": "Android用アプリケーション",
   "msg-suggest-ext": "AnimeVsub Helper はこのアプリケーションを大幅に高速化できるため、デバイスにアプリケーションがインストールされているように見えます。",
-  "tien-ich-ho-tro-cho-trinh-duyet": "ブラウザサポートユーティリティ"
+  "tien-ich-ho-tro-cho-trinh-duyet": "ブラウザサポートユーティリティ",
+  "dang-kiem-tra-quyen-khoi-chay": "起動権限の確認",
+  "msg-not-allow": "このバージョンのアプリケーションは変更されているか、承認されていません。次の場所からアプリケーションをダウンロードしてください。",
+  "ung-dung-da-dung-lai": "アプリケーションが停止しました"
 }
