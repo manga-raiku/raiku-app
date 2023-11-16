@@ -1,5 +1,4 @@
 export function parseQuery(url: string): Record<string, string | string[]> {
-  // eslint-disable-next-line n/no-unsupported-features/node-builtins
   const search = new URLSearchParams(url.slice((url.indexOf("?") >>> 0) + 1))
 
   const query: Record<string, string | string[]> = {}

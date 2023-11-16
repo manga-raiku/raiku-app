@@ -83,9 +83,6 @@ watch(paramSourceId, (sourceId) => {
   if (sourceId) void router.push(`/~${sourceId}/genre`)
 })
 
-const sourceId = computed(() => {
-  return paramSourceId.value ?? pluginStore.pluginMain
-})
 const page = computed<number>({
   get: () => parseInt(route.query.page?.toString() ?? "1") || 1,
 
@@ -99,7 +96,12 @@ const page = computed<number>({
     })
 })
 
-const api = pluginStore.useApi(sourceId, true)
+const api = pluginStore.useApi(
+  computed(() => {
+    return paramSourceId.value ?? pluginStore.pluginMain
+  }),
+  true
+)
 const { data, runAsync, loading, error } = useRequest(
   async () => {
     const data = await (

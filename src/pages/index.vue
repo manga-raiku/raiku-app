@@ -526,10 +526,6 @@ watch(paramSourceId, (sourceId) => {
   if (sourceId) void router.push(`/~${sourceId}`)
 })
 
-const sourceId = computed(() => {
-  return paramSourceId.value ?? pluginStore.pluginMain
-})
-
 const title = "Raiku"
 const description = computed(() => i18n.t("app-des"))
 useSeoMeta({
@@ -594,7 +590,12 @@ function Carousel({ swiper, on }: any) {
   })
 }
 
-const api = pluginStore.useApi(sourceId, true)
+const api = pluginStore.useApi(
+  computed(() => {
+    return paramSourceId.value ?? pluginStore.pluginMain
+  }),
+  true
+)
 const { data, error, loading, refreshAsync } = useRequest(
   () => api.value.then((res) => res.index()),
   {

@@ -15,7 +15,6 @@ export async function execPackageMjs(
         ? `self.AppInfo=${JSON.stringify(AppInfo)};${code}`
         : `!(()=>{self.AppInfo=${JSON.stringify(AppInfo)};${code}})()`
     };${appendWorkerExecPackageMjs.replace(/__DEBUG__/g, devMode + "")}`
-    // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(
       new Blob([codeWorker], { type: "text/javascript" })
     )
@@ -32,7 +31,6 @@ export async function execPackageMjs(
       >
     ) => {
       if (!urlRevoked) {
-        // eslint-disable-next-line n/no-unsupported-features/node-builtins
         URL.revokeObjectURL(url)
         urlRevoked = true
       }
@@ -42,7 +40,6 @@ export async function execPackageMjs(
       else reject(new Error(event.data.data as string))
     }
     worker.onerror = (event) => {
-      // eslint-disable-next-line n/no-unsupported-features/node-builtins
       URL.revokeObjectURL(url)
       reject(event)
     }

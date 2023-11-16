@@ -57,7 +57,6 @@ class WorkerSession {
       /__DEBUG__/g,
       (__DEV__ || this.devMode) + ""
     )}`
-    // eslint-disable-next-line n/no-unsupported-features/node-builtins
     const url = URL.createObjectURL(
       new Blob([codeWorker], { type: "text/javascript" })
     )
@@ -66,13 +65,11 @@ class WorkerSession {
     this.worker.addEventListener("error", (error) => {
       console.error(error)
       this.destroy()
-      // eslint-disable-next-line n/no-unsupported-features/node-builtins
       URL.revokeObjectURL(url)
     })
     this.worker.addEventListener("messageerror", (event) => {
       console.error(event)
       this.destroy()
-      // eslint-disable-next-line n/no-unsupported-features/node-builtins
       URL.revokeObjectURL(url)
     })
     this.resetAutoDestroy()
@@ -81,7 +78,6 @@ class WorkerSession {
       this.worker,
       "load",
       () => {
-        // eslint-disable-next-line n/no-unsupported-features/node-builtins
         URL.revokeObjectURL(url)
       },
       { once: true }
