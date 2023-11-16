@@ -105,6 +105,7 @@ module.exports = {
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-argument": "off",
     "@typescript-eslint/no-floating-promises": "error",
+    "n/no-unsupported-features/node-builtins": "off",
     "no-void": [
       "error",
       {
