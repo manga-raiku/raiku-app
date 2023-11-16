@@ -59,6 +59,5 @@
   },
   "peerDependencies": {
     "client-ext-animevsub-helper": "^1.0.24"
-  },
-  "type": "module"
+  }
 }
