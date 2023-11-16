@@ -42,6 +42,14 @@
       @installed="stateStore.showProxyAddDialog = false"
     />
     <!-- /proxy manager -->
+
+    <!-- popup suggest install app -->
+    <SuggestInstallApp />
+    <!-- /popup suggest install app -->
+
+    <!-- popup suggest extension -->
+    <SuggestExtension />
+    <!-- /popup suggest extension -->
   </q-layout>
 </template>
 

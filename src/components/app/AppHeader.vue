@@ -7,6 +7,7 @@
       '!bg-transparent': route.meta?.transparentHeader
     }"
   >
+    \
     <q-header-custom
       :reveal="reveal"
       @reveal="appHeaderReveal = $event"
@@ -64,6 +65,38 @@
           <AppHeaderSearchMB v-model:searching="showSearchMB" />
         </template>
 
+        <q-btn
+          v-if="!APP_NATIVE_MOBILE"
+          round
+          unelevated
+          class="mr-2"
+          target="_blank"
+          href="https://github.com/anime-vsub/extension-animevsub-helper"
+        >
+          <img
+            src="~assets/animevsub-helper-512.png"
+            width="24"
+            height="24"
+            alt="animevsub helper icon"
+            :class="{
+              'grayscale-100': !Http.version
+            }"
+          />
+
+          <q-menu
+            class="bg-dark-menu !max-w-30% rounded-xl"
+            anchor="bottom middle"
+            self="top middle"
+          >
+            <div class="px-3 py-2">
+              <div v-if="Http.version">v{{ Http.version }}</div>
+              <div v-else>
+                {{ $t("msg-suggest-ext") }}
+              </div>
+            </div>
+          </q-menu>
+        </q-btn>
+
         <AppHeaderFollows v-if="APP_STANDALONE" />
         <AppHeaderHistory v-if="APP_STANDALONE" />
         <AppHeaderNotify />
@@ -75,7 +108,8 @@
 </template>
 
 <script lang="ts" setup>
-import { APP_STANDALONE } from "src/constants"
+import { Http } from "client-ext-animevsub-helper"
+import { APP_NATIVE_MOBILE, APP_STANDALONE } from "src/constants"
 import { execScriptMeta } from "src/logic/exec-script-meta"
 
 defineProps<{

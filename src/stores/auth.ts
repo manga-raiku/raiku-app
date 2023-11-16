@@ -2,7 +2,7 @@ import type { Session, UserAttributes } from "@supabase/supabase-js"
 import type { Database } from "app/database"
 import { defineStore } from "pinia"
 
-export const useAuthStore = defineStore("auth-spb", () => {
+export const useAuthStore = defineStore("auth", () => {
   const session = shallowRef<Session | null>(null)
   let controllerUpdateProfile: AbortController | null = null
   const profile = computedAsync<

@@ -255,5 +255,10 @@
   "xoa-proxy": "プロキシの削除",
   "mo-trinh-quan-ly-proxy": "プロキシマネージャーを開く",
   "plugin-da-xac-minh": "検証済みのプラグイン:",
-  "tag-user": "@{0}"
+  "tag-user": "@{0}",
+  "lay": "取る",
+  "msg-suggest-install-app": "ネイティブでより高速に実行できる Android 用アプリをご用意しています",
+  "ung-dung-cho-android": "Android用アプリケーション",
+  "msg-suggest-ext": "AnimeVsub Helper はこのアプリケーションを大幅に高速化できるため、デバイスにアプリケーションがインストールされているように見えます。",
+  "tien-ich-ho-tro-cho-trinh-duyet": "ブラウザサポートユーティリティ"
 }

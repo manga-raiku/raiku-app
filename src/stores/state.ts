@@ -8,12 +8,16 @@ export const useStateStore = defineStore("state", () => {
   const showProxyManagerDialog = ref(false)
   const showProxyAddDialog = ref(false)
 
+  const appFooterPrependRef = ref<HTMLDivElement>()
+
   return {
     showPluginManagerDialog,
     showPluginAddDialog,
     showPluginSelectDialog,
 
     showProxyManagerDialog,
-    showProxyAddDialog
+    showProxyAddDialog,
+
+    appFooterPrependRef
   }
 })

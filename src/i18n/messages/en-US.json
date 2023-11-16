@@ -255,5 +255,10 @@
   "xoa-proxy": "Delete Proxies",
   "mo-quan-ly-proxy": "Open Proxy management",
   "plugin-da-xac-minh": "Verified plugins:",
-  "tag-user": "@{0}"
+  "tag-user": "@{0}",
+  "lay": "Take",
+  "msg-suggest-install-app": "We have apps available for Android that run faster natively",
+  "ung-dung-cho-android": "Application for Android",
+  "msg-suggest-ext": "AnimeVsub Helper can speed up this application so much that it looks like you have the application installed on your device",
+  "tien-ich-ho-tro-cho-trinh-duyet": "Browser support utility"
 }

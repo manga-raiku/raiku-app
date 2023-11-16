@@ -1,5 +1,10 @@
 <template>
-  <q-footer-custom class="bg-dark-page">
+  <q-footer-custom class="bg-dark-page app-footer">
+    <div
+      class="app-footer-prepend"
+      :ref="(ref) => (stateStore.appFooterPrependRef = ref as HTMLDivElement)"
+    />
+
     <q-tabs
       indicator-color="transparent"
       active-color="white"
@@ -46,6 +51,9 @@ import { type Icon, Icons } from "src/Icons"
 const route = useRoute()
 const i18n = useI18n()
 const networkStore = useNetworkStore()
+const stateStore = useStateStore()
+
+onUnmounted(() => (stateStore.appFooterPrependRef = undefined))
 
 const buttons: {
   to: string
