@@ -35,7 +35,7 @@
     "test": "vitest",
     "build": "vite build && tsc --emitDeclarationOnly",
     "prepublish": "pnpm build",
-    "release": "bumpp package.json --commit \"chore: release npm `raiku-pgs` `%s`\" --tag \"raiku-pgs@%s\" && tsx ./scripts/package-module.ts && pnpm publish --git-no-checks && git checkout HEAD -- ./package.json"
+    "release": "bumpp package.json --commit \"chore: release npm `raiku-pgs` `%s`\" --tag \"raiku-pgs@%s\" && tsx ./scripts/package-module.ts && pnpm publish --no-git-checks && git checkout HEAD -- ./package.json"
   },
   "devDependencies": {
     "@rollup/plugin-replace": "^5.0.5",
