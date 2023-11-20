@@ -263,5 +263,7 @@
   "tien-ich-ho-tro-cho-trinh-duyet": "Browser support utility",
   "dang-kiem-tra-quyen-khoi-chay": "Checking launch permissions",
   "msg-not-allow": "This version of the application has been modified or is not authorized please download the application at",
-  "ung-dung-da-dung-lai": "The application has stopped"
+  "ung-dung-da-dung-lai": "The application has stopped",
+  "bo-qua": "Skip",
+  "da-co-ban-cap-nhat-moi": "A new update is available"
 }

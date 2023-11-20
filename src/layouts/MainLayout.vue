@@ -41,13 +41,14 @@
     />
     <!-- /proxy manager -->
 
-    <!-- popup suggest install app -->
-    <SuggestInstallApp />
-    <!-- /popup suggest install app -->
-
-    <!-- popup suggest extension -->
-    <SuggestExtension />
-    <!-- /popup suggest extension -->
+    <template v-if="!APP_NATIVE_MOBILE">
+      <!-- popup suggest install app -->
+      <SuggestInstallApp />
+      <!-- /popup suggest install app -->
+      <!-- popup suggest extension -->
+      <SuggestExtension />
+      <!-- /popup suggest extension -->
+    </template>
 
     <!-- check for update -->
     <CheckForUpdate />
@@ -61,6 +62,9 @@ import "@fontsource/poppins"
 
 import { App } from "@capacitor/app"
 import { name } from "app/package.json"
+import { APP_NATIVE_MOBILE } from "src/constants"
+
+import AllowWork from "./AllowWork.vue"
 
 const route = useRoute()
 const $q = useQuasar()
@@ -114,5 +118,5 @@ const appAllowWork = APP_NATIVE_MOBILE
       )
       return true
     })
-  : computed(() => true)
+  : true
 </script>

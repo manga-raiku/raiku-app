@@ -1,7 +1,13 @@
 <template>
   <div class="text-center h-full absolute w-full">
     <div v-if="loading" class="pt-[140px]">
-      <h3 class="text-[24px] mt-10">
+      <img
+        class="w-240px sm:w-450px max-w-100% mx-auto mt-10"
+        src="~assets/checking.webp"
+        alt="checking"
+      />
+
+      <h3 class="text-[24px]">
         {{ $t("dang-kiem-tra-quyen-khoi-chay") }}
       </h3>
       <p class="text-[14px] mt-3 text-gray-400 leading-normal">
