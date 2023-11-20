@@ -33,7 +33,10 @@
           color="main"
           :label="$t('cap-nhat')"
           target="_blank"
-          :href="newVersion.assets[0]?.browser_download_url ?? 'https://github.com/manga-raiku/raiku-app'"
+          :href="
+            newVersion.assets[0]?.browser_download_url ??
+            'https://github.com/manga-raiku/raiku-app'
+          "
         />
       </q-card-actions>
     </q-card>
@@ -93,7 +96,7 @@ const { data } = useRequest<[Release[], { version: string }]>(() =>
   Promise.all([
     async () => {
       // get from local
-      const releases = JSON.parse(localStorage.getItem("releases"))
+      const releases = JSON.parse(localStorage.getItem("releases") ?? "")
 
       if (releases && Date.now() - releases.updatedAt < 1000 * 3600 * 24) {
         return releases.releases
@@ -107,7 +110,6 @@ const { data } = useRequest<[Release[], { version: string }]>(() =>
           return res.map((item) => {
             return {
               tag_name: item.tag_name,
-              version: item.version,
               body: item.body,
               assets: item.assets.map((item) => ({
                 browser_download_url: item.browser_download_url
