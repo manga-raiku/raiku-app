@@ -34,7 +34,7 @@
           :label="$t('cap-nhat')"
           target="_blank"
           :href="
-            newVersion.assets[0]?.browser_download_url ??
+            newVersion?.assets[0]?.browser_download_url ??
             'https://github.com/manga-raiku/raiku-app'
           "
         />
@@ -92,31 +92,37 @@ interface Release {
 
 const newVersion = shallowRef<Pick<Release, "tag_name" | "body" | "assets">>()
 
-const { data } = useRequest<[Release[], { version: string }]>(() =>
+const { data } = useRequest<
+  [Pick<Release, "tag_name" | "body" | "assets">[], { version: string }]
+>(() =>
   Promise.all([
-    async () => {
+    (async () => {
       // get from local
-      const releases = JSON.parse(localStorage.getItem("releases") ?? "")
+      const releases = JSON.parse(localStorage.getItem("releases") ?? "") as {
+        releases: Pick<Release, "tag_name" | "body" | "assets">[]
+        updatedAt: number
+      }
 
       if (releases && Date.now() - releases.updatedAt < 1000 * 3600 * 24) {
         return releases.releases
       }
 
-      const releasesOnline = await fetch(
-        "https://api.github.com/repos/manga-raiku/raiku-app/releases"
-      )
-        .then((res) => res.json() as Promise<Release[]>)
-        .then((res) => {
-          return res.map((item) => {
-            return {
-              tag_name: item.tag_name,
-              body: item.body,
-              assets: item.assets.map((item) => ({
-                browser_download_url: item.browser_download_url
-              }))
-            }
+      const releasesOnline: Pick<Release, "tag_name" | "body" | "assets">[] =
+        await fetch(
+          "https://api.github.com/repos/manga-raiku/raiku-app/releases"
+        )
+          .then((res) => res.json() as Promise<Release[]>)
+          .then((res) => {
+            return res.map((item) => {
+              return {
+                tag_name: item.tag_name,
+                body: item.body,
+                assets: item.assets.map((item) => ({
+                  browser_download_url: item.browser_download_url
+                }))
+              }
+            })
           })
-        })
 
       localStorage.setItem(
         "releases",
@@ -127,7 +133,7 @@ const { data } = useRequest<[Release[], { version: string }]>(() =>
       )
 
       return releasesOnline
-    },
+    })(),
     !APP_NATIVE_MOBILE ? { version } : App.getInfo()
   ])
 )
