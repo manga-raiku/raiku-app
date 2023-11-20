@@ -61,7 +61,7 @@ import "@fontsource/poppins"
 // =========== suth
 
 import { App } from "@capacitor/app"
-import { name } from "app/package.json"
+import { packageName } from "app/package.json"
 import { APP_NATIVE_MOBILE } from "src/constants"
 
 import AllowWork from "./AllowWork.vue"
@@ -107,7 +107,7 @@ const appAllowWork = APP_NATIVE_MOBILE
       const active =
         res.status !== 404 &&
         (res.status === 200 || res.status === 201) &&
-        id === name
+        id === packageName
       if (!active) return false
 
       localStorage.setItem(
