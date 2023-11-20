@@ -10,6 +10,8 @@ import DefineOptions from "unplugin-vue-define-options/vite"
 // import { VueRouterAutoImports } from "unplugin-vue-router"
 // import VueRouter from "unplugin-vue-router/vite"
 import type { Plugin } from "vite"
+import { ViteImageOptimizer as ImageOptimizer } from "vite-plugin-image-optimizer"
+import imagePresets, { widthPreset } from "vite-plugin-image-presets"
 import RemoveConsole from "vite-plugin-remove-console"
 import ReWriteAll from "vite-plugin-rewrite-all"
 import Layouts from "vite-plugin-vue-layouts"
@@ -103,5 +105,19 @@ export const vitePlugins: [
   ],
   [DefineOptions, {}],
   [vitePluginBuildRaw, {}],
-  [Icons, {}]
+  [Icons, {}],
+  [ImageOptimizer, {}],
+  [
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    imagePresets as unknown as any,
+    {
+      thumbnail: widthPreset({
+        widths: [48, 96],
+        formats: {
+          webp: { quality: 100 },
+          jpg: { quality: 100 }
+        }
+      })
+    }
+  ]
 ]
