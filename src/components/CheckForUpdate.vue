@@ -7,7 +7,7 @@
     <q-card class="rounded-xl">
       <q-card-section>
         <div class="text-subtitle1 text-weight-medium">
-          Đã có bản cập nhật mới
+          {{ $t("da-co-ban-cap-nhat-moi") }}
         </div>
 
         <div class="text-grey">
@@ -24,16 +24,16 @@
           flat
           no-caps
           color="grey"
-          label="Bỏ qua"
+          :label="$t('bo-qua')"
           @click="latest && ignoreUpdateVersion(latest.tag_name)"
         />
         <q-btn
           flat
           no-caps
           color="main"
-          label="Cập nhật"
+          :label="$t('cap-nhat')"
           target="_blank"
-          href="https://github.com/manga-raiku/raiku-app"
+          :href="newVersion.assets[0]?.browser_download_url ?? 'https://github.com/manga-raiku/raiku-app'"
         />
       </q-card-actions>
     </q-card>
@@ -79,19 +79,53 @@ interface Release {
   prerelease: boolean
   created_at: string
   published_at: string
-  assets: never[]
+  assets: {
+    browser_download_url: string
+  }[]
   tarball_url: string
   zipball_url: string
   body: string
 }
 
-const newVersion = shallowRef<Release>()
+const newVersion = shallowRef<Pick<Release, "tag_name" | "version" | "body" | "assets">>()
 
 const { data } = useRequest<[Release[], { version: string }]>(() =>
   Promise.all([
-    fetch("https://api.github.com/repos/manga-raiku/raiku-app/releases").then(
-      (res) => res.json()
-    ),
+    async () => {
+      // get from local
+      const releases = JSON.parse(localStorage.getItem("releases"))
+
+      if (releases && Date.now() - releases.updatedAt < 1000 * 3600 * 24) {
+        return releases.releases
+      }
+
+      const releasesOnline = await fetch(
+        "https://api.github.com/repos/manga-raiku/raiku-app/releases"
+      )
+        .then((res) => res.json() as Promise<Release[]>)
+        .then((res) => {
+          return res.map((item) => {
+            return {
+              tag_name: item.tag_name,
+              version: item.version,
+              body: item.body,
+              assets: item.assets.map((item) => ({
+                browser_download_url: item.browser_download_url
+              }))
+            }
+          })
+        })
+
+      localStorage.setItem(
+        "releases",
+        JSON.stringify({
+          releases: releasesOnline,
+          updatedAt: Date.now()
+        })
+      )
+
+      return releasesOnline
+    },
     !APP_NATIVE_MOBILE ? { version } : App.getInfo()
   ])
 )
