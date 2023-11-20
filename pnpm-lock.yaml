@@ -20,6 +20,9 @@ importers:
       '@fontsource/poppins':
         specifier: ^5.0.8
         version: 5.0.8
+      '@gtm-support/vue-gtm':
+        specifier: ^2.2.0
+        version: 2.2.0(vue@3.2.45)
       '@hannoeru/eslint-plugin':
         specifier: ^0.9.5
         version: 0.9.5(eslint@8.33.0)(typescript@5.0.4)
@@ -134,6 +137,9 @@ importers:
       vue:
         specifier: ^3.2.45
         version: 3.2.45
+      vue-gtag:
+        specifier: ^2.0.1
+        version: 2.0.1(vue@3.2.45)
       vue-i18n:
         specifier: ^9.6.5
         version: 9.6.5(vue@3.2.45)
@@ -3588,6 +3594,24 @@ packages:
 
   /@fontsource/poppins@5.0.8:
     resolution: {integrity: sha512-P8owfYWluoUY5Nyzk4gT/L6LmLmseP6ezFWhj6VBUa5pRIdnCvNJpoQ6i/vhekjtJOfqX6nKlB+LCttoUl2GQQ==}
+    dev: false
+
+  /@gtm-support/core@2.2.0:
+    resolution: {integrity: sha512-GYA9LfLUcsWJBpL24e3UXjbzl/E9qYWWsEtEJU2hiDFUC07WhxgKnH7cuZk82Ld+7Iz2ZVQaDDGT0kxZxQwPLQ==}
+    dev: false
+
+  /@gtm-support/vue-gtm@2.2.0(vue@3.2.45):
+    resolution: {integrity: sha512-7nhBTRkTG0mD+7r7JvNalJz++YwszZk0oP1HIY6fCgz6wNKxT6LuiXCqdPrZmNPe/WbPIKuqxGZN5s+i6NZqow==}
+    peerDependencies:
+      vue: '>= 3.2.0 < 4.0.0'
+    peerDependenciesMeta:
+      vue-router:
+        optional: true
+    dependencies:
+      '@gtm-support/core': 2.2.0
+      vue: 3.2.45
+    optionalDependencies:
+      vue-router: 4.2.5(vue@3.2.45)
     dev: false
 
   /@hannoeru/eslint-plugin@0.9.5(eslint@8.33.0)(typescript@5.0.4):
@@ -16638,6 +16662,14 @@ packages:
       semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
+
+  /vue-gtag@2.0.1(vue@3.2.45):
+    resolution: {integrity: sha512-aM4A58FVL0wV2ptYi+xzAjeg+pQVRyUcfBc5UkXAwQrR4t3WBhor50Izp2I+3Oo7+l+vWJ7u78DGcNzReb8S/A==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.2.45
+    dev: false
 
   /vue-i18n@9.6.5(vue@3.2.45):
     resolution: {integrity: sha512-dpUEjKHg7pEsaS7ZPPxp1CflaR7bGmsvZJEhnszHPKl9OTNyno5j/DvMtMSo41kpddq4felLA7GK2prjpnXVlw==}

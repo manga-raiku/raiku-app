@@ -87,7 +87,7 @@ interface Release {
   body: string
 }
 
-const newVersion = shallowRef<Pick<Release, "tag_name" | "version" | "body" | "assets">>()
+const newVersion = shallowRef<Pick<Release, "tag_name" | "body" | "assets">>()
 
 const { data } = useRequest<[Release[], { version: string }]>(() =>
   Promise.all([

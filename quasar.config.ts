@@ -21,7 +21,9 @@ dotenv.config()
 
 cleanEnv(process.env, {
   SUPABASE_PROJECT_URL: str(),
-  SUPABASE_PROJECT_KEY: str()
+  SUPABASE_PROJECT_KEY: str(),
+  GTAG_NAME: str(),
+  GTAG_ID: str()
 })
 
 function removeDataTestAttrs(
@@ -53,7 +55,7 @@ export default configure((/* ctx */) => {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ["supabase", "i18n", "head", "unocss"],
+    boot: ["supabase", "i18n", "head", "gtag", "unocss"],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ["app.scss"],
