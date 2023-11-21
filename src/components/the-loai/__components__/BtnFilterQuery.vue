@@ -8,7 +8,7 @@
     :title="item.title"
     class="font-size-inherit text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
     :class="{
-      '!text-main-3': route.query[filterKey] === item.value
+      '!text-sakura-3': route.query[filterKey] === item.value
     }"
     >{{ item.name }}</q-btn
   >

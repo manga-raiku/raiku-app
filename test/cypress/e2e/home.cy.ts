@@ -28,7 +28,7 @@ describe("Landing", () => {
 //   });
 //   it('has pretty logo', () => {
 //     cy.dataCy('landing-wrapper img')
-//       .should('have.class', 'logo-main')
+//       .should('have.class', 'logo-sakura')
 //       .and('have.attr', 'src')
 //       .and('match', /^(data:image\/svg\+xml).+/);
 //   });

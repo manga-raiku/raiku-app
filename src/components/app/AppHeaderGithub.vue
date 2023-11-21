@@ -6,7 +6,7 @@
       rounded
       show-value
       size="35px"
-      color="main"
+      color="sakura"
     >
       <i-codicon-github-inverted width="24" height="24" />
     </q-circular-progress>

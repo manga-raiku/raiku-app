@@ -5,7 +5,7 @@
       :value="(modelValue.ref.downloaded / modelValue.ref.pages.length) * 100"
       show-value
       size="35px"
-      color="main"
+      color="sakura"
     >
       <i-solar-download-minimalistic-linear
         v-if="!modelValue.downloading"

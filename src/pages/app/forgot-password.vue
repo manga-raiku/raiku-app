@@ -57,7 +57,7 @@ meta:
                   v-model="email"
                   :placeholder="$t('email')"
                   class="login-input"
-                  color="main-2"
+                  color="sakura-2"
                   dense
                   lazy-rules
                   :rules="[
@@ -90,7 +90,7 @@ meta:
                   :type="showPassword ? 'text' : 'password'"
                   :placeholder="$t('mat-khau')"
                   class="login-input mt-5"
-                  color="main-2"
+                  color="sakura-2"
                   dense
                   lazy-rules
                   :rules="[

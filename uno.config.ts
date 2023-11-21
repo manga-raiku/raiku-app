@@ -29,6 +29,12 @@ export default defineConfig({
       md: "1024px",
       lg: "1440px",
       xl: "1920px"
+    },
+    colors: {
+      sakura: "#f27fb5",
+      sakura2: "#f3d3e2",
+      sakura3: "#f8c1d5",
+      sakura4: "#fbe0ef"
     }
   },
   safelist: [
@@ -43,6 +49,12 @@ export default defineConfig({
     "text-blue-400",
     "bg-blue-400",
     "bg-gray-700",
-    "rounded-30px"
+    "rounded-30px",
+    "text-sakura",
+    "bg-sakura",
+    "text-sakura-3",
+    "bg-sakura-3",
+    "text-sakura-4",
+    "bg-sakura-4",
   ]
 })

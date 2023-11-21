@@ -30,7 +30,7 @@
         <q-btn
           flat
           no-caps
-          color="main"
+          color="sakura"
           :label="$t('cap-nhat')"
           target="_blank"
           :href="

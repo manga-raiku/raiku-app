@@ -36,7 +36,7 @@
           <template #loading>
             <div class="flex items-center flex-col justify-center">
               <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
-              <q-spinner size="40px" color="main-3" />
+              <q-spinner size="40px" color="sakura-3" />
             </div>
           </template>
         </PageView>

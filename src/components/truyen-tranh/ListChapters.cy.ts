@@ -552,6 +552,6 @@ describe("ListChapters", () => {
       }
     })
 
-    cy.get(".q-tab").first().should("have.class", "!text-main-3")
+    cy.get(".q-tab").first().should("have.class", "!text-sakura-3")
   })
 })

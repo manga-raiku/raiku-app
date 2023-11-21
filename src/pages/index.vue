@@ -68,7 +68,7 @@ meta:
 
                   <q-btn
                     rounded
-                    color="main"
+                    color="sakura"
                     class="mt-2 xs:mt-4 pointer-events-all mx-auto"
                     no-caps
                     :to="item.last_chapters[0].route"
@@ -154,7 +154,7 @@ meta:
                 <!--
               <q-btn
                 rounded
-                class="bg-main mt-2 sm:mt-4 pointer-events-all"
+                class="bg-sakura mt-2 sm:mt-4 pointer-events-all"
                 no-caps
               >
                 <i-fluent-play-24-filled
@@ -283,7 +283,7 @@ meta:
 
             <q-btn
               rounded
-              class="bg-main mt-2 sm:mt-4 pointer-events-auto"
+              class="bg-sakura mt-2 sm:mt-4 pointer-events-auto"
               no-caps
               :to="data.sliders[sliderIndex].last_chapters[0].route"
             >
@@ -392,7 +392,7 @@ meta:
           no-caps
           rounded
           unelevated
-          class="text-15px font-family-poppins hover:!text-main-3 transition-color duration-200"
+          class="text-15px font-family-poppins hover:!text-sakura-3 transition-color duration-200"
           >{{ item.name }}</q-btn
         >
       </div>
@@ -400,7 +400,7 @@ meta:
         no-caps
         rounded
         unelevated
-        class="text-15px font-family-poppins text-main-4"
+        class="text-15px font-family-poppins text-sakura-4"
       >
         Tất cả thể loại
         <i-fluent-chevron-right-24-regular

@@ -3,7 +3,7 @@
     <slot />
     <template #loading>
       <div class="col-12 justify-center flex q-my-md">
-        <q-spinner-dots color="main-3" size="40px" />
+        <q-spinner-dots color="sakura-3" size="40px" />
       </div>
     </template>
   </q-infinite-scroll>

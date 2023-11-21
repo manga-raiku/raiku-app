@@ -64,7 +64,10 @@
               }"
               class="py-2 bg-[#292929] text-weight-normal w-full ease-bg ellipsis"
               :class="{
-                '!text-main-3': pathEqual(router.resolve(path).path, route.path)
+                '!text-sakura-3': pathEqual(
+                  router.resolve(path).path,
+                  route.path
+                )
               }"
             >
               <div class="ellipsis">{{ name }}</div>
@@ -96,7 +99,7 @@
               }"
               class="py-2 bg-[#292929] text-weight-normal w-full ease-bg"
               :class="{
-                '!text-main-3': route.query[item.key] === value
+                '!text-sakura-3': route.query[item.key] === value
               }"
             >
               <div class="ellipsis">{{ name }}</div>
@@ -156,7 +159,10 @@
                 }"
                 class="py-2 bg-[#292929] text-weight-normal w-full ease-bg ellipsis"
                 :class="{
-                  '!text-main': pathEqual(router.resolve(path).path, route.path)
+                  '!text-sakura': pathEqual(
+                    router.resolve(path).path,
+                    route.path
+                  )
                 }"
               >
                 <div class="ellipsis">{{ name }}</div>
@@ -186,7 +192,7 @@
                 }"
                 class="py-2 bg-[#292929] text-weight-normal w-full ease-bg"
                 :class="{
-                  '!text-main': route.query[item.key] === value
+                  '!text-sakura': route.query[item.key] === value
                 }"
               >
                 <div class="ellipsis">{{ name }}</div>

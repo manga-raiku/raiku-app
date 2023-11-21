@@ -17,7 +17,7 @@
             clearable
             autofocus
             :placeholder="$t('placeholder-input-proxy-url')"
-            color="main-2"
+            color="sakura-2"
             :rules="[
               (v) => !!v || $t('vui-long-nhap-dia-chi-proxy'),
               (v) =>
@@ -32,7 +32,7 @@
           <q-toggle
             v-model="queryMode"
             :label="$t('che-do-query')"
-            class="ml--2 toggle-main-3"
+            class="ml--2 toggle-sakura-3"
           />
 
           <q-input
@@ -75,7 +75,7 @@
           flat
           no-caps
           rounded
-          color="main-3"
+          color="sakura-3"
           :disable="!proxyUrl"
           :loading="addingProxy"
           @click="addProxy"

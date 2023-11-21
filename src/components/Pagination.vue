@@ -7,10 +7,10 @@
       :max-pages="6"
       boundary-numbers
       direction-links
-      color="main-3"
+      color="sakura-3"
       active-design="unelevated"
       active-color="pink-5"
-      active-text-color="main-4"
+      active-text-color="sakura-4"
       ellipses
       :max-page="6"
       unelevated

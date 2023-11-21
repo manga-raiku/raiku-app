@@ -32,7 +32,7 @@
             </o-button>
 
             <q-item-section side class="mr--2" @click="showEdit = !showEdit">
-              <q-btn rounded no-caps flat class="text-main-3">{{
+              <q-btn rounded no-caps flat class="text-sakura-3">{{
                 showEdit ? $t("huy") : $t("sua")
               }}</q-btn>
             </q-item-section>
@@ -41,14 +41,14 @@
           <q-toggle
             v-if="APP_NATIVE_MOBILE"
             v-model="proxyStore.useNativeAPI"
-            class="toggle-main-3"
+            class="toggle-sakura-3"
             label="Sử dụng Http của OS"
           />
           <q-toggle
             v-else
             v-model="proxyStore.useExtAPI"
             :disable="!APP_INFO.extension"
-            class="toggle-main-3"
+            class="toggle-sakura-3"
             label="Sử dụng Http của AnimeVsub Helper"
           >
             <q-tooltip v-if="!APP_INFO.extension"
@@ -79,7 +79,7 @@
                     ? proxyStore.useExtAPI
                     : false
                 "
-                color="toggle-main-3"
+                color="toggle-sakura-3"
               />
             </q-item-section>
             <q-item-section>
@@ -106,7 +106,7 @@
           {{ error }}
         </div>
         <div v-else class="flex items-center justify-center py-6">
-          <q-spinner size="40px" color="main-3" />
+          <q-spinner size="40px" color="sakura-3" />
         </div>
       </q-card-section>
     </q-card>

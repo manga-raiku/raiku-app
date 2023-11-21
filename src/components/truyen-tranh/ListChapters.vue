@@ -14,7 +14,7 @@
         :label="$t('ch-from-to', [from, to])"
         class="rounded-30px text-[rgba(255,255,255,0.86)] bg-[#fbe0ef] bg-opacity-8 text-weight-light font-family-poppins !min-h-32px mx-2"
         :class="{
-          '!text-main-3 segment': tabActive === index
+          '!text-sakura-3 segment': tabActive === index
         }"
         :ref="
           ($el: QTab) => {
@@ -33,7 +33,7 @@
         unelevated
         class="text-[rgba(255,255,255,0.86)] bg-[#fbe0ef] bg-opacity-8 text-weight-light font-family-poppins !min-h-32px mx-2"
         :class="{
-          '!text-main-3 segment': tabActive === index,
+          '!text-sakura-3 segment': tabActive === index,
         }"
         :ref="($el: QBtn) => {
         if (tabActive === index) btnActiveRef = $el
@@ -83,7 +83,7 @@
             "
             :class="{
               'text-#eee text-opacity-70': readsChapter?.has(item.id),
-              '!text-main reading text-weight-medium':
+              '!text-sakura reading text-weight-medium':
                 CYPRESS ||
                 route.fullPath === router.resolve(item.route).fullPath
             }"

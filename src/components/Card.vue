@@ -1,6 +1,6 @@
 <template>
   <router-link :to="data.route" v-ripple class="relative card-wrap">
-    <q-card flat dense class="bg-transparent card-main" ref="qCardRef">
+    <q-card flat dense class="bg-transparent card-sakura" ref="qCardRef">
       <q-img
         no-spinner
         :src="data.image"

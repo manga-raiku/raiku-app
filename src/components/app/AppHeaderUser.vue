@@ -122,7 +122,7 @@
                     rounded
                     show-value
                     size="35px"
-                    color="main"
+                    color="sakura"
                   >
                     <i-solar-smartphone-update-bold-duotone
                       width="24"

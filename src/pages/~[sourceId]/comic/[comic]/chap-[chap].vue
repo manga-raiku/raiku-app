@@ -194,7 +194,7 @@ meta:
           :reverse="rightToLeft"
           :min="rightToLeft ? maxPage : minPage"
           :max="rightToLeft ? -minPage : maxPage"
-          color="main"
+          color="sakura"
         />
       </div>
 
@@ -296,7 +296,7 @@ meta:
               </div>
 
               <div v-if="!data || loading" class="py-4 text-center">
-                <q-spinner color="main-3" size="40px" class="mx-auto" />
+                <q-spinner color="sakura-3" size="40px" class="mx-auto" />
               </div>
               <ListChapters
                 v-else
@@ -505,7 +505,7 @@ meta:
               <div class="text-subtitle1 mb-1">{{ $t("binh-luan") }}</div>
 
               <div v-if="!data || loading" class="py-4 text-center">
-                <q-spinner color="main-3" size="40px" class="mx-auto" />
+                <q-spinner color="sakura-3" size="40px" class="mx-auto" />
               </div>
               <div
                 v-else

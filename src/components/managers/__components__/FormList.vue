@@ -16,7 +16,7 @@
         "
         filled
         dense
-        color="main-3"
+        color="sakura-3"
         class="mx-1"
         placeholder="Name"
       />
@@ -31,7 +31,7 @@
         "
         filled
         dense
-        color="main-3"
+        color="sakura-3"
         class="mx-1"
         placeholder="Value"
       />
