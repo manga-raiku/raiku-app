@@ -85,6 +85,7 @@ const emit = defineEmits<{
 
 const route = useRoute()
 const router = useRouter()
+const i18n = useI18n()
 const $q = useQuasar()
 
 const hideDrawer = computed(() => route.meta.hiddenDrawer ?? false)
@@ -93,19 +94,19 @@ const drawers = computed(() => [
   {
     icon: Icons.home[0],
     active: Icons.home[1],
-    name: "Trang chủ",
+    name: i18n.t("trang-chu"),
     path: "/"
   },
   {
     icon: Icons.box[0],
     active: Icons.box[1],
-    name: "Thể loại",
+    name: i18n.t("the-loai"),
     path: "/genre"
   },
   {
     icon: Icons.fire[0],
     active: Icons.fire[1],
-    name: "Truyện hot",
+    name: i18n.t("truyen-hot"),
     path: "/trending"
   },
 
@@ -114,45 +115,45 @@ const drawers = computed(() => [
   {
     icon: Icons.history[0],
     active: Icons.history[1],
-    name: "Lịch sử",
+    name: i18n.t("lich-su"),
     path: "/library/history"
   },
   {
     icon: Icons.favorite[0],
     active: Icons.favorite[1],
-    name: "Yêu thích",
+    name: i18n.t("yeu-thich"),
     path: "/library/follow"
   },
   {
     icon: Icons.download[0],
     active: Icons.download[1],
-    name: "Nội dung tải xuống",
+    name: i18n.t("noi-dung-tai-xuong"),
     path: "/library/offline"
   }
 ])
 const drawersBottom = computed(() => [
   {
-    name: "Về chúng tôi",
+    name: i18n.t("ve-chung-toi"),
     href: "https://github.com/manga-raiku"
   },
   {
-    name: "Liên hệ chúng tôi",
+    name: i18n.t("lien-he-chung-toi"),
     href: "mailto:contact@mangaraiku.eu.org?subject=Phản hồi ứng dụng web Raiku"
   },
   {
-    name: "Tải ứng dụng",
+    name: i18n.t("tai-ung-dung"),
     href: "https://manga-raiku.github.io"
   },
   {
-    name: "Điều khoản sử dụng",
+    name: i18n.t("dieu-khoan-su-dung"),
     href: "https://manga-raiku.github.io/tems-of-use"
   },
   {
-    name: "Chính sách riêng tư",
+    name: i18n.t("chinh-sach-rieng-tu"),
     href: "https://manga-raiku.github.io/privacy-police"
   },
   {
-    name: "Khiếu nại vi phạm",
+    name: i18n.t("khieu-nai-vi-pham"),
     href: "https://manga-raiku.github.io/disclaimer"
   }
 ])
