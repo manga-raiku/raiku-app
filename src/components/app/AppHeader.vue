@@ -28,27 +28,6 @@
 
         <AppHeaderIconApp :no-name="$q.screen.lt.sm" class="mr-8" />
 
-        <!-- <template v-if="$q.screen.md || $q.screen.gt.md">
-          <router-link
-            to="/"
-            class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
-            exact-active-class="!text-main-3 text-weight-medium"
-            >Trang chủ</router-link
-          >
-          <router-link
-            to="/genre"
-            class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
-            exact-active-class="!text-main-3 text-weight-medium"
-            >Thể loại</router-link
-          >
-          <router-link
-            to="/bang-xep-hang/ngay"
-            class="mx-4 text-15px font-family-poppins text-weight-normal transition-color duration-200 ease text-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,1)]"
-            exact-active-class="!text-main-3 text-weight-medium"
-            >Bảng xếp hạng</router-link
-          >
-        </template> -->
-
         <q-space />
 
         <template v-if="$q.screen.md || $q.screen.gt.md">
@@ -57,7 +36,7 @@
           />
           <AppHeaderGithub />
         </template>
-        <template v-else>
+        <template v-else-if="!APP_STANDALONE">
           <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
             <q-icon name="search" />
           </q-btn>

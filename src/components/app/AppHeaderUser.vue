@@ -1,13 +1,15 @@
 <template>
   <q-btn v-bind="attrs" flat round unelevated>
-    <q-avatar v-if="authStore.session" size="35px">
+    <q-avatar v-if="authStore.session || $q.screen.lt.md" size="35px">
       <q-img
+        v-if="!$q.screen.lt.md"
         :src="
           authStore.profile?.avatar_url ??
           `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
         "
         no-spinner
       />
+      <i-solar-user-circle-bold-duotone v-else class="size-35px" />
     </q-avatar>
     <i-solar-menu-dots-bold v-else class="size-1.5em rotate-90deg" />
     <!-- <component v-else :is="Icons.user_circle[1]" class="size-30px" /> -->
@@ -227,7 +229,7 @@
   </q-btn>
 
   <q-btn
-    v-if="!authStore.session"
+    v-if="!authStore.session && !$q.screen.lt.md"
     v-bind="attrs"
     flat
     round
