@@ -92,13 +92,21 @@ interface Release {
 
 const newVersion = shallowRef<Pick<Release, "tag_name" | "body" | "assets">>()
 
+function parse(str: string) {
+  try {
+    return JSON.parse(str)
+  } catch {
+    return null
+  }
+}
+
 const { data } = useRequest<
   [Pick<Release, "tag_name" | "body" | "assets">[], { version: string }]
 >(() =>
   Promise.all([
     (async () => {
       // get from local
-      const releases = JSON.parse(localStorage.getItem("releases") ?? "") as {
+      const releases = parse(localStorage.getItem("releases") ?? "") as {
         releases: Pick<Release, "tag_name" | "body" | "assets">[]
         updatedAt: number
       }

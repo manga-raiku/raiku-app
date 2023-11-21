@@ -52,7 +52,7 @@
     </template>
 
     <!-- check for update -->
-    <CheckForUpdate />
+    <CheckForUpdate v-if="APP_NATIVE_MOBILE" />
     <!-- /check for update -->
   </q-layout>
 </template>
