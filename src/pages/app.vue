@@ -14,10 +14,10 @@
     <div class="h-full overflow-y-auto scrollbar-custom">
       <q-list class="mx-2">
         <template
-          v-for="{ icon, text, to, href } in [
+          v-for="{ icon, text, to, href, switcher } in [
             {
               icon: Icons.document,
-              text: 'Tài khoản',
+              text: $t('tai-khoan-cua-toi'),
               to: '/app/myaccount'
             },
             ...buttons
@@ -52,6 +52,9 @@
                 />
               </q-item-label>
             </q-item-section>
+            <q-item-section v-if="switcher" side>
+              <q-switch v-model="switcher.value" />
+            </q-item-section>
           </q-item>
         </template>
       </q-list>
@@ -70,12 +73,14 @@ import { Icons } from "src/Icons"
 import type { Icon } from "src/Icons"
 
 import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
+import phTabsDuotone from "~icons/ph/tabs-duotone"
 
 const router = useRouter()
 const route = useRoute()
 const i18n = useI18n()
+const settingsStore = useSettingsStore()
 
-const title = "Ứng dụng này"
+const title = computed(() => i18n.t("ung-dung-nay"))
 const description = title
 useSeoMeta({
   title,
@@ -88,6 +93,7 @@ const buttons: ComputedRef<
   {
     href?: string
     to?: string
+    switcher?: Ref<boolean>
     icon: [Icon, Icon]
     text: string
     side?: Ref<string>
@@ -122,6 +128,14 @@ const buttons: ComputedRef<
     to: "/app/settings/check-network",
     icon: Icons.bug,
     text: i18n.t("kiem-tra-loi-mang")
+  },
+  {
+    switcher: computed({
+      get: () => settingsStore.enableKeepAlive,
+      set: (v) => (settingsStore.enableKeepAlive = v)
+    }),
+    icon: [phTabsDuotone, phTabsDuotone],
+    text: i18n.t("kich-hoat-keep-alive")
   },
   {
     to: "/app/about",

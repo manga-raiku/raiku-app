@@ -9,9 +9,10 @@
       }"
     >
       <router-view v-if="appAllowWork" v-slot="{ Component }">
-        <keep-alive :max="10">
+        <keep-alive v-if="settingsStore.enableKeepAlive" :max="5">
           <component :is="Component" />
         </keep-alive>
+        <component v-else :is="Component" />
       </router-view>
       <AllowWork v-else :loading="appAllowWork === undefined" />
 
@@ -69,6 +70,7 @@ import AllowWork from "./AllowWork.vue"
 const route = useRoute()
 const $q = useQuasar()
 const stateStore = useStateStore()
+const settingsStore = useSettingsStore()
 const networkStore = useNetworkStore()
 
 const showDrawer = ref(false)

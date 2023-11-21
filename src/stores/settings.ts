@@ -5,7 +5,8 @@ export const useSettingsStore = defineStore("settings", {
   state: () => ({
     locale: getNavigatorLanguage(),
     suggestInstallApp: true,
-    suggestInstallExt: true
+    suggestInstallExt: true,
+    enableKeepAlive: true
   }),
   persist: true
 })
