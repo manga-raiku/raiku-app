@@ -575,6 +575,7 @@ meta:
 </template>
 
 <script lang="ts" setup>
+import { StatusBar } from "@capacitor/status-bar"
 import { useFullscreen } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import { packageName } from "app/package.json"
@@ -583,7 +584,12 @@ import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
 import type { Chapter, Comic, ComicChapter, ID } from "raiku-pgs/plugin"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
-import { APP_STANDALONE, FLAG_CACHE, FLAG_OFFLINE } from "src/constants"
+import {
+  APP_NATIVE_MOBILE,
+  APP_STANDALONE,
+  FLAG_CACHE,
+  FLAG_OFFLINE
+} from "src/constants"
 import { PluginError } from "src/errors/plugin"
 import type {
   ComicChapterOnDisk,
@@ -606,6 +612,11 @@ const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
+if (APP_NATIVE_MOBILE)
+  watch(isFullscreen, (isFullscreen) => {
+    if (isFullscreen) void StatusBar.hide()
+    else void StatusBar.show()
+  })
 const pluginStore = usePluginStore()
 const networkStore = useNetworkStore()
 

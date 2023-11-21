@@ -147,8 +147,8 @@ const { data, error, runAsync } = useRequest<
   }[]
 >(
   () =>
-    fetch("https://services.mangaraiku.eu.org/v1/list-plugin").then(
-      (res) => res.json()
+    fetch("https://services.mangaraiku.eu.org/v1/list-plugin").then((res) =>
+      res.json()
     ),
   {
     manual: true
