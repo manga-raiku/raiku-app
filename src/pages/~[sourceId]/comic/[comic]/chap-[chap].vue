@@ -129,7 +129,7 @@ meta:
 
     <!-- float absolute button -->
     <FloatingStatus
-      v-if="$q.screen.gt.xs"
+      v-if="$q.screen.gt.sm"
       :scrolling-mode="scrollingMode"
       :single-page="singlePage || $q.screen.width <= 517"
       :right-to-left="rightToLeft"
@@ -149,7 +149,7 @@ meta:
       :size-old-pages="0"
     />
 
-    <FabShowToolbar v-if="$q.screen.gt.xs" @click="showToolbar = true" />
+    <FabShowToolbar v-if="$q.screen.gt.sm" @click="showToolbar = true" />
 
     <!-- tutorial reader -->
     <TutorialModeHorizontal
