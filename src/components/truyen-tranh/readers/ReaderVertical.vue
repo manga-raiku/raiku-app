@@ -4,11 +4,15 @@
     class="h-full !overflow-scroll scrollbar-hide relative"
     ref="parentRef"
     @mousedown.prevent="onMouseDown"
+    @touchstart="onTouchStart"
+    @touchmove="onTouchMove"
+    @touchend="onTouchEnd"
   >
     <section
       class="transition-width duration-444ms mx-auto"
       :style="{
-        width: `${zoom}%`
+        width: `${zoom}%`,
+        transition: touching ? 'none' : undefined
       }"
       ref="overflowRef"
     >
@@ -36,7 +40,7 @@
           <template #loading>
             <div class="flex items-center flex-col justify-center">
               <div class="text-20px font-weight-bold">{{ index + 1 }}</div>
-              <q-spinner size="40px" color="main-3" />
+              <q-spinner size="40px" color="sakura3" />
             </div>
           </template>
         </PageView>
@@ -135,7 +139,13 @@ const emit = defineEmits<{
 }>()
 const attrs = useAttrs()
 
+const { onTouchStart, onTouchMove, onTouchEnd, scale, touching } =
+  useTouchZoom()
 const activated = useActivated()
+
+watch(scale, (scale) => {
+  emit("update:zoom", props.zoom + scale)
+})
 
 defineExpose({
   reset: () => parentRef.value?.scrollTo(0, 0)
