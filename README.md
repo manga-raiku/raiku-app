@@ -134,33 +134,7 @@ pnpm build:pwa
 ```
 
 ### To be on
-
-- [x] Download manager for desktop
-- [x] Offline ready interface
-- [ ] Infinite reader
-- [x] Common API to support various sources
-- [x] Localize app
-- [x] meta header
-- [x] update UI screen error
-- [x] show error network offline
-- [x] add redirect to not found page
-- [x] show error if throw error
-- [x] fix favicon small
-- [ ] touch zoom in mobile
-- [x] button next chap
-
-- [x] multiple pre search
-- [x] control plugin separate
-- [ ] fix url with proxy wrong
-
-- [ ] use QScrollArea and QVirtualScroll
-
-- [x] bootloop in page read if plugin not install
-
-- [x] add `<keep-alive>`?
-- [x] rounded button footer toolbar
-- [x] API load image in native
-- [x] fix header reveal default not show
+Moved to https://github.com/orgs/manga-raiku/projects/2
 
 ### Customize the configuration
 
