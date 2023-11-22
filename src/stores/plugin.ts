@@ -1,3 +1,8 @@
+import {
+  LocalNotifications,
+  type LocalNotificationSchema
+} from "@capacitor/local-notifications"
+import { i18n } from "boot/i18n"
 import { defineStore } from "pinia"
 import type { ID, Package } from "raiku-pgs/plugin"
 import { createWorkerPlugin, execPackageMjs } from "raiku-pgs/thread"
@@ -306,7 +311,8 @@ export const usePluginStore = defineStore("plugin", () => {
         }
     >()
   )
-  async function checkUpdatePlugins() {
+
+  async function checkUpdatePlugins(pushNotification = false) {
     const plugins = await getAllPlugins()
     plugins.forEach((plugin) =>
       updateState.set(plugin.id, { status: UpdatePluginStatus.PEDDING })
@@ -320,12 +326,43 @@ export const usePluginStore = defineStore("plugin", () => {
         try {
           const pkg = await checkForUpdate(plugin.id)
 
-          if (pkg)
+          if (pkg) {
             updateState.set(plugin.id, {
               status: UpdatePluginStatus.NEW_VERSION,
               data: pkg
             })
-          else
+
+            if (pushNotification) {
+              void permissionNotification
+                .then(() => {
+                  const notification: LocalNotificationSchema = {
+                    title: i18n.global.t("cap-nhat-plugin-plugin-name", [
+                      plugin.name
+                    ]),
+                    body: i18n.global.t("body-notify-update-plugin", [
+                      plugin.version,
+                      plugin.name,
+                      plugin.id
+                    ]),
+                    id: Math.round(Math.random() * 2147483647),
+                    smallIcon: plugin.favicon
+                  }
+
+                  if (APP_NATIVE_MOBILE) {
+                    return LocalNotifications.schedule({
+                      notifications: [notification]
+                    })
+                  }
+                  return (
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    LocalNotifications as unknown as any
+                  ).sendNotification(notification)
+                })
+                .catch((err) => {
+                  WARN(err)
+                })
+            }
+          } else
             updateState.set(plugin.id, {
               status: UpdatePluginStatus.NOTHING
             })
@@ -341,6 +378,8 @@ export const usePluginStore = defineStore("plugin", () => {
       5
     )
   }
+
+  void checkUpdatePlugins(true)
 
   return {
     pluginMain,

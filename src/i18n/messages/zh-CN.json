@@ -265,5 +265,17 @@
   "msg-not-allow": "该版本的应用程序已被修改或未经授权，请下载该应用程序：",
   "ung-dung-da-dung-lai": "应用已停止",
   "bo-qua": "跳过",
-  "da-co-ban-cap-nhat-moi": "有新的更新可用"
+  "da-co-ban-cap-nhat-moi": "有新的更新可用",
+  "body-notify-update-plugin": "插件 {1}({2}) 的版本 {0} 可供下载",
+  "cap-nhat-plugin-plugin-name": "更新插件 {0}",
+  "chinh-sach-rieng-tu": "隐私政策",
+  "dieu-khoan-su-dung": "使用条款",
+  "khieu-nai-vi-pham": "违规行为投诉",
+  "kich-hoat-keep-alive": "激活保活",
+  "noi-dung-tai-xuong": "可下载的内容",
+  "tai-ung-dung": "下载这个软件",
+  "truyen-hot": "热门故事",
+  "ung-dung-nay": "这个应用程序",
+  "ve-chung-toi": "关于我们",
+  "yeu-thich": "最喜欢的"
 }

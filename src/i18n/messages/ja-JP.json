@@ -265,5 +265,17 @@
   "msg-not-allow": "このバージョンのアプリケーションは変更されているか、承認されていません。次の場所からアプリケーションをダウンロードしてください。",
   "ung-dung-da-dung-lai": "アプリケーションが停止しました",
   "bo-qua": "スキップ",
-  "da-co-ban-cap-nhat-moi": "新しいアップデートが利用可能です"
+  "da-co-ban-cap-nhat-moi": "新しいアップデートが利用可能です",
+  "body-notify-update-plugin": "プラグイン {1}({2}) のバージョン {0} をダウンロードできます",
+  "cap-nhat-plugin-plugin-name": "プラグイン {0} を更新します",
+  "chinh-sach-rieng-tu": "プライバシーポリシー",
+  "dieu-khoan-su-dung": "利用規約",
+  "khieu-nai-vi-pham": "違反の苦情",
+  "kich-hoat-keep-alive": "キープアライブをアクティブにする",
+  "noi-dung-tai-xuong": "ダウンロード可能なコンテンツ",
+  "tai-ung-dung": "アプリを取得する",
+  "truyen-hot": "熱い話",
+  "ung-dung-nay": "このアプリケーション",
+  "ve-chung-toi": "私たちについて",
+  "yeu-thich": "お気に入り"
 }

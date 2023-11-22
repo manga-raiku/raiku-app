@@ -175,7 +175,6 @@ pluginStore.busses.on("remove plugin", (id) => {
   data.value?.splice(data.value.findIndex((item) => item.id === id) >>> 0, 1)
 })
 
-void pluginStore.checkUpdatePlugins()
 const updatingMap = shallowReactive(new Set<string>())
 
 async function onClickUpdate(item: Pick<PackageDisk, "name" | "id">) {
