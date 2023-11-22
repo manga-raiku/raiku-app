@@ -94,7 +94,7 @@
     "ua-parser-js": "^1.0.33",
     "unplugin-vue-router": "^0.7.0",
     "uuid": "^9.0.1",
-    "vue": "^3.2.45",
+    "vue": "^3.3.8",
     "vue-gtag": "^2.0.1",
     "vue-i18n": "^9.6.5",
     "vue-request": "2.0.4",
