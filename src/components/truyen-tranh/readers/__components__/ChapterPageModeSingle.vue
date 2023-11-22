@@ -3,13 +3,17 @@
     class="w-full h-full display-inline-block overflow-auto relative scrollbar-hide"
     ref="parentRef"
     @mousedown.prevent="onMouseDown"
+    @touchstart="onTouchStart"
+    @touchmove="onTouchMove"
+    @touchend="onTouchEnd"
   >
     <div
       class="relative transition-width,height duration-444ms flex items-center justify-center"
       ref="overflowRef"
       :style="{
         width: `${zoom}%`,
-        height: `${zoom}%`
+        height: `${zoom}%`,
+        transition: touching ? 'none' : undefined
       }"
     >
       <PageView
@@ -53,6 +57,12 @@ watch(
 )
 
 const zoom = ref(100.0)
+const { onTouchStart, onTouchMove, onTouchEnd, scale, touching } =
+  useTouchZoom()
+
+watch(scale, (scale) => {
+  zoom.value += scale
+})
 
 const diffXZoom = scroller.x
 const diffYZoom = scroller.y

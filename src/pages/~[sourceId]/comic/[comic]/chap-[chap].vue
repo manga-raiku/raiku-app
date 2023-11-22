@@ -168,14 +168,22 @@ meta:
         v-if="$q.screen.gt.sm || scrollingMode"
         class="w-120px h-36px rounded-18px border border-[hsla(0,0%,100%,.4)] ml-10px mr-30px flex items-center flex-nowrap justify-between overflow-hidden"
       >
-        <button class="size-36px relative" v-ripple @click="zoom -= 5">
+        <button
+          class="size-36px relative"
+          v-ripple
+          @click="zoom -= zoom % 5 || 5"
+        >
           <i-iconamoon-sign-minus class="size-1.3em mx-auto" />
         </button>
         <span
           class="display-inline-block w-48px leading-36px text-12px color-[hsla(0,0%,100%,.5)] text-center"
           >{{ $t("val-per", [zoom]) }}</span
         >
-        <button class="size-36px relative" v-ripple @click="zoom += 5">
+        <button
+          class="size-36px relative"
+          v-ripple
+          @click="zoom += 5 - (zoom % 5) || 5"
+        >
           <i-iconamoon-sign-plus class="size-1.3em mx-auto" />
         </button>
       </div>
@@ -296,7 +304,7 @@ meta:
               </div>
 
               <div v-if="!data || loading" class="py-4 text-center">
-                <q-spinner color="sakura-3" size="40px" class="mx-auto" />
+                <q-spinner color="sakura3" size="40px" class="mx-auto" />
               </div>
               <ListChapters
                 v-else
@@ -368,7 +376,7 @@ meta:
                   class="mx-2"
                   no-caps
                   :outline="!scrollingMode"
-                  :color="!scrollingMode ? 'main-3' : undefined"
+                  :color="!scrollingMode ? 'sakura3' : undefined"
                   @click="scrollingMode = false"
                 >
                   <i-solar-posts-carousel-horizontal-bold-duotone
@@ -382,7 +390,7 @@ meta:
                   class="mx-2"
                   no-caps
                   :outline="scrollingMode"
-                  :color="scrollingMode ? 'main-3' : undefined"
+                  :color="scrollingMode ? 'sakura3' : undefined"
                   @click="scrollingMode = true"
                 >
                   <i-solar-posts-carousel-vertical-bold-duotone
@@ -402,7 +410,7 @@ meta:
                   class="mx-2"
                   no-caps
                   :outline="!singlePage"
-                  :color="!singlePage ? 'main-3' : undefined"
+                  :color="!singlePage ? 'sakura3' : undefined"
                   @click="singlePage = false"
                 >
                   {{ $t("song-anh") }}
@@ -413,7 +421,7 @@ meta:
                   class="mx-2"
                   no-caps
                   :outline="singlePage"
-                  :color="singlePage ? 'main-3' : undefined"
+                  :color="singlePage ? 'sakura3' : undefined"
                   @click="singlePage = true"
                 >
                   {{ $t("don-anh") }}
@@ -428,7 +436,7 @@ meta:
                   class="mx-2"
                   no-caps
                   :outline="!rightToLeft"
-                  :color="!rightToLeft ? 'main-3' : undefined"
+                  :color="!rightToLeft ? 'sakura3' : undefined"
                   @click="rightToLeft = false"
                 >
                   {{ $t("trai-sang-phai") }}
@@ -439,7 +447,7 @@ meta:
                   class="mx-2"
                   no-caps
                   :outline="rightToLeft"
-                  :color="rightToLeft ? 'main-3' : undefined"
+                  :color="rightToLeft ? 'sakura3' : undefined"
                   @click="rightToLeft = true"
                 >
                   {{ $t("phai-sang-trai") }}
@@ -458,7 +466,7 @@ meta:
                   no-caps
                   v-memo="[server === index]"
                   :outline="server === index"
-                  :color="server === index ? 'main-3' : undefined"
+                  :color="server === index ? 'sakura3' : undefined"
                   :disable="data && isFlag(data, FLAG_OFFLINE)"
                   @click="server = index"
                 />
@@ -505,7 +513,7 @@ meta:
               <div class="text-subtitle1 mb-1">{{ $t("binh-luan") }}</div>
 
               <div v-if="!data || loading" class="py-4 text-center">
-                <q-spinner color="sakura-3" size="40px" class="mx-auto" />
+                <q-spinner color="sakura3" size="40px" class="mx-auto" />
               </div>
               <div
                 v-else
