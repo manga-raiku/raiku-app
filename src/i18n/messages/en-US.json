@@ -265,5 +265,17 @@
   "msg-not-allow": "This version of the application has been modified or is not authorized please download the application at",
   "ung-dung-da-dung-lai": "The application has stopped",
   "bo-qua": "Skip",
-  "da-co-ban-cap-nhat-moi": "A new update is available"
+  "da-co-ban-cap-nhat-moi": "A new update is available",
+  "body-notify-update-plugin": "Version {0} of plugin {1}({2}) is available for download",
+  "cap-nhat-plugin-plugin-name": "Update plugin {0}",
+  "chinh-sach-rieng-tu": "Privacy policy",
+  "dieu-khoan-su-dung": "terms of use",
+  "khieu-nai-vi-pham": "Complaints of violations",
+  "kich-hoat-keep-alive": "Activate keep alive",
+  "noi-dung-tai-xuong": "Downloadable content",
+  "tai-ung-dung": "Get the app",
+  "truyen-hot": "Hot story",
+  "ung-dung-nay": "This application",
+  "ve-chung-toi": "About us",
+  "yeu-thich": "Favourite"
 }

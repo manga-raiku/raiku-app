@@ -275,5 +275,7 @@
   "tai-ung-dung": "Tải ứng dụng",
   "dieu-khoan-su-dung": "Điều khoản sử dụng",
   "chinh-sach-rieng-tu": "Chính sách riêng tư",
-  "khieu-nai-vi-pham": "Khiếu nại vi phạm"
+  "khieu-nai-vi-pham": "Khiếu nại vi phạm",
+  "cap-nhat-plugin-plugin-name": "Cập nhật plugin {0}",
+  "body-notify-update-plugin": "Phiên bản {0} của plugin {1}({2}) đã có sẵn để tải xuống"
 }
