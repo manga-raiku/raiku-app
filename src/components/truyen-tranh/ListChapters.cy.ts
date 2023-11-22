@@ -2,7 +2,10 @@
 import { createPinia, setActivePinia } from "pinia"
 import type { Chapter } from "raiku-pgs/plugin"
 
-import ListChapters from "./ListChapters.vue"
+import $ListChapters from "./ListChapters.vue"
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ListChapters = $ListChapters  as unknown as any
 
 setActivePinia(createPinia())
 
@@ -14,7 +17,7 @@ const route = {
     chap: ""
   }
 }
-const chapters_long: Chapter[] = [
+const chapters_long: readonly Chapter[] = [
   {
     route,
     name: "27",

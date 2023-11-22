@@ -5,5 +5,7 @@ declare namespace NodeJS {
     VUE_ROUTER_BASE: string | undefined
     SUPABASE_PROJECT_URL: string
     SUPABASE_PROJECT_KEY: string
+    GTAG_NAME: string
+    GTAG_ID: string
   }
 }
