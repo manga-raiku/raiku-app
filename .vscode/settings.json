@@ -70,7 +70,10 @@
     "src/pages/truyen-tranh/[zlug]/[epName]/[epId].vue": [
       "\nmeta:\n  hiddenHeader: true\n  hiddenDrawer: true\n  hiddenFooter: true\n"
     ],
-    "src/components/PluginManagerDialog.vue": ["install plugin"]
+    "src/components/PluginManagerDialog.vue": ["install plugin"],
+    "uno.config.ts": [
+      "overflow-y-scroll flex-shrink-1 mt-2 text-#eee text-opacity-70"
+    ]
   },
   "scss.lint.unknownAtRules": "ignore",
   "i18n-ally.sourceLanguage": "vi-VN",

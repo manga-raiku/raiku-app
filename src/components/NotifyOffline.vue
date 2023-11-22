@@ -17,14 +17,14 @@
               <q-btn
                 rounded
                 flat
-                color="main-3"
+                color="sakura3"
                 no-caps
                 @click="emit('update:modelValue', false)"
                 >{{ $t("khong-cam-on") }}</q-btn
               >
               <q-btn
                 rounded
-                color="main-3"
+                color="sakura3"
                 no-caps
                 class="text-black"
                 to="/library/offline"

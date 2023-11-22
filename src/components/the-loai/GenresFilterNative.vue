@@ -81,7 +81,7 @@
         outline
         class="font-size-inherit text-[rgba(255,255,255,0.86)] text-weight-normal my-1 !py-1 !px-3 min-h-0 mx-1"
         :class="{
-          '!text-main-3': getValueFilter(item)
+          '!text-sakura3': getValueFilter(item)
         }"
         @click="showOnlyFirst = false"
       >
@@ -138,7 +138,7 @@ watchImmediate(
   async () => {
     await nextTick()
     setTimeout(() => {
-      const el = overflowRefs[0]?.querySelector(".\\!text-main-3") as
+      const el = overflowRefs[0]?.querySelector(".\\!text-sakura3") as
         | HTMLDivElement
         | undefined
 

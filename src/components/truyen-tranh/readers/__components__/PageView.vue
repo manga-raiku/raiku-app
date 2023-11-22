@@ -28,7 +28,7 @@
 
     <q-btn
       outline
-      color="main-3"
+      color="sakura3"
       class="mt-2 text-black"
       @click="startLoad(src)"
       :label="$t('thu-lai')"

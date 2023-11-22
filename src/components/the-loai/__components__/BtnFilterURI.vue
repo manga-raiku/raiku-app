@@ -8,7 +8,7 @@
     :title="item.title"
     class="font-size-inherit text-[rgba(255,255,255,0.86)] before:!hidden text-weight-normal my-1 !py-1 !px-3 min-h-0"
     :class="{
-      '!text-main-3': item.route.params[filterParam] === route.params.type
+      '!text-sakura3': item.route.params[filterParam] === route.params.type
     }"
     >{{ item.name }}</q-btn
   >

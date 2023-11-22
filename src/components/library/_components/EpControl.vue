@@ -35,7 +35,7 @@
         : undefined
     "
     :value="data.downloaded / data.pages.length"
-    color="main-3"
+    color="sakura3"
     size="xs"
   />
 </template>

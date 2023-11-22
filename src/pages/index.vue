@@ -392,7 +392,7 @@ meta:
           no-caps
           rounded
           unelevated
-          class="text-15px font-family-poppins hover:!text-main-3 transition-color duration-200"
+          class="text-15px font-family-poppins hover:!text-sakura3 transition-color duration-200"
           >{{ item.name }}</q-btn
         >
       </div>
@@ -400,7 +400,7 @@ meta:
         no-caps
         rounded
         unelevated
-        class="text-15px font-family-poppins text-main-4"
+        class="text-15px font-family-poppins text-sakura4"
       >
         Tất cả thể loại
         <i-fluent-chevron-right-24-regular

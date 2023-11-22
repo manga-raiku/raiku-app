@@ -43,6 +43,12 @@ export default defineConfig({
     "text-blue-400",
     "bg-blue-400",
     "bg-gray-700",
-    "rounded-30px"
+    "rounded-30px",
+    "text-sakura",
+    "bg-sakura",
+    "text-sakura3",
+    "bg-sakura3",
+    "text-sakura4",
+    "bg-sakura4"
   ]
 })

@@ -34,7 +34,7 @@
               {{ $t("them-plugin") }}
             </o-button>
             <q-item-section side class="mr--2" @click="showEdit = !showEdit">
-              <q-btn rounded no-caps flat class="text-main-3">{{
+              <q-btn rounded no-caps flat class="text-sakura3">{{
                 showEdit ? $t("huy") : $t("sua")
               }}</q-btn>
             </q-item-section>
@@ -140,7 +140,7 @@
           {{ error }}
         </div>
         <div v-else class="flex items-center justify-center py-6">
-          <q-spinner size="40px" color="main-3" />
+          <q-spinner size="40px" color="sakura3" />
         </div>
       </q-card-section>
     </q-card>

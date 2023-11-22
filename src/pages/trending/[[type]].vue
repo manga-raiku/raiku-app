@@ -48,14 +48,14 @@ meta:
         <div class="trending-card__container">
           <div class="flex items-center justify-center">
             <!-- #AD8009 #09AD6B -->
-            <TrendingCardIconLeft class="text-main-4" />
+            <TrendingCardIconLeft class="text-sakura4" />
             <!-- #8c6b1c #548c76 -->
-            <span class="text-main-2 text-16px mx-2 text-weight-medium">{{
+            <span class="text-sakura2 text-16px mx-2 text-weight-medium">{{
               $t("bang-type", [
                 typesRank?.find((item) => item.value === type)?.name
               ])
             }}</span>
-            <TrendingCardIconRight class="rotate-180deg text-main-4" />
+            <TrendingCardIconRight class="rotate-180deg text-sakura4" />
           </div>
 
           <GenresFilter

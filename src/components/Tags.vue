@@ -37,7 +37,7 @@
       no-caps
       rounded
       unelevated
-      class="text-main-2 text-opacity-50 min-h-0 px-2 bg-light-100 bg-opacity-10 text-13px my-1 mx-1"
+      class="text-sakura2 text-opacity-50 min-h-0 px-2 bg-light-100 bg-opacity-10 text-13px my-1 mx-1"
       >{{ $t("tag-_val", [item.name.replace(/ /g, "_")]) }}</q-btn
     >
   </div>

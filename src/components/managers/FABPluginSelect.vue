@@ -89,7 +89,7 @@
           {{ error }}
         </div>
         <div v-else class="flex items-center justify-center py-6">
-          <q-spinner size="40px" color="main-3" />
+          <q-spinner size="40px" color="sakura3" />
         </div>
       </q-card-section>
     </q-card>

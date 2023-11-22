@@ -17,7 +17,7 @@
           clearable
           autofocus
           :placeholder="$t('placeholder-input-url-plugin')"
-          color="main-2"
+          color="sakura2"
           :rules="[
             (v) => !!v || $t('vui-long-nhap-dia-chi-plugin'),
             (v) =>
@@ -29,7 +29,7 @@
 
         <q-toggle
           v-model="devMode"
-          color="main-3"
+          color="sakura3"
           label="Dev Mode"
           class="ml--2"
         />
@@ -92,7 +92,7 @@
             {{ error }}
           </div>
           <div v-else class="flex items-center justify-center py-6">
-            <q-spinner size="40px" color="main-3" />
+            <q-spinner size="40px" color="sakura3" />
           </div>
         </div>
       </q-card-section>
@@ -103,7 +103,7 @@
           flat
           no-caps
           rounded
-          color="main-3"
+          color="sakura3"
           :disable="!pluginUrl"
           :loading="addingPlugin"
           @click="addPlugin(pluginUrl)"
