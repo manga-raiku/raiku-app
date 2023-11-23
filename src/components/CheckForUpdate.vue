@@ -33,10 +33,8 @@
           color="main"
           :label="$t('cap-nhat')"
           target="_blank"
-          :href="
-            newVersion?.assets[0]?.browser_download_url ??
-            'https://github.com/manga-raiku/raiku-app'
-          "
+          :loading="updating"
+          @click="update"
         />
       </q-card-actions>
     </q-card>
@@ -45,6 +43,9 @@
 
 <script lang="ts" setup>
 import { App } from "@capacitor/app"
+import { Browser } from "@capacitor/browser"
+import { SplashScreen } from "@capacitor/splash-screen"
+import { CapacitorUpdater } from "@capgo/capacitor-updater"
 import { version } from "app/package.json"
 import semverGt from "semver/functions/gt"
 
@@ -172,5 +173,41 @@ const latest = computed(() => {
 function ignoreUpdateVersion(version: string) {
   localStorage.setItem("ignore-update-version", version)
   newVersion.value = undefined
+}
+
+const updating = ref(false)
+async function update() {
+  if (!latest.value) return
+  //   newVersion?.assets[0]?.browser_download_url ??
+  // 'https://github.com/manga-raiku/raiku-app'
+
+  updating.value = true
+
+  try {
+    const data = await CapacitorUpdater.download({
+      url: latest.value.assets[1].browser_download_url,
+      version: latest.value.tag_name.slice(
+        latest.value.tag_name.indexOf("@") + 1,
+        latest.value.tag_name.indexOf("#")
+      )
+    })
+    console.log("download", data)
+
+    // Do the switch when user leave app or when you want
+    SplashScreen.show()
+
+    await CapacitorUpdater.set({ id: data.id })
+
+    SplashScreen.hide() // in case the set fail, otherwise the new app will have to hide it
+  } catch (err) {
+    WARN(err)
+    updating.value = false
+
+    Browser.open({
+      url:
+        latest.value.assets[0]?.browser_download_url ??
+        "https://github.com/manga-raiku/raiku-app/releases"
+    })
+  }
 }
 </script>

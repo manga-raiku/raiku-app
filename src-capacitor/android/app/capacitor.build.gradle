@@ -11,7 +11,10 @@ apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
     implementation project(':capacitor-app')
     implementation project(':capacitor-device')
+    implementation project(':capacitor-local-notifications')
     implementation project(':capacitor-network')
+    implementation project(':capacitor-status-bar')
+    implementation project(':capgo-capacitor-updater')
     implementation project(':tachibana-shin-capacitor-filesystem')
 
 }
