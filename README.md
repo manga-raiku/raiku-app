@@ -134,6 +134,7 @@ pnpm build:pwa
 ```
 
 ### To be on
+
 Moved to https://github.com/orgs/manga-raiku/projects/2
 
 ### Customize the configuration

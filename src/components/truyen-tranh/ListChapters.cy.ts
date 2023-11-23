@@ -5,7 +5,7 @@ import type { Chapter } from "raiku-pgs/plugin"
 import $ListChapters from "./ListChapters.vue"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ListChapters = $ListChapters  as unknown as any
+const ListChapters = $ListChapters as unknown as any
 
 setActivePinia(createPinia())
 

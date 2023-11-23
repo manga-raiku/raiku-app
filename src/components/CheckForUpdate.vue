@@ -194,16 +194,16 @@ async function update() {
     console.log("download", data)
 
     // Do the switch when user leave app or when you want
-    SplashScreen.show()
+    void SplashScreen.show()
 
     await CapacitorUpdater.set({ id: data.id })
 
-    SplashScreen.hide() // in case the set fail, otherwise the new app will have to hide it
+    void SplashScreen.hide() // in case the set fail, otherwise the new app will have to hide it
   } catch (err) {
     WARN(err)
     updating.value = false
 
-    Browser.open({
+    void Browser.open({
       url:
         latest.value.assets[0]?.browser_download_url ??
         "https://github.com/manga-raiku/raiku-app/releases"
