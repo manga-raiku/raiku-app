@@ -55,7 +55,15 @@ export default configure((/* ctx */) => {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ["supabase", "i18n", "head", "gtag", "local-notification", "unocss"],
+    boot: [
+      "supabase",
+      "i18n",
+      "head",
+      "gtag",
+      "local-notification",
+      "capgo",
+      "unocss"
+    ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ["app.scss"],

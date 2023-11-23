@@ -51,6 +51,9 @@ jobs:
       - name: Build Quasar
         run: pnpm build:android:ci
 
+      - name: Build zip update OTA
+        run: pnpm build:capgo
+
       - name: Build Android App
         uses: anime-vsub/android-build-action@1.2.1
         with:
@@ -94,7 +97,9 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: apk-release.apk
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+          path: |
+            {{steps.sign_app.outputs.signedReleaseFile}}
+            src-capacitor/git.shin.raiku_*.zip
 
       - name: Conventional Changelog Action
         uses: TriPSs/conventional-changelog-action@v3

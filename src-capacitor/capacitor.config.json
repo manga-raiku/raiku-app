@@ -4,8 +4,14 @@
   "bundledWebRuntime": false,
   "npmClient": "pnpm",
   "webDir": "www",
+  "plugins": {
+    "CapacitorUpdater": {
+      "autoUpdate": false,
+      "updateUrl": "https://services.mangaraiku.eu.org/v1/auto_update",
+      "statsUrl": ""
+    }
+  },
   "server": {
-    "androidScheme": "https",
-    "url": "http://192.168.0.104:9500"
+    "androidScheme": "https"
   }
 }

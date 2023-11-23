@@ -355,8 +355,10 @@ export const usePluginStore = defineStore("plugin", () => {
                   }
                   return (
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    LocalNotifications as unknown as any
-                  ).sendNotification(notification)
+                    (LocalNotifications as unknown as any).sendNotification(
+                      notification
+                    )
+                  )
                 })
                 .catch((err) => {
                   WARN(err)
