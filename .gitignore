@@ -47,3 +47,6 @@ coverage/
 
 # Local Netlify folder
 .netlify
+
+
+/src-capacitor/android/app/google-services.json

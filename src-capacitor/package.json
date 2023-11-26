@@ -5,6 +5,7 @@
   "author": "Tachibana Shin <45375496+tachibana-shin@users.noreply.github.com>",
   "private": true,
   "dependencies": {
+    "@capacitor-community/firebase-analytics": "^5.0.1",
     "@capacitor/android": "^5.5.1",
     "@capacitor/app": "^5.0.6",
     "@capacitor/browser": "^5.1.0",

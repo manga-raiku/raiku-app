@@ -79,6 +79,16 @@ jobs:
       - name: Install depends
         run: sh install.sh
 
+      - name: Read secrets
+        env:
+          SUPABASE_PROJECT_URL: ${{ secrets.SUPABASE_PROJECT_URL }}
+          SUPABASE_PROJECT_KEY: ${{ secrets.SUPABASE_PROJECT_KEY }}
+        run: |
+          echo '' > .env
+          echo 'SUPABASE_PROJECT_URL="${{ secrets.SUPABASE_PROJECT_URL }}"' >> .env
+          echo 'SUPABASE_PROJECT_KEY="${{ secrets.SUPABASE_PROJECT_KEY }}"' >> .env
+          echo '${{ secrets.GOOGLE_SERVICES }}' > src-capacitor/android/google-services.json
+
       - name: Build Quasar
         run: pnpm build:android:ci
 
