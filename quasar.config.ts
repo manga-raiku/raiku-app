@@ -22,8 +22,11 @@ dotenv.config()
 cleanEnv(process.env, {
   SUPABASE_PROJECT_URL: str(),
   SUPABASE_PROJECT_KEY: str(),
-  GTAG_NAME: str(),
-  GTAG_ID: str()
+  ...(process.env.MODE === "capacitor" || process.env.MODE === "cordova"
+    ? {
+        FIREBASE_CONFIG: str()
+      }
+    : {})
 })
 
 function removeDataTestAttrs(
@@ -60,6 +63,7 @@ export default configure((/* ctx */) => {
       "i18n",
       "head",
       "gtag",
+      "firebase-analytics",
       "local-notification",
       "capgo",
       "unocss"

@@ -45,8 +45,7 @@ jobs:
           echo '' > .env
           echo 'SUPABASE_PROJECT_URL="${{ secrets.SUPABASE_PROJECT_URL }}"' >> .env
           echo 'SUPABASE_PROJECT_KEY="${{ secrets.SUPABASE_PROJECT_KEY }}"' >> .env
-          echo 'GTAG_NAME="${{ secrets.GTAG_NAME }}"' >> .env
-          echo 'GTAG_ID="${{ secrets.GTAG_ID }}"' >> .env
+          echo '${{ secrets.GOOGLE_SERVICES }}' > src-capacitor/android/google-services.json
 
       - name: Build Quasar
         run: pnpm build:android:ci
