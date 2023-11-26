@@ -62,7 +62,6 @@ export default configure((/* ctx */) => {
       "supabase",
       "i18n",
       "head",
-      "gtag",
       "firebase-analytics",
       "local-notification",
       "capgo",
