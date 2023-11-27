@@ -50,7 +50,7 @@ export const vitePlugins: [
   [
     AutoImport,
     {
-      resolvers: [],
+      resolvers: [OnuResolver()],
       include: [/\.tsx?$/, /\.vue$/, /\.vue\?vue/],
       imports: [
         "vue",
