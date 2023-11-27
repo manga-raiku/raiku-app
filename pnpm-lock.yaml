@@ -16,10 +16,10 @@ importers:
         version: 5.0.6(@capacitor/core@5.5.1)
       '@firebase/analytics':
         specifier: ^0.10.0
-        version: 0.10.0(@firebase/app@0.9.23)
+        version: 0.10.0(@firebase/app@0.9.24)
       '@firebase/app':
-        specifier: ^0.9.23
-        version: 0.9.23
+        specifier: ^0.9.24
+        version: 0.9.24
       '@fontsource/caveat':
         specifier: ^5.0.15
         version: 5.0.15
@@ -3763,6 +3763,19 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@firebase/analytics@0.10.0(@firebase/app@0.9.24):
+    resolution: {integrity: sha512-Locv8gAqx0e+GX/0SI3dzmBY5e9kjVDtD+3zCFLJ0tH2hJwuCAiL+5WkHuxKj92rqQj/rvkBUCfA1ewlX2hehg==}
+    peerDependencies:
+      '@firebase/app': 0.x
+    dependencies:
+      '@firebase/app': 0.9.24
+      '@firebase/component': 0.6.4
+      '@firebase/installations': 0.6.4(@firebase/app@0.9.24)
+      '@firebase/logger': 0.4.0
+      '@firebase/util': 1.9.3
+      tslib: 2.6.2
+    dev: false
+
   /@firebase/app-check-compat@0.3.7(@firebase/app-compat@0.2.23)(@firebase/app@0.9.23):
     resolution: {integrity: sha512-cW682AxsyP1G+Z0/P7pO/WT2CzYlNxoNe5QejVarW2o5ZxeWSSPAiVEwpEpQR/bUlUmdeWThYTMvBWaopdBsqw==}
     peerDependencies:
@@ -3815,6 +3828,16 @@ packages:
 
   /@firebase/app@0.9.23:
     resolution: {integrity: sha512-CA5pQ88We3FhyuesGKn1thaPBsJSGJGm6AlFToOmEJagWqBeDoNJqBkry/BsHnCs9xeYWWIprKxvuFmAFkdqoA==}
+    dependencies:
+      '@firebase/component': 0.6.4
+      '@firebase/logger': 0.4.0
+      '@firebase/util': 1.9.3
+      idb: 7.1.1
+      tslib: 2.6.2
+    dev: false
+
+  /@firebase/app@0.9.24:
+    resolution: {integrity: sha512-hka/F1zNZ1mNE1cEj0uP6WNltuTZNldHkyqNLYCvfkXT4Ly+pChuUheRl0qccDWFLws9HyVXCNTtlfMmR+iq4w==}
     dependencies:
       '@firebase/component': 0.6.4
       '@firebase/logger': 0.4.0
@@ -4024,6 +4047,18 @@ packages:
       '@firebase/app': 0.x
     dependencies:
       '@firebase/app': 0.9.23
+      '@firebase/component': 0.6.4
+      '@firebase/util': 1.9.3
+      idb: 7.0.1
+      tslib: 2.6.2
+    dev: false
+
+  /@firebase/installations@0.6.4(@firebase/app@0.9.24):
+    resolution: {integrity: sha512-u5y88rtsp7NYkCHC3ElbFBrPtieUybZluXyzl7+4BsIz4sqb4vSAuwHEUgCgCeaQhvsnxDEU6icly8U9zsJigA==}
+    peerDependencies:
+      '@firebase/app': 0.x
+    dependencies:
+      '@firebase/app': 0.9.24
       '@firebase/component': 0.6.4
       '@firebase/util': 1.9.3
       idb: 7.0.1

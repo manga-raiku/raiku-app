@@ -56,7 +56,7 @@
     "@capacitor/device": "^5.0.6",
     "@capacitor/network": "^5.0.6",
     "@firebase/analytics": "^0.10.0",
-    "@firebase/app": "^0.9.23",
+    "@firebase/app": "^0.9.24",
     "@fontsource/caveat": "^5.0.15",
     "@fontsource/poppins": "^5.0.8",
     "@gtm-support/vue-gtm": "^2.2.0",
