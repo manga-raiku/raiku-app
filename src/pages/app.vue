@@ -14,7 +14,7 @@
     <div class="h-full overflow-y-auto scrollbar-custom">
       <q-list class="mx-2">
         <template
-          v-for="{ icon, text, to, href, switcher } in [
+          v-for="{ icon, text, to, href } in [
             {
               icon: Icons.document,
               text: $t('tai-khoan-cua-toi'),
@@ -52,9 +52,6 @@
                 />
               </q-item-label>
             </q-item-section>
-            <q-item-section v-if="switcher" side>
-              <q-switch v-model="switcher.value" />
-            </q-item-section>
           </q-item>
         </template>
       </q-list>
@@ -79,6 +76,7 @@ const router = useRouter()
 const route = useRoute()
 const i18n = useI18n()
 const settingsStore = useSettingsStore()
+const stateStore = useStateStore()
 
 const title = computed(() => i18n.t("ung-dung-nay"))
 const description = title
@@ -93,12 +91,74 @@ const buttons: ComputedRef<
   {
     href?: string
     to?: string
-    switcher?: Ref<boolean>
     icon: [Icon, Icon]
     text: string
     side?: Ref<string>
   }[]
 > = computed(() => [
+  {
+    to: "/app/settings",
+    icon: Icons.settings,
+    text: i18n.t("cai-dat")
+  },
+  {
+    divider: true,
+    to: "/app/settings/check-network",
+    icon: Icons.bug,
+    text: i18n.t("kiem-tra-loi-mang")
+  },
+  {
+    // to: "/app/settings/plugins",
+    onClick: () => (stateStore.showPluginManagerDialog = true),
+    icon: Icons.mingcute,
+    text: i18n.t("quan-ly-plugin")
+  },
+  {
+    onClick: () => (stateStore.showProxyManagerDialog = true),
+    icon: Icons.vpn,
+    text: i18n.t("quan-ly-proxy")
+  },
+  {
+    switcher: computed({
+      get: () => settingsStore.enableKeepAlive,
+      set: (v) => (settingsStore.enableKeepAlive = v)
+    }),
+    icon: [phTabsDuotone, phTabsDuotone],
+    text: i18n.t("kich-hoat-keep-alive")
+  },
+  {
+    divider: true,
+    href: "mailto://contact@mangaraiku.eu.org?title=Feedback%20app%20git.shin.raiku",
+    icon: Icons.info_circle,
+    text: i18n.t("phan-hoi-hoac-bao-loi")
+  },
+  {
+    href: "https://ko-fi.com/tachib_shin",
+    icon: Icons.user_heart,
+    text: i18n.t("tai-tro-ung-ho")
+  },
+  {
+    href: "https://github.com/manga-raiku/manga-raiku",
+    icon: Icons.code_bold,
+    text: i18n.t("ma-nguon-mo")
+  },
+  {
+    href: "https://mangaraiku.eu.org",
+    icon: [antDesignAppleOutlined, antDesignAppleOutlined],
+    text: i18n.t("pwa-cho-ios-va-desktop")
+  },
+  {
+    to: "/app/about",
+    icon: Icons.notebook,
+    text: i18n.t("gioi-thieu"),
+    side: computedAsync(async () => {
+      try {
+        return (await App.getInfo()).version
+      } catch {
+        return version
+      }
+    })
+  },
   {
     to: "/app/settings",
     icon: Icons.settings,
@@ -128,14 +188,6 @@ const buttons: ComputedRef<
     to: "/app/settings/check-network",
     icon: Icons.bug,
     text: i18n.t("kiem-tra-loi-mang")
-  },
-  {
-    switcher: computed({
-      get: () => settingsStore.enableKeepAlive,
-      set: (v) => (settingsStore.enableKeepAlive = v)
-    }),
-    icon: [phTabsDuotone, phTabsDuotone],
-    text: i18n.t("kich-hoat-keep-alive")
   },
   {
     to: "/app/about",
