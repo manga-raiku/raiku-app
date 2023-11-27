@@ -13,7 +13,30 @@ export const setUserProperty = FirebaseAnalytics.setUserProperty
 export const setUserId = FirebaseAnalytics.setUserId
 
 export default boot(({ router }) => {
-  router.afterEach((to) => {
+  router.afterEach((to, from) => {
+    if (to.path === from.path) return
+
     void setScreenName({ screenName: to.name?.toString() ?? to.path })
+
+    // screen view
+    void logEvent({
+      name: "screen_view",
+      params: {
+        ...to,
+        screen_name: to.name?.toString() ?? to.path
+      }
+    })
+
+    // page view
+    void logEvent({
+      name: "page_view",
+      params: {
+        ...to,
+        page_title: to.name?.toString() ?? to.path,
+        page_path: to.path,
+        page_location: window.location?.href,
+        send_page_view: true
+      }
+    })
   })
 })
