@@ -119,7 +119,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (name: "update:zoom", value: number): void
   (name: "update:current-page", value: number): void
-  // (name: "prev"): void
+    // (name: "prev"): void
   // (name: "next"): void
 }>()
 
@@ -370,7 +370,7 @@ function onWheel(event: WheelEvent) {
 useEventListener(window, "mousemove", onMouseMove)
 useEventListener(window, "mouseup", onMouseUp)
 
-let mousezooming = false
+let mousezooming = true
 let mouseDownClientX = 0
 let mouseDownClientY = 0
 function onMouseDownCheckClick(event: MouseEvent | TouchEvent) {
@@ -407,6 +407,8 @@ function onMouseUpCheckClick(event: MouseEvent | TouchEvent) {
     if (directionLeft) prev()
     else next()
   }
+
+  mousezooming = true
 }
 
 useEventListener(window, "mousemove", onMouseMove)

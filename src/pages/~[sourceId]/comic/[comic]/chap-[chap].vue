@@ -90,7 +90,11 @@ meta:
     class="fixed top-0 w-full"
   >
     <!-- reader -->
-    <template v-if="data && !loading && pages">
+    <div
+      v-if="data && !loading && pages"
+      class="h-full relative"
+      @click="onClickReader(false)"
+    >
       <ReaderHorizontal
         v-if="!scrollingMode"
         ref="readerHorizontalRef"
@@ -101,7 +105,6 @@ meta:
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
         :next-episode="nextEpisode?.value.route"
-        @click="onClickReader"
       />
       <ReaderVertical
         v-else
@@ -110,10 +113,15 @@ meta:
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
         :next-episode="nextEpisode?.value.route"
-        @click="onClickReader"
-        @action:next-ch="nextCh"
       />
-    </template>
+
+      <div
+        v-show="showOverlayReader"
+        @mousedown.stop
+        @click.stop="onClickReader(true)"
+        class="absolute top-0 left-0 size-100% z-10000"
+      />
+    </div>
     <ErrorDisplay
       v-else-if="error"
       :error="error"
@@ -149,7 +157,11 @@ meta:
       :size-old-pages="0"
     />
 
-    <FabShowToolbar v-if="$q.screen.gt.sm" @click="showToolbar = true" />
+    <FabShowToolbar
+      v-if="$q.screen.gt.sm"
+      @mousedown.stop.prevent
+      @click.stop.prevent="showToolbar = showOverlayReader = true"
+    />
 
     <!-- tutorial reader -->
     <TutorialModeHorizontal
@@ -880,11 +892,15 @@ watch(scrollingMode, (scrollingMode) => {
   showTutorialHorizontal.value = !scrollingMode
 })
 
-function onClickReader() {
-  if ($q.screen.gt.xs) {
+const showOverlayReader = ref(true)
+function onClickReader(fromOverlay: boolean) {
+  if ($q.screen.gt.sm) {
+    if (!showToolbar.value) return
     showToolbar.value = false
+    if (fromOverlay) showOverlayReader.value = false
   } else {
     showToolbar.value = !showToolbar.value
+    if (fromOverlay) showOverlayReader.value = false
   }
 }
 
