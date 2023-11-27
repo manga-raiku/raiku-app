@@ -21,6 +21,7 @@
       :transition-show="$q.screen.lt.md ? 'jump-up' : undefined"
       :transition-hide="$q.screen.lt.md ? 'jump-down' : undefined"
       :transition-duration="$q.screen.lt.md ? 100 : undefined"
+      max-height="min(90%, calc(100% - 56px))"
     >
       <q-toolbar v-if="$q.screen.lt.md">
         <q-btn round v-close-popup>
@@ -165,6 +166,10 @@
                   </template>
                   <i-fluent-chevron-right-24-regular v-else />
                 </q-item-section>
+
+                <q-item-section v-if="item.switcher" side>
+                  <q-toggle v-model="item.switcher.value" />
+                </q-item-section>
               </q-item>
             </template>
           </q-list>
@@ -250,6 +255,7 @@ import { installedSW, updatingCache } from "src/logic/state-sw"
 import langs from "virtual:i18n-langs"
 
 import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
+import phTabsDuotone from "~icons/ph/tabs-duotone"
 
 defineOptions({
   inheritAttrs: false
@@ -271,6 +277,7 @@ watch(showMenuAccount, (val) => {
 })
 
 const buttons: {
+  switcher?: Ref<boolean>
   divider?: true
   href?: string
   to?: string
@@ -306,6 +313,14 @@ const buttons: {
     onClick: () => (stateStore.showProxyManagerDialog = true),
     icon: Icons.vpn,
     text: i18n.t("quan-ly-proxy")
+  },
+  {
+    switcher: computed({
+      get: () => settingsStore.enableKeepAlive,
+      set: (v) => (settingsStore.enableKeepAlive = v)
+    }),
+    icon: [phTabsDuotone, phTabsDuotone],
+    text: i18n.t("kich-hoat-keep-alive")
   },
   {
     divider: true,
