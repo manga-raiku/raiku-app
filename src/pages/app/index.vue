@@ -141,12 +141,7 @@ meta:
                 </div>
 
                 <small class="text-0.95em text-gray-300 mt-2">
-                  {{
-                    $t("da-doc")
-                    }} {{
-                      dayjs(item.$updated_at).fromNow()
-
-                  }}
+                  {{ $t("da-doc") }} {{ dayjs(item.$updated_at).fromNow() }}
                 </small>
               </div>
             </div>
@@ -307,7 +302,7 @@ const {
 const {
   data: followData,
   error: followError,
-  loading: followLoading,
+  loading: followLoading
 } = useRequest(() => followStore.get())
 
 const buttons: ComputedRef<

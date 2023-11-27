@@ -119,7 +119,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (name: "update:zoom", value: number): void
   (name: "update:current-page", value: number): void
-    // (name: "prev"): void
+  // (name: "prev"): void
   // (name: "next"): void
 }>()
 

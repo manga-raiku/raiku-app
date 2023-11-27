@@ -22,7 +22,7 @@ export default defineConfig({
   rules: [
     [/^size-\[?([^[\]]+)\]?/, ([, value]) => ({ width: value, height: value })],
     [/^font-family-(.+)/, ([, value]) => ({ "font-family": value })],
-    [/^font-size-(.+)/, ([, value]) => ({ "font-size": value })],
+    [/^font-size-(.+)/, ([, value]) => ({ "font-size": value })]
   ],
   transformers: [transformerDirectives()],
   theme: {

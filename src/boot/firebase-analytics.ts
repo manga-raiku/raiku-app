@@ -13,7 +13,7 @@ export const setUserProperty = FirebaseAnalytics.setUserProperty
 export const setUserId = FirebaseAnalytics.setUserId
 
 export default boot(({ router }) => {
-  router.afterEach((to,) => {
+  router.afterEach((to) => {
     void setScreenName({ screenName: to.name?.toString() ?? to.path })
   })
 })
