@@ -74,39 +74,158 @@ meta:
     /> -->
 
     <div class="px-4">
-      <q-list padding class="pt-0">
-        <q-item
-          v-if="!authStore.profile"
-          clickable
-          v-ripple
-          to="/app/sign-in?redirect=/app"
-          class="mx--4"
-        >
-          <q-item-section avatar>
-            <q-avatar class="size-50px">
-              <i-solar-user-circle-bold-duotone class="size-50px" />
-            </q-avatar>
-          </q-item-section>
-          <q-item-section class="text-16px">
-            <q-item-label>{{ $t("dang-nhap") }}</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item v-else clickable v-ripple to="/app/myaccount">
-          <q-item-section avatar>
-            <q-avatar size="50px">
-              <img
-                :src="
-                  authStore.profile?.avatar_url ??
-                  `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
-                "
-              />
-            </q-avatar>
-          </q-item-section>
-          <q-item-section class="text-16px">
-            <q-item-label>{{ authStore.profile?.full_name }}</q-item-label>
-          </q-item-section>
-        </q-item>
+      <q-item
+        v-if="!authStore.profile"
+        clickable
+        v-ripple
+        to="/app/sign-in?redirect=/app"
+        class="mx--4"
+      >
+        <q-item-section avatar>
+          <q-avatar class="size-50px">
+            <i-solar-user-circle-bold-duotone class="size-50px" />
+          </q-avatar>
+        </q-item-section>
+        <q-item-section class="text-16px">
+          <q-item-label>{{ $t("dang-nhap") }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item v-else clickable v-ripple to="/app/myaccount">
+        <q-item-section avatar>
+          <q-avatar size="50px">
+            <img
+              :src="
+                authStore.profile?.avatar_url ??
+                `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
+              "
+            />
+          </q-avatar>
+        </q-item-section>
+        <q-item-section class="text-16px">
+          <q-item-label>{{ authStore.profile?.full_name }}</q-item-label>
+        </q-item-section>
+      </q-item>
 
+      <!-- history -->
+      <div v-if="authStore.session">
+        <h5 class="text-subtitle1">{{ $t("lich-su-doc") }}</h5>
+        <div class="flex flex-nowrap overflow-x-auto mx--2 mt-1">
+          <template v-if="historyData && !historyLoading">
+            <div
+              v-for="item in historyData"
+              :key="item.manga_name"
+              class="px-2"
+            >
+              <div class="relative">
+                <q-img
+                  no-spinner
+                  :src="item.image"
+                  referrerpolicy="no-referrer"
+                  :ratio="190 / 247"
+                  width="120px"
+                  class="rounded-lg"
+                >
+                  <BottomBlur>
+                    <small
+                      class="text-1em text-gray-300 line-clamp-2 mt-1 leading-snug"
+                    >
+                      {{ $t("chuong-name", [item.last_ch_name]) }}
+                    </small>
+                  </BottomBlur>
+                </q-img>
+              </div>
+
+              <div class="mt-2">
+                <div class="text-1.15em text-#eee leading-snug line-clamp-2">
+                  {{ item.manga_name }}
+                </div>
+
+                <small class="text-0.95em text-gray-300 mt-2">
+                  {{
+                    $t("da-doc")
+                    }} {{
+                      dayjs(item.$updated_at).fromNow()
+
+                  }}
+                </small>
+              </div>
+            </div>
+          </template>
+          <div v-else-if="historyError" class="text-center px-4 py-6">
+            {{ historyError }}
+          </div>
+
+          <div v-else v-for="item in 10" :key="item" class="px-2">
+            <div class="relative">
+              <q-skeleton
+                type="rect"
+                width="120px"
+                :height="(247 / 190) * 120 + 'px'"
+                class="rounded-lg"
+              />
+            </div>
+
+            <div class="mt-2">
+              <div class="text-1.15em text-#eee leading-snug line-clamp-2">
+                <q-skeleton type="text" />
+                <q-skeleton type="text" width="30%" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /history -->
+
+      <!-- follow -->
+      <div v-if="authStore.session" class="mt-4">
+        <h5 class="text-subtitle1">{{ $t("truyen-dang-theo-doi") }}</h5>
+        <div class="flex flex-nowrap overflow-x-auto mx--2 mt-1">
+          <template v-if="followData && !followLoading">
+            <div v-for="item in followData" :key="item.manga_name" class="px-2">
+              <div class="relative">
+                <q-img
+                  no-spinner
+                  :src="item.image"
+                  referrerpolicy="no-referrer"
+                  :ratio="190 / 247"
+                  width="120px"
+                  class="rounded-lg"
+                >
+                </q-img>
+              </div>
+
+              <div class="mt-2">
+                <div class="text-1.15em text-#eee leading-snug line-clamp-2">
+                  {{ item.manga_name }}
+                </div>
+              </div>
+            </div>
+          </template>
+          <div v-else-if="followError" class="text-center px-4 py-6">
+            {{ followError }}
+          </div>
+          <div v-else v-for="item in 10" :key="item" class="px-2">
+            <div class="relative">
+              <q-skeleton
+                type="rect"
+                width="120px"
+                :height="(247 / 190) * 120 + 'px'"
+                class="rounded-lg"
+              />
+            </div>
+
+            <div class="mt-2">
+              <div class="text-1.15em text-#eee leading-snug line-clamp-2">
+                <q-skeleton type="text" />
+                <q-skeleton type="text" width="30%" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /follow -->
+
+      <q-list padding class="pt-0">
         <template v-for="item in buttons" :key="item.text">
           <q-separator v-if="item.divider" class="bg-[rgba(255,255,255,0.1)]" />
 
@@ -157,6 +276,7 @@ import { Http } from "client-ext-animevsub-helper"
 import { Icons } from "src/Icons"
 import type { Icon } from "src/Icons"
 import { APP_NATIVE_MOBILE, APP_STANDALONE } from "src/constants"
+import dayjs from "src/logic/dayjs"
 
 import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
 import phTabsDuotone from "~icons/ph/tabs-duotone"
@@ -166,8 +286,29 @@ const $q = useQuasar()
 const i18n = useI18n()
 const settingsStore = useSettingsStore()
 const stateStore = useStateStore()
+const historyStore = useHistoryStore()
+const followStore = useFollowStore()
 
 const showSearchMB = ref(false)
+
+const {
+  data: historyData,
+  error: historyError,
+  loading: historyLoading
+} = useRequest(() =>
+  historyStore.get().then((res) =>
+    res.map((item) => ({
+      ...item,
+      $updated_at: item.updated_at,
+      updated_at: dayjs(item.updated_at)
+    }))
+  )
+)
+const {
+  data: followData,
+  error: followError,
+  loading: followLoading,
+} = useRequest(() => followStore.get())
 
 const buttons: ComputedRef<
   {
@@ -269,5 +410,6 @@ watch(canvasRef, (ref) => {
     size: cover;
   }
   filter: blur(9px) brightness(0.6);
+  z-index: -1;
 }
 </style>
