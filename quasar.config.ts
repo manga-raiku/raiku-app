@@ -21,12 +21,7 @@ dotenv.config()
 
 cleanEnv(process.env, {
   SUPABASE_PROJECT_URL: str(),
-  SUPABASE_PROJECT_KEY: str(),
-  ...(process.env.MODE === "capacitor" || process.env.MODE === "cordova"
-    ? {
-        FIREBASE_CONFIG: str()
-      }
-    : {})
+  SUPABASE_PROJECT_KEY: str()
 })
 
 function removeDataTestAttrs(

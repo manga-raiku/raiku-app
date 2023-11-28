@@ -38,17 +38,17 @@ meta:
 
           <div class="text-gray-400 text-13px text-center mb-5">
             {{
-              sendedEmail
+              step2
                 ? $t("buoc-2-2-dat-mat-khau-moi")
                 : $t("buoc-1-2-nhap-e-mail-cua-ban")
             }}
           </div>
 
           <q-form
-            @submit.prevent="sendedEmail ? updatePassword() : resetPassword()"
+            @submit.prevent="step2 ? updatePassword() : resetPassword()"
             ref="qFormRef"
           >
-            <template v-if="!sendedEmail">
+            <template v-if="!step2">
               <q-card-section>
                 <p class="text-gray-400">
                   {{ $t("vui-long-nhap-dia-chi-email-tai-khoan-cua-ban") }}
@@ -145,6 +145,7 @@ import { QForm } from "quasar"
 // import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 
 const $q = useQuasar()
+const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 const i18n = useI18n()
@@ -164,6 +165,7 @@ const password = ref("")
 const showPassword = ref(false)
 
 const sendedEmail = ref(false)
+const step2 = computed(() => "next" in route.query)
 
 async function resetPassword() {
   const loader = $q.loading.show({
@@ -218,7 +220,13 @@ async function updatePassword() {
     message: i18n.t("da-cap-nhat-mat-khau")
   })
 
-  router.back()
+  if (router.options.history.state.back === "/app/forgot-password") {
+    if (history.length >= 2) router.go(-2)
+    else void router.replace("/app")
+  } else {
+    if (history.length >= 1) router.go(-1)
+    else void router.replace("/app")
+  }
 }
 </script>
 

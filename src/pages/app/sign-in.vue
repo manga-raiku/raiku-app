@@ -36,7 +36,7 @@ meta:
             <div class="card-bg-blue top--20%"></div>
           </div>
 
-          <q-form @submit.prevent="login" ref="qFormRef">
+          <q-form @submit.prevent="login()" ref="qFormRef">
             <q-card-section>
               <q-input
                 v-model="email"
@@ -145,7 +145,7 @@ meta:
                 no-caps
                 no-wrap
                 class="w-full max-w-420px mx-auto text-#fff text-opacity-20 py-2 mt-2"
-                @click="authStore.signInOAuth2('twitter')"
+                @click="login('twitter')"
               >
                 <div class="w-full flex flex-items pl-8 relative">
                   <i-logos-twitter class="size-1.5em mr-10" />
@@ -160,7 +160,7 @@ meta:
                 no-caps
                 no-wrap
                 class="w-full max-w-420px mx-auto text-#fff text-opacity-20 py-2 mt-2"
-                @click="authStore.signInOAuth2('google')"
+                @click="login('google')"
               >
                 <div class="w-full flex flex-items pl-8 relative">
                   <i-logos-google-icon class="size-1.5em mr-10" />
@@ -222,33 +222,44 @@ const password = ref("")
 const accept = ref(false)
 const showPassword = ref(false)
 
-async function login() {
+async function login(provider?: "google" | "twitter") {
   const loader = $q.loading.show({
     spinnerColor: "main-3",
     spinnerSize: 40
   })
 
-  const { data, error } = await authStore.signIn(email.value, password.value)
+  try {
+    const { data, error } = provider
+      ? await authStore.signInOAuth2(provider)
+      : await authStore.signIn(email.value, password.value)
 
-  loader()
+    loader()
 
-  if (error) {
+    if (error) {
+      $q.notify({
+        message:
+          error.status === 209
+            ? "Việc đăng nhập đã bị hủy bởi người dùng"
+            : i18n.t("dang-nhap-that-bai-code-status", [error.status]) +
+              (import.meta.env.DEV ? `(${error.message})` : "")
+      })
+
+      return
+    }
+
+    if ("user" in data)
+      $q.notify({
+        message: i18n.t("da-dang-nhap-voi-tu-cach-_user", [
+          data.user?.user_metadata.name ?? data.user?.email
+        ])
+      })
+  } catch (err) {
     $q.notify({
-      message:
-        i18n.t("dang-nhap-that-bai-code-status", [error.status]) +
-        (import.meta.env.DEV ? `(${error.message})` : "")
+      message: err + ""
     })
-
-    return
   }
 
-  $q.notify({
-    message: i18n.t("da-dang-nhap-voi-tu-cach-_user", [
-      data.user.user_metadata.name ?? data.user.email
-    ])
-  })
-
-  void router.push((route.query.redirectTo ?? "/") + "")
+  if (route.query.redirect) void router.push((route.query.redirect ?? "/") + "")
 }
 </script>
 

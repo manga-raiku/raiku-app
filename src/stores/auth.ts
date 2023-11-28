@@ -1,8 +1,43 @@
-import type { Session, UserAttributes } from "@supabase/supabase-js"
+import { App } from "@capacitor/app"
+import { Browser } from "@capacitor/browser"
+import type {
+  AuthResponse,
+  OAuthResponse,
+  Session,
+  UserAttributes
+} from "@supabase/supabase-js"
+import { AuthError } from "@supabase/supabase-js"
 import type { Database } from "app/database"
+import { packageName } from "app/package.json"
 import { defineStore } from "pinia"
+import { AuthError as AuthErrorApp } from "src/errors/auth"
 
 export const useAuthStore = defineStore("auth", () => {
+  if (APP_NATIVE_MOBILE) {
+    const router = useRouter()
+
+    void App.addListener("appUrlOpen", async ({ url }) => {
+      const [path, hash] = url.slice(url.indexOf("://") + 3).split("#", 2)
+
+      switch (path) {
+        case "forgot-password": {
+          const query = new URLSearchParams(hash)
+          const result = await supabase.auth.setSession({
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            access_token: query.get("access_token")!,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            refresh_token: query.get("refresh_token")!
+          })
+
+          if (result.error) WARN(result)
+          else void router.push(`/app/forgot-password?next#${hash}`)
+
+          break
+        }
+      }
+    })
+  }
+
   const session = shallowRef<Session | null>(null)
   let controllerUpdateProfile: AbortController | null = null
   const profile = computedAsync<
@@ -54,11 +89,88 @@ export const useAuthStore = defineStore("auth", () => {
       password
     })
   }
-  async function signInOAuth2(provider: "google" | "twitter") {
-    return supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: location.href
+  async function signInOAuth2(
+    provider: "google" | "twitter"
+  ): Promise<OAuthResponse | AuthResponse> {
+    if (!APP_NATIVE_MOBILE)
+      return supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: location.href
+        }
+      })
+
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+      let removeListenAppUrlOpen: () => void
+      let removeListenBrowserFinished: () => void
+      try {
+        removeListenAppUrlOpen = await App.addListener(
+          "appUrlOpen",
+          async ({ url }) => {
+            try {
+              const [path, hash] = url
+                .slice(url.indexOf("://") + 3)
+                .split("#", 2)
+
+              switch (path) {
+                case "auth": {
+                  const query = new URLSearchParams(hash)
+                  removeListenAppUrlOpen()
+                  removeListenBrowserFinished()
+                  void Browser.close()
+                  const result = await supabase.auth.setSession({
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    access_token: query.get("access_token")!,
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    refresh_token: query.get("refresh_token")!
+                  })
+
+                  resolve(result)
+                  break
+                }
+              }
+            } catch (err) {
+              removeListenAppUrlOpen()
+              removeListenBrowserFinished()
+              void Browser.close()
+              reject(err)
+            }
+          }
+        ).then((res) => res.remove)
+        removeListenBrowserFinished = await Browser.addListener(
+          "browserFinished",
+          () => {
+            removeListenAppUrlOpen()
+            removeListenBrowserFinished()
+            resolve({
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              data: null as unknown as any,
+              error: new AuthError("Login OAuth canceled by user.", 209)
+              //   name: "canceled_by_user",
+              //   __isAuthError: true,
+              // }
+            })
+          }
+        ).then((res) => res.remove)
+
+        const { data } = await supabase.auth.signInWithOAuth({
+          provider,
+          options: {
+            skipBrowserRedirect: true,
+            redirectTo: `${packageName}://auth`
+          }
+        })
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        await Browser.open({ url: data.url! })
+      } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        removeListenAppUrlOpen!()
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        removeListenBrowserFinished!()
+        void Browser.close()
+        reject(err)
       }
     })
   }
@@ -69,8 +181,10 @@ export const useAuthStore = defineStore("auth", () => {
     return await supabase.auth.signUp({ email, password })
   }
   async function resetPassword(email: string) {
-    return await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${location.protocol}://${location.pathname}/update-password`
+    return supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: APP_NATIVE_MOBILE
+        ? `${packageName}://forgot-password`
+        : `${location.protocol}://${location.host}?app/forgot-password?next`
     })
   }
   async function setNewPassword(password: string) {
@@ -93,7 +207,7 @@ export const useAuthStore = defineStore("auth", () => {
   async function assert() {
     await setup.value
     // eslint-disable-next-line functional/no-throw-statement
-    if (!session.value) throw new AuthError(AuthError.Code.REQUIRED_LOGIN)
+    if (!session.value) throw new AuthErrorApp(AuthErrorApp.Code.REQUIRED_LOGIN)
 
     return session.value
   }
