@@ -2,7 +2,7 @@
 import { FirebaseAnalytics } from "@capacitor-community/firebase-analytics"
 import { boot } from "quasar/wrappers"
 
-if (APP_NATIVE_MOBILE)
+if (!APP_NATIVE_MOBILE)
   void FirebaseAnalytics.initializeFirebase(
     JSON.parse(process.env.FIREBASE_CONFIG)
   )
