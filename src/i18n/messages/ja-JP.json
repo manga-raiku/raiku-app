@@ -281,5 +281,7 @@
   "msg-cancel-login-oauth": "ユーザーによってログインがキャンセルされました",
   "dang-cap-phep-oauth-2": "OAuth 2 のライセンス...",
   "msg-oauth2-tab": "このページは、認証を受けるためのポップアップでのみ開くことができます",
-  "trang-chinh": "メインページ"
+  "trang-chinh": "メインページ",
+  "enter": "入力",
+  "tim-kiem-_keyword": "検索："
 }

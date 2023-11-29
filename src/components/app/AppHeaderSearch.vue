@@ -42,7 +42,7 @@
 
     <transition name="q-transition--fade">
       <ul
-        class="absolute w-full bg-dark-page left-0 max-h-[80vh] overflow-y-auto scrollbar-custom pb-4 top-[calc(100%+8px)] !shadow-8"
+        class="absolute w-full bg-dark-page rounded-xl left-0 max-h-[80vh] overflow-y-auto scrollbar-custom pt-2 py-4 top-[calc(100%+8px)] !shadow-8"
         v-show="focusing"
         @click.stop.prevent
         @mousedown="
@@ -82,13 +82,19 @@
           </div>
         </li>
         <template
-          v-else-if="searchResult?.length"
+          v-else-if="query && searchResult?.length"
           v-for="{ meta, promise } in searchResult"
           :key="meta.id"
         >
-          <li class="relative text-gray-400 text-12px">{{ meta.name }}</li>
+          <li class="relative text-gray-400 text-12px mx-4">{{ meta.name }}</li>
+          <li v-if="!promise.value">
+            <div class="w-full">
+              <q-spinner size="1.5em" class="my-6 mx-10" />
+            </div>
+          </li>
           <li
-            v-for="item in promise.value"
+            v-else-if="promise.value.ok && promise.value.data.length > 0"
+            v-for="item in promise.value.data"
             :key="item.name"
             class="relative"
             v-ripple
@@ -107,15 +113,38 @@
               </div>
 
               <div class="ml-2">
-                <div class="text-subtitle1 text-weight-medium">
+                <div class="text-subtitle1 text-weight-medium leading-normal">
                   {{ item.name }}
                 </div>
-                <div v-if="item.othername" class="text-12px">
+                <div v-if="item.othername" class="text-12px text-gray-300 mt-1">
                   {{ item.othername }}
                 </div>
-                <div class="text-gray-500">{{ item.last_chapter }}</div>
+                <div class="text-gray-500 mt-1">
+                  {{ $t("chuong-name", [item.last_chapter]) }}
+                </div>
               </div>
             </router-link>
+          </li>
+          <li v-else-if="promise.value.ok && promise.value.data.length === 0">
+            <div
+              class="text-gray-300 py-6 px-10 w-full text-center q-my-sm text-16px"
+            >
+              <div class="text-18px leading-normal text-white mb-1">
+                {{ randomEmoji("sad") }}
+              </div>
+
+              {{ $t("khong-co-ket-qua") }}
+            </div>
+          </li>
+          <li v-else>
+            <div class="text-20px text-weight-normal q-my-sm">
+              {{ $t("rat-tiec-da-xay-ra-loi") }}
+            </div>
+            <div
+              class="text-subtitle2 text-weight-normal leading-normal text-gray-200 q-my-sm"
+            >
+              {{ promise.value.data + "" }}
+            </div>
           </li>
         </template>
         <li v-else class="px-4 py-5 text-center text-gray-400 w-full">
@@ -129,6 +158,7 @@
 <script lang="ts" setup>
 import { useEventListener } from "@vueuse/core"
 import { debounce, QInput } from "quasar"
+import { randomEmoji } from "src/logic/emoji-charater"
 
 // const props = defineProps<{
 //   sourceId: string
@@ -161,8 +191,24 @@ const {
             return {
               meta,
               promise: computedAsync<
-                Awaited<ReturnType<typeof plugin.searchQuickly>> | undefined
-              >(() => plugin.searchQuickly(query.value, 1))
+                | {
+                    ok: true
+                    data: Awaited<ReturnType<typeof plugin.searchQuickly>>
+                  }
+                | {
+                    ok: false
+                    data: unknown
+                  }
+              >(async () => {
+                try {
+                  return {
+                    ok: true,
+                    data: await plugin.searchQuickly(query.value, 1)
+                  }
+                } catch (err) {
+                  return { ok: false, data: err }
+                }
+              })
             }
           })
         )

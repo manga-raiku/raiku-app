@@ -88,8 +88,8 @@
                   <div class="max-w-full line-clamp-1">
                     {{ typeof item === "object" ? item.name : item }}
                   </div>
-                  <div v-if="typeof item === 'object'" class="text-grey pl-2">
-                    - {{ item.last_chapter }}
+                  <div v-if="typeof item === 'object'" class="text-gray-500 pl-2">
+                    - {{ $t("chuong-name", [item.last_chapter]) }}
                   </div>
                 </q-item-label>
               </q-item-section>

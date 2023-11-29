@@ -281,5 +281,7 @@
   "msg-cancel-login-oauth": "Việc đăng nhập đã bị hủy bởi người dùng",
   "msg-oauth2-tab": "Trang này chỉ có thể mở bằng popup để nhận xác thực",
   "trang-chinh": "Trang chính",
-  "dang-cap-phep-oauth-2": "Đang cấp phép OAuth 2..."
+  "dang-cap-phep-oauth-2": "Đang cấp phép OAuth 2...",
+  "tim-kiem-_keyword": "Tìm kiếm:",
+  "enter": "Enter"
 }

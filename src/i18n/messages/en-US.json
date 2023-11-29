@@ -281,5 +281,7 @@
   "msg-cancel-login-oauth": "The login has been canceled by the user",
   "dang-cap-phep-oauth-2": "Licensing OAuth 2...",
   "msg-oauth2-tab": "This page can only be opened with a popup to receive authentication",
-  "trang-chinh": "Main page"
+  "trang-chinh": "Main page",
+  "enter": "Enter",
+  "tim-kiem-_keyword": "Search:"
 }
