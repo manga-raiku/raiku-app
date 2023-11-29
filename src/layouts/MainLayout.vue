@@ -74,6 +74,7 @@ const settingsStore = useSettingsStore()
 const networkStore = useNetworkStore()
 
 const showDrawer = ref(false)
+watch(route, () => (showDrawer.value = false))
 
 // ======== offline control ========
 const showNotifyOffline = ref(false)
