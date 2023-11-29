@@ -13,10 +13,8 @@ meta:
 <template>
   <q-page
     :style-fn="
-      (offset, height) => {
-        return {
-          height: height + 'px'
-        }
+      () => {
+        return {}
       }
     "
   >

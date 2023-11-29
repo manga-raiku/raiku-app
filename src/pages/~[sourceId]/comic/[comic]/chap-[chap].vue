@@ -81,9 +81,8 @@ meta:
 
   <q-page
     :style-fn="
-      (offset, height) => {
+      () => {
         return {
-          height: height + 'px'
         }
       }
     "
