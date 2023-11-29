@@ -73,8 +73,8 @@ The app currently supports:
 <img src="https://github.com/manga-raiku/raiku-app/assets/45375496/3631c6a4-440d-4cae-968a-849872d11cb7" width="240" />
 <img src="https://github.com/manga-raiku/raiku-app/assets/45375496/fefcb62f-6c75-4c10-96f5-25566caa90f1" width="240" />
 <img src="https://github.com/manga-raiku/raiku-app/assets/45375496/75eb168c-0302-4d56-af84-2caaac73f8e5" width="240" />
-<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/65b88d62-bdd5-42c0-9fb0-8cbce1ec55e8" width="240" />
-<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/ce9b272f-0810-44f5-abe4-17e08fe9728d" width="240" />
+<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/139ef394-e8f6-422c-bdca-bc375171510e" width="240" />
+<img src="https://github.com/manga-raiku/raiku-app/assets/45375496/86afa54a-5a2e-475e-b19c-b4f8e748676b" width="240" />
 
 </div>
 
