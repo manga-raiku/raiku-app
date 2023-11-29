@@ -160,18 +160,6 @@ watch(
 const pagesRender = computed(() => {
   return props.pages
 })
-const targetNextChRef = ref<HTMLDivElement>()
-const targetNextChIsVisible = useElementVisibility(targetNextChRef)
-watch(
-  targetNextChIsVisible,
-  (visible) => {
-    if (visible) {
-      console.log("%c next now", "font-size: 20px; color :cyan")
-      emit("action:next-ch")
-    }
-  },
-  { immediate: true }
-)
 
 watch(
   () => props.currentPage >= props.pages.length,
