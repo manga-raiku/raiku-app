@@ -2,7 +2,7 @@
   <q-btn v-bind="attrs" flat round unelevated>
     <q-avatar v-if="authStore.session || $q.screen.lt.md" size="35px">
       <q-img
-        v-if="!$q.screen.lt.md"
+        v-if="authStore.session"
         :src="
           authStore.profile?.avatar_url ??
           `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
