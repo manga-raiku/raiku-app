@@ -227,7 +227,7 @@ importers:
         version: 3.1.1
       '@quasar/quasar-app-extension-testing-e2e-cypress':
         specifier: ^5.1.1
-        version: 5.1.1(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(babel-loader@9.1.3)(cypress@12.17.0)(eslint-plugin-cypress@2.12.1)(vite@2.9.16)(webpack@5.89.0)
+        version: 5.1.1(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(babel-loader@9.1.3)(cypress@12.17.0)(eslint-plugin-cypress@2.15.1)(vite@2.9.16)(webpack@5.89.0)
       '@quasar/quasar-app-extension-testing-unit-vitest':
         specifier: ^0.4.0
         version: 0.4.0(@vitest/ui@0.31.0)(@vue/test-utils@2.4.1)(quasar@2.12.2)(typescript@5.0.4)(vite@2.9.16)(vitest@0.31.0)(vue@3.3.8)
@@ -328,8 +328,8 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0(eslint@8.33.0)
       eslint-plugin-cypress:
-        specifier: ^2.12.1
-        version: 2.12.1(eslint@8.33.0)
+        specifier: ^2.15.1
+        version: 2.15.1(eslint@8.33.0)
       eslint-plugin-vue:
         specifier: ^9.9.0
         version: 9.9.0(eslint@8.33.0)
@@ -5528,7 +5528,7 @@ packages:
       update-notifier: 6.0.2
     dev: true
 
-  /@quasar/quasar-app-extension-testing-e2e-cypress@5.1.1(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(babel-loader@9.1.3)(cypress@12.17.0)(eslint-plugin-cypress@2.12.1)(vite@2.9.16)(webpack@5.89.0):
+  /@quasar/quasar-app-extension-testing-e2e-cypress@5.1.1(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(babel-loader@9.1.3)(cypress@12.17.0)(eslint-plugin-cypress@2.15.1)(vite@2.9.16)(webpack@5.89.0):
     resolution: {integrity: sha512-BZvS1FQhPHGJn2K4z0uJaiYSaTCcZKRTRAu/mx0zKOPJdTC8cjLi+gjUmU9VQdpI2EEcNZFbf0mo+l5bjm1F7A==}
     engines: {node: ^14.13.0 || ^16.0.0 || >= 18.0.0, npm: '>= 6.14.12', yarn: '>= 1.17.3'}
     peerDependencies:
@@ -5541,7 +5541,7 @@ packages:
       '@cypress/code-coverage': 3.12.1(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(babel-loader@9.1.3)(cypress@12.17.0)(webpack@5.89.0)
       cross-env: 7.0.3
       cypress: 12.17.0
-      eslint-plugin-cypress: 2.12.1(eslint@8.33.0)
+      eslint-plugin-cypress: 2.15.1(eslint@8.33.0)
       lodash: 4.17.21
       nyc: 15.1.0
       start-server-and-test: 2.0.1
@@ -10175,13 +10175,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /eslint-plugin-cypress@2.12.1(eslint@8.33.0):
-    resolution: {integrity: sha512-c2W/uPADl5kospNDihgiLc7n87t5XhUbFDoTl6CfVkmG+kDAb5Ux10V9PoLPu9N+r7znpc+iQlcmAqT1A/89HA==}
+  /eslint-plugin-cypress@2.15.1(eslint@8.33.0):
+    resolution: {integrity: sha512-eLHLWP5Q+I4j2AWepYq0PgFEei9/s5LvjuSqWrxurkg1YZ8ltxdvMNmdSf0drnsNo57CTgYY/NIHHLRSWejR7w==}
     peerDependencies:
       eslint: '>= 3.2.1'
     dependencies:
       eslint: 8.33.0
-      globals: 11.12.0
+      globals: 13.20.0
     dev: true
 
   /eslint-plugin-es@4.1.0(eslint@8.33.0):
