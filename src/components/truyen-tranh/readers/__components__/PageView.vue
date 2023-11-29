@@ -6,7 +6,7 @@
     loading="lazy"
     @load="onLoad"
     ref="imgRef"
-    class="min-h-1px"
+    class="min-h-1px border-none"
   />
   <div
     v-if="!loaded"
