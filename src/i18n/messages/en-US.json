@@ -277,5 +277,6 @@
   "truyen-hot": "Hot story",
   "ung-dung-nay": "This application",
   "ve-chung-toi": "About us",
-  "yeu-thich": "Favourite"
+  "yeu-thich": "Favourite",
+  "msg-cancel-login-oauth": "The login has been canceled by the user"
 }

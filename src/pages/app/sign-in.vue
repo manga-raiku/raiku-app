@@ -239,7 +239,7 @@ async function login(provider?: "google" | "twitter") {
       $q.notify({
         message:
           error.status === 209
-            ? "Việc đăng nhập đã bị hủy bởi người dùng"
+            ? i18n.t("msg-cancel-login-oauth")
             : i18n.t("dang-nhap-that-bai-code-status", [error.status]) +
               (import.meta.env.DEV ? `(${error.message})` : "")
       })

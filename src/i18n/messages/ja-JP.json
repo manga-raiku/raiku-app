@@ -277,5 +277,6 @@
   "truyen-hot": "熱い話",
   "ung-dung-nay": "このアプリケーション",
   "ve-chung-toi": "私たちについて",
-  "yeu-thich": "お気に入り"
+  "yeu-thich": "お気に入り",
+  "msg-cancel-login-oauth": "ユーザーによってログインがキャンセルされました"
 }

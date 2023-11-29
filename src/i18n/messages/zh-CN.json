@@ -277,5 +277,6 @@
   "truyen-hot": "热门故事",
   "ung-dung-nay": "这个应用程序",
   "ve-chung-toi": "关于我们",
-  "yeu-thich": "最喜欢的"
+  "yeu-thich": "最喜欢的",
+  "msg-cancel-login-oauth": "用户已取消登录"
 }

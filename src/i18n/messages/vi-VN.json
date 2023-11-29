@@ -277,5 +277,6 @@
   "chinh-sach-rieng-tu": "Chính sách riêng tư",
   "khieu-nai-vi-pham": "Khiếu nại vi phạm",
   "cap-nhat-plugin-plugin-name": "Cập nhật plugin {0}",
-  "body-notify-update-plugin": "Phiên bản {0} của plugin {1}({2}) đã có sẵn để tải xuống"
+  "body-notify-update-plugin": "Phiên bản {0} của plugin {1}({2}) đã có sẵn để tải xuống",
+  "msg-cancel-login-oauth": "Việc đăng nhập đã bị hủy bởi người dùng"
 }
