@@ -12,6 +12,40 @@ import { packageName } from "app/package.json"
 import { defineStore } from "pinia"
 import { AuthError as AuthErrorApp } from "src/errors/auth"
 
+function openCenteredPopup(url: string, title: string, w: number, h: number) {
+  const dualScreenLeft =
+    window.screenLeft !== undefined ? window.screenLeft : window.screenX
+  const dualScreenTop =
+    window.screenTop !== undefined ? window.screenTop : window.screenY
+
+  const width = window.innerWidth
+    ? window.innerWidth
+    : document.documentElement.clientWidth
+    ? document.documentElement.clientWidth
+    : screen.width
+  const height = window.innerHeight
+    ? window.innerHeight
+    : document.documentElement.clientHeight
+    ? document.documentElement.clientHeight
+    : screen.height
+
+  const systemZoom = width / window.screen.availWidth
+  const left = (width - w) / 2 / systemZoom + dualScreenLeft
+  const top = (height - h) / 2 / systemZoom + dualScreenTop
+
+  const popup = window.open(
+    url,
+    title,
+    `target=_blank,popup=yes,toolbar=0,menubar=0,location=0,width=${
+      w / systemZoom
+    },height=${h / systemZoom},top=${top},left=${left}`
+  )
+
+  if (document.hasFocus()) popup?.focus()
+
+  return popup
+}
+
 export const useAuthStore = defineStore("auth", () => {
   if (APP_NATIVE_MOBILE) {
     const router = useRouter()
@@ -92,13 +126,77 @@ export const useAuthStore = defineStore("auth", () => {
   async function signInOAuth2(
     provider: "google" | "twitter"
   ): Promise<OAuthResponse | AuthResponse> {
-    if (!APP_NATIVE_MOBILE)
-      return supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: location.href
+    if (!APP_NATIVE_MOBILE) {
+      // eslint-disable-next-line no-async-promise-executor
+      return new Promise(async (resolve) => {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider,
+          options: {
+            redirectTo: `${location.protocol}//${location.host}/app/oauth2`,
+            skipBrowserRedirect: true
+          }
+        })
+
+        if (error) return resolve({ data, error })
+
+        const popup = openCenteredPopup(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          data.url!,
+          `Login with OAuth 2 ${data.provider}`,
+          600,
+          700
+        )
+        const handler = async (
+          event: MessageEvent<{
+            type: "popup:oauth->authorized"
+            refresh_token: string
+          }>
+        ) => {
+          console.log(event)
+          if (event.data?.type === "popup:oauth->authorized") {
+            clean()
+
+            const session = await supabase.auth.getSession()
+            const user = await supabase.auth.getUser()
+
+            if (session.data)
+              resolve({
+                data: {
+                  session: session.data.session,
+                  user: user.data.user
+                },
+                error: null
+              })
+            else
+              resolve({
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                data: null as unknown as any,
+                error: new AuthError("Unknown error", 210)
+              })
+          }
         }
+        const popupTick = setInterval(() => {
+          if (!popup || popup.closed) {
+            clean()
+            resolve({
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              data: null as unknown as any,
+              error: new AuthError("Login OAuth canceled by user.", 209)
+              //   name: "canceled_by_user",
+              //   __isAuthError: true,
+              // }
+            })
+          }
+        }, 500)
+        const clean = () => {
+          window.removeEventListener("message", handler)
+          clearInterval(popupTick)
+          popup?.close()
+        }
+
+        window.addEventListener("message", handler)
       })
+    }
 
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
@@ -184,7 +282,7 @@ export const useAuthStore = defineStore("auth", () => {
     return supabase.auth.resetPasswordForEmail(email, {
       redirectTo: APP_NATIVE_MOBILE
         ? `${packageName}://forgot-password`
-        : `${location.protocol}://${location.host}?app/forgot-password?next`
+        : `${location.protocol}//${location.host}?app/forgot-password?next`
     })
   }
   async function setNewPassword(password: string) {
