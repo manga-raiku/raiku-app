@@ -20,12 +20,12 @@
       <template v-else>{{ caption }}</template>
     </div>
   </q-card-section>
-  <q-card-actions align="center">
+  <q-card-actions align="center" class="flex-nowrap children:mx-1 children:py-2">
     <q-btn
       rounded
       outline
       class="before:text-#fff before:text-opacity-20 px-4"
-      color="blue"
+      color="sakura3"
       padding="8px 20px"
       no-caps
       :loading="retrying"

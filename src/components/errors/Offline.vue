@@ -8,7 +8,14 @@
     :retry="retry"
   >
     <template #actions>
-      <q-btn rounded flat color="sakura3" no-caps to="/library/offline">{{
+      <q-btn
+          rounded
+          outline
+          class="before:text-#fff before:text-opacity-20 px-4"
+          color="sakura3"
+          padding="8px 20px"
+          no-caps
+         to="/library/offline">{{
         $t("di-den-truyen-da-tai")
       }}</q-btn>
     </template>

@@ -278,5 +278,8 @@
   "ung-dung-nay": "This application",
   "ve-chung-toi": "About us",
   "yeu-thich": "Favourite",
-  "msg-cancel-login-oauth": "The login has been canceled by the user"
+  "msg-cancel-login-oauth": "The login has been canceled by the user",
+  "dang-cap-phep-oauth-2": "Licensing OAuth 2...",
+  "msg-oauth2-tab": "This page can only be opened with a popup to receive authentication",
+  "trang-chinh": "Main page"
 }

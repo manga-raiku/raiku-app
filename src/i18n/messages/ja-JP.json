@@ -278,5 +278,8 @@
   "ung-dung-nay": "このアプリケーション",
   "ve-chung-toi": "私たちについて",
   "yeu-thich": "お気に入り",
-  "msg-cancel-login-oauth": "ユーザーによってログインがキャンセルされました"
+  "msg-cancel-login-oauth": "ユーザーによってログインがキャンセルされました",
+  "dang-cap-phep-oauth-2": "OAuth 2 のライセンス...",
+  "msg-oauth2-tab": "このページは、認証を受けるためのポップアップでのみ開くことができます",
+  "trang-chinh": "メインページ"
 }

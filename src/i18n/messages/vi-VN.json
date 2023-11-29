@@ -278,5 +278,8 @@
   "khieu-nai-vi-pham": "Khiếu nại vi phạm",
   "cap-nhat-plugin-plugin-name": "Cập nhật plugin {0}",
   "body-notify-update-plugin": "Phiên bản {0} của plugin {1}({2}) đã có sẵn để tải xuống",
-  "msg-cancel-login-oauth": "Việc đăng nhập đã bị hủy bởi người dùng"
+  "msg-cancel-login-oauth": "Việc đăng nhập đã bị hủy bởi người dùng",
+  "msg-oauth2-tab": "Trang này chỉ có thể mở bằng popup để nhận xác thực",
+  "trang-chinh": "Trang chính",
+  "dang-cap-phep-oauth-2": "Đang cấp phép OAuth 2..."
 }

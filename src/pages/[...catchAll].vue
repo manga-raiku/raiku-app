@@ -20,13 +20,14 @@ name: not_found
         </div>
 
         <q-btn
-          class="q-mt-xl"
-          color="white"
-          text-color="blue"
-          unelevated
+          rounded
+          outline
+          class="before:text-#fff before:text-opacity-20 px-4"
+          color="sakura3"
+          padding="8px 20px"
+          no-caps
           to="/"
           label="Go Home"
-          no-caps
         />
       </div>
     </div>

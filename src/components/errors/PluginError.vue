@@ -18,10 +18,14 @@
     </template>
     <template #actions>
       <q-btn
-        rounded
-        outline
-        padding="8px 20px"
-        no-caps
+
+      rounded
+          outline
+          class="before:text-#fff before:text-opacity-20 px-4"
+          color="sakura3"
+          padding="8px 20px"
+          no-caps
+        
         @click="stateStore.showPluginManagerDialog = true"
       >
         <i-codicon-extensions class="size-1.5em mr-1" />

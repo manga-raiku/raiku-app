@@ -278,5 +278,8 @@
   "ung-dung-nay": "这个应用程序",
   "ve-chung-toi": "关于我们",
   "yeu-thich": "最喜欢的",
-  "msg-cancel-login-oauth": "用户已取消登录"
+  "msg-cancel-login-oauth": "用户已取消登录",
+  "dang-cap-phep-oauth-2": "许可 OAuth 2...",
+  "msg-oauth2-tab": "该页面只能通过弹出窗口打开以接收身份验证",
+  "trang-chinh": "主页"
 }
