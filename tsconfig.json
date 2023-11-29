@@ -5,6 +5,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "preserveSymlinks": true,
+    "resolveJsonModule": true,
     "noEmitOnError": false,
     /* end */
     "baseUrl": "./",

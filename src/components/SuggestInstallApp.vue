@@ -3,8 +3,8 @@
     v-if="stateStore.appFooterPrependRef && settingsStore.suggestInstallApp"
     :to="stateStore.appFooterPrependRef"
   >
-    <q-toolbar class="px-0 suggest-install-app">
-      <q-card class="bg-blue">
+    <q-toolbar class="px-0 suggest-install-app justify-center">
+      <q-card class="bg-blue max-w-480px">
         <q-card-section horizontal>
           <q-card-section class="flex items-center pl-2 pr-1">
             <q-btn
