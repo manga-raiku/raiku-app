@@ -113,6 +113,7 @@ meta:
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
         :next-episode="nextEpisode?.value.route"
+        @action:next-ch="nextCh"
       />
 
       <div
