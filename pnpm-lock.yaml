@@ -236,7 +236,7 @@ importers:
         version: 3.1.1
       '@quasar/quasar-app-extension-testing-e2e-cypress':
         specifier: ^5.1.1
-        version: 5.1.1(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(babel-loader@9.1.3)(cypress@12.17.0)(eslint-plugin-cypress@2.12.1)(vite@2.9.16)(webpack@5.89.0)
+        version: 5.1.1(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(babel-loader@9.1.3)(cypress@12.17.0)(eslint-plugin-cypress@2.15.1)(vite@2.9.16)(webpack@5.89.0)
       '@quasar/quasar-app-extension-testing-unit-vitest':
         specifier: ^0.4.0
         version: 0.4.0(@vitest/ui@0.31.0)(@vue/test-utils@2.4.1)(quasar@2.12.2)(typescript@5.0.4)(vite@2.9.16)(vitest@0.31.0)(vue@3.3.8)
@@ -337,8 +337,8 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0(eslint@8.33.0)
       eslint-plugin-cypress:
-        specifier: ^2.12.1
-        version: 2.12.1(eslint@8.33.0)
+        specifier: ^2.15.1
+        version: 2.15.1(eslint@8.33.0)
       eslint-plugin-vue:
         specifier: ^9.9.0
         version: 9.9.0(eslint@8.33.0)
@@ -5555,7 +5555,7 @@ packages:
       update-notifier: 6.0.2
     dev: true
 
-  /@quasar/quasar-app-extension-testing-e2e-cypress@5.1.1(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(babel-loader@9.1.3)(cypress@12.17.0)(eslint-plugin-cypress@2.12.1)(vite@2.9.16)(webpack@5.89.0):
+  /@quasar/quasar-app-extension-testing-e2e-cypress@5.1.1(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(babel-loader@9.1.3)(cypress@12.17.0)(eslint-plugin-cypress@2.15.1)(vite@2.9.16)(webpack@5.89.0):
     resolution: {integrity: sha512-BZvS1FQhPHGJn2K4z0uJaiYSaTCcZKRTRAu/mx0zKOPJdTC8cjLi+gjUmU9VQdpI2EEcNZFbf0mo+l5bjm1F7A==}
     engines: {node: ^14.13.0 || ^16.0.0 || >= 18.0.0, npm: '>= 6.14.12', yarn: '>= 1.17.3'}
     peerDependencies:
@@ -5568,7 +5568,7 @@ packages:
       '@cypress/code-coverage': 3.12.1(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(babel-loader@9.1.3)(cypress@12.17.0)(webpack@5.89.0)
       cross-env: 7.0.3
       cypress: 12.17.0
-      eslint-plugin-cypress: 2.12.1(eslint@8.33.0)
+      eslint-plugin-cypress: 2.15.1(eslint@8.33.0)
       lodash: 4.17.21
       nyc: 15.1.0
       start-server-and-test: 2.0.1
@@ -6771,7 +6771,7 @@ packages:
       vite: ^2.5.10
       vue: ^3.2.25
     dependencies:
-      vite: 2.9.16(sass@1.32.11)
+      vite: 2.9.16(sass@1.32.12)
       vue: 3.3.8(typescript@5.0.4)
 
   /@vitest/expect@0.31.0:
@@ -7175,7 +7175,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.3.8
       '@vue/shared': 3.3.8
-      vue: 3.3.8(typescript@5.2.2)
+      vue: 3.3.8(typescript@5.0.4)
 
   /@vue/shared@3.3.4:
     resolution: {integrity: sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==}
@@ -10207,13 +10207,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /eslint-plugin-cypress@2.12.1(eslint@8.33.0):
-    resolution: {integrity: sha512-c2W/uPADl5kospNDihgiLc7n87t5XhUbFDoTl6CfVkmG+kDAb5Ux10V9PoLPu9N+r7znpc+iQlcmAqT1A/89HA==}
+  /eslint-plugin-cypress@2.15.1(eslint@8.33.0):
+    resolution: {integrity: sha512-eLHLWP5Q+I4j2AWepYq0PgFEei9/s5LvjuSqWrxurkg1YZ8ltxdvMNmdSf0drnsNo57CTgYY/NIHHLRSWejR7w==}
     peerDependencies:
       eslint: '>= 3.2.1'
     dependencies:
       eslint: 8.33.0
-      globals: 11.12.0
+      globals: 13.20.0
     dev: true
 
   /eslint-plugin-es@4.1.0(eslint@8.33.0):
@@ -16532,6 +16532,7 @@ packages:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     hasBin: true
+    dev: true
 
   /ua-parser-js@1.0.33:
     resolution: {integrity: sha512-RqshF7TPTE0XLYAqmjlu5cLLuGdKrNu9O1KLA/qp39QtbZwuzwv1dT46DZSopoUMsYgXpB3Cv8a03FI8b74oFQ==}
@@ -17221,7 +17222,6 @@ packages:
       sass: 1.32.12
     optionalDependencies:
       fsevents: 2.3.3
-    dev: true
 
   /vite@4.5.0(@types/node@18.8.0)(sass@1.32.11):
     resolution: {integrity: sha512-ulr8rNLA6rkyFAlVWw2q5YJ91v098AFQ2R0PRFwPzREXOUJQPtFUG0t+/ZikhaOCDqFoDhN6/v8Sq0o4araFAw==}
@@ -17497,7 +17497,7 @@ packages:
       vue: ^3.2.0
     dependencies:
       '@vue/devtools-api': 6.5.0
-      vue: 3.3.8(typescript@5.2.2)
+      vue: 3.3.8(typescript@5.0.4)
 
   /vue-template-compiler@2.7.14:
     resolution: {integrity: sha512-zyA5Y3ArvVG0NacJDkkzJuPQDF8RFeRlzV2vLeSnhSpieO6LK2OVbdLPi5MPPs09Ii+gMO8nY4S3iKQxBxDmWQ==}
@@ -17532,21 +17532,6 @@ packages:
       '@vue/server-renderer': 3.3.8(vue@3.3.8)
       '@vue/shared': 3.3.8
       typescript: 5.0.4
-
-  /vue@3.3.8(typescript@5.2.2):
-    resolution: {integrity: sha512-5VSX/3DabBikOXMsxzlW8JyfeLKlG9mzqnWgLQLty88vdZL7ZJgrdgBOmrArwxiLtmS+lNNpPcBYqrhE6TQW5w==}
-    peerDependencies:
-      typescript: '*'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@vue/compiler-dom': 3.3.8
-      '@vue/compiler-sfc': 3.3.8
-      '@vue/runtime-dom': 3.3.8
-      '@vue/server-renderer': 3.3.8(vue@3.3.8)
-      '@vue/shared': 3.3.8
-      typescript: 5.2.2
 
   /w3c-xmlserializer@4.0.0:
     resolution: {integrity: sha512-d+BFHzbiCx6zGfz0HyQ6Rg69w9k19nviJspaj4yNscGjrHu94sVP+aRm75yEbCh+r2/yR+7q6hux9LVtbuTGBw==}
