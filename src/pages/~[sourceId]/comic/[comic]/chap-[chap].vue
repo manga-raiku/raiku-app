@@ -81,9 +81,8 @@ meta:
 
   <q-page
     :style-fn="
-      (offset, height) => {
+      () => {
         return {
-          height: height + 'px'
         }
       }
     "
@@ -326,7 +325,7 @@ meta:
                 :map-offline="mapEp"
                 :offline="data && isFlag(data, FLAG_OFFLINE)"
                 :comic="{
-                  data: comicData,
+                  data: fetchComic,
                   manga_id: data?.manga_id,
                   route: {
                     name: 'comic',
@@ -641,6 +640,12 @@ if (APP_NATIVE_MOBILE)
 const pluginStore = usePluginStore()
 const networkStore = useNetworkStore()
 
+// ========= settings ==========
+const singlePage = ref(false)
+const rightToLeft = ref(false)
+const scrollingMode = ref(true)
+// ========= /settings =========
+
 const api = pluginStore.useApi(toGetter(props, "sourceId"), false)
 
 const id = computed(() => `${props.comic}/${props.chap}`)
@@ -648,7 +653,7 @@ const id = computed(() => `${props.comic}/${props.chap}`)
 const showSearchMB = ref(false)
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const readerVerticalRef = ref<InstanceType<typeof ReaderVertical>>()
-const GetWithCache = useWithCache(
+const fetchComicEp = useWithCache(
   () =>
     api.value.then((res) =>
       res.getComicChapter(props.comic, props.chap, false)
@@ -664,7 +669,7 @@ const { data, runAsync, loading, error } = useRequest<
   | ComicChapterOnDisk
 >(
   () => {
-    if (networkStore.isOnline) return GetWithCache()
+    if (networkStore.isOnline) return fetchComicEp()
     return getEpisode(props.comic, props.chap).then((res) =>
       markFlag(res, FLAG_OFFLINE)
     )
@@ -692,19 +697,36 @@ watch(error, (error) => {
       hash: route.hash
     })
 })
-let $idComicDataCache: string | null = null
-let $comicDataCache: (() => Promise<Comic>) | null = null
-const comicData = computed<() => Promise<Comic>>(() => {
-  const id = `${props.sourceId}/${props.comic}`
-  if (id === $idComicDataCache) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return $comicDataCache!
-  }
 
-  $idComicDataCache = id
-  const { comic } = props
+const $fetchComic = useWithCache(
+  () => api.value.then((plugin) => plugin.getComic(props.comic)),
+  computed(() => `${packageName}:///manga/${props.comic}`)
+)
+let $data: Comic
+const fetchComic = async () => {
+  if (!$data) $data = await $fetchComic()
 
-  return ($comicDataCache = () => api.value.then((res) => res.getComic(comic)))
+  return $data
+}
+
+const isManga = computedAsync<boolean | undefined>(
+  async () => {
+    if (!data.value) return false
+
+    const comic = await fetchComic()
+
+    return comic.genres.some((item) =>
+      TAGS_IS_MANGA.includes(item.name.toLowerCase())
+    )
+  },
+  undefined,
+  { onError: WARN }
+)
+watchImmediate(isManga, (isManga) => {
+  if (typeof isManga !== "boolean") return
+
+  scrollingMode.value = false
+  rightToLeft.value = true
 })
 
 const title = () =>
@@ -719,7 +741,8 @@ useSeoMeta({
   title,
   description,
   ogTitle: title,
-  ogDescription: description
+  ogDescription: description,
+  ogType: "book"
 })
 
 const statusEPDL = computedAsync<TaskDDEp | TaskDLEp | null | undefined>(
@@ -775,7 +798,7 @@ async function downloadEp() {
         comic: props.comic
       }
     },
-    await comicData.value(),
+    await fetchComic(),
     data.value,
     currentEpisode.value.value.name,
     currentEpisode.value.value.route.params.chap,
@@ -876,10 +899,6 @@ const pages = computedAsync(
     onError: WARN
   }
 )
-
-const singlePage = ref(false)
-const rightToLeft = ref(false)
-const scrollingMode = ref(true)
 
 const sizePage = computed(
   () => readerHorizontalRef.value?.sizePage ?? pages.value?.length ?? Infinity

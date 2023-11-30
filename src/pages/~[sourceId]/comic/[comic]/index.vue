@@ -173,7 +173,9 @@ meta:
         >
           <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
-          {{ $t("tiep-ch-name", [lastEpRead.name]) }}
+          <div class="truncate">
+            {{ $t("tiep-ch-name", [lastEpRead.name ?? "__"]) }}
+          </div>
         </q-btn>
 
         <q-btn
@@ -394,7 +396,9 @@ meta:
       >
         <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
-        {{ $t("xem-ch-name", [data?.chapters.at(-1)!.name ?? "__"]) }}
+        <div class="truncate">
+          {{ $t("xem-ch-name", [data?.chapters.at(-1)!.name ?? "__"]) }}
+        </div>
       </q-btn>
 
       <q-btn
@@ -414,7 +418,9 @@ meta:
       >
         <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
-        {{ $t("tiep-ch-name", [lastEpRead.name]) }}
+        <div class="truncate">
+          {{ $t("tiep-ch-name", [lastEpRead.name]) }}
+        </div>
       </q-btn>
     </q-toolbar>
 
@@ -459,14 +465,14 @@ const networkStore = useNetworkStore()
 
 const api = pluginStore.useApi(toGetter(props, "sourceId"), false)
 
-const GetWithCache = useWithCache(
+const fetchComic = useWithCache(
   () => api.value.then((plugin) => plugin.getComic(props.comic)),
   computed(() => `${packageName}:///manga/${props.comic}`)
 )
 
 const { data, runAsync, error, loading } = useRequest<Comic | ComicOnDisk>(
   () => {
-    if (networkStore.isOnline) return GetWithCache()
+    if (networkStore.isOnline) return fetchComic()
     return getComic(props.comic).then((res) => markFlag(res, FLAG_OFFLINE))
   },
   {
