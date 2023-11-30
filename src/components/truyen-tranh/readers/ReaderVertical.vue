@@ -1,7 +1,7 @@
 <template>
   <section
     v-bind="attrs"
-    class="h-full !overflow-scroll scrollbar-hide relative"
+    class="fixed top-0 left-0 h-full w-full !overflow-scroll scrollbar-hide"
     ref="parentRef"
     @mousedown.prevent="onMouseDown"
     @touchstart="onTouchStart"
