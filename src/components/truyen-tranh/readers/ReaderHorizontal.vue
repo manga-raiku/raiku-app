@@ -36,7 +36,7 @@
       >
         <template v-if="singlePage">
           <ChapterPageModeSingle
-            v-for="(src, index) in pagesRender"
+            v-for="{ src, index } in pagesRender"
             :key="rightToLeft ? pagesRender.length - 1 - index : index"
             :src="src"
             @load="
@@ -54,7 +54,7 @@
         </template>
         <template v-else>
           <ChapterPageModeDouble
-            v-for="(src, index) in pagesRender"
+            v-for="{ src, index } in pagesRender"
             :key="rightToLeft ? pagesRender.length - 1 - index : index"
             :single-page="sizes.get(index)?.[0]! > 1200"
             :prime="index % 2 === 0"
@@ -123,8 +123,9 @@ const emit = defineEmits<{
   // (name: "next"): void
 }>()
 
+const pages = computed(() => props.pages.map((src, index) => ({ src, index })))
 const pagesRender = computed(() => {
-  return props.rightToLeft ? [...toRaw(props.pages)].reverse() : props.pages // .concat(props.pagesNext ?? [])
+  return props.rightToLeft ? [...toRaw(pages.value)].reverse() : pages.value // .concat(props.pagesNext ?? [])
 })
 
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
