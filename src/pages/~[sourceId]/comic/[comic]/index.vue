@@ -459,14 +459,14 @@ const networkStore = useNetworkStore()
 
 const api = pluginStore.useApi(toGetter(props, "sourceId"), false)
 
-const GetWithCache = useWithCache(
+const fetchComic = useWithCache(
   () => api.value.then((plugin) => plugin.getComic(props.comic)),
   computed(() => `${packageName}:///manga/${props.comic}`)
 )
 
 const { data, runAsync, error, loading } = useRequest<Comic | ComicOnDisk>(
   () => {
-    if (networkStore.isOnline) return GetWithCache()
+    if (networkStore.isOnline) return fetchComic()
     return getComic(props.comic).then((res) => markFlag(res, FLAG_OFFLINE))
   },
   {
