@@ -383,14 +383,13 @@ const buttons: ComputedRef<
 ])
 
 const canvasRef = ref<HTMLCanvasElement>()
-const instance = getCurrentInstance()
-watch(canvasRef, (ref) => {
+watch(canvasRef, (ref, _, onClean) => {
   if (!ref) return
 
   const { draw, stop } = useSakura(ref)
 
   draw()
-  onBeforeUnmount(stop, instance)
+  onClean(stop)
 })
 </script>
 

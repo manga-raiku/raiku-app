@@ -7,6 +7,7 @@
     @touchstart="onTouchStart"
     @touchmove="onTouchMove"
     @touchend="onTouchEnd"
+    @wheel="onWheel"
   >
     <section
       class="transition-width duration-444ms mx-auto"
@@ -99,6 +100,7 @@ import {
 import { type DomOffset } from "quasar"
 import type { Chapter } from "raiku-pgs/plugin"
 import { APP_STANDALONE } from "src/constants"
+import type { WatchStopHandle } from "vue"
 import { RouterLink } from "vue-router"
 
 import PageView from "./__components__/PageView.vue"
@@ -142,6 +144,7 @@ const attrs = useAttrs()
 const { onTouchStart, onTouchMove, onTouchEnd, scale, touching } =
   useTouchZoom()
 const activated = useActivated()
+const { scrolling, onWheel } = useScrolling()
 
 watch(scale, (scale) => {
   emit("update:zoom", props.zoom + scale)
@@ -242,20 +245,19 @@ useEventListener(window, "mouseup", onMouseUp)
 const pageViewRefs = shallowReactive<InstanceType<typeof PageView>[]>([])
 watch(pagesRender, () => pageViewRefs.splice(0))
 
-let disableReactiveCurrentPage = false
-
 const pagesIsVisible = shallowReactive<Set<number>>(new Set())
+// let disableEmitCurrentPage = false
 watch(
   () =>
     pagesIsVisible.size > 0
       ? Math.max(...pagesIsVisible.values())
       : props.currentPage,
   async (max: number) => {
+    // disableEmitCurrentPage = true
     console.log("change max value to %s", max)
-    disableReactiveCurrentPage = true
     emit("update:current-page", max)
-    await nextTick()
-    disableReactiveCurrentPage = false
+
+    // disableEmitCurrentPage = false
   },
   { immediate: true }
 )
@@ -303,18 +305,59 @@ watch(
 //   }, 200),
 // )
 
-watch(
-  () => props.currentPage,
-  (currentPage) => {
-    if (disableReactiveCurrentPage) return
-    console.log("traffict emit")
-    parentRef.value?.scrollTo({
-      top: (pageViewRefs[currentPage].imgRef ?? pageViewRefs[currentPage].$el)
-        .offsetTop,
-      behavior: "smooth"
-    })
-  }
-)
+watchImmediate(parentRef, (parentRef, _, cleanUp) => {
+  if (!parentRef) return
+
+  const clean = watchImmediate(
+    () => props.currentPage,
+    (currentPage, _, cleanUp) => {
+      // console.log({ scrolling: scrolling.value, disableEmitCurrentPage })
+      if (scrolling.value /* || disableEmitCurrentPage */) {
+        // disableEmitCurrentPage = false
+        return
+      }
+      console.log("traffic emit")
+
+      // disableEmitCurrentPage = false
+
+      const scrollIntoView = () => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        pageViewRefs[currentPage].imgRef!.scrollIntoView({
+          behavior: "smooth"
+        })
+      }
+      // follow items prev
+      const cleaners: WatchStopHandle[] = []
+      let cleaned = 0
+      for (let i = 0; i <= currentPage; i++) {
+        if (sizes.has(i)) continue
+
+        cleaners[i] = watch(
+          () => sizes.get(i),
+          (value) => {
+            if (value) {
+              // clean
+              cleaners[i]?.()
+              delete cleaners[i]
+              cleaned++
+              if (cleaned === cleaners.length) {
+                // run scroll to because first loaded
+                scrollIntoView()
+              }
+            }
+          }
+        )
+      }
+      if (cleaned === cleaners.length) {
+        // run scroll to because first loaded
+        scrollIntoView()
+      }
+      cleanUp(() => cleaners.forEach((cleaner) => cleaner()))
+    }
+  )
+
+  cleanUp(clean)
+})
 
 // function onLoadPageView(
 //   index: number,
@@ -344,6 +387,7 @@ const observer = computed((oldValue) => {
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
+        if (!(entry.target as unknown as HTMLImageElement).complete) return
         if (entry.isIntersecting) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           pagesIsVisible.add((entry.target as unknown as any).index)

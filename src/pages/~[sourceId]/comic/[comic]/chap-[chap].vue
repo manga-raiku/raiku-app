@@ -643,6 +643,8 @@ const networkStore = useNetworkStore()
 
 const api = pluginStore.useApi(toGetter(props, "sourceId"), false)
 
+const id = computed(() => `${props.comic}/${props.chap}`)
+
 const showSearchMB = ref(false)
 const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const readerVerticalRef = ref<InstanceType<typeof ReaderVertical>>()
@@ -651,7 +653,7 @@ const GetWithCache = useWithCache(
     api.value.then((res) =>
       res.getComicChapter(props.comic, props.chap, false)
     ),
-  computed(() => `${packageName}:///manga/${props.comic + "/" + props.chap}`)
+  computed(() => `${packageName}:///manga/${id.value}`)
 )
 
 // let disableReactiveParams = false
@@ -880,11 +882,19 @@ const rightToLeft = ref(false)
 const scrollingMode = ref(true)
 
 const sizePage = computed(
-  () => readerHorizontalRef.value?.sizePage ?? pages.value?.length ?? 0
+  () => readerHorizontalRef.value?.sizePage ?? pages.value?.length ?? Infinity
 )
 const minPage = computed(() => (rightToLeft.value ? -(sizePage.value - 1) : 0))
 const maxPage = computed(() => (rightToLeft.value ? 0 : sizePage.value - 1))
 const currentPage = useClamp(0, minPage, maxPage)
+
+useStoreProgressEp({
+  id,
+  singlePage,
+  rightToLeft,
+  scrollingMode,
+  currentPage
+})
 
 const showToolbar = ref(true)
 
