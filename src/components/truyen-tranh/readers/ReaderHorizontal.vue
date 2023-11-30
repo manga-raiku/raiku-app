@@ -34,10 +34,29 @@
           'transition-duration': `${moving ? 0 : 200}ms`
         }"
       >
+        <div
+          v-if="nextEpisode && rightToLeft"
+          class="w-1/2 h-full display-inline-block overflow-hidden relative"
+          :class="{
+            'w-full': singlePage
+          }"
+          @click.prevent.stop
+        >
+          <router-link
+            class="w-full h-120px flex items-center justify-center my-auto text-20px text-weight-medium absolute top-1/2 left-1/2 translate--1/2"
+            :to="nextEpisode"
+            @click.stop
+            @mousedown.stop.prevent
+            ref="btnNextEpRef"
+          >
+            Next Chapter
+          </router-link>
+        </div>
+
         <template v-if="singlePage">
           <ChapterPageModeSingle
-            v-for="(src, index) in pagesRender"
-            :key="rightToLeft ? pagesRender.length - 1 - index : index"
+            v-for="{ src, index } in pagesRender"
+            :key="index"
             :src="src"
             @load="
               sizes.set(index, [$event.naturalWidth, $event.naturalHeight])
@@ -54,10 +73,10 @@
         </template>
         <template v-else>
           <ChapterPageModeDouble
-            v-for="(src, index) in pagesRender"
-            :key="rightToLeft ? pagesRender.length - 1 - index : index"
+            v-for="{ src, index } in pagesRender"
+            :key="index"
             :single-page="sizes.get(index)?.[0]! > 1200"
-            :prime="index % 2 === 0"
+            :prime="rightToLeft ? index % 2 === 1 : index % 2 === 0"
             :src="src"
             @load="
               sizes.set(index, [$event.naturalWidth, $event.naturalHeight])
@@ -73,7 +92,7 @@
         </template>
 
         <div
-          v-if="nextEpisode"
+          v-if="nextEpisode && !rightToLeft"
           class="w-1/2 h-full display-inline-block overflow-hidden relative"
           :class="{
             'w-full': singlePage
@@ -123,8 +142,9 @@ const emit = defineEmits<{
   // (name: "next"): void
 }>()
 
+const pages = computed(() => props.pages.map((src, index) => ({ src, index })))
 const pagesRender = computed(() => {
-  return props.rightToLeft ? [...toRaw(props.pages)].reverse() : props.pages // .concat(props.pagesNext ?? [])
+  return props.rightToLeft ? [...toRaw(pages.value)].reverse() : pages.value // .concat(props.pagesNext ?? [])
 })
 
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
