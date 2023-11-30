@@ -173,7 +173,9 @@ meta:
         >
           <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
-          {{ $t("tiep-ch-name", [lastEpRead.name]) }}
+          <div class="truncate">
+            {{ $t("tiep-ch-name", [lastEpRead.name ?? "__"]) }}
+          </div>
         </q-btn>
 
         <q-btn
@@ -394,7 +396,9 @@ meta:
       >
         <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
-        {{ $t("xem-ch-name", [data?.chapters.at(-1)!.name ?? "__"]) }}
+        <div class="truncate">
+          {{ $t("xem-ch-name", [data?.chapters.at(-1)!.name ?? "__"]) }}
+        </div>
       </q-btn>
 
       <q-btn
@@ -414,7 +418,9 @@ meta:
       >
         <i-ion-book-outline width="1.3em" height="1.3em" class="mr-2" />
 
-        {{ $t("tiep-ch-name", [lastEpRead.name]) }}
+        <div class="truncate">
+          {{ $t("tiep-ch-name", [lastEpRead.name]) }}
+        </div>
       </q-btn>
     </q-toolbar>
 
