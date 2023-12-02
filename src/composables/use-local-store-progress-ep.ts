@@ -20,6 +20,8 @@ export function useLocalStoreProgressEp({
 }) {
   const authStore = useAuthStore()
 
+  const restored = ref(false)
+
   // restore if exists setting
   try {
     const dataRaw = localStorage.getItem(
@@ -31,6 +33,8 @@ export function useLocalStoreProgressEp({
       singlePage.value = data.singlePage
       rightToLeft.value = data.rightToLeft
       scrollingMode.value = data.scrollingMode
+
+      restored.value = true
     }
   } catch (err) {
     WARN(err)
@@ -54,7 +58,7 @@ export function useLocalStoreProgressEp({
           })
         )
       },
-      70
+      1000
     )
   )
 
@@ -91,7 +95,9 @@ export function useLocalStoreProgressEp({
             })
           )
       },
-      70
+      1000
     )
   )
+
+  return restored
 }
