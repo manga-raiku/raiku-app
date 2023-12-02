@@ -728,7 +728,7 @@ const isManga = computedAsync<boolean | undefined>(
   { onError: WARN }
 )
 watchImmediate(isManga, (isManga) => {
-  if (typeof isManga !== "boolean") return
+  if (typeof isManga !== "boolean" || localStateRestored.value) return
 
   scrollingMode.value = false
   rightToLeft.value = true
@@ -910,7 +910,7 @@ const minPage = 0 // computed(() => (rightToLeft.value ? -(sizePage.value - 1) :
 const maxPage = computed(() => sizePage.value - 1)
 const currentPage = useClamp(0, minPage, maxPage)
 
-useLocalStoreProgressEp({
+const localStateRestored = useLocalStoreProgressEp({
   comic: toGetter(props, "comic"),
   chap: toGetter(props, "chap"),
   singlePage,
@@ -1105,7 +1105,7 @@ watch(
               })
             }
           },
-          100
+          1000
         )
       )
       onClean(clean)
