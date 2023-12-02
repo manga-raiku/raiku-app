@@ -28,9 +28,7 @@
       <div
         class="h-full transition-transform"
         :style="{
-          transform: `translateX(${`calc(${
-            (rightToLeft ? -(maxPage - currentPage) : -currentPage) * 100
-          }% + ${diffX}px)`})`,
+          transform: `translateX(${`calc(${calcSyx * 100}% + ${diffX}px)`})`,
           'transition-duration': `${moving ? 0 : 200}ms`
         }"
       >
@@ -143,6 +141,7 @@ const emit = defineEmits<{
   // (name: "next"): void
 }>()
 
+// ========== logic control =============
 const pages = computed(() => props.pages.map((src, index) => ({ src, index })))
 const pagesRender = computed(() => {
   return props.rightToLeft ? [...toRaw(pages.value)].reverse() : pages.value // .concat(props.pagesNext ?? [])
@@ -154,13 +153,12 @@ watch(
   () => sizes.clear()
 )
 
-const sizePage = computed(() => {
+const rawSizePage = computed(() => {
   if (props.singlePage) {
-    // only 1
     return props.pages.length
   }
 
-  return Math.ceil(
+  return (
     props.pages.reduce((prev, item, index) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain, @typescript-eslint/no-non-null-assertion
       if (sizes.get(index)?.[0]! > 1_200) prev += 2
@@ -170,7 +168,20 @@ const sizePage = computed(() => {
     }, 0) + (props.nextEpisode ? 0.5 : 0)
   )
 })
+
+const sizePage = computed(() => {
+  return Math.ceil(rawSizePage.value)
+})
 defineExpose({ sizes, sizePage })
+
+const diffSyx = computed(() => rawSizePage.value % 1)
+const calcSyx = computed(() => {
+  if (props.rightToLeft)
+    return -(props.maxPage - props.currentPage) + diffSyx.value
+  return props.currentPage + diffSyx.value
+})
+
+// ========== /logic control =============
 
 const parentRef = ref<HTMLDivElement>()
 const overflowRef = ref<HTMLDivElement>()
@@ -211,7 +222,7 @@ function onTouchStart(event: TouchEvent) {
 
   const index =
     props.rightToLeft && props.singlePage
-      ? sizePage.value - 1 + props.currentPage
+      ? props.pages.length - 1 + props.currentPage
       : props.currentPage
   canGo = canSwipes[index] ?? index >= props.pages.length ? "A" : null // ok
 
