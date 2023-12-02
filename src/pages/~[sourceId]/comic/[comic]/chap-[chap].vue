@@ -141,7 +141,6 @@ meta:
       :scrolling-mode="scrollingMode"
       :single-page="singlePage || $q.screen.width <= 517"
       :right-to-left="rightToLeft"
-      :pages-length="data?.pages.length"
       :size-old-pages="0"
       :sizes="readerHorizontalRef?.sizes"
       :current-page="currentPage"
@@ -201,7 +200,7 @@ meta:
       </div>
 
       <span class="display-block text-#777 whitespace-nowrap <md:!hidden"
-        >{{ (rightToLeft ? -currentPage : currentPage) + 1 }} /
+        >{{ (currentPage) + 1 }} /
         {{ sizePage }}</span
       >
       <div class="flex-1 mx-4 flex <md:order-2">
@@ -906,9 +905,7 @@ const pages = computedAsync(
   }
 )
 
-const sizePage = computed(
-  () => readerHorizontalRef.value?.sizePage ?? pages.value?.length ?? Infinity
-)
+const sizePage = computed(() => pages.value?.length ?? Infinity)
 const minPage = 0 // computed(() => (rightToLeft.value ? -(sizePage.value - 1) : 0))
 const maxPage = computed(() => sizePage.value - 1)
 const currentPage = useClamp(0, minPage, maxPage)

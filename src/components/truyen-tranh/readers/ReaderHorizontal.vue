@@ -72,8 +72,9 @@
         <template v-else>
           <ChapterPageModeDouble
             v-for="{ src, index } in pagesRender"
+            :data-index="index"
             :key="index"
-            :single-page="sizes.get(index)?.[0]! > 1200"
+            :single-page="pageIsModeSingle(sizes, index)"
             :prime="rightToLeft ? index % 2 === 1 : index % 2 === 0"
             :src="src"
             @load="
@@ -121,6 +122,8 @@ import { useElementSize, useEventListener } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import type { Chapter } from "raiku-pgs/plugin"
 import { isTouchEvent } from "src/logic/is-touch-event"
+import { pageIsModeSingle } from "src/logic/page-is-mode-single"
+import { pageIsSingle } from "src/logic/page-is-single"
 
 const props = defineProps<{
   pages: readonly (Promise<string> | string)[]
@@ -128,7 +131,7 @@ const props = defineProps<{
   nextEpisode?: Chapter["route"]
 
   singlePage: boolean // 517px
-  rightToLeft?: boolean
+  rightToLeft: boolean
   minPage: number
   maxPage: number
   currentPage: number
@@ -142,16 +145,52 @@ const emit = defineEmits<{
 }>()
 
 // ========== logic control =============
-const pages = computed(() => props.pages.map((src, index) => ({ src, index })))
-const pagesRender = computed(() => {
-  return props.rightToLeft ? [...toRaw(pages.value)].reverse() : pages.value // .concat(props.pagesNext ?? [])
-})
-
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(
   () => props.pages,
   () => sizes.clear()
 )
+
+const indexed = computed(() => {
+  const indexed = new Map<number, number>()
+
+  let index = 0
+
+  for (let i = 0; i < props.pages.length; i++) {
+    if (pageIsModeSingle(sizes, i)) {
+      indexed.set(i, index)
+      index++
+    } else {
+      indexed.set(i, index)
+      i++
+      if (i < props.pages.length) {
+        indexed.set(i, index)
+      }
+      index++
+    }
+  }
+
+  return indexed
+})
+
+const pages = computed(() => props.pages.map((src, index) => ({ src, index })))
+const pagesRender = computed(() => {
+  return props.rightToLeft ? [...toRaw(pages.value)].reverse() : pages.value // .concat(props.pagesNext ?? [])
+})
+// const pagesRender = computed(() => {
+//   const pages = []
+
+//   $pagesRender.value.forEach((page) => {
+//     const size = sizes.get(page.index)
+//     if (size && pageIsSingle(...size)) {
+//       pages.push(page, page)
+//     } else {
+//       pages.push(page)
+//     }
+//   })
+
+//   return pages
+// })
 
 const rawSizePage = computed(() => {
   if (props.singlePage) {
@@ -160,8 +199,10 @@ const rawSizePage = computed(() => {
 
   return (
     props.pages.reduce((prev, item, index) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain, @typescript-eslint/no-non-null-assertion
-      if (sizes.get(index)?.[0]! > 1_200) prev += 2
+      const size = sizes.get(index)
+      if (!size) return prev + 0.5
+
+      if (pageIsSingle(...size)) prev += 1.5
       else prev += 0.5
 
       return prev
@@ -172,14 +213,37 @@ const rawSizePage = computed(() => {
 const sizePage = computed(() => {
   return Math.ceil(rawSizePage.value)
 })
-defineExpose({ sizes, sizePage })
+defineExpose({ sizes })
 
+const currentPageHydrated = computed(
+  () =>
+    indexed.value.get(props.currentPage) ?? Math.floor(props.currentPage / 2)
+)
 const diffSyx = computed(() => rawSizePage.value % 1)
 const calcSyx = computed(() => {
   if (props.rightToLeft)
-    return -(props.maxPage - props.currentPage) + diffSyx.value
-  return props.currentPage + diffSyx.value
+    return -(sizePage.value - 1 - currentPageHydrated.value) + diffSyx.value
+  return -currentPageHydrated.value + diffSyx.value
 })
+
+function prev() {
+  console.log("prev")
+  // emit("prev")
+  const size = sizes.get(props.currentPage)
+  emit(
+    "update:current-page",
+    props.currentPage - (size && pageIsModeSingle(sizes, props.currentPage-1) ? 1 : 2)
+  )
+}
+function next() {
+  console.log("next")
+  // emit("next")
+  const size = sizes.get(props.currentPage)
+  emit(
+    "update:current-page",
+    props.currentPage + (size && pageIsModeSingle(sizes, props.currentPage+1) ? 1 : 2)
+  )
+}
 
 // ========== /logic control =============
 
@@ -193,17 +257,6 @@ const oHeightH = computed(() => oHeight.value / 2)
 
 const pWidthH = computed(() => ~~pWidth.value / 2)
 const canSwipes = shallowReactive(Object.create(null))
-
-function prev() {
-  console.log("prev")
-  // emit("prev")
-  emit("update:current-page", props.currentPage - 1)
-}
-function next() {
-  console.log("next")
-  // emit("next")
-  emit("update:current-page", props.currentPage + 1)
-}
 
 const diffX = ref(0)
 const moving = ref(false)

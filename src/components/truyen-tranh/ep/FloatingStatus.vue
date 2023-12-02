@@ -7,7 +7,7 @@
       data-cy="image"
     >
       <img
-        :src="scrollingMode || singlePage ? img_single : img_double"
+        :src="scrollingMode || singlePage || isSingle ? img_single : img_double"
         class="h-32px my-auto"
         :class="{
           'rotate-90': scrollingMode,
@@ -15,29 +15,17 @@
         }"
       />
 
-      <template v-if="scrollingMode || singlePage">
+      <template v-if="scrollingMode || singlePage || isSingle">
         <span class="absolute top-1/2 left-1/2 translate--1/2">
           {{ currentPage + 1 }}
         </span>
       </template>
       <template v-else>
         <span class="absolute top-1/2 left-1/4 translate--1/2">
-          {{
-            indexed?.[absCurrentPage]?.[rightToLeft ? 1 : 0] ??
-            absCurrentPage * (singlePage ? 1 : 2) +
-              1 +
-              (rightToLeft ? 1 : 0) -
-              sizeOldPages
-          }}
+          {{ rightToLeft ? currentPage + 2 : currentPage + 1 }}
         </span>
         <span class="absolute top-1/2 left-3/4 translate--1/2">
-          {{
-            indexed?.[absCurrentPage]?.[rightToLeft ? 0 : 1] ??
-            absCurrentPage * (singlePage ? 1 : 2) +
-              1 +
-              (rightToLeft ? 0 : 1) -
-              sizeOldPages
-          }}
+          {{ rightToLeft ? currentPage + 1 : currentPage + 2 }}
         </span>
       </template>
     </div>
@@ -46,8 +34,8 @@
       <div>
         {{
           $t("page-p-per", [
-            pagesLength ?? "_",
-            Math.round(((absCurrentPage + 1) / sizePage) * 100)
+            sizePage ?? "_",
+            Math.round(((currentPage + 1) / sizePage) * 100)
           ])
         }}
       </div>
@@ -68,37 +56,23 @@ const props = defineProps<{
   scrollingMode: boolean
   singlePage: boolean
   rightToLeft: boolean
-  pagesLength?: number
   sizeOldPages: number
 
   sizes?: Map<number, readonly [number, number]>
-  currentPage: number
-  sizePage: number
+  currentPage: number // current page
+  sizePage: number // max page
 
   metaEp?: {
     name: string
   }
 }>()
 
-const absCurrentPage = computed(() => Math.abs(props.currentPage))
+const isSingle = computed(() => {
+  if (!props.sizes) return false
 
-const indexed = computed(() => {
-  if (!props.sizes) return
-  const indexed: [number, number?][] = []
+  // index
+  const indexImageShow = props.currentPage
 
-  const iMax = props.sizes.size - 1
-
-  for (let i = 0; i < props.sizes.size; i++) {
-    const val = props.sizes.get(i)
-
-    if ((val && val?.[0] > 1_200) || i === iMax) {
-      // single page
-      indexed.push([i + 1])
-      continue
-    }
-    indexed.push([i + 1, ++i + 1])
-  }
-
-  return indexed
+  return pageIsModeSingle(props.sizes, indexImageShow)
 })
 </script>
