@@ -28,9 +28,7 @@
       <div
         class="h-full transition-transform"
         :style="{
-          transform: `translateX(${`calc(${
-            (minPage - currentPage) * 100
-          }% + ${diffX}px)`})`,
+          transform: `translateX(${`calc(${calcSyx * 100}% + ${diffX}px)`})`,
           'transition-duration': `${moving ? 0 : 200}ms`
         }"
       >
@@ -74,8 +72,9 @@
         <template v-else>
           <ChapterPageModeDouble
             v-for="{ src, index } in pagesRender"
+            :data-index="index"
             :key="index"
-            :single-page="sizes.get(index)?.[0]! > 1200"
+            :single-page="pageIsModeSingle(sizes, index)"
             :prime="rightToLeft ? index % 2 === 1 : index % 2 === 0"
             :src="src"
             @load="
@@ -123,6 +122,8 @@ import { useElementSize, useEventListener } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import type { Chapter } from "raiku-pgs/plugin"
 import { isTouchEvent } from "src/logic/is-touch-event"
+import { pageIsModeSingle } from "src/logic/page-is-mode-single"
+import { pageIsSingle } from "src/logic/page-is-single"
 
 const props = defineProps<{
   pages: readonly (Promise<string> | string)[]
@@ -130,8 +131,9 @@ const props = defineProps<{
   nextEpisode?: Chapter["route"]
 
   singlePage: boolean // 517px
-  rightToLeft?: boolean
+  rightToLeft: boolean
   minPage: number
+  maxPage: number
   currentPage: number
   zoom: number
 }>()
@@ -142,34 +144,108 @@ const emit = defineEmits<{
   // (name: "next"): void
 }>()
 
-const pages = computed(() => props.pages.map((src, index) => ({ src, index })))
-const pagesRender = computed(() => {
-  return props.rightToLeft ? [...toRaw(pages.value)].reverse() : pages.value // .concat(props.pagesNext ?? [])
-})
-
+// ========== logic control =============
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(
   () => props.pages,
   () => sizes.clear()
 )
 
-const sizePage = computed(() => {
+const indexed = computed(() => {
+  const indexed = new Map<number, number>()
+
+  let index = 0
+
+  for (let i = 0; i < props.pages.length; i++) {
+    if (pageIsModeSingle(sizes, i)) {
+      indexed.set(i, index)
+      index++
+    } else {
+      indexed.set(i, index)
+      i++
+      if (i < props.pages.length) {
+        indexed.set(i, index)
+      }
+      index++
+    }
+  }
+
+  return indexed
+})
+
+const pages = computed(() => props.pages.map((src, index) => ({ src, index })))
+const pagesRender = computed(() => {
+  return props.rightToLeft ? [...toRaw(pages.value)].reverse() : pages.value // .concat(props.pagesNext ?? [])
+})
+// const pagesRender = computed(() => {
+//   const pages = []
+
+//   $pagesRender.value.forEach((page) => {
+//     const size = sizes.get(page.index)
+//     if (size && pageIsSingle(...size)) {
+//       pages.push(page, page)
+//     } else {
+//       pages.push(page)
+//     }
+//   })
+
+//   return pages
+// })
+
+const rawSizePage = computed(() => {
   if (props.singlePage) {
-    // only 1
     return props.pages.length
   }
 
-  return Math.ceil(
+  return (
     props.pages.reduce((prev, item, index) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain, @typescript-eslint/no-non-null-assertion
-      if (sizes.get(index)?.[0]! > 1_200) prev += 2
+      const size = sizes.get(index)
+      if (!size) return prev + 0.5
+
+      if (pageIsSingle(...size)) prev += 1.5
       else prev += 0.5
 
       return prev
     }, 0) + (props.nextEpisode ? 0.5 : 0)
   )
 })
-defineExpose({ sizes, sizePage })
+
+const sizePage = computed(() => {
+  return Math.ceil(rawSizePage.value)
+})
+defineExpose({ sizes })
+
+const currentPageHydrated = computed(
+  () =>
+    indexed.value.get(props.currentPage) ?? Math.floor(props.currentPage / 2)
+)
+const diffSyx = computed(() => rawSizePage.value % 1)
+const calcSyx = computed(() => {
+  if (props.rightToLeft)
+    return -(sizePage.value - 1 - currentPageHydrated.value) + diffSyx.value
+  return -currentPageHydrated.value + diffSyx.value
+})
+
+function prev() {
+  console.log("prev")
+  // emit("prev")
+  const size = sizes.get(props.currentPage)
+  emit(
+    "update:current-page",
+    props.currentPage - (size && pageIsModeSingle(sizes, props.currentPage-1) ? 1 : 2)
+  )
+}
+function next() {
+  console.log("next")
+  // emit("next")
+  const size = sizes.get(props.currentPage)
+  emit(
+    "update:current-page",
+    props.currentPage + (size && pageIsModeSingle(sizes, props.currentPage+1) ? 1 : 2)
+  )
+}
+
+// ========== /logic control =============
 
 const parentRef = ref<HTMLDivElement>()
 const overflowRef = ref<HTMLDivElement>()
@@ -181,17 +257,6 @@ const oHeightH = computed(() => oHeight.value / 2)
 
 const pWidthH = computed(() => ~~pWidth.value / 2)
 const canSwipes = shallowReactive(Object.create(null))
-
-function prev() {
-  console.log("prev")
-  // emit("prev")
-  emit("update:current-page", props.currentPage - 1)
-}
-function next() {
-  console.log("next")
-  // emit("next")
-  emit("update:current-page", props.currentPage + 1)
-}
 
 const diffX = ref(0)
 const moving = ref(false)
@@ -210,7 +275,7 @@ function onTouchStart(event: TouchEvent) {
 
   const index =
     props.rightToLeft && props.singlePage
-      ? sizePage.value - 1 + props.currentPage
+      ? props.pages.length - 1 + props.currentPage
       : props.currentPage
   canGo = canSwipes[index] ?? index >= props.pages.length ? "A" : null // ok
 
@@ -282,13 +347,15 @@ function onTouchEnd(event: TouchEvent) {
       speedSwipeX > 0.3 ||
       cDiffX > (event.target as HTMLDivElement).offsetWidth * 0.3
     ) {
-      prev()
+      if (props.rightToLeft) next()
+      else prev()
     }
     if (
       speedSwipeX < -0.3 ||
       cDiffX < (event.target as HTMLDivElement).offsetWidth * -0.3
     ) {
-      next()
+      if (props.rightToLeft) prev()
+      else next()
     }
 
     console.log(speedSwipeX)
@@ -372,13 +439,15 @@ function onWheel(event: WheelEvent) {
   if (event.altKey) diffXZoom.value += -event.deltaY / 2
   else {
     if (diffYZoom.value === maxDiffY.value && event.deltaY < 0) {
-      prev()
+      if (props.rightToLeft) next()
+      else prev()
       diffYZoom.value = minDiffY.value
       return
       // next
     }
     if (diffYZoom.value === minDiffY.value && event.deltaY > 0) {
-      next()
+      if (props.rightToLeft) prev()
+      else next()
       diffYZoom.value = maxDiffY.value
       return
       // prev
@@ -424,8 +493,8 @@ function onMouseUpCheckClick(event: MouseEvent | TouchEvent) {
   ) {
     console.log("click %s", directionLeft ? "L" : "R")
 
-    if (directionLeft) prev()
-    else next()
+    if (directionLeft) props.rightToLeft ? next() : prev()
+    else props.rightToLeft ? prev() : next()
   }
 
   mousezooming = true
@@ -437,11 +506,13 @@ useEventListener(window, "mouseup", onMouseUp)
 useEventListener(window, "keydown", (event) => {
   switch (event.key) {
     case "ArrowLeft":
-      if (diffXZoom.value === minDiffX.value) prev()
+      if (diffXZoom.value === minDiffX.value)
+        props.rightToLeft ? next() : prev()
       else diffXZoom.value -= 15
       break
     case "ArrowRight":
-      if (diffXZoom.value === maxDiffX.value) next()
+      if (diffXZoom.value === maxDiffX.value)
+        props.rightToLeft ? prev() : next()
       else diffXZoom.value += 15
       break
     case "ArrowTop":

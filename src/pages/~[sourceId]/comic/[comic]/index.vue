@@ -466,14 +466,24 @@ const networkStore = useNetworkStore()
 const api = pluginStore.useApi(toGetter(props, "sourceId"), false)
 
 const fetchComic = useWithCache(
-  () => api.value.then((plugin) => plugin.getComic(props.comic)),
+  () =>
+    api.value.then(async (plugin) =>
+      assign(await plugin.getComic(props.comic), { sourceId: props.sourceId })
+    ),
   computed(() => `${packageName}:///manga/${props.comic}`)
 )
 
-const { data, runAsync, error, loading } = useRequest<Comic | ComicOnDisk>(
+const { data, runAsync, error, loading } = useRequest<
+  | Awaited<ReturnType<typeof fetchComic>>
+  | (ComicOnDisk & { readonly sourceId: string })
+>(
   () => {
     if (networkStore.isOnline) return fetchComic()
-    return getComic(props.comic).then((res) => markFlag(res, FLAG_OFFLINE))
+    return getComic(props.comic)
+      .then((res) => markFlag(res, FLAG_OFFLINE))
+      .then((res) =>
+        assign(res, { sourceId: res.route.params.sourceId } as const)
+      )
   },
   {
     refreshDeps: [api, () => props.comic]
@@ -552,12 +562,12 @@ const isFollow = computedAsync<boolean | undefined>(() => {
 const lastEpRead = computedAsync(() => {
   if (!data.value) return
 
-  return historyStore.getLastEpRead(data.value.manga_id)
+  return historyStore.getLastEpRead(data.value.manga_id, data.value.sourceId)
 }, undefined)
 const listEpRead = computedAsync(() => {
   if (!data.value) return
 
-  return historyStore.getListEpRead(data.value.manga_id)
+  return historyStore.getListEpRead(data.value.manga_id, data.value.sourceId)
 })
 
 function onClickShare() {

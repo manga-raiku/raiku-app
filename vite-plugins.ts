@@ -58,7 +58,7 @@ export const vitePlugins: [
         // VueRouterAutoImports,
         {
           "@iconify/vue": ["Icon"],
-          "@vueuse/core": ["computedAsync", "watchImmediate"],
+          "@vueuse/core": ["computedAsync", "watchImmediate", "useStorage"],
           "@vueuse/router": ["useRouteParams"],
           quasar: ["useQuasar"],
           "vue-request": ["useRequest"],

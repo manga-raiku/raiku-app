@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import type { Database } from "app/database"
 import { defineStore } from "pinia"
 import type { ID } from "raiku-pgs/plugin"
@@ -27,6 +28,7 @@ export const useHistoryStore = defineStore("history", () => {
     return data
   }
 
+  /** @returns {number} is id row table `history_manga` */
   async function upsert(
     row: Omit<
       Database["public"]["Tables"]["history_manga"]["Row"],
@@ -35,9 +37,20 @@ export const useHistoryStore = defineStore("history", () => {
   ) {
     await authStore.assert()
 
-    const { data, error } = await supabase.from("history_manga").upsert(row, {
-      ignoreDuplicates: false,
-      onConflict: "manga_id, user_id"
+    const { data, error } = await supabase.rpc("upsert_history_manga", row)
+
+    // eslint-disable-next-line functional/no-throw-statement
+    if (error) throw error
+    return data
+  }
+
+  // TODO: pagination  this rpc
+  async function getListEpRead(manga_id: ID, source_id: string) {
+    await authStore.assert()
+
+    const { data, error } = await supabase.rpc("get_ls_ep_read", {
+      manga_id,
+      source_id
     })
 
     // eslint-disable-next-line functional/no-throw-statement
@@ -45,35 +58,150 @@ export const useHistoryStore = defineStore("history", () => {
     return data
   }
 
-  // eslint-disable-next-line camelcase
-  async function getListEpRead(manga_id: ID) {
+  async function getLastEpRead(manga_id: ID, source_id: string) {
     await authStore.assert()
 
-    // eslint-disable-next-line camelcase
-    const { data, error } = await supabase.rpc("get_ls_ep_read", { manga_id })
+    const { data, error } = await supabase.rpc("get_last_ep_read", {
+      manga_id,
+      source_id
+    })
 
     // eslint-disable-next-line functional/no-throw-statement
     if (error) throw error
-    return data
+    return data[0]
   }
 
-  // eslint-disable-next-line camelcase
-  async function getLastEpRead(manga_id: ID) {
-    const session = await authStore.assert()
+  function getProgressReadEP(
+    h_manga_id: number,
+    ep_id: string
+  ): Promise<
+    Pick<
+      Database["public"]["Tables"]["history_chapter"]["Row"],
+      "id" | "current_page" | "max_page" | "updated_at"
+    >
+  >
+  // eslint-disable-next-line no-redeclare
+  function getProgressReadEP(
+    manga_id: ID,
+    ep_id: ID,
+    source_id: string
+  ): Promise<
+    Pick<
+      Database["public"]["Tables"]["history_chapter"]["Row"],
+      "id" | "current_page" | "max_page" | "updated_at"
+    >
+  >
+  // eslint-disable-next-line no-redeclare
+  async function getProgressReadEP(
+    manga_id: ID | number,
+    ep_id: ID,
+    source_id?: string
+  ): Promise<
+    Pick<
+      Database["public"]["Tables"]["history_chapter"]["Row"],
+      "id" | "current_page" | "max_page" | "updated_at"
+    >
+  > {
+    await authStore.assert()
 
-    const { data, error } = await supabase
-      .from("history_manga")
-      .select(
-        "id:last_ch_id, name:last_ch_name, param:last_ch_param, updated_at"
-      )
-      .eq("manga_id", manga_id)
-      .eq("user_id", session.user.id)
-      .limit(1)
-      .single()
+    if (source_id === undefined) {
+      const { data, error } = await supabase
+        .from("history_chapter")
+        .select("id, current_page, max_page, updated_at")
+        .eq("h_manga_id", manga_id)
+        .eq("ep_id", ep_id)
+        .limit(1)
+        .single()
 
-    // eslint-disable-next-line functional/no-throw-statement
-    if (error) throw error
-    return data
+      // eslint-disable-next-line functional/no-throw-statement
+      if (error) throw error
+      return data
+    } else {
+      const { data, error } = await supabase.rpc("get_progress_read_ep", {
+        manga_id: manga_id as ID,
+        ep_id,
+        source_id
+      })
+
+      // eslint-disable-next-line functional/no-throw-statement
+      if (error) throw error
+      return data[0]
+    }
+  }
+
+  function setProgressReadEP(
+    id: number,
+    ep_id: string,
+    useID: true,
+    current_page: number,
+    max_page: number
+  ): Promise<void>
+  // eslint-disable-next-line no-redeclare
+  function setProgressReadEP(
+    h_manga_id: number,
+    ep_id: string,
+    useID: false,
+    current_page: number,
+    max_page: number
+  ): Promise<void>
+  // eslint-disable-next-line no-redeclare
+  function setProgressReadEP(
+    manga_id: ID,
+    ep_id: ID,
+    source_id: string,
+    current_page: number,
+    max_page: number
+  ): Promise<void>
+  // eslint-disable-next-line no-redeclare
+  async function setProgressReadEP(
+    manga_id: ID | number,
+    ep_id: ID,
+    source_id: string | boolean,
+    current_page: number,
+    max_page: number
+  ): Promise<void> {
+    await authStore.assert()
+
+    if (typeof source_id === "boolean") {
+      if (source_id)
+        await supabase
+          .from("history_chapter")
+          .update({
+            current_page,
+            max_page
+          })
+          .eq("ep_id", ep_id)
+          .eq("id", manga_id as number)
+          .throwOnError()
+      else
+        await supabase
+          .from("history_chapter")
+          .upsert(
+            {
+              h_manga_id: manga_id as number,
+              ep_id,
+              current_page,
+              max_page
+            },
+            {
+              ignoreDuplicates: false,
+              onConflict: "h_manga_id, ep_id" // this is unique key
+            }
+          )
+          .eq("ep_id", ep_id)
+          .eq("h_manga_id", manga_id as number)
+          .throwOnError()
+    } else {
+      await supabase
+        .rpc("set_progress_read_ep", {
+          manga_id: manga_id as ID,
+          ep_id,
+          source_id,
+          current_page,
+          max_page
+        })
+        .throwOnError()
+    }
   }
 
   return {
@@ -81,6 +209,9 @@ export const useHistoryStore = defineStore("history", () => {
     upsert,
 
     getListEpRead,
-    getLastEpRead
+    getLastEpRead,
+
+    getProgressReadEP,
+    setProgressReadEP
   }
 })

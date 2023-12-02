@@ -9,7 +9,8 @@
       class="object-scale-down h-full"
       loader-absolute
       :class="{
-        'ml-auto': prime
+        'ml-auto': prime,
+        'mx-auto': singlePage
       }"
       :src="src"
       @load="(image) => emit('load', image)"

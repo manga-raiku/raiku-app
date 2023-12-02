@@ -259,7 +259,7 @@ async function login(provider?: "google" | "twitter") {
     })
   }
 
-  if (route.query.redirect) void router.push((route.query.redirect ?? "/") + "")
+  void router.push((route.query.redirect ?? "/") + "")
 }
 </script>
 
