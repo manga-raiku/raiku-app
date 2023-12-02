@@ -82,11 +82,10 @@ meta:
   <q-page
     :style-fn="
       () => {
-        return {
-        }
+        return {}
       }
     "
-    class="fixed top-0 w-full"
+    class="fixed top-0 size-100%"
   >
     <!-- reader -->
     <div
@@ -101,6 +100,7 @@ meta:
         :single-page="singlePage || $q.screen.width <= 517"
         :right-to-left="rightToLeft"
         :min-page="minPage"
+        :max-page="maxPage"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
         :next-episode="nextEpisode?.value.route"
@@ -207,13 +207,12 @@ meta:
       <div class="flex-1 mx-4 flex <md:order-2">
         <q-slider
           class="my-auto"
-          :model-value="rightToLeft ? -currentPage : currentPage"
-          @update:model-value="currentPage = rightToLeft ? -$event! : $event!"
+          v-model="currentPage"
           markers
           dense
           :reverse="rightToLeft"
-          :min="rightToLeft ? maxPage : minPage"
-          :max="rightToLeft ? -minPage : maxPage"
+          :min="minPage"
+          :max="maxPage"
           color="main"
         />
       </div>
@@ -602,7 +601,8 @@ import { packageName } from "app/package.json"
 import ReaderHorizontal from "components/truyen-tranh/readers/ReaderHorizontal.vue"
 import ReaderVertical from "components/truyen-tranh/readers/ReaderVertical.vue"
 import type { QDialog, QMenu } from "quasar"
-import type { Chapter, Comic, ComicChapter, ID } from "raiku-pgs/plugin"
+import { debounce } from "quasar"
+import type { Comic, ID } from "raiku-pgs/plugin"
 // import data from "src/apis/parsers/__test__/assets/truyen-tranh/kanojo-mo-kanojo-9164-chap-140.json"
 import {
   APP_NATIVE_MOBILE,
@@ -628,6 +628,7 @@ const $q = useQuasar()
 const IDMStore = useIDMStore()
 const followStore = useFollowStore()
 const historyStore = useHistoryStore()
+const authStore = useAuthStore()
 const route = useRoute()
 const router = useRouter()
 const i18n = useI18n()
@@ -655,24 +656,26 @@ const readerHorizontalRef = ref<InstanceType<typeof ReaderHorizontal>>()
 const readerVerticalRef = ref<InstanceType<typeof ReaderVertical>>()
 const fetchComicEp = useWithCache(
   () =>
-    api.value.then((res) =>
-      res.getComicChapter(props.comic, props.chap, false)
+    api.value.then(async (res) =>
+      assign(await res.getComicChapter(props.comic, props.chap, false), {
+        sourceId: props.sourceId
+      })
     ),
   computed(() => `${packageName}:///manga/${id.value}`)
 )
 
 // let disableReactiveParams = false
 const { data, runAsync, loading, error } = useRequest<
-  | (ComicChapter & {
-      readonly chapters: Chapter[]
-    })
-  | ComicChapterOnDisk
+  | Awaited<ReturnType<typeof fetchComicEp>>
+  | (ComicChapterOnDisk & { readonly sourceId: string })
 >(
   () => {
     if (networkStore.isOnline) return fetchComicEp()
-    return getEpisode(props.comic, props.chap).then((res) =>
-      markFlag(res, FLAG_OFFLINE)
-    )
+    return getEpisode(props.comic, props.chap)
+      .then((res) => markFlag(res, FLAG_OFFLINE))
+      .then((res) =>
+        assign(res, { sourceId: res.route.params.sourceId } as const)
+      )
   },
   {
     refreshDeps: [api, () => props.comic, () => props.chap],
@@ -699,7 +702,10 @@ watch(error, (error) => {
 })
 
 const $fetchComic = useWithCache(
-  () => api.value.then((plugin) => plugin.getComic(props.comic)),
+  () =>
+    api.value.then(async (plugin) =>
+      assign(await plugin.getComic(props.comic), { sourceId: props.sourceId })
+    ),
   computed(() => `${packageName}:///manga/${props.comic}`)
 )
 let $data: Comic
@@ -844,7 +850,7 @@ const lastEpRead = computedAsync(
   () => {
     if (!data.value) return
 
-    return historyStore.getLastEpRead(data.value.manga_id)
+    return historyStore.getLastEpRead(data.value.manga_id, data.value.sourceId)
   },
   undefined,
   {
@@ -855,7 +861,7 @@ const listEpRead = computedAsync(
   () => {
     if (!data.value) return
 
-    return historyStore.getListEpRead(data.value.manga_id)
+    return historyStore.getListEpRead(data.value.manga_id, data.value.sourceId)
   },
   undefined,
   {
@@ -903,16 +909,18 @@ const pages = computedAsync(
 const sizePage = computed(
   () => readerHorizontalRef.value?.sizePage ?? pages.value?.length ?? Infinity
 )
-const minPage = computed(() => (rightToLeft.value ? -(sizePage.value - 1) : 0))
-const maxPage = computed(() => (rightToLeft.value ? 0 : sizePage.value - 1))
+const minPage = 0 // computed(() => (rightToLeft.value ? -(sizePage.value - 1) : 0))
+const maxPage = computed(() => sizePage.value - 1)
 const currentPage = useClamp(0, minPage, maxPage)
 
-useStoreProgressEp({
-  id,
+useLocalStoreProgressEp({
+  comic: toGetter(props, "comic"),
+  chap: toGetter(props, "chap"),
   singlePage,
   rightToLeft,
   scrollingMode,
-  currentPage
+  currentPage,
+  maxPage: sizePage
 })
 
 const showToolbar = ref(true)
@@ -936,6 +944,7 @@ function onClickReader(fromOverlay: boolean) {
 
 // TODO: calculate previous episode and next episode
 const currentEpisode = computed(() => {
+  console.log(data.value, route.params)
   let index = -1
   const value = data.value?.chapters.find((item, i) => {
     if (
@@ -1042,17 +1051,22 @@ async function nextCh() {
 
 // save to history
 let timeoutUpsertHistory: NodeJS.Timeout | number | null = null
+onBeforeUnmount(
+  () => timeoutUpsertHistory && clearTimeout(timeoutUpsertHistory)
+)
 watch(
   [() => props.comic, () => props.chap, data],
-  ([comic, chap, data]) => {
+  ([comic, chap, data], _, onClean) => {
     if (timeoutUpsertHistory) clearTimeout(timeoutUpsertHistory)
 
     const ep = currentEpisode.value?.value
     if (!data || !ep) return
     const { sourceId } = props
 
-    timeoutUpsertHistory = setTimeout(() => {
-      void historyStore.upsert({
+    timeoutUpsertHistory = setTimeout(async () => {
+      timeoutUpsertHistory = null
+      // eslint-disable-next-line camelcase
+      const h_manga_id = await historyStore.upsert({
         image: data.image,
         last_ch_id: ep.id,
         last_ch_name: ep.name,
@@ -1062,42 +1076,71 @@ watch(
         manga_param: comic,
         source_id: sourceId
       })
-      timeoutUpsertHistory = null
+
+      const clean = watch(
+        [() => authStore.session, () => props.sourceId, currentPage, maxPage],
+        debounce(
+          ([session, sourceId, currentPage, maxPage]: [
+            typeof authStore.session,
+            string,
+            number,
+            number
+          ]) => {
+            console.log({ session, sourceId, currentPage, maxPage })
+            // debugger
+            if (!session || !data) return
+
+            if (maxPage > 0) {
+              void historyStore.setProgressReadEP(
+                h_manga_id,
+                data.ep_id,
+                false,
+                currentPage,
+                maxPage
+              )
+
+              console.log("[cloud progress]: saving to cloud", {
+                // eslint-disable-next-line camelcase
+                h_manga_id,
+                ep: data.ep_id,
+                currentPage,
+                maxPage
+              })
+            }
+          },
+          100
+        )
+      )
+      onClean(clean)
     }, 1_000)
   },
   { immediate: true }
 )
+
+// ========== setup restore progress read on server ==========
+
+// get and restore progress read on server
+const storeFetchedEP = new Set<string>()
+watch(
+  [() => authStore.session, data, () => props.sourceId],
+  async ([session, data, sourceId]) => {
+    if (!session || !data || !sourceId) return
+
+    const id = `~${sourceId}/${data.manga_id}/${data.ep_id}`
+
+    if (storeFetchedEP.has(id)) return
+
+    storeFetchedEP.add(id)
+    const progress = await historyStore.getProgressReadEP(
+      data.manga_id,
+      data.ep_id,
+      sourceId
+    )
+
+    console.log("progress read on server:", { progress })
+    currentPage.value = progress.current_page
+  },
+  { immediate: true }
+)
+// ========== /setup restore progress read on server ==========
 </script>
-
-<!-- <swiper
-      :spaceBetween="0"
-        :slides-per-view="1"
-      class="h-full"
-    >
-      <swiper-slide
-        v-for="(_, index) in Math.ceil((data.pages.length ) / 2)"
-        :key="index"
-      >
-      <div class="w-full h-full flex items-center justify-center">
-
-      <div class="w-1/2 h-full">
-        {{sizes}} 1200
-        <img class="object-scale-down h-full" :class="{
-          'ml-auto': true
-        }" :src="data.pages[index*2]?.src"
-        @load="$event => {
-          sizes[ index * 2 ] = [$event.target.naturalWidth, $event.target.naturalHeight]
-        }"
-        />
-      </div>
-      <div class="w-1/2 h-full">
-
-        <img class="object-scale-down h-full" :src="data.pages[index*2 + 1]?.src"
-        @load="$event => {
-          sizes[ index * 2 + 1 ] = [$event.target.naturalWidth, $event.target.naturalHeight]
-        }"
-        />
-      </div>
-      </div>
-      </swiper-slide>
-  </swiper> -->

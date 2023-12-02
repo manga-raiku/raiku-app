@@ -82,6 +82,7 @@ export interface Database {
           ep_id: string
           h_manga_id: number
           id: number
+          max_page: number
           updated_at: string
         }
         Insert: {
@@ -90,6 +91,7 @@ export interface Database {
           ep_id: string
           h_manga_id: number
           id?: number
+          max_page: number
           updated_at?: string
         }
         Update: {
@@ -98,6 +100,7 @@ export interface Database {
           ep_id?: string
           h_manga_id?: number
           id?: number
+          max_page?: number
           updated_at?: string
         }
         Relationships: [
@@ -135,7 +138,7 @@ export interface Database {
           manga_id: string
           manga_name: string
           manga_param: string
-          source_id?: string
+          source_id: string
           updated_at?: string
           user_id?: string
         }
@@ -203,15 +206,69 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      get_last_ep_read: {
+        Args: {
+          manga_id: string
+          source_id: string
+        }
+        Returns: {
+          h_manga_id: number
+          id: string
+          name: string
+          param: string
+          source: string
+          updated_at: string
+          current_page: number
+          max_page: number
+        }[]
+      }
       get_ls_ep_read: {
         Args: {
           manga_id: string
+          source_id: string
         }
         Returns: {
           ep_id: string
           current_page: number
+          max_page: number
           updated_at: string
         }[]
+      }
+      get_progress_read_ep: {
+        Args: {
+          manga_id: string
+          source_id: string
+          ep_id: string
+        }
+        Returns: {
+          id: number
+          current_page: number
+          max_page: number
+          updated_at: string
+        }[]
+      }
+      set_progress_read_ep: {
+        Args: {
+          manga_id: string
+          source_id: string
+          ep_id: string
+          current_page: number
+          max_page: number
+        }
+        Returns: undefined
+      }
+      upsert_history_manga: {
+        Args: {
+          manga_id: string
+          source_id: string
+          last_ch_id: string
+          last_ch_name: string
+          last_ch_param: string
+          image: string
+          manga_name: string
+          manga_param: string
+        }
+        Returns: number
       }
     }
     Enums: {
