@@ -29,7 +29,7 @@
         class="h-full transition-transform"
         :style="{
           transform: `translateX(${`calc(${
-            (minPage - currentPage) * 100
+            (rightToLeft ? -(maxPage - currentPage) : -currentPage) * 100
           }% + ${diffX}px)`})`,
           'transition-duration': `${moving ? 0 : 200}ms`
         }"
@@ -132,6 +132,7 @@ const props = defineProps<{
   singlePage: boolean // 517px
   rightToLeft?: boolean
   minPage: number
+  maxPage: number
   currentPage: number
   zoom: number
 }>()
@@ -282,13 +283,15 @@ function onTouchEnd(event: TouchEvent) {
       speedSwipeX > 0.3 ||
       cDiffX > (event.target as HTMLDivElement).offsetWidth * 0.3
     ) {
-      prev()
+      if (props.rightToLeft) next()
+      else prev()
     }
     if (
       speedSwipeX < -0.3 ||
       cDiffX < (event.target as HTMLDivElement).offsetWidth * -0.3
     ) {
-      next()
+      if (props.rightToLeft) prev()
+      else next()
     }
 
     console.log(speedSwipeX)
@@ -372,13 +375,15 @@ function onWheel(event: WheelEvent) {
   if (event.altKey) diffXZoom.value += -event.deltaY / 2
   else {
     if (diffYZoom.value === maxDiffY.value && event.deltaY < 0) {
-      prev()
+      if (props.rightToLeft) next()
+      else prev()
       diffYZoom.value = minDiffY.value
       return
       // next
     }
     if (diffYZoom.value === minDiffY.value && event.deltaY > 0) {
-      next()
+      if (props.rightToLeft) prev()
+      else next()
       diffYZoom.value = maxDiffY.value
       return
       // prev
@@ -424,8 +429,8 @@ function onMouseUpCheckClick(event: MouseEvent | TouchEvent) {
   ) {
     console.log("click %s", directionLeft ? "L" : "R")
 
-    if (directionLeft) prev()
-    else next()
+    if (directionLeft) props.rightToLeft ? next() : prev()
+    else props.rightToLeft ? prev() : next()
   }
 
   mousezooming = true
@@ -437,11 +442,13 @@ useEventListener(window, "mouseup", onMouseUp)
 useEventListener(window, "keydown", (event) => {
   switch (event.key) {
     case "ArrowLeft":
-      if (diffXZoom.value === minDiffX.value) prev()
+      if (diffXZoom.value === minDiffX.value)
+        props.rightToLeft ? next() : prev()
       else diffXZoom.value -= 15
       break
     case "ArrowRight":
-      if (diffXZoom.value === maxDiffX.value) next()
+      if (diffXZoom.value === maxDiffX.value)
+        props.rightToLeft ? prev() : next()
       else diffXZoom.value += 15
       break
     case "ArrowTop":
