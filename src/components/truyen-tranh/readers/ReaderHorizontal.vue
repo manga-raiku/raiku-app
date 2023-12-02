@@ -232,7 +232,8 @@ function prev() {
   const size = sizes.get(props.currentPage)
   emit(
     "update:current-page",
-    props.currentPage - (size && pageIsModeSingle(sizes, props.currentPage-1) ? 1 : 2)
+    props.currentPage -
+      (size && pageIsModeSingle(sizes, props.currentPage - 1) ? 1 : 2)
   )
 }
 function next() {
@@ -241,7 +242,8 @@ function next() {
   const size = sizes.get(props.currentPage)
   emit(
     "update:current-page",
-    props.currentPage + (size && pageIsModeSingle(sizes, props.currentPage+1) ? 1 : 2)
+    props.currentPage +
+      (size && pageIsModeSingle(sizes, props.currentPage + 1) ? 1 : 2)
   )
 }
 

@@ -110,7 +110,7 @@ describe("FloatingStatus", () => {
     cy.get("[data-cy=text]")
       .find("div")
       .first()
-      .should("have.text", "page-p-per:2,33")
+      .should("have.text", "page-p-per:3,33")
     cy.get("[data-cy=text]").find("div").last().should("have.text", "ep-name:1")
   })
 })

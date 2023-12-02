@@ -20,7 +20,10 @@
       <template v-else>{{ caption }}</template>
     </div>
   </q-card-section>
-  <q-card-actions align="center" class="flex-nowrap children:mx-1 children:py-2">
+  <q-card-actions
+    align="center"
+    class="flex-nowrap children:mx-1 children:py-2"
+  >
     <q-btn
       rounded
       outline

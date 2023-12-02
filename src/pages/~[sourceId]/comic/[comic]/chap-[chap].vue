@@ -200,8 +200,7 @@ meta:
       </div>
 
       <span class="display-block text-#777 whitespace-nowrap <md:!hidden"
-        >{{ (currentPage) + 1 }} /
-        {{ sizePage }}</span
+        >{{ currentPage + 1 }} / {{ sizePage }}</span
       >
       <div class="flex-1 mx-4 flex <md:order-2">
         <q-slider
