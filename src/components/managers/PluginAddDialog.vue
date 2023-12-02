@@ -76,7 +76,7 @@
                   {{ item.meta.description }}
                 </q-item-label>
                 <q-item-label lines="1" caption>
-                  {{ $t("tag-user", [item.sender]) }}
+                  @{{ item.sender }}
                 </q-item-label>
               </q-item-section>
               <q-item-section side>
