@@ -1,5 +1,5 @@
 <template>
-  <q-footer-custom class="bg-dark-page app-footer">
+  <q-footer-custom class="transparent app-footer">
     <div
       class="app-footer-prepend"
       :ref="(ref) => (stateStore.appFooterPrependRef = ref as HTMLDivElement)"
@@ -8,7 +8,7 @@
     <q-tabs
       indicator-color="transparent"
       active-color="white"
-      class="bg-transparent text-grey-5 !shadow-2 text-[12px] tabs-main"
+      class="bg-dark-page text-grey-5 !shadow-2 text-[12px] tabs-main"
       no-caps
     >
       <q-route-tab

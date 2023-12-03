@@ -75,8 +75,8 @@
           </q-menu>
         </q-btn>
 
-        <AppHeaderFollows v-if="APP_STANDALONE" />
-        <AppHeaderHistory v-if="APP_STANDALONE" />
+        <AppHeaderFollows v-if="!APP_STANDALONE && !$q.screen.xs" />
+        <AppHeaderHistory v-if="!APP_STANDALONE && !$q.screen.xs" />
         <AppHeaderNotify />
 
         <AppHeaderUser />
