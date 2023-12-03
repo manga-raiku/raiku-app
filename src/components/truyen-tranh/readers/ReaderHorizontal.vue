@@ -2,7 +2,7 @@
   <section
     class="h-full overflow-hidden relative"
     ref="parentRef"
-    @mousedown="onMouseDown"
+    @mousedown.prevent="onMouseDown"
     @wheel="onWheel"
     @touchstart="onTouchStart"
     @touchmove.passive="onTouchMove"
@@ -381,9 +381,9 @@ function onTouchEnd(event: TouchEvent) {
   // }
 }
 
-const minDiffX = computed(() => Math.max(0, (pWidth.value - oWidth.value) / 2))
+const minDiffX = computed(() => ((pWidth.value - oWidth.value) / 2))
 const minDiffY = computed(() =>
-  Math.max(0, (pHeight.value - oHeight.value) / 2)
+  ((pHeight.value - oHeight.value) / 2)
 )
 const maxDiffX = computed(() => -minDiffX.value)
 const maxDiffY = computed(() => -minDiffY.value)
@@ -401,10 +401,11 @@ function onMouseDown(event: MouseEvent) {
 
   lastMouseOff = { x: event.clientX, y: event.clientY }
   ;[lastMouseDiff.x, lastMouseDiff.y] = [diffXZoom.value, diffYZoom.value]
-  console.log("log")
+  console.log("mouse down")
 }
 function onMouseMove(event: MouseEvent) {
   if (!mouseDowned || !lastMouseOff) return
+
   const [diffX, diffY] = [
     event.clientX - lastMouseOff.x,
     event.clientY - lastMouseOff.y
@@ -419,7 +420,10 @@ function onMouseMove(event: MouseEvent) {
   last2Time = lastTime
   lastTime = Date.now()
 
-  console.log("log ", lastMouseDiff, diffX, diffY)
+  console.log("log ",[lastMouseDiff.x + diffX,  lastMouseDiff.y + diffY], {
+    x: diffXZoom.value,
+    y: diffYZoom.value
+  })
 }
 function onMouseUp(event: MouseEvent) {
   onMouseUpCheckClick(event)
@@ -517,11 +521,11 @@ useEventListener(window, "keydown", (event) => {
         props.rightToLeft ? prev() : next()
       else diffXZoom.value += 15
       break
-    case "ArrowTop":
-      diffYZoom.value -= 15
-      break
-    case "ArrowBottom":
+    case "ArrowUp":
       diffYZoom.value += 15
+      break
+    case "ArrowDown":
+      diffYZoom.value -= 15
       break
   }
 })
