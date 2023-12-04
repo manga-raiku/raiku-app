@@ -62,7 +62,7 @@
     "@iconify-icons/logos": "^1.2.36",
     "@iconify-json/uim": "^1.1.6",
     "@iconify/vue": "^4.1.1",
-    "@quasar/extras": "^1.15.10",
+    "@quasar/extras": "^1.16.9",
     "@supabase/supabase-js": "^2.38.4",
     "@tachibana-shin/capacitor-filesystem": "^5.0.2",
     "@unhead/vue": "^1.6.2",
