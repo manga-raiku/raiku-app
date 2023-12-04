@@ -8,7 +8,8 @@ export function useLocalStoreProgressEp({
   rightToLeft,
   scrollingMode,
   currentPage,
-  maxPage
+  maxPage,
+  zoom
 }: {
   comic: ComputedRef<string>
   chap: ComputedRef<string>
@@ -17,6 +18,7 @@ export function useLocalStoreProgressEp({
   scrollingMode: Ref<boolean>
   currentPage: Ref<number>
   maxPage: Ref<number>
+  zoom: Ref<number>
 }) {
   const authStore = useAuthStore()
 
@@ -33,6 +35,7 @@ export function useLocalStoreProgressEp({
       singlePage.value = data.singlePage
       rightToLeft.value = data.rightToLeft
       scrollingMode.value = data.scrollingMode
+      if (data.zoom) zoom.value = data.zoom
 
       restored.value = true
     }
@@ -41,20 +44,22 @@ export function useLocalStoreProgressEp({
   }
 
   watch(
-    [comic, singlePage, rightToLeft, scrollingMode],
+    [comic, singlePage, rightToLeft, scrollingMode, zoom],
     debounce(
-      ([comic, singlePage, rightToLeft, scrollingMode]: [
+      ([comic, singlePage, rightToLeft, scrollingMode, zoom]: [
         string,
         boolean,
         boolean,
-        boolean
+        boolean,
+        number
       ]) => {
         localStorage.setItem(
           `${packageName}://state/${comic}`,
           JSON.stringify({
             singlePage,
             rightToLeft,
-            scrollingMode
+            scrollingMode,
+            zoom
           })
         )
       },

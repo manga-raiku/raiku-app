@@ -381,10 +381,8 @@ function onTouchEnd(event: TouchEvent) {
   // }
 }
 
-const minDiffX = computed(() => ((pWidth.value - oWidth.value) / 2))
-const minDiffY = computed(() =>
-  ((pHeight.value - oHeight.value) / 2)
-)
+const minDiffX = computed(() => (pWidth.value - oWidth.value) / 2)
+const minDiffY = computed(() => (pHeight.value - oHeight.value) / 2)
 const maxDiffX = computed(() => -minDiffX.value)
 const maxDiffY = computed(() => -minDiffY.value)
 
@@ -420,7 +418,7 @@ function onMouseMove(event: MouseEvent) {
   last2Time = lastTime
   lastTime = Date.now()
 
-  console.log("log ",[lastMouseDiff.x + diffX,  lastMouseDiff.y + diffY], {
+  console.log("log ", [lastMouseDiff.x + diffX, lastMouseDiff.y + diffY], {
     x: diffXZoom.value,
     y: diffYZoom.value
   })

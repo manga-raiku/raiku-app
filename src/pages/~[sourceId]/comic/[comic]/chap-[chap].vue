@@ -315,6 +315,7 @@ meta:
               <div v-if="!data || loading" class="py-4 text-center">
                 <q-spinner color="sakura3" size="40px" class="mx-auto" />
               </div>
+              <!-- this componenet need fetchComic but lazy call -->
               <ListChapters
                 v-else
                 :chapters="data.chapters"
@@ -916,7 +917,8 @@ const localStateRestored = useLocalStoreProgressEp({
   rightToLeft,
   scrollingMode,
   currentPage,
-  maxPage: sizePage
+  maxPage: sizePage,
+  omm
 })
 
 const showToolbar = ref(true)
