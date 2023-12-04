@@ -157,6 +157,8 @@ export interface Package {
 
   readonly resolveImage: readonly Replacer[]
 
+  readonly supportGetMode?: boolean
+
   readonly homepage?: string
   readonly repository?: string
 
@@ -248,6 +250,12 @@ export interface ComicChapter {
   readonly comments: readonly Comment[]
   readonly comments_count: number
   readonly comments_pages: number
+
+  readonly mode?: {
+    readonly singlePage?: boolean
+    readonly rightToLeft?: boolean
+    readonly scrollingMode?: boolean
+  }
 }
 export interface General {
   readonly name: string
@@ -263,11 +271,13 @@ export interface Comments {
   readonly comments_pages: number
 }
 
-export declare class API {
+export declare class API<AutoFetchComicIsManga extends boolean = false> {
   // public readonly package: Package
 
   public readonly Servers: readonly Server[]
   public readonly Rankings: readonly Ranking[]
+
+  public readonly autoFetchComicIsManga: AutoFetchComicIsManga
 
   setup(): Promise<void>
 
@@ -280,6 +290,15 @@ export declare class API {
   >
 
   getComic(zlugComic: ID): Promise<Comic>
+  getModeReader?(
+    comic: string,
+    sourceId: string,
+    comicData: AutoFetchComicIsManga extends true ? Comic : undefined
+  ): Promise<{
+    readonly singlePage?: boolean
+    readonly rightToLeft?: boolean
+    readonly scrollingMode?: boolean
+  }>
   getComicChapter<Fast extends boolean>(
     zlugComic: ID,
     chap: ID,

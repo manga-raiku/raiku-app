@@ -717,16 +717,24 @@ const fetchComic = async () => {
 watchEffect(async () => {
   try {
     if (localStateRestored.value) return
-    
-    const reader = await api.getModeReader(
+    void props.comic
+    void api.value
+    if (!(await pluginStore.get(props.sourceId)).meta.supportGetMode) return
+
+    const $api = await api.value
+
+    const reader = await (await $api.getModeReader)!(
       props.comic,
-      props.sourceID,
-      (await api.autoFetchComicIsManga) ? await fetchComic() : undefined
+      props.sourceId,
+      ((await $api.autoFetchComicIsManga)
+        ? await fetchComic()
+        : undefined) as unknown as any
     )
 
-    if (reader.singlePage !== undefined) singlePage.value = reader.singlePage
-    if (reader.rightToLeft !== undefined) rightToLeft.value = reader.rightToLeft
-    if (reader.scrollingMode !== undefined)
+    if (reader?.singlePage !== undefined) singlePage.value = reader.singlePage
+    if (reader?.rightToLeft !== undefined)
+      rightToLeft.value = reader.rightToLeft
+    if (reader?.scrollingMode !== undefined)
       scrollingMode.value = reader.scrollingMode
   } catch (err) {
     WARN(err)
@@ -917,7 +925,7 @@ const localStateRestored = useLocalStoreProgressEp({
   scrollingMode,
   currentPage,
   maxPage: sizePage,
-  omm
+  zoom
 })
 
 const showToolbar = ref(true)
