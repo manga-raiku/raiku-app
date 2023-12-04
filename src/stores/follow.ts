@@ -6,6 +6,7 @@ Object.assign(window, { supabase })
 
 export const useFollowStore = defineStore("follow", () => {
   const authStore = useAuthStore()
+  const pluginStore = usePluginStore()
 
   async function get(lastIndex?: number) {
     await authStore.assert()
@@ -38,12 +39,23 @@ export const useFollowStore = defineStore("follow", () => {
 
     const storeRead = new Map(data2.map((item) => [item.manga_id, item]))
 
-    return data.map((item) => {
-      return {
-        ...item,
-        history: storeRead.get(item.manga_id)
-      }
-    })
+    return Promise.all(
+      data.map(async (item) => {
+        try {
+          item.image = resolveImageWithReplacer(
+            item.image,
+            (await pluginStore.get(item.source_id)).meta.resolveImage
+          )
+        } catch (err) {
+          WARN(err)
+        }
+
+        return {
+          ...item,
+          history: storeRead.get(item.manga_id)
+        }
+      })
+    )
   }
 
   // eslint-disable-next-line camelcase

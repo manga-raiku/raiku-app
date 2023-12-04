@@ -136,6 +136,10 @@ export interface Ranking {
   readonly name: Record<string, string>
 }
 export type MayBeArray<T> = T | T[]
+export interface Replacer {
+  readonly from: readonly string[]
+  readonly with: string
+}
 export interface Package {
   readonly name: string
   readonly id: string
@@ -150,6 +154,8 @@ export interface Package {
   readonly author: string
 
   readonly updatedAt: number
+
+  readonly resolveImage: readonly Replacer[]
 
   readonly homepage?: string
   readonly repository?: string

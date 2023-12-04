@@ -714,24 +714,23 @@ const fetchComic = async () => {
   return $data
 }
 
-const isManga = computedAsync<boolean | undefined>(
-  async () => {
-    if (!data.value) return false
-
-    const comic = await fetchComic()
-
-    return comic.genres.some((item) =>
-      TAGS_IS_MANGA.includes(item.name.toLowerCase())
+watchEffect(async () => {
+  try {
+    if (localStateRestored.value) return
+    
+    const reader = await api.getModeReader(
+      props.comic,
+      props.sourceID,
+      (await api.autoFetchComicIsManga) ? await fetchComic() : undefined
     )
-  },
-  undefined,
-  { onError: WARN }
-)
-watchImmediate(isManga, (isManga) => {
-  if (typeof isManga !== "boolean" || localStateRestored.value) return
 
-  scrollingMode.value = false
-  rightToLeft.value = true
+    if (reader.singlePage !== undefined) singlePage.value = reader.singlePage
+    if (reader.rightToLeft !== undefined) rightToLeft.value = reader.rightToLeft
+    if (reader.scrollingMode !== undefined)
+      scrollingMode.value = reader.scrollingMode
+  } catch (err) {
+    WARN(err)
+  }
 })
 
 const title = () =>

@@ -5,6 +5,7 @@ import type { ID } from "raiku-pgs/plugin"
 
 export const useHistoryStore = defineStore("history", () => {
   const authStore = useAuthStore()
+  const pluginStore = usePluginStore()
 
   async function get(lastIndex?: number) {
     const session = await authStore.assert()
@@ -25,7 +26,19 @@ export const useHistoryStore = defineStore("history", () => {
     // eslint-disable-next-line functional/no-throw-statement
     if (error) throw error
 
-    return data
+    return Promise.all(
+      data.map(async (item) => {
+        try {
+          item.image = resolveImageWithReplacer(
+            item.image,
+            (await pluginStore.get(item.source_id)).meta.resolveImage
+          )
+        } catch (err) {
+          WARN(err)
+        }
+        return item
+      })
+    )
   }
 
   /** @returns {number} is id row table `history_manga` */
