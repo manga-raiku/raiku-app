@@ -131,7 +131,7 @@
     "@quasar/quasar-app-extension-testing-unit-vitest": "^0.4.0",
     "@tachibana-shin/eslint-config": "1.0.7",
     "@tachibana-shin/vite-plugin-pages": "0.31.1-beta.1",
-    "@testing-library/vue": "^7.0.0",
+    "@testing-library/vue": "^8.0.1",
     "@types/group-array": "^1.0.1",
     "@types/hash-sum": "^1.0.0",
     "@types/js-cookie": "^3.0.3",
