@@ -42,10 +42,10 @@ export const useFollowStore = defineStore("follow", () => {
     return Promise.all(
       data.map(async (item) => {
         try {
-          item.image = resolveImageWithReplacer(
-            item.image,
-            (await pluginStore.get(item.source_id)).meta.resolveImage
-          )
+          const { resolveImage } = (await pluginStore.get(item.source_id)).meta
+
+          if (resolveImage)
+            item.image = resolveImageWithReplacer(item.image, resolveImage)
         } catch (err) {
           WARN(err)
         }

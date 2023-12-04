@@ -155,7 +155,7 @@ export interface Package {
 
   readonly updatedAt: number
 
-  readonly resolveImage: readonly Replacer[]
+  readonly resolveImage?: readonly Replacer[]
 
   readonly supportGetMode?: boolean
 
