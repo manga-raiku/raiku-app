@@ -139,7 +139,7 @@
     "@types/node": "18.8.0",
     "@types/prompts": "^2.4.2",
     "@types/semver": "^7.3.13",
-    "@types/serviceworker": "^0.0.67",
+    "@types/serviceworker": "^0.0.79",
     "@types/set-cookie-parser": "^2.4.3",
     "@types/ua-parser-js": "^0.7.36",
     "@types/uuid": "^9.0.6",
