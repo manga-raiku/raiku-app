@@ -36,8 +36,8 @@ importers:
         specifier: ^4.1.1
         version: 4.1.1(vue@3.3.8)
       '@quasar/extras':
-        specifier: ^1.15.10
-        version: 1.15.10
+        specifier: ^1.16.9
+        version: 1.16.9
       '@supabase/supabase-js':
         specifier: ^2.38.4
         version: 2.38.4
@@ -5513,8 +5513,8 @@ packages:
       - debug
       - supports-color
 
-  /@quasar/extras@1.15.10:
-    resolution: {integrity: sha512-6w8e+wPNfcWhzW43tlnJPHOrcNwAgaaNJ3zBz8k+BMqpenA3fHZhFhxCYEVRZVqPFE2IK/8nRiPBp4t9xlW5tA==}
+  /@quasar/extras@1.16.9:
+    resolution: {integrity: sha512-SlOhwzXyPQHWgQIS2ncyDdYdksCJvUYNtgsDQqzAKEG3r3d/ejOxvThle79HTK3Q6HB+gQWFG21Ux00Osr5XSw==}
     dev: false
 
   /@quasar/icongenie@3.1.1:
