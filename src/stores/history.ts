@@ -75,14 +75,16 @@ export const useHistoryStore = defineStore("history", () => {
   async function getLastEpRead(manga_id: ID, source_id: string) {
     await authStore.assert()
 
-    const { data, error } = await supabase.rpc("get_last_ep_read", {
-      manga_id,
-      source_id
-    })
+    const { data, error } = await supabase
+      .rpc("get_last_ep_read", {
+        manga_id,
+        source_id
+      })
+      .single()
 
     // eslint-disable-next-line functional/no-throw-statement
     if (error) throw error
-    return data[0]
+    return data
   }
 
   function getProgressReadEP(
@@ -131,15 +133,17 @@ export const useHistoryStore = defineStore("history", () => {
       if (error) throw error
       return data
     } else {
-      const { data, error } = await supabase.rpc("get_progress_read_ep", {
-        manga_id: manga_id as ID,
-        ep_id,
-        source_id
-      })
+      const { data, error } = await supabase
+        .rpc("get_progress_read_ep", {
+          manga_id: manga_id as ID,
+          ep_id,
+          source_id
+        })
+        .single()
 
       // eslint-disable-next-line functional/no-throw-statement
       if (error) throw error
-      return data[0]
+      return data
     }
   }
 
