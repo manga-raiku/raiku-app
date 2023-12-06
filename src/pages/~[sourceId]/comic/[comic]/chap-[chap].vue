@@ -965,7 +965,7 @@ const nextEpisode = computed(() => {
 
 watchEffect(async () => {
   try {
-    // if (localStateRestored.value) return
+    if (localStateRestored.value) return
     void props.comic
     void api.value
 
@@ -973,15 +973,17 @@ watchEffect(async () => {
 
     const $api = await api.value
 
-    const reader = await (await $api.getModeReader)?.(
+    const reader = await (
+      await $api.getModeReader
+    )?.(
       props.comic,
       props.sourceId,
-       ((await $api.autoFetchComicIsManga)
+      ((await $api.autoFetchComicIsManga)
         ? toRaw(await fetchComic())
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-         : undefined) as unknown as any
+        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          undefined) as unknown as any
     )
-    console.log({reader})
+    console.log({ reader })
 
     if (reader?.singlePage !== undefined) singlePage.value = reader.singlePage
     if (reader?.rightToLeft !== undefined)
@@ -1074,52 +1076,59 @@ watch(
     timeoutUpsertHistory = setTimeout(async () => {
       timeoutUpsertHistory = null
       // eslint-disable-next-line camelcase
-      const h_manga_id = await historyStore.upsert({
-        image: data.image,
-        last_ch_id: ep.id,
-        last_ch_name: ep.name,
-        last_ch_param: chap,
-        manga_id: data.manga_id,
-        manga_name: data.name,
-        manga_param: comic,
-        source_id: sourceId
-      })
+      const h_manga_id = await historyStore
+        .upsert({
+          image: data.image,
+          last_ch_id: ep.id,
+          last_ch_name: ep.name,
+          last_ch_param: chap,
+          manga_id: data.manga_id,
+          manga_name: data.name,
+          manga_param: comic,
+          source_id: sourceId
+        })
+        .catch((error) => {
+          WARN(error)
+        })
 
-      const clean = watch(
-        [() => authStore.session, () => props.sourceId, currentPage, maxPage],
-        debounce(
-          ([session, sourceId, currentPage, maxPage]: [
-            typeof authStore.session,
-            string,
-            number,
-            number
-          ]) => {
-            console.log({ session, sourceId, currentPage, maxPage })
-            // debugger
-            if (!session || !data) return
+      // eslint-disable-next-line camelcase
+      if (h_manga_id) {
+        const clean = watch(
+          [() => authStore.session, () => props.sourceId, currentPage, maxPage],
+          debounce(
+            ([session, sourceId, currentPage, maxPage]: [
+              typeof authStore.session,
+              string,
+              number,
+              number
+            ]) => {
+              console.log({ session, sourceId, currentPage, maxPage })
+              // debugger
+              if (!session || !data) return
 
-            if (maxPage > 0) {
-              void historyStore.setProgressReadEP(
-                h_manga_id,
-                data.ep_id,
-                false,
-                currentPage,
-                maxPage
-              )
+              if (maxPage > 0) {
+                void historyStore.setProgressReadEP(
+                  h_manga_id,
+                  data.ep_id,
+                  false,
+                  currentPage,
+                  maxPage
+                )
 
-              console.log("[cloud progress]: saving to cloud", {
-                // eslint-disable-next-line camelcase
-                h_manga_id,
-                ep: data.ep_id,
-                currentPage,
-                maxPage
-              })
-            }
-          },
-          1000
+                console.log("[cloud progress]: saving to cloud", {
+                  // eslint-disable-next-line camelcase
+                  h_manga_id,
+                  ep: data.ep_id,
+                  currentPage,
+                  maxPage
+                })
+              }
+            },
+            1000
+          )
         )
-      )
-      onClean(clean)
+        onClean(clean)
+      }
     }, 1_000)
   },
   { immediate: true }
@@ -1139,14 +1148,12 @@ watch(
     if (storeFetchedEP.has(id)) return
 
     storeFetchedEP.add(id)
-    const progress = await historyStore.getProgressReadEP(
-      data.manga_id,
-      data.ep_id,
-      sourceId
-    )
+    const progress = await historyStore
+      .getProgressReadEP(data.manga_id, data.ep_id, sourceId)
+      .catch((err) => WARN(err))
 
     console.log("progress read on server:", { progress })
-    currentPage.value = progress.current_page
+    if (progress) currentPage.value = progress.current_page
   },
   { immediate: true }
 )
