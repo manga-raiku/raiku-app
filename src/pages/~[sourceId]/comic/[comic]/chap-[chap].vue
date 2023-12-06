@@ -714,33 +714,6 @@ const fetchComic = async () => {
   return $data
 }
 
-watchEffect(async () => {
-  try {
-    if (localStateRestored.value) return
-    void props.comic
-    void api.value
-    if (!(await pluginStore.get(props.sourceId)).meta.supportGetMode) return
-
-    const $api = await api.value
-
-    const reader = await (await $api.getModeReader)!(
-      props.comic,
-      props.sourceId,
-      ((await $api.autoFetchComicIsManga)
-        ? await fetchComic()
-        : undefined) as unknown as any
-    )
-
-    if (reader?.singlePage !== undefined) singlePage.value = reader.singlePage
-    if (reader?.rightToLeft !== undefined)
-      rightToLeft.value = reader.rightToLeft
-    if (reader?.scrollingMode !== undefined)
-      scrollingMode.value = reader.scrollingMode
-  } catch (err) {
-    WARN(err)
-  }
-})
-
 const title = () =>
   data.value
     ? i18n.t("name-chuong-ep-name", [
@@ -988,6 +961,36 @@ const nextEpisode = computed(() => {
   if (!value) return
 
   return { index, value } as const
+})
+
+watchEffect(async () => {
+  try {
+    // if (localStateRestored.value) return
+    void props.comic
+    void api.value
+
+    if (!(await pluginStore.get(props.sourceId)).meta.supportGetMode) return
+
+    const $api = await api.value
+
+    const reader = await (await $api.getModeReader)?.(
+      props.comic,
+      props.sourceId,
+       ((await $api.autoFetchComicIsManga)
+        ? toRaw(await fetchComic())
+         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         : undefined) as unknown as any
+    )
+    console.log({reader})
+
+    if (reader?.singlePage !== undefined) singlePage.value = reader.singlePage
+    if (reader?.rightToLeft !== undefined)
+      rightToLeft.value = reader.rightToLeft
+    if (reader?.scrollingMode !== undefined)
+      scrollingMode.value = reader.scrollingMode
+  } catch (err) {
+    WARN(err)
+  }
 })
 
 const showMenuEpisodes = ref(false)
