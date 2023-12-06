@@ -85,10 +85,7 @@ function proxyGet<ReturnType extends GetOption["responseType"] | undefined>(
     return {
       data,
       status: res.status,
-      headers: Object.fromEntries([
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ...(res.headers as unknown as any).entries()
-      ]),
+      headers: headersToObject((res.headers)),
       url: res.url
     }
   })
@@ -128,10 +125,7 @@ function proxyPost<ReturnType extends GetOption["responseType"] | undefined>(
     return {
       data,
       status: res.status,
-      headers: Object.fromEntries([
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ...(res.headers as unknown as any).entries()
-      ]),
+      headers: headersToObject(res.headers),
       url: res.url
     }
   })
