@@ -344,21 +344,17 @@ export const usePluginStore = defineStore("plugin", () => {
                       plugin.name,
                       plugin.id
                     ]),
-                    id: Math.round(Math.random() * 2147483647),
-                    smallIcon: plugin.favicon
+                    id: Math.round(Math.random() * 0x7fffffff),
+                    smallIcon: plugin.favicon,
+                    extra: {
+                      type: "update_plugin",
+                      data: plugin
+                    }
                   }
 
-                  if (APP_NATIVE_MOBILE) {
-                    return LocalNotifications.schedule({
-                      notifications: [notification]
-                    })
-                  }
-                  return (
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    (LocalNotifications as unknown as any).sendNotification(
-                      notification
-                    )
-                  )
+                  return LocalNotifications.schedule({
+                    notifications: [notification]
+                  })
                 })
                 .catch((err) => {
                   WARN(err)
