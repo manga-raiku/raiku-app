@@ -83,14 +83,6 @@
               <q-item-label>{{ $t("tai-tro-ung-ho") }}</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item clickable v-ripple class="rounded-xl">
-            <q-item-section avatar class="min-w-0">
-              <i-charm-refresh width="20" height="20" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ $t("kiem-tra-cap-nhat") }}</q-item-label>
-            </q-item-section>
-          </q-item>
         </q-list>
       </q-card>
     </q-menu>

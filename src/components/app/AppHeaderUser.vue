@@ -1,17 +1,25 @@
 <template>
   <q-btn v-bind="attrs" flat round unelevated>
-    <q-avatar v-if="authStore.session || $q.screen.lt.md" size="35px">
-      <q-img
-        v-if="authStore.session"
-        :src="
-          authStore.profile?.avatar_url ??
-          `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
-        "
-        no-spinner
-      />
-      <i-solar-user-circle-bold-duotone v-else class="size-35px" />
-    </q-avatar>
-    <i-solar-menu-dots-bold v-else class="size-1.5em rotate-90deg" />
+    <q-circular-progress
+      indeterminate
+      rounded
+      show-value
+      size="35px"
+      color="main"
+    >
+      <q-avatar v-if="authStore.session || $q.screen.lt.md" size="35px">
+        <q-img
+          v-if="authStore.session"
+          :src="
+            authStore.profile?.avatar_url ??
+            `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
+          "
+          no-spinner
+        />
+        <i-solar-user-circle-bold-duotone v-else class="size-35px" />
+      </q-avatar>
+      <i-solar-menu-dots-bold v-else class="size-1.5em rotate-90deg" />
+    </q-circular-progress>
     <!-- <component v-else :is="Icons.user_circle[1]" class="size-30px" /> -->
     <!-- <component v-else :is="Icons.settings[0]" width="30" height="30" /> -->
 

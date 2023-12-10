@@ -53,7 +53,7 @@ meta:
 
       <template v-if="!$q.screen.lt.md">
         <AppHeaderSearch />
-        <AppHeaderGithub />
+        <!-- <AppHeaderGithub /> -->
       </template>
       <template v-else-if="!APP_STANDALONE">
         <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
