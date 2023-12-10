@@ -20,8 +20,8 @@ meta:
   >
     <template v-if="data && !loading">
       <swiper
-      :space-between="0"
-          :slides-per-view="1"
+        :space-between="0"
+        :slides-per-view="1"
         :centered-slides="true"
         :modules="[Autoplay, Carousel]"
         loop

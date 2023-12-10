@@ -85,7 +85,7 @@ function proxyGet<ReturnType extends GetOption["responseType"] | undefined>(
     return {
       data,
       status: res.status,
-      headers: headersToObject((res.headers)),
+      headers: headersToObject(res.headers),
       url: res.url
     }
   })

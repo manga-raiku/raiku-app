@@ -17,7 +17,6 @@
 const authStore = useAuthStore()
 </script>
 
-
 <style lang="scss" scoped>
 .wrap-avatar {
   @apply transition-width transition-height duration-222 animate-ease-[cubic-bezier(0.25,0.1,0.25,1)];

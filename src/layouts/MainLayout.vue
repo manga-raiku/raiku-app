@@ -81,11 +81,9 @@ const networkStore = useNetworkStore()
 const showDrawer = ref(false)
 watch(route, () => (showDrawer.value = false))
 
-
 const showPluginAddDialog = usePersistentTrue(
   () => stateStore.showPluginAddDialog
 )
-
 
 // ======== offline control ========
 const showNotifyOffline = ref(false)

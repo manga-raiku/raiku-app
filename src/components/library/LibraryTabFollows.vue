@@ -8,7 +8,7 @@
           class="col-12 col-sm-6 px-2 pb-4"
         >
           <ItemBasicHistory
-              class="mb-4"
+            class="mb-4"
             :comic="item.manga_param"
             :name="item.manga_name"
             :image="item.image"
