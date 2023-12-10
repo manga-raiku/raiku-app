@@ -30,7 +30,7 @@
         <q-toggle
           v-model="devMode"
           color="sakura3"
-          label="Dev Mode"
+          :label="$t('dev-mode')"
           class="ml--2"
         />
 
@@ -40,53 +40,152 @@
       <q-card-section
         class="pt-0 min-h-0 flex-1 overflow-y-auto scrollbar-custom"
       >
+        <form class="text-14px mx-8">
+          <div class="table">
+            <div class="table-row">
+              <div class="table-cell text-right py-3 text-12px">Search:</div>
+              <div class="table-cell pl-4">
+                <q-input
+                  v-model="search"
+                  outline
+                  :placeholder="$t('search-plugin-by-name-or-id')"
+                />
+              </div>
+            </div>
+
+            <div class="table-row">
+              <div class="table-cell text-right py-3 text-12px">
+                {{ $t("language") }}
+              </div>
+              <div class="table-cell pl-4">
+                <q-select
+                  v-model="language"
+                  outline
+                  emit-value
+                  map-options
+                  :options="languages"
+                  :placeholder="$t('show-specific-languages')"
+                />
+              </div>
+            </div>
+
+            <div class="table-row">
+              <div class="table-cell text-right py-3 text-12px">
+                {{ t("sort-by") }}
+              </div>
+              <div class="table-cell pl-4">
+                <div class="flex items-end">
+                  <q-option-group
+                    v-model="sortBy"
+                    :options="sorts"
+                    color="pink"
+                    spacing="lg"
+                    inline
+                    dense
+                    size="sm"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="table-row">
+              <div class="table-cell text-right py-3 text-12px">
+                {{ $t("display-mode") }}
+              </div>
+              <div class="table-cell pl-4">
+                <div class="flex items-end">
+                  <q-option-group
+                    v-model="displayMode"
+                    :options="modes"
+                    color="pink"
+                    spacing="lg"
+                    inline
+                    dense
+                    size="sm"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
         <div class="mt-4 text-gray-300">
           <q-list v-if="data">
-            <q-item
-              v-for="item in data"
-              :key="item.meta.id"
-              class="min-h-0 my-2 rounded-xl"
+            <template
+              v-for="[languageCode, plugins] in pluginsShow"
+              :key="languageCode"
             >
-              <q-item-section side class="pr-2 min-w-0">
-                <q-img
-                  width="1.8em"
-                  height="1.8em"
-                  class="rounded"
-                  :src="item.favicon"
-                />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label lines="1">
-                  {{ item.meta.name }}
-                  <q-badge
-                    rounded
-                    class="text-10px bg-light-blue-400 bg-opacity-800"
-                    size="sm"
-                    >{{ item.meta.version }}</q-badge
-                  >
-                  <q-badge
-                    v-if="item.meta.isNSFW"
-                    rounded
-                    color="pink-7"
-                    class="text-10px ml-1"
-                    >NSFW</q-badge
-                  >
-                </q-item-label>
-                <q-item-label lines="2" caption>
-                  {{ item.meta.description }}
-                </q-item-label>
-                <q-item-label lines="1" caption>
-                  @{{ item.sender }}
-                </q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <q-btn flat round no-caps @click="addPlugin(item.url)">
-                  <i-solar-download-minimalistic-bold-duotone
-                    class="size-1.5em"
+              <div class="py-2 font-medium text-18px mt-6">
+                {{ ISO6391.getNativeName(languageCode) || "All" }}
+              </div>
+
+              <q-item
+                v-for="item in plugins"
+                :key="item.meta.id"
+                class="min-h-0 my-2 rounded-xl"
+              >
+                <q-item-section side class="pr-2 min-w-0">
+                  <q-img
+                    width="1.8em"
+                    height="1.8em"
+                    class="rounded"
+                    :src="item.favicon"
                   />
-                </q-btn>
-              </q-item-section>
-            </q-item>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label lines="1">
+                    {{ item.meta.name }}
+                    <q-badge
+                      rounded
+                      class="text-10px bg-light-blue-400 bg-opacity-800"
+                      size="sm"
+                      >{{ item.meta.version }}</q-badge
+                    >
+                    <q-badge
+                      v-if="item.meta.isNSFW"
+                      rounded
+                      color="pink-7"
+                      class="text-10px ml-1"
+                      >NSFW</q-badge
+                    >
+
+                    <span class="text-12px text-gray-300 ml-2">{{
+                      dayjs(item.meta.updatedAt).locale("vi").fromNow()
+                    }}</span>
+                  </q-item-label>
+                  <q-item-label lines="2" caption>
+                    {{ item.meta.description }}
+                  </q-item-label>
+                  <q-item-label lines="1" caption>
+                    @{{ item.sender }}
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-btn
+                    v-if="!allPlugins?.has(item.meta.id)"
+                    flat
+                    round
+                    no-caps
+                    @click="addPlugin(item.url)"
+                  >
+                    <i-solar-download-minimalistic-bold-duotone
+                      class="size-1.5em"
+                    />
+                  </q-btn>
+                  <q-btn
+                    v-else
+                    flat
+                    round
+                    no-caps
+                    @click="removePlugin(item.meta)"
+                  >
+                    <i-solar-trash-bin-minimalistic-bold-duotone
+                      class="size-1.5em"
+                    />
+                  </q-btn>
+                </q-item-section>
+              </q-item>
+            </template>
           </q-list>
           <div v-else-if="error" class="py-4 px-3 text-gray-300">
             {{ error }}
@@ -115,6 +214,11 @@
 </template>
 
 <script lang="ts" setup>
+import ISO6391 from "iso-639-1"
+import type { Package } from "raiku-pgs/dist/API"
+import dayjs from "src/logic/dayjs"
+import type { PackageDisk } from "src/stores/plugin"
+
 const props = defineProps<{
   modelValue: boolean
 }>()
@@ -197,6 +301,27 @@ async function addPlugin(plugin: string) {
   addingPlugin.value = false
 }
 
+function removePlugin(item: Pick<PackageDisk, "name" | "id">) {
+  $q.dialog({
+    title: t("xoa-plugin"),
+    message: t("ban-chac-chan-muon-xoa-plugin-item-name-chu", [item.name]),
+    cancel: { label: t("huy"), flat: true, noCaps: true, rounded: true },
+    ok: {
+      label: t("xoa"),
+      color: "red",
+      flat: true,
+      noCaps: true,
+      rounded: true
+    },
+    persistent: true
+  }).onOk(() => {
+    void pluginStore.removePlugin(item.id)
+    $q.notify({
+      message: t("da-xoa-plugin", [item.name])
+    })
+  })
+}
+
 watch(
   () => props.modelValue,
   (modelValue) => {
@@ -209,4 +334,130 @@ watch(
     }
   }
 )
+
+// ========== search plugin =========
+
+const { data: allPlugins } = useRequest(() =>
+  pluginStore
+    .getAllPlugins()
+    .then((list) => shallowReactive(new Set(list.map((item) => item.id))))
+)
+pluginStore.busses.on("install plugin", (meta) => {
+  allPlugins.value?.add(meta.id)
+})
+pluginStore.busses.on("remove plugin", (id) => {
+  allPlugins.value?.delete(id)
+})
+
+const sorts = computed(() => [
+  {
+    label: t("ascending"),
+    value: "asc"
+  },
+  {
+    label: t("descending"),
+    value: "desc"
+  }
+])
+const modes = computed(() => [
+  {
+    label: "NSFW",
+    value: "nsfw"
+  },
+  {
+    label: "SFW",
+    value: "sfw"
+  },
+  {
+    label: t("all"),
+    value: "all"
+  }
+])
+
+const search = ref("")
+const language = ref("")
+console.log({ language })
+const sortBy = ref<"asc" | "desc">("asc")
+const displayMode = ref<"nsfw" | "sfw" | "all">("all")
+
+interface PluginInfo {
+  meta: Omit<Package, "favicon">
+  sender: string
+  url: string
+  favicon: string
+}
+
+const pluginsGroupedLanguage = computed(
+  () =>
+    data.value?.reduce(
+      (prev, item) => {
+        if (!prev[item.meta.language]) {
+          prev[item.meta.language] = []
+        }
+
+        prev[item.meta.language].push(item)
+
+        return prev
+      },
+      {} as Record<string, PluginInfo[]>
+    )
+)
+const languages = computed(() => [
+  {
+    label: t("all"),
+    value: ""
+  },
+  ...Object.keys(pluginsGroupedLanguage.value ?? {}).map((item) => ({
+    value: item,
+    label: ISO6391.getNativeName(item)
+  }))
+])
+
+const pluginsShow = computed(() =>
+  Object.entries(pluginsGroupedLanguage.value ?? {})
+    .filter(
+      ([languageCode]) => !language.value || languageCode === language.value
+    )
+    .map(
+      ([language, items]) =>
+        [
+          language,
+          items
+            .filter((item) => {
+              let validMode = false
+
+              switch (displayMode.value) {
+                case "nsfw":
+                  validMode = item.meta.isNSFW
+                  break
+                case "sfw":
+                  validMode = !item.meta.isNSFW
+                  break
+                default:
+                  validMode = true
+                  break
+              }
+
+              if (!validMode) return false
+
+              return (
+                !search ||
+                item.meta.name.includes(search.value) ||
+                item.meta.id.includes(search.value) ||
+                item.meta.author.includes(search.value) ||
+                item.sender.includes(search.value) ||
+                item.meta.description.includes(search.value)
+              )
+            })
+            .sort((a, b) => {
+              if (sortBy.value === "asc") {
+                return b.meta.updatedAt - a.meta.updatedAt
+              }
+
+              return a.meta.updatedAt - b.meta.updatedAt
+            })
+        ] as const
+    )
+)
+// ========== /search plugin =========
 </script>

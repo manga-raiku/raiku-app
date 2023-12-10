@@ -283,5 +283,14 @@
   "msg-oauth2-tab": "This page can only be opened with a popup to receive authentication",
   "trang-chinh": "Main page",
   "enter": "Enter",
-  "tim-kiem-_keyword": "Search:"
+  "tim-kiem-_keyword": "Search:",
+  "search-plugin-by-name-or-id": "Search plugin by name or ID",
+  "dev-mode": "Dev Mode",
+  "show-specific-languages": "Show specific languages...",
+  "language": "Language:",
+  "display-mode": "Display mode:",
+  "ascending": "Ascending",
+  "descending": "Descending",
+  "sort-by": "Sort by:",
+  "all": "All"
 }

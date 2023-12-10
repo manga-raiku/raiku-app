@@ -283,5 +283,14 @@
   "msg-oauth2-tab": "该页面只能通过弹出窗口打开以接收身份验证",
   "trang-chinh": "主页",
   "enter": "进入",
-  "tim-kiem-_keyword": "搜索："
+  "tim-kiem-_keyword": "搜索：",
+  "all": "全部",
+  "ascending": "上升",
+  "descending": "降序",
+  "dev-mode": "开发模式",
+  "display-mode": "显示模式：",
+  "language": "语言：",
+  "search-plugin-by-name-or-id": "按名称或 ID 搜索插件",
+  "show-specific-languages": "显示特定语言...",
+  "sort-by": "排序方式："
 }

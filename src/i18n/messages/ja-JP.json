@@ -283,5 +283,14 @@
   "msg-oauth2-tab": "このページは、認証を受けるためのポップアップでのみ開くことができます",
   "trang-chinh": "メインページ",
   "enter": "入力",
-  "tim-kiem-_keyword": "検索："
+  "tim-kiem-_keyword": "検索：",
+  "all": "全て",
+  "ascending": "上昇",
+  "descending": "降順",
+  "dev-mode": "開発モード",
+  "display-mode": "ディスプレイモード：",
+  "language": "言語：",
+  "search-plugin-by-name-or-id": "名前または ID でプラグインを検索",
+  "show-specific-languages": "特定の言語を表示...",
+  "sort-by": "並べ替え："
 }

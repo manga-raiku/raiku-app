@@ -283,5 +283,14 @@
   "trang-chinh": "Trang chính",
   "dang-cap-phep-oauth-2": "Đang cấp phép OAuth 2...",
   "tim-kiem-_keyword": "Tìm kiếm:",
-  "enter": "Enter"
+  "enter": "Enter",
+  "all": "Tất cả",
+  "ascending": "Tăng dần",
+  "descending": "Giảm dần",
+  "dev-mode": "Chế độ phát triển",
+  "display-mode": "Chế độ hiển thị:",
+  "language": "Ngôn ngữ:",
+  "search-plugin-by-name-or-id": "Tìm kiếm plugin theo tên hoặc ID",
+  "show-specific-languages": "Hiển thị ngôn ngữ cụ thể...",
+  "sort-by": "Sắp xếp theo:"
 }
