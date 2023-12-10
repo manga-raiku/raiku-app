@@ -1,5 +1,6 @@
 <template>
   <span
+    v-if="IS_BETA"
     class="fixed top-1 right-1 px-2 py-0.5 rounded-xl bg-blue-500 opacity-70 text-white z-9999 transition-opacity duration-200 hover:opacity-90 text-12px"
     >Beta</span
   >
@@ -8,6 +9,7 @@
 
 <script setup lang="ts">
 import eruda2 from "eruda2"
+import { IS_BETA } from "src/constants"
 
 const i18n = useI18n()
 

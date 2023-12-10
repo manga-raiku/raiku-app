@@ -5,6 +5,8 @@ import type { AppInfo } from "raiku-pgs/plugin"
 export const SUPABASE_PROJECT_URL = process.env.SUPABASE_PROJECT_URL
 export const SUPABASE_PROJECT_KEY = process.env.SUPABASE_PROJECT_KEY
 
+export const IS_BETA = false
+
 // functions for dev
 export const WARN = console.warn.bind(console)
 
