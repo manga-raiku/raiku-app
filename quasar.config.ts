@@ -11,18 +11,14 @@ import { join } from "path"
 // eslint-disable-next-line n/no-extraneous-import
 import type { RootNode, TemplateChildNode } from "@vue/compiler-core"
 import dotenv from "dotenv"
-import { cleanEnv, str } from "envalid"
+import { cleanEnv, json, str } from "envalid"
 import { extend } from "quasar"
 import { configure } from "quasar/wrappers"
 
+import { productName } from "./package.json"
 import { vitePlugins } from "./vite-plugins"
 
 dotenv.config()
-
-cleanEnv(process.env, {
-  SUPABASE_PROJECT_URL: str(),
-  SUPABASE_PROJECT_KEY: str()
-})
 
 function removeDataTestAttrs(
   node: RootNode | TemplateChildNode
@@ -36,15 +32,27 @@ function removeDataTestAttrs(
   }
 }
 
-export default configure((/* ctx */) => {
+export default configure((/* ctx */ { modeName, prod }) => {
+  const APP_NATIVE_MOBILE = ["capacitor", "cordova"].includes(modeName)
+
+  cleanEnv(process.env, {
+    SUPABASE_PROJECT_URL: str(),
+    SUPABASE_PROJECT_KEY: str(),
+    ...(APP_NATIVE_MOBILE
+      ? {}
+      : {
+          FIREBASE_CONFIG: json()
+        })
+  })
+
   return {
     eslint: {
-      // fix: true,
+      fix: true,
       // include = [],
       // exclude = [],
       // rawOptions = {},
       warnings: false,
-      errors: false
+      errors: prod
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
@@ -59,7 +67,7 @@ export default configure((/* ctx */) => {
       "head",
       "firebase-analytics",
       "local-notification",
-      "capgo",
+      ...(APP_NATIVE_MOBILE ? ["capgo"] : []),
       "unocss"
     ],
 
@@ -76,7 +84,7 @@ export default configure((/* ctx */) => {
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
-      "roboto-font", // optional, you are not bound to it
+      // "roboto-font", // optional, you are not bound to it
       "material-icons" // optional, you are not bound to it
     ],
 
@@ -164,7 +172,7 @@ export default configure((/* ctx */) => {
       config: {
         dark: true,
         loadingBar: {
-          color: "main"
+          color: "sakura"
         },
         notify: {
           classes: "rounded-30px"
@@ -247,7 +255,8 @@ export default configure((/* ctx */) => {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor
     capacitor: {
-      hideSplashscreen: true
+      hideSplashscreen: true,
+      appName: productName
     },
 
     bin: process.env.TEST
