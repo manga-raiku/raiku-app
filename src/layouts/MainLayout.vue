@@ -71,9 +71,6 @@ import AllowWork from "./AllowWork.vue"
 const PluginAddDialog = defineAsyncComponent(
   () => import("components/managers/PluginAddDialog.vue")
 )
-const showPluginAddDialog = usePersistentTrue(
-  () => stateStore.showPluginAddDialog
-)
 
 const route = useRoute()
 const $q = useQuasar()
@@ -83,6 +80,12 @@ const networkStore = useNetworkStore()
 
 const showDrawer = ref(false)
 watch(route, () => (showDrawer.value = false))
+
+
+const showPluginAddDialog = usePersistentTrue(
+  () => stateStore.showPluginAddDialog
+)
+
 
 // ======== offline control ========
 const showNotifyOffline = ref(false)
