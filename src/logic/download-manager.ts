@@ -47,11 +47,16 @@ async function downloadFile(
 
   const hashIndex = src.indexOf(HASH_TAG)
   if (hashIndex > -1) {
-    const json = JSON.parse(src.slice(hashIndex + HASH_TAG.length))
+    let headers: Record<string, string> | undefined
+
+    try {
+      headers = JSON.parse(src.slice(hashIndex + HASH_TAG.length))
+    } catch {}
+
     // request now
     buffer = await get({
       url: (src.startsWith("//") ? "https:" : "") + src.slice(0, hashIndex),
-      headers: json,
+      headers,
       responseType: "arraybuffer"
     }).then((res) => base64ToUint8(res.data))
   } else {
