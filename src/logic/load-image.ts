@@ -5,6 +5,6 @@ export async function loadImage(src: string): Promise<HTMLImageElement> {
     img.src = src
 
     img.onload = () => resolve(img)
-    img.onerror = reject
+    img.onerror = () => reject(new Error("Failed load image."))
   })
 }

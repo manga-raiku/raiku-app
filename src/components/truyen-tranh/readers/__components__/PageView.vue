@@ -9,17 +9,9 @@
     class="min-h-1px border-none"
   />
   <div
-    v-if="!loaded"
+    v-if="error"
     v-bind="attrs"
-    class="text-center w-100% min-h-40vh aspect-ratio-2 flex items-center justify-center"
-    :class="loaderAbsolute ? 'absolute top-0 left-0 w-full h-full' : undefined"
-  >
-    <slot name="loading" />
-  </div>
-  <div
-    v-else-if="error"
-    v-bind="attrs"
-    class="w-550px max-w-100% aspect-ratio-2 flex items-center justify-center"
+    class="w-550px max-w-100% aspect-ratio-2 flex items-center justify-center py-10"
     :class="loaderAbsolute ? 'absolute top-0 left-0 w-full h-full' : undefined"
   >
     <p>
@@ -27,12 +19,23 @@
     </p>
 
     <q-btn
+      rounded
       outline
+      class="before:text-#fff before:text-opacity-20 px-4"
       color="sakura3"
-      class="mt-2 text-black"
+      padding="8px 20px"
+      no-caps
       @click="startLoad(src)"
       :label="$t('thu-lai')"
     />
+  </div>
+  <div
+    v-else-if="!loaded"
+    v-bind="attrs"
+    class="text-center w-100% min-h-40vh aspect-ratio-2 flex items-center justify-center"
+    :class="loaderAbsolute ? 'absolute top-0 left-0 w-full h-full' : undefined"
+  >
+    <slot name="loading" />
   </div>
 </template>
 
@@ -82,16 +85,20 @@ async function startLoad(src: string | Promise<string>) {
   error.value = null
 
   try {
+    // eslint-disable-next-line no-unreachable-loop
     for (let i = 0; i < 5; i++) {
       try {
         const result = await fastProcessImage(rawSrc)
         if (result.startsWith("blob:")) rawSrc = result
         else await loadImage(result)
         break
-      } catch {
-        await sleep(300)
+      } catch (err) {
+        if (i < 5) await sleep(300)
+        // eslint-disable-next-line functional/no-throw-statement
+        throw err
       }
     }
+
     // const response = await fetchRetry(src, {
     //   retries: 5,
     //   retryDelay: 300,
@@ -106,9 +113,10 @@ async function startLoad(src: string | Promise<string>) {
     srcImage.value = rawSrc
     srcLoaded = rawSrc
   } catch (err) {
+    WARN("Load image failed: ", { err, url: rawSrc })
     error.value = err
 
-    await sleep(3_000)
+    await sleep(30_000)
 
     void startLoad(rawSrc)
   } finally {
