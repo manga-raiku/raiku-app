@@ -29,6 +29,7 @@
     <!-- plugin manager -->
     <PluginManagerDialog v-model="stateStore.showPluginManagerDialog" />
     <PluginAddDialog
+      v-if="showPluginAddDialog"
       v-model="stateStore.showPluginAddDialog"
       @installed="stateStore.showPluginAddDialog = false"
     />
@@ -66,6 +67,13 @@ import { packageName } from "app/package.json"
 import { APP_NATIVE_MOBILE } from "src/constants"
 
 import AllowWork from "./AllowWork.vue"
+
+const PluginAddDialog = defineAsyncComponent(
+  () => import("components/managers/PluginAddDialog.vue")
+)
+const showPluginAddDialog = usePersistentTrue(
+  () => stateStore.showPluginAddDialog
+)
 
 const route = useRoute()
 const $q = useQuasar()
