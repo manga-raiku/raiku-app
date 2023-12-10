@@ -5,7 +5,7 @@
       params: { comic, sourceId }
     }"
     v-ripple
-    class="relative flex flex-nowrap mb-4"
+    class="relative flex flex-nowrap"
   >
     <div class="relative">
       <q-img
