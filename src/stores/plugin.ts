@@ -57,31 +57,44 @@ export const usePluginStore = defineStore("plugin", () => {
     "remove plugin": [string]
   }>()
 
-  async function getAllPlugins() {
-    const files = await Filesystem.readdir({
-      path: "plugins",
-      directory: Directory.External
-    })
-      .then(({ files }) => files)
-      .catch(() => [])
-
-    return Promise.all(
-      files.map(async (file) => {
-        const meta = await Filesystem.readFile({
-          path: `plugins/${file.name}`,
-          directory: Directory.External,
-          encoding: Encoding.UTF8
-        }).then(({ data }) => {
-          const plugin = JSON.parse(data)
-          delete plugin.plugin
-
-          return plugin as Omit<PackageDisk, "plugin">
-        })
-
-        return meta
+  const getAllPlugins = useModule(() => {
+    async function _getAllPlugins() {
+      const files = await Filesystem.readdir({
+        path: "plugins",
+        directory: Directory.External
       })
-    ).then((res) => res.filter(Boolean))
-  }
+        .then(({ files }) => files)
+        .catch(() => [])
+
+      return Promise.all(
+        files.map(async (file) => {
+          const meta = await Filesystem.readFile({
+            path: `plugins/${file.name}`,
+            directory: Directory.External,
+            encoding: Encoding.UTF8
+          }).then(({ data }) => {
+            const plugin = JSON.parse(data)
+            delete plugin.plugin
+
+            return plugin as Omit<PackageDisk, "plugin">
+          })
+
+          return meta
+        })
+      ).then((res) => res.filter(Boolean))
+    }
+
+    let promiseGetAllPlugins: ReturnType<typeof _getAllPlugins>
+    async function getAllPlugins() {
+      if (promiseGetAllPlugins) return promiseGetAllPlugins
+
+      promiseGetAllPlugins = _getAllPlugins()
+
+      return promiseGetAllPlugins
+    }
+
+    return getAllPlugins
+  })
 
   async function installPlugin(source: string, devMode: boolean) {
     const [packageMjs, pluginMjs] = await Promise.all([
