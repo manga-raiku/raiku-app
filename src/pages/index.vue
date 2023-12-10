@@ -20,7 +20,8 @@ meta:
   >
     <template v-if="data && !loading">
       <swiper
-        :space-between="10"
+      :space-between="0"
+          :slides-per-view="1"
         :centered-slides="true"
         :modules="[Autoplay, Carousel]"
         loop
@@ -45,7 +46,7 @@ meta:
             }"
           >
             <img
-              v-if="$q.screen.gt.xs"
+              v-if="$q.screen.gt.sm"
               :src="item.image"
               class="absolute poster z-1 h-full block object-fit-cover"
             />
@@ -66,7 +67,7 @@ meta:
 
                   <q-btn
                     rounded
-                    color="main"
+                    color="sakura"
                     class="mt-2 xs:mt-4 pointer-events-all mx-auto"
                     no-caps
                     :to="item.last_chapters[0].route"
@@ -152,7 +153,7 @@ meta:
                 <!--
               <q-btn
                 rounded
-                class="bg-main mt-2 sm:mt-4 pointer-events-all"
+                class="bg-sakura mt-2 sm:mt-4 pointer-events-all"
                 no-caps
               >
                 <i-fluent-play-24-filled
@@ -189,19 +190,19 @@ meta:
           </div>
         </swiper-slide>
         <div
-          v-if="$q.screen.gt.xs"
+          v-if="$q.screen.gt.sm"
           class="pointer-events-none drop-left z-2"
         ></div>
         <div
-          v-if="$q.screen.gt.xs"
+          v-if="$q.screen.gt.sm"
           class="pointer-events-none drop-center z-2"
         ></div>
         <div
-          v-if="$q.screen.gt.xs"
+          v-if="$q.screen.gt.sm"
           class="pointer-events-none drop-right z-2"
         ></div>
 
-        <transition v-if="$q.screen.gt.xs" name="q-transition--fade">
+        <transition v-if="$q.screen.gt.sm" name="q-transition--fade">
           <div :key="sliderIndex" class="info pointer-events-none">
             <div class=" ">
               <div class="text-20px text-weight-medium line-clamp-2">
@@ -281,7 +282,7 @@ meta:
 
             <q-btn
               rounded
-              class="bg-main mt-2 sm:mt-4 pointer-events-auto"
+              class="bg-sakura mt-2 sm:mt-4 pointer-events-auto"
               no-caps
               :to="data.sliders[sliderIndex].last_chapters[0].route"
             >
@@ -296,7 +297,7 @@ meta:
         </transition>
         <div
           v-if="$q.screen.gt.xs"
-          class="mark-b w-full h-[30%] z-300 absolute bottom-0 pointer-events-none"
+          class="mark-b w-full h-[30%] z-300 absolute bottom-0 pointer-events-none sm:bottom--10 md:bottom-0"
           :style="{
             'background-image': `linear-gradient(
                 rgba(17, 19, 25, 0) 2%,
@@ -311,7 +312,7 @@ meta:
         <h3 class="text-17px text-light-900">{{ $t("hot-trong-ngay") }}</h3>
         <swiper
           :slides-per-view="1.1"
-          :centered-slides="$q.screen.xs"
+          :centered-slides="$q.screen.lt.md"
           :space-between="8"
           :modules="[]"
           :breakpoints="{
@@ -757,7 +758,10 @@ const sliderIndex = ref(0)
     z-index: 300;
     color: rgb(255, 255, 255);
     width: 100%;
-    padding: 60px 30px calc(10% /** 15% */ + 24px + 3.5vw) (30px + 64);
+    padding: 60px 30px calc(15% /** 15% */ + 24px + 3.5vw) (30px + 64);
+    @media screen and (max-width: 1131px) {
+      padding: 60px 30px calc(10% + 24px + 3.5vw) (30px + 64);
+    }
     @media screen and (max-width: $breakpoint-xs-max) {
       padding-top: 0;
     }
