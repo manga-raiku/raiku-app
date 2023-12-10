@@ -24,7 +24,7 @@
   </q-infinite-scroll>
   <div v-else class="text-center">
     <div class="text-subtitle1 font-weight-medium">Lỗi không xác định</div>
-    <q-btn outline rounded color="main" @click="refreshAsync">Thử lại</q-btn>
+    <q-btn outline rounded color="sakura" @click="refreshAsync">Thử lại</q-btn>
   </div>
 </template>
 

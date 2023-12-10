@@ -18,7 +18,7 @@
         <q-tabs
           narrow-indicator
           no-caps
-          active-class="text-main"
+          active-class="text-sakura"
           v-model="loadType"
         >
           <q-tab
@@ -67,7 +67,7 @@
                 <div class="text-subtitle1 font-weight-medium">
                   Lỗi không xác định
                 </div>
-                <q-btn outline rounded color="main" @click="refresh(value)"
+                <q-btn outline rounded color="sakura" @click="refresh(value)"
                   >Thử lại</q-btn
                 >
               </div>

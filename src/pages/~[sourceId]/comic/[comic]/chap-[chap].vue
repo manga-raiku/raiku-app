@@ -211,7 +211,7 @@ meta:
           :reverse="rightToLeft"
           :min="minPage"
           :max="maxPage"
-          color="main"
+          color="sakura"
         />
       </div>
 

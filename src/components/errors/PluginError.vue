@@ -7,7 +7,7 @@
     :retry="retry"
   >
     <template #title>
-      {{ $t("plugin") }} <span class="text-main">{{ error.sourceId }}</span>
+      {{ $t("plugin") }} <span class="text-sakura">{{ error.sourceId }}</span>
       {{ $t("chua-duoc-cai-dat") }}
     </template>
     <template #caption>

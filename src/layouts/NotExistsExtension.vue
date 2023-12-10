@@ -42,7 +42,7 @@
         >
         <q-btn
           no-caps
-          color="main"
+          color="sakura"
           outline
           rounded
           class="mt-4"

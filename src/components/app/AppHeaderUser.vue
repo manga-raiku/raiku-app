@@ -5,21 +5,17 @@
       rounded
       show-value
       size="35px"
-      color="main"
+      color="sakura"
+      class="circular"
+      :class="updatingCache && installedSW ? undefined : 'circular-disabled'"
+      :role="updatingCache && installedSW ? 'progressbar' : undefined"
     >
-      <q-avatar v-if="authStore.session || $q.screen.lt.md" size="35px">
-        <q-img
-          v-if="authStore.session"
-          :src="
-            authStore.profile?.avatar_url ??
-            `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
-          "
-          no-spinner
-        />
-        <i-solar-user-circle-bold-duotone v-else class="size-35px" />
-      </q-avatar>
-      <i-solar-menu-dots-bold v-else class="size-1.5em rotate-90deg" />
+      <!-- 2.85em -->
+      <HeaderUserBtnContent
+        :class="updatingCache && installedSW ? 'size-25px' : undefined"
+      />
     </q-circular-progress>
+
     <!-- <component v-else :is="Icons.user_circle[1]" class="size-30px" /> -->
     <!-- <component v-else :is="Icons.settings[0]" width="30" height="30" /> -->
 
@@ -40,49 +36,51 @@
       <q-card
         class="transparent min-w-300px px-2 pb-3 h-full flex-1 min-h-0 flex flex-nowrap flex-col"
       >
-        <div v-if="authStore.session && tabMenuAccountActive === 'normal'">
-          <q-item class="rounded-xl">
-            <q-item-section avatar>
-              <q-avatar size="45px">
-                <q-img
-                  :src="
-                    authStore.profile?.avatar_url ??
-                    `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
-                  "
-                  no-spinner
-                />
-              </q-avatar>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label class="font-weight-medium text-subtitle1">{{
-                authStore.profile?.full_name
-              }}</q-item-label>
-            </q-item-section>
-          </q-item>
+        <template v-if="tabMenuAccountActive === 'normal'">
+          <div v-if="authStore.session">
+            <q-item class="rounded-xl">
+              <q-item-section avatar>
+                <q-avatar size="45px">
+                  <q-img
+                    :src="
+                      authStore.profile?.avatar_url ??
+                      `https://ui-avatars.com/api/?name=${authStore.profile?.full_name}`
+                    "
+                    no-spinner
+                  />
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class="font-weight-medium text-subtitle1">{{
+                  authStore.profile?.full_name
+                }}</q-item-label>
+              </q-item-section>
+            </q-item>
 
-          <q-separator class="bg-[rgba(255,255,255,0.1)]" />
-        </div>
-        <div v-else>
-          <q-item
-            class="rounded-xl"
-            clickable
-            v-ripple
-            :to="`/app/sign-in?redirect=${route.fullPath}`"
-          >
-            <q-item-section avatar>
-              <q-avatar size="45px">
-                <component :is="Icons.user_circle[1]" class="size-45px" />
-              </q-avatar>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label class="font-weight-medium text-subtitle1">{{
-                $t("dang-nhap")
-              }}</q-item-label>
-            </q-item-section>
-          </q-item>
+            <q-separator class="bg-[rgba(255,255,255,0.1)]" />
+          </div>
+          <div v-else>
+            <q-item
+              class="rounded-xl"
+              clickable
+              v-ripple
+              :to="`/app/sign-in?redirect=${route.fullPath}`"
+            >
+              <q-item-section avatar>
+                <q-avatar size="45px">
+                  <component :is="Icons.user_circle[1]" class="size-45px" />
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class="font-weight-medium text-subtitle1">{{
+                  $t("dang-nhap")
+                }}</q-item-label>
+              </q-item-section>
+            </q-item>
 
-          <q-separator class="bg-[rgba(255,255,255,0.1)]" />
-        </div>
+            <q-separator class="bg-[rgba(255,255,255,0.1)]" />
+          </div>
+        </template>
 
         <div class="flex-1 h-full min-h-0 overflow-y-auto scrollbar-custom">
           <q-list v-if="tabMenuAccountActive === 'normal'">
@@ -131,7 +129,7 @@
                     rounded
                     show-value
                     size="35px"
-                    color="main"
+                    color="sakura"
                   >
                     <i-solar-smartphone-update-bold-duotone
                       width="24"
@@ -254,9 +252,10 @@
   </q-btn>
 </template>
 
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import { App } from "@capacitor/app"
 import { version } from "app/package.json"
+import { QCircularProgress } from "quasar"
 import { Icons } from "src/Icons"
 import type { Icon } from "src/Icons"
 import { installedSW, updatingCache } from "src/logic/state-sw"
@@ -264,7 +263,7 @@ import langs from "virtual:i18n-langs"
 
 import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
 import phTabsDuotone from "~icons/ph/tabs-duotone"
-
+Object.assign(self, { installedSW, updatingCache })
 defineOptions({
   inheritAttrs: false
 })
@@ -365,3 +364,11 @@ const buttons: {
   }
 ]
 </script>
+
+<style lang="scss" scoped>
+.circular.circular-disabled {
+  :deep(.q-circular-progress__svg) {
+    @apply hidden animate-none;
+  }
+}
+</style>

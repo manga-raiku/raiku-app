@@ -83,7 +83,7 @@
             "
             :class="{
               'text-#eee text-opacity-70': readsChapter?.has(item.id),
-              '!text-main reading text-weight-medium':
+              '!text-sakura reading text-weight-medium':
                 CYPRESS ||
                 route.fullPath === router.resolve(item.route).fullPath
             }"

@@ -32,7 +32,7 @@
             :href="href"
             :target="href ? '_blank' : undefined"
             active-class=""
-            exact-active-class="bg-[rgba(255,255,255,0.1)] text-main"
+            exact-active-class="bg-[rgba(255,255,255,0.1)] text-sakura"
           >
             <q-item-section avatar class="pr-0 min-w-0">
               <component

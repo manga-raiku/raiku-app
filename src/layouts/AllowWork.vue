@@ -11,7 +11,7 @@
         {{ $t("dang-kiem-tra-quyen-khoi-chay") }}
       </h3>
       <p class="text-[14px] mt-3 text-gray-400 leading-normal">
-        <q-spinner color="main" size="40px" class="mx-auto" />
+        <q-spinner color="sakura" size="40px" class="mx-auto" />
       </p>
     </div>
     <div v-else class="pt-[140px]">

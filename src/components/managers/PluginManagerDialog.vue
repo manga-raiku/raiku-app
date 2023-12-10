@@ -236,15 +236,7 @@ const showEdit = ref(false)
 <style lang="scss" scoped>
 .icon {
   &.rotating {
-    animation: rotating 1s infinite ease-in-out;
-    @keyframes rotating {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
+    @apply animate-spin animate-ease-in-out;
   }
 }
 </style>

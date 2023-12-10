@@ -34,7 +34,7 @@
           <AppHeaderSearch
             :source-id="(route.params.sourceId as string | undefined) ?? null"
           />
-          <AppHeaderGithub />
+          <!-- <AppHeaderGithub /> -->
         </template>
         <template v-else-if="!APP_STANDALONE">
           <q-btn round unelevated class="mr-2" @click="showSearchMB = true">

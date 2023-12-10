@@ -1,17 +1,3 @@
 <template>
-  <img src="~/assets/sakura.png" class="sakura" />
+  <img src="~/assets/sakura.png" class="animate-spin !animate-duration-4444" />
 </template>
-
-<style lang="scss" scoped>
-.sakura {
-  animation: rotate infinite 4444ms linear;
-  @keyframes rotate {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-}
-</style>
