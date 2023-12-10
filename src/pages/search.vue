@@ -1,6 +1,6 @@
 <route lang="yaml">
 name: search
-alias: /~:sourceId/search
+alias: /~:sourceId?/search
 meta:
   hiddenHeader: $lt.md
   needSelectPlugin: true

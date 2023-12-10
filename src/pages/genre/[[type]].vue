@@ -1,6 +1,6 @@
 <route lang="yaml">
 name: genre
-alias: ["/~:sourceId/genre/:type?"]
+alias: ["/~:sourceId?/genre/:type?"]
 meta:
   revealHeader: $lt.md
   needSelectPlugin: true
