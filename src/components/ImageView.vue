@@ -23,9 +23,11 @@ function onLoad() {
   if (srcImage.value.startsWith("blob:")) URL.revokeObjectURL(srcImage.value)
 }
 
+let unmounted = false
+onBeforeUnmount(() => (unmounted = true))
 watch(
   () => props.src,
-  async (src) => {
+  async (src, _, onClean) => {
     if (src.startsWith(PROTOCOL_OFFLINE)) {
       // load arrayBuffer
       const { buffer } = await Filesystem.readFile({
@@ -33,7 +35,10 @@ watch(
         directory: Directory.External
       }).then((res) => base64ToUint8(res.data))
 
+      if (unmounted) return
+
       srcImage.value = URL.createObjectURL(new Blob([buffer]))
+      onClean(() => URL.revokeObjectURL(srcImage.value))
     } else {
       srcImage.value = src
     }
@@ -41,5 +46,3 @@ watch(
   { immediate: true }
 )
 </script>
-
-<style></style>
