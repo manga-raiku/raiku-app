@@ -178,6 +178,8 @@
                 </q-item-section>
               </q-item>
             </template>
+
+            <Social v-if="!APP_NATIVE_MOBILE" />
           </q-list>
 
           <q-list v-if="tabMenuAccountActive === 'locale'">
@@ -258,12 +260,13 @@ import { version } from "app/package.json"
 import { QCircularProgress } from "quasar"
 import { Icons } from "src/Icons"
 import type { Icon } from "src/Icons"
+import { APP_NATIVE_MOBILE } from "src/constants"
 import { installedSW, updatingCache } from "src/logic/state-sw"
 import langs from "virtual:i18n-langs"
 
 import antDesignAppleOutlined from "~icons/ant-design/apple-outlined"
 import phTabsDuotone from "~icons/ph/tabs-duotone"
-Object.assign(self, { installedSW, updatingCache })
+
 defineOptions({
   inheritAttrs: false
 })

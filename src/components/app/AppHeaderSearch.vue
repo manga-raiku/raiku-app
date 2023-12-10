@@ -42,7 +42,7 @@
 
     <transition name="q-transition--fade">
       <ul
-        class="absolute w-full  bg-[rgba(0,0,0,.5)] backdrop-filter backdrop-blur-12px rounded-xl left-0 max-h-[80vh] overflow-y-auto scrollbar-custom pt-2 py-4 top-[calc(100%+8px)] !shadow-8"
+        class="absolute w-full bg-[rgba(0,0,0,.5)] backdrop-filter backdrop-blur-12px rounded-xl left-0 max-h-[80vh] overflow-y-auto scrollbar-custom pt-2 py-4 top-[calc(100%+8px)] !shadow-8"
         v-show="focusing"
         @click.stop.prevent
         @mousedown="

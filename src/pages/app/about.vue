@@ -46,6 +46,8 @@ meta:
       <small class="text-gray-400 mt-10 text-12px text-center display-block">{{
         $t("ung-dung-thuoc-to-chuc-phi-loi-nhuan")
       }}</small>
+
+      <Social />
     </q-page>
   </div>
 </template>
@@ -88,5 +90,3 @@ const buttons = computed(() => [
   }
 ])
 </script>
-
-<style></style>
