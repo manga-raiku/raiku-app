@@ -757,7 +757,7 @@ const sliderIndex = ref(0)
     z-index: 300;
     color: rgb(255, 255, 255);
     width: 100%;
-    padding: 60px 30px calc(15% + 24px + 3.5vw) (30px + 64);
+    padding: 60px 30px calc(10% /** 15% */ + 24px + 3.5vw) (30px + 64);
     @media screen and (max-width: $breakpoint-xs-max) {
       padding-top: 0;
     }
