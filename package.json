@@ -92,7 +92,7 @@
     "register-service-worker": "^1.7.2",
     "set-cookie-parser": "^2.6.0",
     "swiper": "^9.4.1",
-    "ua-parser-js": "^1.0.33",
+    "ua-parser-js": "^1.0.37",
     "unplugin-vue-router": "^0.7.0",
     "uuid": "^9.0.1",
     "vue": "^3.3.8",
