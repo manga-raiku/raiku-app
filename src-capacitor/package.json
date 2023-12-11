@@ -17,7 +17,7 @@
     "@capacitor/network": "^5.0.6",
     "@capacitor/splash-screen": "^5.0.6",
     "@capacitor/status-bar": "^5.0.6",
-    "@capgo/capacitor-updater": "^5.3.34",
+    "@capgo/capacitor-updater": "^5.3.38",
     "@fontsource/caveat": "^5.0.15",
     "@quasar/app-vite": "^1.6.2",
     "@quasar/cli": "^2.3.0",
