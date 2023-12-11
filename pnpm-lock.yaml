@@ -262,8 +262,8 @@ importers:
         specifier: ^7.3.13
         version: 7.3.13
       '@types/serviceworker':
-        specifier: ^0.0.79
-        version: 0.0.79
+        specifier: ^0.0.80
+        version: 0.0.80
       '@types/set-cookie-parser':
         specifier: ^2.4.3
         version: 2.4.3
@@ -683,7 +683,7 @@ packages:
       '@babel/parser': 7.23.0
       '@babel/template': 7.22.15
       '@babel/traverse': 7.23.2
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.5
       convert-source-map: 2.0.0
       debug: 4.3.4(supports-color@8.1.1)
       gensync: 1.0.0-beta.2
@@ -889,7 +889,7 @@ packages:
     resolution: {integrity: sha512-6gfrPwh7OuT6gZyJZvd6WbTfrqAo7vm4xCzAXOusKqq/vWdKXphTpj5klHKNmRUU6/QRGlBsyU9mAIPaWHlqJA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.5
     dev: true
 
   /@babel/helper-module-imports@7.22.15:
@@ -1070,7 +1070,7 @@ packages:
     dependencies:
       '@babel/helper-function-name': 7.23.0
       '@babel/template': 7.22.15
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.5
     dev: true
 
   /@babel/helper-wrap-function@7.22.5:
@@ -1111,7 +1111,7 @@ packages:
     dependencies:
       '@babel/template': 7.22.15
       '@babel/traverse': 7.23.2
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.5
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2742,7 +2742,7 @@ packages:
       '@babel/plugin-transform-unicode-regex': 7.22.5(@babel/core@7.23.2)
       '@babel/plugin-transform-unicode-sets-regex': 7.22.5(@babel/core@7.23.2)
       '@babel/preset-modules': 0.1.6-no-external-plugins(@babel/core@7.23.2)
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.5
       babel-plugin-polyfill-corejs2: 0.4.6(@babel/core@7.23.2)
       babel-plugin-polyfill-corejs3: 0.8.6(@babel/core@7.23.2)
       babel-plugin-polyfill-regenerator: 0.5.3(@babel/core@7.23.2)
@@ -2771,7 +2771,7 @@ packages:
     dependencies:
       '@babel/core': 7.23.2
       '@babel/helper-plugin-utils': 7.22.5
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.5
       esutils: 2.0.3
     dev: true
 
@@ -6186,8 +6186,8 @@ packages:
       '@types/mime': 3.0.4
       '@types/node': 18.8.0
 
-  /@types/serviceworker@0.0.79:
-    resolution: {integrity: sha512-qLsCBztR+5XJUiUdx7nSyMdv8KoMuW+9DqFSbo5GqsUsYZWVvGm1o9oKGMvSP/T+EHk9xMWNgnA6rpbBhxhTkQ==}
+  /@types/serviceworker@0.0.80:
+    resolution: {integrity: sha512-ypJC2o88zfbyQqLQmKqYpBQx7SLXAXxxzQdkmg1lERZmzJ9LxOGKEw1kn7nQVZjHPQkYsWVSHyIBiZ50uQujlA==}
     dev: true
 
   /@types/set-cookie-parser@2.4.3:
@@ -6975,7 +6975,7 @@ packages:
       '@vue/compiler-core': 3.3.8
       '@vue/shared': 3.3.8
       magic-string: 0.30.5
-      unplugin: 1.5.0
+      unplugin: 1.5.1
       vue: 3.3.8(typescript@5.0.4)
     transitivePeerDependencies:
       - rollup
