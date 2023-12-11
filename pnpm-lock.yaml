@@ -193,8 +193,8 @@ importers:
         specifier: ^1.1.33
         version: 1.1.33
       '@iconify-json/ion':
-        specifier: ^1.1.12
-        version: 1.1.12
+        specifier: ^1.1.15
+        version: 1.1.15
       '@iconify-json/line-md':
         specifier: ^1.1.29
         version: 1.1.29
@@ -683,7 +683,7 @@ packages:
       '@babel/parser': 7.23.0
       '@babel/template': 7.22.15
       '@babel/traverse': 7.23.2
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.5
       convert-source-map: 2.0.0
       debug: 4.3.4(supports-color@8.1.1)
       gensync: 1.0.0-beta.2
@@ -889,7 +889,7 @@ packages:
     resolution: {integrity: sha512-6gfrPwh7OuT6gZyJZvd6WbTfrqAo7vm4xCzAXOusKqq/vWdKXphTpj5klHKNmRUU6/QRGlBsyU9mAIPaWHlqJA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.5
     dev: true
 
   /@babel/helper-module-imports@7.22.15:
@@ -1070,7 +1070,7 @@ packages:
     dependencies:
       '@babel/helper-function-name': 7.23.0
       '@babel/template': 7.22.15
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.5
     dev: true
 
   /@babel/helper-wrap-function@7.22.5:
@@ -1111,7 +1111,7 @@ packages:
     dependencies:
       '@babel/template': 7.22.15
       '@babel/traverse': 7.23.2
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.5
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2742,7 +2742,7 @@ packages:
       '@babel/plugin-transform-unicode-regex': 7.22.5(@babel/core@7.23.2)
       '@babel/plugin-transform-unicode-sets-regex': 7.22.5(@babel/core@7.23.2)
       '@babel/preset-modules': 0.1.6-no-external-plugins(@babel/core@7.23.2)
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.5
       babel-plugin-polyfill-corejs2: 0.4.6(@babel/core@7.23.2)
       babel-plugin-polyfill-corejs3: 0.8.6(@babel/core@7.23.2)
       babel-plugin-polyfill-regenerator: 0.5.3(@babel/core@7.23.2)
@@ -2771,7 +2771,7 @@ packages:
     dependencies:
       '@babel/core': 7.23.2
       '@babel/helper-plugin-utils': 7.22.5
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.5
       esutils: 2.0.3
     dev: true
 
@@ -4356,8 +4356,8 @@ packages:
       '@iconify/types': 2.0.0
     dev: true
 
-  /@iconify-json/ion@1.1.12:
-    resolution: {integrity: sha512-YvVxa9pVUJFEp7S5n97VIYZv1/qU/aX1RSehDBQRfI0YsZCZhBQY77SxYXGCb/Gc0fP4//b9wtx8UE4hfwr0eQ==}
+  /@iconify-json/ion@1.1.15:
+    resolution: {integrity: sha512-ouEW3wypJCwv9pB6b5k7f2cRMXKSCuxn23S1e9TjJLXXWCF45Juyjls5olrnSRNqYdZise7ZLSojgM8/2kaDtA==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
@@ -6975,7 +6975,7 @@ packages:
       '@vue/compiler-core': 3.3.8
       '@vue/shared': 3.3.8
       magic-string: 0.30.5
-      unplugin: 1.5.0
+      unplugin: 1.5.1
       vue: 3.3.8(typescript@5.0.4)
     transitivePeerDependencies:
       - rollup
