@@ -36,7 +36,7 @@
           />
           <!-- <AppHeaderGithub /> -->
         </template>
-        <template v-else-if="!APP_STANDALONE">
+        <template v-else>
           <q-btn round unelevated class="mr-2" @click="showSearchMB = true">
             <q-icon name="search" />
           </q-btn>
