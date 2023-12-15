@@ -69,7 +69,7 @@ meta:
       <AppHeaderUser v-if="!APP_STANDALONE" class="mr-2" />
 
       <BtnDownload
-        v-model="statusEPDL"
+        :model-value="mapEp?.get(comic)"
         :comic="comic"
         :ep-param="chap"
         @action:delete="deleteEp"
@@ -732,23 +732,6 @@ useSeoMeta({
   ogType: "book"
 })
 
-const statusEPDL = computedAsync<TaskDDEp | TaskDLEp | null | undefined>(
-  async () => {
-    if (!data.value) return
-
-    const task = IDMStore.queue.get(props.comic)?.get(props.chap)
-    if (task) return task
-
-    const onDisk = await getEpisode(props.comic, props.chap).catch(() => null)
-
-    if (onDisk) return { ref: onDisk }
-    return null
-  },
-  undefined,
-  {
-    onError: WARN
-  }
-)
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
   if (!data.value) return
 
@@ -798,14 +781,7 @@ async function downloadEp() {
 
   console.log(lsEpDL, meta)
   if (meta && !isTaskDLEp(meta)) {
-    lsEpDL.value?.splice(
-      lsEpDL.value.findIndex(
-        (item) => item.ref.ep_param === meta.ref.ep_param
-      ) >>> 0,
-      1,
-      meta
-    )
-    lsEpDL.value = [...(lsEpDL.value || [])]
+    lsEpDL.value?.push(meta)
   }
 }
 function deleteEp(epParam: string) {
