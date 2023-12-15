@@ -103,7 +103,8 @@ meta:
         :max-page="maxPage"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
-        :next-episode="nextEpisode?.value.route"
+        :next-episode="nextEpisode?.value.route??null"
+        :prev-episode="prevEpisode?.value.route??null"
       />
       <ReaderVertical
         v-else
@@ -111,7 +112,8 @@ meta:
         :pages="pages"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
-        :next-episode="nextEpisode?.value.route"
+        :next-episode="nextEpisode?.value.route??null"
+        :prev-episode="prevEpisode?.value.route??null"
         @action:next-ch="nextCh"
       />
 
@@ -220,9 +222,9 @@ meta:
         unelevated
         :rounded="!$q.screen.lt.md"
         :round="$q.screen.lt.md"
-        :disable="!previousEpisode"
+        :disable="!prevEpisode"
         class="<md:order-1"
-        :to="previousEpisode?.value.route"
+        :to="prevEpisode?.value.route"
         :replace="APP_STANDALONE"
       >
         <i-solar-alt-arrow-left-line-duotone
@@ -238,7 +240,7 @@ meta:
           transition-show="jump-up"
           transition-hide="jump-down"
           >{{
-            $t("chuong-truoc-name", [previousEpisode?.value.name])
+            $t("chuong-truoc-name", [prevEpisode?.value.name])
           }}</q-tooltip
         >
       </q-btn>
@@ -940,7 +942,7 @@ const currentEpisode = computed(() => {
 
   return { index, value } as const
 })
-const previousEpisode = computed(() => {
+const prevEpisode = computed(() => {
   const current = currentEpisode.value
   if (!current) return
 

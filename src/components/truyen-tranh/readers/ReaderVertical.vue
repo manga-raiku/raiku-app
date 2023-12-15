@@ -113,7 +113,9 @@ const props = defineProps<{
   pages: readonly (Promise<string> | string)[]
   currentPage: number
   zoom: number
-  nextEpisode?: Chapter["route"]
+  
+  nextEpisode: Chapter["route"] | null
+  prevEpisode: Chapter["route"] | null
 }>()
 const emit = defineEmits<{
   (name: "update:zoom", value: number): void

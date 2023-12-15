@@ -43,6 +43,7 @@
           <router-link
             class="w-full h-120px flex items-center justify-center my-auto text-20px text-weight-medium absolute top-1/2 left-1/2 translate--1/2"
             :to="nextEpisode"
+            :replace="APP_STANDALONE"
             @click.stop
             @mousedown.stop.prevent
             ref="btnNextEpRef"
@@ -101,6 +102,7 @@
           <router-link
             class="w-full h-120px flex items-center justify-center my-auto text-20px text-weight-medium absolute top-1/2 left-1/2 translate--1/2"
             :to="nextEpisode"
+            :replace="APP_STANDALONE"
             @click.stop
             @mousedown.stop.prevent
             ref="btnNextEpRef"
@@ -118,9 +120,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useElementSize, useEventListener } from "@vueuse/core"
+import { refAutoReset, useElementSize, useEventListener } from "@vueuse/core"
 import { useClamp } from "@vueuse/math"
 import type { Chapter } from "raiku-pgs/plugin"
+import { APP_STANDALONE } from "src/constants"
 import { isTouchEvent } from "src/logic/is-touch-event"
 import { pageIsModeSingle } from "src/logic/page-is-mode-single"
 import { pageIsSingle } from "src/logic/page-is-single"
@@ -128,7 +131,8 @@ import { pageIsSingle } from "src/logic/page-is-single"
 const props = defineProps<{
   pages: readonly (Promise<string> | string)[]
   pagesNext?: string[]
-  nextEpisode?: Chapter["route"]
+  nextEpisode: Chapter["route"] | null
+  prevEpisode: Chapter["route"] | null
 
   singlePage: boolean // 517px
   rightToLeft: boolean
@@ -144,6 +148,8 @@ const emit = defineEmits<{
   // (name: "next"): void
 }>()
 
+const router = useRouter()
+
 // ========== logic control =============
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
 watch(
@@ -157,7 +163,7 @@ const indexed = computed(() => {
   let index = 0
 
   for (let i = 0; i < props.pages.length; i++) {
-    if (pageIsModeSingle(sizes, i)) {
+    if (props.singlePage || pageIsModeSingle(sizes, i)) {
       indexed.set(i, index)
       index++
     } else {
@@ -226,24 +232,58 @@ const calcSyx = computed(() => {
   return -currentPageHydrated.value + diffSyx.value
 })
 
+const requestedPrev = refAutoReset(false, 1e3)
+const requestedNext = refAutoReset(false, 1e3)
 function prev() {
   console.log("prev")
+  if (props.currentPage === props.minPage) {
+    // change episode
+    if (props.prevEpisode)
+      if (requestedPrev.value) {
+        if (APP_STANDALONE) void router.replace(props.prevEpisode)
+        else void router.push(props.prevEpisode)
+      } else {
+        // show notify
+        requestedPrev.value = true
+      }
+
+    return
+  }
   // emit("prev")
   const size = sizes.get(props.currentPage)
   emit(
     "update:current-page",
     props.currentPage -
-      (size && pageIsModeSingle(sizes, props.currentPage - 1) ? 1 : 2)
+      ((size && pageIsModeSingle(sizes, props.currentPage - 1)) ||
+      props.singlePage
+        ? 1
+        : 2)
   )
 }
 function next() {
   console.log("next")
+  if (props.currentPage === props.maxPage) {
+    // change episode
+    if (props.nextEpisode)
+      if (requestedNext.value) {
+        if (APP_STANDALONE) void router.replace(props.nextEpisode)
+        else void router.push(props.nextEpisode)
+      } else {
+        // show notify
+        requestedNext.value = true
+      }
+
+    return
+  }
   // emit("next")
   const size = sizes.get(props.currentPage)
   emit(
     "update:current-page",
     props.currentPage +
-      (size && pageIsModeSingle(sizes, props.currentPage + 1) ? 1 : 2)
+      ((size && pageIsModeSingle(sizes, props.currentPage + 1)) ||
+      props.singlePage
+        ? 1
+        : 2)
   )
 }
 
