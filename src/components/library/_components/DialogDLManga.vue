@@ -180,7 +180,7 @@
                     : epsSelected.add(data)
                 "
               >
-                {{ parseFloat(data.name) }}
+                {{ parseFloat(data.name) || data.name }}
                 <i-iconoir-check
                   v-if="mapEp?.has(data.id)"
                   class="absolute top-1 left-1 size-1.2em text-green-400"
