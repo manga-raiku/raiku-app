@@ -435,7 +435,7 @@ import { useShare } from "@vueuse/core"
 // import Like from "src/apis/runs/frontend/regiter-like"
 // import Subscribe from "src/apis/runs/frontend/subscribe"w2jk
 import { packageName } from "app/package.json"
-import type { Comic, ID } from "raiku-pgs/plugin"
+import type { ID } from "raiku-pgs/plugin"
 import { Icons } from "src/Icons"
 import { FLAG_CACHE, FLAG_OFFLINE } from "src/constants"
 import dayjs from "src/logic/dayjs"
