@@ -322,7 +322,7 @@ function removePlugin(item: Pick<PackageDisk, "name" | "id">) {
   })
 }
 
-watch(
+watchImmediate(
   () => props.modelValue,
   (modelValue) => {
     if (!modelValue) {
