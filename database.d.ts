@@ -217,6 +217,7 @@ export interface Database {
           name: string
           param: string
           source: string
+          manga_param: string
           updated_at: string
           current_page: number
           max_page: number

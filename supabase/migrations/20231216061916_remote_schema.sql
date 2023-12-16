@@ -42,7 +42,7 @@ end;$$;
 
 ALTER FUNCTION "public"."follow@upsert:before"() OWNER TO "postgres";
 
-CREATE OR REPLACE FUNCTION "public"."get_last_ep_read"("manga_id" "text", "source_id" "text") RETURNS TABLE("h_manga_id" integer, "id" "text", "name" "text", "param" "text", "source" "text", "updated_at" timestamp with time zone, "current_page" smallint, "max_page" smallint)
+CREATE OR REPLACE FUNCTION "public"."get_last_ep_read"("manga_id" "text", "source_id" "text") RETURNS TABLE("h_manga_id" integer, "id" "text", "name" "text", "param" "text", "source" "text", "manga_param" "text", "updated_at" timestamp with time zone, "current_page" smallint, "max_page" smallint)
     LANGUAGE "plpgsql"
     AS $$
 
@@ -54,6 +54,7 @@ BEGIN
     hm.last_ch_name AS name, 
     hm.last_ch_param AS param, 
     hm.source_id as source,
+    hm.manga_param,
     hm.updated_at,
     hc.current_page,
     hc.max_page

@@ -179,7 +179,7 @@ export const useHistoryStore = defineStore("history", () => {
     max_page: number
   ): Promise<void> {
     await authStore.assert()
-
+    
     if (typeof source_id === "boolean") {
       if (source_id)
         await supabase

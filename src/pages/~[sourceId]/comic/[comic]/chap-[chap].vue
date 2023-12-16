@@ -103,8 +103,8 @@ meta:
         :max-page="maxPage"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
-        :next-episode="nextEpisode?.value.route??null"
-        :prev-episode="prevEpisode?.value.route??null"
+        :next-episode="nextEpisode?.value.route ?? null"
+        :prev-episode="prevEpisode?.value.route ?? null"
       />
       <ReaderVertical
         v-else
@@ -112,8 +112,8 @@ meta:
         :pages="pages"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
-        :next-episode="nextEpisode?.value.route??null"
-        :prev-episode="prevEpisode?.value.route??null"
+        :next-episode="nextEpisode?.value.route ?? null"
+        :prev-episode="prevEpisode?.value.route ?? null"
         @action:next-ch="nextCh"
       />
 
@@ -239,9 +239,7 @@ meta:
           class="bg-dark text-14px text-weight-medium"
           transition-show="jump-up"
           transition-hide="jump-down"
-          >{{
-            $t("chuong-truoc-name", [prevEpisode?.value.name])
-          }}</q-tooltip
+          >{{ $t("chuong-truoc-name", [prevEpisode?.value.name]) }}</q-tooltip
         >
       </q-btn>
       <q-btn
@@ -826,6 +824,52 @@ const listEpRead = computedAsync(
   }
 )
 
+watchImmediate(lastEpRead, (lastEpRead) => {
+  if (!lastEpRead) return
+
+  console.log({ lastEpRead })
+
+  $q.notify({
+    message: i18n.t("msg-message-hint-goback-ep"),
+    caption: i18n.t("chuong-name", [lastEpRead.name]),
+    icon: "contactless",
+    color: "sakura",
+    textColor: "black",
+    progress: true,
+    timeout: 60_000,
+    actions: [
+      { label: i18n.t("khong"), rounded: true, noCaps: true, color: "black" },
+      {
+        label: i18n.t("di-nao"),
+        rounded: true,
+        noCaps: true,
+        color: "black",
+        handler() {
+          if (APP_STANDALONE) {
+            void router.replace({
+              name: "comic chap",
+              params: {
+                sourceId: lastEpRead.source,
+                comic: lastEpRead.manga_param,
+                chap: lastEpRead.param
+              }
+            })
+          } else {
+            void router.push({
+              name: "comic chap",
+              params: {
+                sourceId: lastEpRead.source,
+                comic: lastEpRead.manga_param,
+                chap: lastEpRead.param
+              }
+            })
+          }
+        }
+      }
+    ]
+  })
+})
+
 const zoom = useClamp(100, 50, 200)
 const server = ref(0)
 const serversReady = computedAsync(
@@ -1069,6 +1113,7 @@ watch(
           WARN(error)
         })
 
+      console.log("Starting watch to save progress read")
       // eslint-disable-next-line camelcase
       if (h_manga_id) {
         const clean = watch(

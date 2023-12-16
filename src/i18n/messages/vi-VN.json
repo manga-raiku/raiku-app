@@ -292,5 +292,8 @@
   "language": "Ngôn ngữ:",
   "search-plugin-by-name-or-id": "Tìm kiếm plugin theo tên hoặc ID",
   "show-specific-languages": "Hiển thị ngôn ngữ cụ thể...",
-  "sort-by": "Sắp xếp theo:"
+  "sort-by": "Sắp xếp theo:",
+  "msg-message-hint-goback-ep": "Uaa! Bạn đã đọc comic này nhưng chương khác",
+  "khong": "Không",
+  "di-nao": "Đi nào"
 }

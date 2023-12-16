@@ -292,5 +292,8 @@
   "language": "语言：",
   "search-plugin-by-name-or-id": "按名称或 ID 搜索插件",
   "show-specific-languages": "显示特定语言...",
-  "sort-by": "排序方式："
+  "sort-by": "排序方式：",
+  "di-nao": "我们走吧",
+  "khong": "不是",
+  "msg-message-hint-goback-ep": "哇！\n你已经读过这本漫画了，但还有一章"
 }

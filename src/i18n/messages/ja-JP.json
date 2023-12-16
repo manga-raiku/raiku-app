@@ -292,5 +292,8 @@
   "language": "言語：",
   "search-plugin-by-name-or-id": "名前または ID でプラグインを検索",
   "show-specific-languages": "特定の言語を表示...",
-  "sort-by": "並べ替え："
+  "sort-by": "並べ替え：",
+  "di-nao": "さあ行こう",
+  "khong": "そうではありません",
+  "msg-message-hint-goback-ep": "おお！\nあなたはこの漫画を読みましたが、別の章を読みました"
 }

@@ -292,5 +292,8 @@
   "ascending": "Ascending",
   "descending": "Descending",
   "sort-by": "Sort by:",
-  "all": "All"
+  "all": "All",
+  "di-nao": "Let's go",
+  "khong": "Are not",
+  "msg-message-hint-goback-ep": "Wow! \nYou have read this comic but another chapter"
 }
