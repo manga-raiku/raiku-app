@@ -829,6 +829,8 @@ watchImmediate(lastEpRead, (lastEpRead) => {
 
   console.log({ lastEpRead })
 
+  if (!data.value || lastEpRead.id === data.value.ep_id) return
+
   $q.notify({
     message: i18n.t("msg-message-hint-goback-ep"),
     caption: i18n.t("chuong-name", [lastEpRead.name]),
