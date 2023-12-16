@@ -1,0 +1,6 @@
+User-Agent: *
+
+Allow: /
+Disallow: /app/oauth2
+Disallow: /app/settings/*
+Disallow: /app/settings
