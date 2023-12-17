@@ -1119,25 +1119,24 @@ watch(
       // eslint-disable-next-line camelcase
       if (h_manga_id) {
         const clean = watch(
-          [() => authStore.session, () => props.sourceId, currentPage, maxPage],
+          [() => authStore.session, () => props.sourceId, currentPage],
           debounce(
-            ([session, sourceId, currentPage, maxPage]: [
+            ([session, sourceId, currentPage]: [
               typeof authStore.session,
               string,
-              number,
               number
             ]) => {
-              console.log({ session, sourceId, currentPage, maxPage })
+              console.log({ session, sourceId, currentPage, maxPage: maxPage.value })
               // debugger
               if (!session || !data) return
 
-              if (maxPage > 0) {
+              if (maxPage.value > 0) {
                 void historyStore.setProgressReadEP(
                   h_manga_id,
                   data.ep_id,
                   false,
                   currentPage,
-                  maxPage
+                  maxPage.value
                 )
 
                 console.log("[cloud progress]: saving to cloud", {
@@ -1145,7 +1144,7 @@ watch(
                   h_manga_id,
                   ep: data.ep_id,
                   currentPage,
-                  maxPage
+                  maxPage: maxPage.value
                 })
               }
             },
