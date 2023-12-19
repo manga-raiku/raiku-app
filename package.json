@@ -74,7 +74,7 @@
     "cheerio": "1.0.0-rc.12",
     "client-ext-animevsub-helper": "^1.0.24",
     "dayjs": "^1.11.9",
-    "firebase": "^10.6.0",
+    "firebase": "^10.7.1",
     "hash-sum": "^2.0.0",
     "htmlparser2": "^9.0.0",
     "idb-keyval": "^6.2.0",
