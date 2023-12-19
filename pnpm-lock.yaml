@@ -172,8 +172,8 @@ importers:
         specifier: ^5.0.6
         version: 5.0.6(@capacitor/core@5.5.1)
       '@capgo/capacitor-updater':
-        specifier: ^5.3.38
-        version: 5.3.38(@capacitor/core@5.5.1)
+        specifier: ^5.3.40
+        version: 5.3.40(@capacitor/core@5.5.1)
       '@iconify-json/ant-design':
         specifier: ^1.1.10
         version: 1.1.10
@@ -542,8 +542,8 @@ importers:
         specifier: ^5.0.6
         version: 5.0.6(@capacitor/core@5.5.1)
       '@capgo/capacitor-updater':
-        specifier: ^5.3.38
-        version: 5.3.38(@capacitor/core@5.5.1)
+        specifier: ^5.3.40
+        version: 5.3.40(@capacitor/core@5.5.1)
       '@fontsource/caveat':
         specifier: ^5.0.15
         version: 5.0.15
@@ -2936,8 +2936,8 @@ packages:
     dependencies:
       '@capacitor/core': 5.5.1
 
-  /@capgo/capacitor-updater@5.3.38(@capacitor/core@5.5.1):
-    resolution: {integrity: sha512-caIhIvgaPWfwe6KQwCU882VIjieH6IA/l7SeM2wKFEpHnczgluYbnXiPA47vbyZiaoGSmgOVnZOydsd6WFvygQ==}
+  /@capgo/capacitor-updater@5.3.40(@capacitor/core@5.5.1):
+    resolution: {integrity: sha512-Tm0Bu4CFU5pU1/UaekIjaFFoPEl84x4mcEQ4oShStLfaCTtiq1ony9VlWAGfvmXa33Rd53qQy+xCpxsuVJnbjg==}
     peerDependencies:
       '@capacitor/core': ^5.0.0
     dependencies:
