@@ -126,7 +126,6 @@ import type { Chapter } from "raiku-pgs/plugin"
 import { APP_STANDALONE } from "src/constants"
 import { isTouchEvent } from "src/logic/is-touch-event"
 import { pageIsModeSingle } from "src/logic/page-is-mode-single"
-import { pageIsSingle } from "src/logic/page-is-single"
 
 const props = defineProps<{
   pages: readonly (Promise<string> | string)[]
@@ -208,7 +207,7 @@ const rawSizePage = computed(() => {
       const size = sizes.get(index)
       if (!size) return prev + 0.5
 
-      if (pageIsSingle(...size)) prev += 1.5
+      if (pageIsModeSingle(sizes, index)) prev += 1
       else prev += 0.5
 
       return prev
