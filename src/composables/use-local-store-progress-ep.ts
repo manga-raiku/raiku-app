@@ -31,7 +31,7 @@ export function useLocalStoreProgressEp({
     )
     if (dataRaw) {
       const data = JSON.parse(dataRaw)
-
+      
       singlePage.value = data.singlePage
       rightToLeft.value = data.rightToLeft
       scrollingMode.value = data.scrollingMode

@@ -428,4 +428,21 @@ const observer = computed((oldValue) => {
   return observer
 })
 onBeforeUnmount(() => observer.value?.disconnect())
+
+useEventListener(window, "keydown", (event) => {
+  switch (event.key) {
+    case "ArrowUp":
+      scroller.y.value -= 250
+      break
+    case "ArrowDown":
+      scroller.y.value += 250
+      break
+    case "ArrowLeft":
+      scroller.x.value -= 250
+      break
+    case "ArrowRight":
+      scroller.y.value += 250
+      break
+  }
+})
 </script>
