@@ -113,7 +113,7 @@ const props = defineProps<{
   pages: readonly (Promise<string> | string)[]
   currentPage: number
   zoom: number
-  
+
   nextEpisode: Chapter["route"] | null
   prevEpisode: Chapter["route"] | null
 }>()
@@ -381,6 +381,29 @@ watchImmediate(parentRef, (parentRef, _, cleanUp) => {
 //     })
 //   }
 // }
+
+watch(
+  () => props.pages,
+  ({ length }) => {
+    pageViewRefs.splice(length)
+  }
+)
+watch(
+  () => props.currentPage,
+  (newVal, oldVal) => {
+    if (newVal > oldVal) {
+      // next
+      console.log("emit next")
+      pageViewRefs[newVal + 1]?.startLoad()
+      pageViewRefs[newVal + 2]?.startLoad()
+    } else {
+      // prev
+      console.log("emit prev")
+      pageViewRefs[newVal - 1]?.startLoad()
+      pageViewRefs[newVal - 2]?.startLoad()
+    }
+  }
+)
 
 const observer = computed((oldValue) => {
   oldValue?.disconnect()

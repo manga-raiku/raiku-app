@@ -21,6 +21,7 @@
         loader-absolute
         :src="src"
         @load="(image) => emit('load', image)"
+        ref="pageViewRef"
       >
         <template #loading>
           <slot name="loading" />
@@ -34,6 +35,8 @@
 import { useEventListener, useScroll } from "@vueuse/core"
 import type { DomOffset } from "quasar"
 
+import PageView from "./PageView.vue"
+
 defineProps<{
   src: string | Promise<string>
 }>()
@@ -44,6 +47,11 @@ const emit = defineEmits<{
 
 const parentRef = ref<HTMLDivElement>()
 const overflowRef = ref<HTMLDivElement>()
+
+const pageViewRef = ref<InstanceType<typeof PageView>>()
+defineExpose({
+  startLoad: () => pageViewRef.value?.startLoad()
+})
 
 const behavior = ref<ScrollBehavior>("smooth")
 const scroller = useScroll(parentRef, { behavior })

@@ -13,7 +13,8 @@
         'mx-auto': singlePage
       }"
       :src="src"
-      @load="(image) => emit('load', image)"
+      @load="(image, preload) => emit('load', image, preload)"
+      ref="pageViewRef"
     >
       <template #loading>
         <slot name="loading" />
@@ -23,12 +24,19 @@
 </template>
 
 <script lang="ts" setup>
+import PageView from "./PageView.vue"
+
 defineProps<{
   prime: boolean
   src: string | Promise<string>
   singlePage: boolean
 }>()
 const emit = defineEmits<{
-  (name: "load", image: HTMLImageElement): void
+  (name: "load", image: HTMLImageElement, preload: boolean): void
 }>()
+
+const pageViewRef = ref<InstanceType<typeof PageView>>()
+defineExpose({
+  startLoad: () => pageViewRef.value?.startLoad()
+})
 </script>

@@ -1,8 +1,7 @@
 <template>
   <img
-    v-if="!error"
     v-bind="attrs"
-    :src="srcImage"
+    :src="empty"
     loading="lazy"
     @load="onLoad"
     ref="imgRef"
@@ -25,7 +24,7 @@
       color="sakura3"
       padding="8px 20px"
       no-caps
-      @click="startLoad(src)"
+      @click="startLoad"
       :label="$t('thu-lai')"
     />
   </div>
@@ -52,31 +51,63 @@ const props = defineProps<{
   observer?: IntersectionObserver
 }>()
 const emit = defineEmits<{
-  (name: "load", img: HTMLImageElement): void
+  (name: "load", img: HTMLImageElement, preload: boolean): void
 }>()
 const attrs = useAttrs()
 
 const loaded = ref(false)
 const error = ref<unknown>()
-const srcImage = ref<string | undefined>(empty)
-
-async function onLoad(event: Event) {
-  console.log("onLoad", srcImage.value?.slice(0, 120), empty)
-  if (srcImage.value === empty) {
-    return startLoad(await props.src)
+const emitByAutoLoad = ref(false)
+watch(
+  () => props.src,
+  () => {
+    emitByAutoLoad.value = false
   }
+)
 
-  emit("load", event.target as HTMLImageElement)
-  const { src } = event.target as HTMLImageElement
-  if (src.startsWith("blob:")) URL.revokeObjectURL(src)
+const imgRef = ref<HTMLImageElement>()
+defineExpose({ imgRef, startLoad })
+function loadImage(src: string) {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = imgRef.value
+
+    if (!img) return reject(new Error("Failed load image."))
+
+    img.onerror?.(new Event("error"))
+
+    const clean = () => {
+      img.onload = img.onerror = null
+      img.loading = "lazy"
+    }
+
+    img.onload = function () {
+      resolve(img)
+      clean()
+    }
+    img.onerror = function () {
+      reject(new Error("Failed load image."))
+      clean()
+    }
+    img.loading = "eager"
+    img.src = src
+  })
+}
+
+async function onLoad() {
+  console.log("onload")
+  // return
+  if (emitByAutoLoad.value) return
+  emit("load", imgRef.value!, true)
+  return startLoad()
 }
 
 // ===========================
 
 let srcLoaded: string | null = null
-async function startLoad(src: string | Promise<string>) {
-  console.log("start load")
-  let rawSrc = await src
+async function startLoad() {
+  emitByAutoLoad.value = true
+
+  const rawSrc = await props.src
 
   if (rawSrc === srcLoaded) return
   srcLoaded = null
@@ -85,47 +116,32 @@ async function startLoad(src: string | Promise<string>) {
   error.value = null
 
   try {
-    // eslint-disable-next-line no-unreachable-loop
     for (let i = 0; i < 5; i++) {
       try {
-        const result = await fastProcessImage(rawSrc)
-        if (result.startsWith("blob:")) rawSrc = result
-        else await loadImage(result)
-        break
+        const src = await fastProcessImage(rawSrc)
+        emit("load", await loadImage(src), false)
+        if (src.startsWith("blob:")) URL.revokeObjectURL(src)
+
+        srcLoaded = rawSrc
+        return
       } catch (err) {
         if (i < 5) await sleep(300)
         // eslint-disable-next-line functional/no-throw-statement
-        throw err
+        else throw err
       }
     }
-
-    // const response = await fetchRetry(src, {
-    //   retries: 5,
-    //   retryDelay: 300,
-    // })
-
-    // // eslint-disable-next-line functional/no-throw-statement
-    // if (!response.ok) throw new Error("die")
-
-    // srcImage.value = URL.createObjectURL(
-    //   new Blob([await response.arrayBuffer()]),
-    // )
-    srcImage.value = rawSrc
-    srcLoaded = rawSrc
   } catch (err) {
     WARN("Load image failed: ", { err, url: rawSrc })
     error.value = err
 
     await sleep(30_000)
 
-    void startLoad(rawSrc)
+    void startLoad()
   } finally {
     loaded.value = true
   }
 }
 
-const imgRef = ref<HTMLImageElement>()
-defineExpose({ imgRef })
 watch([() => props.observer, imgRef], ([observer, img], [, old]) => {
   if (!observer) return
   if (old) props.observer?.unobserve(old)

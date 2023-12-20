@@ -61,6 +61,7 @@
               sizes.set(index, [$event.naturalWidth, $event.naturalHeight])
             "
             @update:can-swipe="canSwipes[index] = $event"
+            :ref="(el) => (pageRefs[index] = el as unknown as any)"
           >
             <template #loading>
               <div class="flex items-center flex-col justify-center">
@@ -81,6 +82,7 @@
             @load="
               sizes.set(index, [$event.naturalWidth, $event.naturalHeight])
             "
+            :ref="(el) => (pageRefs[index] = el as unknown as any)"
           >
             <template #loading>
               <div class="flex items-center flex-col justify-center">
@@ -126,6 +128,9 @@ import type { Chapter } from "raiku-pgs/plugin"
 import { APP_STANDALONE } from "src/constants"
 import { isTouchEvent } from "src/logic/is-touch-event"
 import { pageIsModeSingle } from "src/logic/page-is-mode-single"
+
+import ChapterPageModeDouble from "./__components__/ChapterPageModeDouble.vue"
+import ChapterPageModeSingle from "./__components__/ChapterPageModeSingle.vue"
 
 const props = defineProps<{
   pages: readonly (Promise<string> | string)[]
@@ -501,6 +506,37 @@ function onWheel(event: WheelEvent) {
 
 useEventListener(window, "mousemove", onMouseMove)
 useEventListener(window, "mouseup", onMouseUp)
+
+// precess connect load
+const pageRefs = shallowReactive<
+  (
+    | InstanceType<typeof ChapterPageModeSingle>
+    | InstanceType<typeof ChapterPageModeDouble>
+    | undefined
+  )[]
+>([])
+watch(
+  () => props.pages,
+  ({ length }) => {
+    pageRefs.splice(length)
+  }
+)
+watch(
+  () => props.currentPage,
+  (newVal, oldVal) => {
+    if (newVal > oldVal) {
+      // next
+      console.log("emit next")
+      pageRefs[newVal + 1]?.startLoad()
+      pageRefs[newVal + 2]?.startLoad()
+    } else {
+      // prev
+      console.log("emit prev")
+      pageRefs[newVal - 1]?.startLoad()
+      pageRefs[newVal - 2]?.startLoad()
+    }
+  }
+)
 
 let mousezooming = true
 let mouseDownClientX = 0
