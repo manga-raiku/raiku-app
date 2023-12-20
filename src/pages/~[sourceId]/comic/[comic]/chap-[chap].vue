@@ -1126,7 +1126,12 @@ watch(
               string,
               number
             ]) => {
-              console.log({ session, sourceId, currentPage, maxPage: maxPage.value })
+              console.log({
+                session,
+                sourceId,
+                currentPage,
+                maxPage: maxPage.value
+              })
               // debugger
               if (!session || !data) return
 

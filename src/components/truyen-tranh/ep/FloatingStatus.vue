@@ -40,7 +40,9 @@
         }}
       </div>
       <div class="truncate max-w-5em">
-        {{ $t("ep-name", [metaEp ? parseFloat(metaEp.name) || metaEp.name : "_"]) }}
+        {{
+          $t("ep-name", [metaEp ? parseFloat(metaEp.name) || metaEp.name : "_"])
+        }}
       </div>
     </div>
   </div>
