@@ -3,11 +3,12 @@
     v-bind="attrs"
     class="fixed top-0 left-0 h-full w-full !overflow-scroll scrollbar-hide"
     ref="parentRef"
+    tabindex="0"
+    autofocus
     @mousedown.prevent="onMouseDown"
     @touchstart="onTouchStart"
     @touchmove="onTouchMove"
     @touchend="onTouchEnd"
-    @wheel="onWheel"
   >
     <section
       class="transition-width duration-444ms mx-auto"
@@ -100,7 +101,6 @@ import {
 import { type DomOffset } from "quasar"
 import type { Chapter } from "raiku-pgs/plugin"
 import { APP_STANDALONE } from "src/constants"
-import type { WatchStopHandle } from "vue"
 import { RouterLink } from "vue-router"
 
 import PageView from "./__components__/PageView.vue"
@@ -146,7 +146,6 @@ const attrs = useAttrs()
 const { onTouchStart, onTouchMove, onTouchEnd, scale, touching } =
   useTouchZoom()
 const activated = useActivated()
-const { scrolling, onWheel } = useScrolling()
 
 watch(scale, (scale) => {
   emit("update:zoom", props.zoom + scale)
@@ -154,7 +153,7 @@ watch(scale, (scale) => {
 
 defineExpose({
   reset: () => {
-    scroller.x.value  = 0
+    scroller.x.value = 0
     scroller.y.value = 0
   }
 })
@@ -315,9 +314,9 @@ watchImmediate(parentRef, (parentRef, _, cleanUp) => {
 
   const clean = watchImmediate(
     () => props.currentPage,
-    (currentPage, _, cleanUp) => {
+    (currentPage) => {
       // console.log({ scrolling: scrolling.value, disableEmitCurrentPage })
-      if (scrolling.value /* || disableEmitCurrentPage */) {
+      if (scroller.isScrolling.value /* || disableEmitCurrentPage */) {
         // disableEmitCurrentPage = false
         return
       }
@@ -328,36 +327,36 @@ watchImmediate(parentRef, (parentRef, _, cleanUp) => {
       const scrollIntoView = () => {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         pageViewRefs[currentPage].imgRef!.scrollIntoView({
-          behavior: "smooth"
+          // behavior: "smooth"
         })
       }
-      // follow items prev
-      const cleaners: WatchStopHandle[] = []
-      let cleaned = 0
-      for (let i = 0; i <= currentPage; i++) {
-        if (sizes.has(i)) continue
+      // // follow items prev
+      // const cleaners: WatchStopHandle[] = []
+      // let cleaned = 0
+      // for (let i = 0; i <= currentPage; i++) {
+      //   if (sizes.has(i)) continue
 
-        cleaners[i] = watch(
-          () => sizes.get(i),
-          (value) => {
-            if (value) {
-              // clean
-              cleaners[i]?.()
-              delete cleaners[i]
-              cleaned++
-              if (cleaned === cleaners.length) {
-                // run scroll to because first loaded
-                scrollIntoView()
-              }
-            }
-          }
-        )
-      }
-      if (cleaned === cleaners.length) {
+      //   cleaners[i] = watch(
+      //     () => sizes.get(i),
+      //     (value) => {
+      //       if (value) {
+      //         // clean
+      //         cleaners[i]?.()
+      //         delete cleaners[i]
+      //         cleaned++
+      //         if (cleaned === cleaners.length) {
+      //           // run scroll to because first loaded
+      //           scrollIntoView()
+      //         }
+      //       }
+      //     }
+      //   )
+      // }
+      // if (cleaned === cleaners.length) {
         // run scroll to because first loaded
         scrollIntoView()
-      }
-      cleanUp(() => cleaners.forEach((cleaner) => cleaner()))
+      // }
+      // cleanUp(() => cleaners.forEach((cleaner) => cleaner()))
     }
   )
 
@@ -432,20 +431,20 @@ const observer = computed((oldValue) => {
 })
 onBeforeUnmount(() => observer.value?.disconnect())
 
-useEventListener(window, "keydown", (event) => {
-  switch (event.key) {
-    case "ArrowUp":
-      scroller.y.value -= 250
-      break
-    case "ArrowDown":
-      scroller.y.value += 250
-      break
-    case "ArrowLeft":
-      scroller.x.value -= 250
-      break
-    case "ArrowRight":
-      scroller.y.value += 250
-      break
-  }
-})
+// useEventListener(window, "keydown", (event) => {
+//   switch (event.key) {
+//     case "ArrowUp":
+//       scroller.y.value -= 250
+//       break
+//     case "ArrowDown":
+//       scroller.y.value += 250
+//       break
+//     case "ArrowLeft":
+//       scroller.x.value -= 250
+//       break
+//     case "ArrowRight":
+//       scroller.y.value += 250
+//       break
+//   }
+// })
 </script>
