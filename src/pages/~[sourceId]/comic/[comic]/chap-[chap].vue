@@ -730,8 +730,6 @@ useSeoMeta({
 })
 
 const lsEpDL = computedAsync<TaskDDEp[] | undefined>(async () => {
-  if (!data.value) return
-
   return shallowReactive(
     (await getListEpisodes(props.comic).catch(() => [])).map((ref) => ({
       ref
@@ -789,37 +787,25 @@ function deleteEp(epParam: string) {
   lsEpDL.value = [...(lsEpDL.value || [])]
 }
 
-const isFollow = computedAsync<boolean | undefined>(
-  () => {
-    if (!data.value) return
-
-    return followStore.check(data.value.manga_id)
-  },
-  undefined,
-  {
-    onError: WARN
+const isFollow = computedAsyncWithControl(
+  [() => data.value?.manga_id],
+  (mangaId) => {
+    if (!mangaId) return
+    return followStore.check(mangaId)
   }
 )
-const lastEpRead = computedAsync(
-  () => {
-    if (!data.value) return
-
-    return historyStore.getLastEpRead(data.value.manga_id, data.value.sourceId)
-  },
-  undefined,
-  {
-    onError: WARN
+const lastEpRead = computedAsyncWithControl(
+  [() => data.value?.manga_id, () => data.value?.sourceId],
+  (mangaId, sourceId) => {
+    if (!mangaId || !sourceId) return
+    return historyStore.getLastEpRead(mangaId, sourceId)
   }
 )
-const mapEpRead = computedAsync(
-  () => {
-    if (!data.value) return
-
-    return historyStore.getMapEpRead(data.value.manga_id, data.value.sourceId)
-  },
-  undefined,
-  {
-    onError: WARN
+const mapEpRead = computedAsyncWithControl(
+  [() => data.value?.manga_id, () => data.value?.sourceId],
+  (mangaId, sourceId) => {
+    if (!mangaId || !sourceId) return
+    return historyStore.getMapEpRead(mangaId, sourceId)
   }
 )
 
@@ -875,7 +861,7 @@ const zoom = useClamp(100, 50, 200)
 const server = ref(0)
 const serversReady = computedAsync(
   async () => {
-    if (data.value && data.value.pages[0])
+    if (data.value?.pages[0])
       return (await api.value)["servers:has"](toRaw(data.value))
   },
   undefined,
