@@ -118,9 +118,10 @@ meta:
       />
 
       <div
+        v-if="scrollingMode === false"
         v-show="showOverlayReader"
-        @mousedown.stop
-        @click.stop="onClickReader(true)"
+        @click="onClickReader(true)"
+        tabindex="1"
         class="absolute top-0 left-0 size-100% z-10000"
       />
     </div>
