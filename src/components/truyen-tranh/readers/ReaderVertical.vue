@@ -353,8 +353,8 @@ watchImmediate(parentRef, (parentRef, _, cleanUp) => {
       //   )
       // }
       // if (cleaned === cleaners.length) {
-        // run scroll to because first loaded
-        scrollIntoView()
+      // run scroll to because first loaded
+      scrollIntoView()
       // }
       // cleanUp(() => cleaners.forEach((cleaner) => cleaner()))
     }

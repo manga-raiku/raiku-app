@@ -72,7 +72,12 @@ export const useHistoryStore = defineStore("history", () => {
     return data
   }
   async function getMapEpRead(manga_id: ID, source_id: string) {
-    return new Map((await getListEpRead(manga_id, source_id)).map(item => [item.ep_id, item]))
+    return new Map(
+      (await getListEpRead(manga_id, source_id)).map((item) => [
+        item.ep_id,
+        item
+      ])
+    )
   }
 
   async function getLastEpRead(manga_id: ID, source_id: string) {
