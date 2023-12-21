@@ -61,7 +61,7 @@
       <router-link
         v-if="nextEpisode"
         class="w-full h-120px flex items-center justify-center"
-        :to="nextEpisode"
+        :to="nextEpisode.route"
         :replace="APP_STANDALONE"
         @click.stop
         ref="btnNextEpRef"
@@ -114,8 +114,8 @@ const props = defineProps<{
   currentPage: number
   zoom: number
 
-  nextEpisode: Chapter["route"] | null
-  prevEpisode: Chapter["route"] | null
+  nextEpisode: Chapter | null
+  prevEpisode: Chapter | null
 }>()
 const emit = defineEmits<{
   (name: "update:zoom", value: number): void

@@ -103,8 +103,8 @@ meta:
         :max-page="maxPage"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
-        :next-episode="nextEpisode?.value.route ?? null"
-        :prev-episode="prevEpisode?.value.route ?? null"
+        :next-episode="nextEpisode?.value ?? null"
+        :prev-episode="prevEpisode?.value ?? null"
       />
       <ReaderVertical
         v-else
@@ -112,8 +112,8 @@ meta:
         :pages="pages"
         v-model:current-page="currentPage"
         v-model:zoom="zoom"
-        :next-episode="nextEpisode?.value.route ?? null"
-        :prev-episode="prevEpisode?.value.route ?? null"
+        :next-episode="nextEpisode?.value ?? null"
+        :prev-episode="prevEpisode?.value ?? null"
         @action:next-ch="nextCh"
       />
 

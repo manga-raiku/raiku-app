@@ -42,7 +42,7 @@
         >
           <router-link
             class="w-full h-120px flex items-center justify-center my-auto text-20px text-weight-medium absolute top-1/2 left-1/2 translate--1/2"
-            :to="nextEpisode"
+            :to="nextEpisode.route"
             :replace="APP_STANDALONE"
             @click.stop
             @mousedown.stop.prevent
@@ -103,7 +103,7 @@
         >
           <router-link
             class="w-full h-120px flex items-center justify-center my-auto text-20px text-weight-medium absolute top-1/2 left-1/2 translate--1/2"
-            :to="nextEpisode"
+            :to="nextEpisode.route"
             :replace="APP_STANDALONE"
             @click.stop
             @mousedown.stop.prevent
@@ -135,8 +135,8 @@ import ChapterPageModeSingle from "./__components__/ChapterPageModeSingle.vue"
 const props = defineProps<{
   pages: readonly (Promise<string> | string)[]
   pagesNext?: string[]
-  nextEpisode: Chapter["route"] | null
-  prevEpisode: Chapter["route"] | null
+  nextEpisode: Chapter | null
+  prevEpisode: Chapter | null
 
   singlePage: boolean // 517px
   rightToLeft: boolean
@@ -244,8 +244,8 @@ function prev() {
     // change episode
     if (props.prevEpisode)
       if (requestedPrev.value) {
-        if (APP_STANDALONE) void router.replace(props.prevEpisode)
-        else void router.push(props.prevEpisode)
+        if (APP_STANDALONE) void router.replace(props.prevEpisode.route)
+        else void router.push(props.prevEpisode.route)
       } else {
         // show notify
         requestedPrev.value = true
@@ -270,8 +270,8 @@ function next() {
     // change episode
     if (props.nextEpisode)
       if (requestedNext.value) {
-        if (APP_STANDALONE) void router.replace(props.nextEpisode)
-        else void router.push(props.nextEpisode)
+        if (APP_STANDALONE) void router.replace(props.nextEpisode.route)
+        else void router.push(props.nextEpisode.route)
       } else {
         // show notify
         requestedNext.value = true
