@@ -48,7 +48,7 @@
             @mousedown.stop.prevent
             ref="btnNextEpRef"
           >
-            Next Chapter
+            {{ $t("chuong-sau-name", [nextEpisode.name]) }}
           </router-link>
         </div>
 
@@ -109,7 +109,7 @@
             @mousedown.stop.prevent
             ref="btnNextEpRef"
           >
-            Next Chapter
+            {{ $t("chuong-sau-name", [nextEpisode.name]) }}
           </router-link>
         </div>
       </div>

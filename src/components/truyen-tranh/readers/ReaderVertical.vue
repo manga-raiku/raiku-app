@@ -66,7 +66,7 @@
         @click.stop
         ref="btnNextEpRef"
       >
-        Next Chapter
+        {{ $t("chuong-sau-name", [nextEpisode.name]) }}
       </router-link>
     </section>
   </section>
