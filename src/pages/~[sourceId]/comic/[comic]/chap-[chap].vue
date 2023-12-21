@@ -679,8 +679,6 @@ const { data, runAsync, loading, error } = useRequest<
   {
     refreshDeps: [api, () => props.comic, () => props.chap],
     async refreshDepsAction() {
-      if (route.query.no_restore_scroll) return
-
       await runAsync()
       currentPage.value = 0
       readerVerticalRef.value?.reset()

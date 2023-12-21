@@ -153,7 +153,10 @@ watch(scale, (scale) => {
 })
 
 defineExpose({
-  reset: () => parentRef.value?.scrollTo(0, 0)
+  reset: () => {
+    scroller.x.value  = 0
+    scroller.y.value = 0
+  }
 })
 
 const sizes = shallowReactive<Map<number, readonly [number, number]>>(new Map())
