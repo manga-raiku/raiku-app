@@ -15,7 +15,8 @@ type MapSources<T, Immediate> = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function computedAsyncWithControl<T, S extends WatchSource<any>[]>(
   source: S,
-  fn: (...args: MapSources<S, false>) => Promise<T> | T
+  fn: (...args: MapSources<S, false>) => Promise<T> | T,
+  sourceReset: WatchSource<unknown>[] | undefined = undefined
 ) {
   const result = ref<T>()
 
@@ -25,6 +26,7 @@ export function computedAsyncWithControl<T, S extends WatchSource<any>[]>(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     result.value = await fn(...(args as unknown as any))
   })
+  if (sourceReset) watch(sourceReset, () => (result.value = undefined))
 
   return computed(() => {
     if (!dirty) {

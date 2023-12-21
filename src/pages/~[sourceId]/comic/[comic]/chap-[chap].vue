@@ -799,14 +799,16 @@ const lastEpRead = computedAsyncWithControl(
   (mangaId, sourceId) => {
     if (!mangaId || !sourceId) return
     return historyStore.getLastEpRead(mangaId, sourceId)
-  }
+  },
+  [() => props.comic]
 )
 const mapEpRead = computedAsyncWithControl(
   [() => data.value?.manga_id, () => data.value?.sourceId],
   (mangaId, sourceId) => {
     if (!mangaId || !sourceId) return
     return historyStore.getMapEpRead(mangaId, sourceId)
-  }
+  },
+  [() => props.comic]
 )
 
 watchImmediate(lastEpRead, (lastEpRead) => {
@@ -1111,6 +1113,8 @@ watch(
               string,
               number
             ]) => {
+              // eslint-disable-next-line camelcase
+              const ep_id = data.ep_id
               console.log({
                 session,
                 sourceId,
@@ -1123,16 +1127,24 @@ watch(
               if (maxPage.value > 0) {
                 void historyStore.setProgressReadEP(
                   h_manga_id,
-                  data.ep_id,
+                  ep_id,
                   false,
                   currentPage,
                   maxPage.value
                 )
+                mapEpRead.value?.set(ep_id, {
+                  // eslint-disable-next-line camelcase
+                  ep_id,
+                  current_page: currentPage,
+                  max_page: maxPage.value,
+                  updated_at: new Date().toString()
+                })
 
                 console.log("[cloud progress]: saving to cloud", {
                   // eslint-disable-next-line camelcase
                   h_manga_id,
-                  ep: data.ep_id,
+                  // eslint-disable-next-line camelcase
+                  ep: ep_id,
                   currentPage,
                   maxPage: maxPage.value
                 })
