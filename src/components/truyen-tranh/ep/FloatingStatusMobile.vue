@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed right-0 bottom-0 py-3px px-4 leading-normal bg-#100 bg-opacity-60 text-#fff text-12px font-family-poppins"
+    class="fixed right-0 bottom-0 py-3px px-4 leading-normal bg-#100 bg-opacity-60 text-#fff text-12px font-family-poppins truncate max-w-135px"
   >
     {{ Math.abs(currentPage) + 1 - sizeOldPages }}/{{ sizePage - sizeOldPages
     }}<span class="ml-2">{{
