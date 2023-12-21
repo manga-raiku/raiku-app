@@ -219,7 +219,7 @@ meta:
         </header>
         <ListChapters
           :chapters="data.chapters"
-          :reads-chapter="new Set(listEpRead?.map((item) => item.ep_id))"
+          :map-ep-read="mapEpRead"
           :map-offline="mapEp"
           :offline="data && isFlag(data, FLAG_OFFLINE)"
           :comic="{
@@ -564,10 +564,10 @@ const lastEpRead = computedAsync(() => {
 
   return historyStore.getLastEpRead(data.value.manga_id, data.value.sourceId)
 }, undefined)
-const listEpRead = computedAsync(() => {
+const mapEpRead = computedAsync(() => {
   if (!data.value) return
 
-  return historyStore.getListEpRead(data.value.manga_id, data.value.sourceId)
+  return historyStore.getMapEpRead(data.value.manga_id, data.value.sourceId)
 })
 
 function onClickShare() {

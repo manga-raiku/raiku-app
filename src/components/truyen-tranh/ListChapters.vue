@@ -73,6 +73,7 @@
           <q-btn
             flat
             no-caps
+            rounded
             :to="item.route"
             :replace="APP_STANDALONE"
             class="w-full bg-#f8f8f8 bg-opacity-7.5 py-1 px-4"
@@ -82,7 +83,7 @@
                 isTaskDLEp(mapOffline?.get(item.route.params.chap)))
             "
             :class="{
-              'text-#eee text-opacity-70': readsChapter?.has(item.id),
+              'text-#eee text-opacity-70': mapEpRead?.has(item.id),
               '!text-sakura reading text-weight-medium':
                 CYPRESS ||
                 route.fullPath === router.resolve(item.route).fullPath
@@ -97,8 +98,8 @@
               }}</span>
             </div>
             <div class="mr--2 flex justify-end">
-              <span
-                v-if="readsChapter?.has(item.id)"
+              <!-- <span
+                v-if="mapEpRead?.has(item.id)"
                 class="mr--2 flex items-center"
               >
                 <i-fluent-checkmark-starburst-24-regular
@@ -107,7 +108,7 @@
                   class="mr-1"
                 />
                 <span class="<sm:!hidden">{{ $t("da-doc") }}</span>
-              </span>
+              </span> -->
 
               <span v-if="!noDownload" @click.stop.prevent>
                 <BtnDownload
@@ -124,6 +125,17 @@
               </span>
             </div>
             <!-- {{ mapOffline?.get(item.id) }} -->
+
+            <q-linear-progress
+              v-if="mapEpRead?.has(item.id)"
+              :value="
+                mapEpRead!.get(item.id)!.current_page /
+                mapEpRead!.get(item.id)!.max_page
+              "
+              rounded
+              color="sakura3"
+              size="3px"
+            />
           </q-btn>
         </li>
 
@@ -142,7 +154,7 @@
 <script lang="ts" setup>
 import "@fontsource/poppins"
 import { QBtn, QTab, QTabs } from "quasar"
-import type { Chapter, Comic, ID, RouteComic } from "raiku-pgs/plugin"
+import type { Chapter, Comic, RouteComic } from "raiku-pgs/plugin"
 import { APP_STANDALONE } from "src/constants"
 import dayjs from "src/logic/dayjs"
 import type { TaskDDEp, TaskDLEp } from "src/logic/download-manager"
@@ -155,7 +167,9 @@ const props = defineProps<{
 
   focusTabActive?: boolean
 
-  readsChapter?: Set<ID>
+  mapEpRead?: Awaited<
+    ReturnType<ReturnType<typeof useHistoryStore>["getMapEpRead"]>
+  >
   mapOffline?: Map<string, TaskDDEp | TaskDLEp>
   offline: boolean
   comic?: {

@@ -71,6 +71,9 @@ export const useHistoryStore = defineStore("history", () => {
     if (error) throw error
     return data
   }
+  async function getMapEpRead(manga_id: ID, source_id: string) {
+    return new Map((await getListEpRead(manga_id, source_id)).map(item => [item.ep_id, item]))
+  }
 
   async function getLastEpRead(manga_id: ID, source_id: string) {
     await authStore.assert()
@@ -227,6 +230,7 @@ export const useHistoryStore = defineStore("history", () => {
     upsert,
 
     getListEpRead,
+    getMapEpRead,
     getLastEpRead,
 
     getProgressReadEP,
