@@ -85,7 +85,7 @@ meta:
         return {}
       }
     "
-    class="fixed top-0 size-100%"
+    class="fixed top-0 left-0 size-100%"
   >
     <!-- reader -->
     <div
