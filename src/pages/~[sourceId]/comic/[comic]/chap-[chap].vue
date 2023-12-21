@@ -218,56 +218,14 @@ meta:
         />
       </div>
 
-      <q-btn
-        no-caps
-        unelevated
-        :rounded="!$q.screen.lt.md"
-        :round="$q.screen.lt.md"
-        :disable="!prevEpisode"
-        class="<md:order-1"
-        :to="prevEpisode?.value.route"
-        :replace="APP_STANDALONE"
-      >
-        <i-solar-alt-arrow-left-line-duotone
-          v-if="$q.screen.lt.md && scrollingMode"
-          class="size-1.8em"
-        />
-        <template v-else>{{ $t("truoc") }}</template>
-
-        <q-tooltip
-          anchor="bottom middle"
-          self="top middle"
-          class="bg-dark text-14px text-weight-medium"
-          transition-show="jump-up"
-          transition-hide="jump-down"
-          >{{ $t("chuong-truoc-name", [prevEpisode?.value.name]) }}</q-tooltip
-        >
-      </q-btn>
-      <q-btn
-        no-caps
-        unelevated
-        :rounded="!$q.screen.lt.md"
-        :round="$q.screen.lt.md"
-        :disable="!nextEpisode"
-        class="<md:order-3"
-        :to="nextEpisode?.value.route"
-        :replace="APP_STANDALONE"
-      >
-        <i-solar-alt-arrow-right-line-duotone
-          v-if="$q.screen.lt.md && scrollingMode"
-          class="size-1.8em"
-        />
-        <template v-else>{{ $t("sau") }}</template>
-
-        <q-tooltip
-          anchor="bottom middle"
-          self="top middle"
-          class="bg-dark text-14px text-weight-medium"
-          transition-show="jump-up"
-          transition-hide="jump-down"
-          >{{ $t("chuong-sau-name", [nextEpisode?.value.name]) }}</q-tooltip
-        >
-      </q-btn>
+      <template v-if="rightToLeft">
+        <ButtonNext :next-episode="nextEpisode" rtl class="<md:order-1" />
+        <ButtonPrev :prev-episode="prevEpisode" rtl class="<md:order-3" />
+      </template>
+      <template v-else>
+        <ButtonPrev :prev-episode="prevEpisode" class="<md:order-1" />
+        <ButtonNext :next-episode="nextEpisode" class="<md:order-3" />
+      </template>
 
       <div class="md:!hidden w-full order-4" />
 
