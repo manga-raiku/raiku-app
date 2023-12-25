@@ -175,8 +175,8 @@ importers:
         specifier: ^5.3.40
         version: 5.3.40(@capacitor/core@5.5.1)
       '@iconify-json/ant-design':
-        specifier: ^1.1.10
-        version: 1.1.10
+        specifier: ^1.1.13
+        version: 1.1.13
       '@iconify-json/carbon':
         specifier: ^1.1.21
         version: 1.1.21
@@ -4322,8 +4322,8 @@ packages:
       '@iconify/types': 2.0.0
     dev: false
 
-  /@iconify-json/ant-design@1.1.10:
-    resolution: {integrity: sha512-XgBEAl+3N0QIn3nDN9xFPw5WlU9IgnmJvis2Ev1au4Y6ITG4zReMglXi+I21xmfK3mnjFnfAteZ4EzLVKHm7Hw==}
+  /@iconify-json/ant-design@1.1.13:
+    resolution: {integrity: sha512-ejb2Tv4z4yvsDu8gZzyr8bYqytj/PSw6i2qqyvpPpGuoADWefApwTXk1VIfpyjeeGslmrTfzKVZCo8y1sM1tEg==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
