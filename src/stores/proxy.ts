@@ -104,7 +104,7 @@ export const useProxyStore = defineStore("proxy", () => {
       url +=
         (hasQuery ? "&" : "?") +
         `${proxy.name ?? ""}${proxy.name ? "=" : ""}${
-          proxy.encodeURI ? encodeURIComponent(req.url) : req.url
+          proxy.encodeURI ? encodeURIComponent(req.url) :encodeURI( req.url).replace(/\?/g, encodeURIComponent("?"))
         }`
     } else {
       if (!req.data) req.data = {}
