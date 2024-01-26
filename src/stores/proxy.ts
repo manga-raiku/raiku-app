@@ -8,10 +8,11 @@ interface ProxyInfo {
   readonly headers?: Record<string, string>
   readonly query?: Record<string, string>
   readonly body?: Record<string, string> | string
+  readonly encodeURI?: boolean
   readonly readonly?: boolean
 }
 
-const PROXIES_DEFAULT = {
+const PROXIES_DEFAULT: Record<string, ProxyInfo> = {
   [new URL("https://corsproxy.org").toString()]: {
     name: null,
     modeQuery: true,
@@ -102,9 +103,9 @@ export const useProxyStore = defineStore("proxy", () => {
     if (proxy.modeQuery) {
       url +=
         (hasQuery ? "&" : "?") +
-        `${proxy.name ?? ""}${proxy.name ? "=" : ""}${proxy.encodeURI ? encodeURIComponent(
-          req.url
-        ) : req.url}`
+        `${proxy.name ?? ""}${proxy.name ? "=" : ""}${
+          proxy.encodeURI ? encodeURIComponent(req.url) : req.url
+        }`
     } else {
       if (!req.data) req.data = {}
       req.data[enabled.value] = encodeURIComponent(req.url)
