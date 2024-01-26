@@ -102,9 +102,9 @@ export const useProxyStore = defineStore("proxy", () => {
     if (proxy.modeQuery) {
       url +=
         (hasQuery ? "&" : "?") +
-        `${proxy.name ?? ""}${proxy.name ? "=" : ""}${encodeURIComponent(
+        `${proxy.name ?? ""}${proxy.name ? "=" : ""}${proxy.encodeURI ? encodeURIComponent(
           req.url
-        )}`
+        ) : req.url}`
     } else {
       if (!req.data) req.data = {}
       req.data[enabled.value] = encodeURIComponent(req.url)
