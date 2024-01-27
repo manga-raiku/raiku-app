@@ -16,6 +16,7 @@ const PROXIES_DEFAULT: Record<string, ProxyInfo> = {
   [new URL("https://corsproxy.org").toString()]: {
     name: null,
     modeQuery: true,
+    encodeURI: true,
     readonly: true
   },
   [new URL("https://api.allorigins.win/raw").toString()]: {
