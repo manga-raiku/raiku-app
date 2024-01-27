@@ -10,11 +10,14 @@ export async function execPackageMjs(
   return new Promise<Package>((resolve, reject) => {
     // run in webworker
     // setup port
-    const codeWorker = `${
-      devMode
-        ? `self.AppInfo=${JSON.stringify(AppInfo)};${code}`
-        : `!(()=>{self.AppInfo=${JSON.stringify(AppInfo)};${code}})()`
-    };${appendWorkerExecPackageMjs.replace(/__DEBUG__/g, devMode + "")}`
+    const codeWorker =
+      (devMode
+        ? `self.AppInfo=${JSON.stringify(AppInfo)};\n${code}`
+        : `!(()=>{self.AppInfo=${JSON.stringify(AppInfo)};${code}})()`) +
+        "\n\n" +
+        appendWorkerExecPackageMjs.replace(/__DEBUG__/g, devMode + "")
+    
+    console.log(codeWorker)
     const url = URL.createObjectURL(
       new Blob([codeWorker], { type: "text/javascript" })
     )

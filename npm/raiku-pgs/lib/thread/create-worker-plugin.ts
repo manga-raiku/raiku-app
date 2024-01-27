@@ -53,7 +53,7 @@ class WorkerSession {
       this.devMode
         ? `self.AppInfo=${JSON.stringify(this.AppInfo)};${this.code}`
         : `!(()=>{self.AppInfo=${JSON.stringify(this.AppInfo)};${this.code}})()`
-    };${appendWorkerPluginMjs.replace(
+    };\n\n${appendWorkerPluginMjs.replace(
       /__DEBUG__/g,
       (__DEV__ || this.devMode) + ""
     )}`
